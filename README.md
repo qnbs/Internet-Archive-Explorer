@@ -2,7 +2,7 @@
 
 [![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-blue?logo=tailwindcss)](https://tailwindcss.com/) [![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue?logo=google)](https://ai.google.dev/)
 
-A visually appealing and highly functional web application to browse, view, and discover content from the Internet Archive, enhanced with AI-powered features and extensive user customization.
+Ein visuell ansprechendes und hochfunktionales Webportal zur Erkundung der riesigen Sammlung des Internet Archive. Es kombiniert eine moderne Benutzeroberfläche mit leistungsstarken Entdeckungswerkzeugen, persönlichen Forschungsbereichen und KI-gestützten Analysefunktionen.
 
 ## About AI Studio
 
@@ -15,31 +15,50 @@ AI Studio provides a seamless workflow from idea to deployment. It allows develo
 By opening the link above, you can access the complete source code, experiment with changes, and even deploy your own version of this application. It's an excellent way to see how modern web applications are built and to learn more about integrating AI capabilities.
 
 ---
+## Table of Contents
+- [Key Features](#key-features)
+  - [Discovery & Exploration](#discovery--exploration)
+  - [Community & Contribution](#community--contribution)
+  - [Research & Analysis (Scriptorium)](#research--analysis-scriptorium)
+  - [Customization & Power-User Features](#customization--power-user-features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [License](#license)
+
 
 ## Key Features
 
 This application is more than just a search interface; it's a feature-rich portal for discovering the vast collection of the Internet Archive.
 
--   **Universal Search & Advanced Filtering**: A persistent header search bar for quick queries, coupled with a powerful advanced search panel on the results page to filter by media type, year range, collection, and more.
--   **Curated Hubs**: Specialized landing pages for a rich discovery experience:
-    -   **Cinematheque**: For browsing classic films, film noir, sci-fi, and more, presented in engaging, scrollable carousels.
-    -   **Audiothek**: For discovering live music, old-time radio, and audiobooks, with a focus on genre and collection browsing.
-    -   **Images Hub**: For exploring historical photos, art from museums like The Met, and scientific images from NASA.
-    -   **Rec Room**: For playing thousands of classic MS-DOS games and software directly in the browser via emulation.
--   **Uploader Hub & Profiles**: Discover the people and institutions behind the archives. Browse a dynamic hub with a featured uploader carousel, filter by category, and view detailed profiles showing statistics, their complete upload history, and all reviews they've written.
--   **Favorites System**: Save your favorite items and uploaders for easy access later. All data is stored locally in your browser.
--   **Scriptorium for Research**: A personal workspace for text-based research. Group documents into "worksets," write persistent notes, and use AI tools for analysis right within the document reader.
--   **AI-Powered by Gemini**:
-    -   **AI Summarization**: Generate concise summaries of text documents on demand.
-    -   **Entity Extraction**: Automatically identify and tag people, places, organizations, and dates in texts to fuel further discovery.
--   **Settings & Customization**: A comprehensive settings page to tailor the experience, including options for results per page, default sorting, UI appearance, and AI behavior.
+### Discovery & Exploration
+-   **Dynamic Explorer Hub**: The main landing page offers a rich discovery experience when not searching, featuring carousels for "Trending Now" items and historical content from "On This Day".
+-   **Curated Content Hubs**: Specialized sections for a focused browsing experience:
+    -   **Cinematheque**: Browse classic films, film noir, and sci-fi in engaging, scrollable carousels.
+    -   **Audiothek**: Discover live music, old-time radio shows, and audiobooks.
+    -   **Images Hub**: Explore historical photos, art from museums like The Met, and scientific images from NASA.
+    -   **Rec Room**: Play thousands of classic MS-DOS games and software directly in the browser via emulation.
+-   **Universal Search & Advanced Filtering**: A persistent header search bar for quick queries, coupled with a powerful filter panel on the results page to narrow by media type, year range, collection, and more.
 -   **Wayback Machine Integration**: Explore the history of websites by viewing archived snapshots over time.
--   **Command Palette (Cmd/Ctrl + K)**: A power-user feature for instant navigation to any section, changing settings, or jumping directly to an uploader's profile.
--   **Modern UI/UX**:
-    -   Responsive design for desktop, tablet, and mobile.
-    -   Theming (Light/Dark/System).
-    -   Internationalization (English & German).
-    -   Accessible design with ARIA attributes and keyboard navigation.
+
+### Community & Contribution
+-   **Uploader Hub**: A dedicated section to discover the people and institutions behind the archives. Browse a curated list of featured uploaders or filter all known contributors by category.
+-   **Detailed Uploader Profiles**: Every uploader has a dynamic profile page showcasing their contribution statistics, a searchable and filterable list of all their uploads, and a feed of all reviews they've written.
+-   **Favorites System**: Save your favorite items and follow your favorite uploaders for easy access later. All data is stored locally in your browser.
+
+### Research & Analysis (Scriptorium)
+-   **Personal Worksets**: A personal workspace for text-based research. Group documents from the archive into "worksets" to organize your projects.
+-   **Integrated Reader & AI Tools**: The Scriptorium features a built-in document reader with powerful tools powered by the **Google Gemini API**:
+    -   **AI Summarization**: Generate concise summaries of lengthy texts on demand.
+    -   **Entity Extraction**: Automatically identify and tag people, places, organizations, and dates in texts to fuel further discovery.
+    -   **Persistent Notes**: Write and save personal notes for each document within a workset.
+
+### Customization & Power-User Features
+-   **Comprehensive Settings**: A detailed settings page to tailor the experience, including theme (Light/Dark/System), language (English/German), results per page, UI appearance, and AI behavior.
+-   **Command Palette (Cmd/Ctrl + K)**: A power-user feature for instant navigation to any section, changing settings, or performing actions with just a few keystrokes.
+-   **Data Management**: Easily export and import all your user data (settings, favorites, worksets) as a single JSON file for backup and migration.
+-   **Modern UI/UX**: Fully responsive for all screen sizes, accessible design with ARIA attributes, and smooth animations (with a reduce motion option).
+
 
 ## Tech Stack
 
