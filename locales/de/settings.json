@@ -11,8 +11,6 @@
   },
   "ui": {
     "title": "Benutzeroberfläche",
-    "hideScrollbars": "Scrollleisten ausblenden",
-    "hideScrollbarsDesc": "Die Scrollleiste bei horizontalen Inhaltskarussells visuell ausblenden.",
     "reduceMotion": "Bewegung reduzieren",
     "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein einfacheres Erlebnis."
   },

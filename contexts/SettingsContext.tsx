@@ -6,8 +6,6 @@ export interface AppSettings {
     // Search & Discovery
     resultsPerPage: number;
     showExplorerHub: boolean;
-    // UI & Layout
-    hideScrollbars: boolean;
     // Content & Hubs
     defaultUploaderDetailTab: 'uploads' | 'reviews' | 'statistics';
     // AI Features
@@ -23,7 +21,6 @@ export interface AppSettings {
 export const defaultSettings: AppSettings = {
     resultsPerPage: 24,
     showExplorerHub: true,
-    hideScrollbars: false,
     defaultUploaderDetailTab: 'uploads',
     defaultAiTab: 'description',
     autoRunEntityExtraction: false,

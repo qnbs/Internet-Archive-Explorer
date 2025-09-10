@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSearch } from '../contexts/SearchContext';
-import { MenuIcon, CommandIcon, SearchIcon } from './Icons';
+import { MenuIcon, SearchIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeaderProps {
@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
 
         {/* Center: Search (takes remaining space) */}
         <form onSubmit={handleSearchSubmit} className="flex-1 min-w-0 flex items-center h-full">
-            <div className="relative w-full flex items-center">
+            <div className="relative w-full flex items-center top-2">
                  <label htmlFor="header-search" className="sr-only">{t('explorer:searchPlaceholder')}</label>
                 <SearchIcon className="absolute left-3 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none"/>
                 <input
@@ -58,10 +58,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
         {/* Right Side: Command Palette */}
         <button
             onClick={onOpenCommandPalette}
-            className="flex-shrink-0 p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-700/50 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
             aria-label={t('header:openCommandPalette')}
         >
-            <CommandIcon className="w-5 h-5" />
+            <span className="text-lg">⌘</span>
+            <kbd className="font-sans text-xs font-semibold">K</kbd>
         </button>
     </header>
   );

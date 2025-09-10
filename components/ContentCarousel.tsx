@@ -1,10 +1,8 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
-import { useSettings } from '../contexts/SettingsContext';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface ContentCarouselProps {
@@ -35,7 +33,6 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-    const { settings } = useSettings();
     const { t } = useLanguage();
 
     const checkForScrollability = () => {
@@ -132,7 +129,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                 
                 <div 
                     ref={scrollContainerRef}
-                    className={`flex space-x-4 overflow-x-auto pb-4 scroll-smooth ${settings.hideScrollbars ? 'scrollbar-hide' : ''}`}
+                    className="flex space-x-4 overflow-x-auto pb-4 scroll-smooth"
                     style={{ scrollSnapType: 'x mandatory' }}
                 >
                     {renderContent()}

@@ -11,8 +11,6 @@
   },
   "ui": {
     "title": "User Interface",
-    "hideScrollbars": "Hide Content Scrollbars",
-    "hideScrollbarsDesc": "Visually hide the scrollbar on horizontal content carousels.",
     "reduceMotion": "Reduce Motion",
     "reduceMotionDesc": "Disable animations and transitions for a simpler experience."
   },

@@ -166,9 +166,6 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
             </SettingsSection>
 
             <SettingsSection title={t('settings:ui.title')}>
-                <SettingRow settingKey="hideScrollbars" label={t('settings:ui.hideScrollbars')} description={t('settings:ui.hideScrollbarsDesc')} settings={settings} setSetting={setSetting}>
-                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
-                </SettingRow>
                 <SettingRow settingKey="reduceMotion" label={t('settings:ui.reduceMotion')} description={t('settings:ui.reduceMotionDesc')} settings={settings} setSetting={setSetting}>
                     {(value, onChange) => <Toggle value={value} onChange={onChange} />}
                 </SettingRow>
