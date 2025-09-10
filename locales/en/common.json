@@ -4,6 +4,7 @@
   "search": "Search",
   "close": "Close",
   "error": "An error occurred. Please try again.",
+  "errorStorageFull": "Could not save. Your browser's local storage is full.",
   "noResultsFound": "No Results Found",
   "noResultsMessage": "Try adjusting your search or filters to find what you're looking for.",
   "itemsFound_one": "{{count}} item found",

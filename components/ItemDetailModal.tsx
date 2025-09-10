@@ -25,6 +25,14 @@ const formatUploaderName = (uploader: string | undefined): string => {
   return uploader.split('@')[0];
 };
 
+// Basic sanitizer to prevent XSS. For production, a library like DOMPurify is recommended.
+const sanitizeHtml = (html: string): string => {
+    let sanitized = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+    sanitized = sanitized.replace(/onerror\s*=\s*".*?"/gi, '');
+    sanitized = sanitized.replace(/onerror\s*=\s*'.*?'/gi, '');
+    return sanitized;
+};
+
 export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose, onCreatorSelect, onUploaderSelect, onEmulate, onSelectItem }) => {
   const [metadata, setMetadata] = useState<ArchiveMetadata | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -118,7 +126,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
         }
       }
     } catch (err) {
-      setError(t('common:error'));
+      setError(err instanceof Error ? err.message : t('common:error'));
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -141,12 +149,15 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
 
   const renderDescription = (desc: string | string[] | undefined) => {
     if (!desc) return <p className="text-gray-400">{t('common:noDescription')}</p>;
+
     const descriptionText = (Array.isArray(desc) ? desc.join('\n') : desc)
         .replace(/<br\s*\/?>/gi, '\n');
+        
     const paragraphs = descriptionText.split(/\n\s*\n*/g).map(p => p.trim()).filter(p => p.length > 0);
+
     return (
         <div className="text-gray-300 leading-relaxed space-y-3">
-            {paragraphs.map((p, index) => (<p key={index} dangerouslySetInnerHTML={{ __html: p }} />))}
+            {paragraphs.map((p, index) => (<p key={index} dangerouslySetInnerHTML={{ __html: sanitizeHtml(p) }} />))}
         </div>
     );
   };

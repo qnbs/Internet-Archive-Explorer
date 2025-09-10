@@ -33,6 +33,15 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
+        
+        /* Accessibility: Reduce Motion */
+        .reduce-motion * {
+            animation-duration: 1ms !important;
+            animation-iteration-count: 1 !important; /* Required for `animation-fill-mode: forwards` to work */
+            transition-property: none !important;
+            animation-name: none !important;
+            scroll-behavior: auto !important;
+        }
 
     </style>
     <script>
@@ -64,12 +73,12 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.1.1",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
-    "react/": "https://esm.sh/react@^19.1.1/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.15.0",
-    "react-i18next": "https://aistudiocdn.com/react-i18next@^15.7.3",
-    "uuid": "https://aistudiocdn.com/uuid@^13.0.0"
+    "react": "https://esm.sh/react@19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@19.1.1/",
+    "react/": "https://esm.sh/react@19.1.1/",
+    "@google/genai": "https://esm.sh/@google/genai@1.15.0",
+    "react-i18next": "https://aistudiocdn.com/react-i18next@15.7.3",
+    "uuid": "https://aistudiocdn.com/uuid@13.0.0"
   }
 }
 </script>

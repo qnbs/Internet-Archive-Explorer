@@ -19,8 +19,8 @@ const NAMESPACES = [
 ];
 
 // Helper to get nested properties from the translation object
-const getNestedTranslation = (obj: any, path: string): string | undefined => {
-  return path.split('.').reduce((o, key) => (o && o[key] !== 'undefined' ? o[key] : undefined), obj);
+const getNestedTranslation = (obj: Record<string, any>, path: string): string | undefined => {
+  return path.split('.').reduce((o, key) => (o && o[key] !== undefined ? o[key] : undefined), obj);
 };
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

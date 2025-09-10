@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { useToast } from './ToastContext';
 
 // Define the shape of your settings
 export interface AppSettings {
@@ -49,6 +50,16 @@ const SEARCH_HISTORY_KEY = 'app-search-history';
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const { addToast } = useToast();
+
+  const handleStorageError = (error: unknown) => {
+      console.error("LocalStorage operation failed:", error);
+      if (error instanceof DOMException && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+          addToast("Could not save data. Your browser's local storage is full.", 'error');
+      } else {
+          addToast("An error occurred while saving data.", 'error');
+      }
+  }
 
   // Load settings from localStorage on initial render
   useEffect(() => {
@@ -73,7 +84,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         try {
             localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
         } catch (e) {
-            console.error("Failed to save settings to localStorage", e);
+            handleStorageError(e);
         }
         return newSettings;
     });
@@ -84,7 +95,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       try {
           localStorage.removeItem(SETTINGS_KEY);
       } catch (e) {
-           console.error("Failed to remove settings from localStorage", e);
+           handleStorageError(e);
       }
   };
 
@@ -94,7 +105,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
           try {
               localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(newHistory));
           } catch (e) {
-              console.error("Failed to save search history", e);
+              handleStorageError(e);
           }
           return newHistory;
       });
@@ -105,7 +116,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       try {
           localStorage.removeItem(SEARCH_HISTORY_KEY);
       } catch (e) {
-          console.error("Failed to clear search history", e);
+          handleStorageError(e);
       }
   };
 

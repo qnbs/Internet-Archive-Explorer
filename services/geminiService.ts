@@ -1,6 +1,11 @@
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 import type { ExtractedEntities, Language } from '../types';
 
+// SECURITY WARNING: This application uses a client-side API key.
+// In a production environment, this is insecure as the key is exposed to end-users.
+// For a real-world application, all API calls to the Gemini API should be proxied
+// through a secure backend server that holds the API key as a secret.
+
 // This is a placeholder for a real-world scenario where the API key is expected
 // to be set in the execution environment (e.g., as a secret).
 if (!process.env.API_KEY) {

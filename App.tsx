@@ -4,7 +4,7 @@ import { SideMenu } from './components/SideMenu';
 import { BottomNav } from './components/BottomNav';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { SettingsProvider } from './contexts/SettingsContext';
+import { SettingsProvider, useSettings } from './contexts/SettingsContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { UploaderFavoritesProvider } from './contexts/UploaderFavoritesContext';
 import { SearchProvider, useSearch } from './contexts/SearchContext';
@@ -12,6 +12,7 @@ import { ToastProvider } from './contexts/ToastContext';
 import { ToastContainer } from './components/Toast';
 import { CommandPalette } from './components/CommandPalette';
 import { ConfirmationModal } from './components/ConfirmationModal';
+import ErrorBoundary from './components/ErrorBoundary';
 import type { View, ArchiveItemSummary, Uploader, ConfirmationOptions } from './types';
 import { UPLOADER_DATA } from './pages/uploaderData';
 
@@ -47,6 +48,13 @@ const AppContent: React.FC = () => {
     
     const { registerViewSetter, setFacets, setSearchQuery } = useSearch();
     const { isLoading: isLanguageLoading, t } = useLanguage();
+    const { settings } = useSettings();
+
+    // Apply accessibility settings globally
+    useEffect(() => {
+        document.body.classList.toggle('reduce-motion', settings.reduceMotion);
+    }, [settings.reduceMotion]);
+
 
     const handleViewChange = (view: View) => {
       setActiveView(view);
@@ -226,21 +234,23 @@ const AppContent: React.FC = () => {
 };
 
 const App: React.FC = () => (
-    <LanguageProvider>
-      <ThemeProvider>
-        <ToastProvider>
-            <SettingsProvider>
-                <UploaderFavoritesProvider>
-                     <FavoritesProvider>
-                        <SearchProvider>
-                            <AppContent />
-                        </SearchProvider>
-                    </FavoritesProvider>
-                </UploaderFavoritesProvider>
-            </SettingsProvider>
-        </ToastProvider>
-      </ThemeProvider>
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <ThemeProvider>
+          <ToastProvider>
+              <SettingsProvider>
+                  <UploaderFavoritesProvider>
+                       <FavoritesProvider>
+                          <SearchProvider>
+                              <AppContent />
+                          </SearchProvider>
+                      </FavoritesProvider>
+                  </UploaderFavoritesProvider>
+              </SettingsProvider>
+          </ToastProvider>
+        </ThemeProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
 );
 
 export default App;

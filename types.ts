@@ -77,7 +77,7 @@ export interface ArchiveMetadata {
     [key: string]: any;
   };
   files: ArchiveFile[];
-  reviews?: any[];
+  reviews?: ArchiveItemSummary[];
   [key: string]: any;
 }
 

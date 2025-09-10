@@ -35,7 +35,11 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
       localStorage.setItem('archive-favorites', JSON.stringify(newFavorites));
     } catch (error) {
       console.error('Failed to save favorites to localStorage', error);
-      addToast(t('favorites:errorSave'), 'error');
+      if (error instanceof DOMException && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+          addToast(t('common:errorStorageFull'), 'error');
+      } else {
+          addToast(t('favorites:errorSave'), 'error');
+      }
     }
   };
 

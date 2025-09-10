@@ -2,6 +2,7 @@ import type { ArchiveSearchResponse, ArchiveMetadata, WaybackResponse, ArchiveIt
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
+const metadataCache = new Map<string, ArchiveMetadata>();
 
 export class ArchiveServiceError extends Error {
   constructor(message: string) {
@@ -9,6 +10,15 @@ export class ArchiveServiceError extends Error {
     this.name = 'ArchiveServiceError';
   }
 }
+
+const handleFetchError = (e: unknown, context: string): never => {
+    console.error(`Archive.org ${context} request failed:`, e);
+    if (e instanceof ArchiveServiceError) throw e;
+    if (e instanceof TypeError && e.message === 'Failed to fetch') {
+        throw new ArchiveServiceError(`A network error occurred. Please check your internet connection and try again.`);
+    }
+    throw new ArchiveServiceError(`An unexpected error occurred while fetching ${context}.`);
+};
 
 export const searchArchive = async (
   query: string,
@@ -41,24 +51,25 @@ export const searchArchive = async (
     }
     return await response.json();
   } catch (e) {
-    console.error("Archive.org search request failed for URL:", url, e);
-    if (e instanceof ArchiveServiceError) throw e;
-    throw new ArchiveServiceError(`A network error occurred while searching. Please check your connection.`);
+    handleFetchError(e, 'search results');
   }
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
+    if (metadataCache.has(identifier)) {
+        return metadataCache.get(identifier)!;
+    }
     const url = `${API_BASE_URL}/metadata/${identifier}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new ArchiveServiceError(`Failed to fetch metadata for ${identifier}. Status: ${response.status}`);
         }
-        return await response.json();
+        const data: ArchiveMetadata = await response.json();
+        metadataCache.set(identifier, data);
+        return data;
     } catch (e) {
-        console.error("Archive.org metadata request failed for URL:", url, e);
-        if (e instanceof ArchiveServiceError) throw e;
-        throw new ArchiveServiceError(`A network error occurred while fetching item details.`);
+        handleFetchError(e, `metadata for ${identifier}`);
     }
 };
 
@@ -80,9 +91,7 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
     // Basic cleanup
     return text.replace(/(\r\n|\n|\r)/gm, "\n").trim();
   } catch (error) {
-    console.error('Error fetching plain text:', error);
-    if (error instanceof ArchiveServiceError) throw error;
-    return "The plain text version of this document could not be loaded. It might not be available.";
+    handleFetchError(error, `plain text for ${identifier}`);
   }
 };
 
@@ -107,9 +116,7 @@ export const searchWaybackMachine = async (url: string): Promise<WaybackResponse
       }
       return [];
   } catch (e) {
-    console.error("Failed to parse JSON response from Wayback Machine", e);
-    if (e instanceof ArchiveServiceError) throw e;
-    throw new ArchiveServiceError(`A network error occurred while searching the Wayback Machine.`);
+    handleFetchError(e, 'Wayback Machine results');
   }
 };
 
@@ -135,7 +142,6 @@ export const getRandomItemFromCollection = async (collection: string): Promise<A
       start: randomIndex.toString(),
       output: 'json',
     });
-    // FIX: Completed the fetch URL.
     const itemResponse = await fetch(`${API_BASE_URL}/advancedsearch.php?${itemParams.toString()}`);
     if (!itemResponse.ok) throw new Error('Failed to get item');
     const itemData = await itemResponse.json();
@@ -146,7 +152,6 @@ export const getRandomItemFromCollection = async (collection: string): Promise<A
   }
 };
 
-// FIX: Added missing getItemCount function.
 export const getItemCount = async (query: string): Promise<number> => {
   const params = new URLSearchParams({
     q: query,
@@ -164,13 +169,10 @@ export const getItemCount = async (query: string): Promise<number> => {
     const data: ArchiveSearchResponse = await response.json();
     return data.response.numFound;
   } catch (e) {
-    console.error("Archive.org count request failed for URL:", url, e);
-    if (e instanceof ArchiveServiceError) throw e;
-    throw new ArchiveServiceError(`A network error occurred while fetching item count.`);
+    handleFetchError(e, `item count for query "${query}"`);
   }
 };
 
-// FIX: Added missing getReviewsByUploader function.
 export const getReviewsByUploader = async (
   uploader: string,
   page: number,

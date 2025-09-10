@@ -32,7 +32,11 @@ export const useWorksets = () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newWorksets));
     } catch (error) {
       console.error('Failed to save worksets to localStorage', error);
-      addToast(t('scriptorium:errorSave'), 'error');
+      if (error instanceof DOMException && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+          addToast(t('common:errorStorageFull'), 'error');
+      } else {
+          addToast(t('scriptorium:errorSave'), 'error');
+      }
     }
   }, [addToast, t]);
 

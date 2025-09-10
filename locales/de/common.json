@@ -4,6 +4,7 @@
   "search": "Suchen",
   "close": "Schließen",
   "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+  "errorStorageFull": "Speichern fehlgeschlagen. Der lokale Speicher Ihres Browsers ist voll.",
   "noResultsFound": "Keine Ergebnisse gefunden",
   "noResultsMessage": "Passen Sie Ihre Suche oder Filter an, um das Gesuchte zu finden.",
   "itemsFound_one": "{{count}} Eintrag gefunden",
