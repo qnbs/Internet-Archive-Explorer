@@ -21,7 +21,10 @@ const AccordionItem: React.FC<{ title: string; children: React.ReactNode; startO
       </button>
       <div className={`grid overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
         <div className="overflow-hidden">
-            <div className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed space-y-3 prose-a:text-cyan-600 prose-a:dark:text-cyan-400 hover:prose-a:underline" dangerouslySetInnerHTML={{ __html: children as string }} />
+            <div 
+                className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed space-y-3 prose-a:text-cyan-600 prose-a:dark:text-cyan-400 hover:prose-a:underline prose-ul:list-disc prose-ul:pl-6 prose-li:mb-1 prose-code:bg-gray-200 prose-code:dark:bg-gray-700 prose-code:px-1 prose-code:rounded prose-strong:text-gray-800 prose-strong:dark:text-gray-200" 
+                dangerouslySetInnerHTML={{ __html: children as string }} 
+            />
         </div>
       </div>
     </div>

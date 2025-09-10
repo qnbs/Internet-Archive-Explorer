@@ -33,6 +33,9 @@
     "autoRunEntityExtractionDesc": "Automatically extract entities when opening a text document in the Scriptorium or detail view."
   },
   "data": {
+    "dataAndPrivacyTitle": "Data & Privacy",
+    "backupAndRestore": "Backup & Restore",
+    "privacy": "Privacy",
     "managementTitle": "Data Management",
     "exportAll": "Export All Data",
     "exportAllDesc": "Download a backup of all your settings, favorites, and worksets as a JSON file.",

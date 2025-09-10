@@ -71,13 +71,13 @@
     "onThisDay": "An diesem Tag: {{date}}",
     "quickSearch": "Schnellsuche",
     "searches": {
-        "classicFilms": "Filmklassiker",
-        "cultFilms": "Kultfilme",
-        "tedTalks": "TED Talks",
-        "liveConcerts": "Live-Konzerte",
-        "nasaImages": "NASA-Bilder",
-        "msDosGames": "MS-DOS-Spiele",
-        "audiobooks": "Hörbücher"
+      "classicFilms": "Filmklassiker",
+      "cultFilms": "Kultfilme",
+      "tedTalks": "TED Talks",
+      "liveConcerts": "Live-Konzerte",
+      "nasaImages": "NASA-Bilder",
+      "msDosGames": "MS-DOS-Spiele",
+      "audiobooks": "Hörbücher"
     },
     "sortPopular": "Am beliebtesten",
     "sortNewest": "Neueste zuerst",
@@ -106,60 +106,60 @@
     "description": "Willkommen in der Software-Bibliothek. Spielen Sie Tausende von klassischen MS-DOS-Spielen, Konsolentiteln und erkunden Sie historische Software direkt in Ihrem Browser. Keine Installation erforderlich.",
     "endOfArcade": "Sie haben das Ende der Spielhalle erreicht.",
     "card": {
-        "start": "Start",
-        "startItem": "{{title}} starten"
+      "start": "Start",
+      "startItem": "{{title}} starten"
     }
   },
   "webArchive": {
-      "title": "Wayback Machine",
-      "description": "Erkunden Sie die Geschichte von über 866 Milliarden Webseiten, die im Laufe der Zeit gespeichert wurden. Geben Sie eine URL ein, um eine Zeitleiste ihrer archivierten Snapshots zu sehen.",
-      "urlPlaceholder": "Geben Sie eine URL ein (z.B. google.com)",
-      "searchHistory": "Verlauf suchen",
-      "errorInvalidUrl": "Bitte geben Sie eine gültige URL ein.",
-      "errorFetch": "Der Verlauf für diese URL konnte nicht abgerufen werden.",
-      "noSnapshots": "Keine Snapshots für diese URL gefunden.",
-      "searchPrompt": "Geben Sie oben eine URL ein, um den archivierten Verlauf anzuzeigen.",
-      "resultsTable": {
-          "snapshotDate": "Snapshot-Datum",
-          "originalUrl": "Original-URL"
-      }
+    "title": "Wayback Machine",
+    "description": "Erkunden Sie die Geschichte von über 866 Milliarden Webseiten, die im Laufe der Zeit gespeichert wurden. Geben Sie eine URL ein, um eine Zeitleiste ihrer archivierten Snapshots zu sehen.",
+    "urlPlaceholder": "Geben Sie eine URL ein (z.B. google.com)",
+    "searchHistory": "Verlauf suchen",
+    "errorInvalidUrl": "Bitte geben Sie eine gültige URL ein.",
+    "errorFetch": "Der Verlauf für diese URL konnte nicht abgerufen werden.",
+    "noSnapshots": "Keine Snapshots für diese URL gefunden.",
+    "searchPrompt": "Geben Sie oben eine URL ein, um den archivierten Verlauf anzuzeigen.",
+    "resultsTable": {
+      "snapshotDate": "Snapshot-Datum",
+      "originalUrl": "Original-URL"
+    }
   },
   "imagesHub": {
-      "description": "Entdecken Sie Millionen von historischen Fotografien, Kunstwerken, Karten und wissenschaftlichen Bildern.",
-      "searchPlaceholder": "Suche nach Bildern (z.B. Apollo 11, Van Gogh)",
-      "featuredCollections": "Vorgestellte Sammlungen",
-      "collections": {
-          "met": "The Met Museum",
-          "metDesc": "Über 400.000 hochauflösende Bilder von gemeinfreien Werken aus dem Metropolitan Museum of Art.",
-          "nasa": "NASA-Bilderbibliothek",
-          "nasaDesc": "Eine riesige Sammlung von Bildern, Videos und Audioaufnahmen von den Weltraumforschungsmissionen der NASA.",
-          "flickr": "Flickr Commons",
-          "flickrDesc": "Bilder aus den öffentlichen Fotoarchiven der Welt, ohne bekannte Urheberrechtsbeschränkungen.",
-          "usgs": "USGS-Karten",
-          "usgsDesc": "Eine Sammlung historischer topografischer Karten des U.S. Geological Survey."
-      },
-      "discoverByTheme": "Nach Thema entdecken",
-      "themes": {
-          "art": "Kunst & Kultur",
-          "science": "Wissenschaft & Technik",
-          "history": "Geschichte",
-          "maps": "Karten"
-      }
+    "description": "Entdecken Sie Millionen von historischen Fotografien, Kunstwerken, Karten und wissenschaftlichen Bildern.",
+    "searchPlaceholder": "Suche nach Bildern (z.B. Apollo 11, Van Gogh)",
+    "featuredCollections": "Vorgestellte Sammlungen",
+    "collections": {
+      "met": "The Met Museum",
+      "metDesc": "Über 400.000 hochauflösende Bilder von gemeinfreien Werken aus dem Metropolitan Museum of Art.",
+      "nasa": "NASA-Bilderbibliothek",
+      "nasaDesc": "Eine riesige Sammlung von Bildern, Videos und Audioaufnahmen von den Weltraumforschungsmissionen der NASA.",
+      "flickr": "Flickr Commons",
+      "flickrDesc": "Bilder aus den öffentlichen Fotoarchiven der Welt, ohne bekannte Urheberrechtsbeschränkungen.",
+      "usgs": "USGS-Karten",
+      "usgsDesc": "Eine Sammlung historischer topografischer Karten des U.S. Geological Survey."
+    },
+    "discoverByTheme": "Nach Thema entdecken",
+    "themes": {
+      "art": "Kunst & Kultur",
+      "science": "Wissenschaft & Technik",
+      "history": "Geschichte",
+      "maps": "Karten"
+    }
   },
   "cinematheque": {
     "heroFeatured": "Vorgestellter Film",
     "watchNow": "Jetzt ansehen",
     "collections": {
-        "prelinger": "Prelinger-Archive",
-        "film_noir": "Film Noir",
-        "sci_fi": "Science-Fiction",
-        "comedy": "Komödienklassiker",
-        "silent_films": "Stummfilme",
-        "animation": "Animation & Cartoons",
-        "documentaries": "Dokumentationen",
-        "ted_talks": "TED Talks",
-        "tv_commercials": "Vintage-Werbespots",
-        "newly_added": "Neu hinzugefügt"
+      "prelinger": "Prelinger-Archive",
+      "film_noir": "Film Noir",
+      "sci_fi": "Science-Fiction",
+      "comedy": "Komödienklassiker",
+      "silent_films": "Stummfilme",
+      "animation": "Animation & Cartoons",
+      "documentaries": "Dokumentationen",
+      "ted_talks": "TED Talks",
+      "tv_commercials": "Vintage-Werbespots",
+      "newly_added": "Neu hinzugefügt"
     }
   },
   "audiothek": {
@@ -173,51 +173,53 @@
       "podcasts": "Podcasts"
     },
     "shelves": {
-        "newly_added": "Neu hinzugefügt",
-        "grateful_dead": "Grateful Dead",
-        "otr": "Old-Time-Radio",
-        "librivox": "LibriVox-Hörbücher",
-        "classical_music": "Klassische Musik",
-        "poetry": "Poesie & Gesprochenes Wort",
-        "78rpm": "Das Great 78 Project",
-        "radio_plays": "Hörspiele"
+      "newly_added": "Neu hinzugefügt",
+      "grateful_dead": "Grateful Dead",
+      "otr": "Old-Time-Radio",
+      "librivox": "LibriVox-Hörbücher",
+      "classical_music": "Klassische Musik",
+      "poetry": "Poesie & Gesprochenes Wort",
+      "78rpm": "Das Great 78 Project",
+      "radio_plays": "Hörspiele"
     }
   },
   "scriptorium": {
-      "title": "Das Scriptorium",
-      "description": "Ihr persönlicher Forschungsarbeitsplatz. Sammeln Sie Textdokumente, machen Sie sich Notizen und nutzen Sie KI zur Analyse und Zusammenfassung von Inhalten.",
-      "myWorksets": "Meine Worksets",
-      "noWorksets": "Sie haben noch keine Worksets erstellt. Nutzen Sie das Formular unten, um ein neues Forschungsprojekt zu starten.",
-      "createWorkset": "Neues Workset erstellen",
-      "newWorksetPlaceholder": "Geben Sie einen Namen für Ihr neues Workset ein",
-      "create": "Erstellen",
-      "deleteWorkset": "Workset löschen",
-      "confirmDelete": "Sind Sie sicher, dass Sie das Workset '{{worksetName}}' endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
-      "backToHub": "Zurück zum Scriptorium-Hub",
-      "noDocuments": "Dieses Workset ist leer. Fügen Sie Dokumente hinzu, um Ihre Forschung zu beginnen.",
-      "selectDocument": "Wählen Sie ein Dokument aus Ihrem Workset aus, um mit dem Lesen zu beginnen.",
-      "addDocumentTo": "Dokumente zu '{{worksetName}}' hinzufügen",
-      "searchPlaceholder": "Nach Textdokumenten zum Hinzufügen suchen...",
-      "startTyping": "Tippen Sie, um die Textsuche zu starten.",
-      "reader": {
-        "loadError": "Der Text für dieses Dokument konnte nicht geladen werden.",
-        "entityAnalysis": "Entitätenanalyse",
-        "extracting": "Wird extrahiert...",
-        "extract": "Extrahieren",
-        "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren.",
-        "tabReader": "Reader",
-        "tabAI": "KI-Werkzeuge",
-        "tabNotes": "Notizen",
-        "notesPlaceholder": "Ihre Notizen zu diesem Dokument..."
-      },
-      "documentCount_one": "{{count}} Dokument",
-      "documentCount_other": "{{count}} Dokumente",
-      "errorSave": "Worksets konnten nicht gespeichert werden.",
-      "worksetCreated": "Workset '{{name}}' wurde erstellt.",
-      "worksetDeleted": "Workset '{{name}}' wurde gelöscht.",
-      "documentAdded": "Dokument wurde zum Workset hinzugefügt.",
-      "documentExists": "Dokument ist bereits in diesem Workset.",
-      "documentRemoved": "Dokument wurde aus dem Workset entfernt."
+    "title": "Das Scriptorium",
+    "description": "Ihr persönlicher Forschungsarbeitsplatz. Sammeln Sie Textdokumente, machen Sie sich Notizen und nutzen Sie KI zur Analyse und Zusammenfassung von Inhalten.",
+    "myWorksets": "Meine Worksets",
+    "noWorksets": "Sie haben noch keine Worksets erstellt. Nutzen Sie das Formular unten, um ein neues Forschungsprojekt zu starten.",
+    "createWorkset": "Neues Workset erstellen",
+    "worksetNamePlaceholder": "z.B. 'Forschung zur Marinegeschichte des 19. Jhd.'",
+    "createButton": "Workset erstellen",
+    "deleteWorkset": "Workset löschen",
+    "confirmDelete": "Sind Sie sicher, dass Sie das Workset '{{worksetName}}' endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "backToHub": "Zurück zum Scriptorium-Hub",
+    "noDocuments": "Dieses Workset ist leer. Fügen Sie Dokumente hinzu, um Ihre Forschung zu beginnen.",
+    "selectDocument": "Wählen Sie ein Dokument aus Ihrem Workset aus, um mit dem Lesen zu beginnen.",
+    "addDocumentTo": "Dokumente zu '{{worksetName}}' hinzufügen",
+    "searchPlaceholder": "Nach Textdokumenten zum Hinzufügen suchen...",
+    "startTyping": "Tippen Sie, um die Textsuche zu starten.",
+    "reader": {
+      "loadError": "Der Text für dieses Dokument konnte nicht geladen werden.",
+      "entityAnalysis": "Entitätenanalyse",
+      "extracting": "Wird extrahiert...",
+      "extract": "Extrahieren",
+      "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren.",
+      "tabReader": "Reader",
+      "tabAI": "KI-Werkzeuge",
+      "tabNotes": "Notizen",
+      "notesPlaceholder": "Ihre Notizen zu diesem Dokument..."
+    },
+    "newWorksetPlaceholder": "Geben Sie einen Namen für Ihr neues Workset ein",
+    "create": "Erstellen",
+    "documentCount_one": "{{count}} Dokument",
+    "documentCount_other": "{{count}} Dokumente",
+    "errorSave": "Worksets konnten nicht gespeichert werden.",
+    "worksetCreated": "Workset '{{name}}' wurde erstellt.",
+    "worksetDeleted": "Workset '{{name}}' wurde gelöscht.",
+    "documentAdded": "Dokument wurde zum Workset hinzugefügt.",
+    "documentExists": "Dokument ist bereits in diesem Workset.",
+    "documentRemoved": "Dokument wurde aus dem Workset entfernt."
   },
   "favorites": {
     "title": "Favoriten",
@@ -243,8 +245,8 @@
     "description": "Entdecken Sie die Personen und Institutionen hinter dem Archiv. Durchsuchen Sie vorgestellte Beitragende oder filtern Sie nach Kategorien, um neue Inhalte zu finden.",
     "featured": "Vorgestellte Uploader",
     "all": "Alle Kategorien",
-    "allOtherUploaders": "Alle weiteren Uploader",
-    "categoryTitle": "Uploader in {{category}}",
+    "allOtherUploaders": "Alle anderen Uploader",
+    "categoryTitle": "Uploader in: {{category}}",
     "categories": {
       "archivist": "Archivare",
       "institution": "Institutionen",
@@ -265,9 +267,9 @@
     "backToExplorer": "Zurück zum Explorer",
     "backToUploaderHub": "Zurück zum Uploader-Hub",
     "tabs": {
-        "uploads": "Uploads",
-        "reviews": "Bewertungen",
-        "statistics": "Statistiken"
+      "uploads": "Uploads",
+      "reviews": "Bewertungen",
+      "statistics": "Statistiken"
     },
     "noReviews": "Keine Bewertungen gefunden",
     "noReviewsDesc": "Dieser Benutzer hat keine öffentlichen Bewertungen geschrieben.",
@@ -286,10 +288,10 @@
     "ascending": "aufsteigend",
     "descending": "absteigend",
     "sortCriteria": {
-        "downloads": "Beliebtheit (Gesamt)",
-        "week": "Beliebtheit (diese Woche)",
-        "publicdate": "Veröffentlicht am",
-        "addeddate": "Hinzugefügt am"
+      "downloads": "Beliebtheit (Gesamt)",
+      "week": "Beliebtheit (diese Woche)",
+      "publicdate": "Veröffentlicht am",
+      "addeddate": "Hinzugefügt am"
     },
     "filters": {
       "allTypes": "Alle Typen"
@@ -300,35 +302,44 @@
     "noTitle": "Unbenannte Bewertung"
   },
   "modals": {
-      "emulator": {
-          "close": "Emulator schließen",
-          "providedBy": "Emulator bereitgestellt von The Internet Archive.",
-          "escToExit": "Drücken Sie ESC, um den Vollbildmodus zu verlassen.",
-          "loading": "Emulation wird geladen..."
-      },
-      "details": {
-          "searchByCreator": "Suche nach mehr von {{creator}}",
-          "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen"
-      }
+    "emulator": {
+      "close": "Emulator schließen",
+      "providedBy": "Emulator bereitgestellt von The Internet Archive.",
+      "escToExit": "Drücken Sie ESC, um den Vollbildmodus zu verlassen.",
+      "loading": "Emulation wird geladen..."
+    },
+    "details": {
+      "searchByCreator": "Suche nach mehr von {{creator}}",
+      "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen"
+    }
+  },
+  "audioModal": {
+    "playlist": "Wiedergabeliste",
+    "noTracks": "Keine abspielbaren Audiospuren für diesen Eintrag gefunden."
+  },
+  "videoModal": {
+    "description": "Beschreibung",
+    "downloadFiles": "Herunterladbare Dateien",
+    "details": "Details"
   },
   "aiTools": {
-      "summary": "KI-Zusammenfassung",
-      "generate": "Generieren",
-      "generating": "Wird generiert...",
-      "generatePrompt": "Klicken Sie auf 'Generieren', um eine KI-gestützte Zusammenfassung dieses Textes zu erstellen.",
-      "summaryErrorShort": "Der Text ist zu kurz für eine sinnvolle Zusammenfassung.",
-      "summaryErrorApi": "Die KI-Zusammenfassung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.",
-      "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut."
+    "summary": "KI-Zusammenfassung",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "generatePrompt": "Klicken Sie auf 'Generieren', um eine KI-gestützte Zusammenfassung dieses Textes zu erstellen.",
+    "summaryErrorShort": "Der Text ist zu kurz für eine sinnvolle Zusammenfassung.",
+    "summaryErrorApi": "Die KI-Zusammenfassung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.",
+    "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut."
   },
   "settings": {
     "title": "Einstellungen",
     "subtitle": "Passen Sie Ihr Archive Explorer-Erlebnis an.",
     "search": {
-        "title": "Suche & Entdeckung",
-        "resultsPerPage": "Ergebnisse pro Seite",
-        "resultsPerPageDesc": "Anzahl der Einträge, die pro Suchergebnisseite geladen werden.",
-        "showExplorerHub": "Explorer-Hub anzeigen",
-        "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird."
+      "title": "Suche & Entdeckung",
+      "resultsPerPage": "Ergebnisse pro Seite",
+      "resultsPerPageDesc": "Anzahl der Einträge, die pro Suchergebnisseite geladen werden.",
+      "showExplorerHub": "Explorer-Hub anzeigen",
+      "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird."
     },
     "ui": {
       "title": "Benutzeroberfläche",
@@ -338,48 +349,51 @@
       "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein einfacheres Erlebnis."
     },
     "content": {
-        "title": "Inhalt & Hubs",
-        "defaultUploaderDetailTab": "Standard-Uploader-Tab",
-        "defaultUploaderDetailTabDesc": "Der Tab, der standardmäßig ausgewählt wird, wenn Sie das Profil eines Uploaders anzeigen.",
-        "autoplayMedia": "Medien automatisch abspielen",
-        "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen)."
+      "title": "Inhalt & Hubs",
+      "defaultUploaderDetailTab": "Standard-Uploader-Tab",
+      "defaultUploaderDetailTabDesc": "Der Tab, der standardmäßig ausgewählt wird, wenn Sie das Profil eines Uploaders anzeigen.",
+      "autoplayMedia": "Medien automatisch abspielen",
+      "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen)."
     },
     "ai": {
-        "title": "KI-Funktionen",
-        "enableAiFeatures": "KI-Funktionen aktivieren",
-        "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von Gemini AI unterstützt werden.",
-        "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
-        "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen Texteintrag öffnen.",
-        "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
-        "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird."
+      "title": "KI-Funktionen",
+      "enableAiFeatures": "KI-Funktionen aktivieren",
+      "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von Gemini AI unterstützt werden.",
+      "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
+      "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen Texteintrag öffnen.",
+      "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
+      "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird."
     },
     "data": {
-        "managementTitle": "Datenverwaltung",
-        "exportAll": "Alle Daten exportieren",
-        "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter.",
-        "exportButton": "Daten exportieren",
-        "exportSuccess": "Daten erfolgreich exportiert!",
-        "exportError": "Export der Daten fehlgeschlagen.",
-        "importAll": "Daten importieren",
-        "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre Einstellungen, Favoriten und Worksets wiederherzustellen. Dies überschreibt vorhandene Daten.",
-        "importButton": "Aus Datei importieren...",
-        "importButtonConfirm": "Importieren & Überschreiben",
-        "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
-        "importSuccess": "Daten erfolgreich importiert! Die Seite wird nun neu geladen.",
-        "importError": "Import der Daten fehlgeschlagen",
-        "importErrorFile": "Die Datei konnte nicht gelesen werden.",
-        "title": "Ihre Daten",
-        "searchHistory": "Suchverlauf",
-        "searchHistoryDesc": "Die App speichert Ihre letzten Suchanfragen lokal.",
-        "noHistory": "Noch kein Suchverlauf.",
-        "clearHistory": "Suchverlauf löschen",
-        "clearHistoryTitle": "Suchverlauf löschen?",
-        "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
-        "clearHistorySuccess": "Suchverlauf gelöscht.",
-        "resetAll": "Alle Einstellungen zurücksetzen",
-        "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets sind davon NICHT betroffen.",
-        "resetButton": "Einstellungen zurücksetzen",
-        "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt."
+      "dataAndPrivacyTitle": "Daten & Datenschutz",
+      "backupAndRestore": "Sicherung & Wiederherstellung",
+      "privacy": "Datenschutz",
+      "managementTitle": "Datenverwaltung",
+      "exportAll": "Alle Daten exportieren",
+      "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter.",
+      "exportButton": "Daten exportieren",
+      "exportSuccess": "Daten erfolgreich exportiert!",
+      "exportError": "Export der Daten fehlgeschlagen.",
+      "importAll": "Daten importieren",
+      "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre Einstellungen, Favoriten und Worksets wiederherzustellen. Dies überschreibt vorhandene Daten.",
+      "importButton": "Aus Datei importieren...",
+      "importButtonConfirm": "Importieren & Überschreiben",
+      "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
+      "importSuccess": "Daten erfolgreich importiert! Die Seite wird nun neu geladen.",
+      "importError": "Import der Daten fehlgeschlagen",
+      "importErrorFile": "Die Datei konnte nicht gelesen werden.",
+      "title": "Ihre Daten",
+      "searchHistory": "Suchverlauf",
+      "searchHistoryDesc": "Die App speichert Ihre letzten Suchanfragen lokal.",
+      "noHistory": "Noch kein Suchverlauf.",
+      "clearHistory": "Suchverlauf löschen",
+      "resetAll": "Alle Einstellungen zurücksetzen",
+      "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets sind davon NICHT betroffen.",
+      "resetButton": "Einstellungen zurücksetzen",
+      "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
+      "clearHistoryTitle": "Suchverlauf löschen?",
+      "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
+      "clearHistorySuccess": "Suchverlauf gelöscht."
     }
   },
   "help": {
@@ -391,7 +405,7 @@
     "qFilters": "Wie funktionieren die Filter?",
     "aFilters": "Klicken Sie auf der Suchergebnisseite auf die Medientyp-Schaltflächen, um Filter umzuschalten. Verwenden Sie das Dropdown-Menü, um nach Kriterien wie Beliebtheit oder Datum zu sortieren. Erweiterte Filter wie Jahresbereich und Sammlung sind über das Filtersymbol zugänglich.",
     "qNav": "Wie navigiere ich in der App?",
-    "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf dem Handy), um zwischen den Hauptbereichen wie dem **Explorer**, den **Favoriten** und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
+    "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf dem Handy), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, den <strong>Favoriten</strong> und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
     "explorerTitle": "Explorer-Hub",
     "qExplorer": "Was ist der Explorer-Hub?",
     "aExplorer": "Die Hauptseite 'Entdecken' ist Ihr zentraler Hub. Wenn Sie nicht aktiv suchen, werden hier kuratierte und dynamische Inhalte wie 'Aktuelle Trends', 'An diesem Tag in der Geschichte' und eine Auswahl an thematischen Suchen angezeigt, um Ihnen bei der Entdeckung neuer Einträge zu helfen.",
@@ -419,9 +433,9 @@
     "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können eine prägnante Zusammenfassung des Textes erstellen oder Schlüssel-'Entitäten' – wie Personen, Orte und Organisationen – extrahieren, um Ihnen zu helfen, den Inhalt zu verstehen und verwandte Informationen zu finden.",
     "communityTitle": "Community-Funktionen",
     "qUploaderHub": "Was ist der Uploader-Hub?",
-    "aUploaderHub": "Dieser Bereich ist den Personen und Institutionen gewidmet, die Inhalte zum Internet Archive beitragen. Sie können vorgestellte Uploader durchsuchen, nach Kategorien wie 'Musik' oder 'Geschichte' filtern und deren Profile erkunden.",
+    "aUploaderHub": "Dieser Bereich ist den Personen und Institutionen gewidmet, die Inhalte beitragen. Sie können unsere kuratierte Liste vorgestellter Uploader durchsuchen oder alle bekannten Beitragenden nach Kategorien filtern. Ein Klick auf eine Uploader-Karte führt Sie zu deren detaillierter Profilseite. Sie können auch zum Profil eines Uploaders navigieren, indem Sie auf dessen Namen in der Detailansicht eines von ihm hochgeladenen Eintrags klicken.",
     "qFavorites": "Wie funktionieren Favoriten?",
-    "aFavorites": "Sie können jeden Eintrag oder Uploader 'favorisieren', indem Sie auf das Sternsymbol klicken. Alle Ihre Favoriten werden im Bereich 'Favoriten', der über das Seitenmenü zugänglich ist, für einen einfachen späteren Zugriff gesammelt. Alle Daten werden in Ihrem Browser gespeichert.",
+    "aFavorites": "Sie können jeden Eintrag 'favorisieren', indem Sie auf das Sternsymbol auf seiner Karte oder in der Detailansicht klicken. Um einem Uploader zu folgen, klicken Sie auf die Schaltfläche 'Uploader folgen' auf seiner Profilseite. Alle Ihre favorisierten Einträge und gefolgten Uploader werden im Bereich 'Favoriten' für einen einfachen Zugriff gesammelt. Alle Daten werden in Ihrem Browser gespeichert.",
     "qSimilar": "Wie funktioniert 'Ähnliche Einträge'?",
     "aSimilar": "Wenn Sie die Details eines Eintrags anzeigen, zeigt der Tab 'Ähnlich' andere Inhalte aus derselben primären Sammlung oder vom selben Ersteller. Dies ist eine großartige Möglichkeit, verwandtes Material zu entdecken.",
     "faqTitle": "Häufig gestellte Fragen",
@@ -430,14 +444,14 @@
     "qOfficial": "Ist dies eine offizielle Anwendung des Internet Archive?",
     "aOfficial": "Nein, dies ist ein unabhängiges Projekt, das von einem Drittanbieter-Entwickler erstellt wurde. Es verwendet die öffentlichen APIs des Internet Archive, ist aber nicht offiziell mit ihnen verbunden oder von ihnen unterstützt.",
     "qAboutApp": "Wer hat diese Anwendung entwickelt?",
-    "aAboutApp": "Diese Anwendung wurde in <strong>AI Studio</strong> erstellt und wird dort gehostet, einer webbasierten Entwicklungsumgebung zum Erstellen von KI-integrierten Anwendungen. Sie können <a href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>dieses Projekt in AI Studio erkunden und forken</a>, um den Code zu sehen und Ihre eigene Version zu erstellen."
+    "aAboutApp": "Diese Anwendung wurde in <strong>AI Studio</strong> erstellt und wird dort gehostet, einer webbasierten Entwicklungsumgebung zum Erstellen von KI-integrierten Anwendungen. Sie können <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>dieses Projekt in AI Studio erkunden</a> und <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/qnbs/Internet-Archive-Explorer' target='_blank' rel='noopener noreferrer'>auf GitHub ansehen</a>, um den Code zu sehen und Ihre eigene Version zu erstellen."
   },
   "commandPalette": {
     "placeholder": "Befehl eingeben oder suchen...",
     "sections": {
-        "navigation": "Navigation",
-        "actions": "Aktionen",
-        "uploaders": "Uploader"
+      "navigation": "Navigation",
+      "actions": "Aktionen",
+      "uploaders": "Uploader"
     },
     "nav": {
       "exploreDesc": "Zur Hauptentdeckungsseite gehen",
@@ -452,13 +466,13 @@
       "helpDesc": "Hilfe und Dokumentation anzeigen"
     },
     "actions": {
-        "toggleTheme": "Theme umschalten",
-        "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
-        "toggleLanguage": "Sprache wechseln",
-        "toggleLanguageDesc": "Switch between English and German"
+      "toggleTheme": "Theme umschalten",
+      "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
+      "toggleLanguage": "Sprache wechseln",
+      "toggleLanguageDesc": "Switch between English and German"
     }
   },
-   "uploaders": {
+  "uploaders": {
     "internet_archive": {
       "description": "Der offizielle Uploader des Internet Archive selbst, der eine riesige Auswahl an digitalisierten Büchern, Filmen, Musik und archivierten Websites bereitstellt."
     },

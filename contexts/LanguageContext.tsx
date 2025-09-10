@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import type { Language } from '../types';
 
@@ -10,6 +9,14 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const NAMESPACES = [
+  'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 
+  'itemCard', 'recRoom', 'webArchive', 'imagesHub', 'cinematheque', 'audiothek', 
+  'scriptorium', 'favorites', 'uploaderHub', 'uploaderProfileCard', 'uploaderDetail', 
+  'reviewCard', 'modals', 'audioModal', 'videoModal', 'aiTools', 'settings', 'help', 
+  'commandPalette', 'uploaders'
+];
 
 // Helper to get nested properties from the translation object
 const getNestedTranslation = (obj: any, path: string): string | undefined => {
@@ -39,14 +46,27 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const fetchTranslations = async (lang: Language) => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/${lang}.json`);
-        if (!response.ok) {
-          throw new Error(`Failed to load translations for ${lang}.`);
-        }
-        const data = await response.json();
-        setTranslations(data);
+        const promises = NAMESPACES.map(ns =>
+          fetch(`/locales/${lang}/${ns}.json`).then(res => {
+            if (!res.ok) {
+              throw new Error(`Failed to load ${ns} for ${lang}`);
+            }
+            return res.json();
+          })
+        );
+        
+        const results = await Promise.all(promises);
+        
+        const combinedTranslations = results.reduce((acc, current, index) => {
+          acc[NAMESPACES[index]] = current;
+          return acc;
+        }, {} as Record<string, any>);
+        
+        setTranslations(combinedTranslations);
+
       } catch (error) {
         console.error(`Failed to fetch translations for ${lang}:`, error);
+        // Fallback to English if the selected language fails
         if (lang !== 'en') {
           console.warn("Falling back to English translations.");
           fetchTranslations('en');
@@ -66,7 +86,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         console.warn(`Invalid translation key format: ${key}`);
         return key;
     }
-    const path = pathParts.join(':');
+    const path = pathParts.join('.');
 
     let translationKey = path;
     if (replacements && typeof replacements.count === 'number') {

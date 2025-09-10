@@ -25,7 +25,7 @@ const SettingRow = <K extends keyof AppSettings>({ settingKey, label, descriptio
         setSetting(settingKey, newValue);
     };
     return (
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
             <div className="mb-2 sm:mb-0 max-w-md">
                 <h4 className="font-semibold text-gray-900 dark:text-gray-200">{label}</h4>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
@@ -202,7 +202,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
                 </SettingRow>
             </SettingsSection>
             
-             <SettingsSection title={t('settings:data.managementTitle')}>
+            <SettingsSection title={t('settings:data.dataAndPrivacyTitle')}>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white pt-2">{t('settings:data.backupAndRestore')}</h3>
                 <div className="py-4 border-b border-gray-200 dark:border-gray-700">
                     <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.exportAll')}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.exportAllDesc')}</p>
@@ -220,21 +221,22 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
                         <input type="file" accept=".json" className="hidden" onChange={handleImport} />
                     </label>
                 </div>
-            </SettingsSection>
-            
-            <SettingsSection title={t('settings:data.title')}>
+
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white pt-6 border-t border-gray-200 dark:border-gray-700">{t('settings:data.privacy')}</h3>
                 <div className="py-4 border-b border-gray-200 dark:border-gray-700">
                     <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.searchHistory')}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.searchHistoryDesc')}</p>
                     {searchHistory.length > 0 ? (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                            {searchHistory.slice(0, 5).map((term, i) => <span key={i} className="bg-gray-200 dark:bg-gray-700 text-xs px-2 py-1 rounded-full">{term}</span>)}
-                            {searchHistory.length > 5 && <span className="text-xs text-gray-500">...and {searchHistory.length - 5} more</span>}
-                        </div>
+                        <>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {searchHistory.slice(0, 5).map((term, i) => <span key={i} className="bg-gray-200 dark:bg-gray-700 text-xs px-2 py-1 rounded-full">{term}</span>)}
+                                {searchHistory.length > 5 && <span className="text-xs text-gray-500">...and {searchHistory.length - 5} more</span>}
+                            </div>
+                             <button onClick={handleClearHistory} className="text-sm font-semibold text-red-600 dark:text-red-400 hover:underline">{t('settings:data.clearHistory')}</button>
+                        </>
                     ) : (
                          <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-4">{t('settings:data.noHistory')}</p>
                     )}
-                    <button onClick={handleClearHistory} className="text-sm font-semibold text-red-600 dark:text-red-400 hover:underline">{t('settings:data.clearHistory')}</button>
                 </div>
                 <div className="py-4">
                      <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.resetAll')}</h4>

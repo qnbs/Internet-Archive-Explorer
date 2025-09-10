@@ -1,8 +1,11 @@
+
 {
   "title": "Uploader-Hub",
   "description": "Entdecken Sie die Personen und Institutionen hinter dem Archiv. Durchsuchen Sie vorgestellte Beitragende oder filtern Sie nach Kategorien, um neue Inhalte zu finden.",
   "featured": "Vorgestellte Uploader",
   "all": "Alle Kategorien",
+  "allOtherUploaders": "Alle anderen Uploader",
+  "categoryTitle": "Uploader in: {{category}}",
   "categories": {
     "archivist": "Archivare",
     "institution": "Institutionen",
