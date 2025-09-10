@@ -1,0 +1,19 @@
+{
+  "title": "Favorites",
+  "description": "Your saved items and followed uploaders, all in one place.",
+  "items": "Items",
+  "uploaders": "Uploaders",
+  "collections": "Collections",
+  "noFavItems": "No Favorite Items",
+  "noFavItemsDesc": "Click the star icon on any item to save it here.",
+  "noFavUploaders": "No Followed Uploaders",
+  "noFavUploadersDesc": "Click the star icon on an uploader's profile to follow them.",
+  "comingSoon": "Coming Soon",
+  "comingSoonDesc": "The ability to save and manage favorite collections is on its way.",
+  "added": "Added to favorites!",
+  "removed": "Removed from favorites.",
+  "errorSave": "Could not save favorites.",
+  "uploaderAdded": "Uploader followed!",
+  "uploaderRemoved": "Uploader unfollowed.",
+  "errorSaveUploaders": "Could not save followed uploaders."
+}

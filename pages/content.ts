@@ -1,32 +1,14 @@
-
 import { MediaType, CategoryContent } from '../types';
 
-const parseContributors = (text: string): { name: string; role: string }[] => {
-  const lines = text.trim().split('\n').map(l => l.trim()).filter(Boolean);
-  const contributors: { name: string; role: string }[] = [];
-  // Assumes a 3-line pattern: name, repeated name, role
-  for (let i = 0; i < lines.length; i += 3) {
-    if (lines[i] && lines[i+2]) {
-      contributors.push({ name: lines[i], role: lines[i+2] });
-    } else if (lines[i] && lines[i+1]) {
-        // Fallback for 2-line pattern
-        contributors.push({ name: lines[i], role: lines[i+1] });
-    }
-  }
-  return contributors;
-};
+// This file is now simplified as most content is managed within specific view components
+// or fetched from translation files.
+// It can still be used for static content that needs to be shared.
 
 export const getCategoryContent = (t: (key: string) => string): Record<string, CategoryContent> => ({
-  recroom: {
-    title: t('recRoom.title'),
-    mediaType: MediaType.Software,
-    collectionUrl: 'https://archive.org/details/software?tab=collection',
-    description: t('recRoom.description'),
-    contributors: [], // Contributors removed for simplicity of i18n
-  },
   web: {
-      title: t('webArchive.title'),
+      title: t('webArchive:title'),
       mediaType: 'web',
-      description: t('webArchive.description'),
+      description: t('webArchive:description'),
   }
+  // Other static category definitions could go here if needed
 });

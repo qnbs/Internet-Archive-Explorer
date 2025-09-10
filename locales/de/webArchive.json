@@ -1,0 +1,14 @@
+{
+  "title": "Wayback Machine",
+  "description": "Erkunden Sie die Geschichte von über 866 Milliarden Webseiten, die im Laufe der Zeit gespeichert wurden. Geben Sie eine URL ein, um eine Zeitleiste ihrer archivierten Snapshots zu sehen.",
+  "urlPlaceholder": "Geben Sie eine URL ein (z.B. google.com)",
+  "searchHistory": "Verlauf suchen",
+  "errorInvalidUrl": "Bitte geben Sie eine gültige URL ein.",
+  "errorFetch": "Der Verlauf für diese URL konnte nicht abgerufen werden.",
+  "noSnapshots": "Keine Snapshots für diese URL gefunden.",
+  "searchPrompt": "Geben Sie oben eine URL ein, um den archivierten Verlauf anzuzeigen.",
+  "resultsTable": {
+    "snapshotDate": "Snapshot-Datum",
+    "originalUrl": "Original-URL"
+  }
+}

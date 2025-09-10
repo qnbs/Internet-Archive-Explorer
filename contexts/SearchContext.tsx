@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import type { View, MediaType } from '../types';
+import { useSettings } from './SettingsContext';
 
 export type Facets = {
     mediaType: Set<MediaType>;
@@ -25,9 +26,13 @@ let viewSetter: (view: View) => void = () => { console.warn("View setter not ini
 export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [facets, setFacets] = useState<Facets>({ mediaType: new Set() });
+  const { addSearchHistory } = useSettings();
 
   const searchAndGo = (query: string, newFacets?: Facets) => {
      setSearchQuery(query);
+     if (query.trim()) {
+        addSearchHistory(query.trim());
+     }
      setFacets(newFacets || { mediaType: new Set() });
      viewSetter('explore');
   };

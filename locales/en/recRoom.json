@@ -1,0 +1,9 @@
+{
+  "title": "The Rec Room",
+  "description": "Welcome to the Software Library. Play thousands of classic MS-DOS games, console titles, and explore historical software directly in your browser. No installation required.",
+  "endOfArcade": "You've reached the end of the arcade.",
+  "card": {
+    "start": "Start",
+    "startItem": "Start {{title}}"
+  }
+}

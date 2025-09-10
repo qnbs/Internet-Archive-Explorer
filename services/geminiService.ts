@@ -1,17 +1,12 @@
-
-
-
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 import type { ExtractedEntities, Language } from '../types';
 
-// FIX: Moved API key check to the top level to ensure it runs on module import.
+// This is a placeholder for a real-world scenario where the API key is expected
+// to be set in the execution environment (e.g., as a secret).
 if (!process.env.API_KEY) {
-  // This is a placeholder for a real-world scenario.
-  // In a real app, you'd want to handle this more gracefully.
-  // For this exercise, we'll proceed as if the key is always present
-  // in the execution environment, per guidelines.
-  console.warn("API_KEY environment variable not set. The app will not function correctly.");
+  console.warn("API_KEY environment variable not set. AI features will not function correctly.");
 }
+
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
 const model = "gemini-2.5-flash";
 

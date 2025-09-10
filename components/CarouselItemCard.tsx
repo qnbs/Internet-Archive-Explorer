@@ -22,7 +22,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
     square: 'aspect-square',
   };
 
-  const creatorName = Array.isArray(item.creator) ? item.creator.join(', ') : item.creator || t('itemCard.unknownCreator');
+  const creatorName = Array.isArray(item.creator) ? item.creator.join(', ') : item.creator || t('itemCard:unknownCreator');
 
   return (
     <div
@@ -32,7 +32,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
-      aria-label={t('itemCard.viewDetails', { title: item.title })}
+      aria-label={t('itemCard:viewDetails', { title: item.title })}
     >
       <div className={`relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500/30 transition-shadow duration-300 ${aspectClasses[aspectRatio]}`}>
         <img

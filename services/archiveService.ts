@@ -3,6 +3,13 @@ import type { ArchiveSearchResponse, ArchiveMetadata, WaybackResponse, ArchiveIt
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
 
+export class ArchiveServiceError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ArchiveServiceError';
+  }
+}
+
 export const searchArchive = async (
   query: string,
   page: number,
@@ -25,38 +32,37 @@ export const searchArchive = async (
      params.append('sort[]', '-publicdate');
   }
 
-  const response = await fetch(`${API_BASE_URL}/advancedsearch.php?${params.toString()}`);
+  const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  
   try {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new ArchiveServiceError(`Failed to fetch search results. Status: ${response.status} ${response.statusText}`);
+    }
     return await response.json();
   } catch (e) {
-    console.error("Failed to parse JSON response from Archive.org search", e);
-    throw new Error(`Failed to parse response from server.`);
+    console.error("Archive.org search request failed for URL:", url, e);
+    if (e instanceof ArchiveServiceError) throw e;
+    throw new ArchiveServiceError(`A network error occurred while searching. Please check your connection.`);
   }
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
-  const response = await fetch(`${API_BASE_URL}/metadata/${identifier}`);
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  
-  try {
-    return await response.json();
-  } catch (e) {
-    console.error("Failed to parse JSON response from Archive.org metadata", e);
-    throw new Error(`Failed to parse response from server.`);
-  }
+    const url = `${API_BASE_URL}/metadata/${identifier}`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new ArchiveServiceError(`Failed to fetch metadata for ${identifier}. Status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (e) {
+        console.error("Archive.org metadata request failed for URL:", url, e);
+        if (e instanceof ArchiveServiceError) throw e;
+        throw new ArchiveServiceError(`A network error occurred while fetching item details.`);
+    }
 };
 
 export const getItemPlainText = async (identifier: string): Promise<string> => {
-  // Texts on archive.org are often available in a _djvu.txt file.
-  // This is an assumption, but a common one.
   const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
   
   try {
@@ -68,13 +74,14 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
             return await response2.text();
          }
       }
-      throw new Error(`Failed to fetch plain text. Status: ${response.status}`);
+      throw new ArchiveServiceError(`Failed to fetch plain text for ${identifier}. Status: ${response.status}`);
     }
     const text = await response.text();
     // Basic cleanup
     return text.replace(/(\r\n|\n|\r)/gm, "\n").trim();
   } catch (error) {
     console.error('Error fetching plain text:', error);
+    if (error instanceof ArchiveServiceError) throw error;
     return "The plain text version of this document could not be loaded. It might not be available.";
   }
 };
@@ -82,32 +89,32 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
 export const searchWaybackMachine = async (url: string): Promise<WaybackResponse> => {
   const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&fl=timestamp,original&collapse=digest`;
 
-  const response = await fetch(cdxUrl);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const text = await response.text();
-  if (!text) {
-    return []; // Empty response means no snapshots found
-  }
-  
   try {
-    const data = JSON.parse(text);
-    if (Array.isArray(data) && data.length > 0) {
-      // The first row is the header, slice it off.
-      return data.slice(1);
-    }
-    return [];
+      const response = await fetch(cdxUrl);
+      if (!response.ok) {
+        throw new ArchiveServiceError(`Failed to search Wayback Machine. Status: ${response.status}`);
+      }
+
+      const text = await response.text();
+      if (!text) {
+        return []; // Empty response means no snapshots found
+      }
+      
+      const data = JSON.parse(text);
+      if (Array.isArray(data) && data.length > 0) {
+        // The first row is the header, slice it off.
+        return data.slice(1);
+      }
+      return [];
   } catch (e) {
     console.error("Failed to parse JSON response from Wayback Machine", e);
-    throw new Error(`Failed to parse response from server.`);
+    if (e instanceof ArchiveServiceError) throw e;
+    throw new ArchiveServiceError(`A network error occurred while searching the Wayback Machine.`);
   }
 };
 
 export const getRandomItemFromCollection = async (collection: string): Promise<ArchiveItemSummary | null> => {
   try {
-    // First, get the total number of items to determine a random page
     const countParams = new URLSearchParams({
       q: `collection:(${collection}) AND mediatype:image`,
       rows: '0',
@@ -119,7 +126,6 @@ export const getRandomItemFromCollection = async (collection: string): Promise<A
     const numFound = countData.response.numFound;
     if (numFound === 0) return null;
 
-    // Fetch a single random item
     const randomIndex = Math.floor(Math.random() * Math.min(numFound, 10000)); // API limit for `start`
     
     const itemParams = new URLSearchParams({
@@ -129,48 +135,51 @@ export const getRandomItemFromCollection = async (collection: string): Promise<A
       start: randomIndex.toString(),
       output: 'json',
     });
+    // FIX: Completed the fetch URL.
     const itemResponse = await fetch(`${API_BASE_URL}/advancedsearch.php?${itemParams.toString()}`);
     if (!itemResponse.ok) throw new Error('Failed to get item');
     const itemData = await itemResponse.json();
-    
-    if (itemData.response.docs.length > 0) {
-      return itemData.response.docs[0];
-    }
-    return null;
-
+    return itemData.response.docs[0] || null;
   } catch (error) {
-    console.error("Error fetching random item:", error);
+    console.error(`Failed to get random item from ${collection}`, error);
     return null;
   }
 };
 
+// FIX: Added missing getItemCount function.
 export const getItemCount = async (query: string): Promise<number> => {
-    const params = new URLSearchParams({
-        q: query,
-        rows: '0',
-        output: 'json',
-    });
-    const response = await fetch(`${API_BASE_URL}/advancedsearch.php?${params.toString()}`);
+  const params = new URLSearchParams({
+    q: query,
+    rows: '0', // We don't need any documents, just the count
+    output: 'json',
+  });
+
+  const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
+  
+  try {
+    const response = await fetch(url);
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new ArchiveServiceError(`Failed to fetch item count. Status: ${response.status}`);
     }
-    try {
-        const data = await response.json();
-        return data.response.numFound;
-    } catch (e) {
-        console.error("Failed to parse JSON response from Archive.org count", e);
-        return 0;
-    }
+    const data: ArchiveSearchResponse = await response.json();
+    return data.response.numFound;
+  } catch (e) {
+    console.error("Archive.org count request failed for URL:", url, e);
+    if (e instanceof ArchiveServiceError) throw e;
+    throw new ArchiveServiceError(`A network error occurred while fetching item count.`);
+  }
 };
 
+// FIX: Added missing getReviewsByUploader function.
 export const getReviewsByUploader = async (
   uploader: string,
   page: number,
   limit: number = 10
 ): Promise<ArchiveSearchResponse> => {
   const query = `reviewer:("${uploader}")`;
-  const fields = ['identifier', 'title', 'creator', 'publicdate', 'mediatype', 'reviewdate', 'reviewtitle', 'reviewbody'];
-  const sorts = ['-reviewdate'];
-  // The searchArchive function uses a page size of 24 by default, so we pass the limit
-  return searchArchive(query, page, sorts, fields, limit);
+  const fields = [
+    'identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader',
+    'reviewdate', 'reviewtitle', 'reviewbody'
+  ];
+  return searchArchive(query, page, ['-reviewdate'], fields, limit);
 };

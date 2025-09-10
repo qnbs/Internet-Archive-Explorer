@@ -10,6 +10,14 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const NAMESPACES = [
+    'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 
+    'itemCard', 'recRoom', 'webArchive', 'imagesHub', 'cinematheque', 'audiothek', 
+    'scriptorium', 'favorites', 'uploaderHub', 'uploaderProfileCard', 'uploaderDetail',
+    'reviewCard', 'modals', 'audioModal', 'videoModal', 'aiTools', 'settings', 
+    'help', 'commandPalette', 'uploaders'
+];
+
 // Helper to get nested properties from the translation object
 const getNestedTranslation = (obj: any, path: string): string | undefined => {
   return path.split('.').reduce((o, key) => (o && o[key] !== 'undefined' ? o[key] : undefined), obj);
@@ -26,7 +34,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       if (storedLang && ['en', 'de'].includes(storedLang)) {
         setLanguageState(storedLang);
       } else {
-        // Default to English for all new users, removing browser language detection.
         setLanguageState('en');
       }
     } catch (e) {
@@ -36,61 +43,61 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, []);
 
   useEffect(() => {
-    const fetchTranslations = async () => {
+    const fetchTranslations = async (lang: Language) => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/${language}.json`);
-        if (!response.ok) {
-            throw new Error(`Could not load ${language}.json`);
-        }
-        const data = await response.json();
-        setTranslations(data);
+        const fetchPromises = NAMESPACES.map(ns =>
+          fetch(`/locales/${lang}/${ns}.json`).then(res => {
+            if (!res.ok) throw new Error(`Failed to load ${ns}.json for ${lang}`);
+            return res.json();
+          })
+        );
+        const results = await Promise.all(fetchPromises);
+        const mergedTranslations = results.reduce((acc, current, index) => {
+          acc[NAMESPACES[index]] = current;
+          return acc;
+        }, {} as Record<string, any>);
+        
+        setTranslations(mergedTranslations);
       } catch (error) {
-        console.error('Failed to fetch translations:', error);
-        // Attempt to load English as a fallback
-        if (language !== 'en') {
-            try {
-                const fallbackResponse = await fetch(`/en.json`);
-                if (fallbackResponse.ok) {
-                    const fallbackData = await fallbackResponse.json();
-                    setTranslations(fallbackData);
-                }
-            } catch (fallbackError) {
-                console.error('Failed to fetch fallback translations:', fallbackError);
-            }
+        console.error(`Failed to fetch translations for ${lang}:`, error);
+        // Fallback to English if the selected language fails
+        if (lang !== 'en') {
+          console.log("Attempting to fall back to English translations...");
+          fetchTranslations('en');
         }
       } finally {
         setIsLoading(false);
       }
     };
-    fetchTranslations();
+    fetchTranslations(language);
   }, [language]);
 
   const t = useCallback((key: string, replacements?: Record<string, string | number>): string => {
-    let translationKey = key;
-    // Handle pluralization based on 'count' replacement
+    const [namespace, ...pathParts] = key.split(':');
+    if (!namespace || pathParts.length === 0) {
+        console.warn(`Invalid translation key format: ${key}`);
+        return key;
+    }
+    const path = pathParts.join(':'); // Re-join in case there were colons in the path itself
+
+    let translationKey = path;
     if (replacements && typeof replacements.count === 'number') {
-        if (replacements.count === 1) {
-            translationKey = `${key}_one`;
-        } else {
-            translationKey = `${key}_other`;
-        }
+      const pluralKey = `${path}_${replacements.count === 1 ? 'one' : 'other'}`;
+      const pluralTranslation = getNestedTranslation(translations[namespace], pluralKey);
+      if(pluralTranslation !== undefined) {
+          translationKey = pluralKey;
+      }
     }
+
+    let translation = getNestedTranslation(translations[namespace], translationKey);
     
-    let translation = getNestedTranslation(translations, translationKey);
-
-    // If the pluralized key doesn't exist, fall back to the base key
-    if (translation === undefined && translationKey !== key) {
-        translation = getNestedTranslation(translations, key);
-    }
-
     if (translation === undefined) {
-      // Hardcoded fallback for 'common.loading' to prevent initial load warning.
-      if (key === 'common.loading' && isLoading) {
+      if (key === 'common:loading' && isLoading) {
           return language === 'de' ? 'Wird geladen...' : 'Loading...';
       }
       console.warn(`Translation key not found: ${key}`);
-      return key; // Return key as fallback
+      return path.split('.').pop() || key;
     }
     
     let result = String(translation);

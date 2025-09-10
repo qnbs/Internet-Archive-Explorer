@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCommands } from '../hooks/useCommands';
-import type { Command, View, Uploader } from '../types';
+import type { Command, View } from '../types';
 import { SearchIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface CommandActions {
   navigateTo: (view: View) => void;
-  selectUploader: (uploader: Uploader) => void;
   globalSearch: (query: string) => void;
 }
 
@@ -117,7 +116,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={t('commandPalette.placeholder')}
+            placeholder={t('commandPalette:placeholder')}
             className="w-full bg-transparent text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none"
           />
         </div>
@@ -152,7 +151,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
                     </div>
                 ))
             ) : (
-                <div className="p-4 text-center text-sm text-gray-500">{t('common.noResultsFound')}</div>
+                <div className="p-4 text-center text-sm text-gray-500">{t('common:noResultsFound')}</div>
             )}
         </div>
       </div>

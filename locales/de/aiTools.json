@@ -1,0 +1,9 @@
+{
+  "summary": "KI-Zusammenfassung",
+  "generate": "Generieren",
+  "generating": "Wird generiert...",
+  "generatePrompt": "Klicken Sie auf 'Generieren', um eine KI-gestützte Zusammenfassung dieses Textes zu erstellen.",
+  "summaryErrorShort": "Der Text ist zu kurz für eine sinnvolle Zusammenfassung.",
+  "summaryErrorApi": "Die KI-Zusammenfassung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.",
+  "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut."
+}

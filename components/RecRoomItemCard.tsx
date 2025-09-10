@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { JoystickIcon } from './Icons';
@@ -15,7 +13,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   const { t } = useLanguage();
   
   const getCreator = (creator: string | string[] | undefined): string => {
-    if (!creator) return t('itemCard.unknownCreator');
+    if (!creator) return t('itemCard:unknownCreator');
     if (Array.isArray(creator)) return creator.join(', ');
     return creator;
   };
@@ -32,7 +30,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
-      aria-label={t('recRoomCard.startItem', { title: item.title })}
+      aria-label={t('recRoom:card.startItem', { title: item.title })}
     >
       <div className="relative aspect-w-4 aspect-h-3">
         <img
@@ -58,7 +56,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
         <div className="absolute inset-0 flex items-center justify-center bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
            <div className="flex flex-col items-center text-white">
                 <JoystickIcon className="w-12 h-12" />
-                <span className="mt-2 text-lg font-bold">{t('recRoomCard.start')}</span>
+                <span className="mt-2 text-lg font-bold">{t('recRoom:card.start')}</span>
            </div>
         </div>
       </div>

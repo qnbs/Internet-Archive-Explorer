@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary, MediaType } from '../types';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CategoryViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;
@@ -28,6 +28,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const performSearch = useCallback(async (searchPage: number) => {
     if (searchPage === 1) {
@@ -52,13 +53,13 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
         setResults(prev => searchPage === 1 ? [] : prev);
       }
     } catch (err) {
-      setError('Fehler beim Abrufen der Ergebnisse. Bitte versuchen Sie es erneut.');
+      setError(t('common:error'));
       console.error(err);
     } finally {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
-  }, [mediaType]);
+  }, [mediaType, t]);
   
   const handleLoadMore = useCallback(() => {
     setPage(prevPage => {
@@ -66,6 +67,11 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
         performSearch(nextPage);
         return nextPage;
     });
+  }, [performSearch]);
+  
+  const handleRetry = useCallback(() => {
+      setPage(1);
+      performSearch(1);
   }, [performSearch]);
 
   const hasMore = !isLoading && results.length < totalResults;
@@ -125,6 +131,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
                 hasMore={hasMore}
                 totalResults={totalResults}
                 lastElementRef={lastElementRef}
+                onRetry={handleRetry}
             />
         </div>
     </div>

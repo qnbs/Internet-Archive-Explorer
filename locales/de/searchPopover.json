@@ -1,0 +1,8 @@
+{
+  "mediaType": "Medientyp",
+  "yearRange": "Jahresbereich",
+  "from": "Von",
+  "to": "Bis",
+  "collection": "Sammlung",
+  "collectionPlaceholder": "z.B. prelinger"
+}

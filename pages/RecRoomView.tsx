@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary } from '../types';
@@ -51,7 +49,7 @@ export const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
         setResults(prev => searchPage === 1 ? [] : prev);
       }
     } catch (err) {
-      setError(t('common.error'));
+      setError(t('common:error'));
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -89,9 +87,9 @@ export const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
                 <JoystickIcon className="w-48 h-48 transform rotate-[15deg]" />
             </div>
             <div className="relative z-10">
-                <h1 className="text-3xl sm:text-5xl font-bold text-cyan-400 tracking-wider">{t('recRoom.title')}</h1>
+                <h1 className="text-3xl sm:text-5xl font-bold text-cyan-400 tracking-wider">{t('recRoom:title')}</h1>
                 <p className="mt-4 max-w-3xl mx-auto text-base sm:text-lg text-gray-300 leading-relaxed">
-                    {t('recRoom.description')}
+                    {t('recRoom:description')}
                 </p>
             </div>
         </header>
@@ -127,7 +125,7 @@ export const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
                 )}
                 
                 {!isLoadingMore && !hasMore && results.length > 0 && (
-                     <p className="text-center text-gray-500 py-8">{t('recRoom.endOfArcade')}</p>
+                     <p className="text-center text-gray-500 py-8">{t('recRoom:endOfArcade')}</p>
                 )}
             </>
         )}

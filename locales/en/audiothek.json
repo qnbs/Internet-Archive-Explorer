@@ -1,0 +1,21 @@
+{
+  "title": "The Audiothek",
+  "description": "From live concerts and old-time radio shows to audiobooks and poetry readings, tune in to the vast audio collection of the archive.",
+  "heroButton": "Explore the Live Music Archive",
+  "categories": {
+    "music": "Music",
+    "audiobooks": "Audiobooks & Poetry",
+    "radio": "Old Time Radio",
+    "podcasts": "Podcasts"
+  },
+  "shelves": {
+    "newly_added": "Newly Added",
+    "grateful_dead": "Grateful Dead",
+    "otr": "Old-Time Radio",
+    "librivox": "LibriVox Audiobooks",
+    "classical_music": "Classical Music",
+    "poetry": "Poetry & Spoken Word",
+    "78rpm": "The Great 78 Project",
+    "radio_plays": "Radio Plays"
+  }
+}

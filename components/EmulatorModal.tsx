@@ -70,21 +70,21 @@ export const EmulatorModal: React.FC<EmulatorModalProps> = ({ item, onClose }) =
           ref={firstFocusableElementRef}
           onClick={onClose}
           className="text-gray-400 hover:text-white transition-colors rounded-full p-2 bg-gray-800/50 hover:bg-gray-700"
-          aria-label={t('modals.emulator.close')}
+          aria-label={t('modals:emulator.close')}
         >
           <CloseIcon className="w-6 h-6" />
         </button>
       </header>
       <div className="flex-grow bg-gray-900 rounded-lg overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
         <div className="text-center text-gray-400 text-sm p-2 bg-gray-800 border-b border-gray-700">
-          <p>{t('modals.emulator.providedBy')}</p>
-          <p className="text-xs text-gray-500">{t('modals.emulator.escToExit')}</p>
+          <p>{t('modals:emulator.providedBy')}</p>
+          <p className="text-xs text-gray-500">{t('modals:emulator.escToExit')}</p>
         </div>
         <div className="flex-grow w-full h-full bg-black relative">
             {isLoading && (
               <div className="absolute inset-0 flex flex-col justify-center items-center space-y-4">
                 <Spinner size="lg" />
-                <p className="text-gray-400">{t('modals.emulator.loading')}</p>
+                <p className="text-gray-400">{t('modals:emulator.loading')}</p>
               </div>
             )}
             <iframe

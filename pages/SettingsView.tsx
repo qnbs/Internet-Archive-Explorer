@@ -1,224 +1,250 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
+import { useSettings } from '../contexts/SettingsContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import type { Language, Theme } from '../types';
-import { useTheme } from '../contexts/ThemeContext';
+import type { AppSettings } from '../contexts/SettingsContext';
+import { DownloadIcon, UploadIcon } from '../components/Icons';
+import { exportAllData, importData } from '../services/dataService';
+import type { ConfirmationOptions } from '../types';
+import { useToast } from '../contexts/ToastContext';
 
-// --- Helper Components ---
-const SettingsCard: React.FC<{title: string, children: React.ReactNode, description?: string}> = ({ title, children, description }) => (
-    <div className="bg-gray-200/50 dark:bg-gray-800/60 p-6 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{title}</h2>
-        {description && <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">{description}</p>}
-        <div className="space-y-4">
-            {children}
-        </div>
-    </div>
-);
 
-const SettingRow: React.FC<{title: string, description: string, children: React.ReactNode}> = ({ title, description, children }) => (
-    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white/50 dark:bg-gray-900/50 rounded-lg border border-gray-300 dark:border-gray-700">
-        <div className="mb-3 sm:mb-0">
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200">{title}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">{description}</p>
-        </div>
-        <div className="flex-shrink-0">
-            {children}
-        </div>
-    </div>
-);
-
-const ToggleSwitch: React.FC<{checked: boolean, onChange: (checked: boolean) => void}> = ({ checked, onChange }) => (
-    <button
-        type="button"
-        className={`${
-            checked ? 'bg-cyan-500' : 'bg-gray-400 dark:bg-gray-600'
-        } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900 focus:ring-cyan-500`}
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-    >
-        <span className={`${
-            checked ? 'translate-x-6' : 'translate-x-1'
-        } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`} />
-    </button>
-);
-
-// --- Main Settings View ---
-
-type AppSettings = {
-    defaultSort: string;
-    autoplayMedia: boolean;
-    reduceMotion: boolean;
-    enableAiFeatures: boolean;
+type SettingProps<K extends keyof AppSettings> = {
+    settingKey: K;
+    label: string;
+    description: string;
+    children: (value: AppSettings[K], onChange: (value: AppSettings[K]) => void) => React.ReactNode;
 };
 
-const defaultSettings: AppSettings = {
-    defaultSort: '-downloads',
-    autoplayMedia: false,
-    reduceMotion: false,
-    enableAiFeatures: true,
-};
+interface SettingsViewProps {
+  showConfirmation: (options: ConfirmationOptions) => void;
+}
 
-
-export const SettingsView: React.FC = () => {
-    const [settings, setSettings] = useState<AppSettings>(defaultSettings);
-    const { t, language, setLanguage } = useLanguage();
-    const { theme, setTheme } = useTheme();
+const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
+    const { settings, setSetting, resetSettings, searchHistory, clearSearchHistory } = useSettings();
+    const { t } = useLanguage();
+    const { addToast } = useToast();
     
-    useEffect(() => {
+    const handleExport = () => {
         try {
-            const storedSettings = localStorage.getItem('app-settings');
-            if (storedSettings) {
-                setSettings(JSON.parse(storedSettings));
+            const dataStr = exportAllData();
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            a.download = `archive-explorer-backup-${timestamp}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            addToast(t('settings:data.exportSuccess'), 'success');
+        } catch (error) {
+            addToast(t('settings:data.exportError'), 'error');
+            console.error(error);
+        }
+    };
+    
+    const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        
+        const inputElement = event.target; // Cache the element reference
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const text = e.target?.result;
+            if (typeof text !== 'string') {
+                addToast(t('settings:data.importErrorFile'), 'error');
+                return;
             }
-        } catch (e) { console.error("Failed to load settings:", e); }
-    }, []);
-
-    useEffect(() => {
-        try {
-            localStorage.setItem('app-settings', JSON.stringify(settings));
-        } catch (e) { console.error("Failed to save settings:", e); }
-    }, [settings]);
-
-    const updateSetting = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
-        setSettings(prev => ({ ...prev, [key]: value }));
-    };
-
-    const handleExport = (key: string, fileName: string) => {
-        const data = localStorage.getItem(key);
-        if (!data) {
-            alert('No data found to export.');
-            return;
-        }
-        const blob = new Blob([data], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    };
-
-    const handleImport = (key: string) => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = e => {
-            const file = (e.target as HTMLInputElement).files?.[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const content = event.target?.result as string;
-                    JSON.parse(content);
-                    localStorage.setItem(key, content);
-                    alert(t('settings.data.importSuccess'));
-                    window.location.reload();
-                } catch (err) {
-                    alert(t('settings.data.importError'));
+            showConfirmation({
+                title: t('settings:data.importAll'),
+                message: t('settings:data.importConfirm'),
+                confirmLabel: t('settings:data.importButtonConfirm'),
+                confirmClass: 'bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500',
+                onConfirm: () => {
+                    try {
+                        importData(text);
+                        addToast(t('settings:data.importSuccess'), 'success', 10000);
+                        setTimeout(() => window.location.reload(), 2000);
+                    } catch (error) {
+                        addToast(`${t('settings:data.importError')}: ${(error as Error).message}`, 'error');
+                        console.error(error);
+                    } finally {
+                        if (inputElement) inputElement.value = ''; // Reset file input
+                    }
+                },
+                onCancel: () => {
+                    if (inputElement) inputElement.value = ''; // Also reset on cancel
                 }
-            };
-            reader.readAsText(file);
+            });
         };
-        input.click();
+        reader.readAsText(file);
+    };
+
+    const handleReset = () => {
+        showConfirmation({
+            title: t('settings:data.resetAll'),
+            message: t('settings:data.resetAllDesc'),
+            confirmLabel: t('settings:data.resetButton'),
+            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+            onConfirm: () => {
+                resetSettings();
+                addToast(t('settings:data.resetSuccess'), 'info');
+            }
+        });
     };
     
-    const handleClearData = (key: string, nameKey: 'favorites' | 'worksets') => {
-        const name = t(`settings.data.${nameKey}`);
-        if (window.confirm(t('settings.data.confirmClear', { name }))) {
-            localStorage.removeItem(key);
-            alert(t('settings.data.clearSuccess', { name }));
-            window.location.reload();
-        }
+    const handleClearHistory = () => {
+        showConfirmation({
+            title: t('settings:data.clearHistoryTitle'),
+            message: t('settings:data.clearHistoryDesc'),
+            confirmLabel: t('settings:data.clearHistory'),
+            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+            onConfirm: () => {
+                clearSearchHistory();
+                addToast(t('settings:data.clearHistorySuccess'), 'info');
+            }
+        });
+    }
+
+
+    const SettingRow = <K extends keyof AppSettings>({ settingKey, label, description, children }: SettingProps<K>) => {
+        const value = settings[settingKey];
+        const handleChange = (newValue: AppSettings[K]) => {
+            setSetting(settingKey, newValue);
+        };
+        return (
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="mb-2 sm:mb-0 max-w-md">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-200">{label}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
+                </div>
+                <div className="flex-shrink-0">{children(value, handleChange)}</div>
+            </div>
+        );
     };
 
+    const Toggle = ({ value, onChange }: { value: boolean, onChange: (v: boolean) => void }) => (
+        <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} className="sr-only peer" />
+            <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 rounded-full peer peer-focus:ring-2 peer-focus:ring-cyan-300 dark:peer-focus:ring-cyan-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-cyan-600"></div>
+        </label>
+    );
+    
+    const Select = <T extends string>({ value, onChange, options }: { value: T, onChange: (v: T) => void, options: {value: T, label: string}[] }) => (
+        <select value={value} onChange={e => onChange(e.target.value as T)} className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm focus:ring-cyan-500 focus:border-cyan-500">
+            {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+    );
+    
+    const NumberInput = ({ value, onChange }: { value: number, onChange: (v: number) => void }) => (
+        <input type="number" value={value} onChange={e => onChange(Number(e.target.value))} min={1} max={100} className="w-20 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
+    );
+
+    const SettingsSection: React.FC<{title: string; children: React.ReactNode}> = ({ title, children }) => (
+        <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
+            <div className="space-y-2">
+                {children}
+            </div>
+        </section>
+    );
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-            <div className="text-center">
-                <h1 className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">{t('settings.title')}</h1>
-                <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">{t('settings.subtitle')}</p>
-            </div>
+        <div className="max-w-4xl mx-auto space-y-12 animate-page-fade-in">
+            <header className="text-center">
+                <h1 className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">{t('settings:title')}</h1>
+                <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">{t('settings:subtitle')}</p>
+            </header>
 
-            <SettingsCard title={t('settings.search.title')}>
-                 <SettingRow title={t('settings.search.defaultSort')} description={t('settings.search.defaultSortDesc')}>
-                    <select
-                        value={settings.defaultSort}
-                        onChange={e => updateSetting('defaultSort', e.target.value)}
-                        className="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg py-1 px-2 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    >
-                        <option value="-downloads">{t('explorer.sortPopular')}</option>
-                        <option value="-publicdate">{t('explorer.sortNewest')}</option>
-                        <option value="publicdate">{t('explorer.sortOldest')}</option>
-                        <option value="titleSorter">{t('explorer.sortTitle')}</option>
-                    </select>
+            <SettingsSection title={t('settings:search.title')}>
+                 <SettingRow settingKey="resultsPerPage" label={t('settings:search.resultsPerPage')} description={t('settings:search.resultsPerPageDesc')}>
+                    {(value, onChange) => <NumberInput value={value} onChange={onChange} />}
                 </SettingRow>
-            </SettingsCard>
+                <SettingRow settingKey="showExplorerHub" label={t('settings:search.showExplorerHub')} description={t('settings:search.showExplorerHubDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
+                </SettingRow>
+            </SettingsSection>
 
-            <SettingsCard title={t('settings.accessibility.title')}>
-                 <SettingRow title={t('settings.accessibility.theme')} description={t('settings.accessibility.themeDesc')}>
-                     <div className="flex space-x-2 p-1 bg-gray-300/50 dark:bg-gray-900/50 rounded-lg">
-                        <button onClick={() => setTheme('light')} className={`flex-1 py-1 px-3 text-sm font-semibold rounded-md transition-colors ${theme === 'light' ? 'bg-white text-cyan-600 shadow-sm' : 'bg-transparent text-gray-700 dark:text-white'}`}>{t('settings.theme.light')}</button>
-                        <button onClick={() => setTheme('dark')} className={`flex-1 py-1 px-3 text-sm font-semibold rounded-md transition-colors ${theme === 'dark' ? 'bg-gray-700 text-cyan-300 ring-1 ring-inset ring-gray-600' : 'bg-transparent text-gray-700 dark:text-white'}`}>{t('settings.theme.dark')}</button>
-                        <button onClick={() => setTheme('system')} className={`flex-1 py-1 px-3 text-sm font-semibold rounded-md transition-colors ${theme === 'system' ? 'bg-cyan-500/20 text-cyan-500 ring-1 ring-inset ring-cyan-500' : 'bg-transparent text-gray-700 dark:text-white'}`}>{t('settings.theme.system')}</button>
-                    </div>
+            <SettingsSection title={t('settings:ui.title')}>
+                <SettingRow settingKey="hideScrollbars" label={t('settings:ui.hideScrollbars')} description={t('settings:ui.hideScrollbarsDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
                 </SettingRow>
-                 <SettingRow title={t('settings.accessibility.languageTitle')} description={t('settings.accessibility.languageDesc')}>
-                    <div className="flex space-x-2 p-1 bg-gray-300/50 dark:bg-gray-900/50 rounded-lg">
-                        <button onClick={() => setLanguage('en')} className={`flex-1 py-1 px-3 text-sm font-semibold rounded-md ${language === 'en' ? 'bg-cyan-500/20 text-cyan-500 ring-1 ring-inset ring-cyan-500' : 'bg-transparent text-gray-700 dark:text-white'}`}>English</button>
-                        <button onClick={() => setLanguage('de')} className={`flex-1 py-1 px-3 text-sm font-semibold rounded-md ${language === 'de' ? 'bg-cyan-500/20 text-cyan-500 ring-1 ring-inset ring-cyan-500' : 'bg-transparent text-gray-700 dark:text-white'}`}>Deutsch</button>
-                    </div>
+                <SettingRow settingKey="reduceMotion" label={t('settings:ui.reduceMotion')} description={t('settings:ui.reduceMotionDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
                 </SettingRow>
-                <SettingRow title={t('settings.accessibility.reduceMotion')} description={t('settings.accessibility.reduceMotionDesc')}>
-                    <ToggleSwitch checked={settings.reduceMotion} onChange={val => updateSetting('reduceMotion', val)} />
-                </SettingRow>
-            </SettingsCard>
+            </SettingsSection>
             
-            <SettingsCard title={t('settings.playback.title')} description={t('settings.playback.description')}>
-                 <SettingRow title={t('settings.playback.autoplay')} description={t('settings.playback.autoplayDesc')}>
-                    <ToggleSwitch checked={settings.autoplayMedia} onChange={val => updateSetting('autoplayMedia', val)} />
+            <SettingsSection title={t('settings:content.title')}>
+                <SettingRow settingKey="defaultUploaderDetailTab" label={t('settings:content.defaultUploaderDetailTab')} description={t('settings:content.defaultUploaderDetailTabDesc')}>
+                    {(value, onChange) => <Select value={value} onChange={onChange} options={[
+                        {value: 'uploads', label: t('uploaderDetail:tabs.uploads')},
+                        {value: 'reviews', label: t('uploaderDetail:tabs.reviews')},
+                        {value: 'statistics', label: t('uploaderDetail:tabs.statistics')}
+                    ]} />}
                 </SettingRow>
-            </SettingsCard>
-
-            <SettingsCard title={t('settings.ai.title')} description={t('settings.ai.description')}>
-                <SettingRow title={t('settings.ai.enable')} description={t('settings.ai.enableDesc')}>
-                    <ToggleSwitch checked={settings.enableAiFeatures} onChange={val => updateSetting('enableAiFeatures', val)} />
+                 <SettingRow settingKey="autoplayMedia" label={t('settings:content.autoplayMedia')} description={t('settings:content.autoplayMediaDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
                 </SettingRow>
-            </SettingsCard>
-
-            <SettingsCard title={t('settings.data.title')} description={t('settings.data.description')}>
-                <div className="p-4 bg-white/50 dark:bg-gray-900/50 rounded-lg border border-gray-300 dark:border-gray-700 space-y-4">
-                    <div>
-                        <h3 className="font-semibold text-gray-800 dark:text-gray-200">{t('settings.data.favorites')}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.data.favoritesDesc')}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        <button onClick={() => handleImport('archive-favorites')} className="px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">{t('settings.data.import')}</button>
-                        <button onClick={() => handleExport('archive-favorites', 'archive-explorer-favorites.json')} className="px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">{t('settings.data.export')}</button>
-                        <button onClick={() => handleClearData('archive-favorites', 'favorites')} className="px-3 py-1.5 text-sm bg-red-600/80 dark:bg-red-800/80 text-white dark:text-red-200 rounded-lg hover:bg-red-700 transition-colors">{t('settings.data.clearAll')}</button>
-                    </div>
-                </div>
-                <div className="p-4 bg-white/50 dark:bg-gray-900/50 rounded-lg border border-gray-300 dark:border-gray-700 space-y-4">
-                    <div>
-                        <h3 className="font-semibold text-gray-800 dark:text-gray-200">{t('settings.data.worksets')}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.data.worksetsDesc')}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                         <button onClick={() => handleImport('scriptorium-worksets')} className="px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">{t('settings.data.import')}</button>
-                        <button onClick={() => handleExport('scriptorium-worksets', 'archive-explorer-worksets.json')} className="px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">{t('settings.data.export')}</button>
-                        <button onClick={() => handleClearData('scriptorium-worksets', 'worksets')} className="px-3 py-1.5 text-sm bg-red-600/80 dark:bg-red-800/80 text-white dark:text-red-200 rounded-lg hover:bg-red-700 transition-colors">{t('settings.data.clearAll')}</button>
-                    </div>
-                </div>
-            </SettingsCard>
+            </SettingsSection>
             
-            <SettingsCard title={t('settings.about.title')}>
-                <p className="text-gray-700 dark:text-gray-300">
-                    {t('settings.about.version')}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400" dangerouslySetInnerHTML={{ __html: t('settings.about.description') }} />
-            </SettingsCard>
+            <SettingsSection title={t('settings:ai.title')}>
+                <SettingRow settingKey="enableAiFeatures" label={t('settings:ai.enableAiFeatures')} description={t('settings:ai.enableAiFeaturesDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
+                </SettingRow>
+                <SettingRow settingKey="defaultAiTab" label={t('settings:ai.defaultAiTab')} description={t('settings:ai.defaultAiTabDesc')}>
+                    {(value, onChange) => <Select value={value} onChange={onChange} options={[
+                        {value: 'description', label: t('common:description')},
+                        {value: 'ai', label: t('common:aiAnalysis')}
+                    ]} />}
+                </SettingRow>
+                 <SettingRow settingKey="autoRunEntityExtraction" label={t('settings:ai.autoRunEntityExtraction')} description={t('settings:ai.autoRunEntityExtractionDesc')}>
+                    {(value, onChange) => <Toggle value={value} onChange={onChange} />}
+                </SettingRow>
+            </SettingsSection>
+            
+             <SettingsSection title={t('settings:data.managementTitle')}>
+                <div className="py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.exportAll')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.exportAllDesc')}</p>
+                    <button onClick={handleExport} className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+                        <DownloadIcon />
+                        <span>{t('settings:data.exportButton')}</span>
+                    </button>
+                </div>
+                <div className="py-4">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.importAll')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.importAllDesc')}</p>
+                    <label className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors cursor-pointer">
+                        <UploadIcon />
+                        <span>{t('settings:data.importButton')}</span>
+                        <input type="file" accept=".json" className="hidden" onChange={handleImport} />
+                    </label>
+                </div>
+            </SettingsSection>
+            
+            <SettingsSection title={t('settings:data.title')}>
+                <div className="py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.searchHistory')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.searchHistoryDesc')}</p>
+                    {searchHistory.length > 0 ? (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {searchHistory.slice(0, 5).map((term, i) => <span key={i} className="bg-gray-200 dark:bg-gray-700 text-xs px-2 py-1 rounded-full">{term}</span>)}
+                            {searchHistory.length > 5 && <span className="text-xs text-gray-500">...and {searchHistory.length - 5} more</span>}
+                        </div>
+                    ) : (
+                         <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-4">{t('settings:data.noHistory')}</p>
+                    )}
+                    <button onClick={handleClearHistory} className="text-sm font-semibold text-red-600 dark:text-red-400 hover:underline">{t('settings:data.clearHistory')}</button>
+                </div>
+                <div className="py-4">
+                     <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.resetAll')}</h4>
+                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.resetAllDesc')}</p>
+                     <button onClick={handleReset} className="px-4 py-2 text-sm font-semibold bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">{t('settings:data.resetButton')}</button>
+                </div>
+            </SettingsSection>
         </div>
     );
 };
+
+export { SettingsView };

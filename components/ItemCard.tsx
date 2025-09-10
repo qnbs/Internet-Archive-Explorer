@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useFavorites } from '../contexts/FavoritesContext';
@@ -17,7 +15,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const { t } = useLanguage();
   
   const getCreator = (creator: string | string[] | undefined): string => {
-    if (!creator) return t('itemCard.unknownCreator');
+    if (!creator) return t('itemCard:unknownCreator');
     if (Array.isArray(creator)) return creator.join(', ');
     return creator;
   };
@@ -45,12 +43,12 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
-      aria-label={t('itemCard.viewDetails', { title: item.title })}
+      aria-label={t('itemCard:viewDetails', { title: item.title })}
     >
       <button 
         onClick={handleFavoriteClick}
         className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors"
-        aria-label={favoriteStatus ? t('itemCard.removeFavorite') : t('itemCard.addFavorite')}
+        aria-label={favoriteStatus ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
       >
         <StarIcon className="w-5 h-5" filled={favoriteStatus} />
       </button>

@@ -1,0 +1,22 @@
+{
+  "searchPlaceholder": "Das Archiv durchsuchen...",
+  "trending": "Aktuelle Trends",
+  "onThisDay": "An diesem Tag: {{date}}",
+  "quickSearch": "Schnellsuche",
+  "searches": {
+    "classicFilms": "Filmklassiker",
+    "cultFilms": "Kultfilme",
+    "tedTalks": "TED Talks",
+    "liveConcerts": "Live-Konzerte",
+    "nasaImages": "NASA-Bilder",
+    "msDosGames": "MS-DOS-Spiele",
+    "audiobooks": "Hörbücher"
+  },
+  "sortPopular": "Am beliebtesten",
+  "sortNewest": "Neueste zuerst",
+  "sortOldest": "Älteste zuerst",
+  "sortTitle": "Titel (A-Z)",
+  "aria": {
+    "sortBy": "Sortieren nach"
+  }
+}

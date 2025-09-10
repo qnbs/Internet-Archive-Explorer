@@ -1,20 +1,21 @@
-
-
-
-
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { Header } from './components/Header';
 import { SideMenu } from './components/SideMenu';
 import { BottomNav } from './components/BottomNav';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { SettingsProvider } from './contexts/SettingsContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { UploaderFavoritesProvider } from './contexts/UploaderFavoritesContext';
 import { SearchProvider, useSearch } from './contexts/SearchContext';
-import type { View, ArchiveItemSummary, Uploader } from './types';
-import { MediaType as MediaTypeValue } from './types';
+import { ToastProvider } from './contexts/ToastContext';
+import { ToastContainer } from './components/Toast';
+import { CommandPalette } from './components/CommandPalette';
+import { ConfirmationModal } from './components/ConfirmationModal';
+import type { View, ArchiveItemSummary, Uploader, ConfirmationOptions } from './types';
+import { UPLOADER_DATA } from './pages/uploaderData';
 
-// Lazy load components
+// Lazy load page-level components
 const ExplorerView = React.lazy(() => import('./pages/ExplorerView').then(module => ({ default: module.ExplorerView })));
 const FavoritesView = React.lazy(() => import('./pages/FavoritesView').then(module => ({ default: module.FavoritesView })));
 const HelpView = React.lazy(() => import('./pages/HelpView').then(module => ({ default: module.HelpView })));
@@ -28,36 +29,33 @@ const WebArchiveView = React.lazy(() => import('./pages/WebArchiveView').then(mo
 const UploaderHubView = React.lazy(() => import('./pages/UploaderHubView').then(module => ({ default: module.UploaderHubView })));
 const UploaderDetailView = React.lazy(() => import('./pages/UploaderDetailView').then(module => ({ default: module.UploaderDetailView })));
 const ItemDetailModal = React.lazy(() => import('./components/ItemDetailModal').then(module => ({ default: module.ItemDetailModal })));
-const AudioDetailModal = React.lazy(() => import('./components/AudioDetailModal').then(module => ({ default: module.AudioDetailModal })));
-const VideoDetailModal = React.lazy(() => import('./components/VideoDetailModal').then(module => ({ default: module.VideoDetailModal })));
 const EmulatorModal = React.lazy(() => import('./components/EmulatorModal').then(module => ({ default: module.EmulatorModal })));
-// FIX: Corrected import to point to the placeholder component, fixing the "not a module" error.
 const StorytellerView = React.lazy(() => import('./pages/StorytellerView').then(module => ({ default: module.StorytellerView })));
-const CommandPalette = React.lazy(() => import('./components/CommandPalette').then(module => ({ default: module.CommandPalette })));
 
 
 const AppContent: React.FC = () => {
-    const [activeView, _setActiveView] = useState<View>('explore');
+    const [activeView, setActiveView] = useState<View>('explore');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<ArchiveItemSummary | null>(null);
-    const [selectedUploader, setSelectedUploader] = useState<string | null>(null);
+    const [selectedUploader, setSelectedUploader] = useState<Uploader | null>(null);
     const [itemToEmulate, setItemToEmulate] = useState<ArchiveItemSummary | null>(null);
+    const [confirmationProps, setConfirmationProps] = useState<ConfirmationOptions | null>(null);
+
     
-    const { registerViewSetter, searchAndGo } = useSearch();
+    const { registerViewSetter, setFacets, setSearchQuery } = useSearch();
     const { isLoading: isLanguageLoading, t } = useLanguage();
 
-    const setActiveView = (view: View) => {
-      // Clear specific state when changing views
+    const handleViewChange = (view: View) => {
+      setActiveView(view);
       if (view !== 'uploaderDetail') {
-        setSelectedUploader(null);
+          setSelectedUploader(null);
       }
-      _setActiveView(view);
       window.scrollTo(0, 0); // Scroll to top on view change
     };
 
     useEffect(() => {
-        registerViewSetter(setActiveView);
+        registerViewSetter(handleViewChange);
     }, [registerViewSetter]);
     
     // Command Palette global hotkey
@@ -80,112 +78,137 @@ const AppContent: React.FC = () => {
         setSelectedItem(null);
         setItemToEmulate(item);
     };
+
+    const handleSelectCreator = (creator: string) => {
+        setSelectedItem(null); // Close item modal if open
+        setSearchQuery(`creator:("${creator}")`);
+        setFacets({ mediaType: new Set() }); // Reset facets for new search
+        setActiveView('explore');
+    };
     
-    const handleSelectUploader = useCallback((uploader: Uploader | string) => {
-        const uploaderName = typeof uploader === 'string' ? uploader : uploader.searchUploader;
-        setSelectedUploader(uploaderName);
-        setActiveView('uploaderDetail');
-    }, []);
-    
-    const commandActions = {
-        navigateTo: (view: View) => {
-            setActiveView(view);
-            setIsCommandPaletteOpen(false);
-        },
-        selectUploader: (uploader: Uploader) => {
-            handleSelectUploader(uploader);
-            setIsCommandPaletteOpen(false);
-        },
-        globalSearch: (query: string) => {
-            searchAndGo(query);
-            setIsCommandPaletteOpen(false);
+    const handleSelectUploader = (searchUploader: string) => {
+        let uploader = UPLOADER_DATA.find(u => u.searchUploader === searchUploader);
+
+        if (!uploader) {
+            const username = searchUploader.split('@')[0];
+            uploader = {
+                username: username,
+                searchUploader: searchUploader,
+                descriptionKey: 'uploaderProfileCard:genericDescription',
+                category: 'community',
+                featured: false,
+            };
         }
+
+        setSelectedItem(null);
+        setSelectedUploader(uploader);
+        setActiveView('uploaderDetail');
     };
 
+    const handleCloseModals = () => {
+        setSelectedItem(null);
+        setItemToEmulate(null);
+    };
+
+    const handleNavigate = (view: View) => {
+        setActiveView(view);
+        setIsCommandPaletteOpen(false);
+    };
+
+    const commandActions = {
+        navigateTo: handleNavigate,
+        globalSearch: (query: string) => {
+            setSearchQuery(query);
+            setFacets({ mediaType: new Set() });
+            setActiveView('explore');
+            setIsCommandPaletteOpen(false);
+        },
+    };
+    
+    const handleConfirmation = async () => {
+        if (confirmationProps?.onConfirm) {
+            await confirmationProps.onConfirm();
+        }
+        setConfirmationProps(null);
+    };
+
+    const handleCancelConfirmation = () => {
+        if (confirmationProps?.onCancel) {
+            confirmationProps.onCancel();
+        }
+        setConfirmationProps(null);
+    };
 
     const renderView = () => {
-        if (selectedUploader && activeView === 'uploaderDetail') {
-            return <UploaderDetailView uploaderName={selectedUploader} onSelectItem={handleSelectItem} onClearUploader={() => setActiveView('uploaders')} />
-        }
-
         switch (activeView) {
             case 'explore': return <ExplorerView onSelectItem={handleSelectItem} />;
-            case 'favorites': return <FavoritesView onSelectItem={handleSelectItem} onSelectUploader={handleSelectUploader} />;
-            case 'help': return <HelpView />;
-            case 'settings': return <SettingsView />;
+            case 'scriptorium': return <ScriptoriumView showConfirmation={setConfirmationProps} />;
+            case 'image': return <ImagesHubView />;
             case 'movies': return <CinemathequeView onSelectItem={handleSelectItem} />;
             case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
-            case 'image': return <ImagesHubView />;
-            case 'scriptorium': return <ScriptoriumView />;
             case 'recroom': return <RecRoomView onSelectItem={handleEmulate} />;
             case 'web': return <WebArchiveView />;
-            case 'uploaders': return <UploaderHubView onSelectUploader={handleSelectUploader} />;
+            case 'favorites': return <FavoritesView onSelectItem={handleSelectItem} />;
+            case 'settings': return <SettingsView showConfirmation={setConfirmationProps} />;
+            case 'help': return <HelpView />;
+            case 'uploaderHub': return <UploaderHubView />;
+            case 'uploaderDetail':
+                return selectedUploader ? <UploaderDetailView uploader={selectedUploader} onBack={() => handleViewChange('explore')} onSelectItem={handleSelectItem}/> : <ExplorerView onSelectItem={handleSelectItem} />;
             case 'storyteller': return <StorytellerView />;
             default: return <ExplorerView onSelectItem={handleSelectItem} />;
         }
     };
-    
-    const renderModal = () => {
-        if (!selectedItem) return null;
-        
-        const closeModal = () => setSelectedItem(null);
-        
-        const handleCreatorSelect = (creator: string) => {
-          closeModal();
-          searchAndGo(`creator:("${creator}")`);
-        };
-        const handleUploaderSelect = (uploader: string) => {
-          closeModal();
-          handleSelectUploader(uploader);
-        };
-        
-        switch(selectedItem.mediatype) {
-          case MediaTypeValue.Audio:
-            return <AudioDetailModal item={selectedItem} onClose={closeModal} onCreatorSelect={handleCreatorSelect} onUploaderSelect={handleUploaderSelect} onSelectItem={handleSelectItem} />;
-          case MediaTypeValue.Movies:
-            return <VideoDetailModal item={selectedItem} onClose={closeModal} onCreatorSelect={handleCreatorSelect} onUploaderSelect={handleUploaderSelect} onSelectItem={handleSelectItem} />;
-          default:
-            return <ItemDetailModal item={selectedItem} onClose={closeModal} onCreatorSelect={handleCreatorSelect} onUploaderSelect={handleUploaderSelect} onEmulate={handleEmulate} onSelectItem={handleSelectItem} />;
-        }
-    };
 
-    const FullScreenLoader: React.FC = () => (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 z-50" role="status">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-500"></div>
-        <p className="mt-4 text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
-      </div>
-    );
-    
     if (isLanguageLoading) {
-      return <FullScreenLoader />;
+        return <div className="fixed inset-0 flex justify-center items-center bg-white dark:bg-gray-900"><div className="text-xl">{t('common:loading')}</div></div>;
     }
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen font-sans">
-            <Header 
-              onMenuClick={() => setIsMenuOpen(true)}
-              onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-            />
-            <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} activeView={activeView} setActiveView={setActiveView} />
-            
-            <main className="pt-20 pb-24 md:pb-8 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto">
-              <Suspense fallback={<FullScreenLoader />}>
-                {renderView()}
-              </Suspense>
+        <div className={`min-h-screen flex flex-col transition-opacity duration-500 ${isLanguageLoading ? 'opacity-0' : 'opacity-100'}`}>
+            <Header onMenuClick={() => setIsMenuOpen(true)} onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+            <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} activeView={activeView} setActiveView={handleViewChange} />
+            <main className="flex-grow pt-20 pb-24 px-4 md:px-6 md:ml-64">
+                <Suspense fallback={<div className="flex justify-center items-center h-64"><div className="text-xl">{t('common:loading')}</div></div>}>
+                    {renderView()}
+                </Suspense>
             </main>
-            
-            <BottomNav activeView={activeView} setActiveView={setActiveView} />
+            <BottomNav activeView={activeView} setActiveView={handleViewChange} />
 
-            <Suspense fallback={null}>
-              {renderModal()}
-              {itemToEmulate && <EmulatorModal item={itemToEmulate} onClose={() => setItemToEmulate(null)} />}
-              {isCommandPaletteOpen && (
-                <CommandPalette 
-                  onClose={() => setIsCommandPaletteOpen(false)}
-                  actions={commandActions}
+            {selectedItem && (
+                <Suspense fallback={<div className="fixed inset-0 bg-black/80 z-50 flex justify-center items-center"><div className="text-xl">{t('common:loading')}</div></div>}>
+                    <ItemDetailModal 
+                      item={selectedItem} 
+                      onClose={handleCloseModals} 
+                      onCreatorSelect={handleSelectCreator}
+                      onUploaderSelect={handleSelectUploader}
+                      onEmulate={handleEmulate}
+                      onSelectItem={handleSelectItem}
+                    />
+                </Suspense>
+            )}
+
+            {itemToEmulate && (
+                 <Suspense fallback={<div className="fixed inset-0 bg-black/80 z-50 flex justify-center items-center"><div className="text-xl">{t('common:loading')}</div></div>}>
+                    <EmulatorModal item={itemToEmulate} onClose={handleCloseModals} />
+                </Suspense>
+            )}
+            
+            {isCommandPaletteOpen && (
+                <CommandPalette onClose={() => setIsCommandPaletteOpen(false)} actions={commandActions} />
+            )}
+            
+            {confirmationProps && (
+                <ConfirmationModal
+                    title={confirmationProps.title}
+                    message={confirmationProps.message}
+                    onConfirm={handleConfirmation}
+                    onCancel={handleCancelConfirmation}
+                    confirmLabel={confirmationProps.confirmLabel}
+                    confirmClass={confirmationProps.confirmClass}
                 />
-              )}
-            </Suspense>
+            )}
+            
+            <ToastContainer />
         </div>
     );
 };
@@ -193,13 +216,17 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => (
     <LanguageProvider>
       <ThemeProvider>
-        <FavoritesProvider>
-          <UploaderFavoritesProvider>
-            <SearchProvider>
-                <AppContent />
-            </SearchProvider>
-          </UploaderFavoritesProvider>
-        </FavoritesProvider>
+        <ToastProvider>
+            <SettingsProvider>
+                <UploaderFavoritesProvider>
+                     <FavoritesProvider>
+                        <SearchProvider>
+                            <AppContent />
+                        </SearchProvider>
+                    </FavoritesProvider>
+                </UploaderFavoritesProvider>
+            </SettingsProvider>
+        </ToastProvider>
       </ThemeProvider>
     </LanguageProvider>
 );

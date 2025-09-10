@@ -1,0 +1,15 @@
+{
+  "title": "Uploader Hub",
+  "description": "Discover the people and institutions behind the archive. Browse featured contributors or filter by category to find new content.",
+  "featured": "Featured Uploaders",
+  "all": "All Categories",
+  "categories": {
+    "archivist": "Archivists",
+    "institution": "Institutions",
+    "music": "Music",
+    "community": "Community",
+    "software": "Software",
+    "video": "Video",
+    "history": "History"
+  }
+}

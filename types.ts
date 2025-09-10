@@ -1,5 +1,4 @@
 
-
 export type Language = 'en' | 'de';
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -26,7 +25,7 @@ export type View =
   | 'favorites'
   | 'settings'
   | 'help'
-  | 'uploaders'
+  | 'uploaderHub'
   | 'uploaderDetail'
   | 'storyteller';
 
@@ -144,4 +143,22 @@ export interface Command {
   icon: React.ReactNode;
   action: () => void;
   keywords?: string;
+}
+
+export type ToastType = 'success' | 'error' | 'info';
+
+export interface ToastMessage {
+  id: string;
+  message: string;
+  type: ToastType;
+  duration?: number;
+}
+
+export interface ConfirmationOptions {
+  title: string;
+  message: string;
+  onConfirm: () => void | Promise<void>;
+  onCancel?: () => void;
+  confirmLabel?: string;
+  confirmClass?: string;
 }

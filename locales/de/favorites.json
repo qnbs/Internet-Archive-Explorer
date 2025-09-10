@@ -1,0 +1,19 @@
+{
+  "title": "Favoriten",
+  "description": "Ihre gespeicherten Einträge und gefolgten Uploader an einem Ort.",
+  "items": "Einträge",
+  "uploaders": "Uploader",
+  "collections": "Sammlungen",
+  "noFavItems": "Keine favorisierten Einträge",
+  "noFavItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
+  "noFavUploaders": "Keine gefolgten Uploader",
+  "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Uploaders, um ihm zu folgen.",
+  "comingSoon": "Demnächst verfügbar",
+  "comingSoonDesc": "Die Möglichkeit, favorisierte Sammlungen zu speichern und zu verwalten, wird bald verfügbar sein.",
+  "added": "Zu den Favoriten hinzugefügt!",
+  "removed": "Aus den Favoriten entfernt.",
+  "errorSave": "Favoriten konnten nicht gespeichert werden.",
+  "uploaderAdded": "Uploader gefolgt!",
+  "uploaderRemoved": "Uploader nicht mehr gefolgt.",
+  "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden."
+}

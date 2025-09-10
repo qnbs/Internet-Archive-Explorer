@@ -1,0 +1,33 @@
+{
+  "backToExplorer": "Back to Explorer",
+  "tabs": {
+    "uploads": "Uploads",
+    "reviews": "Reviews",
+    "statistics": "Statistics"
+  },
+  "noReviews": "No Reviews Found",
+  "noReviewsDesc": "This user has not written any public reviews.",
+  "stats": {
+    "total": "Total Contributions",
+    "movies": "Movies",
+    "audio": "Audio",
+    "texts": "Texts",
+    "images": "Images",
+    "software": "Software",
+    "distribution": "Contribution Distribution"
+  },
+  "searchInUploads": "Search within these uploads...",
+  "sortBy": "Sort by",
+  "toggleSort": "Toggle sort direction (current: {{direction}})",
+  "ascending": "ascending",
+  "descending": "descending",
+  "sortCriteria": {
+    "downloads": "Popularity (All Time)",
+    "week": "Popularity (This Week)",
+    "publicdate": "Date Published",
+    "addeddate": "Date Added"
+  },
+  "filters": {
+    "allTypes": "All Types"
+  }
+}

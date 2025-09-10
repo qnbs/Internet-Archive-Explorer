@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import type { ArchiveItemSummary } from '../types';
+import { useToast } from './ToastContext';
+import { useLanguage } from './LanguageContext';
 
 interface FavoritesContextType {
   favorites: ArchiveItemSummary[];
@@ -12,6 +14,8 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 
 export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [favorites, setFavorites] = useState<ArchiveItemSummary[]>([]);
+  const { addToast } = useToast();
+  const { t } = useLanguage();
 
   useEffect(() => {
     try {
@@ -31,18 +35,21 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
       localStorage.setItem('archive-favorites', JSON.stringify(newFavorites));
     } catch (error) {
       console.error('Failed to save favorites to localStorage', error);
+      addToast(t('favorites:errorSave'), 'error');
     }
   };
 
   const addFavorite = (item: ArchiveItemSummary) => {
     if (!favorites.some(fav => fav.identifier === item.identifier)) {
       saveFavorites([...favorites, item]);
+      addToast(t('favorites:added'), 'success');
     }
   };
 
   const removeFavorite = (identifier: string) => {
     const newFavorites = favorites.filter(fav => fav.identifier !== identifier);
     saveFavorites(newFavorites);
+    addToast(t('favorites:removed'), 'info');
   };
 
   const isFavorite = (identifier: string) => {

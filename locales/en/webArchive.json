@@ -1,0 +1,14 @@
+{
+  "title": "Wayback Machine",
+  "description": "Explore the history of over 866 billion web pages saved over time. Enter a URL to see a timeline of its archived snapshots.",
+  "urlPlaceholder": "Enter a URL (e.g., google.com)",
+  "searchHistory": "Search History",
+  "errorInvalidUrl": "Please enter a valid URL.",
+  "errorFetch": "Could not fetch history for this URL.",
+  "noSnapshots": "No snapshots found for this URL.",
+  "searchPrompt": "Enter a URL above to see its archived history.",
+  "resultsTable": {
+    "snapshotDate": "Snapshot Date",
+    "originalUrl": "Original URL"
+  }
+}

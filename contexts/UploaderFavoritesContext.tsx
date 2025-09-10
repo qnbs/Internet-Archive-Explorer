@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { useToast } from './ToastContext';
+import { useLanguage } from './LanguageContext';
 
 interface UploaderFavoritesContextType {
   favoriteUploaders: string[];
@@ -11,6 +13,8 @@ const UploaderFavoritesContext = createContext<UploaderFavoritesContextType | un
 
 export const UploaderFavoritesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [favoriteUploaders, setFavoriteUploaders] = useState<string[]>([]);
+  const { addToast } = useToast();
+  const { t } = useLanguage();
 
   useEffect(() => {
     try {
@@ -30,18 +34,21 @@ export const UploaderFavoritesProvider: React.FC<{ children: ReactNode }> = ({ c
       localStorage.setItem('archive-uploader-favorites', JSON.stringify(newFavorites));
     } catch (error) {
       console.error('Failed to save uploader favorites to localStorage', error);
+      addToast(t('favorites:errorSaveUploaders'), 'error');
     }
   };
 
   const addUploaderFavorite = (username: string) => {
     if (!favoriteUploaders.includes(username)) {
       saveFavorites([...favoriteUploaders, username]);
+      addToast(t('favorites:uploaderAdded'), 'success');
     }
   };
 
   const removeUploaderFavorite = (username: string) => {
     const newFavorites = favoriteUploaders.filter(fav => fav !== username);
     saveFavorites(newFavorites);
+    addToast(t('favorites:uploaderRemoved'), 'info');
   };
 
   const isUploaderFavorite = (username: string) => {

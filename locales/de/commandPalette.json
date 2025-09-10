@@ -1,0 +1,27 @@
+
+{
+  "placeholder": "Befehl eingeben oder suchen...",
+  "sections": {
+    "navigation": "Navigation",
+    "actions": "Aktionen",
+    "uploaders": "Uploader"
+  },
+  "nav": {
+    "exploreDesc": "Zur Hauptentdeckungsseite gehen",
+    "favoritesDesc": "Ihre gespeicherten Einträge und Uploader anzeigen",
+    "uploaderHubDesc": "Entdecken Sie Community-Beitragende",
+    "scriptoriumDesc": "Ihren Forschungsarbeitsplatz öffnen",
+    "cinemathequeDesc": "Die Filmsammlung durchsuchen",
+    "audiothekDesc": "Die Audiosammlung durchsuchen",
+    "imagesDesc": "Die Bildersammlung durchsuchen",
+    "recroomDesc": "Klassische Spiele und Software spielen",
+    "settingsDesc": "Anwendungseinstellungen ändern",
+    "helpDesc": "Hilfe und Dokumentation anzeigen"
+  },
+  "actions": {
+    "toggleTheme": "Theme umschalten",
+    "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
+    "toggleLanguage": "Sprache wechseln",
+    "toggleLanguageDesc": "Switch between English and German"
+  }
+}

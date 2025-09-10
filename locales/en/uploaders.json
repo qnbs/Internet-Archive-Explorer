@@ -1,0 +1,20 @@
+{
+  "internet_archive": {
+    "description": "The official uploader for the Internet Archive itself, providing a vast array of digitized books, films, music, and archived websites."
+  },
+  "jeff_kaplan": {
+    "description": "A prolific archivist specializing in the preservation of historical software, particularly known for curating massive collections of MS-DOS games and applications."
+  },
+  "jakej": {
+    "description": "A community member known for uploading a diverse range of content, including audio recordings and various digital materials."
+  },
+  "lego_archive": {
+    "description": "An enthusiast-run account dedicated to archiving historical LEGO-related media, including old commercials, promotional materials, and catalogs."
+  },
+  "jvaneerden": {
+    "description": "A dedicated contributor to the Live Music Archive, specializing in recording and uploading high-quality concert audio."
+  },
+  "librivox": {
+    "description": "A community of volunteers from all over the world who record public domain texts: poetry, short stories, whole books, even dramatic works, in many different languages."
+  }
+}

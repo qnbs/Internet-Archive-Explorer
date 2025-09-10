@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { useDebounce } from '../hooks/useDebounce';
@@ -10,6 +11,7 @@ import { OnThisDay } from '../components/OnThisDay';
 import { TrendingIcon, ChevronDownIcon, CloseIcon, FilterIcon } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 import { ContentCarousel } from '../components/ContentCarousel';
+import { useSettings } from '../contexts/SettingsContext';
 
 // --- TYPES ---
 interface ExplorerViewProps {
@@ -20,36 +22,42 @@ interface ExplorerViewProps {
 const TrendingNow: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }> = ({ onSelectItem }) => {
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const { t } = useLanguage();
 
-    useEffect(() => {
-        const fetchTrending = async () => {
-            setIsLoading(true);
-            try {
-                const query = 'mediatype:(movies OR audio OR image OR texts OR software)';
-                const data = await searchArchive(query, 1, ['-week'], undefined, 24);
-                if (data.response?.docs) {
-                    setItems(data.response.docs);
-                }
-            } catch (error) {
-                console.error("Failed to fetch trending items:", error);
-            } finally {
-                setIsLoading(false);
+    const fetchTrending = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const query = 'mediatype:(movies OR audio OR image OR texts OR software)';
+            const data = await searchArchive(query, 1, ['-week'], undefined, 24);
+            if (data.response?.docs) {
+                setItems(data.response.docs);
             }
-        };
-        fetchTrending();
-    }, []);
+        } catch (err) {
+            console.error("Failed to fetch trending items:", err);
+            setError(t('common:error'));
+        } finally {
+            setIsLoading(false);
+        }
+    }, [t]);
 
-    if (!isLoading && items.length === 0) {
+    useEffect(() => {
+        fetchTrending();
+    }, [fetchTrending]);
+
+    if (!isLoading && items.length === 0 && !error) {
         return null;
     }
 
     return (
         <ContentCarousel
-            title={t('explorer.trending')}
+            title={t('explorer:trending')}
             titleIcon={<TrendingIcon className="w-6 h-6" />}
             items={items}
             isLoading={isLoading}
+            error={error}
+            onRetry={fetchTrending}
             onSelectItem={onSelectItem}
             cardAspectRatio="portrait"
         />
@@ -61,13 +69,13 @@ const ThematicSearch: React.FC = () => {
     const { t } = useLanguage();
     
     const THEMATIC_SEARCHES = useMemo(() => [
-      { label: t('explorer.searches.classicFilms'), query: "collection:feature_films", mediaType: MediaTypeValue.Movies },
-      { label: t('explorer.searches.cultFilms'), query: "subject:\"cult film\"", mediaType: MediaTypeValue.Movies },
-      { label: t('explorer.searches.tedTalks'), query: "collection:tedtalks", mediaType: MediaTypeValue.Movies },
-      { label: t('explorer.searches.liveConcerts'), query: "collection:etree", mediaType: MediaTypeValue.Audio },
-      { label: t('explorer.searches.nasaImages'), query: "collection:nasa", mediaType: MediaTypeValue.Image },
-      { label: t('explorer.searches.msDosGames'), query: "collection:softwarelibrary_msdos_games", mediaType: MediaTypeValue.Software },
-      { label: t('explorer.searches.audiobooks'), query: "collection:librivoxaudio", mediaType: MediaTypeValue.Audio },
+      { label: t('explorer:searches.classicFilms'), query: "collection:feature_films", mediaType: MediaTypeValue.Movies },
+      { label: t('explorer:searches.cultFilms'), query: "subject:\"cult film\"", mediaType: MediaTypeValue.Movies },
+      { label: t('explorer:searches.tedTalks'), query: "collection:tedtalks", mediaType: MediaTypeValue.Movies },
+      { label: t('explorer:searches.liveConcerts'), query: "collection:etree", mediaType: MediaTypeValue.Audio },
+      { label: t('explorer:searches.nasaImages'), query: "collection:nasa", mediaType: MediaTypeValue.Image },
+      { label: t('explorer:searches.msDosGames'), query: "collection:softwarelibrary_msdos_games", mediaType: MediaTypeValue.Software },
+      { label: t('explorer:searches.audiobooks'), query: "collection:librivoxaudio", mediaType: MediaTypeValue.Audio },
     ], [t]);
 
     const handleThematicSearch = (query: string, mediaType: MediaTypeValue) => {
@@ -75,14 +83,14 @@ const ThematicSearch: React.FC = () => {
     };
 
     return (
-        <div className="bg-gray-200/50 dark:bg-gray-800/60 p-4 rounded-xl shadow-lg animate-fade-in">
-             <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">{t('explorer.quickSearch')}</h3>
+        <div className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-xl shadow-sm animate-fade-in border border-gray-200 dark:border-gray-700">
+             <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">{t('explorer:quickSearch')}</h3>
              <div className="flex flex-wrap gap-3">
                 {THEMATIC_SEARCHES.map(theme => (
                     <button 
                         key={theme.label}
                         onClick={() => handleThematicSearch(theme.query, theme.mediaType)}
-                        className="px-4 py-2 text-sm font-medium rounded-full transition-colors bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-cyan-500 hover:text-white dark:hover:bg-cyan-600"
+                        className="px-4 py-2 text-sm font-medium rounded-full transition-colors bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-cyan-100 hover:text-cyan-700 dark:hover:bg-cyan-600 dark:hover:text-white"
                     >
                         {theme.label}
                     </button>
@@ -102,18 +110,18 @@ const FilterBar: React.FC<{
     const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
 
     const SORT_OPTIONS = useMemo(() => ({
-        '-downloads': t('explorer.sortPopular'),
-        '-publicdate': t('explorer.sortNewest'),
-        'publicdate': t('explorer.sortOldest'),
-        'titleSorter': t('explorer.sortTitle'),
+        '-downloads': t('explorer:sortPopular'),
+        '-publicdate': t('explorer:sortNewest'),
+        'publicdate': t('explorer:sortOldest'),
+        'titleSorter': t('explorer:sortTitle'),
     }), [t]);
 
     const MEDIA_TYPE_FILTERS = useMemo(() => ([
-        { id: MediaTypeValue.Movies, label: t('bottomNav.movies') },
-        { id: MediaTypeValue.Audio, label: t('bottomNav.audio') },
-        { id: MediaTypeValue.Texts, label: t('bottomNav.books') },
-        { id: MediaTypeValue.Image, label: t('bottomNav.images') },
-        { id: MediaTypeValue.Software, label: t('sideMenu.recRoom') },
+        { id: MediaTypeValue.Movies, label: t('bottomNav:movies') },
+        { id: MediaTypeValue.Audio, label: t('bottomNav:audio') },
+        { id: MediaTypeValue.Texts, label: t('bottomNav:books') },
+        { id: MediaTypeValue.Image, label: t('bottomNav:images') },
+        { id: MediaTypeValue.Software, label: t('sideMenu:recRoom') },
     ]), [t]);
 
     const handleMediaTypeToggle = (mediaType: MediaTypeValue) => {
@@ -142,13 +150,13 @@ const FilterBar: React.FC<{
         const filters = [];
         for (const type of facets.mediaType) {
             filters.push({
-                label: `${t('searchPopover.mediaType')}: ${type}`,
+                label: `${t('searchPopover:mediaType')}: ${type}`,
                 action: () => removeFacet('mediaType', type),
             });
         }
         if (facets.yearStart || facets.yearEnd) {
             filters.push({
-                label: `${t('searchPopover.yearRange')}: ${facets.yearStart || '*'} - ${facets.yearEnd || '*'}`,
+                label: `${t('searchPopover:yearRange')}: ${facets.yearStart || '*'} - ${facets.yearEnd || '*'}`,
                 action: () => { 
                     setFacets(prev => ({...prev, yearStart: undefined, yearEnd: undefined}));
                 }
@@ -156,7 +164,7 @@ const FilterBar: React.FC<{
         }
         if (facets.collection) {
             filters.push({
-                label: `${t('searchPopover.collection')}: ${facets.collection}`,
+                label: `${t('searchPopover:collection')}: ${facets.collection}`,
                 action: () => removeFacet('collection'),
             });
         }
@@ -164,7 +172,7 @@ const FilterBar: React.FC<{
     }, [facets, t, setFacets]);
 
     return (
-        <div className="bg-gray-200/50 dark:bg-gray-800/60 p-4 rounded-xl shadow-lg space-y-4">
+        <div className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-xl shadow-sm space-y-4 border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="flex flex-wrap items-center gap-2">
                     {MEDIA_TYPE_FILTERS.map(filter => (
@@ -174,7 +182,7 @@ const FilterBar: React.FC<{
                             className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
                                 facets.mediaType.has(filter.id)
                                     ? 'bg-cyan-500 text-white shadow-sm'
-                                    : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'
+                                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
                             }`}
                         >
                             {filter.label}
@@ -183,36 +191,36 @@ const FilterBar: React.FC<{
                 </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                     <div className="relative flex-grow min-w-[150px]">
-                        <select value={sort} onChange={e => setSort(e.target.value)} aria-label={t('explorer.aria.sortBy')} className="w-full h-full bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg py-2 px-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors appearance-none pr-8">
+                        <select value={sort} onChange={e => setSort(e.target.value)} aria-label={t('explorer:aria.sortBy')} className="w-full h-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-2 px-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors appearance-none pr-8">
                             {Object.entries(SORT_OPTIONS).map(([value, label]) => (
                                 <option key={value} value={value}>{label}</option>
                             ))}
                         </select>
                         <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400 pointer-events-none" />
                     </div>
-                    <button onClick={() => setIsAdvancedOpen(!isAdvancedOpen)} className="p-2.5 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600" aria-expanded={isAdvancedOpen}>
+                    <button onClick={() => setIsAdvancedOpen(!isAdvancedOpen)} className="p-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600" aria-expanded={isAdvancedOpen}>
                         <FilterIcon className="w-5 h-5" />
                     </button>
                 </div>
             </div>
             {isAdvancedOpen && (
-                <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t border-gray-300 dark:border-gray-700 animate-fade-in">
+                <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700 animate-fade-in">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('searchPopover.yearRange')}</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('searchPopover:yearRange')}</label>
                         <div className="flex items-center gap-2">
-                            <input type="number" placeholder={t('searchPopover.from')} aria-label={t('searchPopover.from')} value={facets.yearStart || ''} onChange={e => setFacets({...facets, yearStart: e.target.value})} className="w-full bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
+                            <input type="number" placeholder={t('searchPopover:from')} aria-label={t('searchPopover:from')} value={facets.yearStart || ''} onChange={e => setFacets({...facets, yearStart: e.target.value})} className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
                             <span className="text-gray-500">-</span>
-                            <input type="number" placeholder={t('searchPopover.to')} aria-label={t('searchPopover.to')} value={facets.yearEnd || ''} onChange={e => setFacets({...facets, yearEnd: e.target.value})} className="w-full bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
+                            <input type="number" placeholder={t('searchPopover:to')} aria-label={t('searchPopover:to')} value={facets.yearEnd || ''} onChange={e => setFacets({...facets, yearEnd: e.target.value})} className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
                         </div>
                     </div>
                      <div>
-                        <label htmlFor="collection-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('searchPopover.collection')}</label>
-                        <input id="collection-filter" type="text" placeholder={t('searchPopover.collectionPlaceholder')} aria-label={t('searchPopover.collection')} value={facets.collection || ''} onChange={e => setFacets({...facets, collection: e.target.value})} className="w-full bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
+                        <label htmlFor="collection-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('searchPopover:collection')}</label>
+                        <input id="collection-filter" type="text" placeholder={t('searchPopover:collectionPlaceholder')} aria-label={t('searchPopover:collection')} value={facets.collection || ''} onChange={e => setFacets({...facets, collection: e.target.value})} className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" />
                     </div>
                 </div>
             )}
              {activeFilters.length > 0 && (
-                <div className="pt-4 border-t border-gray-300 dark:border-gray-700 flex flex-wrap items-center gap-2">
+                <div className="pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-2">
                     {activeFilters.map((filter, index) => (
                         <span key={index} className="flex items-center gap-1.5 bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-200 text-xs font-semibold px-2 py-1 rounded-full">
                             {filter.label}
@@ -221,7 +229,7 @@ const FilterBar: React.FC<{
                             </button>
                         </span>
                     ))}
-                    <button onClick={() => setFacets({ mediaType: new Set() })} className="text-xs text-gray-500 dark:text-gray-400 hover:underline ml-2">{t('common.reset')}</button>
+                    <button onClick={() => setFacets({ mediaType: new Set() })} className="text-xs text-gray-500 dark:text-gray-400 hover:underline ml-2">{t('common:reset')}</button>
                 </div>
             )}
         </div>
@@ -233,6 +241,7 @@ const FilterBar: React.FC<{
 export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
   const { searchQuery, facets, setFacets } = useSearch();
   const { t } = useLanguage();
+  const { settings } = useSettings();
   
   const [sort, setSort] = useState<string>('-downloads');
   const [page, setPage] = useState(1);
@@ -272,7 +281,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     setError(null);
 
     try {
-      const data = await searchArchive(searchQuery, searchPage, [currentSort]);
+      const data = await searchArchive(searchQuery, searchPage, [currentSort], undefined, settings.resultsPerPage);
       if (data && data.response && Array.isArray(data.response.docs)) {
         setTotalResults(data.response.numFound);
         setResults(prev => searchPage === 1 ? data.response.docs : [...prev, ...data.response.docs]);
@@ -281,13 +290,13 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
         setResults(prev => searchPage === 1 ? [] : prev);
       }
     } catch (err) {
-      setError(t('common.error'));
+      setError(t('common:error'));
       console.error(err);
     } finally {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
-  }, [t]);
+  }, [t, settings.resultsPerPage]);
   
   useEffect(() => {
     setPage(1);
@@ -303,6 +312,11 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     });
   }, [isLoading, isLoadingMore, performSearch, finalQuery, sort]);
 
+  const handleRetry = useCallback(() => {
+      setPage(1);
+      performSearch(finalQuery || 'featured', 1, sort);
+  }, [finalQuery, sort, performSearch]);
+
   const hasMore = !isLoading && results.length < totalResults;
   const lastElementRef = useInfiniteScroll({
     isLoading: isLoadingMore,
@@ -313,7 +327,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
 
   return (
     <div className="space-y-6">
-        {!isSearching && (
+        {!isSearching && settings.showExplorerHub && (
             <div className="space-y-6">
                 <TrendingNow onSelectItem={onSelectItem} />
                 <OnThisDay onSelectItem={onSelectItem} />
@@ -334,6 +348,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
             hasMore={hasMore}
             totalResults={totalResults}
             lastElementRef={lastElementRef}
+            onRetry={handleRetry}
         />
     </div>
   );

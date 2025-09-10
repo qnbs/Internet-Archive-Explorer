@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useCallback } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useSearch } from '../contexts/SearchContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -8,6 +9,7 @@ import { ContentCarousel } from './ContentCarousel';
 export const OnThisDay: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }> = ({ onSelectItem }) => {
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const { searchAndGo } = useSearch();
     const { t, language } = useLanguage();
 
@@ -22,47 +24,50 @@ export const OnThisDay: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => v
         const dateClauses = years.map(year => `publicdate:${year}-${month}-${day}`);
         return `(${dateClauses.join(' OR ')})`;
     };
+    
+    const fetchOnThisDay = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const query = buildOnThisDayQuery();
+            const data: any = await searchArchive(query, 1, ['-downloads']);
+            
+            if (data && data.response && Array.isArray(data.response.docs)) {
+                setItems(data.response.docs.slice(0, 15));
+            } else {
+                setItems([]);
+            }
+        } catch (err) {
+            console.error("Failed to fetch 'On This Day' items:", err);
+            setError(t('common:error'));
+            setItems([]);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [t]);
 
     useEffect(() => {
-        const fetchOnThisDay = async () => {
-            setIsLoading(true);
-            try {
-                const query = buildOnThisDayQuery();
-                const data: any = await searchArchive(query, 1, ['-downloads']);
-                
-                if (data && data.response && Array.isArray(data.response.docs)) {
-                    setItems(data.response.docs.slice(0, 15));
-                } else {
-                    setItems([]);
-                }
-            } catch (error) {
-                console.error("Failed to fetch 'On This Day' items:", error);
-                setItems([]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
         fetchOnThisDay();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [fetchOnThisDay]);
 
     const handleViewMore = () => {
         const query = buildOnThisDayQuery();
         searchAndGo(query);
     };
 
-    if (items.length === 0 && !isLoading) return null;
+    if (items.length === 0 && !isLoading && !error) return null;
 
     return (
         <ContentCarousel
-            title={t('explorer.onThisDay', { date: formattedDate })}
+            title={t('explorer:onThisDay', { date: formattedDate })}
             items={items}
             isLoading={isLoading}
+            error={error}
+            onRetry={fetchOnThisDay}
             onSelectItem={onSelectItem}
             cardAspectRatio="portrait"
             viewMoreAction={handleViewMore}
-            viewMoreLabel={t('explorer.viewMore')}
+            viewMoreLabel={t('common:viewMore')}
         />
     );
 };

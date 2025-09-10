@@ -1,0 +1,63 @@
+
+{
+  "title": "Einstellungen",
+  "subtitle": "Passen Sie Ihr Archive Explorer-Erlebnis an.",
+  "search": {
+    "title": "Suche & Entdeckung",
+    "resultsPerPage": "Ergebnisse pro Seite",
+    "resultsPerPageDesc": "Anzahl der Einträge, die pro Suchergebnisseite geladen werden.",
+    "showExplorerHub": "Explorer-Hub anzeigen",
+    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird."
+  },
+  "ui": {
+    "title": "Benutzeroberfläche",
+    "hideScrollbars": "Scrollleisten ausblenden",
+    "hideScrollbarsDesc": "Die Scrollleiste bei horizontalen Inhaltskarussells visuell ausblenden.",
+    "reduceMotion": "Bewegung reduzieren",
+    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein einfacheres Erlebnis."
+  },
+  "content": {
+    "title": "Inhalt & Hubs",
+    "defaultUploaderDetailTab": "Standard-Uploader-Tab",
+    "defaultUploaderDetailTabDesc": "Der Tab, der standardmäßig ausgewählt wird, wenn Sie das Profil eines Uploaders anzeigen.",
+    "autoplayMedia": "Medien automatisch abspielen",
+    "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen)."
+  },
+  "ai": {
+    "title": "KI-Funktionen",
+    "enableAiFeatures": "KI-Funktionen aktivieren",
+    "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von Gemini AI unterstützt werden.",
+    "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
+    "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen Texteintrag öffnen.",
+    "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
+    "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird."
+  },
+  "data": {
+    "managementTitle": "Datenverwaltung",
+    "exportAll": "Alle Daten exportieren",
+    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter.",
+    "exportButton": "Daten exportieren",
+    "exportSuccess": "Daten erfolgreich exportiert!",
+    "exportError": "Export der Daten fehlgeschlagen.",
+    "importAll": "Daten importieren",
+    "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre Einstellungen, Favoriten und Worksets wiederherzustellen. Dies überschreibt vorhandene Daten.",
+    "importButton": "Aus Datei importieren...",
+    "importButtonConfirm": "Importieren & Überschreiben",
+    "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
+    "importSuccess": "Daten erfolgreich importiert! Die Seite wird nun neu geladen.",
+    "importError": "Import der Daten fehlgeschlagen",
+    "importErrorFile": "Die Datei konnte nicht gelesen werden.",
+    "title": "Ihre Daten",
+    "searchHistory": "Suchverlauf",
+    "searchHistoryDesc": "Die App speichert Ihre letzten Suchanfragen lokal.",
+    "noHistory": "Noch kein Suchverlauf.",
+    "clearHistory": "Suchverlauf löschen",
+    "resetAll": "Alle Einstellungen zurücksetzen",
+    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets sind davon NICHT betroffen.",
+    "resetButton": "Einstellungen zurücksetzen",
+    "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
+    "clearHistoryTitle": "Suchverlauf löschen?",
+    "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
+    "clearHistorySuccess": "Suchverlauf gelöscht."
+  }
+}

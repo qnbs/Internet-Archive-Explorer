@@ -13,10 +13,18 @@ export const UPLOADER_CATEGORIES: UploaderCategory[] = [
 
 export const UPLOADER_DATA: Uploader[] = [
   {
+    username: 'The Internet Archive',
+    searchUploader: 'internetarchive@archive.org',
+    screenname: 'internet_archive',
+    descriptionKey: 'uploaders:internet_archive.description',
+    category: 'institution',
+    featured: true,
+  },
+  {
     username: 'Jeff Kaplan',
     searchUploader: 'associate-jeff-kaplan@archive.org',
     screenname: 'jeff_kaplan',
-    descriptionKey: 'uploaders.jeff_kaplan.description',
+    descriptionKey: 'uploaders:jeff_kaplan.description',
     category: 'software',
     featured: true,
   },
@@ -24,28 +32,28 @@ export const UPLOADER_DATA: Uploader[] = [
     username: 'jakej',
     searchUploader: 'jakej@archive.org',
     screenname: 'jakej',
-    descriptionKey: 'uploaders.jakej.description',
+    descriptionKey: 'uploaders:jakej.description',
     category: 'community',
   },
   {
     username: 'Lego Archive Account',
     searchUploader: 'legoarchiveaccount@archive.org',
     screenname: 'legoarchiveaccount',
-    descriptionKey: 'uploaders.lego_archive.description',
+    descriptionKey: 'uploaders:lego_archive.description',
     category: 'history',
   },
   {
     username: 'jvaneerden',
     searchUploader: 'jvaneerden@archive.org',
     screenname: 'jvaneerden',
-    descriptionKey: 'uploaders.jvaneerden.description',
+    descriptionKey: 'uploaders:jvaneerden.description',
     category: 'music',
   },
   {
     username: 'LibriVox Books',
     searchUploader: 'librivoxbooks@archive.org',
     screenname: 'librivoxbooks',
-    descriptionKey: 'uploaders.librivox.description',
+    descriptionKey: 'uploaders:librivox.description',
     category: 'community',
   }
 ];

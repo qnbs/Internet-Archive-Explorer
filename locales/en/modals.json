@@ -1,0 +1,12 @@
+{
+  "emulator": {
+    "close": "Close Emulator",
+    "providedBy": "Emulator provided by The Internet Archive.",
+    "escToExit": "Press ESC to exit fullscreen.",
+    "loading": "Loading Emulation..."
+  },
+  "details": {
+    "searchByCreator": "Search for more by {{creator}}",
+    "viewUploaderProfile": "View uploader profile for {{uploader}}"
+  }
+}

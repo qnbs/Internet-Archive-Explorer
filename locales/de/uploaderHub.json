@@ -1,0 +1,15 @@
+{
+  "title": "Uploader-Hub",
+  "description": "Entdecken Sie die Personen und Institutionen hinter dem Archiv. Durchsuchen Sie vorgestellte Beitragende oder filtern Sie nach Kategorien, um neue Inhalte zu finden.",
+  "featured": "Vorgestellte Uploader",
+  "all": "Alle Kategorien",
+  "categories": {
+    "archivist": "Archivare",
+    "institution": "Institutionen",
+    "music": "Musik",
+    "community": "Community",
+    "software": "Software",
+    "video": "Video",
+    "history": "Geschichte"
+  }
+}

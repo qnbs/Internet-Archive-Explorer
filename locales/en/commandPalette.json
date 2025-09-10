@@ -1,0 +1,27 @@
+
+{
+  "placeholder": "Type a command or search...",
+  "sections": {
+    "navigation": "Navigation",
+    "actions": "Actions",
+    "uploaders": "Uploaders"
+  },
+  "nav": {
+    "exploreDesc": "Go to the main explorer page",
+    "favoritesDesc": "View your saved items and uploaders",
+    "uploaderHubDesc": "Discover community contributors",
+    "scriptoriumDesc": "Open your research workspace",
+    "cinemathequeDesc": "Browse the movie collection",
+    "audiothekDesc": "Browse the audio collection",
+    "imagesDesc": "Browse the image collection",
+    "recroomDesc": "Play classic games and software",
+    "settingsDesc": "Change application settings",
+    "helpDesc": "View help and documentation"
+  },
+  "actions": {
+    "toggleTheme": "Toggle theme",
+    "toggleThemeDesc": "Switch between light and dark mode",
+    "toggleLanguage": "Switch language",
+    "toggleLanguageDesc": "Wechseln Sie zwischen Englisch und Deutsch"
+  }
+}

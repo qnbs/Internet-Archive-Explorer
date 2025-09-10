@@ -1,13 +1,18 @@
+
 import React, { useRef, useState, useEffect } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
+import { useSettings } from '../contexts/SettingsContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ContentCarouselProps {
     title: string;
     items: ArchiveItemSummary[];
     isLoading: boolean;
+    error: string | null;
+    onRetry?: () => void;
     onSelectItem: (item: ArchiveItemSummary) => void;
     cardAspectRatio: AspectRatio;
     viewMoreAction?: () => void;
@@ -19,6 +24,8 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     title,
     items,
     isLoading,
+    error,
+    onRetry,
     onSelectItem,
     cardAspectRatio,
     viewMoreAction,
@@ -28,6 +35,8 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
+    const { settings } = useSettings();
+    const { t } = useLanguage();
 
     const checkForScrollability = () => {
         const el = scrollContainerRef.current;
@@ -38,7 +47,6 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     };
 
     useEffect(() => {
-        // A small timeout allows the browser to render and calculate widths properly
         const timer = setTimeout(checkForScrollability, 100);
         const el = scrollContainerRef.current;
         el?.addEventListener('scroll', checkForScrollability, { passive: true });
@@ -59,6 +67,42 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
             });
         }
     };
+    
+    const renderContent = () => {
+        if (isLoading) {
+             return Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="flex-shrink-0 w-40 sm:w-48 scroll-snap-align-start">
+                    <SkeletonCard aspectRatio={cardAspectRatio} />
+                </div>
+            ))
+        }
+        
+        if (error) {
+            return (
+                <div className="flex-grow flex flex-col items-center justify-center text-center p-4 bg-gray-800/60 rounded-lg w-full">
+                    <p className="text-red-400 mb-4">{error}</p>
+                     {onRetry && (
+                        <button
+                            onClick={onRetry}
+                            className="px-4 py-2 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-500 transition-colors"
+                        >
+                            {t('common:retry')}
+                        </button>
+                    )}
+                </div>
+            )
+        }
+
+        return items.map((item, index) => (
+            <CarouselItemCard
+                key={item.identifier}
+                item={item}
+                onSelect={onSelectItem}
+                aspectRatio={cardAspectRatio}
+                index={index}
+            />
+        ));
+    };
 
     return (
         <section className="animate-fade-in">
@@ -72,14 +116,14 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                         onClick={viewMoreAction}
                         className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
                     >
-                        {viewMoreLabel || 'View More'} &rarr;
+                        {viewMoreLabel || t('common:viewMore')} &rarr;
                     </button>
                 )}
             </div>
             <div className="relative group">
                 <button
                     onClick={() => handleScroll('left')}
-                    disabled={!canScrollLeft}
+                    disabled={!canScrollLeft || !!error}
                     className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
                     aria-label="Scroll left"
                 >
@@ -88,36 +132,20 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                 
                 <div 
                     ref={scrollContainerRef}
-                    className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth"
+                    className={`flex space-x-4 overflow-x-auto pb-4 scroll-smooth ${settings.hideScrollbars ? 'scrollbar-hide' : ''}`}
                     style={{ scrollSnapType: 'x mandatory' }}
                 >
-                    {isLoading ? (
-                        Array.from({ length: 8 }).map((_, index) => (
-                            <div key={index} className="flex-shrink-0 w-40 sm:w-48 scroll-snap-align-start">
-                                <SkeletonCard aspectRatio={cardAspectRatio} />
-                            </div>
-                        ))
-                    ) : (
-                        items.map((item, index) => (
-                            <CarouselItemCard
-                                key={item.identifier}
-                                item={item}
-                                onSelect={onSelectItem}
-                                aspectRatio={cardAspectRatio}
-                                index={index}
-                            />
-                        ))
-                    )}
+                    {renderContent()}
                 </div>
 
                 <div 
                     aria-hidden="true"
-                    className={`absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-gray-100 dark:from-gray-900 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-white dark:from-gray-900 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${canScrollRight && !error ? 'opacity-100' : 'opacity-0'}`} 
                 />
 
                 <button
                     onClick={() => handleScroll('right')}
-                    disabled={!canScrollRight}
+                    disabled={!canScrollRight || !!error}
                     className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
                     aria-label="Scroll right"
                 >

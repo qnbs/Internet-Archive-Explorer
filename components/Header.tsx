@@ -32,25 +32,25 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
             </button>
             <button
                 onClick={onMenuClick}
-                className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors md:hidden"
-                aria-label={t('sideMenu.title')}
+                className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors md:hidden"
+                aria-label={t('sideMenu:title')}
             >
                 <MenuIcon />
             </button>
         </div>
 
         {/* Center: Search (takes remaining space) */}
-        <form onSubmit={handleSearchSubmit} className="flex-1 min-w-0 h-full flex items-center">
-            <div className="relative w-full flex items-center bg-gray-200/50 dark:bg-gray-700/50 rounded-lg border-2 border-transparent focus-within:border-cyan-500 transition-colors">
-                <label htmlFor="header-search" className="sr-only">{t('explorer.searchPlaceholder')}</label>
+        <form onSubmit={handleSearchSubmit} className="flex-1 min-w-0 flex items-center h-full">
+            <div className="relative w-full flex items-center">
+                 <label htmlFor="header-search" className="sr-only">{t('explorer:searchPlaceholder')}</label>
                 <SearchIcon className="absolute left-3 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none"/>
                 <input
                     id="header-search"
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder={t('explorer.searchPlaceholder')}
-                    className="w-full bg-transparent py-2 pl-10 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none"
+                    placeholder={t('explorer:searchPlaceholder')}
+                    className="w-full bg-gray-100 dark:bg-gray-700/50 rounded-lg border border-transparent focus-within:border-cyan-500 transition-colors py-2 pl-10 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none"
                 />
             </div>
         </form>
@@ -58,8 +58,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
         {/* Right Side: Command Palette */}
         <button
             onClick={onOpenCommandPalette}
-            className="flex-shrink-0 p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            aria-label={t('header.openCommandPalette')}
+            className="flex-shrink-0 p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label={t('header:openCommandPalette')}
         >
             <CommandIcon className="w-5 h-5" />
         </button>

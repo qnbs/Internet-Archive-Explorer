@@ -1,0 +1,33 @@
+{
+  "backToExplorer": "Zurück zum Explorer",
+  "tabs": {
+    "uploads": "Uploads",
+    "reviews": "Bewertungen",
+    "statistics": "Statistiken"
+  },
+  "noReviews": "Keine Bewertungen gefunden",
+  "noReviewsDesc": "Dieser Benutzer hat keine öffentlichen Bewertungen geschrieben.",
+  "stats": {
+    "total": "Beiträge insgesamt",
+    "movies": "Filme",
+    "audio": "Audio",
+    "texts": "Texte",
+    "images": "Bilder",
+    "software": "Software",
+    "distribution": "Verteilung der Beiträge"
+  },
+  "searchInUploads": "In diesen Uploads suchen...",
+  "sortBy": "Sortieren nach",
+  "toggleSort": "Sortierrichtung umschalten (aktuell: {{direction}})",
+  "ascending": "aufsteigend",
+  "descending": "absteigend",
+  "sortCriteria": {
+    "downloads": "Beliebtheit (Gesamt)",
+    "week": "Beliebtheit (diese Woche)",
+    "publicdate": "Veröffentlicht am",
+    "addeddate": "Hinzugefügt am"
+  },
+  "filters": {
+    "allTypes": "Alle Typen"
+  }
+}
