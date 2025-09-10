@@ -33,30 +33,30 @@
     "remove": "Remove",
     "delete": "Delete",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "viewMore": "View More",
+    "back": "Back",
+    "retry": "Retry",
+    "confirm": "Confirm",
+    "ok": "OK"
   },
   "header": {
     "openCommandPalette": "Open Command Palette (⌘K)"
   },
   "sideMenu": {
     "title": "Menu",
-    "main": "Main",
     "explore": "Explore",
-    "personal": "Personal",
     "favorites": "Favorites",
     "community": "Community",
+    "uploaderHub": "Uploader Hub",
     "collections": "Collections",
-    "recRoom": "Rec Room",
     "scriptorium": "Scriptorium",
     "cinematheque": "Cinematheque",
     "audiothek": "Audiothek",
     "imagesHub": "Images Hub",
-    "tools": "Tools",
-    "waybackMachine": "Wayback Machine",
-    "application": "Application",
+    "recRoom": "Rec Room",
     "settings": "Settings",
-    "help": "Help & About",
-    "aboutIA": "About Internet Archive"
+    "help": "Help"
   },
   "bottomNav": {
     "explore": "Explore",
@@ -69,7 +69,6 @@
     "searchPlaceholder": "Search the archive...",
     "trending": "Trending Now",
     "onThisDay": "On This Day: {{date}}",
-    "viewMore": "View More",
     "quickSearch": "Quick Searches",
     "searches": {
         "classicFilms": "Classic Films",
@@ -105,11 +104,11 @@
   "recRoom": {
     "title": "The Rec Room",
     "description": "Welcome to the Software Library. Play thousands of classic MS-DOS games, console titles, and explore historical software directly in your browser. No installation required.",
-    "endOfArcade": "You've reached the end of the arcade."
-  },
-  "recRoomCard": {
+    "endOfArcade": "You've reached the end of the arcade.",
+    "card": {
       "start": "Start",
       "startItem": "Start {{title}}"
+    }
   },
   "webArchive": {
       "title": "Wayback Machine",
@@ -190,25 +189,35 @@
       "myWorksets": "My Worksets",
       "noWorksets": "You haven't created any worksets yet. Use the form below to start a new research project.",
       "createWorkset": "Create a New Workset",
-      "worksetNamePlaceholder": "e.g., 'Research on 19th Century Naval History'",
-      "createButton": "Create Workset",
-      "deleteWorksetConfirm": "Are you sure you want to delete the workset '{{name}}'? This action cannot be undone.",
+      "newWorksetPlaceholder": "Enter a name for your new workset",
+      "create": "Create",
+      "deleteWorkset": "Delete Workset",
+      "confirmDelete": "Are you sure you want to permanently delete the workset '{{worksetName}}'? This action cannot be undone.",
       "backToHub": "Back to Scriptorium Hub",
       "noDocuments": "This workset is empty. Add documents to begin your research.",
       "selectDocument": "Select a document from your workset to begin reading.",
-      "addDocument": "Add Documents to Workset",
-      "searchTexts": "Search for text documents to add...",
-      "startSearching": "Start typing to search for texts.",
-      "addSelected_one": "Add {{count}} Selected Document",
-      "addSelected_other": "Add {{count}} Selected Documents",
+      "addDocumentTo": "Add Documents to '{{worksetName}}'",
+      "searchPlaceholder": "Search for text documents to add...",
+      "startTyping": "Start typing to search for texts.",
       "reader": {
-          "loadError": "The text for this document could not be loaded.",
-          "fullText": "Full Text",
-          "entityAnalysis": "Entity Analysis",
-          "extracting": "Extracting...",
-          "extract": "Extract",
-          "extractPrompt": "Click 'Extract' to identify people, places, and more from the text."
-      }
+        "loadError": "The text for this document could not be loaded.",
+        "entityAnalysis": "Entity Analysis",
+        "extracting": "Extracting...",
+        "extract": "Extract",
+        "extractPrompt": "Click 'Extract' to identify people, places, and more from the text.",
+        "tabReader": "Reader",
+        "tabAI": "AI Tools",
+        "tabNotes": "Notes",
+        "notesPlaceholder": "Your notes on this document..."
+      },
+      "documentCount_one": "{{count}} document",
+      "documentCount_other": "{{count}} documents",
+      "errorSave": "Could not save worksets.",
+      "worksetCreated": "Workset '{{name}}' created!",
+      "worksetDeleted": "Workset '{{name}}' deleted.",
+      "documentAdded": "Document added to workset.",
+      "documentExists": "Document is already in this workset.",
+      "documentRemoved": "Document removed from workset."
   },
   "favorites": {
     "title": "Favorites",
@@ -218,16 +227,24 @@
     "collections": "Collections",
     "noFavItems": "No Favorite Items",
     "noFavItemsDesc": "Click the star icon on any item to save it here.",
-    "noFavUploaders": "No Favorite Uploaders",
+    "noFavUploaders": "No Followed Uploaders",
     "noFavUploadersDesc": "Click the star icon on an uploader's profile to follow them.",
     "comingSoon": "Coming Soon",
-    "comingSoonDesc": "The ability to save and manage favorite collections is on its way."
+    "comingSoonDesc": "The ability to save and manage favorite collections is on its way.",
+    "added": "Added to favorites!",
+    "removed": "Removed from favorites.",
+    "errorSave": "Could not save favorites.",
+    "uploaderAdded": "Uploader followed!",
+    "uploaderRemoved": "Uploader unfollowed.",
+    "errorSaveUploaders": "Could not save followed uploaders."
   },
   "uploaderHub": {
     "title": "Uploader Hub",
     "description": "Discover the people and institutions behind the archive. Browse featured contributors or filter by category to find new content.",
     "featured": "Featured Uploaders",
     "all": "All Categories",
+    "allOtherUploaders": "All Other Uploaders",
+    "categoryTitle": "Uploaders in {{category}}",
     "categories": {
       "archivist": "Archivists",
       "institution": "Institutions",
@@ -238,16 +255,15 @@
       "history": "History"
     }
   },
-  "uploaderCard": {
-    "noPublicUploads": "No public uploads found.",
-    "topUploads": "Top Uploads",
-    "viewUploads": "View Profile & Uploads"
-  },
-  "uploaderSidebar": {
-    "viewOnArchive": "View on Archive.org"
+  "uploaderProfileCard": {
+    "favorite": "Follow Uploader",
+    "unfavorite": "Unfollow Uploader",
+    "viewOnArchive": "View on Archive.org",
+    "genericDescription": "An uploader of content to the Internet Archive."
   },
   "uploaderDetail": {
-    "backToExplorer": "Back to Uploader Hub",
+    "backToExplorer": "Back to Explorer",
+    "backToUploaderHub": "Back to Uploader Hub",
     "tabs": {
         "uploads": "Uploads",
         "reviews": "Reviews",
@@ -271,12 +287,12 @@
     "descending": "descending",
     "sortCriteria": {
         "downloads": "Popularity (All Time)",
-        "month": "Popularity (This Month)",
+        "week": "Popularity (This Week)",
         "publicdate": "Date Published",
         "addeddate": "Date Added"
     },
     "filters": {
-      "allTypes": "All"
+      "allTypes": "All Types"
     }
   },
   "reviewCard": {
@@ -294,15 +310,6 @@
           "searchByCreator": "Search for more by {{creator}}",
           "viewUploaderProfile": "View uploader profile for {{uploader}}"
       }
-  },
-  "audioModal": {
-      "playlist": "Playlist",
-      "noTracks": "No playable audio tracks found for this item."
-  },
-  "videoModal": {
-      "description": "Description",
-      "downloadFiles": "Downloadable Files",
-      "details": "Details"
   },
   "aiTools": {
       "summary": "AI Summary",
@@ -356,6 +363,7 @@
         "importAll": "Import Data",
         "importAllDesc": "Import a previously exported JSON file to restore your settings, favorites, and worksets. This will overwrite existing data.",
         "importButton": "Import from File...",
+        "importButtonConfirm": "Import & Overwrite",
         "importConfirm": "Are you sure you want to import this data? All current settings and saved items will be overwritten.",
         "importSuccess": "Data imported successfully! The page will now reload.",
         "importError": "Failed to import data",
@@ -365,9 +373,13 @@
         "searchHistoryDesc": "The app saves your recent search queries locally.",
         "noHistory": "No search history yet.",
         "clearHistory": "Clear Search History",
+        "clearHistoryTitle": "Clear Search History?",
+        "clearHistoryDesc": "Are you sure you want to permanently delete your search history?",
+        "clearHistorySuccess": "Search history cleared.",
         "resetAll": "Reset All Settings",
         "resetAllDesc": "This will reset all application settings to their defaults. Your favorites and worksets will NOT be affected.",
-        "resetButton": "Reset Settings"
+        "resetButton": "Reset Settings",
+        "resetSuccess": "Settings have been reset to default."
     }
   },
   "help": {
@@ -379,7 +391,7 @@
     "qFilters": "How do the filters work?",
     "aFilters": "On the search results page, click the media type buttons to toggle filters. Use the dropdown to sort by criteria like popularity or date. More advanced filters like year range and collection can be accessed via the filter icon.",
     "qNav": "How do I navigate the app?",
-    "aNav": "Use the side menu (on desktop) or the bottom navigation bar (on mobile) to jump between the main sections. For power users, press <strong>Cmd/Ctrl + K</strong> to open the Command Palette for instant navigation.",
+    "aNav": "Use the side menu (on desktop) or the bottom navigation bar (on mobile) to jump between the main sections like the **Explorer**, **Favorites**, and the various content hubs. For power users, press <strong>Cmd/Ctrl + K</strong> to open the Command Palette for instant navigation.",
     "explorerTitle": "Explorer Hub",
     "qExplorer": "What is the Explorer Hub?",
     "aExplorer": "The main 'Explore' page is your central hub. When you're not actively searching, it displays curated and dynamic content like 'Trending Now', 'On This Day in History', and a selection of thematic searches to help you discover new items.",
@@ -407,14 +419,14 @@
     "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can generate a concise summary of the text or extract key 'entities'—such as people, places, and organizations—to help you understand the content and find related information.",
     "communityTitle": "Community Features",
     "qUploaderHub": "What is the Uploader Hub?",
-    "aUploaderHub": "This section is dedicated to the people and institutions who contribute content to the Internet Archive. You can browse featured uploaders, filter by categories like 'Music' or 'History', and explore their profiles.",
+    "aUploaderHub": "This section is dedicated to the people and institutions who contribute content. You can browse our curated list of featured uploaders or filter all known contributors by category. Clicking on any uploader card takes you to their detailed profile page. You can also navigate to an uploader's profile by clicking their name in the detail view of an item they uploaded.",
     "qFavorites": "How do Favorites work?",
-    "aFavorites": "You can 'favorite' any item or uploader by clicking the star icon. All your favorites are collected in the 'Favorites' section, accessible from the side menu, for easy access later. All data is saved in your browser.",
+    "aFavorites": "You can 'favorite' any item by clicking the star icon on its card or in the detail view. To follow an uploader, click the 'Follow Uploader' button on their profile page. All your favorite items and followed uploaders are collected in the 'Favorites' section for easy access. All data is saved in your browser.",
     "qSimilar": "How do 'Similar Items' work?",
-    "aSimilar": "When viewing an item's details, the 'Similar Items' section shows other content from the same primary collection or by the same creator. It's a great way to discover related material.",
+    "aSimilar": "When viewing an item's details, the 'Related' tab shows other content from the same primary collection or by the same creator. It's a great way to discover related material.",
     "faqTitle": "Frequently Asked Questions",
     "qDownload": "Can I download items?",
-    "aDownload": "Yes. In an item's detail view, you'll find a 'Files' tab (for most items) or a 'Downloadable Files' section (for videos). This lists all the source files available for download. Click any file to open it in a new tab or download it.",
+    "aDownload": "Yes. In an item's detail view, go to the 'Files' tab. This lists all the source files available for download. Click any file to open it in a new tab or download it directly.",
     "qOfficial": "Is this an official Internet Archive application?",
     "aOfficial": "No, this is an independent project created by a third-party developer. It uses the public APIs provided by the Internet Archive but is not officially affiliated with or endorsed by them.",
     "qAboutApp": "Who built this application?",
@@ -430,6 +442,7 @@
     "nav": {
       "exploreDesc": "Go to the main explorer page",
       "favoritesDesc": "View your saved items and uploaders",
+      "uploaderHubDesc": "Discover community contributors",
       "scriptoriumDesc": "Open your research workspace",
       "cinemathequeDesc": "Browse the movie collection",
       "audiothekDesc": "Browse the audio collection",
@@ -443,6 +456,26 @@
         "toggleThemeDesc": "Switch between light and dark mode",
         "toggleLanguage": "Switch language",
         "toggleLanguageDesc": "Wechseln Sie zwischen Englisch und Deutsch"
+    }
+  },
+   "uploaders": {
+    "internet_archive": {
+      "description": "The official uploader for the Internet Archive itself, providing a vast array of digitized books, films, music, and archived websites."
+    },
+    "jeff_kaplan": {
+      "description": "A prolific archivist specializing in the preservation of historical software, particularly known for curating massive collections of MS-DOS games and applications."
+    },
+    "jakej": {
+      "description": "A community member known for uploading a diverse range of content, including audio recordings and various digital materials."
+    },
+    "lego_archive": {
+      "description": "An enthusiast-run account dedicated to archiving historical LEGO-related media, including old commercials, promotional materials, and catalogs."
+    },
+    "jvaneerden": {
+      "description": "A dedicated contributor to the Live Music Archive, specializing in recording and uploading high-quality concert audio."
+    },
+    "librivox": {
+      "description": "A community of volunteers from all over the world who record public domain texts: poetry, short stories, whole books, even dramatic works, in many different languages."
     }
   }
 }

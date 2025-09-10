@@ -4,12 +4,12 @@ import { searchWaybackMachine } from '../services/archiveService';
 import type { WaybackResponse, WaybackResult } from '../types';
 import { Spinner } from '../components/Spinner';
 import { useLanguage } from '../contexts/LanguageContext';
-import { getCategoryContent } from './content';
 import { SearchIcon } from '../components/Icons';
 
 export const WebArchiveView: React.FC = () => {
     const { t, language } = useLanguage();
-    const { title, description } = getCategoryContent(t).web;
+    const title = t('webArchive:title');
+    const description = t('webArchive:description');
     const [url, setUrl] = useState('');
     const [results, setResults] = useState<WaybackResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);

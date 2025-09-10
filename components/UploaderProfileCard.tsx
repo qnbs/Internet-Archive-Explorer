@@ -7,14 +7,16 @@ import { StarIcon, UsersIcon, ExternalLinkIcon } from './Icons';
 interface UploaderProfileCardProps {
     uploader: Uploader;
     index: number;
+    onSelect: (searchUploader: string) => void;
 }
 
-export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ uploader, index }) => {
+export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ uploader, index, onSelect }) => {
     const { t } = useLanguage();
     const { isUploaderFavorite, addUploaderFavorite, removeUploaderFavorite } = useUploaderFavorites();
     const isFavorite = isUploaderFavorite(uploader.searchUploader);
 
-    const handleFavoriteClick = () => {
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (isFavorite) {
             removeUploaderFavorite(uploader.searchUploader);
         } else {
@@ -28,8 +30,12 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ upload
 
     return (
         <div 
-            className="bg-gray-800/60 p-6 rounded-xl border border-gray-700/50 flex flex-col h-full animate-fade-in"
+            onClick={() => onSelect(uploader.searchUploader)}
+            className="bg-gray-800/60 p-6 rounded-xl border border-gray-700/50 flex flex-col h-full animate-fade-in cursor-pointer hover:bg-gray-700/70 transition-colors"
             style={{ animationDelay: `${Math.min(index * 50, 500)}ms`, opacity: 0 }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(uploader.searchUploader)}
         >
             <div className="flex items-center space-x-4">
                 <div className="flex-shrink-0 bg-gray-700 p-3 rounded-full">
@@ -54,6 +60,7 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ upload
                     href={uploaderUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-sm font-semibold rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 text-white"
                 >
                     <span>{t('uploaderProfileCard:viewOnArchive')}</span>

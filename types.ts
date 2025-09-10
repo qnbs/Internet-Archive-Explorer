@@ -1,4 +1,5 @@
 
+
 export type Language = 'en' | 'de';
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -27,6 +28,7 @@ export type View =
   | 'help'
   | 'uploaderHub'
   | 'uploaderDetail'
+  | 'uploaderProfile'
   | 'storyteller';
 
 export interface ArchiveItemSummary {

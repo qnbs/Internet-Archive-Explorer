@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import type { Language } from '../types';
 
@@ -9,14 +10,6 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-const NAMESPACES = [
-    'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 
-    'itemCard', 'recRoom', 'webArchive', 'imagesHub', 'cinematheque', 'audiothek', 
-    'scriptorium', 'favorites', 'uploaderHub', 'uploaderProfileCard', 'uploaderDetail',
-    'reviewCard', 'modals', 'audioModal', 'videoModal', 'aiTools', 'settings', 
-    'help', 'commandPalette', 'uploaders'
-];
 
 // Helper to get nested properties from the translation object
 const getNestedTranslation = (obj: any, path: string): string | undefined => {
@@ -46,25 +39,19 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const fetchTranslations = async (lang: Language) => {
       setIsLoading(true);
       try {
-        const fetchPromises = NAMESPACES.map(ns =>
-          fetch(`/locales/${lang}/${ns}.json`).then(res => {
-            if (!res.ok) throw new Error(`Failed to load ${ns}.json for ${lang}`);
-            return res.json();
-          })
-        );
-        const results = await Promise.all(fetchPromises);
-        const mergedTranslations = results.reduce((acc, current, index) => {
-          acc[NAMESPACES[index]] = current;
-          return acc;
-        }, {} as Record<string, any>);
-        
-        setTranslations(mergedTranslations);
+        const response = await fetch(`/${lang}.json`);
+        if (!response.ok) {
+          throw new Error(`Failed to load translations for ${lang}.`);
+        }
+        const data = await response.json();
+        setTranslations(data);
       } catch (error) {
         console.error(`Failed to fetch translations for ${lang}:`, error);
-        // Fallback to English if the selected language fails
         if (lang !== 'en') {
-          console.log("Attempting to fall back to English translations...");
+          console.warn("Falling back to English translations.");
           fetchTranslations('en');
+        } else {
+          setTranslations({}); // Avoid infinite loop if English fails
         }
       } finally {
         setIsLoading(false);
@@ -79,18 +66,21 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         console.warn(`Invalid translation key format: ${key}`);
         return key;
     }
-    const path = pathParts.join(':'); // Re-join in case there were colons in the path itself
+    const path = pathParts.join(':');
 
     let translationKey = path;
     if (replacements && typeof replacements.count === 'number') {
       const pluralKey = `${path}_${replacements.count === 1 ? 'one' : 'other'}`;
-      const pluralTranslation = getNestedTranslation(translations[namespace], pluralKey);
-      if(pluralTranslation !== undefined) {
-          translationKey = pluralKey;
+      if (translations[namespace]) {
+          const pluralTranslation = getNestedTranslation(translations[namespace], pluralKey);
+          if(pluralTranslation !== undefined) {
+              translationKey = pluralKey;
+          }
       }
     }
 
-    let translation = getNestedTranslation(translations[namespace], translationKey);
+    const namespaceTranslations = translations[namespace];
+    let translation = namespaceTranslations ? getNestedTranslation(namespaceTranslations, translationKey) : undefined;
     
     if (translation === undefined) {
       if (key === 'common:loading' && isLoading) {

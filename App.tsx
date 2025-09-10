@@ -28,6 +28,7 @@ const RecRoomView = React.lazy(() => import('./pages/RecRoomView').then(module =
 const WebArchiveView = React.lazy(() => import('./pages/WebArchiveView').then(module => ({ default: module.WebArchiveView })));
 const UploaderHubView = React.lazy(() => import('./pages/UploaderHubView').then(module => ({ default: module.UploaderHubView })));
 const UploaderDetailView = React.lazy(() => import('./pages/UploaderDetailView').then(module => ({ default: module.UploaderDetailView })));
+const UploaderProfileView = React.lazy(() => import('./pages/UploaderProfileView').then(module => ({ default: module.UploaderProfileView })));
 const ItemDetailModal = React.lazy(() => import('./components/ItemDetailModal').then(module => ({ default: module.ItemDetailModal })));
 const EmulatorModal = React.lazy(() => import('./components/EmulatorModal').then(module => ({ default: module.EmulatorModal })));
 const StorytellerView = React.lazy(() => import('./pages/StorytellerView').then(module => ({ default: module.StorytellerView })));
@@ -35,6 +36,7 @@ const StorytellerView = React.lazy(() => import('./pages/StorytellerView').then(
 
 const AppContent: React.FC = () => {
     const [activeView, setActiveView] = useState<View>('explore');
+    const [returnView, setReturnView] = useState<View>('explore');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<ArchiveItemSummary | null>(null);
@@ -48,7 +50,7 @@ const AppContent: React.FC = () => {
 
     const handleViewChange = (view: View) => {
       setActiveView(view);
-      if (view !== 'uploaderDetail') {
+      if (view !== 'uploaderDetail' && view !== 'uploaderProfile') {
           setSelectedUploader(null);
       }
       window.scrollTo(0, 0); // Scroll to top on view change
@@ -99,10 +101,18 @@ const AppContent: React.FC = () => {
                 featured: false,
             };
         }
-
+        
+        const originatingView = activeView;
+        setReturnView(originatingView);
         setSelectedItem(null);
         setSelectedUploader(uploader);
-        setActiveView('uploaderDetail');
+
+        // This is the key logic change: route to the correct view
+        if (originatingView === 'uploaderHub') {
+            setActiveView('uploaderProfile');
+        } else {
+            setActiveView('uploaderDetail');
+        }
     };
 
     const handleCloseModals = () => {
@@ -151,9 +161,11 @@ const AppContent: React.FC = () => {
             case 'favorites': return <FavoritesView onSelectItem={handleSelectItem} />;
             case 'settings': return <SettingsView showConfirmation={setConfirmationProps} />;
             case 'help': return <HelpView />;
-            case 'uploaderHub': return <UploaderHubView />;
+            case 'uploaderHub': return <UploaderHubView onSelectUploader={handleSelectUploader} />;
             case 'uploaderDetail':
-                return selectedUploader ? <UploaderDetailView uploader={selectedUploader} onBack={() => handleViewChange('explore')} onSelectItem={handleSelectItem}/> : <ExplorerView onSelectItem={handleSelectItem} />;
+                return selectedUploader ? <UploaderDetailView uploader={selectedUploader} onBack={() => handleViewChange(returnView)} onSelectItem={handleSelectItem} returnView={returnView} /> : <ExplorerView onSelectItem={handleSelectItem} />;
+            case 'uploaderProfile':
+                 return selectedUploader ? <UploaderProfileView uploader={selectedUploader} onBack={() => handleViewChange('uploaderHub')} /> : <UploaderHubView onSelectUploader={handleSelectUploader} />;
             case 'storyteller': return <StorytellerView />;
             default: return <ExplorerView onSelectItem={handleSelectItem} />;
         }

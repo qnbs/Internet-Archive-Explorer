@@ -33,30 +33,30 @@
     "remove": "Entfernen",
     "delete": "Löschen",
     "save": "Speichern",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "viewMore": "Mehr anzeigen",
+    "back": "Zurück",
+    "retry": "Wiederholen",
+    "confirm": "Bestätigen",
+    "ok": "OK"
   },
   "header": {
     "openCommandPalette": "Befehlspalette öffnen (⌘K)"
   },
   "sideMenu": {
     "title": "Menü",
-    "main": "Hauptmenü",
     "explore": "Entdecken",
-    "personal": "Persönlich",
     "favorites": "Favoriten",
     "community": "Community",
+    "uploaderHub": "Uploader-Hub",
     "collections": "Sammlungen",
-    "recRoom": "Rec Room",
     "scriptorium": "Scriptorium",
     "cinematheque": "Kinemathek",
     "audiothek": "Audiothek",
     "imagesHub": "Bilder-Hub",
-    "tools": "Werkzeuge",
-    "waybackMachine": "Wayback Machine",
-    "application": "Anwendung",
+    "recRoom": "Rec Room",
     "settings": "Einstellungen",
-    "help": "Hilfe & Info",
-    "aboutIA": "Über das Internet Archive"
+    "help": "Hilfe"
   },
   "bottomNav": {
     "explore": "Entdecken",
@@ -69,7 +69,6 @@
     "searchPlaceholder": "Das Archiv durchsuchen...",
     "trending": "Aktuelle Trends",
     "onThisDay": "An diesem Tag: {{date}}",
-    "viewMore": "Mehr anzeigen",
     "quickSearch": "Schnellsuche",
     "searches": {
         "classicFilms": "Filmklassiker",
@@ -105,11 +104,11 @@
   "recRoom": {
     "title": "Der Rec Room",
     "description": "Willkommen in der Software-Bibliothek. Spielen Sie Tausende von klassischen MS-DOS-Spielen, Konsolentiteln und erkunden Sie historische Software direkt in Ihrem Browser. Keine Installation erforderlich.",
-    "endOfArcade": "Sie haben das Ende der Spielhalle erreicht."
-  },
-  "recRoomCard": {
-      "start": "Start",
-      "startItem": "{{title}} starten"
+    "endOfArcade": "Sie haben das Ende der Spielhalle erreicht.",
+    "card": {
+        "start": "Start",
+        "startItem": "{{title}} starten"
+    }
   },
   "webArchive": {
       "title": "Wayback Machine",
@@ -190,25 +189,35 @@
       "myWorksets": "Meine Worksets",
       "noWorksets": "Sie haben noch keine Worksets erstellt. Nutzen Sie das Formular unten, um ein neues Forschungsprojekt zu starten.",
       "createWorkset": "Neues Workset erstellen",
-      "worksetNamePlaceholder": "z.B. 'Forschung zur Marinegeschichte des 19. Jhd.'",
-      "createButton": "Workset erstellen",
-      "deleteWorksetConfirm": "Sind Sie sicher, dass Sie das Workset '{{name}}' löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "newWorksetPlaceholder": "Geben Sie einen Namen für Ihr neues Workset ein",
+      "create": "Erstellen",
+      "deleteWorkset": "Workset löschen",
+      "confirmDelete": "Sind Sie sicher, dass Sie das Workset '{{worksetName}}' endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "backToHub": "Zurück zum Scriptorium-Hub",
       "noDocuments": "Dieses Workset ist leer. Fügen Sie Dokumente hinzu, um Ihre Forschung zu beginnen.",
       "selectDocument": "Wählen Sie ein Dokument aus Ihrem Workset aus, um mit dem Lesen zu beginnen.",
-      "addDocument": "Dokumente zum Workset hinzufügen",
-      "searchTexts": "Nach Textdokumenten zum Hinzufügen suchen...",
-      "startSearching": "Beginnen Sie zu tippen, um nach Texten zu suchen.",
-      "addSelected_one": "{{count}} ausgewähltes Dokument hinzufügen",
-      "addSelected_other": "{{count}} ausgewählte Dokumente hinzufügen",
+      "addDocumentTo": "Dokumente zu '{{worksetName}}' hinzufügen",
+      "searchPlaceholder": "Nach Textdokumenten zum Hinzufügen suchen...",
+      "startTyping": "Tippen Sie, um die Textsuche zu starten.",
       "reader": {
-          "loadError": "Der Text für dieses Dokument konnte nicht geladen werden.",
-          "fullText": "Volltext",
-          "entityAnalysis": "Entitätenanalyse",
-          "extracting": "Extrahiere...",
-          "extract": "Extrahieren",
-          "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren."
-      }
+        "loadError": "Der Text für dieses Dokument konnte nicht geladen werden.",
+        "entityAnalysis": "Entitätenanalyse",
+        "extracting": "Wird extrahiert...",
+        "extract": "Extrahieren",
+        "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren.",
+        "tabReader": "Reader",
+        "tabAI": "KI-Werkzeuge",
+        "tabNotes": "Notizen",
+        "notesPlaceholder": "Ihre Notizen zu diesem Dokument..."
+      },
+      "documentCount_one": "{{count}} Dokument",
+      "documentCount_other": "{{count}} Dokumente",
+      "errorSave": "Worksets konnten nicht gespeichert werden.",
+      "worksetCreated": "Workset '{{name}}' wurde erstellt.",
+      "worksetDeleted": "Workset '{{name}}' wurde gelöscht.",
+      "documentAdded": "Dokument wurde zum Workset hinzugefügt.",
+      "documentExists": "Dokument ist bereits in diesem Workset.",
+      "documentRemoved": "Dokument wurde aus dem Workset entfernt."
   },
   "favorites": {
     "title": "Favoriten",
@@ -218,16 +227,24 @@
     "collections": "Sammlungen",
     "noFavItems": "Keine favorisierten Einträge",
     "noFavItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
-    "noFavUploaders": "Keine favorisierten Uploader",
+    "noFavUploaders": "Keine gefolgten Uploader",
     "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Uploaders, um ihm zu folgen.",
     "comingSoon": "Demnächst verfügbar",
-    "comingSoonDesc": "Die Möglichkeit, favorisierte Sammlungen zu speichern und zu verwalten, wird bald verfügbar sein."
+    "comingSoonDesc": "Die Möglichkeit, favorisierte Sammlungen zu speichern und zu verwalten, wird bald verfügbar sein.",
+    "added": "Zu den Favoriten hinzugefügt!",
+    "removed": "Aus den Favoriten entfernt.",
+    "errorSave": "Favoriten konnten nicht gespeichert werden.",
+    "uploaderAdded": "Uploader gefolgt!",
+    "uploaderRemoved": "Uploader nicht mehr gefolgt.",
+    "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden."
   },
   "uploaderHub": {
     "title": "Uploader-Hub",
     "description": "Entdecken Sie die Personen und Institutionen hinter dem Archiv. Durchsuchen Sie vorgestellte Beitragende oder filtern Sie nach Kategorien, um neue Inhalte zu finden.",
     "featured": "Vorgestellte Uploader",
     "all": "Alle Kategorien",
+    "allOtherUploaders": "Alle weiteren Uploader",
+    "categoryTitle": "Uploader in {{category}}",
     "categories": {
       "archivist": "Archivare",
       "institution": "Institutionen",
@@ -238,16 +255,15 @@
       "history": "Geschichte"
     }
   },
-  "uploaderCard": {
-    "noPublicUploads": "Keine öffentlichen Uploads gefunden.",
-    "topUploads": "Top-Uploads",
-    "viewUploads": "Profil & Uploads ansehen"
-  },
-  "uploaderSidebar": {
-    "viewOnArchive": "Auf Archive.org ansehen"
+  "uploaderProfileCard": {
+    "favorite": "Uploader folgen",
+    "unfavorite": "Uploader nicht mehr folgen",
+    "viewOnArchive": "Auf Archive.org ansehen",
+    "genericDescription": "Ein Uploader von Inhalten für das Internet Archive."
   },
   "uploaderDetail": {
-    "backToExplorer": "Zurück zum Uploader-Hub",
+    "backToExplorer": "Zurück zum Explorer",
+    "backToUploaderHub": "Zurück zum Uploader-Hub",
     "tabs": {
         "uploads": "Uploads",
         "reviews": "Bewertungen",
@@ -271,12 +287,12 @@
     "descending": "absteigend",
     "sortCriteria": {
         "downloads": "Beliebtheit (Gesamt)",
-        "month": "Beliebtheit (Dieser Monat)",
-        "publicdate": "Veröffentlichungsdatum",
+        "week": "Beliebtheit (diese Woche)",
+        "publicdate": "Veröffentlicht am",
         "addeddate": "Hinzugefügt am"
     },
     "filters": {
-      "allTypes": "Alle"
+      "allTypes": "Alle Typen"
     }
   },
   "reviewCard": {
@@ -292,17 +308,8 @@
       },
       "details": {
           "searchByCreator": "Suche nach mehr von {{creator}}",
-          "viewUploaderProfile": "Uploader-Profil für {{uploader}} ansehen"
+          "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen"
       }
-  },
-  "audioModal": {
-      "playlist": "Wiedergabeliste",
-      "noTracks": "Keine abspielbaren Audiospuren für diesen Eintrag gefunden."
-  },
-  "videoModal": {
-      "description": "Beschreibung",
-      "downloadFiles": "Herunterladbare Dateien",
-      "details": "Details"
   },
   "aiTools": {
       "summary": "KI-Zusammenfassung",
@@ -356,6 +363,7 @@
         "importAll": "Daten importieren",
         "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre Einstellungen, Favoriten und Worksets wiederherzustellen. Dies überschreibt vorhandene Daten.",
         "importButton": "Aus Datei importieren...",
+        "importButtonConfirm": "Importieren & Überschreiben",
         "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
         "importSuccess": "Daten erfolgreich importiert! Die Seite wird nun neu geladen.",
         "importError": "Import der Daten fehlgeschlagen",
@@ -365,9 +373,13 @@
         "searchHistoryDesc": "Die App speichert Ihre letzten Suchanfragen lokal.",
         "noHistory": "Noch kein Suchverlauf.",
         "clearHistory": "Suchverlauf löschen",
+        "clearHistoryTitle": "Suchverlauf löschen?",
+        "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
+        "clearHistorySuccess": "Suchverlauf gelöscht.",
         "resetAll": "Alle Einstellungen zurücksetzen",
         "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets sind davon NICHT betroffen.",
-        "resetButton": "Einstellungen zurücksetzen"
+        "resetButton": "Einstellungen zurücksetzen",
+        "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt."
     }
   },
   "help": {
@@ -379,7 +391,7 @@
     "qFilters": "Wie funktionieren die Filter?",
     "aFilters": "Klicken Sie auf der Suchergebnisseite auf die Medientyp-Schaltflächen, um Filter umzuschalten. Verwenden Sie das Dropdown-Menü, um nach Kriterien wie Beliebtheit oder Datum zu sortieren. Erweiterte Filter wie Jahresbereich und Sammlung sind über das Filtersymbol zugänglich.",
     "qNav": "Wie navigiere ich in der App?",
-    "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf dem Handy), um zwischen den Hauptbereichen zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
+    "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf dem Handy), um zwischen den Hauptbereichen wie dem **Explorer**, den **Favoriten** und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
     "explorerTitle": "Explorer-Hub",
     "qExplorer": "Was ist der Explorer-Hub?",
     "aExplorer": "Die Hauptseite 'Entdecken' ist Ihr zentraler Hub. Wenn Sie nicht aktiv suchen, werden hier kuratierte und dynamische Inhalte wie 'Aktuelle Trends', 'An diesem Tag in der Geschichte' und eine Auswahl an thematischen Suchen angezeigt, um Ihnen bei der Entdeckung neuer Einträge zu helfen.",
@@ -404,17 +416,17 @@
     "qWorksets": "Wie verwende ich Worksets?",
     "aWorksets": "Vom Scriptorium-Hub aus können Sie neue Worksets erstellen (z. B. 'Meine Romanrecherche'). Sobald Sie ein Workset öffnen, können Sie Textdokumente durch Durchsuchen des Archivs hinzufügen. Alle Ihre Worksets und deren Inhalte werden lokal in Ihrem Browser gespeichert.",
     "qReaderAi": "Was sind die KI-Werkzeuge im Dokumentenleser?",
-    "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können eine prägnante Zusammenfassung des Textes erstellen oder Schlüssel-'Entitäten' - wie Personen, Orte und Organisationen - extrahieren, um Ihnen zu helfen, den Inhalt zu verstehen und verwandte Informationen zu finden.",
+    "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können eine prägnante Zusammenfassung des Textes erstellen oder Schlüssel-'Entitäten' – wie Personen, Orte und Organisationen – extrahieren, um Ihnen zu helfen, den Inhalt zu verstehen und verwandte Informationen zu finden.",
     "communityTitle": "Community-Funktionen",
     "qUploaderHub": "Was ist der Uploader-Hub?",
     "aUploaderHub": "Dieser Bereich ist den Personen und Institutionen gewidmet, die Inhalte zum Internet Archive beitragen. Sie können vorgestellte Uploader durchsuchen, nach Kategorien wie 'Musik' oder 'Geschichte' filtern und deren Profile erkunden.",
     "qFavorites": "Wie funktionieren Favoriten?",
     "aFavorites": "Sie können jeden Eintrag oder Uploader 'favorisieren', indem Sie auf das Sternsymbol klicken. Alle Ihre Favoriten werden im Bereich 'Favoriten', der über das Seitenmenü zugänglich ist, für einen einfachen späteren Zugriff gesammelt. Alle Daten werden in Ihrem Browser gespeichert.",
     "qSimilar": "Wie funktioniert 'Ähnliche Einträge'?",
-    "aSimilar": "Wenn Sie die Details eines Eintrags anzeigen, zeigt der Abschnitt 'Ähnliche Einträge' andere Inhalte aus derselben primären Sammlung oder vom selben Ersteller. Dies ist eine großartige Möglichkeit, verwandtes Material zu entdecken.",
+    "aSimilar": "Wenn Sie die Details eines Eintrags anzeigen, zeigt der Tab 'Ähnlich' andere Inhalte aus derselben primären Sammlung oder vom selben Ersteller. Dies ist eine großartige Möglichkeit, verwandtes Material zu entdecken.",
     "faqTitle": "Häufig gestellte Fragen",
     "qDownload": "Kann ich Einträge herunterladen?",
-    "aDownload": "Ja. In der Detailansicht eines Eintrags finden Sie einen 'Dateien'-Tab (für die meisten Einträge) oder einen Abschnitt 'Herunterladbare Dateien' (für Videos). Hier werden alle Quelldateien aufgelistet, die zum Download zur Verfügung stehen. Klicken Sie auf eine Datei, um sie in einem neuen Tab zu öffnen oder herunterzuladen.",
+    "aDownload": "Ja. In der Detailansicht eines Eintrags finden Sie den Tab 'Dateien'. Hier werden alle Quelldateien aufgelistet, die zum Download zur Verfügung stehen. Klicken Sie auf eine Datei, um sie in einem neuen Tab zu öffnen oder direkt herunterzuladen.",
     "qOfficial": "Ist dies eine offizielle Anwendung des Internet Archive?",
     "aOfficial": "Nein, dies ist ein unabhängiges Projekt, das von einem Drittanbieter-Entwickler erstellt wurde. Es verwendet die öffentlichen APIs des Internet Archive, ist aber nicht offiziell mit ihnen verbunden oder von ihnen unterstützt.",
     "qAboutApp": "Wer hat diese Anwendung entwickelt?",
@@ -430,6 +442,7 @@
     "nav": {
       "exploreDesc": "Zur Hauptentdeckungsseite gehen",
       "favoritesDesc": "Ihre gespeicherten Einträge und Uploader anzeigen",
+      "uploaderHubDesc": "Entdecken Sie Community-Beitragende",
       "scriptoriumDesc": "Ihren Forschungsarbeitsplatz öffnen",
       "cinemathequeDesc": "Die Filmsammlung durchsuchen",
       "audiothekDesc": "Die Audiosammlung durchsuchen",
@@ -443,6 +456,26 @@
         "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
         "toggleLanguage": "Sprache wechseln",
         "toggleLanguageDesc": "Switch between English and German"
+    }
+  },
+   "uploaders": {
+    "internet_archive": {
+      "description": "Der offizielle Uploader des Internet Archive selbst, der eine riesige Auswahl an digitalisierten Büchern, Filmen, Musik und archivierten Websites bereitstellt."
+    },
+    "jeff_kaplan": {
+      "description": "Ein produktiver Archivar, der sich auf die Erhaltung historischer Software spezialisiert hat und besonders für die Kuratierung riesiger Sammlungen von MS-DOS-Spielen und -Anwendungen bekannt ist."
+    },
+    "jakej": {
+      "description": "Ein Community-Mitglied, das für das Hochladen einer vielfältigen Palette von Inhalten bekannt ist, einschließlich Audioaufnahmen und verschiedener digitaler Materialien."
+    },
+    "lego_archive": {
+      "description": "Ein von Enthusiasten betriebener Account, der sich der Archivierung historischer LEGO-bezogener Medien widmet, einschließlich alter Werbespots, Werbematerialien und Kataloge."
+    },
+    "jvaneerden": {
+      "description": "Ein engagierter Mitwirkender des Live Music Archive, spezialisiert auf die Aufnahme und das Hochladen von hochwertigen Konzert-Audioaufnahmen."
+    },
+    "librivox": {
+      "description": "Eine Gemeinschaft von Freiwilligen aus der ganzen Welt, die gemeinfreie Texte aufnehmen: Gedichte, Kurzgeschichten, ganze Bücher, sogar dramatische Werke, in vielen verschiedenen Sprachen."
     }
   }
 }
