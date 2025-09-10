@@ -1,0 +1,491 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again.",
+    "search": "Search",
+    "close": "Close",
+    "na": "N/A",
+    "done": "Done",
+    "reset": "Reset",
+    "add": "Add",
+    "addToWorkset": "Add to active workset",
+    "startInRecRoom": "Start in Rec Room",
+    "viewLicense": "View License",
+    "creator": "Creator",
+    "uploader": "Uploader",
+    "published": "Published",
+    "collection": "Collection",
+    "license": "License",
+    "description": "Description",
+    "aiAnalysis": "AI Analysis",
+    "files": "Files",
+    "related": "Related",
+    "similarItems": "Similar Items",
+    "noDescription": "No description available.",
+    "people": "People",
+    "places": "Places",
+    "organizations": "Organizations",
+    "dates": "Dates",
+    "noResultsFound": "No Results Found",
+    "noResultsMessage": "Try adjusting your search or filters to find what you're looking for.",
+    "itemsFound_one": "{{formattedCount}} item found",
+    "itemsFound_other": "{{formattedCount}} items found"
+  },
+  "header": {
+    "openFilters": "Open advanced search filters",
+    "openCommandPalette": "Open command palette (Ctrl+K)"
+  },
+  "sideMenu": {
+    "title": "Navigation",
+    "main": "Main",
+    "explore": "Explore",
+    "personal": "Personal",
+    "favorites": "Favorites",
+    "community": "Community",
+    "uploaderHub": "Uploader Hub",
+    "collections": "Collections",
+    "recRoom": "Rec Room",
+    "scriptorium": "Scriptorium",
+    "cinematheque": "Cinematheque",
+    "audiothek": "Audiothek",
+    "imagesHub": "Images Hub",
+    "tools": "Tools",
+    "waybackMachine": "Wayback Machine",
+    "application": "Application",
+    "settings": "Settings",
+    "help": "Help Center",
+    "aboutIA": "About Internet Archive"
+  },
+  "bottomNav": {
+    "explore": "Explore",
+    "books": "Books",
+    "images": "Images",
+    "movies": "Movies",
+    "audio": "Audio"
+  },
+  "explorer": {
+    "searchPlaceholder": "Search the archive...",
+    "sortNewest": "Newest First",
+    "sortOldest": "Oldest First",
+    "sortPopular": "Most Popular",
+    "sortTitle": "Title (A-Z)",
+    "aria": {
+      "sortBy": "Sort by"
+    },
+    "trending": "Trending Now",
+    "onThisDay": "On This Day in History ({{date}})",
+    "viewMore": "View More",
+    "quickSearch": "Quick Searches",
+    "searches": {
+      "classicFilms": "Classic Films",
+      "cultFilms": "Cult Films",
+      "tedTalks": "TED Talks",
+      "liveConcerts": "Live Concerts",
+      "nasaImages": "NASA Images",
+      "msDosGames": "MS-DOS Games",
+      "audiobooks": "Audiobooks"
+    }
+  },
+  "itemCard": {
+    "unknownCreator": "Unknown Creator",
+    "viewDetails": "View details for {{title}}",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites"
+  },
+  "recRoomCard": {
+    "start": "Start",
+    "startItem": "Start {{title}}"
+  },
+  "modals": {
+    "details": {
+      "searchByCreator": "Search for more by {{creator}}",
+      "viewUploaderProfile": "View uploader profile for {{uploader}}"
+    },
+    "emulator": {
+      "close": "Close Emulator",
+      "providedBy": "Emulator provided by The Internet Archive.",
+      "escToExit": "Press ESC to exit fullscreen.",
+      "loading": "Loading emulation environment..."
+    }
+  },
+  "searchPopover": {
+    "title": "Advanced Search",
+    "mediaType": "Media Type",
+    "yearRange": "Year Range",
+    "from": "From",
+    "to": "To",
+    "collection": "Collection",
+    "collectionPlaceholder": "e.g., prelinger or nasa",
+    "queryBuilder": "Query Builder",
+    "where": "Where",
+    "field": "Field",
+    "value": "Value",
+    "valuePlaceholder": "Enter value",
+    "addRow": "+ Add Row",
+    "removeRow": "Remove this row",
+    "fields": {
+      "any": "Any field",
+      "title": "Title",
+      "creator": "Creator",
+      "subject": "Subject",
+      "date": "Date",
+      "collection": "Collection",
+      "mediatype": "Media Type",
+      "publisher": "Publisher",
+      "language": "Language",
+      "downloads": "Downloads"
+    }
+  },
+  "aiTools": {
+    "summary": "AI Summary",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "generatePrompt": "Generate an AI-powered summary of this document.",
+    "summaryErrorApi": "The AI summary could not be created. Please try again later.",
+    "summaryErrorShort": "Text is too short to generate a meaningful summary.",
+    "entityErrorApi": "Entities could not be extracted. Please try again later."
+  },
+  "scriptorium": {
+    "title": "Scriptorium",
+    "description": "Your personal research space. Collect documents, take notes, and analyze texts.",
+    "workspace": "Workspace",
+    "newWorkset": "New Workset",
+    "newWorksetPrompt": "Enter a name for the new workset:",
+    "deleteWorksetConfirm": "Are you sure you want to delete this workset? This action cannot be undone.",
+    "myWorksets": "My Worksets",
+    "numDocs_one": "{{count}} document",
+    "numDocs_other": "{{count}} documents",
+    "noWorksets": "Create a workset to begin collecting documents.",
+    "noWorksetAlert": "No active workset. Please create or select a workset first.",
+    "reader": {
+      "personalNotes": "Personal Notes",
+      "notesPlaceholder": "Your notes and thoughts on this document...",
+      "entityAnalysis": "Entity Analysis",
+      "extract": "Extract",
+      "extracting": "Extracting...",
+      "extractPrompt": "Extract named entities from the text."
+    }
+  },
+  "cinematheque": {
+    "heroFeatured": "Featured Film",
+    "watchNow": "Watch Now",
+    "collections": {
+      "prelinger": "The Prelinger Archives",
+      "film_noir": "Film Noir",
+      "sci_fi": "Classic Sci-Fi",
+      "comedy": "Comedy Classics",
+      "silent_films": "Silent Films",
+      "animation": "Animation & Cartoons",
+      "documentaries": "Documentaries",
+      "ted_talks": "TED Talks",
+      "tv_commercials": "Vintage TV Commercials",
+      "newly_added": "Newly Added Films"
+    }
+  },
+  "audiothek": {
+    "title": "Audiothek",
+    "description": "Discover millions of audio recordings, from live concerts and radio shows to audiobooks and podcasts.",
+    "heroButton": "Explore the Live Music Archive",
+    "categories": {
+      "music": "Music",
+      "audiobooks": "Audiobooks & Poetry",
+      "radio": "Old Time Radio",
+      "podcasts": "Podcasts"
+    },
+    "shelves": {
+      "newly_added": "Newly Added Audio",
+      "grateful_dead": "Grateful Dead",
+      "otr": "Old Time Radio",
+      "librivox": "LibriVox Audiobooks",
+      "classical_music": "Classical Music",
+      "poetry": "Poetry & Spoken Word",
+      "78rpm": "The 78rpm Archive",
+      "radio_plays": "Radio Plays"
+    }
+  },
+  "audioModal": {
+    "playlist": "Playlist",
+    "noTracks": "No playable audio tracks found for this item."
+  },
+  "videoModal": {
+    "description": "Description",
+    "downloadFiles": "Downloadable Files",
+    "details": "Details"
+  },
+
+  "imagesHub": {
+    "description": "Explore a universe of images, from historical photographs to artistic masterpieces.",
+    "searchPlaceholder": "Search for historical photos, art, maps...",
+    "featuredCollections": "Featured Collections",
+    "discoverByTheme": "Discover by Theme",
+    "collections": {
+      "met": "The Metropolitan Museum of Art",
+      "metDesc": "A vast collection of art spanning 5,000 years of world culture.",
+      "nasa": "NASA Image and Video Library",
+      "nasaDesc": "Explore the universe with images from NASA's unique missions.",
+      "flickr": "Flickr Commons",
+      "flickrDesc": "The world's public photography archives from various institutions.",
+      "usgs": "USGS Historical Topographic Maps",
+      "usgsDesc": "A collection of over 178,000 historical maps of the United States."
+    },
+    "themes": {
+      "art": "Art & Design",
+      "science": "Science & Tech",
+      "history": "History",
+      "maps": "Maps"
+    }
+  },
+  "recRoom": {
+    "title": "The Rec Room",
+    "description": "Relive the golden age of software. Play classic MS-DOS games and run historical applications directly in your browser, powered by the EM-DOSBOX emulator.",
+    "endOfArcade": "You've reached the end of the arcade."
+  },
+  "webArchive": {
+    "title": "Wayback Machine",
+    "description": "Explore the history of the web. Enter a URL to see how it has changed over time, with billions of web pages saved since 1996.",
+    "urlPlaceholder": "Enter a URL (e.g., archive.org)",
+    "searchHistory": "Search History",
+    "errorInvalidUrl": "Please enter a valid URL.",
+    "errorFetch": "Failed to fetch snapshots for this URL.",
+    "resultsTable": {
+      "snapshotDate": "Snapshot Date",
+      "originalUrl": "Original URL"
+    },
+    "noSnapshots": "No snapshots found for this URL.",
+    "searchPrompt": "Enter a URL above to see its archived history."
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "description": "Your curated collection of items, uploaders, and more from across the archive.",
+    "items": "Items",
+    "uploaders": "Uploaders",
+    "collections": "Collections",
+    "noFavItems": "No Favorite Items Yet",
+    "noFavItemsDesc": "Click the star icon on any item to add it to your favorites.",
+    "noFavUploaders": "No Favorite Uploaders Yet",
+    "noFavUploadersDesc": "Click the star icon on an uploader's card or profile to add them here.",
+    "comingSoon": "Coming Soon",
+    "comingSoonDesc": "The ability to save and organize collections will be available in a future update."
+  },
+  "uploaderHub": {
+    "title": "Uploader Hub",
+    "description": "Discover the people and institutions behind the collections. Follow your favorite archivists and creators.",
+    "featuredUploader": "Featured Uploader",
+    "searchPlaceholder": "Search by name or description...",
+    "filterByCategory": "Filter by Category",
+    "clearFilters": "Clear Filters",
+    "resultsFound": "{{count}} uploaders found",
+    "allUploaders": "All Uploaders",
+    "sortBy": "Sort by:",
+    "sort": {
+      "featured": "Featured",
+      "asc": "Name (A-Z)",
+      "desc": "Name (Z-A)"
+    },
+    "noUploadersFound": "No Uploaders Found",
+    "noUploadersDesc": "Try adjusting your search query or filters.",
+    "categories": {
+      "all": "All",
+      "archivist": "Archivist",
+      "institution": "Institution",
+      "music": "Music",
+      "community": "Community",
+      "software": "Software",
+      "video": "Video",
+      "history": "History"
+    }
+  },
+  "uploaderCard": {
+    "viewUploads": "View Uploads",
+    "noPublicUploads": "No public uploads found."
+  },
+  "uploaderDetail": {
+    "backToHub": "Back to Uploader Hub",
+    "viewProfile": "View Full Profile on Archive.org",
+    "searchInUploads": "Search within this uploader's items...",
+    "sortBy": "Sort by",
+    "toggleSort": "Toggle sort direction (currently {{direction}})",
+    "ascending": "ascending",
+    "descending": "descending",
+    "noReviews": "No Reviews Found",
+    "noReviewsDesc": "This uploader has not written any reviews yet.",
+    "tabs": {
+      "uploads": "Uploads",
+      "reviews": "Reviews",
+      "lists": "Lists",
+      "posts": "Forum Posts",
+      "collections": "Collections",
+      "webArchives": "Web Archives"
+    },
+    "sortCriteria": {
+      "downloads": "Downloads",
+      "month": "Views (This Month)",
+      "publicdate": "Publication Date",
+      "addeddate": "Date Added"
+    },
+    "stats": {
+      "total": "Total",
+      "movies": "Movies",
+      "audio": "Audio",
+      "texts": "Texts",
+      "images": "Images",
+      "software": "Software"
+    }
+  },
+  "reviewCard": {
+    "reviewOf": "Review of:",
+    "noTitle": "No Review Title"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your Archive Explorer experience.",
+    "search": {
+      "title": "Search & Discovery",
+      "defaultSort": "Default Sort Order",
+      "defaultSortDesc": "Choose how results are sorted by default when you perform a new search."
+    },
+    "accessibility": {
+      "title": "Appearance & Accessibility",
+      "theme": "Application Theme",
+      "themeDesc": "Choose a light, dark, or system-default theme.",
+      "languageTitle": "Language",
+      "languageDesc": "Select the display language for the application.",
+      "reduceMotion": "Reduce Motion",
+      "reduceMotionDesc": "Disable decorative animations and effects for a simpler experience."
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "playback": {
+      "title": "Media Playback",
+      "description": "Control how video and audio content behaves.",
+      "autoplay": "Autoplay Media",
+      "autoplayDesc": "Automatically start playing videos and audio when opened."
+    },
+    "ai": {
+      "title": "AI Features",
+      "description": "Manage features powered by the Gemini model.",
+      "enable": "Enable AI Features",
+      "enableDesc": "Allow the use of AI for summaries, entity extraction, and other enhancements."
+    },
+    "data": {
+      "title": "Application Data",
+      "description": "Manage your saved data within this application. All data is stored in your browser.",
+      "favorites": "Favorites",
+      "favoritesDesc": "Manage your saved items and uploaders.",
+      "worksets": "Scriptorium Worksets",
+      "worksetsDesc": "Manage your saved research worksets and notes.",
+      "import": "Import",
+      "export": "Export",
+      "clearAll": "Clear All",
+      "importSuccess": "Data imported successfully. The page will now reload.",
+      "importError": "Failed to import data. Please ensure the file is a valid JSON export.",
+      "confirmClear": "Are you sure you want to permanently delete all {{name}} data? This cannot be undone.",
+      "clearSuccess": "{{name}} data cleared. The page will now reload."
+    },
+    "about": {
+      "title": "About",
+      "version": "Version 1.0.0",
+      "description": "This application is an independent project built using the public APIs of the Internet Archive and powered by Google's Gemini model. It is not an official application of the Internet Archive."
+    }
+  },
+  "help": {
+    "title": "Help Center",
+    "subtitle": "Find answers to your questions about the Archive Explorer.",
+    "gettingStartedTitle": "Getting Started",
+    "qSearch": "How do I search for items?",
+    "aSearch": "Use the main search bar in the header, which is always available. For more detailed searches, click the filter icon next to the search bar to open the Advanced Search popover. Here you can filter by media type, year, collection, and build complex queries.",
+    "qFilters": "How do filters work?",
+    "aFilters": "The Advanced Search popover lets you narrow your results. You can select one or more media types, specify a date range, or limit your search to a specific collection. The Query Builder allows for even more specific searches, like finding items by a particular creator or with a certain word in the title.",
+    "qNav": "How do I navigate the app?",
+    "aNav": "Use the side menu (on larger screens) or the bottom navigation bar (on mobile) to jump to the main sections. For the fastest navigation, use the Command Palette (Ctrl/Cmd + K) to instantly go anywhere or perform actions.",
+    "explorerTitle": "The Explorer View",
+    "qExplorer": "What is the 'Explore' page?",
+    "aExplorer": "This is the main dashboard. When you're not actively searching, it shows curated content like 'Trending Now' and 'On This Day in History' to help you discover interesting items. When you perform a search, this view shows your results.",
+    "qTrending": "What does 'Trending Now' mean?",
+    "aTrending": "This section shows items that have been viewed or downloaded the most across the entire Internet Archive in the last week.",
+    "qOnThisDay": "What is 'On This Day'?",
+    "aOnThisDay": "This section shows items that were published on today's date in previous years, offering a historical snapshot.",
+    "qQuickSearch": "What are 'Quick Searches'?",
+    "aQuickSearch": "These are curated buttons that run a pre-configured search for popular topics like 'Classic Films' or 'Live Concerts', helping you dive into interesting collections quickly.",
+    "collectionsTitle": "Specialized Collections",
+    "qCinemaAudio": "What are the Cinematheque and Audiothek?",
+    "aCinemaAudio": "These are curated landing pages designed for discovering video and audio content, respectively. They feature popular categories and hand-picked collections to browse, rather than just a list of search results.",
+    "qImages": "What is the Images Hub?",
+    "aImages": "The Images Hub is a starting point for exploring visual content. You can search for images or browse by featured collections from institutions like NASA and The Met, or by themes like History and Art.",
+    "qRecRoom": "What is the Rec Room?",
+    "aRecRoom": "The Rec Room is a portal for emulated software, primarily classic MS-DOS games. You can launch and play these games directly in your browser without needing to download anything.",
+    "qWebArchive": "What can I do with the Wayback Machine?",
+    "aWebArchive": "This tool allows you to see how a website looked in the past. Enter a URL to view a calendar of all the snapshots the Internet Archive has saved over the years.",
+    "scriptoriumTitle": "Scriptorium",
+    "qScriptorium": "What is the Scriptorium?",
+    "aScriptorium": "The Scriptorium is your personal research workspace, designed for working with texts. You can search for documents, group them into 'worksets', and analyze their content.",
+    "qWorksets": "How do 'Worksets' work?",
+    "aWorksets": "A workset is like a project folder. You can create multiple worksets (e.g., '19th Century Poetry', 'WWII Letters'). While a workset is active, you can add documents to it from search results or the document reader. This helps you organize your research.",
+    "qReaderAi": "What AI tools are available in the reader?",
+    "aReaderAi": "When viewing a text document, you can use AI-powered tools. 'Generate Summary' creates a concise overview of the text, and 'Extract Entities' identifies and lists all the people, places, organizations, and dates mentioned in the document.",
+    "communityTitle": "Community & Favorites",
+    "qUploaderHub": "What is the Uploader Hub?",
+    "aUploaderHub": "This section showcases the individuals and institutions who contribute content to the Internet Archive. You can browse by category, search for specific uploaders, and see what kind of content they typically share.",
+    "qFavorites": "How do I use Favorites?",
+    "aFavorites": "Click the star icon on any item or uploader to save them to your Favorites page. This is a great way to keep track of things you want to come back to later.",
+    "qSimilar": "How does 'Similar Items' work?",
+    "aSimilar": "When viewing an item's details, this section suggests other items that are likely to be related, usually because they are in the same collection or by the same creator.",
+    "faqTitle": "Frequently Asked Questions",
+    "qDownload": "Can I download items?",
+    "aDownload": "Yes. In the item's detail view, there is a 'Files' or 'Downloadable Files' section that lists all available files for download. Clicking a file will open it in a new tab where you can save it.",
+    "qOfficial": "Is this an official Internet Archive app?",
+    "aOfficial": "No, this is an independent project created as a demonstration of what can be built with the public Internet Archive APIs and Google's AI tools. It is not affiliated with or endorsed by the Internet Archive.",
+    "qAboutApp": "Who built this application and why?",
+    "aAboutApp": "This application was built to showcase the power of modern web technologies and the capabilities of the Gemini model. It serves as an example project within AI Studio, demonstrating how to build a functional, aesthetically pleasing application that integrates with external APIs and AI services. You can view the project and its code in AI Studio."
+  },
+  "commandPalette": {
+    "placeholder": "Type a command or search...",
+    "sections": {
+      "navigation": "Navigation",
+      "actions": "Actions",
+      "uploaders": "Uploaders",
+      "search": "Search"
+    },
+    "nav": {
+      "exploreDesc": "Go to the main explore page",
+      "favoritesDesc": "View your saved items and uploaders",
+      "uploadersDesc": "Discover content creators",
+      "scriptoriumDesc": "Open your research workspace",
+      "cinemathequeDesc": "Browse the film collection",
+      "audiothekDesc": "Browse the audio collection",
+      "imagesDesc": "Browse the image collection",
+      "recroomDesc": "Play emulated games and software",
+      "settingsDesc": "Change application settings",
+      "helpDesc": "Get help and read the FAQ"
+    },
+    "actions": {
+      "toggleTheme": "Toggle theme",
+      "toggleThemeDesc": "Switch between light and dark mode",
+      "toggleLanguage": "Switch language",
+      "toggleLanguageDesc": "Toggle between English and German"
+    },
+    "uploaders": {
+      "goToDesc": "Go to {{uploader}}'s profile"
+    }
+  },
+  "uploaders": {
+    "jeff_kaplan": {
+      "description": "An archivist specializing in the preservation of classic software and games, ensuring their availability for future generations."
+    },
+    "jakej": {
+      "description": "A community uploader focused on digitizing rare and out-of-print books and magazines."
+    },
+    "lego_archive": {
+      "description": "Dedicated to archiving historical Lego catalogs, instruction manuals, and related media."
+    },
+    "jvaneerden": {
+      "description": "A prolific contributor of live music recordings, especially from the jam band scene."
+    },
+    "librivox": {
+      "description": "The official account for LibriVox, a community of volunteers who record audiobooks of public domain texts."
+    }
+  }
+}
