@@ -59,7 +59,7 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
-    const [data, setData] = useState<{ thumbnailUrl: string; itemCount: number } | null>(null);
+    const [data, setData] = useState<{ thumbnailUrl: string; itemCount: number; identifier: string } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const searchAndGo = useSearchAndGo();
     const { language } = useLanguage();
@@ -74,9 +74,11 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
                 ]);
 
                 if (itemData.response?.docs[0]) {
+                    const item = itemData.response.docs[0];
                     setData({
-                        thumbnailUrl: `https://archive.org/services/get-item-image.php?identifier=${itemData.response.docs[0].identifier}`,
-                        itemCount: count
+                        thumbnailUrl: `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`,
+                        itemCount: count,
+                        identifier: item.identifier,
                     });
                 }
             } catch (error) {
@@ -121,7 +123,22 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
                 </p>
             </div>
             <div className="flex-grow mt-4 relative aspect-square rounded-lg overflow-hidden">
-                 <img src={data.thumbnailUrl} alt={collection.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                 <img
+                    src={data.thumbnailUrl}
+                    alt={collection.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        const fallbackUrl = `https://archive.org/download/${data.identifier}/__ia_thumb.jpg`;
+                        const placeholderUrl = 'https://picsum.photos/400/400?grayscale';
+                        if (target.src.includes('__ia_thumb.jpg')) {
+                            target.onerror = null;
+                            target.src = placeholderUrl;
+                        } else {
+                            target.src = fallbackUrl;
+                        }
+                    }}
+                 />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
         </button>

@@ -3,7 +3,6 @@ import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Updated favorite atoms to library atoms to match store refactor.
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom, enableAiFeaturesAtom } from '../store';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
@@ -37,10 +36,9 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
   const { t } = useLanguage();
   
   const enableAiFeatures = useAtomValue(enableAiFeaturesAtom);
-  // FIX: Use library atoms instead of deprecated favorite atoms.
-  const favoriteIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
-  const addFavorite = useSetAtom(addLibraryItemAtom);
-  const removeFavorite = useSetAtom(removeLibraryItemAtom);
+  const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
+  const addLibraryItem = useSetAtom(addLibraryItemAtom);
+  const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
 
   const {
       metadata,
@@ -58,7 +56,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
       fetchMetadata,
   } = useItemMetadata(item);
 
-  const favoriteStatus = favoriteIdentifiers.has(item.identifier);
+  const isFavorite = libraryItemIdentifiers.has(item.identifier);
   
   useModalFocusTrap({ modalRef, isOpen: isMounted && !isClosing, onClose });
 
@@ -72,11 +70,11 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
   }, [onClose]);
 
   const handleFavoriteClick = () => {
-    if (favoriteStatus) {
-      removeFavorite(item.identifier);
+    if (isFavorite) {
+      removeLibraryItem(item.identifier);
       addToast(t('favorites:removed'), 'info');
     } else {
-      addFavorite(item);
+      addLibraryItem(item);
       addToast(t('favorites:added'), 'success');
     }
   };
@@ -85,7 +83,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
     if (!metadata) return null;
     
     return (
-      <div className="pt-2">
+      <div className="pt-2 animate-fade-in" key={activeTab}>
         {activeTab === 'description' && (
           <ItemDetailDescriptionTab description={metadata.metadata.description} />
         )}
@@ -119,8 +117,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
       >
         <header className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex items-center space-x-3 min-w-0">
-                 <button onClick={handleFavoriteClick} className="flex-shrink-0 text-gray-400 hover:text-yellow-400 transition-colors rounded-full p-1" aria-label={favoriteStatus ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}>
-                    <StarIcon filled={favoriteStatus} className="w-6 h-6" />
+                 <button onClick={handleFavoriteClick} className="flex-shrink-0 text-gray-400 hover:text-yellow-400 transition-colors rounded-full p-1" aria-label={isFavorite ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}>
+                    <StarIcon filled={isFavorite} className="w-6 h-6" />
                 </button>
                 <h2 id="modal-title" className="text-xl font-bold text-gray-900 dark:text-white truncate">{item.title}</h2>
             </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 

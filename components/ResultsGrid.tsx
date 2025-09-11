@@ -16,6 +16,7 @@ interface ResultsGridProps {
   totalResults: number;
   lastElementRef?: (node: HTMLDivElement | null) => void;
   onRetry?: () => void;
+  searchQuery?: string;
 }
 
 export const ResultsGrid: React.FC<ResultsGridProps> = ({
@@ -28,6 +29,7 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   totalResults,
   lastElementRef,
   onRetry,
+  searchQuery,
 }) => {
   const { t, language } = useLanguage();
 
@@ -70,6 +72,7 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   return (
     <div>
       <div className="pb-4 border-b border-gray-200 dark:border-gray-700 mb-6">
+        {searchQuery && <p className="text-lg text-gray-700 dark:text-gray-300 mb-1">{t('common:resultsFor')} <span className="font-bold text-gray-900 dark:text-white">"{searchQuery}"</span></p>}
         <p className="text-gray-500 dark:text-gray-400" aria-live="polite">{t('common:itemsFound', { count: totalResults, formattedCount: totalResults.toLocaleString(language) })}</p>
       </div>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-6">

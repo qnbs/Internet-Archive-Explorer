@@ -3,7 +3,6 @@ import type { ArchiveItemSummary, Profile } from '../../types';
 import { searchArchive } from '../../services/archiveService';
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import { ResultsGrid } from '../ResultsGrid';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 
 interface UploaderCollectionsProps {

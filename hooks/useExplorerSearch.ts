@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { searchQueryAtom, facetsAtom } from '../store';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchArchive } from '../services/archiveService';
@@ -19,14 +19,14 @@ export const useExplorerSearch = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true); // New state to explicitly control infinite scroll
   const { t } = useLanguage();
 
   const performSearch = useCallback(async (query: string, searchPage: number) => {
     if (searchPage === 1) {
-        setIsLoading(true);
-        setResults([]);
+      setIsLoading(true);
     } else {
-        setIsLoadingMore(true);
+      setIsLoadingMore(true);
     }
     setError(null);
 
@@ -35,14 +35,33 @@ export const useExplorerSearch = () => {
       const sorts = finalQuery === 'featured' ? [] : ['-publicdate'];
       const data = await searchArchive(finalQuery, searchPage, sorts);
       if (data && data.response && Array.isArray(data.response.docs)) {
+        const newDocs = data.response.docs;
         setTotalResults(data.response.numFound);
-        setResults(prev => searchPage === 1 ? data.response.docs : [...prev, ...data.response.docs]);
+
+        if (newDocs.length === 0) {
+          setHasMore(false);
+        } else {
+          setResults(prev => {
+            const currentResults = searchPage === 1 ? [] : prev;
+            const combinedResults = [...currentResults, ...newDocs];
+            // Prevent duplicates which can sometimes occur with API pagination
+            const uniqueResults = combinedResults.filter((item, index, self) => 
+                index === self.findIndex(i => i.identifier === item.identifier)
+            );
+            
+            // Determine if there are more results to fetch
+            setHasMore(uniqueResults.length < data.response.numFound);
+            return uniqueResults;
+          });
+        }
       } else {
         setTotalResults(0);
-        setResults(prev => searchPage === 1 ? [] : prev);
+        setResults(prev => (searchPage === 1 ? [] : prev));
+        setHasMore(false);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : t('common:error'));
+      setHasMore(false); // Stop fetching on error
     } finally {
       setIsLoading(false);
       setIsLoadingMore(false);
@@ -51,23 +70,24 @@ export const useExplorerSearch = () => {
 
   useEffect(() => {
     setPage(1);
+    setHasMore(true); // Reset for new search
     const query = buildArchiveQuery({ text: debouncedQuery, facets });
     performSearch(query, 1);
   }, [debouncedQuery, facets, performSearch]);
 
   const handleLoadMore = useCallback(() => {
-    if (isLoading || isLoadingMore) return;
+    if (isLoading || isLoadingMore || !hasMore) return; // Guard against unnecessary calls
     const nextPage = page + 1;
     setPage(nextPage);
     performSearch(buildArchiveQuery({ text: debouncedQuery, facets }), nextPage);
-  }, [isLoading, isLoadingMore, page, debouncedQuery, facets, performSearch]);
+  }, [isLoading, isLoadingMore, hasMore, page, debouncedQuery, facets, performSearch]);
   
   const handleRetry = useCallback(() => {
       setPage(1);
+      setHasMore(true); // Reset for retry
       performSearch(buildArchiveQuery({ text: debouncedQuery, facets }), 1);
   }, [debouncedQuery, facets, performSearch]);
   
-  const hasMore = !isLoading && results.length < totalResults;
   const lastElementRef = useInfiniteScroll({
       isLoading: isLoadingMore,
       hasMore,

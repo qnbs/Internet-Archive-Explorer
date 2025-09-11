@@ -8,6 +8,8 @@
   },
   "details": {
     "searchByCreator": "Suche nach mehr von {{creator}}",
-    "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen"
+    "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen",
+    "restrictedAccess": "Eingeschränkter Zugriff",
+    "restrictedAccessDesc": "Dieser Artikel muss möglicherweise aus dem Internet Archive ausgeliehen werden, um ihn anzusehen."
   }
 }

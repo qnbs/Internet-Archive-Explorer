@@ -1,7 +1,6 @@
 import React from 'react';
 import type { WorksetDocument } from '../../types';
 import { CloseIcon } from '../Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 
 interface DocumentListItemProps {

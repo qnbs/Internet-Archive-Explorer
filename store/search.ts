@@ -9,7 +9,6 @@ export const STORAGE_KEYS = {
 // --- View-Specific Search State Atoms ---
 export const searchQueryAtom = atom('');
 export const profileSearchQueryAtom = atom('');
-// FIX: Add webArchiveUrlAtom to store search-related state.
 export const webArchiveUrlAtom = atom('');
 
 // --- Facets for Explorer Search ---

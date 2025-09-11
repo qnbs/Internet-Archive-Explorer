@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSearchAndGo } from '../../hooks/useSearchAndGo';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 import { MusicNoteIcon } from '../Icons';
 import { MediaType } from '../../types';

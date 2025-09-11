@@ -27,8 +27,7 @@ export type View =
   | 'help'
   | 'uploaderDetail'
   | 'uploaderProfile'
-  | 'storyteller'
-  | 'uploaderHub';
+  | 'storyteller';
 
 export interface ArchiveItemSummary {
   identifier: string;
@@ -178,7 +177,6 @@ export interface ConfirmationOptions {
   confirmLabel?: string;
   confirmClass?: string;
 }
-// FIX: Added LibraryFilter type definition, which was previously defined locally in a store file.
 export type LibraryFilter = { type: 'all' } | { type: 'collection'; id: string } | { type: 'tag'; tag: string };
 
 export type Facets = {

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Workset } from '../../types';
 import { TrashIcon, ArrowRightIcon } from '../Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 
 interface WorksetListItemProps {

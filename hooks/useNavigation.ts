@@ -1,19 +1,24 @@
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
 import { UPLOADER_DATA } from '../pages/uploaderData';
-import type { View, Profile, Uploader } from '../types';
+import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
-    // FIX: Replaced `useSetAtom` with `useAtom` to work around a type inference issue with complex object types in atoms.
-    const [, setSelectedProfile] = useAtom(selectedProfileAtom);
+    const setSelectedProfile = useSetAtom(selectedProfileAtom);
     const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 
     const navigateTo = useCallback((view: View) => {
         setActiveView(view);
     }, [setActiveView]);
+    
+    const navigateToProfile = useCallback((profile: Profile) => {
+        setProfileReturnView(currentView);
+        setSelectedProfile(profile);
+        setActiveView('uploaderDetail');
+    }, [currentView, setActiveView, setSelectedProfile, setProfileReturnView]);
 
     const navigateToUploader = useCallback((searchIdentifier: string) => {
         const curatedData = UPLOADER_DATA.find(u => u.searchUploader === searchIdentifier);
@@ -23,10 +28,8 @@ export const useNavigation = () => {
             type: 'uploader',
             curatedData: curatedData,
         };
-        setProfileReturnView(currentView);
-        setSelectedProfile(profile);
-        setActiveView('uploaderDetail');
-    }, [setActiveView, setSelectedProfile, setProfileReturnView, currentView]);
+        navigateToProfile(profile);
+    }, [navigateToProfile]);
     
     const navigateToCreator = useCallback((creatorName: string) => {
         const profile: Profile = {
@@ -34,22 +37,8 @@ export const useNavigation = () => {
             searchIdentifier: creatorName,
             type: 'creator',
         };
-        setProfileReturnView(currentView);
-        setSelectedProfile(profile);
-        setActiveView('uploaderDetail');
-    }, [setActiveView, setSelectedProfile, setProfileReturnView, currentView]);
-
-    const navigateToUploaderFromHub = useCallback((uploader: Uploader) => {
-        const profile: Profile = {
-            name: uploader.username,
-            searchIdentifier: uploader.searchUploader,
-            type: 'uploader',
-            curatedData: uploader
-        };
-        setProfileReturnView('uploaderHub');
-        setSelectedProfile(profile);
-        setActiveView('uploaderDetail');
-    }, [setActiveView, setSelectedProfile, setProfileReturnView]);
+        navigateToProfile(profile);
+    }, [navigateToProfile]);
 
     const goBackFromProfile = useCallback((returnView?: View) => {
         setSelectedProfile(null);
@@ -60,7 +49,7 @@ export const useNavigation = () => {
         navigateTo,
         navigateToUploader,
         navigateToCreator,
-        navigateToUploaderFromHub,
+        navigateToProfile,
         goBackFromProfile
     };
 };

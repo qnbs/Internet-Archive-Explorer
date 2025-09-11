@@ -4,7 +4,6 @@ import type { ArchiveItemSummary, Workset } from '../../types';
 import { useDebounce } from '../../hooks/useDebounce';
 import { Spinner } from '../Spinner';
 import { CloseIcon, SearchIcon, PlusIcon } from '../Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 

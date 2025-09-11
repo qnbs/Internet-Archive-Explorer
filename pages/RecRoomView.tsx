@@ -6,7 +6,6 @@ import { RecRoomItemCard } from '../components/RecRoomItemCard';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { JoystickIcon } from '../components/Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 
 interface RecRoomViewProps {

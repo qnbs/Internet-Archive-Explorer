@@ -44,13 +44,15 @@ export const removeLibraryItemAtom = atom(
 
 export const removeMultipleLibraryItemsAtom = atom(
     null,
-    // FIX: Changed setter argument from a direct Set to an object to improve type inference with useSetAtom.
-    (get, set, { identifiers }: { identifiers: Set<string> }) => {
-        set(libraryItemsAtom, current => current.filter(item => !identifiers.has(item.identifier)));
+    // FIX: Changed payload from object to direct argument for better type inference with useSetAtom.
+    (get, set, identifiers: string[]) => {
+        const idSet = new Set(identifiers);
+        set(libraryItemsAtom, current => current.filter(item => !idSet.has(item.identifier)));
         // Also remove from all collections
         set(userCollectionsAtom, collections => collections.map(c => ({
             ...c,
-            itemIdentifiers: c.itemIdentifiers.filter(id => !identifiers.has(id))
+            // FIX: Corrected a bug where an undefined `identifier` was used instead of checking against the `idSet`.
+            itemIdentifiers: c.itemIdentifiers.filter(id => !idSet.has(id))
         })));
     }
 );
@@ -72,9 +74,11 @@ export const updateLibraryItemTagsAtom = atom(
 
 export const addTagsToMultipleItemsAtom = atom(
     null,
-    (get, set, { identifiers, tags }: { identifiers: Set<string>, tags: string[] }) => {
+    // FIX: Changed payload from object to direct arguments for better type inference with useSetAtom.
+    (get, set, identifiers: string[], tags: string[]) => {
+        const idSet = new Set(identifiers);
         set(libraryItemsAtom, items => items.map(item => {
-            if (identifiers.has(item.identifier)) {
+            if (idSet.has(item.identifier)) {
                 const newTags = [...new Set([...item.tags, ...tags])].sort();
                 return { ...item, tags: newTags };
             }
@@ -97,7 +101,6 @@ export const deleteCollectionAtom = atom(null, (get, set, collectionId: string) 
 
 export const addItemsToCollectionAtom = atom(
     null,
-    // FIX: Changed `string[] | Set<string>` to `Iterable<string>` to simplify the type and fix inference issues.
     (get, set, { collectionId, itemIdentifiers }: { collectionId: string, itemIdentifiers: Iterable<string> }) => {
         set(userCollectionsAtom, collections => collections.map(c => {
             if (c.id === collectionId) {
@@ -144,5 +147,4 @@ export const allLibraryTagsAtom = atom(get => {
 });
 
 // --- Bulk Actions ---
-// FIX: Explicitly type `new Set()` as `new Set<string>()` to match the atom's type signature and prevent type errors.
 export const selectedLibraryItemsForBulkActionAtom = atom(new Set<string>());

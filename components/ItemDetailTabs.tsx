@@ -1,5 +1,4 @@
 import React, { useId } from 'react';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import type { ItemDetailTab } from '../hooks/useItemMetadata';
 

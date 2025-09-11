@@ -1,7 +1,6 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { JoystickIcon } from './Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 
 interface RecRoomItemCardProps {
@@ -41,8 +40,15 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.onerror = null;
-            target.src = 'https://picsum.photos/400/300?grayscale';
+            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const placeholderUrl = 'https://picsum.photos/400/300?grayscale';
+
+            if (target.src.includes('__ia_thumb.jpg')) {
+                target.onerror = null;
+                target.src = placeholderUrl;
+            } else {
+                target.src = fallbackUrl;
+            }
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-4">

@@ -3,7 +3,6 @@ import type { ArchiveItemSummary } from '../types';
 import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 
 interface ContentCarouselProps {

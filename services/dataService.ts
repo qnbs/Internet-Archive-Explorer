@@ -8,7 +8,6 @@ interface BackupData {
     version: number;
     timestamp: string;
     settings: AppSettings;
-    // FIX: Renamed 'itemFavorites' to 'libraryItems' to align with store refactor.
     libraryItems: LibraryItem[];
     uploaderFavorites: string[];
     scriptoriumWorksets: Workset[];
@@ -28,7 +27,6 @@ export const exportAllData = (): string => {
 
     try {
         data.settings = JSON.parse(localStorage.getItem(SETTINGS_KEYS.settings) || '{}');
-        // FIX: Use 'libraryItems' key for consistency with updated store.
         data.libraryItems = JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '[]');
         data.uploaderFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEYS.uploaderFavorites) || '[]');
         data.scriptoriumWorksets = JSON.parse(localStorage.getItem(SCRIPTORIUM_KEY) || '[]');
@@ -55,7 +53,6 @@ export const importData = (jsonString: string): void => {
 
         // Validate and save each part
         if (data.settings) localStorage.setItem(SETTINGS_KEYS.settings, JSON.stringify(data.settings));
-        // FIX: Use 'libraryItems' key for consistency with updated store.
         if (data.libraryItems) localStorage.setItem(FAVORITES_KEYS.libraryItems, JSON.stringify(data.libraryItems));
         if (data.uploaderFavorites) localStorage.setItem(FAVORITES_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
         if (data.scriptoriumWorksets) localStorage.setItem(SCRIPTORIUM_KEY, JSON.stringify(data.scriptoriumWorksets));

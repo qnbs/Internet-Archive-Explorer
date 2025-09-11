@@ -1,7 +1,6 @@
 import { atom } from 'jotai';
 import type { View, Profile, ArchiveItemSummary, ConfirmationOptions } from '../types';
 
-// FIX: Change modal state discriminant from `null` to `'closed'` for more reliable type narrowing.
 export type ModalState =
   | { type: 'closed' }
   | { type: 'itemDetail'; item: ArchiveItemSummary }

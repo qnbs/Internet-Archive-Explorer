@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { UPLOADER_DATA, UPLOADER_CATEGORIES } from './uploaderData';
-import type { Uploader, UploaderCategory } from '../types';
+import type { Uploader, UploaderCategory, Profile } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { SearchIcon, UsersIcon } from '../components/Icons';
 import { UploaderProfileCard } from '../components/UploaderProfileCard';
@@ -70,14 +70,23 @@ export const UploaderHubView: React.FC<UploaderHubViewProps> = ({ onSelectUpload
             <section>
                  {filteredUploaders.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {filteredUploaders.map((uploader, index) => (
-                            <UploaderProfileCard
-                                key={uploader.searchUploader}
-                                uploader={uploader}
-                                index={index}
-                                onSelect={onSelectUploader}
-                            />
-                        ))}
+                        {filteredUploaders.map((uploader, index) => {
+                            // FIX: Construct a Profile object to pass to the UploaderProfileCard component.
+                            const profile: Profile = {
+                                name: uploader.username,
+                                searchIdentifier: uploader.searchUploader,
+                                type: 'uploader',
+                                curatedData: uploader,
+                            };
+                            return (
+                                <UploaderProfileCard
+                                    key={uploader.searchUploader}
+                                    profile={profile}
+                                    index={index}
+                                    onSelect={(_profile) => onSelectUploader(uploader)}
+                                />
+                            );
+                        })}
                     </div>
                  ) : (
                     <div className="text-center py-16 bg-gray-50 dark:bg-gray-800/60 rounded-lg">

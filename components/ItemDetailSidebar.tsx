@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon } from './Icons';
+import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon } from './Icons';
 import { formatIdentifierForDisplay } from '../utils/formatter';
 
 interface ItemDetailSidebarProps {
@@ -75,6 +75,17 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                     src={thumbnailUrl}
                     alt={`Cover for ${item.title}`}
                     className={`w-full h-full object-cover transition-opacity duration-300 ${isPlaying && playableMedia?.type === 'video' ? 'opacity-0' : 'opacity-100'}`}
+                    onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+                        const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
+                        if (target.src.includes('__ia_thumb.jpg')) {
+                            target.onerror = null;
+                            target.src = placeholderUrl;
+                        } else {
+                            target.src = fallbackUrl;
+                        }
+                    }}
                 />
                 
                 {/* Play/Pause Overlay */}
@@ -123,6 +134,13 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                     <JoystickIcon />
                     <span>{t('recRoom:card.start')}</span>
                 </button>
+            )}
+
+            {metadata.metadata['access-restricted-item'] === 'true' && (
+                <div className="p-3 bg-yellow-500/10 text-yellow-300 rounded-lg border border-yellow-500/30 flex items-start space-x-2 text-sm">
+                    <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5"/>
+                    <div><span className="font-bold">{t('modals:details.restrictedAccess')}</span>: {t('modals:details.restrictedAccessDesc')}</div>
+                </div>
             )}
 
             <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">

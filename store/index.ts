@@ -24,7 +24,6 @@ export {
     webArchiveUrlAtom,
 } from './search';
 
-// FIX: Corrected typo `addItemToCollectionAtom` to `addItemsToCollectionAtom` and exported missing atoms.
 export {
     libraryItemsAtom,
     libraryItemIdentifiersAtom,

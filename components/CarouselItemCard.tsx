@@ -1,6 +1,5 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 
 export type AspectRatio = 'video' | 'square' | 'portrait';
@@ -43,8 +42,15 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.onerror = null; // prevent infinite loop
-            target.src = 'https://picsum.photos/400/400?grayscale';
+            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const placeholderUrl = 'https://picsum.photos/400/400?grayscale';
+
+            if (target.src.includes('__ia_thumb.jpg')) {
+                target.onerror = null;
+                target.src = placeholderUrl;
+            } else {
+                target.src = fallbackUrl;
+            }
           }}
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -39,6 +39,17 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
         alt=""
         className="w-12 h-16 object-cover rounded-sm flex-shrink-0 bg-gray-700"
         loading="lazy"
+        onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
+            if (target.src.includes('__ia_thumb.jpg')) {
+                target.onerror = null;
+                target.src = placeholderUrl;
+            } else {
+                target.src = fallbackUrl;
+            }
+        }}
       />
       <div className="flex-grow min-w-0">
         <h3 className={`font-semibold text-sm truncate ${isDetailViewTarget ? 'text-white' : 'text-gray-200'}`} title={item.title}>

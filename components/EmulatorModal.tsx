@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { CloseIcon } from './Icons';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';

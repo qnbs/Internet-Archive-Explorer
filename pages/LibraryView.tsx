@@ -271,8 +271,8 @@ const LibraryItemList: React.FC = () => {
     // Bulk Actions
     const handleBulkDelete = () => {
         if(selectedItems.size === 0) return;
-        // FIX: The atom now expects an object.
-        removeMultiple({ identifiers: selectedItems });
+        // FIX: Pass an array of identifiers directly to the atom setter.
+        removeMultiple(Array.from(selectedItems));
         setIsSelectMode(false);
     };
     const handleBulkAddToCollection = (collectionId: string) => {
@@ -289,7 +289,8 @@ const LibraryItemList: React.FC = () => {
         if (tagsString) {
             const tags = tagsString.split(',').map(t => t.trim()).filter(Boolean);
             if (tags.length > 0) {
-                addTagsToMulti({ identifiers: selectedItems, tags });
+                // FIX: Pass identifiers array and tags array directly to the atom setter.
+                addTagsToMulti(Array.from(selectedItems), tags);
                 addToast(t('favorites:bulkActions.tagsAdded'), 'success');
             }
         }

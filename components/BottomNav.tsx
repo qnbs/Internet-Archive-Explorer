@@ -1,6 +1,5 @@
 import React from 'react';
 import type { View } from '../types';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { CompassIcon, MovieIcon, AudioIcon, ImageIcon, BookIcon } from './Icons';
 

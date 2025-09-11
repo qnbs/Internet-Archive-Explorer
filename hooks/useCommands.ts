@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from './useLanguage';
 import { useAtom, useAtomValue } from 'jotai';
 import { themeAtom, resolvedThemeAtom, languageAtom } from '../store';
 import type { Command, View } from '../types';
@@ -24,7 +24,6 @@ export const useCommands = (actions: CommandActions): Command[] => {
 
     const navigationCommands: Command[] = [
       { id: 'nav-explore', section: t('commandPalette:sections.navigation'), label: t('sideMenu:explore'), description: t('commandPalette:nav.exploreDesc'), icon: React.createElement(CompassIcon, { className: iconClass }), action: () => actions.navigateTo('explore'), keywords: 'home main discover search' },
-      // FIX: Replaced deprecated 'favorites' view with 'library' and updated associated keys.
       { id: 'nav-library', section: t('commandPalette:sections.navigation'), label: t('sideMenu:library'), description: t('commandPalette:nav.libraryDesc'), icon: React.createElement(StarIcon, { className: iconClass }), action: () => actions.navigateTo('library'), keywords: 'saved bookmarks favorites' },
       { id: 'nav-scriptorium', section: t('commandPalette:sections.navigation'), label: t('sideMenu:scriptorium'), description: t('commandPalette:nav.scriptoriumDesc'), icon: React.createElement(BookIcon, { className: iconClass }), action: () => actions.navigateTo('scriptorium'), keywords: 'books texts documents' },
       { id: 'nav-videothek', section: t('commandPalette:sections.navigation'), label: t('sideMenu:videothek'), description: t('commandPalette:nav.videothekDesc'), icon: React.createElement(MovieIcon, { className: iconClass }), action: () => actions.navigateTo('movies'), keywords: 'video film' },

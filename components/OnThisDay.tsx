@@ -1,9 +1,6 @@
-
-
 import React, { useState, useEffect, useCallback } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { searchArchive } from '../services/archiveService';
 import { ContentCarousel } from './ContentCarousel';

@@ -1,6 +1,5 @@
 import type { Uploader, UploaderCategory } from '../types';
 
-// FIX: Export UPLOADER_CATEGORIES to fix import error in UploaderHubView.tsx.
 export const UPLOADER_CATEGORIES: UploaderCategory[] = [
   'archivist',
   'institution',

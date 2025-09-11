@@ -1,7 +1,6 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Updated favorite atoms to library atoms to match store refactor.
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store';
 import { useToast } from '../contexts/ToastContext';
 import { StarIcon } from './Icons';
@@ -17,10 +16,9 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const { addToast } = useToast();
   const { t } = useLanguage();
   
-  // FIX: Use library atoms instead of deprecated favorite atoms.
-  const favoriteIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
-  const addFavorite = useSetAtom(addLibraryItemAtom);
-  const removeFavorite = useSetAtom(removeLibraryItemAtom);
+  const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
+  const addLibraryItem = useSetAtom(addLibraryItemAtom);
+  const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');
@@ -32,15 +30,15 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const creatorName = getCreator(item.creator);
   const publicYear = new Date(item.publicdate).getFullYear();
 
-  const favoriteStatus = favoriteIdentifiers.has(item.identifier);
+  const isFavorite = libraryItemIdentifiers.has(item.identifier);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (favoriteStatus) {
-      removeFavorite(item.identifier);
+    if (isFavorite) {
+      removeLibraryItem(item.identifier);
       addToast(t('favorites:removed'), 'info');
     } else {
-      addFavorite(item);
+      addLibraryItem(item);
       addToast(t('favorites:added'), 'success');
     }
   };
@@ -58,9 +56,9 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
       <button 
         onClick={handleFavoriteClick}
         className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors"
-        aria-label={favoriteStatus ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
+        aria-label={isFavorite ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
       >
-        <StarIcon className="w-5 h-5" filled={favoriteStatus} />
+        <StarIcon className="w-5 h-5" filled={isFavorite} />
       </button>
 
       <div className="relative aspect-w-3 aspect-h-4">
@@ -71,8 +69,17 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.onerror = null; // prevent infinite loop
-            target.src = 'https://picsum.photos/300/400?grayscale';
+            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
+
+            if (target.src.includes('__ia_thumb.jpg')) {
+                // The fallback failed, switch to placeholder
+                target.onerror = null;
+                target.src = placeholderUrl;
+            } else {
+                // The primary failed, switch to fallback
+                target.src = fallbackUrl;
+            }
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-4">

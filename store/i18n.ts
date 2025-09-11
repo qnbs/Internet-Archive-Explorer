@@ -14,7 +14,7 @@ const NAMESPACES = [
   'itemCard', 'recRoom', 'imagesHub', 'videothek', 'audiothek', 
   'scriptorium', 'favorites', 'uploaderProfileCard', 'uploaderDetail', 
   'reviewCard', 'modals', 'aiTools', 'settings', 'help', 
-  'commandPalette', 'uploaders', 'uploaderCard', 'storyteller', 'webArchive'
+  'commandPalette', 'uploaders', 'storyteller', 'webArchive'
 ];
 const translationsCache = new Map<Language, Record<string, any>>();
 

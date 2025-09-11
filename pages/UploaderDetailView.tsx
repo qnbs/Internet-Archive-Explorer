@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-import { defaultUploaderDetailTabAtom } from '../store';
+import { defaultUploaderDetailTabAtom, profileSearchQueryAtom } from '../store';
 import type { ArchiveItemSummary, Profile, View, UploaderTab, MediaType } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { useUploaderStats } from '../hooks/useUploaderStats';
@@ -26,6 +26,7 @@ interface UploaderDetailViewProps {
 export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
     const { t } = useLanguage();
     const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
+    const profileSearchQuery = useAtomValue(profileSearchQueryAtom);
     const { stats } = useUploaderStats(profile);
     const { visibleTabs, isLoading: isLoadingTabs } = useUploaderTabCounts(profile);
     
@@ -70,6 +71,7 @@ export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile,
                             totalResults={totalResults}
                             lastElementRef={lastElementRef}
                             onRetry={handleRetry}
+                            searchQuery={profileSearchQuery}
                         />
                     </div>
                 );

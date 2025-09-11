@@ -1,6 +1,5 @@
 import React from 'react';
 import { SparklesIcon } from '../components/Icons';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 
 export const StorytellerView: React.FC = () => {

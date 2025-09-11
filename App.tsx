@@ -25,7 +25,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // View/Page Components
 import { ExplorerView } from './pages/ExplorerView';
-import { CategoryView } from './pages/CategoryView';
 import { LibraryView } from './pages/LibraryView';
 import { ScriptoriumView } from './pages/ScriptoriumView';
 import { RecRoomView } from './pages/RecRoomView';
@@ -36,7 +35,6 @@ import { UploaderDetailView } from './pages/UploaderDetailView';
 import { SettingsView } from './pages/SettingsView';
 import { HelpView } from './pages/HelpView';
 import { StorytellerView } from './pages/StorytellerView';
-import { categoryContent } from './pages/categoryContent';
 import { ModalManager } from './components/ModalManager';
 
 
@@ -110,10 +108,6 @@ const MainApp: React.FC = () => {
       case 'help': return <HelpView />;
       case 'storyteller': return <StorytellerView />;
       default:
-        if (categoryContent[activeView as keyof typeof categoryContent]) {
-            const content = categoryContent[activeView as keyof typeof categoryContent];
-            return <CategoryView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} {...content} />
-        }
         return <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
     }
   };
@@ -128,7 +122,7 @@ const MainApp: React.FC = () => {
       />
       <div className="md:pl-64 flex flex-col min-h-screen">
         <Header onMenuClick={() => setIsMenuOpen(true)} onOpenCommandPalette={() => setModal({ type: 'commandPalette' })} />
-        <main className="flex-grow container mx-auto p-4 sm:p-6 mt-16 mb-16 md:mb-0">
+        <main className="flex-grow container mx-auto p-4 sm:p-6 mt-16 mb-16 md:mb-0 animate-page-fade-in">
           {renderActiveView()}
         </main>
         <BottomNav activeView={activeView} setActiveView={setActiveView} />

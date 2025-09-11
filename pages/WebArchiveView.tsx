@@ -2,11 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { searchWaybackMachine } from '../services/archiveService';
 import type { WaybackResponse, WaybackResult } from '../types';
 import { Spinner } from '../components/Spinner';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { WebIcon } from '../components/Icons';
 import { useAtom } from 'jotai';
-// FIX: Correct import path for jotai atom.
 import { webArchiveUrlAtom } from '../store';
 import { useDebounce } from '../hooks/useDebounce';
 
