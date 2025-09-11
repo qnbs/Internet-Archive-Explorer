@@ -24,20 +24,31 @@ export {
     webArchiveUrlAtom,
 } from './search';
 
+// FIX: Corrected typo `addItemToCollectionAtom` to `addItemsToCollectionAtom` and exported missing atoms.
 export {
-    favoritesAtom,
-    favoriteIdentifiersAtom,
-    addFavoriteAtom,
-    removeFavoriteAtom,
-    removeMultipleFavoritesAtom,
+    libraryItemsAtom,
+    libraryItemIdentifiersAtom,
+    addLibraryItemAtom,
+    removeLibraryItemAtom,
+    removeMultipleLibraryItemsAtom,
+    updateLibraryItemNotesAtom,
+    updateLibraryItemTagsAtom,
+    addTagsToMultipleItemsAtom,
     uploaderFavoritesAtom,
     uploaderFavoriteSetAtom,
     addUploaderFavoriteAtom,
     removeUploaderFavoriteAtom,
-    favoritesSearchQueryAtom,
-    favoritesMediaTypeFilterAtom,
-    favoritesSortAtom,
-    selectedFavoritesForBulkActionAtom,
+    userCollectionsAtom,
+    createCollectionAtom,
+    deleteCollectionAtom,
+    addItemsToCollectionAtom,
+    librarySearchQueryAtom,
+    libraryMediaTypeFilterAtom,
+    librarySortAtom,
+    selectedLibraryItemsForBulkActionAtom,
+    allLibraryTagsAtom,
+    selectedLibraryItemIdentifierAtom,
+    libraryActiveFilterAtom,
 } from './favorites';
 
 export {
@@ -45,14 +56,29 @@ export {
     settingsAtom,
     setSettingAtom,
     resetSettingsAtom,
+    // Search
     resultsPerPageAtom,
     showExplorerHubAtom,
+    defaultSortAtom,
+    rememberFiltersAtom,
+    // Appearance
+    layoutDensityAtom,
+    reduceMotionAtom,
+    // Content
     defaultUploaderDetailTabAtom,
+    defaultDetailTabAllAtom,
+    openLinksInNewTabAtom,
+    autoplayMediaAtom,
+    // AI
+    enableAiFeaturesAtom,
     defaultAiTabAtom,
     autoRunEntityExtractionAtom,
-    autoplayMediaAtom,
-    reduceMotionAtom,
-    enableAiFeaturesAtom,
+    summaryToneAtom,
+    // Accessibility
+    highContrastModeAtom,
+    underlineLinksAtom,
+    fontSizeAtom,
+    // Theme
     themeAtom,
     resolvedThemeAtom,
 } from './settings';

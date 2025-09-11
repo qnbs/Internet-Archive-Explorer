@@ -13,8 +13,8 @@ const NAMESPACES = [
   'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 
   'itemCard', 'recRoom', 'imagesHub', 'videothek', 'audiothek', 
   'scriptorium', 'favorites', 'uploaderProfileCard', 'uploaderDetail', 
-  'reviewCard', 'modals', 'audioModal', 'videoModal', 'aiTools', 'settings', 'help', 
-  'commandPalette', 'uploaders', 'uploaderCard', 'storyteller'
+  'reviewCard', 'modals', 'aiTools', 'settings', 'help', 
+  'commandPalette', 'uploaders', 'uploaderCard', 'storyteller', 'webArchive'
 ];
 const translationsCache = new Map<Language, Record<string, any>>();
 

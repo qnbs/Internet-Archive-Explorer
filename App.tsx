@@ -6,7 +6,10 @@ import {
     selectedProfileAtom, 
     modalAtom, 
     profileReturnViewAtom,
-    reduceMotionAtom
+    reduceMotionAtom,
+    highContrastModeAtom,
+    underlineLinksAtom,
+    fontSizeAtom
 } from './store';
 import type { View } from './types';
 
@@ -23,7 +26,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 // View/Page Components
 import { ExplorerView } from './pages/ExplorerView';
 import { CategoryView } from './pages/CategoryView';
-import { FavoritesView } from './pages/FavoritesView';
+import { LibraryView } from './pages/LibraryView';
 import { ScriptoriumView } from './pages/ScriptoriumView';
 import { RecRoomView } from './pages/RecRoomView';
 import { VideothekView } from './pages/VideothekView';
@@ -47,6 +50,9 @@ const MainApp: React.FC = () => {
   const selectedProfile = useAtomValue(selectedProfileAtom);
   const resolvedTheme = useAtomValue(resolvedThemeAtom);
   const reduceMotion = useAtomValue(reduceMotionAtom);
+  const highContrast = useAtomValue(highContrastModeAtom);
+  const underlineLinks = useAtomValue(underlineLinksAtom);
+  const fontSize = useAtomValue(fontSizeAtom);
   const setModal = useSetAtom(modalAtom);
   const profileReturnView = useAtomValue(profileReturnViewAtom);
   const { isLoading: isLoadingTranslations } = useLanguage();
@@ -55,11 +61,19 @@ const MainApp: React.FC = () => {
   
   const navigation = useNavigation();
 
-  // Apply theme and motion reduction classes to the document
+  // Apply theme and accessibility classes to the document
   useEffect(() => {
     document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
     document.documentElement.classList.toggle('reduce-motion', reduceMotion);
-  }, [resolvedTheme, reduceMotion]);
+    document.documentElement.classList.toggle('high-contrast', highContrast);
+    document.documentElement.classList.toggle('underline-links', underlineLinks);
+    
+    document.documentElement.style.fontSize = 
+      fontSize === 'sm' ? '14px' :
+      fontSize === 'lg' ? '18px' :
+      '16px'; // base
+      
+  }, [resolvedTheme, reduceMotion, highContrast, underlineLinks, fontSize]);
   
   // Ensure every view change scrolls the page to the top
   useEffect(() => {
@@ -84,7 +98,7 @@ const MainApp: React.FC = () => {
 
     switch (activeView) {
       case 'explore': return <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
-      case 'favorites': return <FavoritesView />;
+      case 'library': return <LibraryView />;
       case 'scriptorium': return <ScriptoriumView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
       case 'movies': return <VideothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
       case 'audio': return <AudiothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;

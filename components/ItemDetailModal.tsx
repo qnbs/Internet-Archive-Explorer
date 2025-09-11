@@ -3,7 +3,8 @@ import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { favoriteIdentifiersAtom, addFavoriteAtom, removeFavoriteAtom, enableAiFeaturesAtom } from '../store';
+// FIX: Updated favorite atoms to library atoms to match store refactor.
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom, enableAiFeaturesAtom } from '../store';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
@@ -36,9 +37,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
   const { t } = useLanguage();
   
   const enableAiFeatures = useAtomValue(enableAiFeaturesAtom);
-  const favoriteIdentifiers = useAtomValue(favoriteIdentifiersAtom);
-  const addFavorite = useSetAtom(addFavoriteAtom);
-  const removeFavorite = useSetAtom(removeFavoriteAtom);
+  // FIX: Use library atoms instead of deprecated favorite atoms.
+  const favoriteIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
+  const addFavorite = useSetAtom(addLibraryItemAtom);
+  const removeFavorite = useSetAtom(removeLibraryItemAtom);
 
   const {
       metadata,

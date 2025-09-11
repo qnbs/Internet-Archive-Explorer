@@ -1,37 +1,64 @@
 {
   "title": "My Library",
-  "description": "Your saved items and followed uploaders, all in one place for easy management and curation.",
+  "description": "Your personal space to collect, organize, and annotate items from the archive.",
   "items": "Items",
-  "uploaders": "Uploaders",
-  "collections": "Collections",
-  "noFavItems": "No Favorite Items",
-  "noFavItemsDesc": "Click the star icon on any item to save it here.",
+  "uploaders": "Followed Uploaders",
+  "searchPlaceholder": "Search your library...",
+  "noItems": "Your Library is Empty",
+  "noItemsDesc": "Click the star icon on any item to save it here.",
+  "noItemsInCollection": "No items in this collection yet.",
+  "noItemsForFilter": "No items match your current filter.",
+  "noItemSelected": "Select an item from the list to see its details.",
   "noFavUploaders": "No Followed Uploaders",
-  "noFavUploadersDesc": "Click the 'Follow' button on an uploader's profile to add them here.",
-  "comingSoon": "Coming Soon",
-  "comingSoonDesc": "The ability to save and manage favorite collections is on its way.",
-  "added": "Added to favorites!",
-  "removed": "Removed from favorites.",
-  "errorSave": "Could not save favorites.",
+  "noFavUploadersDesc": "Follow your favorite contributors from the Uploader Hub to see them here.",
+  "searchUploadersPlaceholder": "Search {{count}} followed uploaders...",
+  "added": "Added to your library!",
+  "removed": "Removed from your library.",
+  "errorSave": "Could not save to library.",
   "uploaderAdded": "Uploader followed!",
   "uploaderRemoved": "Uploader unfollowed.",
   "errorSaveUploaders": "Could not save followed uploaders.",
-  "aria": {
-    "librarySections": "Library Sections"
+  "sidebar": {
+    "collections": "Collections",
+    "allitems": "All Items",
+    "untagged": "Untagged",
+    "newCollection": "New Collection...",
+    "tags": "Tags"
   },
-  "searchPlaceholder": "Search in {{count}} items...",
-  "searchUploadersPlaceholder": "Search in {{count}} uploaders...",
-  "selectMode": "Select Mode",
-  "sort": {
+  "itemDetail": {
+    "notes": "My Notes",
+    "notesPlaceholder": "Add your personal notes here...",
+    "tags": "My Tags",
+    "addTagPlaceholder": "Add a tag...",
+    "viewFullDetails": "View Full Details"
+  },
+  "controls": {
+    "sort": "Sort by:",
     "dateAdded": "Date Added",
-    "title": "Title"
+    "title": "Title",
+    "creator": "Creator",
+    "select": "Select Items",
+    "cancel": "Cancel"
   },
-  "bulkDelete": {
-    "title": "Remove Favorites",
-    "message": "Are you sure you want to permanently remove {{count}} selected item(s) from your library?",
-    "button": "Remove Selected",
-    "selected": "{{count}} selected",
-    "selectAll": "Select all ({{count}})",
-    "deselectAll": "Deselect all"
+  "bulkActions": {
+    "itemsSelected_one": "{{count}} item selected",
+    "itemsSelected_other": "{{count}} items selected",
+    "addToCollection": "Add to Collection",
+    "removeFromLibrary": "Remove from Library",
+    "confirmRemoveTitle": "Remove from Library",
+    "confirmRemoveMessage_one": "Are you sure you want to remove {{count}} selected item from your library?",
+    "confirmRemoveMessage_other": "Are you sure you want to remove {{count}} selected items from your library?",
+    "selectCollection": "Select a collection",
+    "addedToCollection_one": "Added {{count}} item to '{{collectionName}}'.",
+    "addedToCollection_other": "Added {{count}} items to '{{collectionName}}'.",
+    "addTags": "Add Tags",
+    "addTagsPrompt": "Enter tags to add (comma-separated):",
+    "tagsAdded": "Tags added to selected items."
+  },
+  "modals": {
+    "newCollectionTitle": "Create New Collection",
+    "newCollectionName": "Collection Name",
+    "newCollectionPlaceholder": "e.g., 'Film Noir Classics'",
+    "create": "Create"
   }
 }

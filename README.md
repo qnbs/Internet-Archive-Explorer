@@ -42,10 +42,10 @@ This application is more than just a search interface; it's a feature-rich porta
 -   **Universal Search & Filtering**: A persistent header search bar for quick queries, coupled with powerful capabilities to filter results by media type, year range, collection, and more.
 
 ### Community & Contribution
--   **Uploader Hub**: A dedicated section to discover the people and institutions behind the archives. Browse a curated list of featured uploaders or filter all known contributors by category (Archivist, Institution, Music, etc.).
--   **Detailed Uploader Profiles**: Every uploader and creator has a dynamic profile page.
-    -   **Dynamic Tabs**: The profile is organized into tabs that appear only if the user has that type of content: **Uploads, Collections, Favorites, Reviews, Forum Posts,** and **Web Archives**.
-    -   **Interactive Uploads Tab**: The main uploads list features an integrated control panel for real-time filtering by media type and sorting by popularity, date published, and more.
+-   **Comprehensive Uploader & Creator Profiles**: Discover the people and institutions behind the content through their detailed profile pages. You can navigate directly to these profiles from any item they've uploaded or created.
+    -   **Dynamic Content Tabs**: Each profile is a dynamic dashboard of the contributor's activity. Tabs for **Uploads, Collections, Favorites, Reviews, Forum Posts,** and **Web Archives** appear automatically only if the user has content in that category, providing a clean and relevant overview.
+    -   **Powerful Upload Filtering**: The main 'Uploads' tab is an interactive archive in itself. It features an integrated control panel allowing you to filter all of a contributor's uploads by media type (video, audio, text, etc.) and sort them by various criteria like all-time popularity, weekly trends, or publication date in real-time.
+-   **Follow Contributors**: You can "follow" any uploader to add them to a dedicated list in your personal "My Library" for quick access to their work.
 
 ### Favorites & Curation
 -   **Unified Library ("My Library")**: A central hub for all your saved content, organized into three sections:
@@ -85,7 +85,7 @@ The project is organized into logical directories for easy navigation:
 -   `/components`: Reusable React components (e.g., `ItemCard`, `Header`, `Spinner`).
 -   `/contexts`: React Context providers for cross-cutting concerns (e.g., `ToastContext`).
 -   `/hooks`: Custom React hooks for shared logic (e.g., `useDebounce`, `useInfiniteScroll`, `useNavigation`).
--   `/pages`: Top-level view components that represent a full page or main view (e.g., `ExplorerView`, `UploaderHubView`).
+-   `/pages`: Top-level view components that represent a full page or main view (e.g., `ExplorerView`, `UploaderDetailView`).
 -   `/services`: Modules for interacting with external APIs (`archiveService.ts`, `geminiService.ts`).
 -   `/store`: Jotai atom definitions, organized by feature slice, for global state management.
 -   `/utils`: Helper functions for formatting, query building, etc.

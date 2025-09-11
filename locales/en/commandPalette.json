@@ -8,7 +8,7 @@
   },
   "nav": {
     "exploreDesc": "Go to the main explorer page",
-    "favoritesDesc": "View your saved items and uploaders",
+    "libraryDesc": "View your saved items, collections, and notes",
     "scriptoriumDesc": "Open your research workspace",
     "videothekDesc": "Browse the movie collection",
     "audiothekDesc": "Browse the audio collection",

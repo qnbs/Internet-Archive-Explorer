@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon } from './Icons';
+import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon } from './Icons';
 import { formatIdentifierForDisplay } from '../utils/formatter';
 
 interface ItemDetailSidebarProps {
@@ -157,6 +157,17 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                         </a>
                     </MetadataRow>
                 )}
+                <MetadataRow label={t('common:archivePage')} isButton>
+                    <a 
+                        href={`https://archive.org/details/${item.identifier}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline"
+                        title={t('common:viewOnArchive')}>
+                        <span className="truncate">{t('common:viewOnArchive')}</span>
+                        <ExternalLinkIcon className="w-4 h-4 ml-1 flex-shrink-0" />
+                    </a>
+                </MetadataRow>
             </div>
         </div>
     );

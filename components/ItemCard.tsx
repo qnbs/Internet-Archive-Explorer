@@ -1,7 +1,8 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { favoriteIdentifiersAtom, addFavoriteAtom, removeFavoriteAtom } from '../store';
+// FIX: Updated favorite atoms to library atoms to match store refactor.
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store';
 import { useToast } from '../contexts/ToastContext';
 import { StarIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
@@ -16,9 +17,10 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const { addToast } = useToast();
   const { t } = useLanguage();
   
-  const favoriteIdentifiers = useAtomValue(favoriteIdentifiersAtom);
-  const addFavorite = useSetAtom(addFavoriteAtom);
-  const removeFavorite = useSetAtom(removeFavoriteAtom);
+  // FIX: Use library atoms instead of deprecated favorite atoms.
+  const favoriteIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
+  const addFavorite = useSetAtom(addLibraryItemAtom);
+  const removeFavorite = useSetAtom(removeLibraryItemAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');

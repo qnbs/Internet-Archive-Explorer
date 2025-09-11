@@ -1,6 +1,5 @@
 import React from 'react';
 import type { View } from '../types';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon } from './Icons';
 
@@ -13,7 +12,7 @@ interface NavItem {
 
 const mainNavItems: NavItem[] = [
     { view: 'explore', labelKey: 'sideMenu:explore', icon: <CompassIcon /> },
-    { view: 'favorites', labelKey: 'sideMenu:favorites', icon: <StarIcon /> },
+    { view: 'library', labelKey: 'sideMenu:library', icon: <StarIcon /> },
 ];
 
 const collectionNavItems: NavItem[] = [

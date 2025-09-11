@@ -1,5 +1,3 @@
-
-
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
@@ -8,9 +6,9 @@ import type { View, Profile, Uploader } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
-    // FIX: The `useSetAtom` hook can cause type inference issues within `useCallback`, leading to a 'never' type. Using `useAtom` provides a stable setter function that resolves this.
+    // FIX: Replaced `useSetAtom` with `useAtom` to work around a type inference issue with complex object types in atoms.
     const [, setSelectedProfile] = useAtom(selectedProfileAtom);
-    const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
+    const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 
     const navigateTo = useCallback((view: View) => {

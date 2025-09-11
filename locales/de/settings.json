@@ -4,6 +4,7 @@
   "saved": "Einstellung gespeichert!",
   "sections": {
     "ui": "Erscheinungsbild",
+    "accessibility": "Barrierefreiheit",
     "search": "Suche & Entdeckung",
     "content": "Inhalt & Hubs",
     "ai": "KI-Funktionen",
@@ -14,12 +15,20 @@
     "resultsPerPage": "Ergebnisse pro Seite",
     "resultsPerPageDesc": "Anzahl der Einträge, die pro Suchergebnisseite geladen werden.",
     "showExplorerHub": "Explorer-Hub anzeigen",
-    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird."
+    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird.",
+    "defaultSort": "Standard-Suchsortierung",
+    "defaultSortDesc": "Die standardmäßige Sortierreihenfolge für neue Suchen.",
+    "rememberFilters": "Filter merken",
+    "rememberFiltersDesc": "Wendet Ihre zuletzt verwendeten Medien- und Jahresfilter automatisch auf neue Sitzungen an."
   },
   "ui": {
     "title": "Benutzeroberfläche",
-    "reduceMotion": "Bewegung reduzieren",
-    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis.",
+    "layoutDensity": "Layout-Dichte",
+    "layoutDensityDesc": "Passt den Abstand von Elementen in Rastern und Listen an.",
+    "densities": {
+      "comfortable": "Komfortabel",
+      "compact": "Kompakt"
+    },
     "theme": "Theme",
     "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich der Einstellung Ihres Betriebssystems an.",
     "themes": {
@@ -30,12 +39,32 @@
     "language": "Sprache",
     "languageDesc": "Wählen Sie die Anzeigesprache der Benutzeroberfläche."
   },
+  "accessibility": {
+    "title": "Barrierefreiheit",
+    "highContrast": "Hochkontrastmodus",
+    "highContrastDesc": "Erhöht den Kontrast von Text und UI-Elementen für eine bessere Sichtbarkeit.",
+    "underlineLinks": "Links unterstreichen",
+    "underlineLinksDesc": "Unterstreicht alle Links, um sie von normalem Text zu unterscheiden.",
+    "fontSize": "Schriftgröße",
+    "fontSizeDesc": "Passt die globale Schriftgröße für eine bessere Lesbarkeit an.",
+    "sizes": {
+      "sm": "Klein",
+      "base": "Normal",
+      "lg": "Groß"
+    },
+    "reduceMotion": "Bewegung reduzieren",
+    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis."
+  },
   "content": {
     "title": "Inhalt & Hubs",
     "defaultUploaderDetailTab": "Standard-Uploader-Tab",
     "defaultUploaderDetailTabDesc": "Der Tab, der standardmäßig ausgewählt wird, wenn Sie das Profil eines Uploaders anzeigen.",
     "autoplayMedia": "Medien automatisch abspielen",
-    "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen)."
+    "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen).",
+    "defaultDetailTabAll": "Standard-Detailansicht-Tab",
+    "defaultDetailTabAllDesc": "Der Standard-Tab, der beim Öffnen der Detailansicht eines Eintrags angezeigt wird.",
+    "openLinksInNewTab": "Links in neuem Tab öffnen",
+    "openLinksInNewTabDesc": "Alle Links zu archive.org oder anderen externen Seiten werden in einem neuen Browser-Tab geöffnet."
   },
   "ai": {
     "title": "KI-Funktionen",
@@ -44,7 +73,14 @@
     "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
     "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen Texteintrag öffnen.",
     "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
-    "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird."
+    "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird.",
+    "summaryTone": "Ton der KI-Zusammenfassung",
+    "summaryToneDesc": "Legen Sie den Stil für KI-generierte Zusammenfassungen fest.",
+    "tones": {
+      "simple": "Einfach",
+      "detailed": "Detailliert",
+      "academic": "Akademisch"
+    }
   },
   "data": {
     "dataAndPrivacyTitle": "Daten & Datenschutz",
@@ -52,12 +88,12 @@
     "privacy": "Datenschutz",
     "managementTitle": "Datenverwaltung",
     "exportAll": "Alle Daten exportieren",
-    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter. Theme- und Spracheinstellungen sind nicht enthalten.",
+    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Ihrer Bibliothek und Ihrer Worksets als JSON-Datei herunter.",
     "exportButton": "Daten exportieren",
     "exportSuccess": "Daten erfolgreich exportiert!",
     "exportError": "Export der Daten fehlgeschlagen.",
     "importAll": "Daten importieren",
-    "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre Einstellungen, Favoriten und Worksets wiederherzustellen. Dies überschreibt vorhandene Daten.",
+    "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre App-Daten wiederherzustellen. Dies überschreibt vorhandene Daten.",
     "importButton": "Aus Datei importieren...",
     "importButtonConfirm": "Importieren & Überschreiben",
     "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
@@ -70,7 +106,7 @@
     "noHistory": "Noch kein Suchverlauf.",
     "clearHistory": "Verlauf löschen",
     "resetAll": "App-Einstellungen zurücksetzen",
-    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets bleiben davon unberührt.",
+    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Bibliothek und Worksets bleiben davon unberührt.",
     "resetButton": "Einstellungen zurücksetzen",
     "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "clearHistoryTitle": "Suchverlauf löschen?",

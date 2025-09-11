@@ -22,13 +22,12 @@ export type View =
   | 'movies'
   | 'audio'
   | 'recroom'
-  | 'favorites'
+  | 'library' // Renamed from 'favorites'
   | 'settings'
   | 'help'
   | 'uploaderDetail'
   | 'uploaderProfile'
   | 'storyteller'
-  // FIX: Added 'uploaderHub' to the View type to resolve navigation error.
   | 'uploaderHub';
 
 export interface ArchiveItemSummary {
@@ -44,6 +43,13 @@ export interface ArchiveItemSummary {
   reviewtitle?: string;
   reviewbody?: string;
 }
+
+export interface LibraryItem extends ArchiveItemSummary {
+    dateAdded: number; // Unix timestamp
+    notes: string;
+    tags: string[];
+}
+
 
 export interface ArchiveSearchResponse {
   response: {
@@ -99,6 +105,13 @@ export interface Workset {
     id: string;
     name: string;
     documents: WorksetDocument[];
+}
+
+export interface UserCollection {
+    id: string;
+    name: string;
+    itemIdentifiers: string[];
+    dateCreated: number;
 }
 
 export interface CategoryContent {
@@ -165,32 +178,51 @@ export interface ConfirmationOptions {
   confirmLabel?: string;
   confirmClass?: string;
 }
+// FIX: Added LibraryFilter type definition, which was previously defined locally in a store file.
+export type LibraryFilter = { type: 'all' } | { type: 'collection'; id: string } | { type: 'tag'; tag: string };
+
 export type Facets = {
     mediaType: Set<MediaType>;
     yearStart?: string;
     yearEnd?: string;
     collection?: string;
 };
-// FIX: Add SortKey and SortDirection types to be used for sorting favorites.
-export type SortKey = 'dateAdded' | 'title';
+export type SortKey = 'dateAdded' | 'title' | 'creator';
 export type SortDirection = 'asc' | 'desc';
+
 export interface AppSettings {
+    // Search & Discovery
     resultsPerPage: number;
     showExplorerHub: boolean;
+    defaultSort: 'downloads' | 'publicdate' | 'week';
+    rememberFilters: boolean;
+    
+    // Appearance
+    layoutDensity: 'comfortable' | 'compact';
+    reduceMotion: boolean;
+
+    // Content & Hubs
     defaultUploaderDetailTab: 'uploads' | 'collections' | 'favorites';
+    defaultDetailTabAll: 'description' | 'files' | 'related';
+    openLinksInNewTab: boolean;
+    autoplayMedia: boolean;
+
+    // AI Features
+    enableAiFeatures: boolean;
     defaultAiTab: 'description' | 'ai';
     autoRunEntityExtraction: boolean;
-    autoplayMedia: boolean;
-    reduceMotion: boolean;
-    enableAiFeatures: boolean;
+    summaryTone: 'simple' | 'detailed' | 'academic';
+
+    // Accessibility
+    highContrastMode: boolean;
+    underlineLinks: boolean;
+    fontSize: 'sm' | 'base' | 'lg';
 }
 
 export interface Profile {
   name: string;
-  // The identifier used in API queries, e.g., 'jakej@archive.org' or 'Walt Disney'
   searchIdentifier: string; 
   type: 'uploader' | 'creator';
-  // Optional, only for curated uploaders from our list
   curatedData?: Uploader;
 }
 

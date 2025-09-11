@@ -1,37 +1,64 @@
 {
   "title": "Meine Bibliothek",
-  "description": "Ihre gespeicherten Einträge und gefolgten Uploader an einem Ort – zur einfachen Verwaltung und Kuratierung.",
+  "description": "Ihr persönlicher Bereich zum Sammeln, Organisieren und Kommentieren von Einträgen aus dem Archiv.",
   "items": "Einträge",
-  "uploaders": "Uploader",
-  "collections": "Sammlungen",
-  "noFavItems": "Keine favorisierten Einträge",
-  "noFavItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
+  "uploaders": "Gefolgte Uploader",
+  "searchPlaceholder": "Bibliothek durchsuchen...",
+  "noItems": "Ihre Bibliothek ist leer",
+  "noItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
+  "noItemsInCollection": "Noch keine Einträge in dieser Sammlung.",
+  "noItemsForFilter": "Keine Einträge entsprechen Ihrem aktuellen Filter.",
+  "noItemSelected": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
   "noFavUploaders": "Keine gefolgten Uploader",
-  "noFavUploadersDesc": "Klicken Sie auf 'Folgen' im Profil eines Uploaders, um ihn hier hinzuzufügen.",
-  "comingSoon": "Demnächst verfügbar",
-  "comingSoonDesc": "Die Möglichkeit, favorisierte Sammlungen zu speichern und zu verwalten, wird bald verfügbar sein.",
-  "added": "Zu den Favoriten hinzugefügt!",
-  "removed": "Aus den Favoriten entfernt.",
-  "errorSave": "Favoriten konnten nicht gespeichert werden.",
+  "noFavUploadersDesc": "Folgen Sie Ihren Lieblings-Beitragenden aus dem Uploader-Hub, um sie hier zu sehen.",
+  "searchUploadersPlaceholder": "Suche in {{count}} gefolgten Uploadern...",
+  "added": "Zu Ihrer Bibliothek hinzugefügt!",
+  "removed": "Aus Ihrer Bibliothek entfernt.",
+  "errorSave": "Speichern in der Bibliothek fehlgeschlagen.",
   "uploaderAdded": "Uploader gefolgt!",
   "uploaderRemoved": "Uploader nicht mehr gefolgt.",
   "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden.",
-  "aria": {
-    "librarySections": "Bibliotheksbereiche"
+  "sidebar": {
+    "collections": "Sammlungen",
+    "allitems": "Alle Einträge",
+    "untagged": "Ohne Tags",
+    "newCollection": "Neue Sammlung...",
+    "tags": "Tags"
   },
-  "searchPlaceholder": "In {{count}} Einträgen suchen...",
-  "searchUploadersPlaceholder": "In {{count}} Uploadern suchen...",
-  "selectMode": "Auswahlmodus",
-  "sort": {
+  "itemDetail": {
+    "notes": "Meine Notizen",
+    "notesPlaceholder": "Fügen Sie hier Ihre persönlichen Notizen hinzu...",
+    "tags": "Meine Tags",
+    "addTagPlaceholder": "Tag hinzufügen...",
+    "viewFullDetails": "Vollständige Details ansehen"
+  },
+  "controls": {
+    "sort": "Sortieren nach:",
     "dateAdded": "Hinzugefügt am",
-    "title": "Titel"
+    "title": "Titel",
+    "creator": "Ersteller",
+    "select": "Einträge auswählen",
+    "cancel": "Abbrechen"
   },
-  "bulkDelete": {
-    "title": "Favoriten entfernen",
-    "message": "Sind Sie sicher, dass Sie {{count}} ausgewählte(n) Eintrag(e) endgültig aus Ihrer Bibliothek entfernen möchten?",
-    "button": "Auswahl entfernen",
-    "selected": "{{count}} ausgewählt",
-    "selectAll": "Alle auswählen ({{count}})",
-    "deselectAll": "Auswahl aufheben"
+  "bulkActions": {
+    "itemsSelected_one": "{{count}} Eintrag ausgewählt",
+    "itemsSelected_other": "{{count}} Einträge ausgewählt",
+    "addToCollection": "Zu Sammlung hinzufügen",
+    "removeFromLibrary": "Aus Bibliothek entfernen",
+    "confirmRemoveTitle": "Aus Bibliothek entfernen",
+    "confirmRemoveMessage_one": "Möchten Sie {{count}} ausgewählten Eintrag wirklich aus Ihrer Bibliothek entfernen?",
+    "confirmRemoveMessage_other": "Möchten Sie {{count}} ausgewählte Einträge wirklich aus Ihrer Bibliothek entfernen?",
+    "selectCollection": "Wählen Sie eine Sammlung",
+    "addedToCollection_one": "{{count}} Eintrag zu '{{collectionName}}' hinzugefügt.",
+    "addedToCollection_other": "{{count}} Einträge zu '{{collectionName}}' hinzugefügt.",
+    "addTags": "Tags hinzufügen",
+    "addTagsPrompt": "Geben Sie die hinzuzufügenden Tags ein (kommagetrennt):",
+    "tagsAdded": "Tags zu ausgewählten Einträgen hinzugefügt."
+  },
+  "modals": {
+    "newCollectionTitle": "Neue Sammlung erstellen",
+    "newCollectionName": "Name der Sammlung",
+    "newCollectionPlaceholder": "z.B. 'Film-Noir-Klassiker'",
+    "create": "Erstellen"
   }
 }
