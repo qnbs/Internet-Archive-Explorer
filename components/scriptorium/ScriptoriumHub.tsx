@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import type { Workset } from '../../types';
 import { WorksetListItem } from './WorksetListItem';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 import { PlusIcon, BookIcon } from '../Icons';
 
 interface ScriptoriumHubProps {

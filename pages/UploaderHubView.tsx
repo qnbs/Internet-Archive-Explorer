@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { UploaderProfileCard } from '../components/UploaderProfileCard';
 import { UPLOADER_DATA, UPLOADER_CATEGORIES } from './uploaderData';
 import type { UploaderCategory } from '../types';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 import { UsersIcon } from '../components/Icons';
 
 interface UploaderHubViewProps {

@@ -1,35 +1,70 @@
-import React, { useState } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSettings } from '../contexts/SettingsContext';
-import type { ArchiveItemSummary, Uploader, View } from '../types';
+import React, { useState, useEffect } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { profileSearchQueryAtom, defaultUploaderDetailTabAtom } from '../store';
+import type { ArchiveItemSummary, Profile, View } from '../types';
 import { UploaderSidebar } from '../components/uploader/UploaderSidebar';
 import { UploaderUploads } from '../components/uploader/UploaderUploads';
-import { UploaderReviews } from '../components/uploader/UploaderReviews';
+import { UploaderCollections } from '../components/uploader/UploaderCollections';
+import { UploaderFavorites } from '../components/uploader/UploaderFavorites';
 import { UploaderStatsTab } from '../components/uploader/UploaderStatsTab';
-import { ArrowLeftIcon } from '../components/Icons';
+import { ArrowLeftIcon, CollectionIcon, ChartPieIcon, UploadIcon, StarIcon } from '../components/Icons';
+import { useLanguage } from '../hooks/useLanguage';
 
-interface UploaderDetailViewProps {
-    uploader: Uploader;
+interface ProfileViewProps {
+    profile: Profile;
     onBack: () => void;
     onSelectItem: (item: ArchiveItemSummary) => void;
     returnView: View;
 }
 
-type Tab = 'uploads' | 'reviews' | 'statistics';
+type UploaderTab = 'dashboard' | 'uploads' | 'collections' | 'favorites';
 
-const TabButton: React.FC<{ tab: Tab, label: string, activeTab: Tab, onClick: (tab: Tab) => void }> = ({ tab, label, activeTab, onClick }) => (
+const TabButton: React.FC<{
+    tabId: UploaderTab;
+    label: string;
+    icon: React.ReactNode;
+    activeTab: UploaderTab;
+    onClick: (tab: UploaderTab) => void;
+}> = ({ tabId, label, icon, activeTab, onClick }) => (
     <button
-        onClick={() => onClick(tab)}
-        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === tab ? 'bg-cyan-500/20 text-cyan-300' : 'text-gray-400 hover:bg-gray-700/50'}`}
+        onClick={() => onClick(tabId)}
+        role="tab"
+        aria-selected={activeTab === tabId}
+        className={`flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+            activeTab === tabId
+                ? 'bg-cyan-500 text-white shadow-md'
+                : 'text-gray-300 hover:bg-gray-700/50'
+        }`}
     >
-        {label}
+        {icon}
+        <span>{label}</span>
     </button>
 );
 
-export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ uploader, onBack, onSelectItem, returnView }) => {
+
+export const UploaderDetailView: React.FC<ProfileViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
     const { t } = useLanguage();
-    const { settings } = useSettings();
-    const [activeTab, setActiveTab] = useState<Tab>(settings.defaultUploaderDetailTab);
+    const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
+    const setProfileSearchQuery = useSetAtom(profileSearchQueryAtom);
+    
+    const validTabs: UploaderTab[] = ['dashboard', 'uploads', 'collections', 'favorites'];
+    const initialTab: UploaderTab = validTabs.includes(defaultTab as UploaderTab) ? defaultTab as UploaderTab : 'uploads';
+    
+    const [activeTab, setActiveTab] = useState<UploaderTab>(initialTab);
+
+    // This effect ensures that if a user switches from an uploader profile to a creator profile,
+    // they don't land on a tab that is invalid for creators.
+    useEffect(() => {
+        if (profile.type === 'creator' && (activeTab === 'collections' || activeTab === 'favorites')) {
+            setActiveTab('uploads');
+        }
+    }, [profile.type, activeTab]);
+
+
+    const handleBack = () => {
+        setProfileSearchQuery('');
+        onBack();
+    };
 
     const getBackLabelKey = () => {
         if (returnView === 'uploaderHub') {
@@ -38,28 +73,71 @@ export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ uploader
         return 'uploaderDetail:backToExplorer';
     };
 
+    const renderTabContent = () => {
+        switch (activeTab) {
+            case 'dashboard':
+                return (
+                    <div className="space-y-6 animate-fade-in">
+                        <UploaderStatsTab profile={profile} />
+                    </div>
+                );
+            case 'uploads':
+                return <UploaderUploads profile={profile} onSelectItem={onSelectItem} />;
+            case 'collections':
+                 return profile.type === 'uploader' ? <UploaderCollections profile={profile} onSelectItem={onSelectItem} /> : null;
+            case 'favorites':
+                 return profile.type === 'uploader' ? <UploaderFavorites profile={profile} onSelectItem={onSelectItem} /> : null;
+            default:
+                return null;
+        }
+    };
+
     return (
-        <div className="animate-page-fade-in">
-            <button onClick={onBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline mb-6">
+        <div className="animate-page-fade-in space-y-6">
+            <button onClick={handleBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline">
                 <ArrowLeftIcon className="w-4 h-4" />
                 <span>{t(getBackLabelKey())}</span>
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-1">
-                    <UploaderSidebar uploader={uploader} />
-                </div>
-                <div className="md:col-span-2 space-y-4">
-                    <div className="flex items-center space-x-2 border-b border-gray-700 pb-2">
-                        <TabButton tab="uploads" label={t('uploaderDetail:tabs.uploads')} activeTab={activeTab} onClick={setActiveTab} />
-                        <TabButton tab="reviews" label={t('uploaderDetail:tabs.reviews')} activeTab={activeTab} onClick={setActiveTab} />
-                        <TabButton tab="statistics" label={t('uploaderDetail:tabs.statistics')} activeTab={activeTab} onClick={setActiveTab} />
-                    </div>
-                    <div className="pt-2">
-                        {activeTab === 'uploads' && <UploaderUploads uploader={uploader} onSelectItem={onSelectItem} />}
-                        {activeTab === 'reviews' && <UploaderReviews uploader={uploader} onSelectItem={onSelectItem} />}
-                        {activeTab === 'statistics' && <UploaderStatsTab uploader={uploader} />}
-                    </div>
-                </div>
+            
+            <UploaderSidebar profile={profile} />
+            
+            <div className="bg-gray-800/60 p-2 rounded-xl border border-gray-700/50 flex flex-wrap gap-2" role="tablist" aria-label={t('uploaderDetail:tabs.ariaLabel')}>
+                 <TabButton 
+                    tabId="dashboard" 
+                    label={t('uploaderDetail:tabs.dashboard')} 
+                    icon={<ChartPieIcon className="w-5 h-5"/>} 
+                    activeTab={activeTab} 
+                    onClick={setActiveTab} 
+                />
+                <TabButton 
+                    tabId="uploads" 
+                    label={t('uploaderDetail:tabs.uploads')} 
+                    icon={<UploadIcon className="w-5 h-5"/>} 
+                    activeTab={activeTab} 
+                    onClick={setActiveTab} 
+                />
+                {profile.type === 'uploader' && (
+                    <>
+                        <TabButton 
+                            tabId="collections" 
+                            label={t('uploaderDetail:tabs.collections')} 
+                            icon={<CollectionIcon className="w-5 h-5"/>} 
+                            activeTab={activeTab} 
+                            onClick={setActiveTab} 
+                        />
+                        <TabButton 
+                            tabId="favorites" 
+                            label={t('uploaderDetail:tabs.favorites')} 
+                            icon={<StarIcon className="w-5 h-5"/>} 
+                            activeTab={activeTab} 
+                            onClick={setActiveTab} 
+                        />
+                    </>
+                )}
+            </div>
+
+            <div className="pt-2">
+                {renderTabContent()}
             </div>
         </div>
     );

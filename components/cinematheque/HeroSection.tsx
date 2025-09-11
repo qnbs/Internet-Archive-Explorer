@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import type { ArchiveItemSummary } from '../../types';
 import { searchArchive } from '../../services/archiveService';
 import { Spinner } from '../Spinner';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface HeroSectionProps {
   onSelectItem: (item: ArchiveItemSummary) => void;

@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Workset } from '../../types';
 import { TrashIcon, ArrowRightIcon } from '../Icons';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface WorksetListItemProps {
     workset: Workset;
@@ -19,6 +20,7 @@ export const WorksetListItem: React.FC<WorksetListItemProps> = ({ workset, onSel
             role="button"
             tabIndex={0}
             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(workset)}
+            aria-label={`Open workset ${workset.name}`}
         >
             <div>
                 <p className="font-bold text-white group-hover:text-cyan-400 transition-colors">{workset.name}</p>
@@ -28,7 +30,6 @@ export const WorksetListItem: React.FC<WorksetListItemProps> = ({ workset, onSel
                  <button 
                     onClick={(e) => { 
                         e.stopPropagation();
-                        // FIX: Removed window.confirm. Confirmation is now handled by the parent component.
                         onDelete(workset.id);
                     }} 
                     className="p-2 text-gray-500 hover:text-red-400 rounded-full hover:bg-red-500/10 transition-colors"

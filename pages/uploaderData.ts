@@ -1,3 +1,4 @@
+
 import type { Uploader, UploaderCategory } from '../types';
 
 export const UPLOADER_CATEGORIES: UploaderCategory[] = [
@@ -37,8 +38,8 @@ export const UPLOADER_DATA: Uploader[] = [
   },
   {
     username: 'Lego Archive Account',
-    searchUploader: 'legoarchiveaccount@archive.org',
-    screenname: 'legoarchiveaccount',
+    searchUploader: 'The LEGO Archive',
+    searchField: 'scanner',
     descriptionKey: 'uploaders:lego_archive.description',
     category: 'history',
   },
@@ -50,9 +51,8 @@ export const UPLOADER_DATA: Uploader[] = [
     category: 'music',
   },
   {
-    username: 'LibriVox Books',
-    searchUploader: 'librivoxbooks@archive.org',
-    screenname: 'librivoxbooks',
+    username: 'LibriVox',
+    searchUploader: 'librivox-api@archive.org',
     descriptionKey: 'uploaders:librivox.description',
     category: 'community',
   }

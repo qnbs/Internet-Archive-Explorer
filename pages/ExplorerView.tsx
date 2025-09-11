@@ -1,17 +1,19 @@
 
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchArchive } from '../services/archiveService';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary, Facets } from '../types';
 import { MediaType as MediaTypeValue } from '../types';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
-import { useSearch, Facets } from '../contexts/SearchContext';
+import { useAtom, useAtomValue } from 'jotai';
+import { searchQueryAtom, facetsAtom, showExplorerHubAtom, resultsPerPageAtom } from '../store';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { OnThisDay } from '../components/OnThisDay';
 import { TrendingIcon, ChevronDownIcon, CloseIcon, FilterIcon } from '../components/Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { ContentCarousel } from '../components/ContentCarousel';
-import { useSettings } from '../contexts/SettingsContext';
 
 // --- TYPES ---
 interface ExplorerViewProps {
@@ -65,7 +67,7 @@ const TrendingNow: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }
 };
 
 const ThematicSearch: React.FC = () => {
-    const { searchAndGo } = useSearch();
+    const searchAndGo = useSearchAndGo();
     const { t } = useLanguage();
     
     const THEMATIC_SEARCHES = useMemo(() => [
@@ -104,7 +106,7 @@ const FilterBar: React.FC<{
     sort: string;
     setSort: (s: string) => void;
     facets: Facets;
-    setFacets: React.Dispatch<React.SetStateAction<Facets>>;
+    setFacets: (update: Facets | ((prev: Facets) => Facets)) => void;
 }> = ({ sort, setSort, facets, setFacets }) => {
     const { t } = useLanguage();
     const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -239,9 +241,11 @@ const FilterBar: React.FC<{
 
 // --- MAIN COMPONENT ---
 export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
-  const { searchQuery, facets, setFacets } = useSearch();
+  const [searchQuery] = useAtom(searchQueryAtom);
+  const [facets, setFacets] = useAtom(facetsAtom);
   const { t } = useLanguage();
-  const { settings } = useSettings();
+  const showExplorerHub = useAtomValue(showExplorerHubAtom);
+  const resultsPerPage = useAtomValue(resultsPerPageAtom);
   
   const [sort, setSort] = useState<string>('-downloads');
   const [page, setPage] = useState(1);
@@ -281,7 +285,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     setError(null);
 
     try {
-      const data = await searchArchive(searchQuery, searchPage, [currentSort], undefined, settings.resultsPerPage);
+      const data = await searchArchive(searchQuery, searchPage, [currentSort], undefined, resultsPerPage);
       if (data && data.response && Array.isArray(data.response.docs)) {
         setTotalResults(data.response.numFound);
         setResults(prev => searchPage === 1 ? data.response.docs : [...prev, ...data.response.docs]);
@@ -296,7 +300,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
-  }, [t, settings.resultsPerPage]);
+  }, [t, resultsPerPage]);
   
   useEffect(() => {
     setPage(1);
@@ -327,7 +331,7 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
 
   return (
     <div className="space-y-6">
-        {!isSearching && settings.showExplorerHub && (
+        {!isSearching && showExplorerHub && (
             <div className="space-y-6">
                 <TrendingNow onSelectItem={onSelectItem} />
                 <OnThisDay onSelectItem={onSelectItem} />

@@ -3,7 +3,7 @@ import { ItemCard } from './ItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { Spinner } from './Spinner';
 import type { ArchiveItemSummary } from '../types';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { SearchIcon } from './Icons';
 
 interface ResultsGridProps {

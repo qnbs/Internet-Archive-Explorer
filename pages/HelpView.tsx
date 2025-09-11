@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 const AccordionItem: React.FC<{ title: string; children: React.ReactNode; startOpen?: boolean }> = ({ title, children, startOpen = false }) => {
   const [isOpen, setIsOpen] = useState(startOpen);
@@ -41,7 +42,7 @@ export const HelpView: React.FC = () => {
                 <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">{t('help:subtitle')}</p>
             </header>
 
-            <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:gettingStartedTitle')}</h2>
                 <div className="space-y-2">
                     <AccordionItem title={t('help:qSearch')} startOpen>
@@ -56,7 +57,7 @@ export const HelpView: React.FC = () => {
                 </div>
             </section>
             
-             <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+             <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:explorerTitle')}</h2>
                 <div className="space-y-2">
                     <AccordionItem title={t('help:qExplorer')}>
@@ -74,7 +75,7 @@ export const HelpView: React.FC = () => {
                 </div>
             </section>
 
-             <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+             <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:collectionsTitle')}</h2>
                 <div className="space-y-2">
                     <AccordionItem title={t('help:qCinemaAudio')}>
@@ -92,7 +93,7 @@ export const HelpView: React.FC = () => {
                 </div>
             </section>
             
-            <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:scriptoriumTitle')}</h2>
                  <div className="space-y-2">
                     <AccordionItem title={t('help:qScriptorium')}>
@@ -107,7 +108,7 @@ export const HelpView: React.FC = () => {
                 </div>
             </section>
 
-             <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+             <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:communityTitle')}</h2>
                 <div className="space-y-2">
                     <AccordionItem title={t('help:qUploaderHub')}>
@@ -122,7 +123,7 @@ export const HelpView: React.FC = () => {
                 </div>
             </section>
             
-             <section className="p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+             <section className="p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('help:faqTitle')}</h2>
                 <div className="space-y-2">
                     <AccordionItem title={t('help:qDownload')}>

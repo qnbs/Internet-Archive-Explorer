@@ -6,7 +6,8 @@ import { RecRoomItemCard } from '../components/RecRoomItemCard';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { JoystickIcon } from '../components/Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 interface RecRoomViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;

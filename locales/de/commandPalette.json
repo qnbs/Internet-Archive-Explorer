@@ -1,4 +1,3 @@
-
 {
   "placeholder": "Befehl eingeben oder suchen...",
   "sections": {
@@ -11,10 +10,11 @@
     "favoritesDesc": "Ihre gespeicherten Einträge und Uploader anzeigen",
     "uploaderHubDesc": "Entdecken Sie Community-Beitragende",
     "scriptoriumDesc": "Ihren Forschungsarbeitsplatz öffnen",
-    "cinemathequeDesc": "Die Filmsammlung durchsuchen",
+    "videothekDesc": "Die Filmsammlung durchsuchen",
     "audiothekDesc": "Die Audiosammlung durchsuchen",
     "imagesDesc": "Die Bildersammlung durchsuchen",
     "recroomDesc": "Klassische Spiele und Software spielen",
+    "webArchiveDesc": "Archivierte Webseiten mit der Wayback Machine erkunden",
     "settingsDesc": "Anwendungseinstellungen ändern",
     "helpDesc": "Hilfe und Dokumentation anzeigen"
   },
@@ -22,6 +22,6 @@
     "toggleTheme": "Theme umschalten",
     "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
     "toggleLanguage": "Sprache wechseln",
-    "toggleLanguageDesc": "Switch between English and German"
+    "toggleLanguageDesc": "Wechseln Sie zwischen Englisch und Deutsch"
   }
 }

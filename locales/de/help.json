@@ -1,4 +1,3 @@
-
 {
   "title": "Hilfe & Dokumentation",
   "subtitle": "Alles, was Sie über die Nutzung des Archive Explorers wissen müssen.",
@@ -8,7 +7,7 @@
   "qFilters": "Wie funktionieren die Filter?",
   "aFilters": "Klicken Sie auf der Suchergebnisseite auf die Medientyp-Schaltflächen, um Filter umzuschalten. Verwenden Sie das Dropdown-Menü, um nach Kriterien wie Beliebtheit oder Datum zu sortieren. Erweiterte Filter wie Jahresbereich und Sammlung sind über das Filtersymbol zugänglich.",
   "qNav": "Wie navigiere ich in der App?",
-  "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf dem Handy), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, den <strong>Favoriten</strong> und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
+  "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf Mobilgeräten), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, den <strong>Favoriten</strong> und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
   "explorerTitle": "Explorer-Hub",
   "qExplorer": "Was ist der Explorer-Hub?",
   "aExplorer": "Die Hauptseite 'Entdecken' ist Ihr zentraler Hub. Wenn Sie nicht aktiv suchen, werden hier kuratierte und dynamische Inhalte wie 'Aktuelle Trends', 'An diesem Tag in der Geschichte' und eine Auswahl an thematischen Suchen angezeigt, um Ihnen bei der Entdeckung neuer Einträge zu helfen.",
@@ -19,7 +18,7 @@
   "qQuickSearch": "Was sind 'Schnellsuchen'?",
   "aQuickSearch": "Dies sind vordefinierte Suchen nach beliebten Themen und Sammlungen, wie 'Filmklassiker' oder 'MS-DOS-Spiele', mit denen Sie mit einem einzigen Klick in eine bestimmte Kategorie eintauchen können.",
   "collectionsTitle": "Sammlungen & Hubs",
-  "qCinemaAudio": "Was sind die Kinemathek und die Audiothek?",
+  "qCinemaAudio": "Was sind die Videothek und die Audiothek?",
   "aCinemaAudio": "Dies sind spezielle Hubs zur Entdeckung von Film- bzw. Audioinhalten. Sie präsentieren einen prominenten Hero-Eintrag und horizontal scrollbare Karussells mit kuratierten Sammlungen und Genres, was das visuelle Stöbern erleichtert.",
   "qImages": "Was finde ich im Bilder-Hub?",
   "aImages": "Der Bilder-Hub ist ein Portal für visuelle Inhalte. Sie können vorgestellte Sammlungen von Institutionen wie der NASA und dem Met Museum erkunden oder Bilder nach Themen wie 'Kunst & Kultur' oder 'Geschichte' entdecken.",

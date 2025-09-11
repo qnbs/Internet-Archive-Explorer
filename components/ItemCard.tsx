@@ -1,8 +1,10 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
-import { useFavorites } from '../contexts/FavoritesContext';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { favoriteIdentifiersAtom, addFavoriteAtom, removeFavoriteAtom } from '../store';
+import { useToast } from '../contexts/ToastContext';
 import { StarIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 interface ItemCardProps {
   item: ArchiveItemSummary;
@@ -11,8 +13,12 @@ interface ItemCardProps {
 }
 
 export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, index }) => {
-  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { addToast } = useToast();
   const { t } = useLanguage();
+  
+  const favoriteIdentifiers = useAtomValue(favoriteIdentifiersAtom);
+  const addFavorite = useSetAtom(addFavoriteAtom);
+  const removeFavorite = useSetAtom(removeFavoriteAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');
@@ -24,14 +30,16 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const creatorName = getCreator(item.creator);
   const publicYear = new Date(item.publicdate).getFullYear();
 
-  const favoriteStatus = isFavorite(item.identifier);
+  const favoriteStatus = favoriteIdentifiers.has(item.identifier);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (favoriteStatus) {
       removeFavorite(item.identifier);
+      addToast(t('favorites:removed'), 'info');
     } else {
       addFavorite(item);
+      addToast(t('favorites:added'), 'success');
     }
   };
 

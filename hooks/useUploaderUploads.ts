@@ -1,89 +1,86 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import type { ArchiveItemSummary, Uploader, MediaType } from '../types';
-import { searchArchive } from '../services/archiveService';
-import { useInfiniteScroll } from './useInfiniteScroll';
+import { useState, useEffect, useCallback } from 'react';
+import { useAtomValue } from 'jotai';
+import { profileSearchQueryAtom, resultsPerPageAtom } from '../store';
 import { useDebounce } from './useDebounce';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSettings } from '../contexts/SettingsContext';
+import { searchArchive } from '../services/archiveService';
+import type { ArchiveItemSummary, Profile, MediaType } from '../types';
+import { useInfiniteScroll } from './useInfiniteScroll';
+import { getProfileApiQuery } from '../utils/profileUtils';
 
-export const useUploaderUploads = (uploader: Uploader) => {
-    const { t } = useLanguage();
-    const { settings } = useSettings();
+export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType | 'all') => {
+    const resultsPerPage = useAtomValue(resultsPerPageAtom);
+    const searchQuery = useAtomValue(profileSearchQueryAtom);
+    const debouncedSearchQuery = useDebounce(searchQuery, 400);
+
     const [results, setResults] = useState<ArchiveItemSummary[]>([]);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
-    // Filter and Sort State
-    const [sort, setSort] = useState<string>('downloads');
+    
+    const [sort, setSort] = useState('downloads');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-    const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaType | 'all'>('all');
-    const [searchQuery, setSearchQuery] = useState('');
-    const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
-    const constructedQuery = useMemo(() => {
-        const parts = [`uploader:("${uploader.searchUploader}")`];
+    const toggleSortDirection = () => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+
+    const buildQuery = useCallback(() => {
+        const baseQuery = getProfileApiQuery(profile);
+        const queryParts = [baseQuery];
         if (mediaTypeFilter !== 'all') {
-            parts.push(`mediatype:(${mediaTypeFilter})`);
+            queryParts.push(`mediatype:${mediaTypeFilter}`);
         }
         if (debouncedSearchQuery.trim()) {
-            parts.push(`AND (${debouncedSearchQuery.trim()})`);
+            queryParts.push(`(${debouncedSearchQuery.trim()})`);
         }
-        return parts.join(' ');
-    }, [uploader.searchUploader, mediaTypeFilter, debouncedSearchQuery]);
+        return queryParts.join(' AND ');
+    }, [profile, mediaTypeFilter, debouncedSearchQuery]);
 
-    const performSearch = useCallback(async (query: string, searchPage: number, currentSort: string, direction: 'asc' | 'desc') => {
-        if (searchPage === 1) setIsLoading(true);
-        else setIsLoadingMore(true);
+    const performSearch = useCallback(async (query: string, searchPage: number, currentSort: string, currentSortDir: 'asc' | 'desc') => {
+        if (searchPage === 1) setIsLoading(true); else setIsLoadingMore(true);
         setError(null);
-        
-        const sortParam = `${direction === 'desc' ? '-' : ''}${currentSort}`;
+
+        const sortParam = `${currentSortDir === 'desc' ? '-' : ''}${currentSort}`;
 
         try {
-            const data = await searchArchive(query, searchPage, [sortParam], undefined, settings.resultsPerPage);
+            const data = await searchArchive(query, searchPage, [sortParam], undefined, resultsPerPage);
             if (data?.response) {
                 setTotalResults(data.response.numFound);
                 setResults(prev => searchPage === 1 ? data.response.docs : [...prev, ...data.response.docs]);
             }
         } catch (err) {
-            setError(t('common:error'));
+            setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
             setIsLoading(false);
             setIsLoadingMore(false);
         }
-    }, [t, settings.resultsPerPage]);
-
+    }, [resultsPerPage]);
+    
+    // Reset and fetch on filter/sort/profile change
     useEffect(() => {
         setPage(1);
-        performSearch(constructedQuery, 1, sort, sortDirection);
-    }, [constructedQuery, sort, sortDirection, performSearch]);
-    
+        const query = buildQuery();
+        performSearch(query, 1, sort, sortDirection);
+    }, [profile, debouncedSearchQuery, mediaTypeFilter, sort, sortDirection, buildQuery, performSearch]);
+
     const handleLoadMore = useCallback(() => {
         if (isLoading || isLoadingMore) return;
-        setPage(prev => {
-            const nextPage = prev + 1;
-            performSearch(constructedQuery, nextPage, sort, sortDirection);
-            return nextPage;
-        });
-    }, [isLoading, isLoadingMore, performSearch, constructedQuery, sort, sortDirection]);
+        const nextPage = page + 1;
+        setPage(nextPage);
+        performSearch(buildQuery(), nextPage, sort, sortDirection);
+    }, [isLoading, isLoadingMore, page, buildQuery, sort, sortDirection, performSearch]);
 
     const handleRetry = useCallback(() => {
         setPage(1);
-        performSearch(constructedQuery, 1, sort, sortDirection);
-    }, [constructedQuery, sort, sortDirection, performSearch]);
-
-    const toggleSortDirection = () => {
-        setSortDirection(prev => prev === 'desc' ? 'asc' : 'desc');
-    };
+        performSearch(buildQuery(), 1, sort, sortDirection);
+    }, [buildQuery, sort, sortDirection, performSearch]);
 
     const hasMore = !isLoading && results.length < totalResults;
     const lastElementRef = useInfiniteScroll({
         isLoading: isLoadingMore,
         hasMore,
         onLoadMore: handleLoadMore,
-        rootMargin: '400px',
+        rootMargin: '400px'
     });
 
     return {
@@ -99,9 +96,5 @@ export const useUploaderUploads = (uploader: Uploader) => {
         setSort,
         sortDirection,
         toggleSortDirection,
-        mediaTypeFilter,
-        setMediaTypeFilter,
-        searchQuery,
-        setSearchQuery
     };
 };

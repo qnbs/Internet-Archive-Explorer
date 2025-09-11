@@ -1,6 +1,7 @@
 import React from 'react';
 import { MediaType } from '../../types';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 import { ChevronDownIcon, SortAscendingIcon, SortDescendingIcon, SearchIcon } from '../Icons';
 
 interface UploadsFilterBarProps {

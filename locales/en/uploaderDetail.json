@@ -1,22 +1,22 @@
-
 {
-  "backToExplorer": "Back to Explorer",
+  "backToExplorer": "Back to Results",
   "backToUploaderHub": "Back to Uploader Hub",
   "tabs": {
+    "ariaLabel": "Uploader Profile Sections",
+    "dashboard": "Dashboard",
     "uploads": "Uploads",
-    "reviews": "Reviews",
-    "statistics": "Statistics"
+    "collections": "Collections",
+    "favorites": "Favorites"
   },
-  "noReviews": "No Reviews Found",
-  "noReviewsDesc": "This user has not written any public reviews.",
   "stats": {
-    "total": "Total Contributions",
+    "total": "Total Items",
     "movies": "Movies",
     "audio": "Audio",
     "texts": "Texts",
     "images": "Images",
     "software": "Software",
-    "distribution": "Contribution Distribution"
+    "distribution": "Media Type Distribution",
+    "noData": "No contribution data available."
   },
   "searchInUploads": "Search within these uploads...",
   "sortBy": "Sort by",

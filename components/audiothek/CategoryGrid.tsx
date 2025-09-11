@@ -1,11 +1,12 @@
 import React from 'react';
-import { useSearch } from '../../contexts/SearchContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useSearchAndGo } from '../../hooks/useSearchAndGo';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 import { MediaType } from '../../types';
 import { MusicNoteIcon, BookIcon, RadioIcon, PodcastIcon } from '../Icons';
 
 export const CategoryGrid: React.FC = () => {
-    const { searchAndGo } = useSearch();
+    const searchAndGo = useSearchAndGo();
     const { t } = useLanguage();
 
     const categories = [

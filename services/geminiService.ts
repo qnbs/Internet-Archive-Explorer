@@ -13,6 +13,7 @@ if (!process.env.API_KEY) {
 }
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+// FIX: Use 'gemini-2.5-flash' model instead of deprecated 'gemini-1.5-flash'.
 const model = "gemini-2.5-flash";
 
 const summaryPrompts: Record<Language, string> = {

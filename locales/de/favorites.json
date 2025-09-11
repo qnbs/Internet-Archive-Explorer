@@ -1,14 +1,13 @@
-
 {
-  "title": "Favoriten",
-  "description": "Ihre gespeicherten Einträge und gefolgten Uploader an einem Ort.",
+  "title": "Meine Bibliothek",
+  "description": "Ihre gespeicherten Einträge und gefolgten Uploader an einem Ort – zur einfachen Verwaltung und Kuratierung.",
   "items": "Einträge",
   "uploaders": "Uploader",
   "collections": "Sammlungen",
   "noFavItems": "Keine favorisierten Einträge",
   "noFavItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
   "noFavUploaders": "Keine gefolgten Uploader",
-  "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Uploaders, um ihm zu folgen.",
+  "noFavUploadersDesc": "Klicken Sie auf 'Folgen' im Profil eines Uploaders, um ihn hier hinzuzufügen.",
   "comingSoon": "Demnächst verfügbar",
   "comingSoonDesc": "Die Möglichkeit, favorisierte Sammlungen zu speichern und zu verwalten, wird bald verfügbar sein.",
   "added": "Zu den Favoriten hinzugefügt!",
@@ -16,5 +15,23 @@
   "errorSave": "Favoriten konnten nicht gespeichert werden.",
   "uploaderAdded": "Uploader gefolgt!",
   "uploaderRemoved": "Uploader nicht mehr gefolgt.",
-  "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden."
+  "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden.",
+  "aria": {
+    "librarySections": "Bibliotheksbereiche"
+  },
+  "searchPlaceholder": "In {{count}} Einträgen suchen...",
+  "searchUploadersPlaceholder": "In {{count}} Uploadern suchen...",
+  "selectMode": "Auswahlmodus",
+  "sort": {
+    "dateAdded": "Hinzugefügt am",
+    "title": "Titel"
+  },
+  "bulkDelete": {
+    "title": "Favoriten entfernen",
+    "message": "Sind Sie sicher, dass Sie {{count}} ausgewählte(n) Eintrag(e) endgültig aus Ihrer Bibliothek entfernen möchten?",
+    "button": "Auswahl entfernen",
+    "selected": "{{count}} ausgewählt",
+    "selectAll": "Alle auswählen ({{count}})",
+    "deselectAll": "Auswahl aufheben"
+  }
 }

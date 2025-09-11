@@ -2,22 +2,15 @@
 {
   "description": "Discover millions of historical photographs, works of art, maps, and scientific images.",
   "searchPlaceholder": "Search for images (e.g., Apollo 11, Van Gogh)",
-  "featuredCollections": "Featured Collections",
+  "galleriesOfTheDay": "Galleries of the Day",
   "collections": {
     "met": "The Met Museum",
-    "metDesc": "Over 400,000 high-resolution images of public-domain works from The Metropolitan Museum of Art.",
+    "metDesc": "High-resolution images of public-domain works from The Metropolitan Museum of Art.",
     "nasa": "NASA Image Library",
-    "nasaDesc": "A vast collection of images, videos, and audio from NASA's space exploration missions.",
+    "nasaDesc": "Images, videos, and audio from NASA's most iconic space exploration missions.",
     "flickr": "Flickr Commons",
-    "flickrDesc": "Images from the world's public photography archives, with no known copyright restrictions.",
-    "usgs": "USGS Maps",
-    "usgsDesc": "A collection of historical topographic maps from the U.S. Geological Survey."
-  },
-  "discoverByTheme": "Discover by Theme",
-  "themes": {
-    "art": "Art & Culture",
-    "science": "Science & Tech",
-    "history": "History",
-    "maps": "Maps"
+    "flickrDesc": "Images from the world's public photography archives with no known copyright restrictions.",
+    "brooklyn": "Brooklyn Museum",
+    "brooklynDesc": "A diverse collection encompassing various cultures, from ancient Egyptian art to contemporary works."
   }
 }

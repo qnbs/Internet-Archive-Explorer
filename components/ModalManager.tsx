@@ -1,0 +1,86 @@
+import React from 'react';
+import { useAtom } from 'jotai';
+import { modalAtom } from '../store';
+
+// Import Modal Components
+import { ItemDetailModal } from './ItemDetailModal';
+import { EmulatorModal } from './EmulatorModal';
+import { CommandPalette } from './CommandPalette';
+import { ConfirmationModal } from './ConfirmationModal';
+
+// Import navigation hook to pass actions to modals
+import { useNavigation } from '../hooks/useNavigation';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+
+export const ModalManager: React.FC = () => {
+    const [modalState, setModalState] = useAtom(modalAtom);
+    const navigation = useNavigation();
+    const searchAndGo = useSearchAndGo();
+
+    const handleClose = () => setModalState({ type: null });
+
+    // FIX: Use a switch statement for cleaner type narrowing of the discriminated union.
+    switch (modalState.type) {
+        case 'itemDetail':
+            return (
+                <ItemDetailModal
+                    item={modalState.item}
+                    onClose={handleClose}
+                    onCreatorSelect={(creator: string) => {
+                        handleClose();
+                        navigation.navigateToCreator(creator);
+                    }}
+                    onUploaderSelect={(uploader: string) => {
+                        handleClose();
+                        navigation.navigateToUploader(uploader);
+                    }}
+                    onEmulate={(item) => {
+                        handleClose();
+                        setModalState({ type: 'emulator', item });
+                    }}
+                    onSelectItem={(item) => {
+                        // When selecting a related item, we effectively "replace" the current modal
+                        setModalState({ type: 'itemDetail', item });
+                    }}
+                />
+            );
+
+        case 'emulator':
+            return <EmulatorModal item={modalState.item} onClose={handleClose} />;
+
+        case 'commandPalette':
+            return (
+                <CommandPalette
+                    onClose={handleClose}
+                    actions={{
+                        navigateTo: (view) => {
+                            handleClose();
+                            navigation.navigateTo(view);
+                        },
+                        globalSearch: (query) => {
+                            handleClose();
+                            searchAndGo(query);
+                        }
+                    }}
+                />
+            );
+            
+        case 'confirmation':
+            return (
+                <ConfirmationModal
+                    {...modalState.options}
+                    onConfirm={async () => {
+                        await modalState.options.onConfirm();
+                        handleClose();
+                    }}
+                    onCancel={() => {
+                        if(modalState.options.onCancel) modalState.options.onCancel();
+                        handleClose();
+                    }}
+                />
+            );
+            
+        default:
+             return null;
+    }
+};

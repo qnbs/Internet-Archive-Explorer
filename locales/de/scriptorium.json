@@ -1,4 +1,3 @@
-
 {
   "title": "Das Scriptorium",
   "description": "Ihr persönlicher Forschungsarbeitsplatz. Sammeln Sie Textdokumente, machen Sie sich Notizen und nutzen Sie KI zur Analyse und Zusammenfassung von Inhalten.",
@@ -21,7 +20,7 @@
     "extracting": "Wird extrahiert...",
     "extract": "Extrahieren",
     "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren.",
-    "tabReader": "Reader",
+    "tabReader": "Leseansicht",
     "tabAI": "KI-Werkzeuge",
     "tabNotes": "Notizen",
     "notesPlaceholder": "Ihre Notizen zu diesem Dokument..."

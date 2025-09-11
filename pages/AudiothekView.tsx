@@ -1,10 +1,12 @@
 import React from 'react';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary } from '../../types';
 import { AudiothekHero } from '../components/audiothek/AudiothekHero';
 import { CategoryGrid } from '../components/audiothek/CategoryGrid';
-import { AudioCarousel } from '../components/audiothek/AudioCarousel';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ContentCarousel } from '../components/ContentCarousel';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 import { MediaType } from '../types';
+import { AudioCarousel } from '../components/audiothek/AudioCarousel';
 
 interface AudiothekViewProps {
   onSelectItem: (item: ArchiveItemSummary) => void;

@@ -1,5 +1,4 @@
 
-
 export type Language = 'en' | 'de';
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -121,8 +120,9 @@ export type UploaderCategory =
 export interface Uploader {
     username: string;
     searchUploader: string;
+    searchField?: 'uploader' | 'creator' | 'scanner';
     screenname?: string;
-    descriptionKey: string;
+    descriptionKey?: string;
     customDescriptionKey?: string;
     category: UploaderCategory;
     featured?: boolean;
@@ -163,4 +163,32 @@ export interface ConfirmationOptions {
   onCancel?: () => void;
   confirmLabel?: string;
   confirmClass?: string;
+}
+export type Facets = {
+    mediaType: Set<MediaType>;
+    yearStart?: string;
+    yearEnd?: string;
+    collection?: string;
+};
+// FIX: Add SortKey and SortDirection types to be used for sorting favorites.
+export type SortKey = 'dateAdded' | 'title';
+export type SortDirection = 'asc' | 'desc';
+export interface AppSettings {
+    resultsPerPage: number;
+    showExplorerHub: boolean;
+    defaultUploaderDetailTab: 'dashboard' | 'uploads' | 'collections' | 'favorites';
+    defaultAiTab: 'description' | 'ai';
+    autoRunEntityExtraction: boolean;
+    autoplayMedia: boolean;
+    reduceMotion: boolean;
+    enableAiFeatures: boolean;
+}
+
+export interface Profile {
+  name: string;
+  // The identifier used in API queries, e.g., 'jakej@archive.org' or 'Walt Disney'
+  searchIdentifier: string; 
+  type: 'uploader' | 'creator';
+  // Optional, only for curated uploaders from our list
+  curatedData?: Uploader;
 }

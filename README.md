@@ -34,7 +34,7 @@ This application is more than just a search interface; it's a feature-rich porta
 ### Discovery & Exploration
 -   **Dynamic Explorer Hub**: The main landing page offers a rich discovery experience when not searching, featuring carousels for "Trending Now" items and historical content from "On This Day".
 -   **Curated Content Hubs**: Specialized sections for a focused browsing experience:
-    -   **Cinematheque**: Browse classic films, film noir, and sci-fi in engaging, scrollable carousels.
+    -   **Videothek**: Browse classic films, film noir, and sci-fi in engaging, scrollable carousels.
     -   **Audiothek**: Discover live music, old-time radio shows, and audiobooks.
     -   **Images Hub**: Explore historical photos, art from museums like The Met, and scientific images from NASA.
     -   **Rec Room**: Play thousands of classic MS-DOS games and software directly in the browser via emulation.

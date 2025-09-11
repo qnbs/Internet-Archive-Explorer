@@ -1,8 +1,10 @@
 
+
 import React, { useState, useEffect, useCallback } from 'react';
 import type { ArchiveItemSummary } from '../types';
-import { useSearch } from '../contexts/SearchContext';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 import { searchArchive } from '../services/archiveService';
 import { ContentCarousel } from './ContentCarousel';
 
@@ -10,7 +12,7 @@ export const OnThisDay: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => v
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { searchAndGo } = useSearch();
+    const searchAndGo = useSearchAndGo();
     const { t, language } = useLanguage();
 
     const today = new Date();

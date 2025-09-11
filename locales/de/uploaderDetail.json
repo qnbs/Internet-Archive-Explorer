@@ -1,22 +1,22 @@
-
 {
-  "backToExplorer": "Zurück zum Explorer",
+  "backToExplorer": "Zurück zu den Ergebnissen",
   "backToUploaderHub": "Zurück zum Uploader-Hub",
   "tabs": {
+    "ariaLabel": "Uploader-Profilbereiche",
+    "dashboard": "Dashboard",
     "uploads": "Uploads",
-    "reviews": "Bewertungen",
-    "statistics": "Statistiken"
+    "collections": "Sammlungen",
+    "favorites": "Favoriten"
   },
-  "noReviews": "Keine Bewertungen gefunden",
-  "noReviewsDesc": "Dieser Benutzer hat keine öffentlichen Bewertungen geschrieben.",
   "stats": {
-    "total": "Beiträge insgesamt",
+    "total": "Einträge Gesamt",
     "movies": "Filme",
     "audio": "Audio",
     "texts": "Texte",
     "images": "Bilder",
     "software": "Software",
-    "distribution": "Verteilung der Beiträge"
+    "distribution": "Verteilung der Medientypen",
+    "noData": "Keine Beitragsdaten verfügbar."
   },
   "searchInUploads": "In diesen Uploads suchen...",
   "sortBy": "Sortieren nach",

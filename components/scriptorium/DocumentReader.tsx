@@ -4,7 +4,8 @@ import { useWorksets } from '../../hooks/useWorksets';
 import { getItemPlainText } from '../../services/archiveService';
 import { Spinner } from '../Spinner';
 import { AIToolsTab } from '../AIToolsTab';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface DocumentReaderProps {
     document: WorksetDocument;

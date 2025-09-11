@@ -1,14 +1,13 @@
-
 {
-  "title": "Favorites",
-  "description": "Your saved items and followed uploaders, all in one place.",
+  "title": "My Library",
+  "description": "Your saved items and followed uploaders, all in one place for easy management and curation.",
   "items": "Items",
   "uploaders": "Uploaders",
   "collections": "Collections",
   "noFavItems": "No Favorite Items",
   "noFavItemsDesc": "Click the star icon on any item to save it here.",
   "noFavUploaders": "No Followed Uploaders",
-  "noFavUploadersDesc": "Click the star icon on an uploader's profile to follow them.",
+  "noFavUploadersDesc": "Click the 'Follow' button on an uploader's profile to add them here.",
   "comingSoon": "Coming Soon",
   "comingSoonDesc": "The ability to save and manage favorite collections is on its way.",
   "added": "Added to favorites!",
@@ -16,5 +15,23 @@
   "errorSave": "Could not save favorites.",
   "uploaderAdded": "Uploader followed!",
   "uploaderRemoved": "Uploader unfollowed.",
-  "errorSaveUploaders": "Could not save followed uploaders."
+  "errorSaveUploaders": "Could not save followed uploaders.",
+  "aria": {
+    "librarySections": "Library Sections"
+  },
+  "searchPlaceholder": "Search in {{count}} items...",
+  "searchUploadersPlaceholder": "Search in {{count}} uploaders...",
+  "selectMode": "Select Mode",
+  "sort": {
+    "dateAdded": "Date Added",
+    "title": "Title"
+  },
+  "bulkDelete": {
+    "title": "Remove Favorites",
+    "message": "Are you sure you want to permanently remove {{count}} selected item(s) from your library?",
+    "button": "Remove Selected",
+    "selected": "{{count}} selected",
+    "selectAll": "Select all ({{count}})",
+    "deselectAll": "Deselect all"
+  }
 }

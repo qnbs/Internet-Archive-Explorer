@@ -3,7 +3,8 @@ import { ResultsGrid } from '../components/ResultsGrid';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary, MediaType } from '../types';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 interface CategoryViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;

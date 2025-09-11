@@ -2,9 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { getSummary, extractEntities } from '../services/geminiService';
 import type { ExtractedEntities } from '../types';
 import { Spinner } from './Spinner';
-import { useSearch } from '../contexts/SearchContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSettings } from '../contexts/SettingsContext';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { useLanguage } from '../hooks/useLanguage';
+import { useAtomValue } from 'jotai';
+import { autoRunEntityExtractionAtom } from '../store';
 import { SparklesIcon, TagIcon } from './Icons';
 
 interface AIToolsTabProps {
@@ -23,9 +24,9 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     const [isExtracting, setIsExtracting] = useState(false);
     const [entityError, setEntityError] = useState<string | null>(null);
     
-    const { searchAndGo } = useSearch();
+    const searchAndGo = useSearchAndGo();
     const { t, language } = useLanguage();
-    const { settings } = useSettings();
+    const autoRunEntityExtraction = useAtomValue(autoRunEntityExtractionAtom);
 
     const handleGenerateSummary = useCallback(async () => {
         if (!textContent) return;
@@ -61,10 +62,10 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     }, [textContent, isExtracting, language, t]);
     
     useEffect(() => {
-        if (settings.autoRunEntityExtraction && textContent && !entities) {
+        if (autoRunEntityExtraction && textContent && !entities) {
             handleExtractEntities();
         }
-    }, [settings.autoRunEntityExtraction, textContent, entities, handleExtractEntities]);
+    }, [autoRunEntityExtraction, textContent, entities, handleExtractEntities]);
 
     const handleEntityClick = (entity: string) => {
         searchAndGo(`"${entity}"`);

@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from '../contexts/ToastContext';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 const STORAGE_KEY = 'scriptorium-worksets';
 

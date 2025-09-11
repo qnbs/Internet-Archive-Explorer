@@ -1,11 +1,13 @@
 
+
 import React, { useState } from 'react';
 import { useWorksets } from '../hooks/useWorksets';
 import { ScriptoriumHub } from '../components/scriptorium/ScriptoriumHub';
 import { WorkspacePanel } from '../components/scriptorium/WorkspacePanel';
 import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
 import { Spinner } from '../components/Spinner';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 interface ScriptoriumViewProps {
     showConfirmation: (options: ConfirmationOptions) => void;

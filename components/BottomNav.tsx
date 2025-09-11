@@ -1,6 +1,7 @@
 import React from 'react';
 import type { View } from '../types';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 import { CompassIcon, MovieIcon, AudioIcon, ImageIcon, BookIcon } from './Icons';
 
 interface NavItem {

@@ -1,54 +1,40 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Uploader, UploaderStats } from '../types';
+import type { UploaderStats, Profile } from '../types';
 import { getItemCount } from '../services/archiveService';
-import { useLanguage } from '../contexts/LanguageContext';
+import { getProfileApiQuery } from '../utils/profileUtils';
 
-export const useUploaderStats = (uploader: Uploader) => {
+export const useUploaderStats = (profile: Profile) => {
     const [stats, setStats] = useState<UploaderStats | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { t } = useLanguage();
 
     const fetchStats = useCallback(async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const uploaderQuery = `uploader:("${uploader.searchUploader}")`;
+            const baseQuery = getProfileApiQuery(profile);
 
-            const queries: Record<keyof UploaderStats, string> = {
-                total: uploaderQuery,
-                movies: `${uploaderQuery} AND mediatype:movies`,
-                audio: `${uploaderQuery} AND mediatype:audio`,
-                texts: `${uploaderQuery} AND mediatype:texts`,
-                image: `${uploaderQuery} AND mediatype:image`,
-                software: `${uploaderQuery} AND mediatype:software`,
-            };
-
-            const promises = Object.entries(queries).map(async ([key, query]) => {
-                const count = await getItemCount(query);
-                return { key: key as keyof UploaderStats, count };
-            });
+            const mediaTypes: (keyof UploaderStats)[] = ['movies', 'audio', 'texts', 'image', 'software'];
+            const promises = mediaTypes.map(type => 
+                getItemCount(`${baseQuery} AND mediatype:${type}`)
+            );
+            promises.unshift(getItemCount(baseQuery)); // For total count
 
             const results = await Promise.all(promises);
             
-            const newStats = results.reduce((acc, { key, count }) => {
-                acc[key] = count;
-                return acc;
-            }, {} as UploaderStats);
-            
-            setStats(newStats);
+            const [total, movies, audio, texts, image, software] = results;
 
-        } catch (e) {
-            console.error("Failed to fetch uploader stats", e);
-            setError(t('common:error'));
+            setStats({ total, movies, audio, texts, image, software });
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to load stats');
         } finally {
             setIsLoading(false);
         }
-    }, [uploader.searchUploader, t]);
-    
+    }, [profile]);
+
     useEffect(() => {
         fetchStats();
     }, [fetchStats]);
 
-    return { stats, isLoading, error };
+    return { stats, isLoading, error, refetch: fetchStats };
 };

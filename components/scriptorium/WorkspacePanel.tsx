@@ -4,7 +4,8 @@ import { useWorksets } from '../../hooks/useWorksets';
 import { DocumentListItem } from './DocumentListItem';
 import { DocumentReader } from './DocumentReader';
 import { AddDocumentModal } from './AddDocumentModal';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 import { ArrowLeftIcon, PlusIcon } from '../Icons';
 
 interface WorkspacePanelProps {

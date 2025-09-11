@@ -31,7 +31,7 @@
             height: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(31, 41, 55, 0.5); /* gray-800 with opacity */
+            background: rgba(156, 163, 175, 0.3); /* gray-400 with opacity */
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
@@ -47,7 +47,7 @@
         /* Custom Scrollbar Styles for Firefox */
         html {
             scrollbar-width: thin;
-            scrollbar-color: #22d3ee rgba(31, 41, 55, 0.5);
+            scrollbar-color: #22d3ee rgba(156, 163, 175, 0.3);
         }
         
         /* Accessibility: Reduce Motion */
@@ -89,17 +89,21 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.1.1",
-    "react-dom/": "https://esm.sh/react-dom@19.1.1/",
-    "react/": "https://esm.sh/react@19.1.1/",
-    "@google/genai": "https://esm.sh/@google/genai@1.15.0",
-    "react-i18next": "https://aistudiocdn.com/react-i18next@15.7.3",
-    "uuid": "https://aistudiocdn.com/uuid@13.0.0"
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "jotai": "https://aistudiocdn.com/jotai@^2.14.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.19.0",
+    "uuid": "https://aistudiocdn.com/uuid@^13.0.0",
+    "vite": "https://aistudiocdn.com/vite@^7.1.5",
+    "path": "https://aistudiocdn.com/path@^0.12.7",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.2",
+    "jotai/": "https://aistudiocdn.com/jotai@^2.14.0/"
   }
 }
 </script>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

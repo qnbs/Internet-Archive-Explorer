@@ -1,11 +1,12 @@
 import React from 'react';
-import { useSearch } from '../../contexts/SearchContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useSearchAndGo } from '../../hooks/useSearchAndGo';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 import { MusicNoteIcon } from '../Icons';
 import { MediaType } from '../../types';
 
 export const AudiothekHero: React.FC = () => {
-    const { searchAndGo } = useSearch();
+    const searchAndGo = useSearchAndGo();
     const { t } = useLanguage();
     
     const handleExplore = () => {

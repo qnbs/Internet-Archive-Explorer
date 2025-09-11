@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 import { CloseIcon } from './Icons';
+import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 
 interface EmulatorModalProps {
   item: ArchiveItemSummary;
@@ -13,46 +15,13 @@ export const EmulatorModal: React.FC<EmulatorModalProps> = ({ item, onClose }) =
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const { t } = useLanguage();
-  const firstFocusableElementRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
-
+  
+  useModalFocusTrap({ modalRef, isOpen: isMounted, onClose });
 
   useEffect(() => {
     setIsMounted(true);
-    const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-            onClose();
-        }
-        if (event.key === 'Tab' && modalRef.current) {
-            const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), iframe'
-            );
-            if (focusableElements.length === 0) return;
-
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-
-            if (event.shiftKey) { // Shift + Tab
-                if (document.activeElement === firstElement) {
-                    lastElement.focus();
-                    event.preventDefault();
-                }
-            } else { // Tab
-                if (document.activeElement === lastElement) {
-                    firstElement.focus();
-                    event.preventDefault();
-                }
-            }
-        }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    firstFocusableElementRef.current?.focus();
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onClose]);
+  }, []);
 
   const embedUrl = `https://archive.org/embed/${item.identifier}`;
 
@@ -67,16 +36,15 @@ export const EmulatorModal: React.FC<EmulatorModalProps> = ({ item, onClose }) =
       <header className="flex items-center justify-between pb-4 flex-shrink-0">
         <h2 id="emulator-title" className="text-xl font-bold text-white truncate pr-4">{item.title}</h2>
         <button
-          ref={firstFocusableElementRef}
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors rounded-full p-2 bg-gray-800/50 hover:bg-gray-700"
+          className="text-gray-800 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors rounded-full p-2 bg-white/80 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700"
           aria-label={t('modals:emulator.close')}
         >
           <CloseIcon className="w-6 h-6" />
         </button>
       </header>
-      <div className="flex-grow bg-gray-900 rounded-lg overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
-        <div className="text-center text-gray-400 text-sm p-2 bg-gray-800 border-b border-gray-700">
+      <div className="flex-grow bg-white dark:bg-gray-900 rounded-lg overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
+        <div className="text-center text-gray-600 dark:text-gray-400 text-sm p-2 bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <p>{t('modals:emulator.providedBy')}</p>
           <p className="text-xs text-gray-500">{t('modals:emulator.escToExit')}</p>
         </div>

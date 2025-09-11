@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { searchArchive } from '../../services/archiveService';
 import type { ArchiveItemSummary, Workset } from '../../types';
 import { useDebounce } from '../../hooks/useDebounce';
 import { Spinner } from '../Spinner';
 import { CloseIcon, SearchIcon, PlusIcon } from '../Icons';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
+import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 
 interface AddDocumentModalProps {
     workset: Workset;
@@ -19,6 +21,15 @@ export const AddDocumentModal: React.FC<AddDocumentModalProps> = ({ workset, onA
     const [isLoading, setIsLoading] = useState(false);
     const debouncedQuery = useDebounce(query, 500);
 
+    const modalRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    
+    useModalFocusTrap({ modalRef, isOpen: true, onClose });
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
     useEffect(() => {
         if (!debouncedQuery.trim()) {
             setResults([]);
@@ -27,21 +38,25 @@ export const AddDocumentModal: React.FC<AddDocumentModalProps> = ({ workset, onA
         setIsLoading(true);
         searchArchive(`(${debouncedQuery}) AND mediatype:(texts)`, 1, [], undefined, 10).then(data => {
             setResults(data.response?.docs || []);
+        }).finally(() => {
             setIsLoading(false);
         });
     }, [debouncedQuery]);
 
     return (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-start pt-20 p-4" onClick={onClose}>
-            <div className="bg-gray-800 w-full max-w-2xl rounded-xl shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-start pt-20 p-4" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="add-doc-title">
+            <div ref={modalRef} className="bg-gray-800 w-full max-w-2xl rounded-xl shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
                 <header className="flex items-center justify-between p-4 border-b border-gray-700">
-                    <h2 className="text-lg font-bold text-white">{t('scriptorium.addDocumentTo', { worksetName: workset.name })}</h2>
-                    <button onClick={onClose} className="p-1 text-gray-400 hover:text-white rounded-full"><CloseIcon /></button>
+                    <h2 id="add-doc-title" className="text-lg font-bold text-white">{t('scriptorium.addDocumentTo', { worksetName: workset.name })}</h2>
+                    <button onClick={onClose} className="p-1 text-gray-400 hover:text-white rounded-full" aria-label={t('common:close')}><CloseIcon /></button>
                 </header>
                 <div className="p-4">
                     <div className="relative">
-                        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                        <input 
+                        <label htmlFor="doc-search-input" className="sr-only">{t('scriptorium.searchPlaceholder')}</label>
+                        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                        <input
+                            id="doc-search-input"
+                            ref={inputRef}
                             value={query} 
                             onChange={e => setQuery(e.target.value)} 
                             placeholder={t('scriptorium.searchPlaceholder')}
@@ -59,7 +74,7 @@ export const AddDocumentModal: React.FC<AddDocumentModalProps> = ({ workset, onA
                             <div key={item.identifier} className="flex items-center justify-between p-3 bg-gray-700/50 rounded-md">
                                 <div>
                                     <p className="font-semibold text-gray-200">{item.title}</p>
-                                    <p className="text-xs text-gray-400">{item.creator}</p>
+                                    <p className="text-xs text-gray-400">{Array.isArray(item.creator) ? item.creator.join(', ') : item.creator}</p>
                                 </div>
                                 <button onClick={() => { onAdd(item); onClose(); }} className="flex-shrink-0 flex items-center space-x-2 text-sm bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-1 px-3 rounded-md transition-colors">
                                     <PlusIcon className="w-4 h-4" />

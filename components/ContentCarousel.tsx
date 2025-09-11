@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useId } from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 interface ContentCarouselProps {
     title: string;
@@ -34,6 +35,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
     const { t } = useLanguage();
+    const containerId = useId();
 
     const checkForScrollability = () => {
         const el = scrollContainerRef.current;
@@ -76,7 +78,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
         
         if (error) {
             return (
-                <div className="flex-grow flex flex-col items-center justify-center text-center p-4 bg-gray-800/60 rounded-lg w-full">
+                <div className="flex-grow flex flex-col items-center justify-center text-center p-4 bg-gray-50 dark:bg-gray-800/60 rounded-lg w-full">
                     <p className="text-red-400 mb-4">{error}</p>
                      {onRetry && (
                         <button
@@ -102,7 +104,12 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     };
 
     return (
-        <section className="animate-fade-in">
+        <section
+            className="animate-fade-in"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label={title}
+        >
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
                     {titleIcon && <span className="mr-3 text-cyan-600 dark:text-cyan-400">{titleIcon}</span>}
@@ -123,11 +130,13 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                     disabled={!canScrollLeft || !!error}
                     className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
                     aria-label="Scroll left"
+                    aria-controls={containerId}
                 >
                     <ChevronLeftIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                 </button>
                 
-                <div 
+                <div
+                    id={containerId}
                     ref={scrollContainerRef}
                     className="flex space-x-4 overflow-x-auto pb-4 scroll-smooth"
                     style={{ scrollSnapType: 'x mandatory' }}
@@ -137,7 +146,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
 
                 <div 
                     aria-hidden="true"
-                    className={`absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-white dark:from-gray-900 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${canScrollRight && !error ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-gray-100 dark:from-gray-900 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${canScrollRight && !error ? 'opacity-100' : 'opacity-0'}`} 
                 />
 
                 <button
@@ -145,6 +154,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                     disabled={!canScrollRight || !!error}
                     className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
                     aria-label="Scroll right"
+                    aria-controls={containerId}
                 >
                     <ChevronRightIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                 </button>

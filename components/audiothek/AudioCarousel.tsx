@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import type { ArchiveItemSummary } from '../../types';
 import { searchArchive } from '../../services/archiveService';
 import { ContentCarousel } from '../ContentCarousel';
-import { useLanguage } from '../../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface AudioCarouselProps {
   collection: {

@@ -1,16 +1,23 @@
-
-import React, { useState, FormEvent, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { searchWaybackMachine } from '../services/archiveService';
 import type { WaybackResponse, WaybackResult } from '../types';
 import { Spinner } from '../components/Spinner';
-import { useLanguage } from '../contexts/LanguageContext';
-import { SearchIcon } from '../components/Icons';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
+import { WebIcon } from '../components/Icons';
+import { useAtom } from 'jotai';
+// FIX: Correct import path for jotai atom.
+import { webArchiveUrlAtom } from '../store';
+import { useDebounce } from '../hooks/useDebounce';
 
 export const WebArchiveView: React.FC = () => {
     const { t, language } = useLanguage();
     const title = t('webArchive:title');
     const description = t('webArchive:description');
-    const [url, setUrl] = useState('');
+    
+    const [url, setUrl] = useAtom(webArchiveUrlAtom);
+    const debouncedUrl = useDebounce(url, 500);
+    
     const [results, setResults] = useState<WaybackResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -32,18 +39,28 @@ export const WebArchiveView: React.FC = () => {
         }
     };
 
-    const performSearch = useCallback(async () => {
-        if (!url.trim()) {
-            setError(t('webArchive:errorInvalidUrl'));
+    const performSearch = useCallback(async (searchUrl: string) => {
+        if (!searchUrl.trim()) {
+            setResults(null);
+            setHasSearched(false);
+            setError(null);
             return;
         }
+        
+        // Basic URL validation
+        if (!/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(searchUrl)) {
+            setError(t('webArchive:errorInvalidUrl'));
+            setResults(null);
+            return;
+        }
+        
         setIsLoading(true);
         setError(null);
         setResults(null);
         setHasSearched(true);
 
         try {
-            const data = await searchWaybackMachine(url);
+            const data = await searchWaybackMachine(searchUrl);
             setResults(data);
         } catch (err) {
             setError(t('webArchive:errorFetch'));
@@ -51,42 +68,25 @@ export const WebArchiveView: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [url, t]);
+    }, [t]);
 
+    useEffect(() => {
+        performSearch(debouncedUrl);
+    }, [debouncedUrl, performSearch]);
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        performSearch();
-    };
+    // Clear URL when leaving the view
+    useEffect(() => {
+        return () => {
+            setUrl('');
+        };
+    }, [setUrl]);
 
     return (
         <div className="space-y-8">
-            <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
-                <h2 className="text-3xl font-bold text-cyan-400 mb-4">{title}</h2>
-                <div className="text-gray-300 leading-relaxed space-y-4" dangerouslySetInnerHTML={{ __html: description }} />
-            </div>
-
-            <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-grow">
-                        <input
-                            type="text"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            placeholder={t('webArchive:urlPlaceholder')}
-                            className="w-full bg-gray-700 border-2 border-gray-600 rounded-lg py-3 pl-4 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                            aria-label={t('webArchive:urlPlaceholder')}
-                        />
-                        <SearchIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? <Spinner /> : t('webArchive:searchHistory')}
-                    </button>
-                </form>
+            <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg text-center">
+                 <WebIcon className="w-12 h-12 mx-auto text-cyan-400 mb-4" />
+                <h2 className="text-3xl font-bold text-cyan-400 mb-2">{title}</h2>
+                <div className="text-gray-300 leading-relaxed max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: description }} />
             </div>
             
             <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg min-h-[300px] flex items-center justify-center">
@@ -94,13 +94,7 @@ export const WebArchiveView: React.FC = () => {
                     <Spinner size="lg" />
                 ) : error ? (
                     <div className="text-center">
-                        <p className="text-red-400 text-center mb-4">{error}</p>
-                        <button
-                            onClick={performSearch}
-                            className="px-4 py-2 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-500 transition-colors"
-                        >
-                            {t('common:retry')}
-                        </button>
+                        <p className="text-red-400 text-center">{error}</p>
                     </div>
                 ) : hasSearched && results && results.length > 0 ? (
                     <div className="w-full max-h-96 overflow-y-auto">

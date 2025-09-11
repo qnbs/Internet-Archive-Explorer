@@ -1,6 +1,7 @@
-
-import React, { useEffect, useState, useRef } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+import React, { useEffect, useState, useRef, useId } from 'react';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
+import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 
 interface ConfirmationModalProps {
     title: string;
@@ -16,43 +17,14 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, mes
     const { t } = useLanguage();
     const modalRef = useRef<HTMLDivElement>(null);
     const confirmButtonRef = useRef<HTMLButtonElement>(null);
+    const messageId = useId();
+
+    useModalFocusTrap({ modalRef, isOpen: isMounted, onClose: onCancel });
 
     useEffect(() => {
         setIsMounted(true);
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                onCancel();
-            }
-            if (event.key === 'Tab' && modalRef.current) {
-                const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                );
-                if (focusableElements.length === 0) return;
-
-                const firstElement = focusableElements[0];
-                const lastElement = focusableElements[focusableElements.length - 1];
-
-                if (event.shiftKey) {
-                    if (document.activeElement === firstElement) {
-                        lastElement.focus();
-                        event.preventDefault();
-                    }
-                } else {
-                    if (document.activeElement === lastElement) {
-                        firstElement.focus();
-                        event.preventDefault();
-                    }
-                }
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
         confirmButtonRef.current?.focus();
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [onCancel]);
+    }, []);
 
     return (
         <div
@@ -61,6 +33,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, mes
             role="dialog"
             aria-modal="true"
             aria-labelledby="confirmation-title"
+            aria-describedby={messageId}
         >
             <div
                 ref={modalRef}
@@ -68,7 +41,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, mes
                 onClick={(e) => e.stopPropagation()}
             >
                 <h2 id="confirmation-title" className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">{message}</p>
+                <p id={messageId} className="text-gray-600 dark:text-gray-300 mb-6">{message}</p>
                 <div className="flex justify-end space-x-4">
                     <button
                         onClick={onCancel}

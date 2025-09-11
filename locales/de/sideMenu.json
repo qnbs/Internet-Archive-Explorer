@@ -1,4 +1,3 @@
-
 {
   "title": "Menü",
   "explore": "Entdecken",
@@ -7,10 +6,12 @@
   "uploaderHub": "Uploader-Hub",
   "collections": "Sammlungen",
   "scriptorium": "Scriptorium",
-  "cinematheque": "Kinemathek",
+  "videothek": "Videothek",
   "audiothek": "Audiothek",
   "imagesHub": "Bilder-Hub",
   "recRoom": "Rec Room",
+  "tools": "Werkzeuge",
+  "webArchive": "Web-Archiv",
   "settings": "Einstellungen",
   "help": "Hilfe"
 }

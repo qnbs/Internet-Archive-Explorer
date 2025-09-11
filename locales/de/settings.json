@@ -1,4 +1,3 @@
-
 {
   "title": "Einstellungen",
   "subtitle": "Passen Sie Ihr Archive Explorer-Erlebnis an.",
@@ -12,7 +11,7 @@
   "ui": {
     "title": "Benutzeroberfläche",
     "reduceMotion": "Bewegung reduzieren",
-    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein einfacheres Erlebnis."
+    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis."
   },
   "content": {
     "title": "Inhalt & Hubs",
@@ -54,7 +53,7 @@
     "noHistory": "Noch kein Suchverlauf.",
     "clearHistory": "Suchverlauf löschen",
     "resetAll": "Alle Einstellungen zurücksetzen",
-    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets sind davon NICHT betroffen.",
+    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets bleiben davon unberührt.",
     "resetButton": "Einstellungen zurücksetzen",
     "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "clearHistoryTitle": "Suchverlauf löschen?",

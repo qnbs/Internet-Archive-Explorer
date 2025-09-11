@@ -1,7 +1,8 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { JoystickIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+// FIX: Correct import path for useLanguage hook.
+import { useLanguage } from '../hooks/useLanguage';
 
 interface RecRoomItemCardProps {
   item: ArchiveItemSummary;
