@@ -3,6 +3,7 @@ import type { ArchiveItemSummary, Workset } from '../types';
 import { STORAGE_KEYS as SETTINGS_KEYS } from '../store/settings';
 import { STORAGE_KEYS as FAVORITES_KEYS } from '../store/favorites';
 import { STORAGE_KEYS as SEARCH_KEYS } from '../store/search';
+import { STORAGE_KEY as SCRIPTORIUM_KEY } from '../hooks/useWorksets';
 
 interface BackupData {
     version: number;
@@ -13,14 +14,6 @@ interface BackupData {
     scriptoriumWorksets: Workset[];
     searchHistory: string[];
 }
-
-const LOCAL_STORAGE_KEYS = {
-    settings: SETTINGS_KEYS.settings,
-    itemFavorites: FAVORITES_KEYS.itemFavorites,
-    uploaderFavorites: FAVORITES_KEYS.uploaderFavorites,
-    scriptoriumWorksets: 'scriptorium-worksets', // This one is handled by its own hook
-    searchHistory: SEARCH_KEYS.searchHistory,
-};
 
 const CURRENT_VERSION = 1;
 
@@ -34,11 +27,11 @@ export const exportAllData = (): string => {
     };
 
     try {
-        data.settings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.settings) || '{}');
-        data.itemFavorites = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.itemFavorites) || '[]');
-        data.uploaderFavorites = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.uploaderFavorites) || '[]');
-        data.scriptoriumWorksets = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.scriptoriumWorksets) || '[]');
-        data.searchHistory = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.searchHistory) || '[]');
+        data.settings = JSON.parse(localStorage.getItem(SETTINGS_KEYS.settings) || '{}');
+        data.itemFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEYS.itemFavorites) || '[]');
+        data.uploaderFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEYS.uploaderFavorites) || '[]');
+        data.scriptoriumWorksets = JSON.parse(localStorage.getItem(SCRIPTORIUM_KEY) || '[]');
+        data.searchHistory = JSON.parse(localStorage.getItem(SEARCH_KEYS.searchHistory) || '[]');
         
         return JSON.stringify(data, null, 2);
     } catch (error) {
@@ -60,11 +53,11 @@ export const importData = (jsonString: string): void => {
         }
 
         // Validate and save each part
-        if (data.settings) localStorage.setItem(LOCAL_STORAGE_KEYS.settings, JSON.stringify(data.settings));
-        if (data.itemFavorites) localStorage.setItem(LOCAL_STORAGE_KEYS.itemFavorites, JSON.stringify(data.itemFavorites));
-        if (data.uploaderFavorites) localStorage.setItem(LOCAL_STORAGE_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
-        if (data.scriptoriumWorksets) localStorage.setItem(LOCAL_STORAGE_KEYS.scriptoriumWorksets, JSON.stringify(data.scriptoriumWorksets));
-        if (data.searchHistory) localStorage.setItem(LOCAL_STORAGE_KEYS.searchHistory, JSON.stringify(data.searchHistory));
+        if (data.settings) localStorage.setItem(SETTINGS_KEYS.settings, JSON.stringify(data.settings));
+        if (data.itemFavorites) localStorage.setItem(FAVORITES_KEYS.itemFavorites, JSON.stringify(data.itemFavorites));
+        if (data.uploaderFavorites) localStorage.setItem(FAVORITES_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
+        if (data.scriptoriumWorksets) localStorage.setItem(SCRIPTORIUM_KEY, JSON.stringify(data.scriptoriumWorksets));
+        if (data.searchHistory) localStorage.setItem(SEARCH_KEYS.searchHistory, JSON.stringify(data.searchHistory));
 
     } catch (error) {
         console.error("Error importing data:", error);

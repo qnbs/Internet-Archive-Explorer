@@ -8,9 +8,8 @@ import type { View, Profile, Uploader } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
-    // FIX: The `useSetAtom` hook was causing a type inference issue. Using `useAtom` and destructuring for the setter correctly provides a writable function without compiler errors.
+    // FIX: The `useSetAtom` hook can cause type inference issues within `useCallback`, leading to a 'never' type. Using `useAtom` provides a stable setter function that resolves this.
     const [, setSelectedProfile] = useAtom(selectedProfileAtom);
-    // FIX: Changed from `useSetAtom` to `useAtom` to mirror the fix for `setSelectedProfile`. This resolves a type inference issue where the setter was typed as `never`, causing errors in any `useCallback` that used it as a dependency.
     const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 

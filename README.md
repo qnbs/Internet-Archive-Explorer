@@ -1,8 +1,8 @@
 # Internet Archive Explorer
 
-[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-blue?logo=tailwindcss)](https://tailwindcss.com/) [![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue?logo=google)](https://ai.google.dev/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-blue?logo=tailwindcss)](https://tailwindcss.com/) [![Vite](https://img.shields.io/badge/Vite-5.x-purple?logo=vite)](https://vitejs.dev/) [![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue?logo=google)](https://ai.google.dev/)
 
-Ein visuell ansprechendes und hochfunktionales Webportal zur Erkundung der riesigen Sammlung des Internet Archive. Es kombiniert eine moderne Benutzeroberfläche mit leistungsstarken Entdeckungswerkzeugen, persönlichen Forschungsbereichen und KI-gestützten Analysefunktionen.
+A visually appealing and highly functional web portal for exploring the vast collection of the Internet Archive. It combines a modern user interface with powerful discovery tools, personal research areas, and AI-powered analysis features.
 
 ## About AI Studio
 
@@ -19,6 +19,7 @@ By opening the link above, you can access the complete source code, experiment w
 - [Key Features](#key-features)
   - [Discovery & Exploration](#discovery--exploration)
   - [Community & Contribution](#community--contribution)
+  - [Favorites & Curation](#favorites--curation)
   - [Research & Analysis (Scriptorium)](#research--analysis-scriptorium)
   - [Customization & Power-User Features](#customization--power-user-features)
 - [Tech Stack](#tech-stack)
@@ -38,13 +39,20 @@ This application is more than just a search interface; it's a feature-rich porta
     -   **Audiothek**: Discover live music, old-time radio shows, and audiobooks.
     -   **Images Hub**: Explore historical photos, art from museums like The Met, and scientific images from NASA.
     -   **Rec Room**: Play thousands of classic MS-DOS games and software directly in the browser via emulation.
--   **Universal Search & Advanced Filtering**: A persistent header search bar for quick queries, coupled with a powerful filter panel on the results page to narrow by media type, year range, collection, and more.
--   **Wayback Machine Integration**: Explore the history of websites by viewing archived snapshots over time.
+-   **Universal Search & Filtering**: A persistent header search bar for quick queries, coupled with powerful capabilities to filter results by media type, year range, collection, and more.
 
 ### Community & Contribution
--   **Uploader Hub**: A dedicated section to discover the people and institutions behind the archives. Browse a curated list of featured uploaders or filter all known contributors by category.
--   **Detailed Uploader Profiles**: Every uploader has a dynamic profile page showcasing their contribution statistics, a searchable and filterable list of all their uploads, and a feed of all reviews they've written.
--   **Favorites System**: Save your favorite items and follow your favorite uploaders for easy access later. All data is stored locally in your browser.
+-   **Uploader Hub**: A dedicated section to discover the people and institutions behind the archives. Browse a curated list of featured uploaders or filter all known contributors by category (Archivist, Institution, Music, etc.).
+-   **Detailed Uploader Profiles**: Every uploader and creator has a dynamic profile page.
+    -   **Dynamic Tabs**: The profile is organized into tabs that appear only if the user has that type of content: **Uploads, Collections, Favorites, Reviews, Forum Posts,** and **Web Archives**.
+    -   **Interactive Uploads Tab**: The main uploads list features an integrated control panel for real-time filtering by media type and sorting by popularity, date published, and more.
+
+### Favorites & Curation
+-   **Unified Library ("My Library")**: A central hub for all your saved content, organized into three sections:
+    -   **Items**: Manage your saved items with an advanced interface that includes searching, filtering by media type, and sorting by title or date added.
+    -   **Bulk Management**: A "Select Mode" allows you to select multiple items at once for bulk deletion.
+    -   **Uploaders**: View and search through all the contributors you follow.
+    -   **Collections**: A placeholder for future functionality to save entire collections.
 
 ### Research & Analysis (Scriptorium)
 -   **Personal Worksets**: A personal workspace for text-based research. Group documents from the archive into "worksets" to organize your projects.
@@ -62,22 +70,26 @@ This application is more than just a search interface; it's a feature-rich porta
 
 ## Tech Stack
 
--   **Frontend**: [React 19](https://react.dev/) with Hooks and Context API
+-   **Frontend**: [React 19](https://react.dev/) with Hooks
 -   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
--   **AI**: [Google Gemini API](https://ai.google.dev/) via the `@google/genai` SDK
--   **Internationalization**: `react-i18next`
+-   **State Management**: [Jotai](https://jotai.org/) for atomic, performant global state.
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/) for a utility-first CSS framework.
+-   **AI**: [Google Gemini API](https://ai.google.dev/) via the `@google/genai` SDK.
+-   **Build Tool**: [Vite](https://vitejs.dev/) for fast and optimized development and builds.
+-   **Internationalization**: Custom hook-based solution for loading namespaced JSON translation files.
 
 ## Project Structure
 
 The project is organized into logical directories for easy navigation:
 
 -   `/components`: Reusable React components (e.g., `ItemCard`, `Header`, `Spinner`).
--   `/contexts`: React Context providers for managing global state (e.g., `SearchContext`, `ThemeContext`, `SettingsContext`).
--   `/hooks`: Custom React hooks for shared logic (e.g., `useDebounce`, `useInfiniteScroll`).
+-   `/contexts`: React Context providers for cross-cutting concerns (e.g., `ToastContext`).
+-   `/hooks`: Custom React hooks for shared logic (e.g., `useDebounce`, `useInfiniteScroll`, `useNavigation`).
 -   `/pages`: Top-level view components that represent a full page or main view (e.g., `ExplorerView`, `UploaderHubView`).
 -   `/services`: Modules for interacting with external APIs (`archiveService.ts`, `geminiService.ts`).
--   `en.json`, `de.json`: Language files for internationalization.
+-   `/store`: Jotai atom definitions, organized by feature slice, for global state management.
+-   `/utils`: Helper functions for formatting, query building, etc.
+-   `/locales`: Contains language subdirectories (`/en`, `/de`) with JSON files for internationalization.
 
 ## Environment Variables
 

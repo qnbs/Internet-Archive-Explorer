@@ -9,21 +9,23 @@ interface AudiothekViewProps {
   onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
+const getShelves = (t: (key: string) => string) => [
+    { title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
+];
+
+const getAdditionalAudioCollections = (t: (key: string) => string) => [
+    { title: t('audiothek:collections.archiveOfContemporaryMusic'), query: 'collection:archive_of_contemporary_music' },
+    { title: t('audiothek:collections.hipHopMixtapes'), query: 'collection:hiphopmixtapes' },
+    { title: t('audiothek:collections.radioWithASR'), query: 'collection:radioprograms' },
+    { title: t('audiothek:collections.blackieBeats'), query: 'collection:blackie-beats-archive' },
+    { title: t('audiothek:collections.vaporwave'), query: 'collection:vaporwave' },
+    { title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
+];
+
 export const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
-
-    const shelves = [
-        { title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
-    ];
-
-    const additionalAudioCollections = [
-        { title: t('audiothek:collections.archiveOfContemporaryMusic'), query: 'collection:archive_of_contemporary_music' },
-        { title: t('audiothek:collections.hipHopMixtapes'), query: 'collection:hiphopmixtapes' },
-        { title: t('audiothek:collections.radioWithASR'), query: 'collection:radioprograms' },
-        { title: t('audiothek:collections.blackieBeats'), query: 'collection:blackie-beats-archive' },
-        { title: t('audiothek:collections.vaporwave'), query: 'collection:vaporwave' },
-        { title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
-    ];
+    const shelves = getShelves(t);
+    const additionalAudioCollections = getAdditionalAudioCollections(t);
 
     return (
         <div className="space-y-12 animate-page-fade-in">

@@ -128,18 +128,19 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
     );
 };
 
+const getCollections = (t: (key: string) => string) => [
+    { key: 'met', title: t('imagesHub:collections.met'), desc: t('imagesHub:collections.metDesc'), icon: <ArtIcon />, query: 'collection:metropolitanmuseumofart-gallery' },
+    { key: 'nasa', title: t('imagesHub:collections.nasa'), desc: t('imagesHub:collections.nasaDesc'), icon: <ScienceIcon />, query: 'collection:nasa' },
+    { key: 'brooklyn', title: t('imagesHub:collections.brooklyn'), desc: t('imagesHub:collections.brooklynDesc'), icon: <HistoryIcon />, query: 'collection:brooklynmuseum' },
+];
+
 // --- Main Component ---
 interface ImagesHubViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;
 }
 export const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
-
-    const collections = [
-        { key: 'met', title: t('imagesHub:collections.met'), desc: t('imagesHub:collections.metDesc'), icon: <ArtIcon />, query: 'collection:metropolitanmuseumofart-gallery' },
-        { key: 'nasa', title: t('imagesHub:collections.nasa'), desc: t('imagesHub:collections.nasaDesc'), icon: <ScienceIcon />, query: 'collection:nasa' },
-        { key: 'brooklyn', title: t('imagesHub:collections.brooklyn'), desc: t('imagesHub:collections.brooklynDesc'), icon: <HistoryIcon />, query: 'collection:brooklynmuseum' },
-    ];
+    const collections = getCollections(t);
     
     return (
         <div className="space-y-12 animate-page-fade-in">

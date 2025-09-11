@@ -227,6 +227,14 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
     );
 };
 
+const getSections = (t: (key: string) => string) => [
+    { id: 'ui', label: t('settings:sections.ui'), icon: <ImageIcon className="w-5 h-5" /> },
+    { id: 'search', label: t('settings:sections.search'), icon: <SearchIcon className="w-5 h-5" /> },
+    { id: 'content', label: t('settings:sections.content'), icon: <SettingsIcon className="w-5 h-5" /> },
+    { id: 'ai', label: t('settings:sections.ai'), icon: <SparklesIcon className="w-5 h-5" /> },
+    { id: 'data', label: t('settings:sections.data'), icon: <TrashIcon className="w-5 h-5" /> },
+];
+
 // --- Main View ---
 
 interface SettingsViewProps {
@@ -236,14 +244,7 @@ interface SettingsViewProps {
 export const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
     const { t } = useLanguage();
     const [activeSection, setActiveSection] = useState<SettingsSectionId>('ui');
-
-    const sections = [
-        { id: 'ui', label: t('settings:sections.ui'), icon: <ImageIcon className="w-5 h-5" /> },
-        { id: 'search', label: t('settings:sections.search'), icon: <SearchIcon className="w-5 h-5" /> },
-        { id: 'content', label: t('settings:sections.content'), icon: <SettingsIcon className="w-5 h-5" /> },
-        { id: 'ai', label: t('settings:sections.ai'), icon: <SparklesIcon className="w-5 h-5" /> },
-        { id: 'data', label: t('settings:sections.data'), icon: <TrashIcon className="w-5 h-5" /> },
-    ];
+    const sections = getSections(t);
     
     const renderSectionContent = () => {
         switch (activeSection) {

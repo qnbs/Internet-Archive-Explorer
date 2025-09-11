@@ -3,9 +3,10 @@ import { useAtomValue } from 'jotai';
 import { profileSearchQueryAtom, resultsPerPageAtom } from '../store';
 import { useDebounce } from './useDebounce';
 import { searchArchive } from '../services/archiveService';
-import type { ArchiveItemSummary, Profile, MediaType } from '../types';
+import type { ArchiveItemSummary, Profile, MediaType, Facets } from '../types';
 import { useInfiniteScroll } from './useInfiniteScroll';
 import { getProfileApiQuery } from '../utils/profileUtils';
+import { buildArchiveQuery } from '../utils/queryBuilder';
 
 export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType | 'all') => {
     const resultsPerPage = useAtomValue(resultsPerPageAtom);
@@ -26,14 +27,10 @@ export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType 
 
     const buildQuery = useCallback(() => {
         const baseQuery = getProfileApiQuery(profile);
-        const queryParts = [baseQuery];
-        if (mediaTypeFilter !== 'all') {
-            queryParts.push(`mediatype:${mediaTypeFilter}`);
-        }
-        if (debouncedSearchQuery.trim()) {
-            queryParts.push(`(${debouncedSearchQuery.trim()})`);
-        }
-        return queryParts.join(' AND ');
+        const facets: Partial<Facets> = {
+            mediaType: mediaTypeFilter === 'all' ? new Set() : new Set([mediaTypeFilter])
+        };
+        return buildArchiveQuery({ base: baseQuery, text: debouncedSearchQuery, facets });
     }, [profile, mediaTypeFilter, debouncedSearchQuery]);
 
     const performSearch = useCallback(async (query: string, searchPage: number, currentSort: string, currentSortDir: 'asc' | 'desc') => {

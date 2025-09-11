@@ -14,7 +14,6 @@ export {
 };
 export type { ModalState };
 
-// FIX: Explicitly export from each store file to avoid name collision on `STORAGE_KEYS`.
 export {
     searchQueryAtom,
     profileSearchQueryAtom,
@@ -22,7 +21,6 @@ export {
     searchHistoryAtom,
     addSearchHistoryAtom,
     clearSearchHistoryAtom,
-    // FIX: Export webArchiveUrlAtom.
     webArchiveUrlAtom,
 } from './search';
 
@@ -57,6 +55,9 @@ export {
     enableAiFeaturesAtom,
     themeAtom,
     resolvedThemeAtom,
+} from './settings';
+
+export {
     languageAtom,
     loadableTranslationsAtom,
-} from './settings';
+} from './i18n';

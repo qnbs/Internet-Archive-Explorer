@@ -20,6 +20,23 @@ const handleFetchError = (e: unknown, context: string): never => {
     throw new ArchiveServiceError(`An unexpected error occurred while fetching ${context}.`);
 };
 
+async function apiFetch<T>(url: string, context: string): Promise<T> {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new ArchiveServiceError(`Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`);
+        }
+        // Handle cases where the response might be empty text, like in Wayback Machine
+        const text = await response.text();
+        if (!text) {
+            return [] as T; // Return an empty array or appropriate empty value for the type T
+        }
+        return JSON.parse(text) as T;
+    } catch (e) {
+        handleFetchError(e, context);
+    }
+}
+
 export const searchArchive = async (
   query: string,
   page: number,
@@ -43,16 +60,7 @@ export const searchArchive = async (
   }
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new ArchiveServiceError(`Failed to fetch search results. Status: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (e) {
-    handleFetchError(e, 'search results');
-  }
+  return apiFetch<ArchiveSearchResponse>(url, 'search results');
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
@@ -60,17 +68,9 @@ export const getItemMetadata = async (identifier: string): Promise<ArchiveMetada
         return metadataCache.get(identifier)!;
     }
     const url = `${API_BASE_URL}/metadata/${identifier}`;
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new ArchiveServiceError(`Failed to fetch metadata for ${identifier}. Status: ${response.status}`);
-        }
-        const data: ArchiveMetadata = await response.json();
-        metadataCache.set(identifier, data);
-        return data;
-    } catch (e) {
-        handleFetchError(e, `metadata for ${identifier}`);
-    }
+    const data = await apiFetch<ArchiveMetadata>(url, `metadata for ${identifier}`);
+    metadataCache.set(identifier, data);
+    return data;
 };
 
 export const getItemPlainText = async (identifier: string): Promise<string> => {
@@ -97,59 +97,13 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
 
 export const searchWaybackMachine = async (url: string): Promise<WaybackResponse> => {
   const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&fl=timestamp,original&collapse=digest`;
-
-  try {
-      const response = await fetch(cdxUrl);
-      if (!response.ok) {
-        throw new ArchiveServiceError(`Failed to search Wayback Machine. Status: ${response.status}`);
-      }
-
-      const text = await response.text();
-      if (!text) {
-        return []; // Empty response means no snapshots found
-      }
-      
-      const data = JSON.parse(text);
-      if (Array.isArray(data) && data.length > 0) {
-        // The first row is the header, slice it off.
-        return data.slice(1);
-      }
-      return [];
-  } catch (e) {
-    handleFetchError(e, 'Wayback Machine results');
+  
+  const data = await apiFetch<any[]>(cdxUrl, 'Wayback Machine results');
+  if (Array.isArray(data) && data.length > 0) {
+    // The first row is the header, slice it off.
+    return data.slice(1);
   }
-};
-
-export const getRandomItemFromCollection = async (collection: string): Promise<ArchiveItemSummary | null> => {
-  try {
-    const countParams = new URLSearchParams({
-      q: `collection:(${collection}) AND mediatype:image`,
-      rows: '0',
-      output: 'json',
-    });
-    const countResponse = await fetch(`${API_BASE_URL}/advancedsearch.php?${countParams.toString()}`);
-    if (!countResponse.ok) throw new Error('Failed to get count');
-    const countData = await countResponse.json();
-    const numFound = countData.response.numFound;
-    if (numFound === 0) return null;
-
-    const randomIndex = Math.floor(Math.random() * Math.min(numFound, 10000)); // API limit for `start`
-    
-    const itemParams = new URLSearchParams({
-      q: `collection:(${collection}) AND mediatype:image`,
-      fl: 'identifier,title,creator,publicdate,mediatype,uploader',
-      rows: '1',
-      start: randomIndex.toString(),
-      output: 'json',
-    });
-    const itemResponse = await fetch(`${API_BASE_URL}/advancedsearch.php?${itemParams.toString()}`);
-    if (!itemResponse.ok) throw new Error('Failed to get item');
-    const itemData = await itemResponse.json();
-    return itemData.response.docs[0] || null;
-  } catch (error) {
-    console.error(`Failed to get random item from ${collection}`, error);
-    return null;
-  }
+  return [];
 };
 
 export const getItemCount = async (query: string): Promise<number> => {
@@ -160,17 +114,8 @@ export const getItemCount = async (query: string): Promise<number> => {
   });
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new ArchiveServiceError(`Failed to fetch item count. Status: ${response.status}`);
-    }
-    const data: ArchiveSearchResponse = await response.json();
-    return data.response.numFound;
-  } catch (e) {
-    handleFetchError(e, `item count for query "${query}"`);
-  }
+  const data = await apiFetch<ArchiveSearchResponse>(url, `item count for query "${query}"`);
+  return data.response.numFound;
 };
 
 export const getReviewsByUploader = async (

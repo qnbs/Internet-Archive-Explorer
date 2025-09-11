@@ -1,6 +1,5 @@
 import React from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
 import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon } from './Icons';
 import { formatIdentifierForDisplay } from '../utils/formatter';
@@ -22,7 +21,7 @@ interface ItemDetailSidebarProps {
     };
 }
 
-const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton?: boolean }> = ({ label, children, isButton }) => (
+const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton?: boolean }> = React.memo(({ label, children, isButton }) => (
     <div className="flex justify-between items-start text-sm">
         <span className="font-semibold text-gray-500 dark:text-gray-400 flex-shrink-0 mr-2">{label}:</span>
         {isButton ? (
@@ -33,7 +32,7 @@ const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton
             </span>
         )}
     </div>
-);
+));
 
 export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
     item, metadata, onEmulate, onCreatorSelect, onUploaderSelect,
