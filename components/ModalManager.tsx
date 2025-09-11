@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { useAtom } from 'jotai';
 import { modalAtom } from '../store';
@@ -19,9 +17,14 @@ export const ModalManager: React.FC = () => {
     const navigation = useNavigation();
     const searchAndGo = useSearchAndGo();
 
-    const handleClose = () => setModalState({ type: null });
+    const handleClose = () => setModalState({ type: 'closed' });
 
     // FIX: Use a switch statement for cleaner and safer type narrowing of the discriminated union, resolving property access errors.
+    // By handling the 'closed' type case first, we ensure TypeScript can correctly narrow the type within the switch.
+    if (modalState.type === 'closed') {
+        return null;
+    }
+    
     switch (modalState.type) {
         case 'itemDetail':
             return (
@@ -82,7 +85,6 @@ export const ModalManager: React.FC = () => {
                 />
             );
             
-        case null:
         default:
              return null;
     }

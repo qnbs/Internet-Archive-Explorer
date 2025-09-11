@@ -5,7 +5,8 @@ import { useLanguage } from '../hooks/useLanguage';
 import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon } from './Icons';
 
 interface NavItem {
-    view: View;
+    view?: View;
+    href?: string;
     labelKey: string;
     icon: React.ReactNode;
 }
@@ -13,10 +14,6 @@ interface NavItem {
 const mainNavItems: NavItem[] = [
     { view: 'explore', labelKey: 'sideMenu:explore', icon: <CompassIcon /> },
     { view: 'favorites', labelKey: 'sideMenu:favorites', icon: <StarIcon /> },
-];
-
-const communityNavItems: NavItem[] = [
-    { view: 'uploaderHub', labelKey: 'sideMenu:uploaderHub', icon: <UsersIcon /> },
 ];
 
 const collectionNavItems: NavItem[] = [
@@ -28,7 +25,7 @@ const collectionNavItems: NavItem[] = [
 ];
 
 const toolNavItems: NavItem[] = [
-    { view: 'web', labelKey: 'sideMenu:webArchive', icon: <WebIcon /> },
+    { href: 'https://web.archive.org/', labelKey: 'sideMenu:webArchive', icon: <WebIcon /> },
 ];
 
 const utilityNavItems: NavItem[] = [
@@ -47,7 +44,7 @@ const NavButton: React.FC<{ item: NavItem, isActive: boolean, onClick: (view: Vi
     const { t } = useLanguage();
     return (
         <button
-            onClick={() => onClick(item.view)}
+            onClick={() => item.view && onClick(item.view)}
             className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-cyan-50 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             aria-current={isActive ? 'page' : undefined}
         >
@@ -63,6 +60,27 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
         setActiveView(view);
         onClose();
     };
+
+    const renderNavItem = (item: NavItem) => {
+        if (item.href) {
+            return (
+                <a
+                    key={item.labelKey}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center w-full p-3 my-1 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                    <span className="mr-3">{item.icon}</span>
+                    <span className="font-medium">{t(item.labelKey)}</span>
+                </a>
+            );
+        }
+        if (item.view) {
+             return <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />;
+        }
+        return null;
+    }
 
     return (
         <>
@@ -90,26 +108,21 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
                         </div>
                         <nav>
                             <div>
-                                {mainNavItems.map(item => <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />)}
-                            </div>
-                            <hr className="my-4 border-gray-200 dark:border-gray-700" />
-                            <div>
-                                <h3 className="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('sideMenu:community')}</h3>
-                                {communityNavItems.map(item => <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />)}
+                                {mainNavItems.map(renderNavItem)}
                             </div>
                             <hr className="my-4 border-gray-200 dark:border-gray-700" />
                             <div>
                                 <h3 className="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('sideMenu:collections')}</h3>
-                                {collectionNavItems.map(item => <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />)}
+                                {collectionNavItems.map(renderNavItem)}
                             </div>
                              <hr className="my-4 border-gray-200 dark:border-gray-700" />
                             <div>
                                 <h3 className="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{t('sideMenu:tools')}</h3>
-                                {toolNavItems.map(item => <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />)}
+                                {toolNavItems.map(renderNavItem)}
                             </div>
                             <hr className="my-4 border-gray-200 dark:border-gray-700" />
                             <div>
-                                {utilityNavItems.map(item => <NavButton key={item.view} item={item} isActive={activeView === item.view} onClick={handleNavigation} />)}
+                                {utilityNavItems.map(renderNavItem)}
                             </div>
                         </nav>
                     </div>

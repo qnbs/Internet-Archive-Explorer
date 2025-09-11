@@ -1,11 +1,42 @@
-
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
+import type { ArchiveItemSummary, ArchiveMetadata, ArchiveFile } from '../types';
 import { getItemMetadata, getItemPlainText } from '../services/archiveService';
 import { useAtomValue } from 'jotai';
 import { defaultAiTabAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '../store';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';
+
+const findPlayableFile = (files: ArchiveFile[], itemIdentifier: string, mediaType: 'audio' | 'video'): string | null => {
+    // Prioritized list of formats for better web compatibility
+    const audioFormats = ['VBR MP3', 'MP3', 'MPEG4', 'Ogg Vorbis', 'Flac'];
+    const videoFormats = ['h.264', '512Kb MPEG4', 'MPEG4'];
+
+    const targetFormats = mediaType === 'audio' ? audioFormats : videoFormats;
+    
+    let bestFile: ArchiveFile | undefined;
+
+    for (const format of targetFormats) {
+        // Use `endsWith` for more specific matching on common formats
+        if (format === 'MP3' || format === 'MPEG4') {
+             bestFile = files.find(f => f.format.endsWith(format));
+        } else {
+             bestFile = files.find(f => f.format.includes(format));
+        }
+        if (bestFile) break;
+    }
+
+    // Fallback for video: check for .mp4 extension if format matching fails
+    if (!bestFile && mediaType === 'video') {
+       bestFile = files.find(f => f.name.toLowerCase().endsWith('.mp4'));
+    }
+
+    if (bestFile) {
+        return `https://archive.org/download/${itemIdentifier}/${encodeURIComponent(bestFile.name)}`;
+    }
+
+    return null;
+}
+
 
 export const useItemMetadata = (item: ArchiveItemSummary) => {
     const [metadata, setMetadata] = useState<ArchiveMetadata | null>(null);
@@ -24,10 +55,10 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
     const [plainText, setPlainText] = useState<string | null>(null);
     const [isLoadingText, setIsLoadingText] = useState(false);
 
-    // For audio playback
+    // For media playback (audio & video)
     const [isPlaying, setIsPlaying] = useState(false);
-    const [audioUrl, setAudioUrl] = useState<string | null>(null);
-    const audioRef = useRef<HTMLAudioElement>(null);
+    const [playableMedia, setPlayableMedia] = useState<{ url: string; type: 'audio' | 'video' } | null>(null);
+    const mediaRef = useRef<HTMLMediaElement>(null);
 
     const fetchMetadata = useCallback(async () => {
         setIsLoading(true);
@@ -36,10 +67,11 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
             const data = await getItemMetadata(item.identifier);
             setMetadata(data);
             
-            if (item.mediatype === 'audio' && data.files) {
-                const audioFile = data.files.find(f => f.format.includes('VBR MP3') || f.format.includes('Ogg Vorbis') || f.format.includes('MP3'));
-                if (audioFile) {
-                    setAudioUrl(`https://archive.org/download/${item.identifier}/${encodeURIComponent(audioFile.name)}`);
+            if ((item.mediatype === 'audio' || item.mediatype === 'movies') && data.files) {
+                const type = item.mediatype === 'movies' ? 'video' : 'audio';
+                const url = findPlayableFile(data.files, item.identifier, type);
+                if (url) {
+                    setPlayableMedia({ url, type });
                 }
             }
         } catch (err) {
@@ -64,31 +96,31 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
     }, [activeTab, item.mediatype, item.identifier, plainText, isLoadingText]);
     
     const handlePlayPause = () => {
-        if (audioRef.current) {
+        if (mediaRef.current) {
             if (isPlaying) {
-                audioRef.current.pause();
+                mediaRef.current.pause();
             } else {
-                audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+                mediaRef.current.play().catch(e => console.error("Media play failed:", e));
             }
         }
     };
     
-    const audioEventListeners = {
+    const mediaEventListeners = {
         onPlay: () => setIsPlaying(true),
         onPause: () => setIsPlaying(false),
         onEnded: () => setIsPlaying(false),
     };
 
     useEffect(() => {
-        if (audioRef.current && autoplayMedia && audioUrl && !isPlaying) {
-           // We need a small delay for the audio element to be ready
+        if (mediaRef.current && autoplayMedia && playableMedia?.url && !isPlaying) {
+           // We need a small delay for the media element to be ready
             const timer = setTimeout(() => {
                 handlePlayPause();
             }, 100);
             return () => clearTimeout(timer);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [audioUrl, autoplayMedia]);
+    }, [playableMedia?.url, autoplayMedia]);
     
     return {
         metadata,
@@ -99,10 +131,10 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
         plainText,
         isLoadingText,
         isPlaying,
-        audioUrl,
-        audioRef,
+        playableMedia,
+        mediaRef,
         handlePlayPause,
-        audioEventListeners,
+        mediaEventListeners,
         fetchMetadata,
     };
 };

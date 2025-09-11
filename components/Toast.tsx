@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useToast } from '../contexts/ToastContext';
 import { CloseIcon } from './Icons';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Toast: React.FC<{ message: string; type: string; onDismiss: () => void; duration?: number }> = ({ message, type, onDismiss, duration }) => {
+  const { t } = useLanguage();
   useEffect(() => {
     if (duration) {
       const timer = setTimeout(() => {
@@ -35,10 +37,10 @@ const Toast: React.FC<{ message: string; type: string; onDismiss: () => void; du
       <button
         type="button"
         className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-        aria-label="Close"
+        aria-label={t('common:close')}
         onClick={onDismiss}
       >
-        <span className="sr-only">Close</span>
+        <span className="sr-only">{t('common:close')}</span>
         <CloseIcon className="w-5 h-5" />
       </button>
     </div>

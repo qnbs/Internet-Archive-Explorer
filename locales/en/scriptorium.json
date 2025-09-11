@@ -1,4 +1,3 @@
-
 {
   "title": "The Scriptorium",
   "description": "Your personal research workspace. Collect text documents, take notes, and leverage AI to analyze and summarize content.",
@@ -10,6 +9,7 @@
   "deleteWorkset": "Delete Workset",
   "confirmDelete": "Are you sure you want to permanently delete the workset '{{worksetName}}'? This action cannot be undone.",
   "backToHub": "Back to Scriptorium Hub",
+  "backToList": "Back to List",
   "noDocuments": "This workset is empty. Add documents to begin your research.",
   "selectDocument": "Select a document from your workset to begin reading.",
   "addDocumentTo": "Add Documents to '{{worksetName}}'",

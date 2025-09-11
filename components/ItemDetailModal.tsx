@@ -49,10 +49,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
       plainText,
       isLoadingText,
       isPlaying,
-      audioUrl,
-      audioRef,
+      playableMedia,
+      mediaRef,
       handlePlayPause,
-      audioEventListeners,
+      mediaEventListeners,
       fetchMetadata,
   } = useItemMetadata(item);
 
@@ -149,11 +149,11 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
                     onEmulate={onEmulate}
                     onCreatorSelect={onCreatorSelect}
                     onUploaderSelect={onUploaderSelect}
-                    audioUrl={audioUrl}
-                    audioRef={audioRef}
+                    playableMedia={playableMedia}
+                    mediaRef={mediaRef}
                     isPlaying={isPlaying}
                     handlePlayPause={handlePlayPause}
-                    audioEventListeners={audioEventListeners}
+                    mediaEventListeners={mediaEventListeners}
                 />
               </div>
               <div className="md:col-span-2 space-y-4">

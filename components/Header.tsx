@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { activeViewAtom, searchQueryAtom, profileSearchQueryAtom, webArchiveUrlAtom } from '../store';
+import { activeViewAtom, searchQueryAtom, profileSearchQueryAtom } from '../store';
 import { MenuIcon, SearchIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 
@@ -16,7 +16,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
   // Atoms for different search contexts
   const [globalSearch, setGlobalSearch] = useAtom(searchQueryAtom);
   const [profileSearch, setProfileSearch] = useAtom(profileSearchQueryAtom);
-  const [webSearch, setWebSearch] = useAtom(webArchiveUrlAtom);
 
   // Local state for the input to avoid rapid atom updates on every keystroke
   const [inputValue, setInputValue] = useState('');
@@ -27,14 +26,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
       case 'uploaderDetail':
         setInputValue(profileSearch);
         break;
-      case 'web':
-        setInputValue(webSearch);
-        break;
       default:
         setInputValue(globalSearch);
         break;
     }
-  }, [activeView, globalSearch, profileSearch, webSearch]);
+  }, [activeView, globalSearch, profileSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -43,9 +39,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
     switch (activeView) {
       case 'uploaderDetail':
         setProfileSearch(newValue);
-        break;
-      case 'web':
-        setWebSearch(newValue);
         break;
       default:
         setGlobalSearch(newValue);
@@ -66,7 +59,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
   const getPlaceholder = () => {
     switch (activeView) {
         case 'uploaderDetail': return t('uploaderDetail:searchInUploads');
-        case 'web': return t('webArchive:urlPlaceholder');
         default: return t('explorer:searchPlaceholder');
     }
   };

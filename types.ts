@@ -1,3 +1,4 @@
+import React from 'react';
 
 export type Language = 'en' | 'de';
 export type Theme = 'light' | 'dark' | 'system';
@@ -21,14 +22,14 @@ export type View =
   | 'movies'
   | 'audio'
   | 'recroom'
-  | 'web'
   | 'favorites'
   | 'settings'
   | 'help'
-  | 'uploaderHub'
   | 'uploaderDetail'
   | 'uploaderProfile'
-  | 'storyteller';
+  | 'storyteller'
+  // FIX: Added 'uploaderHub' to the View type to resolve navigation error.
+  | 'uploaderHub';
 
 export interface ArchiveItemSummary {
   identifier: string;
@@ -176,7 +177,7 @@ export type SortDirection = 'asc' | 'desc';
 export interface AppSettings {
     resultsPerPage: number;
     showExplorerHub: boolean;
-    defaultUploaderDetailTab: 'dashboard' | 'uploads' | 'collections' | 'favorites';
+    defaultUploaderDetailTab: 'uploads' | 'collections' | 'favorites';
     defaultAiTab: 'description' | 'ai';
     autoRunEntityExtraction: boolean;
     autoplayMedia: boolean;
@@ -192,3 +193,5 @@ export interface Profile {
   // Optional, only for curated uploaders from our list
   curatedData?: Uploader;
 }
+
+export type UploaderTab = 'uploads' | 'collections' | 'favorites' | 'reviews' | 'posts' | 'webArchive';

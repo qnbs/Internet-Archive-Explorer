@@ -9,6 +9,7 @@
   "deleteWorkset": "Workset löschen",
   "confirmDelete": "Sind Sie sicher, dass Sie das Workset '{{worksetName}}' endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
   "backToHub": "Zurück zum Scriptorium-Hub",
+  "backToList": "Zurück zur Liste",
   "noDocuments": "Dieses Workset ist leer. Fügen Sie Dokumente hinzu, um Ihre Forschung zu beginnen.",
   "selectDocument": "Wählen Sie ein Dokument aus Ihrem Workset aus, um mit dem Lesen zu beginnen.",
   "addDocumentTo": "Dokumente zu '{{worksetName}}' hinzufügen",

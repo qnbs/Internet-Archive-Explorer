@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { UploaderProfileCard } from '../components/UploaderProfileCard';
 import { UPLOADER_DATA, UPLOADER_CATEGORIES } from './uploaderData';
-import type { UploaderCategory, Uploader } from '../types';
+import type { Uploader, UploaderCategory } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { UsersIcon } from '../components/Icons';
+import { SearchIcon, UsersIcon } from '../components/Icons';
+import { UploaderProfileCard } from '../components/UploaderProfileCard';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface UploaderHubViewProps {
     onSelectUploader: (uploader: Uploader) => void;
@@ -11,75 +12,78 @@ interface UploaderHubViewProps {
 
 export const UploaderHubView: React.FC<UploaderHubViewProps> = ({ onSelectUploader }) => {
     const { t } = useLanguage();
-    const [selectedCategory, setSelectedCategory] = useState<UploaderCategory | 'all'>('all');
+    const [query, setQuery] = useState('');
+    const debouncedQuery = useDebounce(query, 300);
+    const [category, setCategory] = useState<UploaderCategory | 'all'>('all');
+
+    const filteredUploaders = useMemo(() => {
+        let uploaders = [...UPLOADER_DATA];
+        
+        if (category !== 'all') {
+            uploaders = uploaders.filter(u => u.category === category);
+        }
+        
+        if (debouncedQuery.trim()) {
+            const lowerQuery = debouncedQuery.toLowerCase();
+            uploaders = uploaders.filter(u => 
+                u.username.toLowerCase().includes(lowerQuery) ||
+                t(u.descriptionKey || '').toLowerCase().includes(lowerQuery)
+            );
+        }
+        
+        return uploaders;
+    }, [debouncedQuery, category, t]);
 
     const featuredUploaders = useMemo(() => UPLOADER_DATA.filter(u => u.featured), []);
 
-    const filteredUploaders = useMemo(() => {
-        if (selectedCategory === 'all') {
-            return UPLOADER_DATA.filter(u => !u.featured);
-        }
-        return UPLOADER_DATA.filter(u => u.category === selectedCategory);
-    }, [selectedCategory]);
-    
-    const showFeaturedSection = selectedCategory === 'all';
-
     return (
-        <div className="space-y-12 animate-page-fade-in">
-            <header className="p-6 sm:p-8 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-lg text-center relative overflow-hidden">
-                 <div className="absolute -top-12 -left-12 text-cyan-500/10 opacity-50">
-                    <UsersIcon className="w-48 h-48 transform rotate-[-15deg]" />
-                </div>
-                 <div className="absolute -bottom-12 -right-12 text-cyan-500/10 opacity-50">
-                    <UsersIcon className="w-48 h-48 transform rotate-[15deg]" />
-                </div>
-                <div className="relative z-10">
-                    <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-cyan-400 tracking-wider">{t('uploaderHub:title')}</h1>
-                    <p className="mt-4 max-w-3xl mx-auto text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {t('uploaderHub:description')}
-                    </p>
-                </div>
+        <div className="space-y-8 animate-page-fade-in">
+            <header className="p-6 bg-gray-800/60 rounded-xl shadow-lg text-center">
+                <UsersIcon className="w-12 h-12 mx-auto text-cyan-400 mb-4" />
+                <h1 className="text-3xl font-bold text-cyan-400">{t('uploaderHub:title')}</h1>
+                <p className="mt-2 text-gray-300 max-w-2xl mx-auto">{t('uploaderHub:description')}</p>
             </header>
 
-            {showFeaturedSection && (
-                <section>
-                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('uploaderHub:featured')}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {featuredUploaders.map((uploader, index) => (
-                            <UploaderProfileCard key={uploader.searchUploader} uploader={uploader} index={index} onSelect={onSelectUploader} />
-                        ))}
-                    </div>
-                </section>
-            )}
-            
-            <section>
-                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                    {selectedCategory === 'all'
-                        ? t('uploaderHub:allOtherUploaders')
-                        : t('uploaderHub:categoryTitle', { category: t(`uploaderHub:categories.${selectedCategory}`) })}
-                </h2>
-                <div className="flex flex-wrap items-center gap-2 mb-6 p-4 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                    <button
-                        onClick={() => setSelectedCategory('all')}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${selectedCategory === 'all' ? 'bg-cyan-500 text-white shadow-sm' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'}`}
-                    >
-                        {t('uploaderHub:all')}
+            <div className="sticky top-16 z-10 bg-gray-100/80 dark:bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl border border-gray-200 dark:border-gray-700/50">
+                <div className="relative mb-4">
+                    <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder={t('uploaderHub:searchPlaceholder')}
+                        className="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700/50 focus-within:border-cyan-500 rounded-lg py-2 pl-10 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none transition-colors"
+                    />
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                    <button onClick={() => setCategory('all')} className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${category === 'all' ? 'bg-cyan-500 text-white shadow-sm' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
+                        {t('uploaderHub:categories.all')}
                     </button>
                     {UPLOADER_CATEGORIES.map(cat => (
-                         <button
-                            key={cat}
-                            onClick={() => setSelectedCategory(cat)}
-                            className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${selectedCategory === cat ? 'bg-cyan-500 text-white shadow-sm' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'}`}
-                        >
+                         <button key={cat} onClick={() => setCategory(cat)} className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${category === cat ? 'bg-cyan-500 text-white shadow-sm' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
                             {t(`uploaderHub:categories.${cat}`)}
                         </button>
                     ))}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {filteredUploaders.map((uploader, index) => (
-                        <UploaderProfileCard key={uploader.searchUploader} uploader={uploader} index={index} onSelect={onSelectUploader} />
-                    ))}
-                </div>
+            </div>
+
+            <section>
+                 {filteredUploaders.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {filteredUploaders.map((uploader, index) => (
+                            <UploaderProfileCard
+                                key={uploader.searchUploader}
+                                uploader={uploader}
+                                index={index}
+                                onSelect={onSelectUploader}
+                            />
+                        ))}
+                    </div>
+                 ) : (
+                    <div className="text-center py-16 bg-gray-50 dark:bg-gray-800/60 rounded-lg">
+                        <p className="text-gray-500 dark:text-gray-400">{t('common:noResultsFound')}</p>
+                    </div>
+                 )}
             </section>
         </div>
     );

@@ -1,23 +1,84 @@
 {
   "title": "Hilfe & Dokumentation",
   "subtitle": "Alles, was Sie über die Nutzung des Archive Explorers wissen müssen.",
-  "gettingStartedTitle": "Erste Schritte",
+  "searchPlaceholder": "Hilfethemen durchsuchen...",
+  "selectTopic": "Wählen Sie ein Thema aus der Seitenleiste, um zu beginnen.",
+  "topics": [
+    {
+      "id": "getting-started",
+      "icon": "HelpIcon",
+      "questions": [
+        { "q": "qSearch", "a": "aSearch" },
+        { "q": "qFilters", "a": "aFilters" },
+        { "q": "qNav", "a": "aNav" }
+      ]
+    },
+    {
+      "id": "explorer-hub",
+      "icon": "CompassIcon",
+      "questions": [
+        { "q": "qExplorer", "a": "aExplorer" },
+        { "q": "qTrending", "a": "aTrending" },
+        { "q": "qOnThisDay", "a": "aOnThisDay" }
+      ]
+    },
+    {
+      "id": "collections",
+      "icon": "CollectionIcon",
+      "questions": [
+        { "q": "qCinemaAudio", "a": "aCinemaAudio" },
+        { "q": "qImages", "a": "aImages" },
+        { "q": "qRecRoom", "a": "aRecRoom" },
+        { "q": "qWebArchive", "a": "aWebArchive" }
+      ]
+    },
+    {
+      "id": "scriptorium",
+      "icon": "BookIcon",
+      "questions": [
+        { "q": "qScriptorium", "a": "aScriptorium" },
+        { "q": "qWorksets", "a": "aWorksets" },
+        { "q": "qReaderAi", "a": "aReaderAi" }
+      ]
+    },
+    {
+      "id": "community",
+      "icon": "UsersIcon",
+      "questions": [
+        { "q": "qUploaderHub", "a": "aUploaderHub" },
+        { "q": "qUploaderProfile", "a": "aUploaderProfile" },
+        { "q": "qFavorites", "a": "aFavorites" }
+      ]
+    },
+    {
+      "id": "faq",
+      "icon": "InfoIcon",
+      "questions": [
+        { "q": "qSimilar", "a": "aSimilar" },
+        { "q": "qDownload", "a": "aDownload" },
+        { "q": "qOfficial", "a": "aOfficial" },
+        { "q": "qAboutApp", "a": "aAboutApp" }
+      ]
+    }
+  ],
+  "getting-started": { "title": "Erste Schritte" },
+  "explorer-hub": { "title": "Explorer-Hub" },
+  "collections": { "title": "Sammlungen & Hubs" },
+  "scriptorium": { "title": "Scriptorium (Forschung)" },
+  "community": { "title": "Community-Funktionen" },
+  "faq": { "title": "Häufig gestellte Fragen" },
   "qSearch": "Wie suche ich nach Einträgen?",
   "aSearch": "Verwenden Sie die Hauptsuchleiste oben auf der Seite für allgemeine Suchen. Auf der 'Entdecken'-Seite können Sie die Filterleiste verwenden, um Ihre Ergebnisse nach Medientyp, Jahr und mehr einzugrenzen. Für erweiterte Abfragen können Sie die Lucene-Syntax wie <code>creator:(\"Walt Disney\")</code> verwenden.",
   "qFilters": "Wie funktionieren die Filter?",
   "aFilters": "Klicken Sie auf der Suchergebnisseite auf die Medientyp-Schaltflächen, um Filter umzuschalten. Verwenden Sie das Dropdown-Menü, um nach Kriterien wie Beliebtheit oder Datum zu sortieren. Erweiterte Filter wie Jahresbereich und Sammlung sind über das Filtersymbol zugänglich.",
   "qNav": "Wie navigiere ich in der App?",
   "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf Mobilgeräten), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, den <strong>Favoriten</strong> und den verschiedenen Inhalts-Hubs zu wechseln. Power-User können <strong>Cmd/Ctrl + K</strong> drücken, um die Befehlspalette für sofortige Navigation zu öffnen.",
-  "explorerTitle": "Explorer-Hub",
   "qExplorer": "Was ist der Explorer-Hub?",
   "aExplorer": "Die Hauptseite 'Entdecken' ist Ihr zentraler Hub. Wenn Sie nicht aktiv suchen, werden hier kuratierte und dynamische Inhalte wie 'Aktuelle Trends', 'An diesem Tag in der Geschichte' und eine Auswahl an thematischen Suchen angezeigt, um Ihnen bei der Entdeckung neuer Einträge zu helfen.",
   "qTrending": "Was zeigt 'Aktuelle Trends'?",
   "aTrending": "Dieser Abschnitt zeigt Einträge aus dem gesamten Archiv, die in der letzten Woche die meisten Aufrufe und Interaktionen erhalten haben.",
   "qOnThisDay": "Was ist 'An diesem Tag'?",
   "aOnThisDay": "Dieses Karussell zeigt Einträge, die am aktuellen Monat und Tag, aber in früheren Jahren veröffentlicht wurden. Es ist eine unterhaltsame Art zu sehen, was in der Geschichte passiert ist.",
-  "qQuickSearch": "Was sind 'Schnellsuchen'?",
-  "aQuickSearch": "Dies sind vordefinierte Suchen nach beliebten Themen und Sammlungen, wie 'Filmklassiker' oder 'MS-DOS-Spiele', mit denen Sie mit einem einzigen Klick in eine bestimmte Kategorie eintauchen können.",
-  "collectionsTitle": "Sammlungen & Hubs",
   "qCinemaAudio": "Was sind die Videothek und die Audiothek?",
   "aCinemaAudio": "Dies sind spezielle Hubs zur Entdeckung von Film- bzw. Audioinhalten. Sie präsentieren einen prominenten Hero-Eintrag und horizontal scrollbare Karussells mit kuratierten Sammlungen und Genres, was das visuelle Stöbern erleichtert.",
   "qImages": "Was finde ich im Bilder-Hub?",
@@ -26,21 +87,20 @@
   "aRecRoom": "Der Rec Room ist ein Hub für abspielbare Software aus den Archiven. Er konzentriert sich auf die umfangreiche Sammlung emulierter MS-DOS-Spiele, die Sie direkt in Ihrem Browser ohne Downloads spielen können.",
   "qWebArchive": "Wie benutze ich die Wayback Machine?",
   "aWebArchive": "Die Wayback Machine ist ein Werkzeug zum Anzeigen archivierter Versionen von Websites. Gehen Sie zum Abschnitt 'Werkzeuge', geben Sie eine URL ein, und Sie sehen eine Liste aller Daten, an denen ein Snapshot dieser Seite gespeichert wurde. Klicken Sie auf einen Eintrag, um die Seite so anzuzeigen, wie sie an diesem Tag aussah.",
-  "scriptoriumTitle": "Scriptorium (Forschungsarbeitsplatz)",
   "qScriptorium": "Wofür ist das Scriptorium?",
   "aScriptorium": "Das Scriptorium ist ein leistungsstarkes Werkzeug für die Forschung. Es ermöglicht Ihnen, textbasierte Dokumente aus dem Archiv in persönlichen 'Worksets' für eine fokussierte Untersuchung zu sammeln.",
   "qWorksets": "Wie verwende ich Worksets?",
   "aWorksets": "Vom Scriptorium-Hub aus können Sie neue Worksets erstellen (z. B. 'Meine Romanrecherche'). Sobald Sie ein Workset öffnen, können Sie Textdokumente durch Durchsuchen des Archivs hinzufügen. Alle Ihre Worksets und deren Inhalte werden lokal in Ihrem Browser gespeichert.",
   "qReaderAi": "Was sind die KI-Werkzeuge im Dokumentenleser?",
   "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können eine prägnante Zusammenfassung des Textes erstellen oder Schlüssel-'Entitäten' – wie Personen, Orte und Organisationen – extrahieren, um Ihnen zu helfen, den Inhalt zu verstehen und verwandte Informationen zu finden.",
-  "communityTitle": "Community-Funktionen",
   "qUploaderHub": "Was ist der Uploader-Hub?",
-  "aUploaderHub": "Dieser Bereich ist den Personen und Institutionen gewidmet, die Inhalte beitragen. Sie können unsere kuratierte Liste vorgestellter Uploader durchsuchen oder alle bekannten Beitragenden nach Kategorien filtern. Ein Klick auf eine Uploader-Karte führt Sie zu deren detaillierter Profilseite. Sie können auch zum Profil eines Uploaders navigieren, indem Sie auf dessen Namen in der Detailansicht eines von ihm hochgeladenen Eintrags klicken.",
+  "aUploaderHub": "Dieser Bereich ist den Personen und Institutionen gewidmet, die Inhalte beitragen. Sie können unsere kuratierte Liste vorgestellter Uploader durchsuchen oder alle bekannten Beitragenden nach Kategorien filtern. Ein Klick auf eine Uploader-Karte führt Sie zu deren detaillierter Profilseite.",
+  "qUploaderProfile": "Was sind Uploader-Profilseiten?",
+  "aUploaderProfile": "Jeder Uploader und Ersteller hat eine detaillierte Profilseite. Sie verfügt über einen kompakten Header mit Folge-Aktionen und Schnell-Links. Der Inhalt ist in Tabs organisiert: 'Uploads' zeigt alle Beiträge mit leistungsstarken Filter- und Sortiersteuerungen direkt über dem Inhaltsraster. Andere Tabs wie 'Bewertungen', 'Beiträge' und 'Web-Archive' erscheinen dynamisch, wenn der Uploader diese Art von Inhalt hat, und bieten eine umfassende Ansicht seiner Aktivitäten.",
   "qFavorites": "Wie funktionieren Favoriten?",
-  "aFavorites": "Sie können jeden Eintrag 'favorisieren', indem Sie auf das Sternsymbol auf seiner Karte oder in der Detailansicht klicken. Um einem Uploader zu folgen, klicken Sie auf die Schaltfläche 'Uploader folgen' auf seiner Profilseite. Alle Ihre favorisierten Einträge und gefolgten Uploader werden im Bereich 'Favoriten' für einen einfachen Zugriff gesammelt. Alle Daten werden in Ihrem Browser gespeichert.",
+  "aFavorites": "Sie können jeden Eintrag 'favorisieren', indem Sie auf das Sternsymbol auf seiner Karte oder in der Detailansicht klicken. Um einem Uploader zu folgen, klicken Sie auf die Schaltfläche 'Folgen' auf seiner Profilseite. Alle Ihre favorisierten Einträge und gefolgten Uploader werden im Bereich 'Meine Bibliothek' für einen einfachen Zugriff gesammelt. Alle Daten werden in Ihrem Browser gespeichert.",
   "qSimilar": "Wie funktioniert 'Ähnliche Einträge'?",
   "aSimilar": "Wenn Sie die Details eines Eintrags anzeigen, zeigt der Tab 'Ähnlich' andere Inhalte aus derselben primären Sammlung oder vom selben Ersteller. Dies ist eine großartige Möglichkeit, verwandtes Material zu entdecken.",
-  "faqTitle": "Häufig gestellte Fragen",
   "qDownload": "Kann ich Einträge herunterladen?",
   "aDownload": "Ja. In der Detailansicht eines Eintrags finden Sie den Tab 'Dateien'. Hier werden alle Quelldateien aufgelistet, die zum Download zur Verfügung stehen. Klicken Sie auf eine Datei, um sie in einem neuen Tab zu öffnen oder direkt herunterzuladen.",
   "qOfficial": "Ist dies eine offizielle Anwendung des Internet Archive?",

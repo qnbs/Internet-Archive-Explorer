@@ -1,5 +1,6 @@
 {
   "placeholder": "Type a command or search...",
+  "title": "Command Palette",
   "sections": {
     "navigation": "Navigation",
     "actions": "Actions",
@@ -8,13 +9,12 @@
   "nav": {
     "exploreDesc": "Go to the main explorer page",
     "favoritesDesc": "View your saved items and uploaders",
-    "uploaderHubDesc": "Discover community contributors",
     "scriptoriumDesc": "Open your research workspace",
     "videothekDesc": "Browse the movie collection",
     "audiothekDesc": "Browse the audio collection",
     "imagesDesc": "Browse the image collection",
     "recroomDesc": "Play classic games and software",
-    "webArchiveDesc": "Explore archived websites with the Wayback Machine",
+    "webArchiveDesc": "Open the Wayback Machine in a new tab",
     "settingsDesc": "Change application settings",
     "helpDesc": "View help and documentation"
   },

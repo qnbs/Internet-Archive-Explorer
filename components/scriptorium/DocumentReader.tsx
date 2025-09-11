@@ -4,8 +4,8 @@ import { useWorksets } from '../../hooks/useWorksets';
 import { getItemPlainText } from '../../services/archiveService';
 import { Spinner } from '../Spinner';
 import { AIToolsTab } from '../AIToolsTab';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
+import { ArrowLeftIcon } from '../Icons';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
@@ -103,9 +103,15 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, workse
 
     return (
         <div className="h-full flex flex-col">
-            <header className="mb-4">
-                <h3 className="text-xl font-bold text-white">{document.title}</h3>
-                <p className="text-sm text-gray-400">{document.creator?.toString()}</p>
+            <header className="mb-4 flex justify-between items-start">
+                <div>
+                    <h3 className="text-xl font-bold text-white">{document.title}</h3>
+                    <p className="text-sm text-gray-400">{document.creator?.toString()}</p>
+                </div>
+                 <button onClick={() => onSelectDocument(null)} className="md:hidden flex items-center space-x-2 text-sm text-cyan-400 hover:underline p-2 -mr-2">
+                    <ArrowLeftIcon className="w-4 h-4" />
+                    <span>{t('scriptorium:backToList')}</span>
+                </button>
             </header>
             <div className="flex items-center space-x-2 border-b border-gray-700 pb-2 mb-4">
                 <TabButton tab="reader" label={t('scriptorium.reader.tabReader')} />

@@ -1,22 +1,29 @@
-
-// FIX: Explicitly export from './app' to resolve a potential type inference issue with Jotai's useSetAtom hook.
-export {
+import {
     activeViewAtom,
     selectedProfileAtom,
     profileReturnViewAtom,
     modalAtom,
 } from './app';
-export type { ModalState } from './app';
+import type { ModalState } from './app';
+
+export {
+    activeViewAtom,
+    selectedProfileAtom,
+    profileReturnViewAtom,
+    modalAtom,
+};
+export type { ModalState };
 
 // FIX: Explicitly export from each store file to avoid name collision on `STORAGE_KEYS`.
 export {
     searchQueryAtom,
     profileSearchQueryAtom,
-    webArchiveUrlAtom,
     facetsAtom,
     searchHistoryAtom,
     addSearchHistoryAtom,
     clearSearchHistoryAtom,
+    // FIX: Export webArchiveUrlAtom.
+    webArchiveUrlAtom,
 } from './search';
 
 export {

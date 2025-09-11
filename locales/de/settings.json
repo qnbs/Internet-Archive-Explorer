@@ -1,6 +1,14 @@
 {
   "title": "Einstellungen",
   "subtitle": "Passen Sie Ihr Archive Explorer-Erlebnis an.",
+  "saved": "Einstellung gespeichert!",
+  "sections": {
+    "ui": "Erscheinungsbild",
+    "search": "Suche & Entdeckung",
+    "content": "Inhalt & Hubs",
+    "ai": "KI-Funktionen",
+    "data": "Daten & Datenschutz"
+  },
   "search": {
     "title": "Suche & Entdeckung",
     "resultsPerPage": "Ergebnisse pro Seite",
@@ -11,7 +19,16 @@
   "ui": {
     "title": "Benutzeroberfläche",
     "reduceMotion": "Bewegung reduzieren",
-    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis."
+    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis.",
+    "theme": "Theme",
+    "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich der Einstellung Ihres Betriebssystems an.",
+    "themes": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "language": "Sprache",
+    "languageDesc": "Wählen Sie die Anzeigesprache der Benutzeroberfläche."
   },
   "content": {
     "title": "Inhalt & Hubs",
@@ -35,7 +52,7 @@
     "privacy": "Datenschutz",
     "managementTitle": "Datenverwaltung",
     "exportAll": "Alle Daten exportieren",
-    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter.",
+    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Favoriten und Worksets als JSON-Datei herunter. Theme- und Spracheinstellungen sind nicht enthalten.",
     "exportButton": "Daten exportieren",
     "exportSuccess": "Daten erfolgreich exportiert!",
     "exportError": "Export der Daten fehlgeschlagen.",
@@ -49,15 +66,17 @@
     "importErrorFile": "Die Datei konnte nicht gelesen werden.",
     "title": "Ihre Daten",
     "searchHistory": "Suchverlauf",
-    "searchHistoryDesc": "Die App speichert Ihre letzten Suchanfragen lokal.",
+    "searchHistoryDesc": "Löschen Sie Ihren lokal gespeicherten Suchverlauf.",
     "noHistory": "Noch kein Suchverlauf.",
-    "clearHistory": "Suchverlauf löschen",
-    "resetAll": "Alle Einstellungen zurücksetzen",
+    "clearHistory": "Verlauf löschen",
+    "resetAll": "App-Einstellungen zurücksetzen",
     "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Favoriten und Worksets bleiben davon unberührt.",
     "resetButton": "Einstellungen zurücksetzen",
     "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "clearHistoryTitle": "Suchverlauf löschen?",
     "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
-    "clearHistorySuccess": "Suchverlauf gelöscht."
+    "clearHistorySuccess": "Suchverlauf gelöscht.",
+    "dangerZone": "Gefahrenzone",
+    "dangerZoneDesc": "Diese Aktionen sind endgültig und können nicht rückgängig gemacht werden."
   }
 }

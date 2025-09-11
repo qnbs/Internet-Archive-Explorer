@@ -1,12 +1,14 @@
 {
-  "backToExplorer": "Back to Results",
-  "backToUploaderHub": "Back to Uploader Hub",
+  "back": "Back",
   "tabs": {
     "ariaLabel": "Uploader Profile Sections",
     "dashboard": "Dashboard",
     "uploads": "Uploads",
     "collections": "Collections",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "reviews": "Reviews",
+    "posts": "Posts",
+    "webArchive": "Web Archives"
   },
   "stats": {
     "total": "Total Items",
@@ -31,5 +33,8 @@
   },
   "filters": {
     "allTypes": "All Types"
+  },
+  "aria": {
+    "profileSections": "Profile Sections"
   }
 }

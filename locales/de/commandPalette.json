@@ -1,5 +1,6 @@
 {
   "placeholder": "Befehl eingeben oder suchen...",
+  "title": "Befehlspalette",
   "sections": {
     "navigation": "Navigation",
     "actions": "Aktionen",
@@ -8,13 +9,12 @@
   "nav": {
     "exploreDesc": "Zur Hauptentdeckungsseite gehen",
     "favoritesDesc": "Ihre gespeicherten Einträge und Uploader anzeigen",
-    "uploaderHubDesc": "Entdecken Sie Community-Beitragende",
     "scriptoriumDesc": "Ihren Forschungsarbeitsplatz öffnen",
     "videothekDesc": "Die Filmsammlung durchsuchen",
     "audiothekDesc": "Die Audiosammlung durchsuchen",
     "imagesDesc": "Die Bildersammlung durchsuchen",
     "recroomDesc": "Klassische Spiele und Software spielen",
-    "webArchiveDesc": "Archivierte Webseiten mit der Wayback Machine erkunden",
+    "webArchiveDesc": "Öffnet die Wayback Machine in einem neuen Tab",
     "settingsDesc": "Anwendungseinstellungen ändern",
     "helpDesc": "Hilfe und Dokumentation anzeigen"
   },

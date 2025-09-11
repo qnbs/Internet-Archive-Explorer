@@ -2,7 +2,7 @@ import React from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
 // FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
-import { JoystickIcon, PlayIcon, PauseIcon } from './Icons';
+import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon } from './Icons';
 import { formatIdentifierForDisplay } from '../utils/formatter';
 
 interface ItemDetailSidebarProps {
@@ -11,11 +11,11 @@ interface ItemDetailSidebarProps {
     onEmulate: (item: ArchiveItemSummary) => void;
     onCreatorSelect: (creator: string) => void;
     onUploaderSelect: (uploader: string) => void;
-    audioUrl: string | null;
-    audioRef: React.RefObject<HTMLAudioElement>;
+    playableMedia: { url: string; type: 'audio' | 'video' } | null;
+    mediaRef: React.RefObject<HTMLMediaElement>;
     isPlaying: boolean;
     handlePlayPause: () => void;
-    audioEventListeners: {
+    mediaEventListeners: {
         onPlay: () => void;
         onPause: () => void;
         onEnded: () => void;
@@ -37,7 +37,7 @@ const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton
 
 export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
     item, metadata, onEmulate, onCreatorSelect, onUploaderSelect,
-    audioUrl, audioRef, isPlaying, handlePlayPause, audioEventListeners
+    playableMedia, mediaRef, isPlaying, handlePlayPause, mediaEventListeners
 }) => {
     const { t, language } = useLanguage();
     const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
@@ -57,10 +57,65 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
 
     return (
         <div className="space-y-4">
-            <div className="rounded-lg overflow-hidden aspect-[3/4] shadow-md bg-gray-200 dark:bg-gray-700">
-                <img src={thumbnailUrl} alt={`Cover for ${item.title}`} className="w-full h-full object-cover" />
+            <div className="rounded-lg overflow-hidden aspect-[3/4] shadow-md bg-gray-200 dark:bg-gray-700 relative group">
+                {/* Video Player */}
+                {playableMedia?.type === 'video' && (
+                    <video
+                        ref={mediaRef as React.RefObject<HTMLVideoElement>}
+                        src={playableMedia.url}
+                        className={`w-full h-full object-cover absolute inset-0 z-10 transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                        onPlay={mediaEventListeners.onPlay}
+                        onPause={mediaEventListeners.onPause}
+                        onEnded={mediaEventListeners.onEnded}
+                        controls
+                    />
+                )}
+
+                {/* Thumbnail Image */}
+                <img
+                    src={thumbnailUrl}
+                    alt={`Cover for ${item.title}`}
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${isPlaying && playableMedia?.type === 'video' ? 'opacity-0' : 'opacity-100'}`}
+                />
+                
+                {/* Play/Pause Overlay */}
+                {playableMedia && (
+                    <div
+                        onClick={handlePlayPause}
+                        className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 cursor-pointer ${!isPlaying ? 'opacity-0 group-hover:opacity-100' : isPlaying && playableMedia.type === 'video' ? 'opacity-0' : 'opacity-100'}`}
+                        role="button"
+                        aria-label={isPlaying ? t('common:pause') : t('common:play')}
+                    >
+                        {isPlaying 
+                            ? <PauseIcon className="w-16 h-16 text-white drop-shadow-lg" /> 
+                            : <PlayIcon className="w-16 h-16 text-white drop-shadow-lg" />
+                        }
+                    </div>
+                )}
+
+                 {/* Audio Playback Indicator Bar */}
+                {playableMedia?.type === 'audio' && isPlaying && (
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm pointer-events-none">
+                        <div className="flex items-center text-white animate-fade-in">
+                            <MusicNoteIcon className="w-5 h-5 mr-2 flex-shrink-0" />
+                            <span className="text-sm font-semibold truncate flex-grow" title={item.title}>{item.title}</span>
+                        </div>
+                    </div>
+                )}
             </div>
             
+            {/* Hidden Audio Player Element */}
+            {playableMedia?.type === 'audio' && (
+                <audio
+                    ref={mediaRef as React.RefObject<HTMLAudioElement>}
+                    src={playableMedia.url}
+                    onPlay={mediaEventListeners.onPlay}
+                    onPause={mediaEventListeners.onPause}
+                    onEnded={mediaEventListeners.onEnded}
+                    className="hidden"
+                />
+            )}
+
             {item.mediatype === 'software' && (
                 <button 
                     onClick={() => onEmulate(item)}
@@ -69,19 +124,6 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                     <JoystickIcon />
                     <span>{t('recRoom:card.start')}</span>
                 </button>
-            )}
-            
-            {item.mediatype === 'audio' && audioUrl && (
-                 <div className="flex items-center space-x-3 bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
-                    <button onClick={handlePlayPause} className="p-3 bg-cyan-500 text-white rounded-full hover:bg-cyan-400 transition-colors">
-                        {isPlaying ? <PauseIcon className="w-5 h-5" /> : <PlayIcon className="w-5 h-5" />}
-                    </button>
-                    <div className="flex-grow">
-                         <p className="font-semibold text-sm truncate text-gray-800 dark:text-white">{item.title}</p>
-                         <p className="text-xs text-gray-500 dark:text-gray-400">{t('common:audioPreview')}</p>
-                    </div>
-                    <audio ref={audioRef} src={audioUrl} {...audioEventListeners} className="hidden" />
-                </div>
             )}
 
             <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">

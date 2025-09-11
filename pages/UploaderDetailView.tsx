@@ -1,144 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { profileSearchQueryAtom, defaultUploaderDetailTabAtom } from '../store';
-import type { ArchiveItemSummary, Profile, View } from '../types';
-import { UploaderSidebar } from '../components/uploader/UploaderSidebar';
-import { UploaderUploads } from '../components/uploader/UploaderUploads';
+import { useAtomValue } from 'jotai';
+import { defaultUploaderDetailTabAtom } from '../store';
+import type { ArchiveItemSummary, Profile, View, UploaderTab, MediaType } from '../types';
+import { useLanguage } from '../hooks/useLanguage';
+import { useUploaderStats } from '../hooks/useUploaderStats';
+import { useUploaderTabCounts } from '../hooks/useUploaderTabCounts';
+import { useUploaderUploads } from '../hooks/useUploaderUploads';
+import { ArrowLeftIcon } from '../components/Icons';
+import { UploaderHeader } from '../components/uploader/UploaderHeader';
+import { ResultsGrid } from '../components/ResultsGrid';
 import { UploaderCollections } from '../components/uploader/UploaderCollections';
 import { UploaderFavorites } from '../components/uploader/UploaderFavorites';
-import { UploaderStatsTab } from '../components/uploader/UploaderStatsTab';
-import { ArrowLeftIcon, CollectionIcon, ChartPieIcon, UploadIcon, StarIcon } from '../components/Icons';
-import { useLanguage } from '../hooks/useLanguage';
+import { UploaderReviewsTab } from '../components/uploader/UploaderReviewsTab';
+import { UploaderPostsTab } from '../components/uploader/UploaderPostsTab';
+import { UploaderWebArchiveTab } from '../components/uploader/UploaderWebArchiveTab';
+import { Spinner } from '../components/Spinner';
 
-interface ProfileViewProps {
+interface UploaderDetailViewProps {
     profile: Profile;
-    onBack: () => void;
+    onBack: (returnView?: View) => void;
     onSelectItem: (item: ArchiveItemSummary) => void;
-    returnView: View;
+    returnView?: View;
 }
 
-type UploaderTab = 'dashboard' | 'uploads' | 'collections' | 'favorites';
-
-const TabButton: React.FC<{
-    tabId: UploaderTab;
-    label: string;
-    icon: React.ReactNode;
-    activeTab: UploaderTab;
-    onClick: (tab: UploaderTab) => void;
-}> = ({ tabId, label, icon, activeTab, onClick }) => (
-    <button
-        onClick={() => onClick(tabId)}
-        role="tab"
-        aria-selected={activeTab === tabId}
-        className={`flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-            activeTab === tabId
-                ? 'bg-cyan-500 text-white shadow-md'
-                : 'text-gray-300 hover:bg-gray-700/50'
-        }`}
-    >
-        {icon}
-        <span>{label}</span>
-    </button>
-);
-
-
-export const UploaderDetailView: React.FC<ProfileViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
+export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
     const { t } = useLanguage();
     const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
-    const setProfileSearchQuery = useSetAtom(profileSearchQueryAtom);
+    const { stats } = useUploaderStats(profile);
+    const { visibleTabs, isLoading: isLoadingTabs } = useUploaderTabCounts(profile);
     
-    const validTabs: UploaderTab[] = ['dashboard', 'uploads', 'collections', 'favorites'];
-    const initialTab: UploaderTab = validTabs.includes(defaultTab as UploaderTab) ? defaultTab as UploaderTab : 'uploads';
-    
-    const [activeTab, setActiveTab] = useState<UploaderTab>(initialTab);
+    const [activeTab, setActiveTab] = useState<UploaderTab>('uploads');
+    const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaType | 'all'>('all');
 
-    // This effect ensures that if a user switches from an uploader profile to a creator profile,
-    // they don't land on a tab that is invalid for creators.
+    const {
+        results, isLoading: isLoadingUploads, isLoadingMore, error, totalResults, hasMore, lastElementRef, handleRetry,
+        sort, setSort, sortDirection, toggleSortDirection
+    } = useUploaderUploads(profile, mediaTypeFilter);
+
     useEffect(() => {
-        if (profile.type === 'creator' && (activeTab === 'collections' || activeTab === 'favorites')) {
-            setActiveTab('uploads');
+        if (!isLoadingTabs) {
+            const initialTab = (defaultTab as any) === 'dashboard' ? 'uploads' : defaultTab;
+            if (visibleTabs.includes(initialTab)) {
+                setActiveTab(initialTab);
+            } else if (visibleTabs.length > 0) {
+                setActiveTab(visibleTabs[0]);
+            }
         }
-    }, [profile.type, activeTab]);
+    }, [isLoadingTabs, visibleTabs, defaultTab]);
 
-
-    const handleBack = () => {
-        setProfileSearchQuery('');
-        onBack();
-    };
-
-    const getBackLabelKey = () => {
-        if (returnView === 'uploaderHub') {
-            return 'uploaderDetail:backToUploaderHub';
-        }
-        return 'uploaderDetail:backToExplorer';
-    };
 
     const renderTabContent = () => {
+        if (isLoadingTabs) {
+            return <div className="flex justify-center items-center h-64"><Spinner size="lg" /></div>;
+        }
+
+        const tabContentWrapperClass = "animate-fade-in";
+
         switch (activeTab) {
-            case 'dashboard':
+            case 'uploads':
                 return (
-                    <div className="space-y-6 animate-fade-in">
-                        <UploaderStatsTab profile={profile} />
+                     <div className={tabContentWrapperClass}>
+                        <ResultsGrid
+                            results={results}
+                            isLoading={isLoadingUploads}
+                            isLoadingMore={isLoadingMore}
+                            error={error}
+                            onSelectItem={onSelectItem}
+                            hasMore={hasMore}
+                            totalResults={totalResults}
+                            lastElementRef={lastElementRef}
+                            onRetry={handleRetry}
+                        />
                     </div>
                 );
-            case 'uploads':
-                return <UploaderUploads profile={profile} onSelectItem={onSelectItem} />;
             case 'collections':
-                 return profile.type === 'uploader' ? <UploaderCollections profile={profile} onSelectItem={onSelectItem} /> : null;
+                return <div className={tabContentWrapperClass}><UploaderCollections profile={profile} onSelectItem={onSelectItem} /></div>;
             case 'favorites':
-                 return profile.type === 'uploader' ? <UploaderFavorites profile={profile} onSelectItem={onSelectItem} /> : null;
+                return <div className={tabContentWrapperClass}><UploaderFavorites profile={profile} onSelectItem={onSelectItem} /></div>;
+            case 'reviews':
+                return <div className={tabContentWrapperClass}><UploaderReviewsTab profile={profile} /></div>;
+            case 'posts':
+                return <div className={tabContentWrapperClass}><UploaderPostsTab profile={profile} onSelectItem={onSelectItem} /></div>;
+            case 'webArchive':
+                return <div className={tabContentWrapperClass}><UploaderWebArchiveTab profile={profile} onSelectItem={onSelectItem} /></div>;
             default:
                 return null;
         }
     };
 
     return (
-        <div className="animate-page-fade-in space-y-6">
-            <button onClick={handleBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline">
+        <div className="space-y-6 animate-page-fade-in">
+            <button onClick={() => onBack(returnView)} className="flex items-center space-x-2 text-sm text-cyan-600 dark:text-cyan-400 hover:underline">
                 <ArrowLeftIcon className="w-4 h-4" />
-                <span>{t(getBackLabelKey())}</span>
+                <span>{t('uploaderDetail:back')}</span>
             </button>
             
-            <UploaderSidebar profile={profile} />
-            
-            <div className="bg-gray-800/60 p-2 rounded-xl border border-gray-700/50 flex flex-wrap gap-2" role="tablist" aria-label={t('uploaderDetail:tabs.ariaLabel')}>
-                 <TabButton 
-                    tabId="dashboard" 
-                    label={t('uploaderDetail:tabs.dashboard')} 
-                    icon={<ChartPieIcon className="w-5 h-5"/>} 
-                    activeTab={activeTab} 
-                    onClick={setActiveTab} 
-                />
-                <TabButton 
-                    tabId="uploads" 
-                    label={t('uploaderDetail:tabs.uploads')} 
-                    icon={<UploadIcon className="w-5 h-5"/>} 
-                    activeTab={activeTab} 
-                    onClick={setActiveTab} 
-                />
-                {profile.type === 'uploader' && (
-                    <>
-                        <TabButton 
-                            tabId="collections" 
-                            label={t('uploaderDetail:tabs.collections')} 
-                            icon={<CollectionIcon className="w-5 h-5"/>} 
-                            activeTab={activeTab} 
-                            onClick={setActiveTab} 
-                        />
-                        <TabButton 
-                            tabId="favorites" 
-                            label={t('uploaderDetail:tabs.favorites')} 
-                            icon={<StarIcon className="w-5 h-5"/>} 
-                            activeTab={activeTab} 
-                            onClick={setActiveTab} 
-                        />
-                    </>
-                )}
-            </div>
+            <UploaderHeader 
+                profile={profile}
+                visibleTabs={visibleTabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                stats={stats}
+                activeFilter={mediaTypeFilter}
+                onFilterChange={setMediaTypeFilter}
+                sort={sort}
+                setSort={setSort}
+                sortDirection={sortDirection}
+                toggleSortDirection={toggleSortDirection}
+            />
 
-            <div className="pt-2">
+            <main className="mt-6">
                 {renderTabContent()}
-            </div>
+            </main>
         </div>
     );
 };

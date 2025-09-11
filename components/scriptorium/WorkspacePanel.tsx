@@ -4,7 +4,6 @@ import { useWorksets } from '../../hooks/useWorksets';
 import { DocumentListItem } from './DocumentListItem';
 import { DocumentReader } from './DocumentReader';
 import { AddDocumentModal } from './AddDocumentModal';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../../hooks/useLanguage';
 import { ArrowLeftIcon, PlusIcon } from '../Icons';
 
@@ -21,8 +20,9 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, workset
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     return (
-        <div className="flex flex-col md:flex-row gap-6 h-[calc(100vh-10rem)]">
-            <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col bg-gray-800/60 rounded-xl p-4">
+        <div className="flex gap-6 h-[calc(100vh-10rem)]">
+            {/* Document List Panel (Visible on mobile by default, or on desktop) */}
+            <div className={`w-full md:w-1/3 lg:w-1/4 flex-col bg-gray-800/60 rounded-xl p-4 ${selectedDocument ? 'hidden md:flex' : 'flex'}`}>
                 <button onClick={onBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline mb-4">
                     <ArrowLeftIcon className="w-4 h-4" />
                     <span>{t('scriptorium.backToHub')}</span>
@@ -49,7 +49,8 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, workset
                     )}
                 </div>
             </div>
-            <div className="w-full md:w-2/3 lg:w-3/4 bg-gray-800/60 rounded-xl p-4 overflow-y-auto">
+             {/* Document Reader Panel (Visible on mobile only when a doc is selected, or on desktop) */}
+            <div className={`w-full md:w-2/3 lg:w-3/4 flex-col bg-gray-800/60 rounded-xl p-4 overflow-y-auto ${selectedDocument ? 'flex' : 'hidden md:flex'}`}>
                 {selectedDocument ? <DocumentReader document={selectedDocument} workset={workset} worksetsApi={worksetsApi} onSelectDocument={onSelectDocument} /> : (
                     <div className="flex items-center justify-center h-full">
                         <p className="text-gray-400">{t('scriptorium.selectDocument')}</p>

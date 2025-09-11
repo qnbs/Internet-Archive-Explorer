@@ -67,8 +67,8 @@ export const languageAtom = atomWithStorage<Language>(STORAGE_KEYS.language, 'en
 
 const NAMESPACES = [
   'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 
-  'itemCard', 'recRoom', 'webArchive', 'imagesHub', 'videothek', 'audiothek', 
-  'scriptorium', 'favorites', 'uploaderHub', 'uploaderProfileCard', 'uploaderDetail', 
+  'itemCard', 'recRoom', 'imagesHub', 'videothek', 'audiothek', 
+  'scriptorium', 'favorites', 'uploaderProfileCard', 'uploaderDetail', 
   'reviewCard', 'modals', 'audioModal', 'videoModal', 'aiTools', 'settings', 'help', 
   'commandPalette', 'uploaders', 'uploaderCard', 'storyteller'
 ];

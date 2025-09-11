@@ -91,7 +91,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
         aria-modal="true"
         aria-labelledby="command-palette-label"
       >
-        <h2 id="command-palette-label" className="sr-only">Command Palette</h2>
+        <h2 id="command-palette-label" className="sr-only">{t('commandPalette:title')}</h2>
         <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
           <SearchIcon className="w-5 h-5 text-gray-400 mr-3" />
           <input

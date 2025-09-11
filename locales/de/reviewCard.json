@@ -1,2 +1,4 @@
 {
+  "reviewedOn": "Bewertet am {{date}}",
+  "regarding": "Betreff: "
 }

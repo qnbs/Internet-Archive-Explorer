@@ -1,17 +1,10 @@
 import React from 'react';
-// FIX: Correct import path for useLanguage hook.
 import { useLanguage } from '../hooks/useLanguage';
+import { sanitizeHtml } from '../../utils/sanitizer';
 
 interface ItemDetailDescriptionTabProps {
     description: string | string[] | undefined;
 }
-
-// Basic sanitizer to prevent XSS. For production, a library like DOMPurify is recommended.
-const sanitizeHtml = (html: string): string => {
-    return html
-        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
-        .replace(/on\w+\s*=\s*("([^"]*)"|'([^']*)'|[^>\s]+)/gi, '');
-};
 
 export const ItemDetailDescriptionTab: React.FC<ItemDetailDescriptionTabProps> = ({ description }) => {
     const { t } = useLanguage();

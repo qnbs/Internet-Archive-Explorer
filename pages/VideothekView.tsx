@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { HeroSection } from '../components/videothek/HeroSection';
-import { CollectionCarousel } from '../components/videothek/CollectionCarousel';
+import { ArchivalCarousel } from '../components/ArchivalCarousel';
 import { useLanguage } from '../hooks/useLanguage';
 import { MediaType } from '../types';
 
@@ -25,10 +25,12 @@ export const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) =>
         <div className="space-y-12 animate-page-fade-in">
             <HeroSection onSelectItem={onSelectItem} />
             {collections.map(collection => (
-                <CollectionCarousel
+                <ArchivalCarousel
                     key={collection.title}
-                    collection={collection}
+                    title={collection.title}
+                    query={collection.query}
                     onSelectItem={onSelectItem}
+                    cardAspectRatio="portrait"
                 />
             ))}
         </div>

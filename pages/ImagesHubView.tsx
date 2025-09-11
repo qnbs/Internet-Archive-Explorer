@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../types';
-import { searchArchive, getItemCount } from '../services/archiveService';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
-// FIX: Correct import path for useLanguage hook.
-import { useLanguage } from '../hooks/useLanguage';
+import type { ArchiveItemSummary } from '../../types';
+import { searchArchive, getItemCount } from '../../services/archiveService';
+import { useSearchAndGo } from '../../hooks/useSearchAndGo';
+import { useLanguage } from '../../hooks/useLanguage';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { ArtIcon, HistoryIcon, ScienceIcon } from '../components/Icons';
 import { MediaType } from '../types';
@@ -63,6 +62,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
     const [data, setData] = useState<{ thumbnailUrl: string; itemCount: number } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const searchAndGo = useSearchAndGo();
+    const { language } = useLanguage();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -117,7 +117,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
                 <h3 className="mt-4 font-bold text-lg text-white">{collection.title}</h3>
                 <p className="text-sm text-gray-400 mb-2">{collection.desc}</p>
                 <p className="text-xs font-semibold bg-gray-700 text-cyan-300 px-2 py-0.5 rounded-full inline-block">
-                    {data.itemCount.toLocaleString()} items
+                    {data.itemCount.toLocaleString(language)} items
                 </p>
             </div>
             <div className="flex-grow mt-4 relative aspect-square rounded-lg overflow-hidden">
@@ -129,8 +129,10 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
 };
 
 // --- Main Component ---
-
-export const ImagesHubView: React.FC = () => {
+interface ImagesHubViewProps {
+    onSelectItem: (item: ArchiveItemSummary) => void;
+}
+export const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
 
     const collections = [
@@ -138,7 +140,7 @@ export const ImagesHubView: React.FC = () => {
         { key: 'nasa', title: t('imagesHub:collections.nasa'), desc: t('imagesHub:collections.nasaDesc'), icon: <ScienceIcon />, query: 'collection:nasa' },
         { key: 'brooklyn', title: t('imagesHub:collections.brooklyn'), desc: t('imagesHub:collections.brooklynDesc'), icon: <HistoryIcon />, query: 'collection:brooklynmuseum' },
     ];
-
+    
     return (
         <div className="space-y-12 animate-page-fade-in">
             <header className="relative text-center rounded-xl min-h-[40vh] flex flex-col justify-center items-center text-white p-6 overflow-hidden">

@@ -32,5 +32,10 @@
   "delete": "Löschen",
   "reset": "Alle zurücksetzen",
   "viewMore": "Mehr anzeigen",
-  "errorStorageFull": "Der Speicher ist voll. Ihre Änderungen konnten nicht gespeichert werden."
+  "errorStorageFull": "Der Speicher ist voll. Ihre Änderungen konnten nicht gespeichert werden.",
+  "topics": "Themen",
+  "loading": "Wird geladen...",
+  "viewFullCollection": "Ganze Sammlung ansehen",
+  "topContributors": "Top-Beitragende",
+  "featuredItems": "Vorgestellte Einträge"
 }

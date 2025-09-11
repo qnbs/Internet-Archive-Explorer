@@ -1,6 +1,14 @@
 {
   "title": "Settings",
   "subtitle": "Customize your Archive Explorer experience.",
+  "saved": "Setting saved!",
+  "sections": {
+    "ui": "Appearance",
+    "search": "Search & Discovery",
+    "content": "Content & Hubs",
+    "ai": "AI Features",
+    "data": "Data & Privacy"
+  },
   "search": {
     "title": "Search & Discovery",
     "resultsPerPage": "Results Per Page",
@@ -11,7 +19,16 @@
   "ui": {
     "title": "User Interface",
     "reduceMotion": "Reduce Motion",
-    "reduceMotionDesc": "Disable animations and transitions for a simpler experience."
+    "reduceMotionDesc": "Disable animations and transitions for a simpler experience.",
+    "theme": "Theme",
+    "themeDesc": "Choose how the application looks. 'System' will match your operating system's setting.",
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": "Language",
+    "languageDesc": "Select the display language for the user interface."
   },
   "content": {
     "title": "Content & Hubs",
@@ -35,7 +52,7 @@
     "privacy": "Privacy",
     "managementTitle": "Data Management",
     "exportAll": "Export All Data",
-    "exportAllDesc": "Download a backup of all your settings, favorites, and worksets as a JSON file.",
+    "exportAllDesc": "Download a backup of all your settings, favorites, and worksets as a JSON file. Theme and language settings are not included.",
     "exportButton": "Export Data",
     "exportSuccess": "Data exported successfully!",
     "exportError": "Failed to export data.",
@@ -49,15 +66,17 @@
     "importErrorFile": "Could not read the file.",
     "title": "Your Data",
     "searchHistory": "Search History",
-    "searchHistoryDesc": "The app saves your recent search queries locally.",
+    "searchHistoryDesc": "Clear your locally stored search history.",
     "noHistory": "No search history yet.",
-    "clearHistory": "Clear Search History",
-    "resetAll": "Reset All Settings",
+    "clearHistory": "Clear History",
+    "resetAll": "Reset App Settings",
     "resetAllDesc": "This will reset all application settings to their defaults. Your favorites and worksets will NOT be affected.",
     "resetButton": "Reset Settings",
     "resetSuccess": "Settings have been reset to default.",
     "clearHistoryTitle": "Clear Search History?",
     "clearHistoryDesc": "Are you sure you want to permanently delete your search history?",
-    "clearHistorySuccess": "Search history cleared."
+    "clearHistorySuccess": "Search history cleared.",
+    "dangerZone": "Danger Zone",
+    "dangerZoneDesc": "These actions are permanent and cannot be undone."
   }
 }

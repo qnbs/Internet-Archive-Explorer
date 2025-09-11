@@ -1,35 +1,46 @@
 
 
-import { useSetAtom, useAtomValue, useAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-// FIX: Changed import path to `../store/app` to bypass the barrel file (`../store`) and resolve a TypeScript type inference issue where `selectedProfileAtom` was not being correctly identified as a writable atom.
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
-import type { View, Profile, Uploader } from '../types';
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
 import { UPLOADER_DATA } from '../pages/uploaderData';
-import { formatIdentifierForDisplay } from '../utils/formatter';
+import type { View, Profile, Uploader } from '../types';
 
 export const useNavigation = () => {
-    // FIX: Switched from `useAtom` to `useSetAtom` to get stable setter functions and resolve the "not callable" type error.
     const setActiveView = useSetAtom(activeViewAtom);
+    // FIX: The `useSetAtom` hook was causing a type inference issue. Using `useAtom` and destructuring for the setter correctly provides a writable function without compiler errors.
     const [, setSelectedProfile] = useAtom(selectedProfileAtom);
+    // FIX: Changed from `useSetAtom` to `useAtom` to mirror the fix for `setSelectedProfile`. This resolves a type inference issue where the setter was typed as `never`, causing errors in any `useCallback` that used it as a dependency.
     const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
-    const returnView = useAtomValue(profileReturnViewAtom);
 
     const navigateTo = useCallback((view: View) => {
         setActiveView(view);
     }, [setActiveView]);
 
-    const navigateToProfile = useCallback((profile: Profile, newReturnView: View) => {
+    const navigateToUploader = useCallback((searchIdentifier: string) => {
+        const curatedData = UPLOADER_DATA.find(u => u.searchUploader === searchIdentifier);
+        const profile: Profile = {
+            name: curatedData?.username || searchIdentifier.split('@')[0],
+            searchIdentifier: searchIdentifier,
+            type: 'uploader',
+            curatedData: curatedData,
+        };
+        setProfileReturnView(currentView);
         setSelectedProfile(profile);
-        setProfileReturnView(newReturnView);
         setActiveView('uploaderDetail');
-    }, [setSelectedProfile, setProfileReturnView, setActiveView]);
+    }, [setActiveView, setSelectedProfile, setProfileReturnView, currentView]);
     
-    const goBackFromProfile = useCallback(() => {
-        setActiveView(returnView);
-        setSelectedProfile(null);
-    }, [returnView, setActiveView, setSelectedProfile]);
+    const navigateToCreator = useCallback((creatorName: string) => {
+        const profile: Profile = {
+            name: creatorName,
+            searchIdentifier: creatorName,
+            type: 'creator',
+        };
+        setProfileReturnView(currentView);
+        setSelectedProfile(profile);
+        setActiveView('uploaderDetail');
+    }, [setActiveView, setSelectedProfile, setProfileReturnView, currentView]);
 
     const navigateToUploaderFromHub = useCallback((uploader: Uploader) => {
         const profile: Profile = {
@@ -38,31 +49,21 @@ export const useNavigation = () => {
             type: 'uploader',
             curatedData: uploader
         };
-        navigateToProfile(profile, 'uploaderHub');
-    }, [navigateToProfile]);
+        setProfileReturnView('uploaderHub');
+        setSelectedProfile(profile);
+        setActiveView('uploaderDetail');
+    }, [setActiveView, setSelectedProfile, setProfileReturnView]);
 
-    const navigateToUploader = useCallback((searchIdentifier: string) => {
-        const curatedData = UPLOADER_DATA.find(u => u.searchUploader === searchIdentifier);
-        const profile: Profile = curatedData 
-            ? { name: curatedData.username, searchIdentifier, type: 'uploader', curatedData }
-            : { name: formatIdentifierForDisplay(searchIdentifier), searchIdentifier, type: 'uploader' };
-        navigateToProfile(profile, currentView);
-    }, [navigateToProfile, currentView]);
-
-    const navigateToCreator = useCallback((searchIdentifier: string) => {
-        const profile: Profile = {
-            name: formatIdentifierForDisplay(searchIdentifier),
-            searchIdentifier,
-            type: 'creator',
-        };
-        navigateToProfile(profile, currentView);
-    }, [navigateToProfile, currentView]);
+    const goBackFromProfile = useCallback((returnView?: View) => {
+        setSelectedProfile(null);
+        setActiveView(returnView || 'explore');
+    }, [setActiveView, setSelectedProfile]);
 
     return {
         navigateTo,
-        navigateToUploaderFromHub,
         navigateToUploader,
         navigateToCreator,
+        navigateToUploaderFromHub,
         goBackFromProfile
     };
 };

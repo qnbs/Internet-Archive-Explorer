@@ -1,4 +1,3 @@
-
 {
   "title": "Die Audiothek",
   "description": "Von Live-Konzerten und alten Radiosendungen bis hin zu Hörbüchern und Gedichtlesungen – tauchen Sie ein in die riesige Audiosammlung des Archivs.",
@@ -18,5 +17,13 @@
     "poetry": "Poesie & Gesprochenes Wort",
     "78rpm": "Das Great 78 Project",
     "radio_plays": "Hörspiele"
+  },
+  "collections": {
+    "archiveOfContemporaryMusic": "Archiv für Zeitgenössische Musik",
+    "hipHopMixtapes": "Hip-Hop-Mixtapes",
+    "radioWithASR": "Radio mit ASR",
+    "blackieBeats": "Blackie-Beats-Archiv",
+    "vaporwave": "Vaporwave",
+    "airchecks": "Airchecks (Radioaufnahmen)"
   }
 }

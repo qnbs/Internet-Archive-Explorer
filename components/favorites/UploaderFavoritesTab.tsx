@@ -1,5 +1,3 @@
-
-
 import React, { useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { uploaderFavoritesAtom } from '../../store';
@@ -33,7 +31,7 @@ export const UploaderFavoritesTab: React.FC = () => {
                 category: 'community', // Assign a default category
             };
             return genericUploader;
-        });
+        }).sort((a, b) => a.username.localeCompare(b.username));
     }, [favoriteUploaderIds]);
     
     const filteredUploaders = useMemo(() => {
@@ -72,8 +70,8 @@ export const UploaderFavoritesTab: React.FC = () => {
                         key={uploader.searchUploader}
                         uploader={uploader}
                         index={index}
-                        // FIX: Corrected a type mismatch on the 'onSelect' prop by passing a lambda to extract the searchIdentifier.
-                        onSelect={(uploader) => navigation.navigateToUploader(uploader.searchUploader)}
+                        // FIX: Corrected a type mismatch on the 'onSelect' prop by using a function with the correct signature.
+                        onSelect={navigation.navigateToUploaderFromHub}
                     />
                 ))}
             </div>

@@ -1,4 +1,3 @@
-
 {
   "title": "The Audiothek",
   "description": "From live concerts and old-time radio shows to audiobooks and poetry readings, tune in to the vast audio collection of the archive.",
@@ -18,5 +17,13 @@
     "poetry": "Poetry & Spoken Word",
     "78rpm": "The Great 78 Project",
     "radio_plays": "Radio Plays"
+  },
+  "collections": {
+    "archiveOfContemporaryMusic": "Archive of Contemporary Music",
+    "hipHopMixtapes": "Hip Hop Mixtapes",
+    "radioWithASR": "Radio with ASR",
+    "blackieBeats": "Blackie Beats Archive",
+    "vaporwave": "Vaporwave",
+    "airchecks": "Airchecks (Recordings of Radio)"
   }
 }

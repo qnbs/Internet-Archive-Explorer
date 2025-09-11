@@ -32,5 +32,10 @@
   "delete": "Delete",
   "reset": "Reset All",
   "viewMore": "View More",
-  "errorStorageFull": "Storage is full. Could not save your changes."
+  "errorStorageFull": "Storage is full. Could not save your changes.",
+  "topics": "Topics",
+  "loading": "Loading...",
+  "viewFullCollection": "View Full Collection",
+  "topContributors": "Top Contributors",
+  "featuredItems": "Featured Items"
 }

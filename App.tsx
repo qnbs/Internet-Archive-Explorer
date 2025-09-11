@@ -23,14 +23,12 @@ import ErrorBoundary from './components/ErrorBoundary';
 // View/Page Components
 import { ExplorerView } from './pages/ExplorerView';
 import { CategoryView } from './pages/CategoryView';
-import { WebArchiveView } from './pages/WebArchiveView';
 import { FavoritesView } from './pages/FavoritesView';
 import { ScriptoriumView } from './pages/ScriptoriumView';
 import { RecRoomView } from './pages/RecRoomView';
 import { VideothekView } from './pages/VideothekView';
 import { AudiothekView } from './pages/AudiothekView';
 import { ImagesHubView } from './pages/ImagesHubView';
-import { UploaderHubView } from './pages/UploaderHubView';
 import { UploaderDetailView } from './pages/UploaderDetailView';
 import { SettingsView } from './pages/SettingsView';
 import { HelpView } from './pages/HelpView';
@@ -63,6 +61,11 @@ const MainApp: React.FC = () => {
     document.documentElement.classList.toggle('reduce-motion', reduceMotion);
   }, [resolvedTheme, reduceMotion]);
   
+  // Ensure every view change scrolls the page to the top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeView]);
+
   // Keyboard shortcuts
   useEffect(() => {
       const handleKeyDown = (e: KeyboardEvent) => {
@@ -85,10 +88,8 @@ const MainApp: React.FC = () => {
       case 'scriptorium': return <ScriptoriumView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
       case 'movies': return <VideothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
       case 'audio': return <AudiothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
-      case 'image': return <ImagesHubView />;
+      case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
       case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
-      case 'web': return <WebArchiveView />;
-      case 'uploaderHub': return <UploaderHubView onSelectUploader={navigation.navigateToUploaderFromHub} />;
       case 'uploaderDetail':
         return selectedProfile ? <UploaderDetailView profile={selectedProfile} onBack={navigation.goBackFromProfile} onSelectItem={(item) => setModal({ type: 'itemDetail', item })} returnView={profileReturnView} /> : <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
       case 'settings': return <SettingsView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
