@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { UploaderProfileCard } from '../components/UploaderProfileCard';
 import { UPLOADER_DATA, UPLOADER_CATEGORIES } from './uploaderData';
-import type { UploaderCategory } from '../types';
-// FIX: Correct import path for useLanguage hook.
+import type { UploaderCategory, Uploader } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { UsersIcon } from '../components/Icons';
 
 interface UploaderHubViewProps {
-    onSelectUploader: (searchUploader: string) => void;
+    onSelectUploader: (uploader: Uploader) => void;
 }
 
 export const UploaderHubView: React.FC<UploaderHubViewProps> = ({ onSelectUploader }) => {
@@ -18,15 +17,11 @@ export const UploaderHubView: React.FC<UploaderHubViewProps> = ({ onSelectUpload
 
     const filteredUploaders = useMemo(() => {
         if (selectedCategory === 'all') {
-            // On the default 'all' view, the main list should not repeat the featured uploaders.
             return UPLOADER_DATA.filter(u => !u.featured);
         }
-        // When a specific category is selected, show all uploaders belonging to it.
         return UPLOADER_DATA.filter(u => u.category === selectedCategory);
     }, [selectedCategory]);
-
-    // The "Featured" section is only shown on the default 'all' view.
-    // When a category is selected, it's hidden to prevent duplicates, as featured items will appear within their category list.
+    
     const showFeaturedSection = selectedCategory === 'all';
 
     return (

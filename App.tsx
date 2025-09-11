@@ -27,7 +27,7 @@ import { WebArchiveView } from './pages/WebArchiveView';
 import { FavoritesView } from './pages/FavoritesView';
 import { ScriptoriumView } from './pages/ScriptoriumView';
 import { RecRoomView } from './pages/RecRoomView';
-import { VideothekView } from './pages/CinemathequeView';
+import { VideothekView } from './pages/VideothekView';
 import { AudiothekView } from './pages/AudiothekView';
 import { ImagesHubView } from './pages/ImagesHubView';
 import { UploaderHubView } from './pages/UploaderHubView';

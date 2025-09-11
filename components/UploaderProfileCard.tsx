@@ -6,11 +6,12 @@ import { useLanguage } from '../hooks/useLanguage';
 import type { Uploader, ArchiveItemSummary } from '../types';
 import { StarIcon, UsersIcon, ExternalLinkIcon } from './Icons';
 import { searchArchive } from '../services/archiveService';
+import { getProfileApiQuery } from '../utils/profileUtils';
 
 interface UploaderProfileCardProps {
     uploader: Uploader;
     index: number;
-    onSelect: (searchUploader: string) => void;
+    onSelect: (uploader: Uploader) => void;
 }
 
 const MiniItemCard: React.FC<{item: ArchiveItemSummary}> = ({ item }) => (
@@ -62,9 +63,15 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ upload
         };
     }, []);
 
-    const getSearchQuery = (uploader: Uploader): string => {
-        const field = uploader.searchField || 'uploader';
-        return `${field}:("${uploader.searchUploader}")`;
+    const getApiQuery = (uploader: Uploader): string => {
+        // Construct a temporary Profile object to use the centralized utility
+        const tempProfile = {
+            name: uploader.username,
+            searchIdentifier: uploader.searchUploader,
+            type: 'uploader' as const,
+            curatedData: uploader,
+        };
+        return getProfileApiQuery(tempProfile);
     };
 
     useEffect(() => {
@@ -73,7 +80,7 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ upload
         const fetchTopUploads = async () => {
             setIsLoadingUploads(true);
             try {
-                const query = getSearchQuery(uploader);
+                const query = getApiQuery(uploader);
                 const data = await searchArchive(query, 1, ['-downloads'], undefined, 4);
                 if (data.response?.docs) {
                     setTopUploads(data.response.docs);
@@ -102,19 +109,19 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ upload
     
     const uploaderUrl = uploader.screenname 
         ? `https://archive.org/details/@${uploader.screenname}` 
-        : `https://archive.org/search?query=${encodeURIComponent(getSearchQuery(uploader))}`;
+        : `https://archive.org/search?query=${encodeURIComponent(getApiQuery(uploader))}`;
 
     const descriptionKey = uploader.descriptionKey || 'uploaderProfileCard:genericDescription';
 
     return (
         <div 
             ref={cardRef}
-            onClick={() => onSelect(uploader.searchUploader)}
+            onClick={() => onSelect(uploader)}
             className="bg-gray-800/60 p-6 rounded-xl border border-gray-700/50 flex flex-col h-full animate-fade-in cursor-pointer hover:bg-gray-700/70 transition-colors group"
             style={{ animationDelay: `${Math.min(index * 50, 500)}ms`, opacity: 0 }}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(uploader.searchUploader)}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(uploader)}
         >
             <div className="flex items-center space-x-4">
                 <div className="flex-shrink-0 bg-gray-700 p-3 rounded-full">

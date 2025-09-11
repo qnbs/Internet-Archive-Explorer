@@ -72,7 +72,8 @@ export const UploaderFavoritesTab: React.FC = () => {
                         key={uploader.searchUploader}
                         uploader={uploader}
                         index={index}
-                        onSelect={navigation.navigateToUploader}
+                        // FIX: Corrected a type mismatch on the 'onSelect' prop by passing a lambda to extract the searchIdentifier.
+                        onSelect={(uploader) => navigation.navigateToUploader(uploader.searchUploader)}
                     />
                 ))}
             </div>

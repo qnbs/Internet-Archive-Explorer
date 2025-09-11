@@ -74,19 +74,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
 
   return (
     <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-md dark:shadow-black/30 border-b border-gray-200 dark:border-gray-700/50 z-20 flex items-center px-2 sm:px-4 gap-2 sm:gap-4">
-        {/* Left Side: Logo & Menu (Mobile Only) */}
+        {/* Left Side: Menu (Mobile Only) */}
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 md:hidden">
             <button
-                onClick={() => setActiveView('explore')}
-                className="flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
-                aria-label="Home"
-            >
-                <img src="/logo192.png" alt="Archive Explorer Logo" className="h-8 w-8" />
-                <span className="hidden sm:inline">Archive Explorer</span>
-            </button>
-            <button
                 onClick={onMenuClick}
-                className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors md:hidden"
+                className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 aria-label={t('sideMenu:title')}
             >
                 <MenuIcon />

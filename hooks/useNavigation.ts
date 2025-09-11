@@ -1,14 +1,18 @@
-import { useSetAtom, useAtomValue } from 'jotai';
+
+
+import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import { useCallback } from 'react';
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
-import type { View, Profile } from '../types';
+// FIX: Changed import path to `../store/app` to bypass the barrel file (`../store`) and resolve a TypeScript type inference issue where `selectedProfileAtom` was not being correctly identified as a writable atom.
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
+import type { View, Profile, Uploader } from '../types';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import { formatIdentifierForDisplay } from '../utils/formatter';
 
 export const useNavigation = () => {
+    // FIX: Switched from `useAtom` to `useSetAtom` to get stable setter functions and resolve the "not callable" type error.
     const setActiveView = useSetAtom(activeViewAtom);
-    const setSelectedProfile = useSetAtom(selectedProfileAtom);
-    const setProfileReturnView = useSetAtom(profileReturnViewAtom);
+    const [, setSelectedProfile] = useAtom(selectedProfileAtom);
+    const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
     const returnView = useAtomValue(profileReturnViewAtom);
 
@@ -20,23 +24,19 @@ export const useNavigation = () => {
         setSelectedProfile(profile);
         setProfileReturnView(newReturnView);
         setActiveView('uploaderDetail');
-    // FIX: Jotai set functions are stable and should not be in dependency arrays. Removing them fixes the type error.
-    }, [setProfileReturnView, setActiveView]);
+    }, [setSelectedProfile, setProfileReturnView, setActiveView]);
     
     const goBackFromProfile = useCallback(() => {
         setActiveView(returnView);
         setSelectedProfile(null);
-    // FIX: Jotai set functions are stable and should not be in dependency arrays. Removing them fixes the type error.
-    }, [setActiveView, returnView]);
+    }, [returnView, setActiveView, setSelectedProfile]);
 
-    const navigateToUploaderFromHub = useCallback((searchIdentifier: string) => {
-        const curatedData = UPLOADER_DATA.find(u => u.searchUploader === searchIdentifier);
-        if (!curatedData) return;
+    const navigateToUploaderFromHub = useCallback((uploader: Uploader) => {
         const profile: Profile = {
-            name: curatedData.username,
-            searchIdentifier: searchIdentifier,
+            name: uploader.username,
+            searchIdentifier: uploader.searchUploader,
             type: 'uploader',
-            curatedData: curatedData
+            curatedData: uploader
         };
         navigateToProfile(profile, 'uploaderHub');
     }, [navigateToProfile]);

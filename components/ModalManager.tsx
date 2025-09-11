@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { useAtom } from 'jotai';
 import { modalAtom } from '../store';
@@ -19,7 +21,7 @@ export const ModalManager: React.FC = () => {
 
     const handleClose = () => setModalState({ type: null });
 
-    // FIX: Use a switch statement for cleaner type narrowing of the discriminated union.
+    // FIX: Use a switch statement for cleaner and safer type narrowing of the discriminated union, resolving property access errors.
     switch (modalState.type) {
         case 'itemDetail':
             return (
@@ -80,6 +82,7 @@ export const ModalManager: React.FC = () => {
                 />
             );
             
+        case null:
         default:
              return null;
     }

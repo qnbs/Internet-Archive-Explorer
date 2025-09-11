@@ -72,10 +72,9 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
                 <div className="hidden md:flex flex-shrink-0 items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700/50">
                      <button
                         onClick={() => handleNavigation('explore')}
-                        className="flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
+                        className="flex items-center text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
                         aria-label="Home"
                     >
-                        <img src="/logo192.png" alt="Archive Explorer Logo" className="h-8 w-8" />
                         <span>Archive Explorer</span>
                     </button>
                 </div>
