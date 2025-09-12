@@ -1,6 +1,9 @@
 {
   "title": "Storyteller",
-  "description": "An interactive storytelling experience powered by Gemini AI.",
-  "comingSoon": "Coming Soon!",
-  "comingSoonDesc": "This space is reserved for a future feature where you can generate and interact with stories based on items from the archive."
+  "description": "An interactive storytelling experience powered by Gemini AI. Provide a topic and see what unfolds.",
+  "promptPlaceholder": "e.g., a pirate adventure on the high seas...",
+  "generateButton": "Generate Story",
+  "generating": "Generating...",
+  "initialMessage": "Enter a topic above and let the AI craft a story for you.",
+  "storyError": "The story could not be created. Please try again with a different topic."
 }

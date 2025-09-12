@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getSummary, extractEntities } from '../services/geminiService';
 import type { ExtractedEntities } from '../types';
-import { Spinner } from './Spinner';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue } from 'jotai';
-import { autoRunEntityExtractionAtom } from '../store';
-import { SparklesIcon, TagIcon } from './Icons';
+import { autoRunEntityExtractionAtom, summaryToneAtom } from '../store';
+import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
+import { AILoadingIndicator } from './AILoadingIndicator';
+import { Spinner } from './Spinner';
 
 interface AIToolsTabProps {
     itemIdentifier: string;
@@ -27,6 +28,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     const searchAndGo = useSearchAndGo();
     const { t, language } = useLanguage();
     const autoRunEntityExtraction = useAtomValue(autoRunEntityExtractionAtom);
+    const summaryTone = useAtomValue(summaryToneAtom);
 
     const handleGenerateSummary = useCallback(async () => {
         if (!textContent) return;
@@ -38,14 +40,14 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
                  setSummaryError(t('aiTools.summaryErrorShort'));
                  return;
             }
-            const generatedSummary = await getSummary(textContent, language);
+            const generatedSummary = await getSummary(textContent, language, summaryTone);
             setSummary(generatedSummary);
         } catch (err) {
             setSummaryError((err as Error).message || t('aiTools.summaryErrorApi'));
         } finally {
             setIsSummarizing(false);
         }
-    }, [textContent, language, t]);
+    }, [textContent, language, summaryTone, t]);
     
     const handleExtractEntities = useCallback(async () => {
         if (!textContent || isExtracting) return;
@@ -62,10 +64,10 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     }, [textContent, isExtracting, language, t]);
     
     useEffect(() => {
-        if (autoRunEntityExtraction && textContent && !entities) {
+        if (autoRunEntityExtraction && textContent && !entities && !isExtracting) {
             handleExtractEntities();
         }
-    }, [autoRunEntityExtraction, textContent, entities, handleExtractEntities]);
+    }, [autoRunEntityExtraction, textContent, entities, isExtracting, handleExtractEntities]);
 
     const handleEntityClick = (entity: string) => {
         searchAndGo(`"${entity}"`);
@@ -95,6 +97,17 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     if (!textContent) {
         return <p className="text-center text-gray-400">{t('common.error')}</p>
     }
+    
+    const ErrorDisplay: React.FC<{ error: string | null }> = ({ error }) => {
+        if (!error) return null;
+        return (
+            <div className="flex items-start space-x-2 text-red-400 text-sm p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <span>{error}</span>
+            </div>
+        );
+    };
+
 
     return (
         <div className="space-y-6">
@@ -106,8 +119,8 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
                     </button>
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700 min-h-[100px]">
-                    {isSummarizing && <div className="flex justify-center items-center h-full"><Spinner /></div>}
-                    {summaryError && <p className="text-red-400 text-sm">{summaryError}</p>}
+                    {isSummarizing && <AILoadingIndicator type="summary" />}
+                    <ErrorDisplay error={summaryError} />
                     {summary && <p className="text-gray-300 text-sm leading-relaxed">{summary}</p>}
                     {!isSummarizing && !summaryError && !summary && <p className="text-gray-500 text-sm">{t('aiTools.generatePrompt')}</p>}
                 </div>
@@ -120,8 +133,8 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
                     </button>
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700 min-h-[100px] space-y-4">
-                   {isExtracting && <div className="flex justify-center items-center h-full"><Spinner /></div>}
-                   {entityError && <p className="text-red-400 text-sm">{entityError}</p>}
+                   {isExtracting && <AILoadingIndicator type="entities" />}
+                   <ErrorDisplay error={entityError} />
                    {entities && (
                        <>
                            <EntitySection title={t('common.people')} items={entities.people} />

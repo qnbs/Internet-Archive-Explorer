@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
-import { JoystickIcon } from './Icons';
+import { JoystickIcon, InfoIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface RecRoomItemCardProps {
@@ -21,6 +21,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
   const creatorName = getCreator(item.creator);
   const publicYear = new Date(item.publicdate).getFullYear();
+  const isRestricted = item['access-restricted-item'] === 'true';
 
   return (
     <div
@@ -33,6 +34,11 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
       aria-label={t('recRoom:card.startItem', { title: item.title })}
     >
       <div className="relative aspect-w-4 aspect-h-3">
+        {isRestricted && (
+          <div className="absolute top-2 left-2 z-10 p-1.5 bg-black/60 rounded-full" title={t('modals:details.restrictedItemTooltip')}>
+            <InfoIcon className="w-4 h-4 text-yellow-400" />
+          </div>
+        )}
         <img
           src={thumbnailUrl}
           alt={`Thumbnail for ${item.title}`}

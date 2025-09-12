@@ -7,6 +7,11 @@ import { ItemDetailModal } from './ItemDetailModal';
 import { EmulatorModal } from './EmulatorModal';
 import { CommandPalette } from './CommandPalette';
 import { ConfirmationModal } from './ConfirmationModal';
+import { BookReaderModal } from './BookReaderModal';
+import { NewCollectionModal } from './library/NewCollectionModal';
+import { AddToCollectionModal } from './library/AddToCollectionModal';
+import { AddTagsModal } from './library/AddTagsModal';
+
 
 // Import navigation hook to pass actions to modals
 import { useNavigation } from '../hooks/useNavigation';
@@ -50,6 +55,9 @@ export const ModalManager: React.FC = () => {
 
         case 'emulator':
             return <EmulatorModal item={modalState.item} onClose={handleClose} />;
+        
+        case 'bookReader':
+            return <BookReaderModal item={modalState.item} onClose={handleClose} />;
 
         case 'commandPalette':
             return (
@@ -83,6 +91,15 @@ export const ModalManager: React.FC = () => {
                 />
             );
             
+        case 'newCollection':
+            return <NewCollectionModal onClose={handleClose} />;
+
+        case 'addToCollection':
+            return <AddToCollectionModal itemIds={modalState.itemIds} onClose={handleClose} />;
+        
+        case 'addTags':
+            return <AddTagsModal itemIds={modalState.itemIds} onClose={handleClose} />;
+
         default:
              return null;
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ArchiveFile } from '../types';
 import { FileIcon } from './Icons';
-import { formatBytes } from '../../utils/formatter';
+import { formatBytes } from '../utils/formatter';
 
 interface ItemDetailFilesTabProps {
     files: ArchiveFile[];

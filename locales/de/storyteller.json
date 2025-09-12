@@ -1,6 +1,9 @@
 {
   "title": "Geschichtenerzähler",
-  "description": "Ein interaktives Geschichtenerlebnis, unterstützt von Gemini AI.",
-  "comingSoon": "Demnächst verfügbar!",
-  "comingSoonDesc": "Dieser Bereich ist für eine zukünftige Funktion reserviert, in der Sie Geschichten basierend auf Archiv-Einträgen erstellen und mit ihnen interagieren können."
+  "description": "Ein interaktives Geschichtenerlebnis, unterstützt von Gemini AI. Geben Sie ein Thema vor und sehen Sie, was sich entwickelt.",
+  "promptPlaceholder": "z.B. ein Piratenabenteuer auf hoher See...",
+  "generateButton": "Geschichte generieren",
+  "generating": "Wird generiert...",
+  "initialMessage": "Geben Sie oben ein Thema ein und lassen Sie die KI eine Geschichte für Sie erstellen.",
+  "storyError": "Die Geschichte konnte nicht erstellt werden. Bitte versuchen Sie es mit einem anderen Thema erneut."
 }

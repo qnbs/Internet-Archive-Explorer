@@ -3,8 +3,9 @@ import type { ArchiveItemSummary } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store';
 import { useToast } from '../contexts/ToastContext';
-import { StarIcon } from './Icons';
+import { StarIcon, InfoIcon, EyeIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
+import { formatNumber } from '../utils/formatter';
 
 interface ItemCardProps {
   item: ArchiveItemSummary;
@@ -31,6 +32,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
   const publicYear = new Date(item.publicdate).getFullYear();
 
   const isFavorite = libraryItemIdentifiers.has(item.identifier);
+  const isRestricted = item['access-restricted-item'] === 'true';
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -61,6 +63,12 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
         <StarIcon className="w-5 h-5" filled={isFavorite} />
       </button>
 
+      {isRestricted && (
+        <div className="absolute top-2 left-2 z-10 p-1.5 bg-black/60 rounded-full" title={t('modals:details.restrictedItemTooltip')}>
+          <InfoIcon className="w-4 h-4 text-yellow-400" />
+        </div>
+      )}
+
       <div className="relative aspect-w-3 aspect-h-4">
         <img
           src={thumbnailUrl}
@@ -90,6 +98,12 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
                 <p className="text-sm text-gray-300 truncate mt-1" title={creatorName}>{creatorName}</p>
                 <div className="flex justify-between items-center mt-2">
                     <p className="text-xs text-gray-400">{publicYear || 'N/A'}</p>
+                    {typeof item.week === 'number' && item.week > 0 && (
+                        <div className="flex items-center space-x-1 text-xs text-gray-400" title={t('itemCard:viewsTooltip', { count: item.week })}>
+                            <EyeIcon className="w-4 h-4" />
+                            <span>{formatNumber(item.week)}</span>
+                        </div>
+                    )}
                     <span className="text-xs capitalize bg-gray-700/80 text-cyan-300 px-2 py-1 rounded-full">{item.mediatype}</span>
                 </div>
             </div>

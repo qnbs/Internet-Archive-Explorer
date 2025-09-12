@@ -9,27 +9,27 @@
       "icon": "HelpIcon",
       "questions": [
         { "q": "qSearch", "a": "aSearch" },
-        { "q": "qFilters", "a": "aFilters" },
-        { "q": "qNav", "a": "aNav" }
+        { "q": "qNav", "a": "aNav" },
+        { "q": "qCommandPalette", "a": "aCommandPalette" }
       ]
     },
     {
-      "id": "explorer-hub",
+      "id": "hubs",
       "icon": "CompassIcon",
       "questions": [
         { "q": "qExplorer", "a": "aExplorer" },
-        { "q": "qTrending", "a": "aTrending" },
-        { "q": "qOnThisDay", "a": "aOnThisDay" }
+        { "q": "qCinemaAudio", "a": "aCinemaAudio" },
+        { "q": "qRecRoom", "a": "aRecRoom" },
+        { "q": "qStoryteller", "a": "aStoryteller" }
       ]
     },
     {
-      "id": "collections",
-      "icon": "CollectionIcon",
+      "id": "library",
+      "icon": "StarIcon",
       "questions": [
-        { "q": "qCinemaAudio", "a": "aCinemaAudio" },
-        { "q": "qImages", "a": "aImages" },
-        { "q": "qRecRoom", "a": "aRecRoom" },
-        { "q": "qWebArchive", "a": "aWebArchive" }
+        { "q": "qLibrary", "a": "aLibrary" },
+        { "q": "qCollectionsTags", "a": "aCollectionsTags" },
+        { "q": "qBulkActions", "a": "aBulkActions" }
       ]
     },
     {
@@ -42,19 +42,25 @@
       ]
     },
     {
-      "id": "community",
+      "id": "contributors",
       "icon": "UsersIcon",
       "questions": [
-        { "q": "qUploaderHub", "a": "aUploaderHub" },
         { "q": "qUploaderProfile", "a": "aUploaderProfile" },
-        { "q": "qFavorites", "a": "aFavorites" }
+        { "q": "qFollow", "a": "aFollow" }
+      ]
+    },
+    {
+      "id": "settings",
+      "icon": "SettingsIcon",
+      "questions": [
+        { "q": "qSettings", "a": "aSettings" },
+        { "q": "qData", "a": "aData" }
       ]
     },
     {
       "id": "faq",
       "icon": "InfoIcon",
       "questions": [
-        { "q": "qSimilar", "a": "aSimilar" },
         { "q": "qDownload", "a": "aDownload" },
         { "q": "qOfficial", "a": "aOfficial" },
         { "q": "qAboutApp", "a": "aAboutApp" }
@@ -62,49 +68,57 @@
     }
   ],
   "getting-started": { "title": "Getting Started" },
-  "explorer-hub": { "title": "Explorer Hub" },
-  "collections": { "title": "Collections & Hubs" },
-  "scriptorium": { "title": "Scriptorium (Research)" },
-  "community": { "title": "Community Features" },
+  "hubs": { "title": "Discovery & Hubs" },
+  "library": { "title": "My Library" },
+  "scriptorium": { "title": "The Scriptorium" },
+  "contributors": { "title": "Contributors" },
+  "settings": { "title": "Settings & Data" },
   "faq": { "title": "Frequently Asked Questions" },
+
   "qSearch": "How do I search for items?",
-  "aSearch": "Use the main search bar at the top of the page for general searches. On the Explore page, you can use the filter bar to narrow your results by media type, year, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code>.",
-  "qFilters": "How do the filters work?",
-  "aFilters": "On the search results page, click the media type buttons to toggle filters. Use the dropdown to sort by criteria like popularity or date. More advanced filters like year range and collection can be accessed via the filter icon.",
+  "aSearch": "Use the main search bar at the top of the page for general searches. On the Explorer page, when results are shown, you can use the filter controls to narrow results by media type, year, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code>.",
   "qNav": "How do I navigate the app?",
-  "aNav": "Use the side menu (on desktop) or the bottom navigation bar (on mobile) to jump between the main sections like the <strong>Explorer</strong>, <strong>Favorites</strong>, and the various content hubs. For power users, press <strong>Cmd/Ctrl + K</strong> to open the Command Palette for instant navigation.",
+  "aNav": "Use the side menu (on desktop) or the bottom navigation bar (on mobile) to jump between the main sections like the <strong>Explorer</strong>, your <strong>Library</strong>, and the various content hubs (Videothek, Audiothek, etc.).",
+  "qCommandPalette": "What is the Command Palette?",
+  "aCommandPalette": "The Command Palette is a powerful tool for quick navigation and actions. Press <strong>Cmd/Ctrl + K</strong> to open it. From there, you can type to instantly find and jump to any section, toggle the theme, or change the language.",
+
   "qExplorer": "What is the Explorer Hub?",
-  "aExplorer": "The main 'Explore' page is your central hub. When you're not actively searching, it displays curated and dynamic content like 'Trending Now', 'On This Day in History', and a selection of thematic searches to help you discover new items.",
-  "qTrending": "What does 'Trending Now' show?",
-  "aTrending": "This section features items from across the archive that have received the most views and interactions in the past week.",
-  "qOnThisDay": "What is 'On This Day'?",
-  "aOnThisDay": "This carousel shows items that were published on the current month and day, but in previous years. It's a fun way to see what was happening in history.",
-  "qCinemaAudio": "What are the Videothek and Audiothek?",
-  "aCinemaAudio": "These are dedicated hubs for discovering movies and audio content, respectively. They feature a prominent hero item and horizontally-scrolling carousels of curated collections and genres, making it easy to browse visually.",
-  "qImages": "What can I find in the Images Hub?",
-  "aImages": "The Images Hub is a portal for visual content. You can explore featured collections from institutions like NASA and The Met Museum, or discover images based on themes like 'Art & Culture' or 'History'.",
+  "aExplorer": "The main 'Explore' page is your central hub for discovery. When you're not actively searching, it displays curated and dynamic content like 'Trending Now' and 'On This Day in History' to help you find interesting items.",
+  "qCinemaAudio": "What are the Videothek, Audiothek, and Images Hub?",
+  "aCinemaAudio": "These are dedicated hubs for discovering a specific type of media. They feature horizontally-scrolling carousels of curated collections and genres, making it easy to browse visually without needing a specific search term.",
   "qRecRoom": "What is the Rec Room?",
   "aRecRoom": "The Rec Room is a hub for playable software from the archives. It focuses on the extensive collection of emulated MS-DOS games, which you can play directly in your browser without any downloads.",
-  "qWebArchive": "How do I use the Wayback Machine?",
-  "aWebArchive": "The Wayback Machine is a tool for viewing archived versions of websites. Go to the 'Tools' section, enter a URL, and you'll see a list of all the dates a snapshot of that site was saved. Click any entry to view the site as it appeared on that day.",
+  "qStoryteller": "What is the Storyteller?",
+  "aStoryteller": "This is an experimental feature powered by Gemini AI. You can provide a topic or a creative prompt, and the AI will generate a short, original story inspired by the spirit of the Internet Archive.",
+
+  "qLibrary": "What is 'My Library'?",
+  "aLibrary": "My Library is your personal space for curating content. When you favorite an item (by clicking the star icon), it gets added here. The library uses a three-pane layout on larger screens: a sidebar for filtering by your collections and tags, a central list of your items, and a detail pane for viewing notes and metadata.",
+  "qCollectionsTags": "How do I use Collections and Tags?",
+  "aCollectionsTags": "In your library, you can create custom **Collections** to group items for a specific project. You can also add **Tags** to any item for more granular filtering. Use the sidebar to filter your library to show only items in a specific collection or with a certain tag.",
+  "qBulkActions": "Can I manage multiple items at once?",
+  "aBulkActions": "Yes. In the item list pane of your library, click the 'Select Items' button. This activates 'Select Mode', allowing you to check multiple items. A new toolbar will appear where you can perform bulk actions like deleting items, adding them to a collection, or adding tags to all selected items.",
+
   "qScriptorium": "What is the Scriptorium for?",
   "aScriptorium": "The Scriptorium is a powerful tool designed for research. It allows you to collect text-based documents from the archive into personal 'worksets' for focused study.",
   "qWorksets": "How do I use worksets?",
   "aWorksets": "From the Scriptorium hub, you can create new worksets (e.g., 'My Novel Research'). Once you open a workset, you can add text documents by searching the archive. All your worksets and their contents are saved locally in your browser.",
   "qReaderAi": "What are the AI tools in the document reader?",
   "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can generate a concise summary of the text or extract key 'entities'—such as people, places, and organizations—to help you understand the content and find related information.",
-  "qUploaderHub": "What is the Uploader Hub?",
-  "aUploaderHub": "This section is dedicated to the people and institutions who contribute content. You can browse our curated list of featured uploaders or filter all known contributors by category. Clicking on any uploader card takes you to their detailed profile page.",
-  "qUploaderProfile": "What are Uploader Profile pages?",
-  "aUploaderProfile": "Every uploader and creator has a detailed profile page. It features a compact header with follow actions and quick links. The content is organized into tabs: 'Uploads' shows all their contributions with powerful filtering and sorting controls directly above the content grid. Other tabs like 'Reviews', 'Posts', and 'Web Archives' appear dynamically if the uploader has that type of content, providing a comprehensive view of their activity.",
-  "qFavorites": "How do Favorites work?",
-  "aFavorites": "You can 'favorite' any item by clicking the star icon on its card or in the detail view. To follow an uploader, click the 'Follow' button on their profile page. All your favorite items and followed uploaders are collected in the 'My Library' section for easy access. All data is saved in your browser.",
-  "qSimilar": "How do 'Similar Items' work?",
-  "aSimilar": "When viewing an item's details, the 'Related' tab shows other content from the same primary collection or by the same creator. It's a great way to discover related material.",
+
+  "qUploaderProfile": "What are Contributor Profile pages?",
+  "aUploaderProfile": "Every uploader and creator has a detailed profile page. The content is organized into tabs: 'Uploads' shows all their contributions with powerful filtering and sorting controls. Other tabs like 'Reviews', 'Collections', and 'Favorites' appear dynamically if the contributor has that type of content, providing a comprehensive view of their activity.",
+  "qFollow": "How do I follow a contributor?",
+  "aFollow": "On a contributor's profile page, click the star icon next to their name. This will add them to the 'Followed Uploaders' list in your Library for quick access.",
+
+  "qSettings": "How can I customize the app?",
+  "aSettings": "The **Settings** page offers extensive customization. You can change the visual theme (Light/Dark/System), adjust layout density and font size, set default behaviors for content and AI features, and change the application language.",
+  "qData": "How is my data stored and managed?",
+  "aData": "All your personal data—including settings, library items, worksets, and followed uploaders—is stored **locally in your browser's storage**. No data is sent to a server. On the Settings page, under 'Data & Privacy', you can export all your data to a JSON file for backup or import it to another browser.",
+
   "qDownload": "Can I download items?",
-  "aDownload": "Yes. In an item's detail view, go to the 'Files' tab. This lists all the source files available for download. Click any file to open it in a new tab or download it directly.",
+  "aDownload": "Yes. In an item's detail view (accessible by clicking on any item card), go to the 'Files' tab. This lists all the source files available for download. Click any file to open it in a new tab or download it directly.",
   "qOfficial": "Is this an official Internet Archive application?",
   "aOfficial": "No, this is an independent project created by a third-party developer. It uses the public APIs provided by the Internet Archive but is not officially affiliated with or endorsed by them.",
   "qAboutApp": "Who built this application?",
-  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/qnbs/Internet-Archive-Explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
+  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/google-gemini-vignettes/internet-archive-explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
 }

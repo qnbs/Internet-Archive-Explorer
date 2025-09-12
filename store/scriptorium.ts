@@ -1,0 +1,113 @@
+import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import { v4 as uuidv4 } from 'uuid';
+import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
+import { toastAtom } from './app'; // Assuming toastAtom is exported from app store
+
+export const STORAGE_KEY = 'scriptorium-worksets-v2';
+
+// --- Base State Atom ---
+export const worksetsAtom = atomWithStorage<Workset[]>(STORAGE_KEY, []);
+
+// --- UI State Atoms ---
+export const selectedWorksetIdAtom = atomWithStorage<string | null>('scriptorium-selected-workset-id', null);
+export const selectedDocumentIdAtom = atomWithStorage<string | null>('scriptorium-selected-document-id', null);
+
+
+// --- Write-only Action Atoms ---
+
+export const createWorksetAtom = atom(
+    null,
+    (get, set, name: string): Workset => {
+        const newWorkset: Workset = {
+            id: uuidv4(),
+            name,
+            documents: [],
+        };
+        const currentWorksets = get(worksetsAtom);
+        set(worksetsAtom, [...currentWorksets, newWorkset]);
+        set(toastAtom, { type: 'success', message: `Workset '${name}' created!`, id: uuidv4() });
+        return newWorkset;
+    }
+);
+
+export const deleteWorksetAtom = atom(
+    null,
+    (get, set, id: string) => {
+        const worksets = get(worksetsAtom);
+        const worksetName = worksets.find(ws => ws.id === id)?.name || '';
+        const newWorksets = worksets.filter(ws => ws.id !== id);
+        set(worksetsAtom, newWorksets);
+        set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.`, id: uuidv4() });
+    }
+);
+
+export const updateWorksetNameAtom = atom(
+    null,
+    (get, set, { id, newName }: { id: string, newName: string }) => {
+        set(worksetsAtom, worksets =>
+            worksets.map(ws => (ws.id === id ? { ...ws, name: newName } : ws))
+        );
+    }
+);
+
+export const addDocumentToWorksetAtom = atom(
+    null,
+    (get, set, { worksetId, item }: { worksetId: string, item: ArchiveItemSummary }) => {
+        const worksets = get(worksetsAtom);
+        let documentExists = false;
+        const newWorksets = worksets.map(ws => {
+            if (ws.id === worksetId) {
+                if (ws.documents.some(doc => doc.identifier === item.identifier)) {
+                    documentExists = true;
+                    return ws;
+                }
+                // FIX: Use `worksetId` property instead of `collection` to match the WorksetDocument type.
+                const newDocument: WorksetDocument = { ...item, notes: '', worksetId };
+                return { ...ws, documents: [...ws.documents, newDocument] };
+            }
+            return ws;
+        });
+
+        if (documentExists) {
+            set(toastAtom, { type: 'info', message: 'Document is already in this workset.', id: uuidv4() });
+        } else {
+            set(worksetsAtom, newWorksets);
+            set(toastAtom, { type: 'success', message: 'Document added to workset.', id: uuidv4() });
+        }
+    }
+);
+
+export const removeDocumentFromWorksetAtom = atom(
+    null,
+    (get, set, { worksetId, documentId }: { worksetId: string, documentId: string }) => {
+        set(worksetsAtom, worksets =>
+            worksets.map(ws => {
+                if (ws.id === worksetId) {
+                    return { ...ws, documents: ws.documents.filter(doc => doc.identifier !== documentId) };
+                }
+                return ws;
+            })
+        );
+        set(toastAtom, { type: 'info', message: 'Document removed from workset.', id: uuidv4() });
+    }
+);
+
+export const updateDocumentNotesAtom = atom(
+    null,
+    (get, set, { worksetId, documentId, notes }: { worksetId: string, documentId: string, notes: string }) => {
+        set(worksetsAtom, worksets =>
+            worksets.map(ws => {
+                if (ws.id === worksetId) {
+                    return {
+                        ...ws,
+                        documents: ws.documents.map(doc =>
+                            doc.identifier === documentId ? { ...doc, notes } : doc
+                        )
+                    };
+                }
+                return ws;
+            })
+        );
+    }
+);

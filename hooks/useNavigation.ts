@@ -1,5 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
+// FIX: Changed import to use the central store index for consistency and to resolve a type inference issue.
 import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';

@@ -53,7 +53,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
     );
 };
 
-export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
+const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     const [searchQuery] = useAtom(searchQueryAtom);
     const { results, isLoading, isLoadingMore, error, totalResults, hasMore, lastElementRef, handleRetry } = useExplorerSearch();
     const showHub = useAtomValue(showExplorerHubAtom);
@@ -87,3 +87,5 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
         </div>
     );
 };
+
+export default ExplorerView;

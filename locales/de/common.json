@@ -9,6 +9,7 @@
   "close": "Schließen",
   "emulate": "Emulieren",
   "play": "Abspielen",
+  "pause": "Pause",
   "description": "Beschreibung",
   "aiAnalysis": "KI-Analyse",
   "files": "Dateien",
@@ -40,5 +41,11 @@
   "loading": "Wird geladen...",
   "viewFullCollection": "Ganze Sammlung ansehen",
   "topContributors": "Top-Beitragende",
-  "featuredItems": "Vorgestellte Einträge"
+  "featuredItems": "Vorgestellte Einträge",
+  "viewsThisWeek": "Aufrufe (Woche)",
+  "downloadsTotal": "Downloads (Gesamt)",
+  "autosaved": "Automatisch gespeichert",
+  "readNow": "Jetzt lesen",
+  "readInBookReader": "Im BookReader lesen",
+  "closeReader": "Reader schließen"
 }

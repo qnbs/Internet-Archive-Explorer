@@ -40,6 +40,12 @@ export const buildArchiveQuery = (options: QueryOptions = {}): string => {
         if (facets.collection) {
             queryParts.push(`collection:(${facets.collection})`);
         }
+        
+        if (facets.availability === 'borrowable') {
+            queryParts.push(`access-restricted-item:"true"`);
+        } else if (facets.availability === 'free') {
+            queryParts.push(`NOT access-restricted-item:"true"`);
+        }
     }
     
     return queryParts.join(' AND ');

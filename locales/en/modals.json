@@ -1,4 +1,3 @@
-
 {
   "emulator": {
     "close": "Close Emulator",
@@ -10,6 +9,7 @@
     "searchByCreator": "Search for more by {{creator}}",
     "viewUploaderProfile": "View uploader profile for {{uploader}}",
     "restrictedAccess": "Restricted Access",
-    "restrictedAccessDesc": "This item may require borrowing from the Internet Archive to view."
+    "restrictedAccessDesc": "This item may require borrowing from the Internet Archive to view.",
+    "restrictedItemTooltip": "This item may require borrowing to view."
   }
 }

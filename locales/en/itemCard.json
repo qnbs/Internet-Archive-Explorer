@@ -1,7 +1,8 @@
-
 {
   "unknownCreator": "Unknown Creator",
   "viewDetails": "View details for {{title}}",
-  "addFavorite": "Add to favorites",
-  "removeFavorite": "Remove from favorites"
+  "addFavorite": "Add to My Library",
+  "removeFavorite": "Remove from My Library",
+  "viewsTooltip_one": "{{count}} view this week",
+  "viewsTooltip_other": "{{count}} views this week"
 }

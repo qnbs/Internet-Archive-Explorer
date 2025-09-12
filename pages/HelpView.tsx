@@ -4,7 +4,7 @@ import { loadableTranslationsAtom } from '../store';
 import { useLanguage } from '../hooks/useLanguage';
 import { 
     SearchIcon, HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, 
-    JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon
+    JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon
 } from '../components/Icons';
 import { sanitizeHtml } from '../utils/sanitizer';
 
@@ -40,7 +40,7 @@ const AccordionItem: React.FC<{ title: string; children: React.ReactNode }> = ({
 };
 
 
-export const HelpView: React.FC = () => {
+const HelpView: React.FC = () => {
     const { t } = useLanguage();
     const loadableTranslations = useAtomValue(loadableTranslationsAtom);
     
@@ -86,7 +86,7 @@ export const HelpView: React.FC = () => {
     }, [topics, searchQuery]);
 
     const iconMap: Record<string, React.FC<any>> = {
-        HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon
+        HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon
     };
 
     return (
@@ -155,3 +155,5 @@ export const HelpView: React.FC = () => {
         </div>
     );
 };
+
+export default HelpView;

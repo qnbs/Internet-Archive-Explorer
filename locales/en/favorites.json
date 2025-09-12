@@ -1,11 +1,19 @@
 {
   "title": "My Library",
   "description": "Your personal space to collect, organize, and annotate items from the archive.",
+  "tabs": {
+    "items": "Items",
+    "uploaders": "Followed"
+  },
+  "searchItemsPlaceholder": "Search {{count}} items...",
+  "noItemsTitle": "Your Library is Empty",
+  "noItemsDesc": "Click the star icon on any item to save it here.",
+  "selectItemTitle": "Select an Item",
+  "selectItemDesc": "Select an item from the list on the left to see its details, add notes, and manage tags.",
   "items": "Items",
   "uploaders": "Followed Uploaders",
   "searchPlaceholder": "Search your library...",
   "noItems": "Your Library is Empty",
-  "noItemsDesc": "Click the star icon on any item to save it here.",
   "noItemsInCollection": "No items in this collection yet.",
   "noItemsForFilter": "No items match your current filter.",
   "noItemSelected": "Select an item from the list to see its details.",
@@ -19,18 +27,26 @@
   "uploaderRemoved": "Uploader unfollowed.",
   "errorSaveUploaders": "Could not save followed uploaders.",
   "sidebar": {
+    "mediaTypes": "Media Types",
+    "mediaTypeTexts": "Texts",
+    "mediaTypeMovies": "Movies",
+    "mediaTypeAudio": "Audio",
+    "mediaTypeImage": "Images",
+    "mediaTypeSoftware": "Software",
     "collections": "Collections",
     "allitems": "All Items",
     "untagged": "Untagged",
     "newCollection": "New Collection...",
-    "tags": "Tags"
+    "tags": "Tags",
+    "noTags": "No tags yet"
   },
   "itemDetail": {
     "notes": "My Notes",
     "notesPlaceholder": "Add your personal notes here...",
     "tags": "My Tags",
     "addTagPlaceholder": "Add a tag...",
-    "viewFullDetails": "View Full Details"
+    "viewFullDetails": "View Full Details",
+    "noTags": "No tags for this item."
   },
   "controls": {
     "sort": "Sort by:",
@@ -59,6 +75,8 @@
     "newCollectionTitle": "Create New Collection",
     "newCollectionName": "Collection Name",
     "newCollectionPlaceholder": "e.g., 'Film Noir Classics'",
-    "create": "Create"
+    "create": "Create",
+    "collectionCreated": "Collection '{{name}}' created!",
+    "collectionDeleted": "Collection '{{name}}' deleted."
   }
 }

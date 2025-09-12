@@ -18,7 +18,7 @@ const getCollections = (t: (key: string) => string) => [
     { title: t('videothek:collections.silent_films'), query: 'subject:"silent film" AND mediatype:(movies)' },
 ];
 
-export const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) => {
+const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
     const collections = getCollections(t);
     
@@ -37,3 +37,5 @@ export const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) =>
         </div>
     );
 };
+
+export default VideothekView;

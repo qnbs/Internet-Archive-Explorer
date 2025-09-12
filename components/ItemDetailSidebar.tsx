@@ -1,8 +1,10 @@
 import React from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon } from './Icons';
-import { formatIdentifierForDisplay } from '../utils/formatter';
+import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon, BookIcon } from './Icons';
+import { formatIdentifierForDisplay, formatNumber } from '../utils/formatter';
+import { useSetAtom } from 'jotai';
+import { modalAtom } from '../store';
 
 interface ItemDetailSidebarProps {
     item: ArchiveItemSummary;
@@ -39,6 +41,7 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
     playableMedia, mediaRef, isPlaying, handlePlayPause, mediaEventListeners
 }) => {
     const { t, language } = useLanguage();
+    const setModal = useSetAtom(modalAtom);
     const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
     
     const creators = Array.isArray(metadata.metadata.creator) ? metadata.metadata.creator : (metadata.metadata.creator ? [metadata.metadata.creator] : []);
@@ -136,6 +139,17 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                 </button>
             )}
 
+            {item.mediatype === 'texts' && (
+                <button 
+                    onClick={() => setModal({ type: 'bookReader', item })}
+                    className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-lg font-bold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-lg"
+                >
+                    <BookIcon />
+                    <span>{t('common:readNow')}</span>
+                </button>
+            )}
+
+
             {metadata.metadata['access-restricted-item'] === 'true' && (
                 <div className="p-3 bg-yellow-500/10 text-yellow-300 rounded-lg border border-yellow-500/30 flex items-start space-x-2 text-sm">
                     <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5"/>
@@ -168,11 +182,21 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                  <MetadataRow label={t('common:published')}>
                     {formatDate(item.publicdate)}
                 </MetadataRow>
-                {metadata.metadata.licenseurl && (
+                 {metadata.metadata.licenseurl && (
                     <MetadataRow label={t('common:license')}>
                         <a href={metadata.metadata.licenseurl} target="_blank" rel="noopener noreferrer" className="text-cyan-600 dark:text-cyan-400 hover:underline truncate">
                             {t('common:viewLicense')}
                         </a>
+                    </MetadataRow>
+                )}
+                {typeof item.week === 'number' && (
+                    <MetadataRow label={t('common:viewsThisWeek')}>
+                        {item.week.toLocaleString(language)}
+                    </MetadataRow>
+                )}
+                {typeof item.downloads === 'number' && (
+                     <MetadataRow label={t('common:downloadsTotal')}>
+                        {item.downloads.toLocaleString(language)}
                     </MetadataRow>
                 )}
                 <MetadataRow label={t('common:archivePage')} isButton>

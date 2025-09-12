@@ -1,17 +1,25 @@
 {
   "title": "Meine Bibliothek",
   "description": "Ihr persönlicher Bereich zum Sammeln, Organisieren und Kommentieren von Einträgen aus dem Archiv.",
+  "tabs": {
+    "items": "Einträge",
+    "uploaders": "Gefolgt"
+  },
+  "searchItemsPlaceholder": "Suche in {{count}} Einträgen...",
+  "noItemsTitle": "Ihre Bibliothek ist leer",
+  "noItemsDesc": "Klicken Sie auf das Sternsymbol bei einem beliebigen Eintrag, um ihn hier zu speichern.",
+  "selectItemTitle": "Eintrag auswählen",
+  "selectItemDesc": "Wählen Sie einen Eintrag aus der linken Liste, um dessen Details anzuzeigen, Notizen hinzuzufügen und Tags zu verwalten.",
   "items": "Einträge",
   "uploaders": "Gefolgte Uploader",
   "searchPlaceholder": "Bibliothek durchsuchen...",
   "noItems": "Ihre Bibliothek ist leer",
-  "noItemsDesc": "Klicken Sie auf das Sternsymbol bei einem Eintrag, um ihn hier zu speichern.",
   "noItemsInCollection": "Noch keine Einträge in dieser Sammlung.",
   "noItemsForFilter": "Keine Einträge entsprechen Ihrem aktuellen Filter.",
   "noItemSelected": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
   "noFavUploaders": "Keine gefolgten Uploader",
   "noFavUploadersDesc": "Folgen Sie Ihren Lieblings-Beitragenden aus dem Uploader-Hub, um sie hier zu sehen.",
-  "searchUploadersPlaceholder": "Suche in {{count}} gefolgten Uploadern...",
+  "searchUploadersPlaceholder": "Durchsuche {{count}} gefolgte Uploader...",
   "added": "Zu Ihrer Bibliothek hinzugefügt!",
   "removed": "Aus Ihrer Bibliothek entfernt.",
   "errorSave": "Speichern in der Bibliothek fehlgeschlagen.",
@@ -19,18 +27,26 @@
   "uploaderRemoved": "Uploader nicht mehr gefolgt.",
   "errorSaveUploaders": "Die gefolgten Uploader konnten nicht gespeichert werden.",
   "sidebar": {
+    "mediaTypes": "Medientypen",
+    "mediaTypeTexts": "Texte",
+    "mediaTypeMovies": "Filme",
+    "mediaTypeAudio": "Audio",
+    "mediaTypeImage": "Bilder",
+    "mediaTypeSoftware": "Software",
     "collections": "Sammlungen",
     "allitems": "Alle Einträge",
     "untagged": "Ohne Tags",
     "newCollection": "Neue Sammlung...",
-    "tags": "Tags"
+    "tags": "Tags",
+    "noTags": "Noch keine Tags"
   },
   "itemDetail": {
     "notes": "Meine Notizen",
     "notesPlaceholder": "Fügen Sie hier Ihre persönlichen Notizen hinzu...",
     "tags": "Meine Tags",
     "addTagPlaceholder": "Tag hinzufügen...",
-    "viewFullDetails": "Vollständige Details ansehen"
+    "viewFullDetails": "Vollständige Details ansehen",
+    "noTags": "Keine Tags für diesen Eintrag."
   },
   "controls": {
     "sort": "Sortieren nach:",
@@ -46,8 +62,8 @@
     "addToCollection": "Zu Sammlung hinzufügen",
     "removeFromLibrary": "Aus Bibliothek entfernen",
     "confirmRemoveTitle": "Aus Bibliothek entfernen",
-    "confirmRemoveMessage_one": "Möchten Sie {{count}} ausgewählten Eintrag wirklich aus Ihrer Bibliothek entfernen?",
-    "confirmRemoveMessage_other": "Möchten Sie {{count}} ausgewählte Einträge wirklich aus Ihrer Bibliothek entfernen?",
+    "confirmRemoveMessage_one": "Möchten Sie den ausgewählten Eintrag wirklich aus Ihrer Bibliothek entfernen?",
+    "confirmRemoveMessage_other": "Möchten Sie die {{count}} ausgewählten Einträge wirklich aus Ihrer Bibliothek entfernen?",
     "selectCollection": "Wählen Sie eine Sammlung",
     "addedToCollection_one": "{{count}} Eintrag zu '{{collectionName}}' hinzugefügt.",
     "addedToCollection_other": "{{count}} Einträge zu '{{collectionName}}' hinzugefügt.",
@@ -59,6 +75,8 @@
     "newCollectionTitle": "Neue Sammlung erstellen",
     "newCollectionName": "Name der Sammlung",
     "newCollectionPlaceholder": "z.B. 'Film-Noir-Klassiker'",
-    "create": "Erstellen"
+    "create": "Erstellen",
+    "collectionCreated": "Sammlung '{{name}}' erstellt!",
+    "collectionDeleted": "Sammlung '{{name}}' gelöscht."
   }
 }

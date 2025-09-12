@@ -1,4 +1,3 @@
-
 {
   "summary": "AI Summary",
   "generate": "Generate",
@@ -6,5 +5,19 @@
   "generatePrompt": "Click 'Generate' to create an AI-powered summary of this text.",
   "summaryErrorShort": "Text is too short to generate a meaningful summary.",
   "summaryErrorApi": "The AI summary could not be created. Please try again later.",
-  "entityErrorApi": "Entities could not be extracted. Please try again later."
+  "entityErrorApi": "Entities could not be extracted. Please try again later.",
+  "loadingMessages": {
+    "connecting": "Connecting to Gemini AI...",
+    "analyzing": "Analyzing text structure...",
+    "identifyingThemes": "Identifying key themes...",
+    "craftingSummary": "Crafting a concise summary...",
+    "scanningEntities": "Scanning for people, places, and organizations...",
+    "compilingList": "Compiling entity list...",
+    "consultingMuse": "Consulting the digital muse...",
+    "weavingNarrative": "Weaving the narrative threads...",
+    "findingWords": "Finding the perfect words...",
+    "finishing": "Finishing up...",
+    "readingContext": "Reading the document context...",
+    "formulatingAnswer": "Formulating an answer..."
+  }
 }

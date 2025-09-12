@@ -1,88 +1,64 @@
-import {
-    activeViewAtom,
-    selectedProfileAtom,
-    profileReturnViewAtom,
-    modalAtom,
-} from './app';
-import type { ModalState } from './app';
+// This file serves as a central hub for exporting all Jotai atoms.
+// This simplifies imports in components and avoids circular dependencies.
 
-export {
-    activeViewAtom,
-    selectedProfileAtom,
-    profileReturnViewAtom,
-    modalAtom,
-};
-export type { ModalState };
-
-export {
-    searchQueryAtom,
-    profileSearchQueryAtom,
-    facetsAtom,
-    searchHistoryAtom,
-    addSearchHistoryAtom,
-    clearSearchHistoryAtom,
-    webArchiveUrlAtom,
-} from './search';
-
-export {
-    libraryItemsAtom,
-    libraryItemIdentifiersAtom,
-    addLibraryItemAtom,
-    removeLibraryItemAtom,
-    removeMultipleLibraryItemsAtom,
-    updateLibraryItemNotesAtom,
-    updateLibraryItemTagsAtom,
-    addTagsToMultipleItemsAtom,
-    uploaderFavoritesAtom,
-    uploaderFavoriteSetAtom,
-    addUploaderFavoriteAtom,
-    removeUploaderFavoriteAtom,
-    userCollectionsAtom,
-    createCollectionAtom,
-    deleteCollectionAtom,
-    addItemsToCollectionAtom,
-    librarySearchQueryAtom,
-    libraryMediaTypeFilterAtom,
-    librarySortAtom,
-    selectedLibraryItemsForBulkActionAtom,
-    allLibraryTagsAtom,
-    selectedLibraryItemIdentifierAtom,
-    libraryActiveFilterAtom,
-} from './favorites';
-
+export * from './app';
+// FIX: Explicitly export from files with naming conflicts to avoid ambiguity for 'STORAGE_KEYS'.
 export {
     defaultSettings,
     settingsAtom,
     setSettingAtom,
     resetSettingsAtom,
-    // Search
     resultsPerPageAtom,
     showExplorerHubAtom,
     defaultSortAtom,
     rememberFiltersAtom,
-    // Appearance
     layoutDensityAtom,
     reduceMotionAtom,
-    // Content
     defaultUploaderDetailTabAtom,
     defaultDetailTabAllAtom,
     openLinksInNewTabAtom,
     autoplayMediaAtom,
-    // AI
     enableAiFeaturesAtom,
     defaultAiTabAtom,
     autoRunEntityExtractionAtom,
     summaryToneAtom,
-    // Accessibility
     highContrastModeAtom,
     underlineLinksAtom,
     fontSizeAtom,
-    // Theme
     themeAtom,
     resolvedThemeAtom,
 } from './settings';
-
+export {
+    searchQueryAtom,
+    profileSearchQueryAtom,
+    webArchiveUrlAtom,
+    facetsAtom,
+    searchHistoryAtom,
+    addSearchHistoryAtom,
+    clearSearchHistoryAtom,
+} from './search';
+export {
+    libraryItemsAtom,
+    libraryItemIdentifiersAtom,
+    addLibraryItemAtom,
+    removeLibraryItemAtom,
+    updateLibraryItemNotesAtom,
+    updateLibraryItemTagsAtom,
+    uploaderFavoritesAtom,
+    uploaderFavoriteSetAtom,
+    addUploaderFavoriteAtom,
+    removeUploaderFavoriteAtom,
+    // FIX: Exported missing atoms related to library collections, tags, and bulk item removal.
+    userCollectionsAtom,
+    createCollectionAtom,
+    deleteCollectionAtom,
+    addItemsToCollectionAtom,
+    allTagsAtom,
+    addTagsToItemsAtom,
+    removeLibraryItemsAtom,
+} from './favorites';
 export {
     languageAtom,
     loadableTranslationsAtom,
 } from './i18n';
+export * from './scriptorium';

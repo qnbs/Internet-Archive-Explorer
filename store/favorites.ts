@@ -1,62 +1,74 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import type { ArchiveItemSummary, LibraryItem, UserCollection, MediaType, SortKey, SortDirection, LibraryFilter } from '../types';
 import { v4 as uuidv4 } from 'uuid';
-
+import type { LibraryItem, ArchiveItemSummary, UserCollection } from '../types';
 
 export const STORAGE_KEYS = {
-    libraryItems: 'archive-library-items',
-    userCollections: 'archive-user-collections',
-    uploaderFavorites: 'archive-uploader-favorites',
+    libraryItems: 'app-library-items-v2',
+    uploaderFavorites: 'app-uploader-favorites-v1',
+    libraryCollections: 'app-library-collections-v1',
 };
 
-// --- Library Items ---
-export const libraryItemsAtom = atomWithStorage<LibraryItem[]>(STORAGE_KEYS.libraryItems, []);
-export const libraryItemIdentifiersAtom = atom((get) => new Set(get(libraryItemsAtom).map(item => item.identifier)));
+// --- Library Items (formerly Item Favorites) ---
 
+export const libraryItemsAtom = atomWithStorage<LibraryItem[]>(STORAGE_KEYS.libraryItems, []);
+
+// Derived atom for quick ID lookups, improving performance for checking if an item is a favorite.
+export const libraryItemIdentifiersAtom = atom((get) => {
+    const items = get(libraryItemsAtom);
+    return new Set(items.map(item => item.identifier));
+});
+
+// Write-only atom to add an item to the library.
 export const addLibraryItemAtom = atom(
     null,
     (get, set, item: ArchiveItemSummary) => {
-        const current = get(libraryItemsAtom);
-        if (!current.some(libItem => libItem.identifier === item.identifier)) {
-            const newLibraryItem: LibraryItem = {
+        const currentItems = get(libraryItemsAtom);
+        if (!currentItems.some(i => i.identifier === item.identifier)) {
+            const newItem: LibraryItem = {
                 ...item,
                 dateAdded: Date.now(),
                 notes: '',
-                tags: [],
+                tags: []
             };
-            set(libraryItemsAtom, [newLibraryItem, ...current]);
+            set(libraryItemsAtom, [newItem, ...currentItems]);
         }
     }
 );
 
+// Write-only atom to remove an item from the library.
 export const removeLibraryItemAtom = atom(
     null,
     (get, set, identifier: string) => {
-        set(libraryItemsAtom, current => current.filter(item => item.identifier !== identifier));
-        // Also remove from all collections
-        set(userCollectionsAtom, collections => collections.map(c => ({
-            ...c,
-            itemIdentifiers: c.itemIdentifiers.filter(id => id !== identifier)
-        })));
+        const currentItems = get(libraryItemsAtom);
+        set(libraryItemsAtom, currentItems.filter(item => item.identifier !== identifier));
+        // Also remove from any collections
+        set(userCollectionsAtom, collections => 
+            collections.map(c => ({
+                ...c,
+                itemIdentifiers: c.itemIdentifiers.filter(id => id !== identifier),
+            }))
+        );
     }
 );
 
-export const removeMultipleLibraryItemsAtom = atom(
+// Write-only atom to remove multiple items from the library
+export const removeLibraryItemsAtom = atom(
     null,
-    // FIX: Changed payload from object to direct argument for better type inference with useSetAtom.
     (get, set, identifiers: string[]) => {
         const idSet = new Set(identifiers);
-        set(libraryItemsAtom, current => current.filter(item => !idSet.has(item.identifier)));
-        // Also remove from all collections
-        set(userCollectionsAtom, collections => collections.map(c => ({
-            ...c,
-            // FIX: Corrected a bug where an undefined `identifier` was used instead of checking against the `idSet`.
-            itemIdentifiers: c.itemIdentifiers.filter(id => !idSet.has(id))
-        })));
+        set(libraryItemsAtom, items => items.filter(item => !idSet.has(item.identifier)));
+        // Also remove from any collections
+         set(userCollectionsAtom, collections => 
+            collections.map(c => ({
+                ...c,
+                itemIdentifiers: c.itemIdentifiers.filter(id => !idSet.has(id)),
+            }))
+        );
     }
 );
 
+// Write-only atom to update the notes for a library item.
 export const updateLibraryItemNotesAtom = atom(
     null,
     (get, set, { identifier, notes }: { identifier: string, notes: string }) => {
@@ -64,87 +76,103 @@ export const updateLibraryItemNotesAtom = atom(
     }
 );
 
+// Write-only atom to update the tags for a library item.
 export const updateLibraryItemTagsAtom = atom(
     null,
     (get, set, { identifier, tags }: { identifier: string, tags: string[] }) => {
-        const uniqueSortedTags = [...new Set(tags)].sort();
-        set(libraryItemsAtom, items => items.map(item => item.identifier === identifier ? { ...item, tags: uniqueSortedTags } : item));
-    }
-);
-
-export const addTagsToMultipleItemsAtom = atom(
-    null,
-    // FIX: Changed payload from object to direct arguments for better type inference with useSetAtom.
-    (get, set, identifiers: string[], tags: string[]) => {
-        const idSet = new Set(identifiers);
-        set(libraryItemsAtom, items => items.map(item => {
-            if (idSet.has(item.identifier)) {
-                const newTags = [...new Set([...item.tags, ...tags])].sort();
-                return { ...item, tags: newTags };
-            }
-            return item;
-        }));
-    }
-);
-
-// --- User Collections ---
-export const userCollectionsAtom = atomWithStorage<UserCollection[]>(STORAGE_KEYS.userCollections, []);
-
-export const createCollectionAtom = atom(null, (get, set, name: string) => {
-    const newCollection: UserCollection = { id: uuidv4(), name, itemIdentifiers: [], dateCreated: Date.now() };
-    set(userCollectionsAtom, current => [...current, newCollection].sort((a,b) => a.name.localeCompare(b.name)));
-});
-
-export const deleteCollectionAtom = atom(null, (get, set, collectionId: string) => {
-    set(userCollectionsAtom, current => current.filter(c => c.id !== collectionId));
-});
-
-export const addItemsToCollectionAtom = atom(
-    null,
-    (get, set, { collectionId, itemIdentifiers }: { collectionId: string, itemIdentifiers: Iterable<string> }) => {
-        set(userCollectionsAtom, collections => collections.map(c => {
-            if (c.id === collectionId) {
-                const newIdentifiers = [...new Set([...c.itemIdentifiers, ...itemIdentifiers])];
-                return { ...c, itemIdentifiers: newIdentifiers };
-            }
-            return c;
-        }));
+        const uniqueTags = Array.from(new Set(tags)).sort();
+        set(libraryItemsAtom, items => items.map(item => item.identifier === identifier ? { ...item, tags: uniqueTags } : item));
     }
 );
 
 
 // --- Uploader Favorites ---
+
 export const uploaderFavoritesAtom = atomWithStorage<string[]>(STORAGE_KEYS.uploaderFavorites, []);
+
+// Derived atom for quick ID lookups (Set).
 export const uploaderFavoriteSetAtom = atom((get) => new Set(get(uploaderFavoritesAtom)));
 
+// Write-only atom to add an uploader to favorites.
 export const addUploaderFavoriteAtom = atom(
     null,
-    (get, set, username: string) => {
+    (get, set, uploaderId: string) => {
         const current = get(uploaderFavoritesAtom);
-        if (!current.includes(username)) {
-            set(uploaderFavoritesAtom, [...current, username]);
+        if (!current.includes(uploaderId)) {
+            set(uploaderFavoritesAtom, [uploaderId, ...current]);
         }
     }
 );
 
+// Write-only atom to remove an uploader from favorites.
 export const removeUploaderFavoriteAtom = atom(
     null,
-    (get, set, username: string) => {
-        set(uploaderFavoritesAtom, current => current.filter(fav => fav !== username));
+    (get, set, uploaderId: string) => {
+        set(uploaderFavoritesAtom, get(uploaderFavoritesAtom).filter(id => id !== uploaderId));
     }
 );
 
-// --- UI State for the Library View ---
-export const librarySearchQueryAtom = atom('');
-export const libraryMediaTypeFilterAtom = atom<MediaType | 'all'>('all');
-export const librarySortAtom = atom<{ key: SortKey; dir: SortDirection }>({ key: 'dateAdded', dir: 'desc' });
-export const selectedLibraryItemIdentifierAtom = atom<string | null>(null);
-export const libraryActiveFilterAtom = atom<LibraryFilter>({ type: 'all' });
-export const allLibraryTagsAtom = atom(get => {
+// --- User Collections ---
+export const userCollectionsAtom = atomWithStorage<UserCollection[]>(STORAGE_KEYS.libraryCollections, []);
+
+export const createCollectionAtom = atom(
+  null,
+  (get, set, name: string) => {
+    const newCollection: UserCollection = {
+      id: uuidv4(),
+      name,
+      itemIdentifiers: [],
+      dateCreated: Date.now(),
+    };
+    set(userCollectionsAtom, (prev) => [...prev, newCollection].sort((a, b) => a.name.localeCompare(b.name)));
+  }
+);
+
+export const deleteCollectionAtom = atom(
+  null,
+  (get, set, collectionId: string) => {
+    set(userCollectionsAtom, (prev) => prev.filter((c) => c.id !== collectionId));
+  }
+);
+
+export const addItemsToCollectionAtom = atom(
+  null,
+  (get, set, { collectionId, itemIds }: { collectionId: string; itemIds: string[] }) => {
+    set(userCollectionsAtom, (prev) =>
+      prev.map((c) => {
+        if (c.id === collectionId) {
+          const newIdentifiers = Array.from(new Set([...c.itemIdentifiers, ...itemIds]));
+          return { ...c, itemIdentifiers: newIdentifiers };
+        }
+        return c;
+      })
+    );
+  }
+);
+
+// --- Tags ---
+
+export const allTagsAtom = atom((get) => {
     const items = get(libraryItemsAtom);
-    const allTags = items.flatMap(item => item.tags);
-    return [...new Set(allTags)].sort();
+    const tags = new Set<string>();
+    for (const item of items) {
+        for (const tag of item.tags) {
+            tags.add(tag);
+        }
+    }
+    return Array.from(tags).sort();
 });
 
-// --- Bulk Actions ---
-export const selectedLibraryItemsForBulkActionAtom = atom(new Set<string>());
+export const addTagsToItemsAtom = atom(
+  null,
+  (get, set, { itemIds, tags }: { itemIds: string[], tags: string[] }) => {
+    const idSet = new Set(itemIds);
+    set(libraryItemsAtom, items => items.map(item => {
+        if (idSet.has(item.identifier)) {
+            const newTags = Array.from(new Set([...item.tags, ...tags])).sort();
+            return { ...item, tags: newTags };
+        }
+        return item;
+    }));
+  }
+);

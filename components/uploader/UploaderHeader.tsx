@@ -38,7 +38,7 @@ const TabButton: React.FC<{
         className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
             activeTab === tabId
                 ? 'bg-cyan-500 text-white shadow-md'
-                : 'text-gray-300 hover:bg-gray-700/50'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-700/50'
         }`}
     >
         {icon}
@@ -68,9 +68,9 @@ const UploadsFilterControls: React.FC<Pick<UploaderHeaderProps, 'stats' | 'activ
     ] as { key: keyof UploaderStats; icon: React.ReactNode; label: string, type: MediaType | 'all' }[]), [t]);
     
     return (
-        <div className="border-t border-gray-700/80 pt-4 mt-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="border-t border-gray-200 dark:border-gray-700/80 pt-4 mt-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex items-center flex-wrap gap-2">
-                <span className="text-sm text-gray-400 font-medium mr-2 shrink-0">Filter:</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400 font-medium mr-2 shrink-0">Filter:</span>
                  {statItems.map(stat => {
                     const count = stats ? stats[stat.key as keyof UploaderStats] : 0;
                     if (count === 0 && stat.key !== 'total') return null;
@@ -79,22 +79,22 @@ const UploadsFilterControls: React.FC<Pick<UploaderHeaderProps, 'stats' | 'activ
                             key={stat.key}
                             onClick={() => onFilterChange(stat.type)}
                             disabled={count === 0}
-                            className={`flex items-center space-x-1.5 px-2.5 py-1 text-xs font-medium rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${activeFilter === stat.type ? 'bg-cyan-500 text-white' : 'bg-gray-900/50 hover:bg-gray-700/80 text-gray-200'}`}
+                            className={`flex items-center space-x-1.5 px-2.5 py-1 text-xs font-medium rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${activeFilter === stat.type ? 'bg-cyan-500 text-white' : 'bg-gray-100 dark:bg-gray-900/50 hover:bg-gray-200 dark:hover:bg-gray-700/80 text-gray-800 dark:text-gray-200'}`}
                         >
                             {stat.icon}
                             <span>{stat.label}</span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeFilter === stat.type ? 'bg-white/20' : 'bg-gray-800/60'}`}>{count > 0 ? count.toLocaleString() : '0'}</span>
+                            <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeFilter === stat.type ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-800/60'}`}>{count > 0 ? count.toLocaleString() : '0'}</span>
                         </button>
                     )
                 })}
             </div>
              <div className="flex items-center justify-start lg:justify-end gap-2 shrink-0">
-                <span className="text-sm text-gray-400">{t('uploaderDetail:sortBy')}:</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t('uploaderDetail:sortBy')}:</span>
                 <div className="relative">
                     <select 
                         value={sort} 
                         onChange={e => setSort(e.target.value)}
-                        className="bg-gray-700 border border-gray-600 rounded-md py-1.5 px-3 text-sm focus:ring-cyan-500 focus:border-cyan-500 appearance-none pr-8"
+                        className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-1.5 px-3 text-sm focus:ring-cyan-500 focus:border-cyan-500 appearance-none pr-8"
                         aria-label={t('uploaderDetail:sortBy')}
                     >
                         {Object.entries(SORT_OPTIONS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
@@ -103,7 +103,7 @@ const UploadsFilterControls: React.FC<Pick<UploaderHeaderProps, 'stats' | 'activ
                 </div>
                 <button 
                     onClick={toggleSortDirection}
-                    className="p-2 bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-600"
+                    className="p-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                     aria-label={t('uploaderDetail:toggleSort', { direction: sortDirection === 'asc' ? t('uploaderDetail:ascending') : t('uploaderDetail:descending') })}
                 >
                     {sortDirection === 'asc' ? <SortAscendingIcon className="w-5 h-5"/> : <SortDescendingIcon className="w-5 h-5"/>}
@@ -146,10 +146,10 @@ export const UploaderHeader: React.FC<UploaderHeaderProps> = (props) => {
     };
 
     return (
-        <header className="bg-gray-800/60 p-4 rounded-xl border border-gray-700/50">
+        <header className="bg-white dark:bg-gray-800/60 p-4 rounded-xl border border-gray-200 dark:border-gray-700/50">
             <div className="flex flex-wrap items-center justify-between gap-y-4 gap-x-2">
                 <div className="flex items-center gap-2">
-                    <h1 className="text-2xl font-bold text-white truncate">{profile.name}</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white truncate">{profile.name}</h1>
                     {profile.type === 'uploader' && (
                         <button 
                             onClick={handleFavoriteClick} 
@@ -169,7 +169,7 @@ export const UploaderHeader: React.FC<UploaderHeaderProps> = (props) => {
                     </a>
                 </div>
                 <div className="w-full sm:w-auto overflow-x-auto">
-                    <div className="flex flex-nowrap gap-2" role="tablist" aria-label={t('uploaderDetail:aria.profileSections')}>
+                    <div className="flex flex-nowrap gap-2 bg-gray-100 dark:bg-gray-900/50 p-1.5 rounded-xl" role="tablist" aria-label={t('uploaderDetail:aria.profileSections')}>
                         {visibleTabs.map(tabId => (
                             <TabButton 
                                 key={tabId}

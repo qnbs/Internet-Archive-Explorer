@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
@@ -9,12 +9,13 @@ import {
     reduceMotionAtom,
     highContrastModeAtom,
     underlineLinksAtom,
-    fontSizeAtom
+    fontSizeAtom,
+    toastAtom
 } from './store';
 import type { View } from './types';
 
 // Providers & Contexts
-import { ToastProvider } from './contexts/ToastContext';
+import { ToastProvider, useToast } from './contexts/ToastContext';
 
 // Layout Components
 import { SideMenu } from './components/SideMenu';
@@ -22,25 +23,50 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { ToastContainer } from './components/Toast';
 import ErrorBoundary from './components/ErrorBoundary';
-
-// View/Page Components
-import { ExplorerView } from './pages/ExplorerView';
-import { LibraryView } from './pages/LibraryView';
-import { ScriptoriumView } from './pages/ScriptoriumView';
-import { RecRoomView } from './pages/RecRoomView';
-import { VideothekView } from './pages/VideothekView';
-import { AudiothekView } from './pages/AudiothekView';
-import { ImagesHubView } from './pages/ImagesHubView';
-import { UploaderDetailView } from './pages/UploaderDetailView';
-import { SettingsView } from './pages/SettingsView';
-import { HelpView } from './pages/HelpView';
-import { StorytellerView } from './pages/StorytellerView';
 import { ModalManager } from './components/ModalManager';
+import { Spinner } from './components/Spinner';
 
 
 // Hooks
 import { useNavigation } from './hooks/useNavigation';
 import { useLanguage } from './hooks/useLanguage';
+
+// View/Page Components (Lazy Loaded)
+const ExplorerView = React.lazy(() => import('./pages/ExplorerView'));
+const LibraryView = React.lazy(() => import('./pages/LibraryView'));
+const ScriptoriumView = React.lazy(() => import('./pages/ScriptoriumView'));
+const RecRoomView = React.lazy(() => import('./pages/RecRoomView'));
+const VideothekView = React.lazy(() => import('./pages/VideothekView'));
+const AudiothekView = React.lazy(() => import('./pages/AudiothekView'));
+const ImagesHubView = React.lazy(() => import('./pages/ImagesHubView'));
+const UploaderDetailView = React.lazy(() => import('./pages/UploaderDetailView'));
+const SettingsView = React.lazy(() => import('./pages/SettingsView'));
+const HelpView = React.lazy(() => import('./pages/HelpView'));
+const StorytellerView = React.lazy(() => import('./pages/StorytellerView'));
+
+const PageSpinner: React.FC = () => (
+    <div className="flex justify-center items-center h-full pt-20">
+        <Spinner size="lg" />
+    </div>
+);
+
+// This component bridges the Jotai toastAtom to the ToastContext
+const ToastBridge: React.FC = () => {
+    const { addToast } = useToast();
+    // FIX: Use `useAtom` to get both value and setter. This allows resetting the atom after consuming the toast.
+    const [toast, setToast] = useAtom(toastAtom); 
+    
+    useEffect(() => {
+        // The initial value of the atom is null, so we ignore it
+        if (toast) {
+            addToast(toast.message, toast.type);
+            // FIX: Reset the atom to null so the toast doesn't re-appear on re-renders.
+            setToast(null);
+        }
+    }, [toast, addToast, setToast]);
+
+    return null;
+};
 
 // Main App component logic
 const MainApp: React.FC = () => {
@@ -122,8 +148,10 @@ const MainApp: React.FC = () => {
       />
       <div className="md:pl-64 flex flex-col min-h-screen">
         <Header onMenuClick={() => setIsMenuOpen(true)} onOpenCommandPalette={() => setModal({ type: 'commandPalette' })} />
-        <main className="flex-grow container mx-auto p-4 sm:p-6 mt-16 mb-16 md:mb-0 animate-page-fade-in">
-          {renderActiveView()}
+        <main className="flex-grow container mx-auto p-4 sm:p-6 mt-16 mb-16 md:mb-0">
+          <Suspense fallback={<PageSpinner />}>
+            {renderActiveView()}
+          </Suspense>
         </main>
         <BottomNav activeView={activeView} setActiveView={setActiveView} />
       </div>
@@ -137,6 +165,7 @@ const MainApp: React.FC = () => {
 const App: React.FC = () => (
   <ErrorBoundary>
       <ToastProvider>
+        <ToastBridge />
         <MainApp />
         <ToastContainer />
       </ToastProvider>

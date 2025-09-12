@@ -13,69 +13,69 @@
   "search": {
     "title": "Search & Discovery",
     "resultsPerPage": "Results Per Page",
-    "resultsPerPageDesc": "Number of items to load for each search result page.",
+    "resultsPerPageDesc": "Set the number of items to load for each page of search results.",
     "showExplorerHub": "Show Explorer Hub",
-    "showExplorerHubDesc": "Display curated content like 'Trending' on the main explore page when not searching.",
+    "showExplorerHubDesc": "Display curated content like 'Trending' on the main Explore page when the search bar is empty.",
     "defaultSort": "Default Search Sort",
-    "defaultSortDesc": "The default sorting order for new searches.",
+    "defaultSortDesc": "Choose the default sorting order for new searches in the main explorer view.",
     "rememberFilters": "Remember Filters",
-    "rememberFiltersDesc": "Automatically apply your last used media type and year filters to new sessions."
+    "rememberFiltersDesc": "Preserve your media type and year range filters from the Explorer page across browser sessions."
   },
   "ui": {
     "title": "User Interface",
     "layoutDensity": "Layout Density",
-    "layoutDensityDesc": "Adjust the spacing of items in grids and lists.",
+    "layoutDensityDesc": "Adjust the spacing and size of items in grids and lists for a more or less compact view.",
     "densities": {
       "comfortable": "Comfortable",
       "compact": "Compact"
     },
     "theme": "Theme",
-    "themeDesc": "Choose how the application looks. 'System' will match your operating system's setting.",
+    "themeDesc": "Choose how the application looks. 'System' will automatically match your operating system's setting.",
     "themes": {
       "light": "Light",
       "dark": "Dark",
       "system": "System"
     },
     "language": "Language",
-    "languageDesc": "Select the display language for the user interface."
+    "languageDesc": "Select the display language for the entire user interface."
   },
   "accessibility": {
     "title": "Accessibility",
     "highContrast": "High Contrast Mode",
-    "highContrastDesc": "Increases text and UI element contrast for better visibility.",
+    "highContrastDesc": "Increases text and UI element contrast for improved visibility and readability.",
     "underlineLinks": "Underline Links",
-    "underlineLinksDesc": "Makes all links underlined to distinguish them from text.",
+    "underlineLinksDesc": "Makes all hyperlinks underlined by default to make them more distinct from regular text.",
     "fontSize": "Font Size",
-    "fontSizeDesc": "Adjust the global font size for better readability.",
+    "fontSizeDesc": "Adjust the global font size throughout the application for better readability.",
     "sizes": {
       "sm": "Small",
       "base": "Normal",
       "lg": "Large"
     },
     "reduceMotion": "Reduce Motion",
-    "reduceMotionDesc": "Disable animations and transitions for a simpler experience."
+    "reduceMotionDesc": "Disables most animations and transitions for a simpler, more direct experience."
   },
   "content": {
     "title": "Content & Hubs",
     "defaultUploaderDetailTab": "Default Uploader Tab",
-    "defaultUploaderDetailTabDesc": "The tab that is selected by default when viewing an uploader's profile.",
+    "defaultUploaderDetailTabDesc": "Select the tab that is opened by default when viewing a contributor's profile.",
     "autoplayMedia": "Autoplay Media",
-    "autoplayMediaDesc": "Automatically start playing audio and video when opened (not recommended).",
+    "autoplayMediaDesc": "Automatically start playing audio previews when opening an item's detail view.",
     "defaultDetailTabAll": "Default Item Detail Tab",
-    "defaultDetailTabAllDesc": "The default tab to show when opening any item's detail view.",
+    "defaultDetailTabAllDesc": "Select the default tab to show when opening any item's detail view.",
     "openLinksInNewTab": "Open Links in New Tab",
-    "openLinksInNewTabDesc": "All links to items on archive.org or other external sites will open in a new browser tab."
+    "openLinksInNewTabDesc": "Ensures all links to archive.org or other external sites open in a new browser tab."
   },
   "ai": {
     "title": "AI Features",
     "enableAiFeatures": "Enable AI Features",
-    "enableAiFeaturesDesc": "Globally enable or disable all features powered by Gemini AI.",
+    "enableAiFeaturesDesc": "Globally enable or disable all features powered by the Gemini AI, such as summarization and entity analysis.",
     "defaultAiTab": "Default Detail View Tab (for Texts)",
-    "defaultAiTabDesc": "Choose whether to see the standard description or AI tools first when opening a text item.",
+    "defaultAiTabDesc": "Choose whether to see the standard description or the AI tools first when opening a text-based item.",
     "autoRunEntityExtraction": "Auto-run Entity Extraction",
-    "autoRunEntityExtractionDesc": "Automatically extract entities when opening a text document in the Scriptorium or detail view.",
+    "autoRunEntityExtractionDesc": "Automatically perform entity analysis when you open a text document in the Scriptorium or detail view.",
     "summaryTone": "AI Summary Tone",
-    "summaryToneDesc": "Set the style for AI-generated summaries.",
+    "summaryToneDesc": "Set the stylistic tone for AI-generated summaries to better suit your needs.",
     "tones": {
       "simple": "Simple",
       "detailed": "Detailed",
@@ -88,12 +88,12 @@
     "privacy": "Privacy",
     "managementTitle": "Data Management",
     "exportAll": "Export All Data",
-    "exportAllDesc": "Download a backup of all your settings, library items, and worksets as a JSON file.",
+    "exportAllDesc": "Download a complete backup of your settings, library items, and worksets as a single JSON file.",
     "exportButton": "Export Data",
     "exportSuccess": "Data exported successfully!",
     "exportError": "Failed to export data.",
     "importAll": "Import Data",
-    "importAllDesc": "Import a previously exported JSON file to restore your app data. This will overwrite existing data.",
+    "importAllDesc": "Restore your app data from a previously exported JSON file. This will overwrite all existing data.",
     "importButton": "Import from File...",
     "importButtonConfirm": "Import & Overwrite",
     "importConfirm": "Are you sure you want to import this data? All current settings and saved items will be overwritten.",
@@ -102,7 +102,7 @@
     "importErrorFile": "Could not read the file.",
     "title": "Your Data",
     "searchHistory": "Search History",
-    "searchHistoryDesc": "Clear your locally stored search history.",
+    "searchHistoryDesc": "Clear your locally stored search history from the command palette.",
     "noHistory": "No search history yet.",
     "clearHistory": "Clear History",
     "resetAll": "Reset App Settings",

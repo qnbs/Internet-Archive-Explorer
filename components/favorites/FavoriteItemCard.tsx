@@ -1,6 +1,7 @@
 import React from 'react';
 import type { LibraryItem } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
+import { InfoIcon } from '../Icons';
 
 interface LibraryItemCardProps {
   item: LibraryItem;
@@ -14,6 +15,7 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
   const { t } = useLanguage();
   
   const creatorName = Array.isArray(item.creator) ? item.creator.join(', ') : item.creator || t('itemCard:unknownCreator');
+  const isRestricted = item['access-restricted-item'] === 'true';
 
   return (
     <article
@@ -52,9 +54,13 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
         }}
       />
       <div className="flex-grow min-w-0">
-        <h3 className={`font-semibold text-sm truncate ${isDetailViewTarget ? 'text-white' : 'text-gray-200'}`} title={item.title}>
-          {item.title}
-        </h3>
+        <div className="flex items-center gap-2">
+            <h3 className={`font-semibold text-sm truncate ${isDetailViewTarget ? 'text-white' : 'text-gray-200'}`} title={item.title}>
+              {item.title}
+            </h3>
+            {/* FIX: Moved title prop to a wrapper div to avoid passing an invalid prop to the Icon component. */}
+            {isRestricted && <div className="flex-shrink-0" title={t('modals:details.restrictedItemTooltip')}><InfoIcon className="w-4 h-4 text-yellow-400" /></div>}
+        </div>
         <p className="text-xs text-gray-400 truncate" title={creatorName}>{creatorName}</p>
         <div className="mt-1 flex flex-wrap gap-1.5">
             {item.tags.slice(0, 3).map(tag => (

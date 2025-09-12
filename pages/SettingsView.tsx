@@ -122,14 +122,14 @@ const UISettingsPanel: React.FC = () => {
             </SettingRow>
              <div className="flex flex-col sm:flex-row justify-between sm:items-start py-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="mb-2 sm:mb-0 max-w-md">
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:ui.theme')}</h4>
+                    <h4 id="theme-label" className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:ui.theme')}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings:ui.themeDesc')}</p>
                 </div>
                 <ThemeSelector ariaProps={{'aria-labelledby': 'theme-label'}} />
             </div>
              <div className="flex flex-col sm:flex-row justify-between sm:items-center py-4">
                 <div className="mb-2 sm:mb-0 max-w-md">
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:ui.language')}</h4>
+                    <h4 id="lang-label" className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:ui.language')}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings:ui.languageDesc')}</p>
                 </div>
                 <LanguageSelector ariaProps={{'aria-labelledby': 'lang-label'}} />
@@ -169,6 +169,13 @@ const SearchSettingsPanel: React.FC = () => {
             <SettingRow settingKey="resultsPerPage" label={t('settings:search.resultsPerPage')} description={t('settings:search.resultsPerPageDesc')}>
                 {(value, onChange, ariaProps) => <NumberInput value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            <SettingRow settingKey="defaultSort" label={t('settings:search.defaultSort')} description={t('settings:search.defaultSortDesc')}>
+                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
+                    {value: 'downloads', label: t('uploaderDetail:sortCriteria.downloads')},
+                    {value: 'week', label: t('uploaderDetail:sortCriteria.week')},
+                    {value: 'publicdate', label: t('uploaderDetail:sortCriteria.publicdate')}
+                ]} ariaProps={ariaProps} />}
+            </SettingRow>
             <SettingRow settingKey="showExplorerHub" label={t('settings:search.showExplorerHub')} description={t('settings:search.showExplorerHubDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -183,6 +190,13 @@ const ContentSettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
+            <SettingRow settingKey="defaultDetailTabAll" label={t('settings:content.defaultDetailTabAll')} description={t('settings:content.defaultDetailTabAllDesc')}>
+                {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
+                    {value: 'description', label: t('common:description')},
+                    {value: 'files', label: t('common:files')},
+                    {value: 'related', label: t('common:related')}
+                ]} ariaProps={ariaProps} />}
+            </SettingRow>
             <SettingRow settingKey="defaultUploaderDetailTab" label={t('settings:content.defaultUploaderDetailTab')} description={t('settings:content.defaultUploaderDetailTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'uploads', label: t('uploaderDetail:tabs.uploads')},
@@ -300,7 +314,7 @@ interface SettingsViewProps {
   showConfirmation: (options: ConfirmationOptions) => void;
 }
 
-export const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
+const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
     const { t } = useLanguage();
     const [activeSection, setActiveSection] = useState<SettingsSectionId>('ui');
     const sections = getSections(t);
@@ -349,3 +363,5 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) 
         </div>
     );
 };
+
+export default SettingsView;

@@ -13,69 +13,69 @@
   "search": {
     "title": "Suche & Entdeckung",
     "resultsPerPage": "Ergebnisse pro Seite",
-    "resultsPerPageDesc": "Anzahl der Einträge, die pro Suchergebnisseite geladen werden.",
+    "resultsPerPageDesc": "Legen Sie die Anzahl der Elemente fest, die für jede Seite der Suchergebnisse geladen werden sollen.",
     "showExplorerHub": "Explorer-Hub anzeigen",
-    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Hauptseite an, wenn nicht gesucht wird.",
+    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Haupt-Erkundungsseite an, wenn die Suchleiste leer ist.",
     "defaultSort": "Standard-Suchsortierung",
-    "defaultSortDesc": "Die standardmäßige Sortierreihenfolge für neue Suchen.",
+    "defaultSortDesc": "Wählen Sie die standardmäßige Sortierreihenfolge für neue Suchen in der Haupt-Explorer-Ansicht.",
     "rememberFilters": "Filter merken",
-    "rememberFiltersDesc": "Wendet Ihre zuletzt verwendeten Medien- und Jahresfilter automatisch auf neue Sitzungen an."
+    "rememberFiltersDesc": "Behält Ihre zuletzt verwendeten Filter für Medientyp und Jahresbereich über Browser-Sitzungen hinweg bei."
   },
   "ui": {
     "title": "Benutzeroberfläche",
     "layoutDensity": "Layout-Dichte",
-    "layoutDensityDesc": "Passt den Abstand von Elementen in Rastern und Listen an.",
+    "layoutDensityDesc": "Passen Sie den Abstand und die Größe von Elementen in Rastern und Listen für eine mehr oder weniger kompakte Ansicht an.",
     "densities": {
       "comfortable": "Komfortabel",
       "compact": "Kompakt"
     },
     "theme": "Theme",
-    "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich der Einstellung Ihres Betriebssystems an.",
+    "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich automatisch der Einstellung Ihres Betriebssystems an.",
     "themes": {
       "light": "Hell",
       "dark": "Dunkel",
       "system": "System"
     },
     "language": "Sprache",
-    "languageDesc": "Wählen Sie die Anzeigesprache der Benutzeroberfläche."
+    "languageDesc": "Wählen Sie die Anzeigesprache für die gesamte Benutzeroberfläche."
   },
   "accessibility": {
     "title": "Barrierefreiheit",
     "highContrast": "Hochkontrastmodus",
-    "highContrastDesc": "Erhöht den Kontrast von Text und UI-Elementen für eine bessere Sichtbarkeit.",
+    "highContrastDesc": "Erhöht den Kontrast von Text und UI-Elementen für eine verbesserte Sichtbarkeit und Lesbarkeit.",
     "underlineLinks": "Links unterstreichen",
-    "underlineLinksDesc": "Unterstreicht alle Links, um sie von normalem Text zu unterscheiden.",
+    "underlineLinksDesc": "Unterstreicht standardmäßig alle Hyperlinks, um sie deutlicher von normalem Text abzuheben.",
     "fontSize": "Schriftgröße",
-    "fontSizeDesc": "Passt die globale Schriftgröße für eine bessere Lesbarkeit an.",
+    "fontSizeDesc": "Passt die globale Schriftgröße in der gesamten Anwendung für eine bessere Lesbarkeit an.",
     "sizes": {
       "sm": "Klein",
       "base": "Normal",
       "lg": "Groß"
     },
     "reduceMotion": "Bewegung reduzieren",
-    "reduceMotionDesc": "Deaktiviert Animationen und Übergänge für ein schlichteres Erlebnis."
+    "reduceMotionDesc": "Deaktiviert die meisten Animationen und Übergänge für ein einfacheres, direkteres Erlebnis."
   },
   "content": {
     "title": "Inhalt & Hubs",
     "defaultUploaderDetailTab": "Standard-Uploader-Tab",
-    "defaultUploaderDetailTabDesc": "Der Tab, der standardmäßig ausgewählt wird, wenn Sie das Profil eines Uploaders anzeigen.",
+    "defaultUploaderDetailTabDesc": "Wählen Sie den Tab, der standardmäßig beim Anzeigen des Profils eines Mitwirkenden geöffnet wird.",
     "autoplayMedia": "Medien automatisch abspielen",
-    "autoplayMediaDesc": "Startet die Wiedergabe von Audio und Video automatisch beim Öffnen (nicht empfohlen).",
+    "autoplayMediaDesc": "Startet die Wiedergabe von Audiovorschauen automatisch, wenn die Detailansicht eines Eintrags geöffnet wird.",
     "defaultDetailTabAll": "Standard-Detailansicht-Tab",
-    "defaultDetailTabAllDesc": "Der Standard-Tab, der beim Öffnen der Detailansicht eines Eintrags angezeigt wird.",
+    "defaultDetailTabAllDesc": "Wählen Sie den Standard-Tab, der beim Öffnen der Detailansicht eines beliebigen Eintrags angezeigt wird.",
     "openLinksInNewTab": "Links in neuem Tab öffnen",
-    "openLinksInNewTabDesc": "Alle Links zu archive.org oder anderen externen Seiten werden in einem neuen Browser-Tab geöffnet."
+    "openLinksInNewTabDesc": "Stellt sicher, dass alle Links zu archive.org oder anderen externen Websites in einem neuen Browser-Tab geöffnet werden."
   },
   "ai": {
     "title": "KI-Funktionen",
     "enableAiFeatures": "KI-Funktionen aktivieren",
-    "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von Gemini AI unterstützt werden.",
+    "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von der Gemini-KI unterstützt werden, wie z.B. Zusammenfassungen und Entitätenanalyse.",
     "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
-    "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen Texteintrag öffnen.",
+    "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen textbasierten Eintrag öffnen.",
     "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
-    "autoRunEntityExtractionDesc": "Extrahiert automatisch Entitäten, wenn ein Textdokument im Scriptorium oder in der Detailansicht geöffnet wird.",
+    "autoRunEntityExtractionDesc": "Führt automatisch eine Entitätenanalyse durch, wenn Sie ein Textdokument im Scriptorium oder in der Detailansicht öffnen.",
     "summaryTone": "Ton der KI-Zusammenfassung",
-    "summaryToneDesc": "Legen Sie den Stil für KI-generierte Zusammenfassungen fest.",
+    "summaryToneDesc": "Legen Sie den stilistischen Ton für KI-generierte Zusammenfassungen fest, um Ihren Anforderungen besser gerecht zu werden.",
     "tones": {
       "simple": "Einfach",
       "detailed": "Detailliert",
@@ -88,12 +88,12 @@
     "privacy": "Datenschutz",
     "managementTitle": "Datenverwaltung",
     "exportAll": "Alle Daten exportieren",
-    "exportAllDesc": "Laden Sie ein Backup all Ihrer Einstellungen, Ihrer Bibliothek und Ihrer Worksets als JSON-Datei herunter.",
+    "exportAllDesc": "Laden Sie eine vollständige Sicherung Ihrer Einstellungen, Bibliothekselemente und Worksets als einzelne JSON-Datei herunter.",
     "exportButton": "Daten exportieren",
     "exportSuccess": "Daten erfolgreich exportiert!",
     "exportError": "Export der Daten fehlgeschlagen.",
     "importAll": "Daten importieren",
-    "importAllDesc": "Importieren Sie eine zuvor exportierte JSON-Datei, um Ihre App-Daten wiederherzustellen. Dies überschreibt vorhandene Daten.",
+    "importAllDesc": "Stellen Sie Ihre App-Daten aus einer zuvor exportierten JSON-Datei wieder her. Dies überschreibt alle vorhandenen Daten.",
     "importButton": "Aus Datei importieren...",
     "importButtonConfirm": "Importieren & Überschreiben",
     "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
@@ -102,7 +102,7 @@
     "importErrorFile": "Die Datei konnte nicht gelesen werden.",
     "title": "Ihre Daten",
     "searchHistory": "Suchverlauf",
-    "searchHistoryDesc": "Löschen Sie Ihren lokal gespeicherten Suchverlauf.",
+    "searchHistoryDesc": "Löschen Sie Ihren lokal gespeicherten Suchverlauf aus der Befehlspalette.",
     "noHistory": "Noch kein Suchverlauf.",
     "clearHistory": "Verlauf löschen",
     "resetAll": "App-Einstellungen zurücksetzen",

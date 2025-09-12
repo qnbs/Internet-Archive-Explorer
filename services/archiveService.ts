@@ -41,7 +41,7 @@ export const searchArchive = async (
   query: string,
   page: number,
   sorts: string[] = [],
-  fields: string[] = ['identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader'],
+  fields: string[] = ['identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader', 'access-restricted-item', 'week', 'downloads'],
   limit: number = SEARCH_PAGE_SIZE
 ): Promise<ArchiveSearchResponse> => {
   
@@ -126,7 +126,7 @@ export const getReviewsByUploader = async (
   const query = `reviewer:("${uploader}")`;
   const fields = [
     'identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader',
-    'reviewdate', 'reviewtitle', 'reviewbody'
+    'reviewdate', 'reviewtitle', 'reviewbody', 'access-restricted-item'
   ];
   return searchArchive(query, page, ['-reviewdate'], fields, limit);
 };

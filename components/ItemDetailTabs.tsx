@@ -1,6 +1,7 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { useLanguage } from '../hooks/useLanguage';
 import type { ItemDetailTab } from '../hooks/useItemMetadata';
+import { SparklesIcon, FileIcon, CollectionIcon, BookIcon } from './Icons';
 
 interface ItemDetailTabsProps {
     activeTab: ItemDetailTab;
@@ -9,6 +10,13 @@ interface ItemDetailTabsProps {
     uniqueId: string;
 }
 
+const ICONS: Record<ItemDetailTab, React.ReactNode> = {
+    description: <BookIcon className="w-5 h-5"/>,
+    ai: <SparklesIcon className="w-5 h-5"/>,
+    files: <FileIcon className="w-5 h-5"/>,
+    related: <CollectionIcon className="w-5 h-5"/>
+};
+
 const TabButton: React.FC<{tab: ItemDetailTab, label: string, activeTab: ItemDetailTab, setActiveTab: (tab: ItemDetailTab) => void, uniqueId: string}> = ({tab, label, activeTab, setActiveTab, uniqueId}) => (
     <button
       id={`${uniqueId}-tab-${tab}`}
@@ -16,8 +24,11 @@ const TabButton: React.FC<{tab: ItemDetailTab, label: string, activeTab: ItemDet
       aria-selected={activeTab === tab}
       aria-controls={`${uniqueId}-tabpanel-${tab}`}
       onClick={() => setActiveTab(tab)}
-      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === tab ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700/50'}`}
-    >{label}</button>
+      className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === tab ? 'bg-cyan-500 text-white shadow-md' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-700/50'}`}
+    >
+      {ICONS[tab]}
+      <span>{label}</span>
+    </button>
 );
 
 
@@ -25,7 +36,7 @@ export const ItemDetailTabs: React.FC<ItemDetailTabsProps> = ({ activeTab, setAc
     const { t } = useLanguage();
 
     return (
-        <div role="tablist" aria-label="Item details" className="flex items-center space-x-2 border-b border-gray-200 dark:border-gray-700 pb-2">
+        <div role="tablist" aria-label="Item details" className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-900/50 p-1.5 rounded-xl border border-gray-200 dark:border-gray-700/50">
             <TabButton tab="description" label={t('common:description')} activeTab={activeTab} setActiveTab={setActiveTab} uniqueId={uniqueId} />
             {showAiTab && <TabButton tab="ai" label={t('common:aiAnalysis')} activeTab={activeTab} setActiveTab={setActiveTab} uniqueId={uniqueId} />}
             <TabButton tab="files" label={t('common:files')} activeTab={activeTab} setActiveTab={setActiveTab} uniqueId={uniqueId} />

@@ -9,10 +9,16 @@ export const useSearchAndGo = () => {
   const setActiveView = useSetAtom(activeViewAtom);
   const addSearchHistory = useSetAtom(addSearchHistoryAtom);
 
-  return useCallback((query: string, newFacets?: Facets) => {
+  return useCallback((query: string, newFacets?: Partial<Facets>) => {
      setSearchQuery(query);
      addSearchHistory(query);
-     setFacets(newFacets || { mediaType: new Set() });
+     // FIX: Create a complete Facets object by combining defaults with the provided partial facets.
+     // This ensures required properties are always set.
+     const defaultFacets: Facets = {
+        mediaType: new Set(),
+        availability: 'free',
+     };
+     setFacets({ ...defaultFacets, ...newFacets });
      setActiveView('explore');
   }, [setSearchQuery, addSearchHistory, setFacets, setActiveView]);
 };

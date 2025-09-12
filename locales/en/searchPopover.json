@@ -1,9 +1,14 @@
-
 {
   "mediaType": "Media Type",
   "yearRange": "Year Range",
   "from": "From",
   "to": "To",
   "collection": "Collection",
-  "collectionPlaceholder": "e.g., prelinger"
+  "collectionPlaceholder": "e.g., prelinger",
+  "availability": "Availability",
+  "availabilities": {
+    "all": "All Items",
+    "free": "Freely Available",
+    "borrowable": "Borrowable Only"
+  }
 }

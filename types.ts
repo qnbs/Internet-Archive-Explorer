@@ -27,7 +27,8 @@ export type View =
   | 'help'
   | 'uploaderDetail'
   | 'uploaderProfile'
-  | 'storyteller';
+  | 'storyteller'
+  | 'bookReader';
 
 export interface ArchiveItemSummary {
   identifier: string;
@@ -41,6 +42,7 @@ export interface ArchiveItemSummary {
   reviewdate?: string;
   reviewtitle?: string;
   reviewbody?: string;
+  ['access-restricted-item']?: string;
 }
 
 export interface LibraryItem extends ArchiveItemSummary {
@@ -98,6 +100,8 @@ export interface ExtractedEntities {
 
 export interface WorksetDocument extends ArchiveItemSummary {
     notes: string;
+    // FIX: Add worksetId to associate a document with its parent workset.
+    worksetId: string;
 }
 
 export interface Workset {
@@ -177,13 +181,21 @@ export interface ConfirmationOptions {
   confirmLabel?: string;
   confirmClass?: string;
 }
-export type LibraryFilter = { type: 'all' } | { type: 'collection'; id: string } | { type: 'tag'; tag: string };
+export type LibraryFilter = 
+  | { type: 'all' } 
+  | { type: 'untagged' }
+  | { type: 'collection'; id: string } 
+  | { type: 'tag'; tag: string }
+  | { type: 'mediaType'; mediaType: MediaType };
+
+export type Availability = 'all' | 'borrowable' | 'free';
 
 export type Facets = {
     mediaType: Set<MediaType>;
     yearStart?: string;
     yearEnd?: string;
     collection?: string;
+    availability: Availability;
 };
 export type SortKey = 'dateAdded' | 'title' | 'creator';
 export type SortDirection = 'asc' | 'desc';

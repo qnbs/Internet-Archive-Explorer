@@ -12,7 +12,7 @@ interface RecRoomViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
+const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
   const { t } = useLanguage();
   const [results, setResults] = useState<ArchiveItemSummary[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -132,3 +132,5 @@ export const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
     </div>
   );
 };
+
+export default RecRoomView;

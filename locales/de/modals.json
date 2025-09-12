@@ -1,4 +1,3 @@
-
 {
   "emulator": {
     "close": "Emulator schließen",
@@ -10,6 +9,7 @@
     "searchByCreator": "Suche nach mehr von {{creator}}",
     "viewUploaderProfile": "Uploader-Profil von {{uploader}} ansehen",
     "restrictedAccess": "Eingeschränkter Zugriff",
-    "restrictedAccessDesc": "Dieser Artikel muss möglicherweise aus dem Internet Archive ausgeliehen werden, um ihn anzusehen."
+    "restrictedAccessDesc": "Dieser Artikel muss möglicherweise aus dem Internet Archive ausgeliehen werden, um ihn anzusehen.",
+    "restrictedItemTooltip": "Dieser Artikel muss möglicherweise zum Anzeigen ausgeliehen werden."
   }
 }

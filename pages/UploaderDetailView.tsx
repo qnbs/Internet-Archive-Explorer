@@ -23,7 +23,7 @@ interface UploaderDetailViewProps {
     returnView?: View;
 }
 
-export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
+const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
     const { t } = useLanguage();
     const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
     const profileSearchQuery = useAtomValue(profileSearchQueryAtom);
@@ -117,3 +117,5 @@ export const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile,
         </div>
     );
 };
+
+export default UploaderDetailView;

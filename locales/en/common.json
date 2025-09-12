@@ -9,6 +9,7 @@
   "close": "Close",
   "emulate": "Emulate",
   "play": "Play",
+  "pause": "Pause",
   "description": "Description",
   "aiAnalysis": "AI Analysis",
   "files": "Files",
@@ -40,5 +41,11 @@
   "loading": "Loading...",
   "viewFullCollection": "View Full Collection",
   "topContributors": "Top Contributors",
-  "featuredItems": "Featured Items"
+  "featuredItems": "Featured Items",
+  "viewsThisWeek": "Views (Week)",
+  "downloadsTotal": "Downloads (Total)",
+  "autosaved": "Autosaved",
+  "readNow": "Read Now",
+  "readInBookReader": "Read in BookReader",
+  "closeReader": "Close Reader"
 }

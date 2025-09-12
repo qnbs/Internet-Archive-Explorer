@@ -22,7 +22,7 @@ const getAdditionalAudioCollections = (t: (key: string) => string) => [
     { title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
 ];
 
-export const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
+const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
     const shelves = getShelves(t);
     const additionalAudioCollections = getAdditionalAudioCollections(t);
@@ -53,3 +53,5 @@ export const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) =>
         </div>
     );
 };
+
+export default AudiothekView;

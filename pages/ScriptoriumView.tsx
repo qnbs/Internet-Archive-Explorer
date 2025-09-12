@@ -1,30 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { useWorksets } from '../hooks/useWorksets';
 import { ScriptoriumHub } from '../components/scriptorium/ScriptoriumHub';
 import { WorkspacePanel } from '../components/scriptorium/WorkspacePanel';
 import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
 import { Spinner } from '../components/Spinner';
 import { useLanguage } from '../hooks/useLanguage';
+import { selectedWorksetIdAtom, selectedDocumentIdAtom } from '../store';
+import { worksetsAtom } from '../store/scriptorium';
 
 interface ScriptoriumViewProps {
     showConfirmation: (options: ConfirmationOptions) => void;
 }
 
-export const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) => {
+const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) => {
     const worksetsApi = useWorksets();
     const { t } = useLanguage();
-    const [selectedWorkset, setSelectedWorkset] = useState<Workset | null>(null);
-    const [selectedDocument, setSelectedDocument] = useState<WorksetDocument | null>(null);
+    
+    const worksets = useAtomValue(worksetsAtom);
+    const [selectedWorksetId, setSelectedWorksetId] = useAtom(selectedWorksetIdAtom);
+    const [selectedDocumentId, setSelectedDocumentId] = useAtom(selectedDocumentIdAtom);
+
+    const selectedWorkset = worksets.find(ws => ws.id === selectedWorksetId) || null;
+    const selectedDocument = selectedWorkset?.documents.find(doc => doc.identifier === selectedDocumentId) || null;
+
+    // Effect to clear selected document if workset changes or becomes invalid
+    useEffect(() => {
+        if (selectedWorkset && !selectedWorkset.documents.some(d => d.identifier === selectedDocumentId)) {
+            setSelectedDocumentId(null);
+        }
+    }, [selectedWorkset, selectedDocumentId, setSelectedDocumentId]);
+
 
     const handleSelectWorkset = (workset: Workset) => {
-        const fullWorkset = worksetsApi.worksets.find(ws => ws.id === workset.id);
-        setSelectedWorkset(fullWorkset || null);
-        setSelectedDocument(null); // Clear document selection when changing workset
+        setSelectedWorksetId(workset.id);
+        setSelectedDocumentId(null); // Clear document selection when changing workset
     };
 
     const handleBackToHub = () => {
-        setSelectedWorkset(null);
-        setSelectedDocument(null);
+        setSelectedWorksetId(null);
+        setSelectedDocumentId(null);
     };
 
     const handleDeleteWorkset = (id: string) => {
@@ -36,7 +51,12 @@ export const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmati
             message: t('scriptorium:confirmDelete', { worksetName: workset.name }),
             confirmLabel: t('common:delete'),
             confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
-            onConfirm: () => worksetsApi.deleteWorkset(id),
+            onConfirm: () => {
+                worksetsApi.deleteWorkset(id);
+                if (selectedWorksetId === id) {
+                    handleBackToHub();
+                }
+            },
         });
     };
     
@@ -49,19 +69,25 @@ export const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmati
             {selectedWorkset ? (
                 <WorkspacePanel 
                     workset={selectedWorkset} 
-                    worksetsApi={worksetsApi}
                     onBack={handleBackToHub}
                     selectedDocument={selectedDocument}
-                    onSelectDocument={setSelectedDocument}
+                    onSelectDocument={(doc) => setSelectedDocumentId(doc ? doc.identifier : null)}
                 />
             ) : (
                 <ScriptoriumHub 
                     worksets={worksetsApi.worksets} 
                     onSelectWorkset={handleSelectWorkset}
-                    onCreateWorkset={worksetsApi.createWorkset}
+                    onCreateWorkset={(name) => {
+                        const newWorkset = worksetsApi.createWorkset(name);
+                        handleSelectWorkset(newWorkset);
+                        // FIX: Added return statement to match the function signature required by ScriptoriumHubProps.
+                        return newWorkset;
+                    }}
                     onDeleteWorkset={handleDeleteWorkset}
                 />
             )}
         </div>
     );
 };
+
+export default ScriptoriumView;

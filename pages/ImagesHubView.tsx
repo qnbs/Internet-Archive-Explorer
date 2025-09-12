@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../../types';
-import { searchArchive, getItemCount } from '../../services/archiveService';
-import { useSearchAndGo } from '../../hooks/useSearchAndGo';
-import { useLanguage } from '../../hooks/useLanguage';
+import type { ArchiveItemSummary } from '../types';
+import { searchArchive, getItemCount } from '../services/archiveService';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { useLanguage } from '../hooks/useLanguage';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { ArtIcon, HistoryIcon, ScienceIcon } from '../components/Icons';
 import { MediaType } from '../types';
@@ -155,7 +155,7 @@ const getCollections = (t: (key: string) => string) => [
 interface ImagesHubViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;
 }
-export const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
+const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
     const collections = getCollections(t);
     
@@ -178,3 +178,5 @@ export const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) =>
         </div>
     );
 };
+
+export default ImagesHubView;

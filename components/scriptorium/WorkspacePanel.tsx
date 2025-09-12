@@ -9,31 +9,33 @@ import { ArrowLeftIcon, PlusIcon } from '../Icons';
 
 interface WorkspacePanelProps {
     workset: Workset;
-    worksetsApi: ReturnType<typeof useWorksets>;
     onBack: () => void;
     selectedDocument: WorksetDocument | null;
     onSelectDocument: (doc: WorksetDocument | null) => void;
 }
 
-export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, worksetsApi, onBack, selectedDocument, onSelectDocument }) => {
+export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, onBack, selectedDocument, onSelectDocument }) => {
     const { t } = useLanguage();
+    const worksetsApi = useWorksets();
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     return (
         <div className="flex gap-6 h-[calc(100vh-10rem)]">
             {/* Document List Panel (Visible on mobile by default, or on desktop) */}
-            <div className={`w-full md:w-1/3 lg:w-1/4 flex-col bg-gray-800/60 rounded-xl p-4 ${selectedDocument ? 'hidden md:flex' : 'flex'}`}>
-                <button onClick={onBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline mb-4">
-                    <ArrowLeftIcon className="w-4 h-4" />
-                    <span>{t('scriptorium.backToHub')}</span>
-                </button>
-                <div className="flex justify-between items-center mb-4">
-                     <h2 className="text-xl font-bold text-white truncate">{workset.name}</h2>
-                     <button onClick={() => setIsAddModalOpen(true)} className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full text-cyan-400">
-                        <PlusIcon className="w-5 h-5" />
+            <div className={`w-full md:w-1/3 lg:w-1/4 flex-col bg-gray-800/60 rounded-xl p-4 overflow-hidden ${selectedDocument ? 'hidden md:flex' : 'flex'}`}>
+                <header className="flex-shrink-0">
+                    <button onClick={onBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline mb-4">
+                        <ArrowLeftIcon className="w-4 h-4" />
+                        <span>{t('scriptorium.backToHub')}</span>
                     </button>
-                </div>
-                <div className="flex-grow overflow-y-auto space-y-2">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold text-white truncate pr-2">{workset.name}</h2>
+                        <button onClick={() => setIsAddModalOpen(true)} className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full text-cyan-400 flex-shrink-0" aria-label={t('scriptorium.addDocument')}>
+                            <PlusIcon className="w-5 h-5" />
+                        </button>
+                    </div>
+                </header>
+                <div className="flex-grow overflow-y-auto space-y-2 pr-1">
                     {workset.documents.length > 0 ? (
                         workset.documents.map(doc => (
                             <DocumentListItem 
@@ -41,7 +43,7 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, workset
                                 document={doc}
                                 isSelected={selectedDocument?.identifier === doc.identifier} 
                                 onSelect={() => onSelectDocument(doc)}
-                                onRemove={() => worksetsApi.removeDocumentFromWorkset(workset.id, doc.identifier)}
+                                onRemove={() => worksetsApi.removeDocumentFromWorkset({ worksetId: workset.id, documentId: doc.identifier })}
                             />
                         ))
                     ) : (
@@ -50,14 +52,14 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, workset
                 </div>
             </div>
              {/* Document Reader Panel (Visible on mobile only when a doc is selected, or on desktop) */}
-            <div className={`w-full md:w-2/3 lg:w-3/4 flex-col bg-gray-800/60 rounded-xl p-4 overflow-y-auto ${selectedDocument ? 'flex' : 'hidden md:flex'}`}>
-                {selectedDocument ? <DocumentReader document={selectedDocument} workset={workset} worksetsApi={worksetsApi} onSelectDocument={onSelectDocument} /> : (
+            <div className={`w-full md:w-2/3 lg:w-3/4 flex-col bg-gray-800/60 rounded-xl overflow-hidden ${selectedDocument ? 'flex' : 'hidden md:flex'}`}>
+                {selectedDocument ? <DocumentReader document={selectedDocument} onBack={() => onSelectDocument(null)} /> : (
                     <div className="flex items-center justify-center h-full">
                         <p className="text-gray-400">{t('scriptorium.selectDocument')}</p>
                     </div>
                 )}
             </div>
-            {isAddModalOpen && <AddDocumentModal workset={workset} onAdd={(item) => worksetsApi.addDocumentToWorkset(workset.id, item)} onClose={() => setIsAddModalOpen(false)} />}
+            {isAddModalOpen && <AddDocumentModal workset={workset} onAdd={(item) => worksetsApi.addDocumentToWorkset({ worksetId: workset.id, item })} onClose={() => setIsAddModalOpen(false)} />}
         </div>
     );
 };

@@ -1,4 +1,3 @@
-
 {
   "summary": "KI-Zusammenfassung",
   "generate": "Generieren",
@@ -6,5 +5,19 @@
   "generatePrompt": "Klicken Sie auf 'Generieren', um eine KI-gestützte Zusammenfassung dieses Textes zu erstellen.",
   "summaryErrorShort": "Der Text ist zu kurz für eine sinnvolle Zusammenfassung.",
   "summaryErrorApi": "Die KI-Zusammenfassung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.",
-  "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut."
+  "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut.",
+  "loadingMessages": {
+    "connecting": "Verbindung zur Gemini-KI wird hergestellt...",
+    "analyzing": "Textstruktur wird analysiert...",
+    "identifyingThemes": "Schlüsselthemen werden identifiziert...",
+    "craftingSummary": "Eine prägnante Zusammenfassung wird erstellt...",
+    "scanningEntities": "Suche nach Personen, Orten und Organisationen...",
+    "compilingList": "Entitätenliste wird zusammengestellt...",
+    "consultingMuse": "Die digitale Muse wird konsultiert...",
+    "weavingNarrative": "Die Erzählfäden werden gesponnen...",
+    "findingWords": "Die perfekten Worte werden gesucht...",
+    "finishing": "Wird abgeschlossen...",
+    "readingContext": "Lese den Dokumentenkontext...",
+    "formulatingAnswer": "Formuliere eine Antwort..."
+  }
 }

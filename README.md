@@ -1,104 +1,123 @@
 # Internet Archive Explorer
 
-[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-blue?logo=tailwindcss)](https://tailwindcss.com/) [![Vite](https://img.shields.io/badge/Vite-5.x-purple?logo=vite)](https://vitejs.dev/) [![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue?logo=google)](https://ai.google.dev/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-blue?logo=tailwindcss)](https://tailwindcss.com/) [![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue?logo=google)](https://ai.google.dev/)
 
-A visually appealing and highly functional web portal for exploring the vast collection of the Internet Archive. It combines a modern user interface with powerful discovery tools, personal research areas, and AI-powered analysis features.
+**Ein hochentwickeltes Webportal zur Erkundung der riesigen Sammlung des Internet Archive.** Diese Anwendung kombiniert eine moderne, reaktionsschnelle Benutzeroberfläche mit leistungsstarken Entdeckungswerkzeugen, persönlichen Forschungsbereichen und KI-gestützten Analysefunktionen.
 
-## About AI Studio
+## Live-Demo & Code in AI Studio
 
-This application was built and is hosted in **AI Studio**, a powerful web-based development environment designed for rapid prototyping and building AI-integrated applications.
+Diese Anwendung wurde in **AI Studio** entwickelt und wird dort gehostet, einer leistungsstarken webbasierten Entwicklungsumgebung für das Prototyping und die Erstellung von KI-integrierten Anwendungen.
 
-AI Studio provides a seamless workflow from idea to deployment. It allows developers to write, edit, and manage code, dependencies, and environment variables, all within the browser. Its core strength lies in its ability to facilitate quick iterations, making it the perfect platform for projects like the Internet Archive Explorer, where experimentation with UI/UX and integration with powerful APIs like Google's Gemini is key.
+**[Entdecken und forken Sie dieses Projekt in AI Studio](https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-)**
 
-**[Explore and fork this project in AI Studio](https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-)**
-
-By opening the link above, you can access the complete source code, experiment with changes, and even deploy your own version of this application. It's an excellent way to see how modern web applications are built and to learn more about integrating AI capabilities.
+Über den obigen Link können Sie auf den vollständigen Quellcode zugreifen, mit Änderungen experimentieren und sogar Ihre eigene Version dieser Anwendung bereitstellen.
 
 ---
-## Table of Contents
-- [Key Features](#key-features)
-  - [Discovery & Exploration](#discovery--exploration)
-  - [Community & Contribution](#community--contribution)
-  - [Favorites & Curation](#favorites--curation)
-  - [Research & Analysis (Scriptorium)](#research--analysis-scriptorium)
-  - [Customization & Power-User Features](#customization--power-user-features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [License](#license)
 
+## Inhaltsverzeichnis
+- [Kernfunktionen](#kernfunktionen)
+  - [Einheitliche Entdeckungs-Engine](#einheitliche-entdeckungs-engine)
+  - [Kuratierte Inhalts-Hubs](#kuratierte-inhalts- hubs)
+  - [Umfassende Profile von Mitwirkenden](#umfassende-profile-von-mitwirkenden)
+  - [Meine Bibliothek: Ein persönlicher Kurationsraum](#meine-bibliothek-ein-persönlicher-kurationsraum)
+  - [Das Scriptorium: Ein Arbeitsbereich für Forschende](#das-scriptorium-ein-arbeitsbereich-für-forschende)
+  - [KI-gestützte Einblicke (mit Gemini)](#ki-gestützte-einblicke-mit-gemini)
+  - [Power-User-Tools & Barrierefreiheit](#power-user-tools--barrierefreiheit)
+- [Technischer Einblick](#technischer-einblick)
+  - [Technologie-Stack](#technologie-stack)
+  - [State Management](#state-management)
+  - [Performance-Engineering](#performance-engineering)
+  - [Barrierefreiheit (A11y)](#barrierefreiheit-a11y)
+- [Erste Schritte](#erste-schritte)
+- [Projektstruktur](#projektstruktur)
+- [Lizenz](#lizenz)
 
-## Key Features
+## Kernfunktionen
 
-This application is more than just a search interface; it's a feature-rich portal for discovering the vast collection of the Internet Archive.
+### Einheitliche Entdeckungs-Engine
+-   **Dynamischer Explorer-Hub**: Die Hauptseite bietet ein reichhaltiges Entdeckungserlebnis mit Karussells für "Aktuelle Trends" und historische Inhalte von "An diesem Tag".
+-   **Universelle Suche**: Eine persistente Suchleiste im Header ermöglicht schnelle Abfragen von jeder Seite der Anwendung aus.
+-   **Erweiterte Filterung**: Verfeinern Sie die Suchergebnisse präzise nach Medientyp, Jahresbereich, Sammlung und mehr.
 
-### Discovery & Exploration
--   **Dynamic Explorer Hub**: The main landing page offers a rich discovery experience when not searching, featuring carousels for "Trending Now" items and historical content from "On This Day".
--   **Curated Content Hubs**: Specialized sections for a focused browsing experience:
-    -   **Videothek**: Browse classic films, film noir, and sci-fi in engaging, scrollable carousels.
-    -   **Audiothek**: Discover live music, old-time radio shows, and audiobooks.
-    -   **Images Hub**: Explore historical photos, art from museums like The Met, and scientific images from NASA.
-    -   **Rec Room**: Play thousands of classic MS-DOS games and software directly in the browser via emulation.
--   **Universal Search & Filtering**: A persistent header search bar for quick queries, coupled with powerful capabilities to filter results by media type, year range, collection, and more.
+### Kuratierte Inhalts-Hubs
+Spezialisierte Bereiche für ein fokussiertes Browsing-Erlebnis:
+-   **Videothek**: Durchsuchen Sie klassische Filme, Film Noir und Science-Fiction in ansprechenden, scrollbaren Karussells.
+-   **Audiothek**: Entdecken Sie Live-Musik, alte Radiosendungen und Hörbücher.
+-   **Bilder-Hub**: Erkunden Sie historische Fotos, Kunst von Museen wie dem Met und wissenschaftliche Bilder der NASA.
+-   **Rec Room**: Spielen Sie Tausende von klassischen MS-DOS-Spielen und Software direkt im Browser per Emulation.
+-   **Storyteller**: Ein interaktives, KI-gestütztes Tool, das auf der Grundlage Ihrer Eingaben einzigartige Kurzgeschichten erstellt.
 
-### Community & Contribution
--   **Comprehensive Uploader & Creator Profiles**: Discover the people and institutions behind the content through their detailed profile pages. You can navigate directly to these profiles from any item they've uploaded or created.
-    -   **Dynamic Content Tabs**: Each profile is a dynamic dashboard of the contributor's activity. Tabs for **Uploads, Collections, Favorites, Reviews, Forum Posts,** and **Web Archives** appear automatically only if the user has content in that category, providing a clean and relevant overview.
-    -   **Powerful Upload Filtering**: The main 'Uploads' tab is an interactive archive in itself. It features an integrated control panel allowing you to filter all of a contributor's uploads by media type (video, audio, text, etc.) and sort them by various criteria like all-time popularity, weekly trends, or publication date in real-time.
--   **Follow Contributors**: You can "follow" any uploader to add them to a dedicated list in your personal "My Library" for quick access to their work.
+### Umfassende Profile von Mitwirkenden
+-   **Detaillierte Profilseiten**: Entdecken Sie die Personen und Institutionen hinter den Inhalten. Navigieren Sie direkt von jedem Element zu den Profilen der Uploader oder Ersteller.
+-   **Dynamische Inhalts-Tabs**: Jedes Profil ist ein dynamisches Dashboard der Aktivitäten des Mitwirkenden. Tabs für **Uploads, Sammlungen, Favoriten, Rezensionen, Forenbeiträge** und **Web-Archive** erscheinen automatisch nur dann, wenn der Benutzer Inhalte in dieser Kategorie hat.
+-   **Leistungsstarke Upload-Filterung**: Der Haupt-Tab "Uploads" ist ein interaktives Archiv für sich. Er verfügt über ein integriertes Bedienfeld, mit dem Sie alle Uploads eines Mitwirkenden nach Medientyp filtern und nach Kriterien wie Beliebtheit oder Veröffentlichungsdatum sortieren können.
 
-### Favorites & Curation
--   **Unified Library ("My Library")**: A central hub for all your saved content, organized into three sections:
-    -   **Items**: Manage your saved items with an advanced interface that includes searching, filtering by media type, and sorting by title or date added.
-    -   **Bulk Management**: A "Select Mode" allows you to select multiple items at once for bulk deletion.
-    -   **Uploaders**: View and search through all the contributors you follow.
-    -   **Collections**: A placeholder for future functionality to save entire collections.
+### Meine Bibliothek: Ein persönlicher Kurationsraum
+Ein zentraler Hub für alle Ihre gespeicherten Inhalte und Mitwirkenden, organisiert in einem Drei-Fenster-Layout:
+-   **Sammlungen & Tags**: Organisieren Sie gespeicherte Elemente in benutzerdefinierten Sammlungen oder filtern Sie sie nach Tags, die Sie zugewiesen haben.
+-   **Gegenstandsliste**: Verwalten Sie Ihre gespeicherten Elemente mit einer erweiterten Oberfläche, die Suche, Filterung und Sortierung umfasst. Ein "Auswahlmodus" ermöglicht die gleichzeitige Auswahl mehrerer Elemente für Massenaktionen.
+-   **Detailansicht & Notizen**: Sehen Sie Details zu einem ausgewählten Element, schreiben und speichern Sie persönliche Notizen und verwalten Sie Tags, ohne die Bibliotheksansicht zu verlassen.
+-   **Gefolgte Uploader**: Sehen und durchsuchen Sie alle Mitwirkenden, denen Sie folgen, um schnellen Zugriff auf deren Arbeit zu haben.
 
-### Research & Analysis (Scriptorium)
--   **Personal Worksets**: A personal workspace for text-based research. Group documents from the archive into "worksets" to organize your projects.
--   **Integrated Reader & AI Tools**: The Scriptorium features a built-in document reader with powerful tools powered by the **Google Gemini API**:
-    -   **AI Summarization**: Generate concise summaries of lengthy texts on demand.
-    -   **Entity Extraction**: Automatically identify and tag people, places, organizations, and dates in texts to fuel further discovery.
-    -   **Persistent Notes**: Write and save personal notes for each document within a workset.
+### Das Scriptorium: Ein Arbeitsbereich für Forschende
+-   **Persönliche Worksets**: Ein persönlicher Arbeitsbereich für textbasierte Forschung. Gruppieren Sie Dokumente aus dem Archiv in "Worksets", um Ihre Projekte zu organisieren.
+-   **Integrierter Reader & KI-Tools**: Das Scriptorium verfügt über einen integrierten Dokumentenleser mit leistungsstarken Werkzeugen, die von der **Google Gemini API** angetrieben werden.
+-   **Persistente Notizen**: Schreiben und speichern Sie persönliche Notizen für jedes Dokument innerhalb eines Worksets.
 
-### Customization & Power-User Features
--   **Comprehensive Settings**: A detailed settings page to tailor the experience, including theme (Light/Dark/System), language (English/German), results per page, UI appearance, and AI behavior.
--   **Command Palette (Cmd/Ctrl + K)**: A power-user feature for instant navigation to any section, changing settings, or performing actions with just a few keystrokes.
--   **Data Management**: Easily export and import all your user data (settings, favorites, worksets) as a single JSON file for backup and migration.
--   **Modern UI/UX**: Fully responsive for all screen sizes, accessible design with ARIA attributes, and smooth animations (with a reduce motion option).
+### KI-gestützte Einblicke (mit Gemini)
+-   **KI-Zusammenfassung**: Generieren Sie auf Abruf prägnante Zusammenfassungen langer Texte mit einstellbaren Tonalitäten (einfach, detailliert, akademisch).
+-   **Entitätenextraktion**: Identifizieren und kennzeichnen Sie automatisch Personen, Orte, Organisationen und Daten in Texten, um weitere Entdeckungen zu fördern.
+-   **Kreatives Geschichtenerzählen**: Nutzen Sie das Storyteller-Tool, um fesselnde Erzählungen basierend auf Ihren Ideen zu erstellen.
 
+### Power-User-Tools & Barrierefreiheit
+-   **Umfassende Einstellungen**: Passen Sie Ihr Erlebnis mit detaillierten Einstellungen für Design, Sprache, Suche, Inhaltsverhalten und KI-Funktionen an.
+-   **Befehlspalette (Cmd/Ctrl + K)**: Navigieren Sie sofort zu jedem Bereich, ändern Sie Einstellungen oder führen Sie Aktionen mit nur wenigen Tastenanschlägen aus.
+-   **Datenverwaltung**: Exportieren und importieren Sie alle Ihre Benutzerdaten (Einstellungen, Favoriten, Worksets) als einzelne JSON-Datei zur Sicherung und Migration.
+-   **Barrierefreiheit im Fokus**: Die Anwendung wurde unter Berücksichtigung der Barrierefreiheit entwickelt und bietet ARIA-Attribute, Fokusverwaltung für Modalfenster und vom Benutzer konfigurierbare Optionen wie Hochkontrastmodus und reduzierte Bewegung.
 
-## Tech Stack
+## Technischer Einblick
 
--   **Frontend**: [React 19](https://react.dev/) with Hooks
--   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **State Management**: [Jotai](https://jotai.org/) for atomic, performant global state.
--   **Styling**: [Tailwind CSS](https://tailwindcss.com/) for a utility-first CSS framework.
--   **AI**: [Google Gemini API](https://ai.google.dev/) via the `@google/genai` SDK.
--   **Build Tool**: [Vite](https://vitejs.dev/) for fast and optimized development and builds.
--   **Internationalization**: Custom hook-based solution for loading namespaced JSON translation files.
+### Technologie-Stack
+-   **Frontend**: [React 19](https://react.dev/) mit Hooks
+-   **Sprache**: [TypeScript](https://www.typescriptlang.org/)
+-   **State Management**: [Jotai](https://jotai.org/) für atomaren, performanten globalen Zustand.
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/) für ein Utility-First-CSS-Framework.
+-   **KI**: [Google Gemini API](https://ai.google.dev/) über das `@google/genai` SDK.
+-   **Build-Tool**: [Vite](https://vitejs.dev/) für schnelle und optimierte Entwicklung und Builds.
 
-## Project Structure
+### State Management
+Jotai wurde aufgrund seines atomaren Ansatzes gewählt. Dies ermöglicht ein hochgradig optimiertes Rerendering, da Komponenten nur die spezifischen Zustandsatome abonnieren, die sie benötigen. Dies führt zu einer deutlich besseren Leistung im Vergleich zu traditionellen, monolithischen State-Stores, insbesondere in einer komplexen Anwendung wie dieser.
 
-The project is organized into logical directories for easy navigation:
+### Performance-Engineering
+-   **Code Splitting**: Jede Hauptansicht wird mit `React.lazy` in einen eigenen Chunk aufgeteilt, um eine schnelle anfängliche Ladezeit der Seite zu gewährleisten.
+-   **Debouncing**: `useDebounce` wird auf Sucheingaben angewendet, um übermäßige API-Aufrufe während der Eingabe durch den Benutzer zu verhindern.
+-   **Virtualisierung**: `useInfiniteScroll` sorgt für ein reibungsloses Erlebnis beim Durchsuchen langer Ergebnislisten.
+-   **Memoization**: `React.memo`, `useCallback` und `useMemo` werden gezielt eingesetzt, um unnötige Rerenderings von Komponenten und Neuberechnungen von Werten zu verhindern.
 
--   `/components`: Reusable React components (e.g., `ItemCard`, `Header`, `Spinner`).
--   `/contexts`: React Context providers for cross-cutting concerns (e.g., `ToastContext`).
--   `/hooks`: Custom React hooks for shared logic (e.g., `useDebounce`, `useInfiniteScroll`, `useNavigation`).
--   `/pages`: Top-level view components that represent a full page or main view (e.g., `ExplorerView`, `UploaderDetailView`).
--   `/services`: Modules for interacting with external APIs (`archiveService.ts`, `geminiService.ts`).
--   `/store`: Jotai atom definitions, organized by feature slice, for global state management.
--   `/utils`: Helper functions for formatting, query building, etc.
--   `/locales`: Contains language subdirectories (`/en`, `/de`) with JSON files for internationalization.
+### Barrierefreiheit (A11y)
+-   **Semantisches HTML & ARIA**: Korrekte Verwendung von ARIA-Rollen und -Attributen.
+-   **Fokus-Management**: Der `useModalFocusTrap`-Hook fängt den Fokus korrekt in Modalfenstern ein.
+-   **Benutzereinstellungen**: Inklusive Optionen wie "Bewegung reduzieren", "Hochkontrastmodus" und anpassbare Schriftgrößen.
 
-## Environment Variables
+## Erste Schritte
+Der einfachste Weg, diese Anwendung auszuführen, ist direkt in AI Studio über den oben angegebenen Link.
 
-To use the AI-powered features, you must provide a Google Gemini API key.
+### Umgebungsvariablen
+Um die KI-gestützten Funktionen nutzen zu können, müssen Sie einen Google Gemini API-Schlüssel angeben.
+-   `API_KEY`: Ihr Google Gemini API-Schlüssel.
 
--   `API_KEY`: Your Google Gemini API key.
+Dieser Schlüssel wird als Umgebungsvariable im Ausführungskontext erwartet (z. B. im Geheimnis-Manager von AI Studio).
 
-This key is expected to be available as an environment variable in the execution context where the application is run (like AI Studio's secrets manager).
+## Projektstruktur
+Das Projekt ist zur einfachen Navigation in logische Verzeichnisse gegliedert:
+-   `/components`: Wiederverwendbare React-Komponenten (z. B. `ItemCard`, `Header`).
+-   `/contexts`: React-Kontext-Provider für übergreifende Anliegen (z. B. `ToastContext`).
+-   `/hooks`: Benutzerdefinierte React-Hooks für gemeinsam genutzte Logik (z. B. `useDebounce`, `useInfiniteScroll`).
+-   `/pages`: Komponenten auf oberster Ebene, die eine vollständige Seite oder Hauptansicht darstellen.
+-   `/services`: Module für die Interaktion mit externen APIs (`archiveService.ts`, `geminiService.ts`).
+-   `/store`: Jotai-Atom-Definitionen, nach Feature-Slice organisiert.
+-   `/utils`: Hilfsfunktionen für Formatierung, Abfrageerstellung usw.
+-   `/locales`: Enthält Sprachunterverzeichnisse (`/en`, `/de`) mit JSON-Dateien für die Internationalisierung.
 
-## License
-
-This project is licensed under the MIT License.
+## Lizenz
+Dieses Projekt ist unter der MIT-Lizenz lizenziert.
