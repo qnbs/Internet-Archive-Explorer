@@ -40,7 +40,7 @@
   "topics": "Themen",
   "loading": "Wird geladen...",
   "viewFullCollection": "Ganze Sammlung ansehen",
-  "topContributors": "Top-Beitragende",
+  "topContributors": "Top-Mitwirkende",
   "featuredItems": "Vorgestellte Einträge",
   "viewsThisWeek": "Aufrufe (Woche)",
   "downloadsTotal": "Downloads (Gesamt)",
@@ -48,6 +48,8 @@
   "readNow": "Jetzt lesen",
   "readInBookReader": "Im BookReader lesen",
   "closeReader": "Reader schließen",
+  "selectAll": "Alle auswählen",
+  "clearSelection": "Auswahl aufheben",
   "imageViewer": {
     "zoomIn": "Vergrößern",
     "zoomOut": "Verkleinern",

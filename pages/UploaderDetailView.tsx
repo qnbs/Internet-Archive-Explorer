@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-import { defaultUploaderDetailTabAtom, profileSearchQueryAtom } from '../store';
-import type { ArchiveItemSummary, Profile, View, UploaderTab, MediaType } from '../types';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { defaultUploaderDetailTabAtom } from '../store/settings';
+import { profileSearchQueryAtom } from '../store/search';
+import type { ArchiveItemSummary, Profile, View, UploaderTab } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { useUploaderStats } from '../hooks/useUploaderStats';
 import { useUploaderTabCounts } from '../hooks/useUploaderTabCounts';
 import { useUploaderUploads } from '../hooks/useUploaderUploads';
-import { ArrowLeftIcon } from '../components/Icons';
 import { UploaderHeader } from '../components/uploader/UploaderHeader';
+import { UploaderSidebar } from '../components/uploader/UploaderSidebar';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { UploaderCollections } from '../components/uploader/UploaderCollections';
 import { UploaderFavorites } from '../components/uploader/UploaderFavorites';
@@ -21,17 +23,17 @@ interface UploaderDetailViewProps {
     onBack: (returnView?: View) => void;
     onSelectItem: (item: ArchiveItemSummary) => void;
     returnView?: View;
+    isMyArchiveView?: boolean;
 }
 
-const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView }) => {
-    const { t } = useLanguage();
+const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView, isMyArchiveView }) => {
     const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
     const profileSearchQuery = useAtomValue(profileSearchQueryAtom);
-    const { stats } = useUploaderStats(profile);
+    const { stats, isLoading: isLoadingStats } = useUploaderStats(profile);
     const { visibleTabs, isLoading: isLoadingTabs } = useUploaderTabCounts(profile);
     
     const [activeTab, setActiveTab] = useState<UploaderTab>('uploads');
-    const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaType | 'all'>('all');
+    const [mediaTypeFilter, setMediaTypeFilter] = useState<any>('all');
 
     const {
         results, isLoading: isLoadingUploads, isLoadingMore, error, totalResults, hasMore, lastElementRef, handleRetry,
@@ -91,28 +93,32 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
     };
 
     return (
-        <div className="space-y-6 animate-page-fade-in">
-            <button onClick={() => onBack(returnView)} className="flex items-center space-x-2 text-sm text-cyan-600 dark:text-cyan-400 hover:underline">
-                <ArrowLeftIcon className="w-4 h-4" />
-                <span>{t('uploaderDetail:back')}</span>
-            </button>
-            
-            <UploaderHeader 
-                profile={profile}
-                visibleTabs={visibleTabs}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                stats={stats}
-                activeFilter={mediaTypeFilter}
-                onFilterChange={setMediaTypeFilter}
-                sort={sort}
-                setSort={setSort}
-                sortDirection={sortDirection}
-                toggleSortDirection={toggleSortDirection}
-            />
-
-            <main className="mt-6">
-                {renderTabContent()}
+        <div className="flex flex-col lg:flex-row gap-6 animate-page-fade-in">
+            <aside className="w-full lg:w-1/3 xl:w-1/4 flex-shrink-0">
+                <UploaderSidebar 
+                    profile={profile} 
+                    stats={stats} 
+                    isLoadingStats={isLoadingStats}
+                    onBack={!isMyArchiveView ? () => onBack(returnView) : undefined}
+                    onDisconnect={isMyArchiveView ? () => onBack() : undefined}
+                />
+            </aside>
+            <main className="flex-grow min-w-0">
+                <UploaderHeader 
+                    visibleTabs={visibleTabs}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    stats={stats}
+                    activeFilter={mediaTypeFilter}
+                    onFilterChange={setMediaTypeFilter}
+                    sort={sort}
+                    setSort={setSort}
+                    sortDirection={sortDirection}
+                    toggleSortDirection={toggleSortDirection}
+                />
+                 <div className="mt-6">
+                    {renderTabContent()}
+                </div>
             </main>
         </div>
     );

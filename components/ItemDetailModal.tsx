@@ -3,7 +3,9 @@ import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom, enableAiFeaturesAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
+import { enableAiFeaturesAtom } from '../store/settings';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';

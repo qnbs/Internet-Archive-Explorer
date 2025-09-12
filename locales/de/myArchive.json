@@ -1,0 +1,38 @@
+{
+  "connect": {
+    "title": "Verbinden Sie Ihr Archiv-Konto",
+    "description": "Geben Sie Ihren öffentlichen Internet-Archive-Anzeigenamen ein, um ein personalisiertes Dashboard mit Ihren Statistiken, Uploads und Favoriten zu erstellen.",
+    "placeholder": "Ihren Anzeigenamen eingeben...",
+    "button": "Konto finden",
+    "privacy": "Diese Funktion nutzt ausschließlich öffentliche Daten und erfordert keine Anmeldung. Ihr Anzeigename wird nur lokal in Ihrem Browser gespeichert.",
+    "confirmTitle": "Sind Sie das?",
+    "confirmDescription": "Wir haben öffentliche Uploads gefunden, die mit diesem Namen verknüpft sind. Bitte wählen Sie unten Ihre spezifische Uploader-Kennung aus, um Ihr Konto zu bestätigen.",
+    "selectIdentifier": "Wählen Sie Ihre Uploader-Kennung",
+    "noIdentifierFound": "Es konnte keine Uploader-ID automatisch ermittelt werden. Sie können trotzdem fortfahren, wenn die gezeigten Artikel Ihre sind.",
+    "confirmButton": "Bestätigen & Dashboard laden",
+    "errorTitle": "Konto nicht gefunden",
+    "errorNotFound": "Entschuldigung, wir konnten keine öffentlichen Uploads zu diesem Namen finden. Bitte überprüfen Sie die Schreibweise und versuchen Sie es erneut.",
+    "tryAgain": "Erneut versuchen"
+  },
+  "dashboard": {
+    "welcome": "Willkommen zurück, {{name}}!",
+    "viewPublicProfile": "Öffentliches Profil ansehen",
+    "disconnect": "Benutzer wechseln",
+    "statsTitle": "Auf einen Blick",
+    "activityFeedTitle": "Letzte Aktivitäten",
+    "activity": {
+      "upload": "Hochgeladen",
+      "favorite": "Favorisiert",
+      "review": "Bewertet"
+    },
+    "noActivity": "Keine kürzlichen öffentlichen Aktivitäten gefunden.",
+    "recentUploads": "Ihre letzten Uploads",
+    "recentFavorites": "Ihre letzten Favoriten",
+    "recentReviews": "Ihre letzten Bewertungen"
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "myUploads": "Meine Uploads"
+  },
+  "searchMyUploads": "Meine Uploads durchsuchen..."
+}

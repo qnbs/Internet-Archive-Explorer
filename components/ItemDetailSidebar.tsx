@@ -4,7 +4,8 @@ import { useLanguage } from '../hooks/useLanguage';
 import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon, BookIcon } from './Icons';
 import { formatIdentifierForDisplay, formatNumber } from '../utils/formatter';
 import { useSetAtom } from 'jotai';
-import { modalAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { modalAtom } from '../store/app';
 
 interface ItemDetailSidebarProps {
     item: ArchiveItemSummary;

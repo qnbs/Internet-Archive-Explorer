@@ -1,16 +1,19 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-// Fix: Changed atom imports to be direct to resolve a "not callable" error.
-// This avoids a circular dependency issue from the store's index file,
-// which caused incorrect type inference for the atom setters.
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
+// FIX: The error "No overload matches this call" for useSetAtom is often a symptom
+// of a circular dependency issue. By ensuring all atom imports throughout the app
+// are direct (e.g., from '../store/app' instead of '../store'), we prevent the bundler
+// from providing a partially initialized module, which resolves the type inference error.
+import { activeViewAtom } from '../store/app';
+// FIX: Moved selectedProfileAtom and profileReturnViewAtom to store/archive.ts to break a circular dependency.
+import { selectedProfileAtom, profileReturnViewAtom } from '../store/archive';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
-    const [, setActiveView] = useAtom(activeViewAtom);
-    const [, setSelectedProfile] = useAtom(selectedProfileAtom);
-    const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
+    const setActiveView = useSetAtom(activeViewAtom);
+    const setSelectedProfile = useSetAtom(selectedProfileAtom);
+    const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 
     const navigateTo = useCallback((view: View) => {

@@ -13,6 +13,8 @@ interface NavItem {
 const mainNavItems: NavItem[] = [
     { view: 'explore', labelKey: 'sideMenu:explore', icon: <CompassIcon /> },
     { view: 'library', labelKey: 'sideMenu:library', icon: <StarIcon /> },
+    { view: 'myArchive', labelKey: 'sideMenu:myArchive', icon: <UsersIcon /> },
+    { view: 'uploaderHub', labelKey: 'sideMenu:uploaderHub', icon: <UsersIcon /> },
 ];
 
 const collectionNavItems: NavItem[] = [

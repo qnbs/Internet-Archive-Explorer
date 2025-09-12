@@ -19,5 +19,8 @@
   "sortTitle": "Title (A-Z)",
   "aria": {
     "sortBy": "Sort by"
-  }
+  },
+  "dailyInsight": "Daily Historical Insight",
+  "generatingInsight": "Generating insight...",
+  "noInsight": "No historical insight available for today's trends."
 }

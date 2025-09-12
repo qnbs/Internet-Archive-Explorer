@@ -39,9 +39,9 @@ Via the link above, you can access the full source code, experiment with changes
 ## Core Features
 
 ### Unified Discovery Engine
--   **Dynamic Explorer Hub**: The main page offers a rich discovery experience with carousels for "Trending Now" and historical "On This Day" content.
+-   **Dynamic Explorer Hub**: The main page offers a rich discovery experience with carousels for "Trending Now" and historical "On This Day" content, including an AI-generated "Daily Insight" that connects trending items.
 -   **Universal Search**: A persistent header search bar allows for quick queries from any part of the application.
--   **Advanced Filtering**: Precisely refine search results by media type, year range, collection, and content availability (free vs. borrowable).
+-   **Advanced Filtering**: Precisely refine search results by media type, year range, collection, language, and content availability (free vs. borrowable).
 
 ### Curated Content Hubs
 Specialized sections for a focused browsing experience:
@@ -53,6 +53,7 @@ Specialized sections for a focused browsing experience:
 
 ### Comprehensive Contributor Profiles
 -   **Detailed Profile Pages**: Explore the people and institutions behind the content. Navigate directly to uploader or creator profiles from any item.
+-   **My Archive**: Connect your own public Internet Archive account to use the profile view as a personal dashboard for your own contributions, stats, and activity.
 -   **Dynamic Content Tabs**: Each profile is a dynamic dashboard of the contributor's activity. Tabs for **Uploads, Collections, Favorites, Reviews, Forum Posts,** and **Web Archives** automatically appear only if the user has content in that category.
 -   **Powerful Upload Filtering**: The main "Uploads" tab is an interactive archive in its own right, featuring a built-in control panel to filter all of a contributor's uploads by media type and sort by criteria like popularity or publication date.
 
@@ -60,18 +61,21 @@ Specialized sections for a focused browsing experience:
 A central hub for all your saved items and followed contributors, organized in a three-pane layout:
 -   **Collections & Tags**: Organize saved items into custom collections or filter them by tags you've assigned.
 -   **Item List**: Manage your saved items with an advanced interface that includes search, filtering, and sorting. A "Select Mode" allows for batch-selecting items for bulk actions.
--   **Detail Pane & Notes**: View details of a selected item, write and save personal notes, and manage tags without leaving the library view.
+-   **Detail Pane & Notes**: View details of a selected item, write and save personal notes (with rich text formatting), and manage tags without leaving the library view.
+-   **AI-Powered Organization**: Use "Magic Organize" to get AI-powered suggestions for tags and new collections based on a selection of your items.
 -   **Followed Uploaders**: View and search all the contributors you follow for quick access to their work.
 
 ### The Scriptorium: A Researcher's Workspace
 -   **Personal Worksets**: A personal workspace for text-based research. Group documents from the archive into "Worksets" to organize your projects.
--   **Integrated Reader & AI Tools**: The Scriptorium features an integrated document reader with powerful tools powered by the **Google Gemini API**.
--   **Persistent Notes**: Write and save personal notes for each document within a workset.
+-   **Integrated Reader & AI Tools**: The Scriptorium features a two-panel resizable view with an integrated document reader and a rich text editor for notes. It's enhanced with powerful tools powered by the **Google Gemini API**.
+-   **Persistent Notes**: Write and save personal notes for each document within a workset using a rich text editor.
 
 ### AI-Powered Insights (with Gemini)
 -   **AI Summarization**: On-demand, generate concise summaries of long texts with adjustable tones (simple, detailed, academic).
 -   **Entity Extraction**: Automatically identify and tag people, places, organizations, and dates within texts to aid further discovery.
 -   **Contextual Q&A**: Ask questions about a document in the Scriptorium and receive answers based solely on the provided text.
+-   **Magic Organization**: Select multiple items in your library and get AI suggestions for relevant tags and new collection names.
+-   **Daily Historical Insight**: The Explorer Hub features a daily, AI-generated blurb that creatively connects the day's trending items.
 -   **Creative Storytelling**: Use the Storyteller tool to generate engaging narratives based on your ideas.
 
 ### Enhanced Media Viewers
@@ -176,9 +180,9 @@ Diese Anwendung wurde in **AI Studio** entwickelt und wird dort gehostet, einer 
 ## <a name="kernfunktionen-de"></a>Kernfunktionen
 
 ### <a name="einheitliche-entdeckungs-engine-de"></a>Einheitliche Entdeckungs-Engine
--   **Dynamischer Explorer-Hub**: Die Hauptseite bietet ein reichhaltiges Entdeckungserlebnis mit Karussells für "Aktuelle Trends" und historische Inhalte von "An diesem Tag".
+-   **Dynamischer Explorer-Hub**: Die Hauptseite bietet ein reichhaltiges Entdeckungserlebnis mit Karussells für "Aktuelle Trends" und historische Inhalte von "An diesem Tag", einschließlich eines KI-generierten "Täglichen Einblicks", der Trend-Elemente verbindet.
 -   **Universelle Suche**: Eine persistente Suchleiste im Header ermöglicht schnelle Abfragen von jeder Seite der Anwendung aus.
--   **Erweiterte Filterung**: Verfeinern Sie die Suchergebnisse präzise nach Medientyp, Jahresbereich, Sammlung und Verfügbarkeit (frei vs. ausleihbar).
+-   **Erweiterte Filterung**: Verfeinern Sie die Suchergebnisse präzise nach Medientyp, Jahresbereich, Sammlung, Sprache und Verfügbarkeit (frei vs. ausleihbar).
 
 ### <a name="kuratierte-inhalts-hubs-de"></a>Kuratierte Inhalts-Hubs
 Spezialisierte Bereiche für ein fokussiertes Browsing-Erlebnis:
@@ -190,6 +194,7 @@ Spezialisierte Bereiche für ein fokussiertes Browsing-Erlebnis:
 
 ### <a name="umfassende-profile-von-mitwirkenden-de"></a>Umfassende Profile von Mitwirkenden
 -   **Detaillierte Profilseiten**: Entdecken Sie die Personen und Institutionen hinter den Inhalten. Navigieren Sie direkt von jedem Element zu den Profilen der Uploader oder Ersteller.
+-   **Mein Archiv**: Verbinden Sie Ihr eigenes öffentliches Internet Archive-Konto, um die Profilansicht als persönliches Dashboard für Ihre eigenen Beiträge, Statistiken und Aktivitäten zu nutzen.
 -   **Dynamische Inhalts-Tabs**: Jedes Profil ist ein dynamisches Dashboard der Aktivitäten des Mitwirkenden. Tabs für **Uploads, Sammlungen, Favoriten, Rezensionen, Forenbeiträge** und **Web-Archive** erscheinen automatisch nur dann, wenn der Benutzer Inhalte in dieser Kategorie hat.
 -   **Leistungsstarke Upload-Filterung**: Der Haupt-Tab "Uploads" ist ein interaktives Archiv für sich. Er verfügt über ein integriertes Bedienfeld, mit dem Sie alle Uploads eines Mitwirkenden nach Medientyp filtern und nach Kriterien wie Beliebtheit oder Veröffentlichungsdatum sortieren können.
 
@@ -197,18 +202,21 @@ Spezialisierte Bereiche für ein fokussiertes Browsing-Erlebnis:
 Ein zentraler Hub für alle Ihre gespeicherten Inhalte und Mitwirkenden, organisiert in einem Drei-Fenster-Layout:
 -   **Sammlungen & Tags**: Organisieren Sie gespeicherte Elemente in benutzerdefinierten Sammlungen oder filtern Sie sie nach Tags, die Sie zugewiesen haben.
 -   **Gegenstandsliste**: Verwalten Sie Ihre gespeicherten Elemente mit einer erweiterten Oberfläche, die Suche, Filterung und Sortierung umfasst. Ein "Auswahlmodus" ermöglicht die gleichzeitige Auswahl mehrerer Elemente für Massenaktionen.
--   **Detailansicht & Notizen**: Sehen Sie Details zu einem ausgewählten Element, schreiben und speichern Sie persönliche Notizen und verwalten Sie Tags, ohne die Bibliotheksansicht zu verlassen.
+-   **Detailansicht & Notizen**: Sehen Sie Details zu einem ausgewählten Element, schreiben und speichern Sie persönliche Notizen (mit Rich-Text-Formatierung) und verwalten Sie Tags, ohne die Bibliotheksansicht zu verlassen.
+-   **KI-gestützte Organisation**: Nutzen Sie "Magisch Organisieren", um KI-gestützte Vorschläge für Tags und neue Sammlungsnamen basierend auf einer Auswahl Ihrer Elemente zu erhalten.
 -   **Gefolgte Uploader**: Sehen und durchsuchen Sie alle Mitwirkenden, denen Sie folgen, um schnellen Zugriff auf deren Arbeit zu haben.
 
 ### <a name="das-scriptorium-ein-arbeitsbereich-für-forschende-de"></a>Das Scriptorium: Ein Arbeitsbereich für Forschende
 -   **Persönliche Worksets**: Ein persönlicher Arbeitsbereich für textbasierte Forschung. Gruppieren Sie Dokumente aus dem Archiv in "Worksets", um Ihre Projekte zu organisieren.
--   **Integrierter Reader & KI-Tools**: Das Scriptorium verfügt über einen integrierten Dokumentenleser mit leistungsstarken Werkzeugen, die von der **Google Gemini API** angetrieben werden.
--   **Persistente Notizen**: Schreiben und speichern Sie persönliche Notizen für jedes Dokument innerhalb eines Worksets.
+-   **Integrierter Reader & KI-Tools**: Das Scriptorium verfügt über eine zweigeteilte, anpassbare Ansicht mit einem integrierten Dokumentenleser und einem Rich-Text-Editor für Notizen. Es wird durch leistungsstarke Werkzeuge erweitert, die von der **Google Gemini API** angetrieben werden.
+-   **Persistente Notizen**: Schreiben und speichern Sie persönliche Notizen für jedes Dokument innerhalb eines Worksets mit einem Rich-Text-Editor.
 
 ### <a name="ki-gestützte-einblicke-mit-gemini-de"></a>KI-gestützte Einblicke (mit Gemini)
 -   **KI-Zusammenfassung**: Generieren Sie auf Abruf prägnante Zusammenfassungen langer Texte mit einstellbaren Tonalitäten (einfach, detailliert, akademisch).
 -   **Entitätenextraktion**: Identifizieren und kennzeichnen Sie automatisch Personen, Orte, Organisationen und Daten in Texten, um weitere Entdeckungen zu fördern.
 -   **Kontextbezogene F&A**: Stellen Sie Fragen zu einem Dokument im Scriptorium und erhalten Sie Antworten, die ausschließlich auf dem bereitgestellten Text basieren.
+-   **Magische Organisation**: Wählen Sie mehrere Elemente in Ihrer Bibliothek aus und erhalten Sie KI-Vorschläge für relevante Tags und neue Sammlungsnamen.
+-   **Täglicher historischer Einblick**: Der Explorer-Hub bietet einen täglichen, KI-generierten Kurztext, der die Trend-Elemente des Tages kreativ verbindet.
 -   **Kreatives Geschichtenerzählen**: Nutzen Sie das Storyteller-Tool, um fesselnde Erzählungen basierend auf Ihren Ideen zu erstellen.
 
 ### <a name="erweiterte-medienbetrachter-de"></a>Erweiterte Medienbetrachter

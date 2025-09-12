@@ -1,0 +1,38 @@
+{
+  "connect": {
+    "title": "Connect Your Archive Account",
+    "description": "Enter your public Internet Archive screen name to create a personalized dashboard with your stats, uploads, and favorites.",
+    "placeholder": "Enter your screen name...",
+    "button": "Find Account",
+    "privacy": "This feature only uses public data and does not require you to log in. Your screen name is saved locally in your browser.",
+    "confirmTitle": "Is This You?",
+    "confirmDescription": "We found some public uploads associated with this name. Please select your specific uploader identifier below to confirm your account.",
+    "selectIdentifier": "Select Your Uploader Identifier",
+    "noIdentifierFound": "Could not automatically determine an uploader ID. You can still proceed if the items shown are yours.",
+    "confirmButton": "Confirm & Load Dashboard",
+    "errorTitle": "Account Not Found",
+    "errorNotFound": "Sorry, we could not find any public uploads associated with that name. Please check the spelling and try again.",
+    "tryAgain": "Try Again"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}!",
+    "viewPublicProfile": "View Public Profile",
+    "disconnect": "Switch User",
+    "statsTitle": "At a Glance",
+    "activityFeedTitle": "Recent Activity",
+    "activity": {
+      "upload": "Uploaded",
+      "favorite": "Favorited",
+      "review": "Reviewed"
+    },
+    "noActivity": "No recent public activity found.",
+    "recentUploads": "Your Recent Uploads",
+    "recentFavorites": "Your Recent Favorites",
+    "recentReviews": "Your Recent Reviews"
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "myUploads": "My Uploads"
+  },
+  "searchMyUploads": "Search my uploads..."
+}

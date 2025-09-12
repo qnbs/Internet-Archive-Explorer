@@ -1,7 +1,10 @@
+
 {
   "title": "Menu",
   "explore": "Explore",
   "library": "My Library",
+  "myArchive": "My Archive",
+  "uploaderHub": "Uploader Hub",
   "collections": "Collections",
   "scriptorium": "Scriptorium",
   "videothek": "Videothek",

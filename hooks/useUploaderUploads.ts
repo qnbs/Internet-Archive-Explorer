@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
-import { profileSearchQueryAtom, resultsPerPageAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { profileSearchQueryAtom } from '../store/search';
+import { resultsPerPageAtom } from '../store/settings';
 import { useDebounce } from './useDebounce';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary, Profile, MediaType, Facets } from '../types';

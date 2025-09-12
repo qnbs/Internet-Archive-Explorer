@@ -16,6 +16,7 @@ interface ContentCarouselProps {
     viewMoreAction?: () => void;
     viewMoreLabel?: string;
     titleIcon?: React.ReactNode;
+    hideTitle?: boolean;
 }
 
 export const ContentCarousel: React.FC<ContentCarouselProps> = ({
@@ -28,7 +29,8 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     cardAspectRatio,
     viewMoreAction,
     viewMoreLabel,
-    titleIcon
+    titleIcon,
+    hideTitle = false
 }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -104,25 +106,27 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
 
     return (
         <section
-            className="animate-fade-in"
+            className={hideTitle ? '' : 'animate-fade-in'}
             role="region"
             aria-roledescription="carousel"
             aria-label={title}
         >
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                    {titleIcon && <span className="mr-3 text-cyan-600 dark:text-cyan-400">{titleIcon}</span>}
-                    {title}
-                </h2>
-                {viewMoreAction && (
-                    <button
-                        onClick={viewMoreAction}
-                        className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
-                    >
-                        {viewMoreLabel || t('common:viewMore')} &rarr;
-                    </button>
-                )}
-            </div>
+            {!hideTitle && (
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                        {titleIcon && <span className="mr-3 text-cyan-600 dark:text-cyan-400">{titleIcon}</span>}
+                        {title}
+                    </h2>
+                    {viewMoreAction && (
+                        <button
+                            onClick={viewMoreAction}
+                            className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
+                        >
+                            {viewMoreLabel || t('common:viewMore')} &rarr;
+                        </button>
+                    )}
+                </div>
+            )}
             <div className="relative group">
                 <button
                     onClick={() => handleScroll('left')}

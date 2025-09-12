@@ -1,6 +1,8 @@
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { searchQueryAtom, facetsAtom, activeViewAtom, addSearchHistoryAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { activeViewAtom } from '../store/app';
+import { addSearchHistoryAtom, facetsAtom, searchQueryAtom } from '../store/search';
 import type { Facets } from '../types';
 
 export const useSearchAndGo = () => {
@@ -14,7 +16,7 @@ export const useSearchAndGo = () => {
      addSearchHistory(query);
      const defaultFacets: Facets = {
         mediaType: new Set(),
-        availability: 'free',
+        availability: 'all',
      };
      setFacets({ ...defaultFacets, ...newFacets });
      setActiveView('explore');

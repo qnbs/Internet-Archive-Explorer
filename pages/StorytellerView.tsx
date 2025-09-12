@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SparklesIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
+// FIX: Correct import for geminiService from the new file
 import { generateStory } from '../services/geminiService';
 import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { sanitizeHtml } from '../utils/sanitizer';

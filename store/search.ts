@@ -9,10 +9,9 @@ export const STORAGE_KEYS = {
 // --- View-Specific Search State Atoms ---
 export const searchQueryAtom = atom('');
 export const profileSearchQueryAtom = atom('');
-export const webArchiveUrlAtom = atom('');
 
 // --- Facets for Explorer Search ---
-export const facetsAtom = atom<Facets>({ mediaType: new Set<MediaType>(), availability: 'free' });
+export const facetsAtom = atom<Facets>({ mediaType: new Set<MediaType>(), availability: 'free', language: undefined });
 
 // --- Search History ---
 export const searchHistoryAtom = atomWithStorage<string[]>(STORAGE_KEYS.searchHistory, []);

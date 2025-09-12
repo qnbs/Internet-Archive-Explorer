@@ -46,7 +46,46 @@
       "icon": "UsersIcon",
       "questions": [
         { "q": "qUploaderProfile", "a": "aUploaderProfile" },
-        { "q": "qFollow", "a": "aFollow" }
+        { "q": "qFollow", "a": "aFollow" },
+        { "q": "qMyArchive", "a": "aMyArchive" }
+      ]
+    },
+    {
+      "id": "uploading",
+      "icon": "UploadIcon",
+      "questions": [
+        { "q": "upload-qReq", "a": "upload-aReq" },
+        { "q": "upload-qFiles", "a": "upload-aFiles" },
+        { "q": "upload-qFormats", "a": "upload-aFormats" },
+        { "q": "upload-qSteps", "a": "upload-aSteps" },
+        { "q": "upload-qMetadata", "a": "upload-aMetadata" },
+        { "q": "upload-qScannedBook", "a": "upload-aScannedBook" },
+        { "q": "upload-qBatch", "a": "upload-aBatch" },
+        { "q": "upload-qNaming", "a": "upload-aNaming" }
+      ]
+    },
+    {
+      "id": "accounts",
+      "icon": "UsersIcon",
+      "questions": [
+        { "q": "account-qBenefits", "a": "account-aBenefits" },
+        { "q": "account-qCreate", "a": "account-aCreate" },
+        { "q": "account-qScreenName", "a": "account-aScreenName" },
+        { "q": "account-qUserName", "a": "account-aUserName" },
+        { "q": "account-qEmail", "a": "account-aEmail" },
+        { "q": "account-qAvatar", "a": "account-aAvatar" },
+        { "q": "account-qLoginFail", "a": "account-aLoginFail" },
+        { "q": "account-qLocked", "a": "account-aLocked" }
+      ]
+    },
+    {
+      "id": "lending",
+      "icon": "BookIcon",
+      "questions": [
+        { "q": "lending-qBorrowHow", "a": "lending-aBorrowHow" },
+        { "q": "lending-qBorrowReturn", "a": "lending-aBorrowReturn" },
+        { "q": "lending-qBorrowUnavailable", "a": "lending-aBorrowUnavailable" },
+        { "q": "lending-qBorrowWaitlist", "a": "lending-aBorrowWaitlist" }
       ]
     },
     {
@@ -61,6 +100,7 @@
       "id": "faq",
       "icon": "InfoIcon",
       "questions": [
+        { "q": "qImageViewer", "a": "aImageViewer" },
         { "q": "qDownload", "a": "aDownload" },
         { "q": "qOfficial", "a": "aOfficial" },
         { "q": "qAboutApp", "a": "aAboutApp" }
@@ -71,16 +111,19 @@
   "hubs": { "title": "Discovery & Hubs" },
   "library": { "title": "My Library" },
   "scriptorium": { "title": "The Scriptorium" },
-  "contributors": { "title": "Contributors" },
+  "contributors": { "title": "Contributors & My Archive" },
+  "uploading": { "title": "Uploading Content" },
+  "accounts": { "title": "Managing Your Account" },
+  "lending": { "title": "The Lending Library" },
   "settings": { "title": "Settings & Data" },
   "faq": { "title": "Frequently Asked Questions" },
 
   "qSearch": "How do I search for items?",
-  "aSearch": "Use the main search bar at the top of the page for general searches. On the Explorer page, when results are shown, you can use the filter controls to narrow results by media type, year, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code>.",
+  "aSearch": "Use the main search bar at the top of the page for general searches. You can open the <strong>Filter Popover</strong> (funnel icon) to narrow results by media type, year, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code> directly in the search bar.",
   "qNav": "How do I navigate the app?",
-  "aNav": "Use the side menu (on desktop) or the bottom navigation bar (on mobile) to jump between the main sections like the <strong>Explorer</strong>, your <strong>Library</strong>, and the various content hubs (Videothek, Audiothek, etc.).",
+  "aNav": "Use the <strong>side menu</strong> (on desktop) or the <strong>bottom navigation bar</strong> (on mobile) to jump between the main sections like the <strong>Explorer</strong>, your <strong>Library</strong>, and the various content hubs (Videothek, Audiothek, etc.).",
   "qCommandPalette": "What is the Command Palette?",
-  "aCommandPalette": "The Command Palette is a powerful tool for quick navigation and actions. Press <strong>Cmd/Ctrl + K</strong> to open it. From there, you can type to instantly find and jump to any section, toggle the theme, or change the language.",
+  "aCommandPalette": "The Command Palette is a powerful tool for quick navigation and actions. Press <code>Cmd/Ctrl + K</code> to open it. From there, you can type to instantly find and jump to any section, toggle the theme, or change the language.",
 
   "qExplorer": "What is the Explorer Hub?",
   "aExplorer": "The main 'Explore' page is your central hub for discovery. When you're not actively searching, it displays curated and dynamic content like 'Trending Now' and 'On This Day in History' to help you find interesting items.",
@@ -92,29 +135,76 @@
   "aStoryteller": "This is an experimental feature powered by Gemini AI. You can provide a topic or a creative prompt, and the AI will generate a short, original story inspired by the spirit of the Internet Archive.",
 
   "qLibrary": "What is 'My Library'?",
-  "aLibrary": "My Library is your personal space for curating content. When you favorite an item (by clicking the star icon), it gets added here. The library uses a three-pane layout on larger screens: a sidebar for filtering by your collections and tags, a central list of your items, and a detail pane for viewing notes and metadata.",
+  "aLibrary": "<strong>My Library</strong> is your personal space for curating content. When you favorite an item (by clicking the star icon), it gets added here. The library uses a three-pane layout on larger screens: a sidebar for filtering by your collections and tags, a central list of your items, and a detail pane for viewing notes and metadata.",
   "qCollectionsTags": "How do I use Collections and Tags?",
-  "aCollectionsTags": "In your library, you can create custom **Collections** to group items for a specific project. You can also add **Tags** to any item for more granular filtering. Use the sidebar to filter your library to show only items in a specific collection or with a certain tag.",
+  "aCollectionsTags": "In your library, you can create custom <strong>Collections</strong> to group items for a specific project. You can also add <strong>Tags</strong> to any item for more granular filtering. Use the sidebar to filter your library to show only items in a specific collection or with a certain tag.",
   "qBulkActions": "Can I manage multiple items at once?",
-  "aBulkActions": "Yes. In the item list pane of your library, click the 'Select Items' button. This activates 'Select Mode', allowing you to check multiple items. A new toolbar will appear where you can perform bulk actions like deleting items, adding them to a collection, or adding tags to all selected items.",
+  "aBulkActions": "Yes. In the item list pane of your library, you can enter <strong>Select Mode</strong> by clicking the 'Select All' button or by selecting an item. A new toolbar will appear where you can perform bulk actions like deleting items, adding them to a collection, adding tags, or using 'Magic Organize' to get AI-powered suggestions.",
 
   "qScriptorium": "What is the Scriptorium for?",
   "aScriptorium": "The Scriptorium is a powerful tool designed for research. It allows you to collect text-based documents from the archive into personal 'worksets' for focused study.",
   "qWorksets": "How do I use worksets?",
   "aWorksets": "From the Scriptorium hub, you can create new worksets (e.g., 'My Novel Research'). Once you open a workset, you can add text documents by searching the archive. All your worksets and their contents are saved locally in your browser.",
   "qReaderAi": "What are the AI tools in the document reader?",
-  "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can generate a concise summary of the text or extract key 'entities'—such as people, places, and organizations—to help you understand the content and find related information.",
+  "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can:<ul><li><strong>Summarize:</strong> Generate a concise summary of the text.</li><li><strong>Extract Entities:</strong> Identify key people, places, and organizations.</li><li><strong>Ask a Question:</strong> Ask a question about the text and get an answer based on its content.</li></ul>The document reader also features a resizable two-panel view with a rich text editor for taking persistent notes.",
 
   "qUploaderProfile": "What are Contributor Profile pages?",
   "aUploaderProfile": "Every uploader and creator has a detailed profile page. The content is organized into tabs: 'Uploads' shows all their contributions with powerful filtering and sorting controls. Other tabs like 'Reviews', 'Collections', and 'Favorites' appear dynamically if the contributor has that type of content, providing a comprehensive view of their activity.",
   "qFollow": "How do I follow a contributor?",
-  "aFollow": "On a contributor's profile page, click the star icon next to their name. This will add them to the 'Followed Uploaders' list in your Library for quick access.",
+  "aFollow": "On a contributor's profile page, click the star icon next to their name. This will add them to the 'Followed Contributors' list in your Library for quick access.",
+  "qMyArchive": "What is 'My Archive'?",
+  "aMyArchive": "My Archive allows you to connect your public Internet Archive account to the app. Once connected, it provides a personalized dashboard view of your own uploads, collections, and stats, using the same powerful interface as the public contributor profiles.",
+  
+  "upload-qReq": "What do I need to start uploading?",
+  "upload-aReq": "You will need to register for a <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>free account</a> on archive.org before you can upload.",
+  "upload-qFiles": "What files can I upload?",
+  "upload-aFiles": "With a free account, you can upload files such as music, audio recordings, videos, software, images, and much more. Please refer to the Internet Archive's <a href='https://archive.org/about/terms.php' target='_blank' rel='noopener noreferrer'>Terms of Use</a> for more information about permissible content.",
+  "upload-qFormats": "What file formats should I use?",
+  "upload-aFormats": "There are generally three categories of files: Data Files, Metadata files, and Research Files. For exact details and tips on managing these files, please see the official <a href='https://help.archive.org/help/file-formats-and-best-practices/' target='_blank' rel='noopener noreferrer'>file formats page</a>.",
+  "upload-qSteps": "What are the basic steps to upload?",
+  "upload-aSteps": "The basic process is as follows:<ul><li>First, ensure you are logged into your free account on archive.org.</li><li>Select the 'Upload' icon, usually found in the top navigation bar.</li><li>Choose 'Upload Files' and then either drag & drop your files or use the file chooser.</li><li>Complete the metadata form to describe your item.</li><li>Click the 'Upload and Create Your Item' button.</li><li>Processing your item may take some time depending on the file size and type.</li></ul>",
+  "upload-qMetadata": "What metadata is required?",
+  "upload-aMetadata": "When you upload, you'll need to fill out a form with the following details:<ul><li><strong>Page Title (required):</strong> The title of the item page.</li><li><strong>Page URL (required):</strong> A unique identifier for the URL (5-80 characters, lowercase letters, numbers, dashes recommended).</li><li><strong>Description (required):</strong> A description of the materials you are uploading.</li><li><strong>Subject Tags (required):</strong> Relevant tags, up to a maximum of 10.</li><li><strong>Creator:</strong> The person or entity that created the content.</li><li><strong>Date:</strong> The date the content was created.</li><li><strong>Collection:</strong> This is often chosen automatically based on file type.</li><li><strong>Language:</strong> Important for text items to enable searching and OCR.</li><li><strong>License:</strong> Choose a Creative Commons license to associate with your work.</li></ul>",
+  "upload-qScannedBook": "How do I upload a scanned book?",
+  "upload-aScannedBook": "Uploading a scanned book involves a few key steps:<ul><li><strong>1. Scan the book:</strong> Scan all pages (including covers) at high quality (300 dpi minimum). Ensure images are crisp and cropped.</li><li><strong>2. Create a ZIP/TAR file:</strong> Make sure image files are named sequentially (e.g., 001.jpg, 002.jpg). Compress the folder of images into a single .zip or .tar file.</li><li><strong>3. Name the file correctly:</strong> The file must be named with your chosen unique identifier, ending in <code>_images.zip</code> (e.g., <code>mygreatbook_images.zip</code>).</li><li><strong>4. Upload:</strong> Upload the single ZIP file. The system will automatically process it into a book format. You can manually enter metadata or provide an optional MARC record file.</li></ul>",
+  "upload-qBatch": "Can I upload files in bulk?",
+  "upload-aBatch": "Yes, batch uploading is possible. Due to the time it takes, it is recommended to use the <a href='https://archive.org/developers/internetarchive/index.html' target='_blank' rel='noopener noreferrer'>Internet Archive Command-Line Tool</a> to script your uploads. This requires some comfort with command-line interfaces.",
+  "upload-qNaming": "How should I name my files?",
+  "upload-aNaming": "File names have some restrictions. Please use only unaccented letters (basic ASCII), numbers, dashes, underscores, or periods. Do not use special characters.",
+
+  "account-qBenefits": "What does an Internet Archive account allow me to do?",
+  "account-aBenefits": "Having a free account allows you to:<ul><li>Upload files to the site.</li><li>Borrow books from the lending library.</li><li>Leave reviews and participate in forums.</li><li>Maintain collections and favorites.</li><li>View some restricted items.</li></ul>",
+  "account-qCreate": "How do I create an account?",
+  "account-aCreate": "You can <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>create an account</a> by filling out the registration form. The email address and screen name you choose must be unique and not already in use on the site.",
+  "account-qScreenName": "What is a screen name and can I change it?",
+  "account-aScreenName": "Your <strong>screen name</strong> is your public name on the site, visible on uploads and reviews. You can change your screen name at any time in your account settings after logging in.",
+  "account-qUserName": "What is a username?",
+  "account-aUserName": "Your <strong>username</strong> (e.g., <code>@foo</code>) is generated automatically based on your screen name when you create your account. It's a permanent, unique system identifier for your data and cannot be changed, even if you change your screen name.",
+  "account-qEmail": "Why do you need my email and can I change it?",
+  "account-aEmail": "Your email is used to verify your account, for logging in, and for password recovery. You can change your email address in your account settings, but you must also notify the Internet Archive at <code>info@archive.org</code> to ensure all your existing materials are linked to the new address.",
+  "account-qAvatar": "How do I change my profile image (avatar)?",
+  "account-aAvatar": "Log in to your account, click your screen name, and go to 'My Library'. Hover over the default profile image until a prompt appears, then you can upload a new image and save it.",
+  "account-qLoginFail": "Why did my login fail?",
+  "account-aLoginFail": "Login failures can happen for a few reasons:<ul><li>You are trying to log in with your screen name instead of your full email address.</li><li>There is a typo in your email or password.</li><li>Your 'Caps Lock' key is on, as passwords are case-sensitive.</li></ul>If you've forgotten your password, use the 'Forgot your password?' link on the login page.",
+  "account-qLocked": "Why is my account locked?",
+  "account-aLocked": "Accounts may be locked for various reasons, including a violation of the Terms of Use. If you believe your account was locked in error, you should contact the Internet Archive directly.",
+
+  "lending-qBorrowHow": "How do I borrow and read a book offline?",
+  "lending-aBorrowHow": "The Internet Archive's system uses Adobe Digital Editions (ADE) or other LCP-compliant apps for offline reading. First, borrow the book on the website. Then, download the Encrypted PDF or ePub file. Opening this file (<code>.acsm</code>) in your authorized reading app will allow you to read it offline for the duration of the loan.",
+  "lending-qBorrowReturn": "How do I return a borrowed book?",
+  "lending-aBorrowReturn": "You can return a book early from within your reading app (like Adobe Digital Editions). After doing so, it's also a good practice to visit the item's page on the Internet Archive website and click the 'Return It' button to ensure it becomes available for the next person immediately. If you do nothing, the book will be returned automatically after 14 days.",
+  "lending-qBorrowUnavailable": "Why are some books 'Borrow Unavailable'?",
+  "lending-aBorrowUnavailable": "As a result of the <em>Hachette v. Internet Archive</em> lawsuit, over 500,000 books were removed from the lending library. These books are shown as 'Borrow Unavailable' and cannot be borrowed by general patrons at this time. Books are still available for patrons with print disabilities.",
+  "lending-qBorrowWaitlist": "How long is the wait for a book on the waitlist?",
+  "lending-aBorrowWaitlist": "If a book is already on loan, you can join a waiting list. The wait time depends on your position in the list and when the current borrower returns the book. You will be notified by email when it's your turn, and you will have 48 hours to borrow the book before it is offered to the next person.",
 
   "qSettings": "How can I customize the app?",
-  "aSettings": "The **Settings** page offers extensive customization. You can change the visual theme (Light/Dark/System), adjust layout density and font size, set default behaviors for content and AI features, and change the application language.",
+  "aSettings": "The <strong>Settings</strong> page offers extensive customization. You can change the visual theme (Light/Dark/System), adjust layout density and font size, set default behaviors for content and AI features, and change the application language.",
   "qData": "How is my data stored and managed?",
-  "aData": "All your personal data—including settings, library items, worksets, and followed uploaders—is stored **locally in your browser's storage**. No data is sent to a server. On the Settings page, under 'Data & Privacy', you can export all your data to a JSON file for backup or import it to another browser.",
-
+  "aData": "All your personal data—including settings, library items, worksets, and followed uploaders—is stored <strong>locally in your browser's storage</strong>. No data is sent to a server. On the Settings page, under 'Data & Privacy', you can export all your data to a JSON file for backup or import it to another browser.",
+  
+  "qImageViewer": "How does the advanced image viewer work?",
+  "aImageViewer": "When you open an image item, it will appear in a special viewer. You can:<ul><li><strong>Zoom:</strong> Use your mouse wheel or the toolbar buttons to zoom in and out. The zoom will focus on your cursor's position.</li><li><strong>Pan:</strong> Click and drag the image to move it around when zoomed in.</li><li><strong>Rotate:</strong> Use the toolbar buttons to rotate the image in 90-degree increments.</li><li><strong>Reset:</strong> Click the reset button to return the image to its default zoom, position, and rotation.</li><li><strong>Fullscreen:</strong> View the image in your browser's fullscreen mode.</li></ul>",
   "qDownload": "Can I download items?",
   "aDownload": "Yes. In an item's detail view (accessible by clicking on any item card), go to the 'Files' tab. This lists all the source files available for download. Click any file to open it in a new tab or download it directly.",
   "qOfficial": "Is this an official Internet Archive application?",

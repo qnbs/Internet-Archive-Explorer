@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { uploaderFavoritesAtom } from '../../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { uploaderFavoritesAtom } from '../../store/favorites';
 import { useLanguage } from '../../hooks/useLanguage';
 import { UPLOADER_DATA } from '../../pages/uploaderData';
 import { UploaderProfileCard } from '../UploaderProfileCard';

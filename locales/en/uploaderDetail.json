@@ -12,12 +12,16 @@
   },
   "stats": {
     "total": "Total Items",
+    "uploads": "Uploads",
+    "collections": "Collections",
+    "reviews": "Reviews",
+    "favorites": "Favorites",
     "movies": "Movies",
     "audio": "Audio",
     "texts": "Texts",
     "images": "Images",
     "software": "Software",
-    "distribution": "Media Type Distribution",
+    "distribution": "Media Distribution",
     "noData": "No contribution data available."
   },
   "searchInUploads": "Search within these uploads...",
@@ -29,9 +33,11 @@
     "downloads": "Popularity (All Time)",
     "week": "Popularity (This Week)",
     "publicdate": "Date Published",
-    "addeddate": "Date Added"
+    "addeddate": "Date Added",
+    "title": "Title"
   },
   "filters": {
+    "title": "Filter",
     "allTypes": "All Types"
   },
   "aria": {

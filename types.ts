@@ -28,7 +28,9 @@ export type View =
   | 'uploaderDetail'
   | 'uploaderProfile'
   | 'storyteller'
-  | 'bookReader';
+  | 'bookReader'
+  | 'uploaderHub'
+  | 'myArchive';
 
 export interface ArchiveItemSummary {
   identifier: string;
@@ -151,6 +153,9 @@ export interface UploaderStats {
     texts: number;
     image: number;
     software: number;
+    collections: number;
+    favorites: number;
+    reviews: number;
 }
 
 export interface Command {
@@ -195,6 +200,7 @@ export type Facets = {
     yearEnd?: string;
     collection?: string;
     availability: Availability;
+    language?: string;
 };
 export type SortKey = 'dateAdded' | 'title' | 'creator';
 export type SortDirection = 'asc' | 'desc';

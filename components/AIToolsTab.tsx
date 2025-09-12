@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
+// FIX: Correct import for geminiService from the new file
 import { getSummary, extractEntities } from '../services/geminiService';
 import type { ExtractedEntities } from '../types';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue } from 'jotai';
-import { autoRunEntityExtractionAtom, summaryToneAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { autoRunEntityExtractionAtom, summaryToneAtom } from '../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';

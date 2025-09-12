@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
-import { searchQueryAtom, facetsAtom } from '../store';
+// FIX: Use a direct import to prevent circular dependency issues.
+import { searchQueryAtom, facetsAtom } from '../store/search';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary } from '../types';
@@ -43,15 +44,13 @@ export const useExplorerSearch = () => {
         } else {
           setResults(prev => {
             const currentResults = searchPage === 1 ? [] : prev;
-            const combinedResults = [...currentResults, ...newDocs];
-            // Prevent duplicates which can sometimes occur with API pagination
-            const uniqueResults = combinedResults.filter((item, index, self) => 
-                index === self.findIndex(i => i.identifier === item.identifier)
-            );
+            // OPTIMIZATION: Use a Set for O(n) duplicate checking instead of O(n^2).
+            const existingIds = new Set(currentResults.map(item => item.identifier));
+            const uniqueNewDocs = newDocs.filter(item => !existingIds.has(item.identifier));
+            const combinedResults = [...currentResults, ...uniqueNewDocs];
             
-            // Determine if there are more results to fetch
-            setHasMore(uniqueResults.length < data.response.numFound);
-            return uniqueResults;
+            setHasMore(combinedResults.length < data.response.numFound);
+            return combinedResults;
           });
         }
       } else {

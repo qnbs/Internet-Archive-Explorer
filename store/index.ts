@@ -1,6 +1,7 @@
 // This file serves as a central hub for exporting all Jotai atoms.
 // This simplifies imports in components and avoids circular dependencies.
 
+// FIX: Added export for atoms from the newly created store/app.ts
 export * from './app';
 export {
     defaultSettings,
@@ -30,7 +31,6 @@ export {
 export {
     searchQueryAtom,
     profileSearchQueryAtom,
-    webArchiveUrlAtom,
     facetsAtom,
     searchHistoryAtom,
     addSearchHistoryAtom,
@@ -60,3 +60,4 @@ export {
     loadableTranslationsAtom,
 } from './i18n';
 export * from './scriptorium';
+export * from './archive';

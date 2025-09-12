@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { loadableTranslationsAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { loadableTranslationsAtom } from '../store/i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { 
     SearchIcon, HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, 
-    JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon
+    JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon, UploadIcon
 } from '../components/Icons';
 import { sanitizeHtml } from '../utils/sanitizer';
 
@@ -86,7 +87,7 @@ const HelpView: React.FC = () => {
     }, [topics, searchQuery]);
 
     const iconMap: Record<string, React.FC<any>> = {
-        HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon
+        HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon, UploadIcon
     };
 
     return (

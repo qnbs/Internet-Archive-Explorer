@@ -1,23 +1,25 @@
 import { atom } from 'jotai';
-import type { View, Profile, ArchiveItemSummary, ConfirmationOptions, ToastMessage, UserCollection } from '../types';
+import type { View, Profile, ArchiveItemSummary, ConfirmationOptions } from '../types';
 
 export type ModalState =
-  | { type: 'closed' }
+  | { type: 'none' }
   | { type: 'itemDetail'; item: ArchiveItemSummary }
+  | { type: 'imageDetail'; item: ArchiveItemSummary }
   | { type: 'emulator'; item: ArchiveItemSummary }
   | { type: 'bookReader'; item: ArchiveItemSummary }
   | { type: 'commandPalette' }
+  | { type: 'confirmation'; options: ConfirmationOptions }
   | { type: 'newCollection' }
   | { type: 'addToCollection'; itemIds: string[] }
   | { type: 'addTags'; itemIds: string[] }
-  | { type: 'confirmation'; options: ConfirmationOptions };
+  | { type: 'magicOrganize'; itemIds: string[] };
 
+/**
+ * Represents the currently active main view/page of the application.
+ */
 export const activeViewAtom = atom<View>('explore');
-export const selectedProfileAtom = atom<Profile | null>(null);
-// Used to store the view from which a profile was selected, to return to it later
-export const profileReturnViewAtom = atom<View>('explore');
-export const modalAtom = atom<ModalState>({ type: 'closed' });
 
-// This atom holds the toast state. The ToastBridge component consumes this state 
-// to show a toast and then resets it to null.
-export const toastAtom = atom(null as Omit<ToastMessage, 'duration'> | null);
+/**
+ * Controls the currently displayed modal. Set to '{ type: "none" }' to close.
+ */
+export const modalAtom = atom<ModalState>({ type: 'none' });

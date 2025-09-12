@@ -46,6 +46,10 @@ export const buildArchiveQuery = (options: QueryOptions = {}): string => {
         } else if (facets.availability === 'free') {
             queryParts.push(`NOT access-restricted-item:"true"`);
         }
+
+        if (facets.language) {
+            queryParts.push(`language:("${facets.language}")`);
+        }
     }
     
     return queryParts.join(' AND ');

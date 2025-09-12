@@ -1,7 +1,8 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
 import { useToast } from '../contexts/ToastContext';
 import { StarIcon, InfoIcon, EyeIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';

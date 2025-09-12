@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, modalAtom } from '../../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { libraryItemsAtom, userCollectionsAtom, allTagsAtom, deleteCollectionAtom } from '../../store/favorites';
+import { modalAtom } from '../../store/app';
 import { type LibraryFilter, MediaType } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
@@ -29,7 +31,7 @@ const NavButton: React.FC<{ label: string; icon: React.ReactNode; isActive: bool
     </button>
 );
 
-const FilterButton: React.FC<{ label: string; icon?: React.ReactNode; isActive: boolean; onClick: () => void; onDelete?: () => void; }> = ({ label, icon, isActive, onClick, onDelete }) => (
+const FilterButton: React.FC<{ label: string; icon?: React.ReactNode; isActive: boolean; onClick: () => void; onDelete?: () => void; count?: number; }> = ({ label, icon, isActive, onClick, onDelete, count }) => (
     <button
         onClick={onClick}
         className={`w-full flex items-center justify-between text-left pr-2 pl-3 py-2 text-sm rounded-md group transition-colors ${
@@ -40,17 +42,26 @@ const FilterButton: React.FC<{ label: string; icon?: React.ReactNode; isActive: 
             {icon}
             <span className="truncate">{label}</span>
         </div>
-        {onDelete && (
-            <button
-                onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                className="p-1 rounded-full text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                aria-label={`Delete ${label}`}
-            >
-                <TrashIcon className="w-4 h-4" />
-            </button>
-        )}
+        <div className="flex items-center space-x-1 flex-shrink-0">
+            {typeof count === 'number' && (
+                <span className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-gray-600 text-gray-200' : 'bg-gray-700 text-gray-400 group-hover:bg-gray-600'}`}>
+                    {count}
+                </span>
+            )}
+            {onDelete && (
+                <div
+                    onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                    className="p-1 rounded-full text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={`Delete ${label}`}
+                    role="button"
+                >
+                    <TrashIcon className="w-4 h-4" />
+                </div>
+            )}
+        </div>
     </button>
 );
+
 
 const mediaTypeFilters: { type: MediaType; labelKey: string; icon: React.ReactNode }[] = [
     { type: MediaType.Texts, labelKey: 'favorites:sidebar.mediaTypeTexts', icon: <BookIcon className="w-4 h-4" /> },
@@ -62,12 +73,43 @@ const mediaTypeFilters: { type: MediaType; labelKey: string; icon: React.ReactNo
 
 export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setActiveTab, filter, setFilter }) => {
     const { t } = useLanguage();
+    const libraryItems = useAtomValue(libraryItemsAtom);
     const collections = useAtomValue(userCollectionsAtom);
     const allTags = useAtomValue(allTagsAtom);
     const setModal = useSetAtom(modalAtom);
     const deleteCollection = useSetAtom(deleteCollectionAtom);
     
     const handleNewCollection = () => setModal({ type: 'newCollection' });
+
+    const counts = useMemo(() => {
+        const mediaTypeCounts: Record<string, number> = {};
+        let untaggedCount = 0;
+        
+        for (const item of libraryItems) {
+            mediaTypeCounts[item.mediatype] = (mediaTypeCounts[item.mediatype] || 0) + 1;
+            if (item.tags.length === 0) {
+                untaggedCount++;
+            }
+        }
+        
+        const collectionCounts = collections.reduce((acc, collection) => {
+            acc[collection.id] = collection.itemIdentifiers.length;
+            return acc;
+        }, {} as Record<string, number>);
+
+        const tagCounts = allTags.reduce((acc, tag) => {
+            acc[tag] = libraryItems.filter(item => item.tags.includes(tag)).length;
+            return acc;
+        }, {} as Record<string, number>);
+
+        return {
+            all: libraryItems.length,
+            untagged: untaggedCount,
+            mediaTypes: mediaTypeCounts,
+            collections: collectionCounts,
+            tags: tagCounts
+        };
+    }, [libraryItems, collections, allTags]);
 
     return (
         <aside className="w-full md:w-64 flex-shrink-0 bg-gray-800/60 p-4 rounded-xl flex flex-col">
@@ -80,7 +122,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
             {activeTab === 'items' && (
                 <div className="flex-grow overflow-y-auto space-y-4">
                     <div className="space-y-1">
-                        <FilterButton label={t('favorites:sidebar.allitems')} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} />
+                        <FilterButton label={t('favorites:sidebar.allitems')} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} count={counts.all} />
                         <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.mediaTypes')}</h3>
                         {mediaTypeFilters.map(f => (
                              <FilterButton 
@@ -89,6 +131,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                                 icon={f.icon}
                                 isActive={filter.type === 'mediaType' && filter.mediaType === f.type} 
                                 onClick={() => setFilter({ type: 'mediaType', mediaType: f.type })} 
+                                count={counts.mediaTypes[f.type]}
                             />
                         ))}
                     </div>
@@ -100,11 +143,6 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                             </button>
                         </div>
                         <div className="space-y-1">
-                             <FilterButton 
-                                label={t('favorites:sidebar.untagged')} 
-                                isActive={filter.type === 'untagged'} 
-                                onClick={() => setFilter({ type: 'untagged' })} 
-                            />
                             {collections.map(c => (
                                 <FilterButton 
                                     key={c.id} 
@@ -113,6 +151,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                                     isActive={filter.type === 'collection' && filter.id === c.id} 
                                     onClick={() => setFilter({ type: 'collection', id: c.id })}
                                     onDelete={() => deleteCollection(c.id)}
+                                    count={counts.collections[c.id]}
                                 />
                             ))}
                         </div>
@@ -120,6 +159,12 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                      <div>
                         <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.tags')}</h3>
                         <div className="space-y-1">
+                            <FilterButton 
+                                label={t('favorites:sidebar.untagged')} 
+                                isActive={filter.type === 'untagged'} 
+                                onClick={() => setFilter({ type: 'untagged' })} 
+                                count={counts.untagged}
+                            />
                             {allTags.length > 0 ? allTags.map(tag => (
                                 <FilterButton 
                                     key={tag} 
@@ -127,6 +172,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                                     icon={<TagIcon className="w-4 h-4"/>} 
                                     isActive={filter.type === 'tag' && filter.tag === tag} 
                                     onClick={() => setFilter({ type: 'tag', tag: tag })} 
+                                    count={counts.tags[tag]}
                                 />
                             )) : <p className="px-3 text-sm text-gray-500">{t('favorites:sidebar.noTags')}</p>}
                         </div>

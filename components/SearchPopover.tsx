@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import { facetsAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { facetsAtom } from '../store/search';
 import { useLanguage } from '../hooks/useLanguage';
 import { MediaType, Availability } from '../types';
 import { MovieIcon, AudioIcon, BookIcon, ImageIcon, JoystickIcon } from './Icons';
@@ -23,6 +24,11 @@ const AVAILABILITY_OPTIONS: { key: Availability; labelKey: string }[] = [
     { key: 'borrowable', labelKey: 'searchPopover:availabilities.borrowable' },
 ];
 
+const LANGUAGE_OPTIONS = [
+    'English', 'German', 'French', 'Spanish', 'Chinese', 'Russian', 'Arabic', 'Portuguese'
+];
+
+
 export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
     const [facets, setFacets] = useAtom(facetsAtom);
     const { t } = useLanguage();
@@ -36,6 +42,13 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
                 newMediaTypes.add(type);
             }
             return { ...currentFacets, mediaType: newMediaTypes };
+        });
+    };
+
+    const handleLanguageSelect = (lang: string) => {
+        setFacets(currentFacets => {
+            const newLang = currentFacets.language === lang ? undefined : lang;
+            return { ...currentFacets, language: newLang };
         });
     };
 
@@ -58,6 +71,23 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
                         ))}
                     </div>
                 </div>
+
+                 <div>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t('searchPopover:language')}</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                        {LANGUAGE_OPTIONS.map(lang => (
+                            <button
+                                key={lang}
+                                onClick={() => handleLanguageSelect(lang)}
+                                className={`text-center p-2 rounded-lg transition-colors border-2 text-xs ${facets.language === lang ? 'bg-cyan-50 dark:bg-cyan-500/20 border-cyan-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                                aria-pressed={facets.language === lang}
+                            >
+                                {lang}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
                 <div role="radiogroup" aria-labelledby="availability-label">
                     <h3 id="availability-label" className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t('searchPopover:availability')}</h3>
                      <div className="space-y-1">

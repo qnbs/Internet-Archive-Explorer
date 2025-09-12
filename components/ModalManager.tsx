@@ -1,9 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import { modalAtom } from '../store';
-import { MediaType } from '../types';
-
-// Import Modal Components
+import { modalAtom } from '../store/app';
+import { useNavigation } from '../hooks/useNavigation';
 import { ItemDetailModal } from './ItemDetailModal';
 import { ImageDetailModal } from './ImageDetailModal';
 import { EmulatorModal } from './EmulatorModal';
@@ -13,104 +11,92 @@ import { BookReaderModal } from './BookReaderModal';
 import { NewCollectionModal } from './library/NewCollectionModal';
 import { AddToCollectionModal } from './library/AddToCollectionModal';
 import { AddTagsModal } from './library/AddTagsModal';
-
-
-// Import navigation hook to pass actions to modals
-import { useNavigation } from '../hooks/useNavigation';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { MagicOrganizeModal } from './library/MagicOrganizeModal';
+import { searchQueryAtom } from '../store/search';
+import { ArchiveItemSummary } from '../types';
 
 export const ModalManager: React.FC = () => {
-    const [modalState, setModalState] = useAtom(modalAtom);
+    const [modal, setModal] = useAtom(modalAtom);
+    const [, setSearchQuery] = useAtom(searchQueryAtom);
     const navigation = useNavigation();
-    const searchAndGo = useSearchAndGo();
 
-    const handleClose = () => setModalState({ type: 'closed' });
+    const closeModal = () => setModal({ type: 'none' });
 
-    if (modalState.type === 'closed') {
-        return null;
-    }
+    const handleCreatorSelect = (creator: string) => {
+        closeModal();
+        navigation.navigateToCreator(creator);
+    };
+
+    const handleUploaderSelect = (uploader: string) => {
+        closeModal();
+        navigation.navigateToUploader(uploader);
+    };
     
-    switch (modalState.type) {
+    const handleEmulate = (item: ArchiveItemSummary) => {
+        setModal({ type: 'emulator', item });
+    };
+    
+    const handleSelectItem = (item: ArchiveItemSummary) => {
+        setModal({ type: 'itemDetail', item });
+    };
+    
+    const handleGlobalSearch = (query: string) => {
+        setSearchQuery(query);
+        navigation.navigateTo('explore');
+        closeModal();
+    };
+
+    switch (modal.type) {
         case 'itemDetail':
-            const commonProps = {
-                item: modalState.item,
-                onClose: handleClose,
-                onCreatorSelect: (creator: string) => {
-                    handleClose();
-                    navigation.navigateToCreator(creator);
-                },
-                onUploaderSelect: (uploader: string) => {
-                    handleClose();
-                    navigation.navigateToUploader(uploader);
-                },
-                onEmulate: (item: any) => { // 'any' for compatibility
-                    handleClose();
-                    setModalState({ type: 'emulator', item });
-                },
-                onSelectItem: (item: any) => { // 'any' for compatibility
-                    setModalState({ type: 'itemDetail', item });
-                }
-            };
-            
-            if (modalState.item.mediatype === MediaType.Image) {
-                return <ImageDetailModal 
-                    item={modalState.item}
-                    onClose={commonProps.onClose}
-                    onCreatorSelect={commonProps.onCreatorSelect}
-                    onUploaderSelect={commonProps.onUploaderSelect}
-                />;
-            }
-
-            return <ItemDetailModal {...commonProps} />;
-
-        case 'emulator':
-            return <EmulatorModal item={modalState.item} onClose={handleClose} />;
-        
-        case 'bookReader':
-            return <BookReaderModal item={modalState.item} onClose={handleClose} />;
-
-        case 'commandPalette':
             return (
-                <CommandPalette
-                    onClose={handleClose}
-                    actions={{
-                        navigateTo: (view) => {
-                            handleClose();
-                            navigation.navigateTo(view);
-                        },
-                        globalSearch: (query) => {
-                            handleClose();
-                            searchAndGo(query);
-                        }
-                    }}
+                <ItemDetailModal
+                    item={modal.item}
+                    onClose={closeModal}
+                    onCreatorSelect={handleCreatorSelect}
+                    onUploaderSelect={handleUploaderSelect}
+                    onEmulate={handleEmulate}
+                    onSelectItem={handleSelectItem}
                 />
             );
-            
+        case 'imageDetail':
+             return (
+                <ImageDetailModal
+                    item={modal.item}
+                    onClose={closeModal}
+                    onCreatorSelect={handleCreatorSelect}
+                    onUploaderSelect={handleUploaderSelect}
+                />
+            );
+        case 'emulator':
+            return <EmulatorModal item={modal.item} onClose={closeModal} />;
+        case 'bookReader':
+            return <BookReaderModal item={modal.item} onClose={closeModal} />;
+        case 'commandPalette':
+            return <CommandPalette onClose={closeModal} actions={{ navigateTo: (view) => { navigation.navigateTo(view); closeModal(); }, globalSearch: handleGlobalSearch }} />;
         case 'confirmation':
             return (
                 <ConfirmationModal
-                    {...modalState.options}
+                    {...modal.options}
                     onConfirm={async () => {
-                        await modalState.options.onConfirm();
-                        handleClose();
+                        await modal.options.onConfirm();
+                        closeModal();
                     }}
                     onCancel={() => {
-                        if(modalState.options.onCancel) modalState.options.onCancel();
-                        handleClose();
+                        modal.options.onCancel?.();
+                        closeModal();
                     }}
                 />
             );
-            
         case 'newCollection':
-            return <NewCollectionModal onClose={handleClose} />;
-
+            return <NewCollectionModal onClose={closeModal} />;
         case 'addToCollection':
-            return <AddToCollectionModal itemIds={modalState.itemIds} onClose={handleClose} />;
-        
+            return <AddToCollectionModal itemIds={modal.itemIds} onClose={closeModal} />;
         case 'addTags':
-            return <AddTagsModal itemIds={modalState.itemIds} onClose={handleClose} />;
-
+            return <AddTagsModal itemIds={modal.itemIds} onClose={closeModal} />;
+        case 'magicOrganize':
+             return <MagicOrganizeModal itemIds={modal.itemIds} onClose={closeModal} />;
+        case 'none':
         default:
-             return null;
+            return null;
     }
 };

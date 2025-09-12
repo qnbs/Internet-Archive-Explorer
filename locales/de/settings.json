@@ -13,13 +13,13 @@
   "search": {
     "title": "Suche & Entdeckung",
     "resultsPerPage": "Ergebnisse pro Seite",
-    "resultsPerPageDesc": "Legen Sie die Anzahl der Elemente fest, die für jede Seite der Suchergebnisse geladen werden sollen.",
+    "resultsPerPageDesc": "Legen Sie die Anzahl der Einträge fest, die für jede Seite der Suchergebnisse geladen werden.",
     "showExplorerHub": "Explorer-Hub anzeigen",
-    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der Haupt-Erkundungsseite an, wenn die Suchleiste leer ist.",
+    "showExplorerHubDesc": "Zeigt kuratierte Inhalte wie 'Trends' auf der 'Entdecken'-Seite an, wenn die Suchleiste leer ist.",
     "defaultSort": "Standard-Suchsortierung",
     "defaultSortDesc": "Wählen Sie die standardmäßige Sortierreihenfolge für neue Suchen in der Haupt-Explorer-Ansicht.",
     "rememberFilters": "Filter merken",
-    "rememberFiltersDesc": "Behält Ihre zuletzt verwendeten Filter für Medientyp und Jahresbereich über Browser-Sitzungen hinweg bei."
+    "rememberFiltersDesc": "Behält Ihre zuletzt verwendeten Filter für Medientyp und Jahresbereich auf der 'Entdecken'-Seite über Sitzungen hinweg bei."
   },
   "ui": {
     "title": "Benutzeroberfläche",
@@ -29,7 +29,7 @@
       "comfortable": "Komfortabel",
       "compact": "Kompakt"
     },
-    "theme": "Theme",
+    "theme": "Design",
     "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich automatisch der Einstellung Ihres Betriebssystems an.",
     "themes": {
       "light": "Hell",
@@ -57,7 +57,7 @@
   },
   "content": {
     "title": "Inhalt & Hubs",
-    "defaultUploaderDetailTab": "Standard-Uploader-Tab",
+    "defaultUploaderDetailTab": "Standard-Tab für Mitwirkende",
     "defaultUploaderDetailTabDesc": "Wählen Sie den Tab, der standardmäßig beim Anzeigen des Profils eines Mitwirkenden geöffnet wird.",
     "autoplayMedia": "Medien automatisch abspielen",
     "autoplayMediaDesc": "Startet die Wiedergabe von Audiovorschauen automatisch, wenn die Detailansicht eines Eintrags geöffnet wird.",
@@ -88,7 +88,7 @@
     "privacy": "Datenschutz",
     "managementTitle": "Datenverwaltung",
     "exportAll": "Alle Daten exportieren",
-    "exportAllDesc": "Laden Sie eine vollständige Sicherung Ihrer Einstellungen, Bibliothekselemente und Worksets als einzelne JSON-Datei herunter.",
+    "exportAllDesc": "Laden Sie eine vollständige Sicherung Ihrer Einstellungen, Bibliothekseinträge und Worksets als einzelne JSON-Datei herunter.",
     "exportButton": "Daten exportieren",
     "exportSuccess": "Daten erfolgreich exportiert!",
     "exportError": "Export der Daten fehlgeschlagen.",
@@ -96,9 +96,9 @@
     "importAllDesc": "Stellen Sie Ihre App-Daten aus einer zuvor exportierten JSON-Datei wieder her. Dies überschreibt alle vorhandenen Daten.",
     "importButton": "Aus Datei importieren...",
     "importButtonConfirm": "Importieren & Überschreiben",
-    "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Elemente werden überschrieben.",
+    "importConfirm": "Sind Sie sicher, dass Sie diese Daten importieren möchten? Alle aktuellen Einstellungen und gespeicherten Einträge werden überschrieben.",
     "importSuccess": "Daten erfolgreich importiert! Die Seite wird nun neu geladen.",
-    "importError": "Import der Daten fehlgeschlagen",
+    "importError": "Import der Daten fehlgeschlagen.",
     "importErrorFile": "Die Datei konnte nicht gelesen werden.",
     "title": "Ihre Daten",
     "searchHistory": "Suchverlauf",
@@ -106,7 +106,7 @@
     "noHistory": "Noch kein Suchverlauf.",
     "clearHistory": "Verlauf löschen",
     "resetAll": "App-Einstellungen zurücksetzen",
-    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Bibliothek und Worksets bleiben davon unberührt.",
+    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Bibliothek und Worksets sind davon NICHT betroffen.",
     "resetButton": "Einstellungen zurücksetzen",
     "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "clearHistoryTitle": "Suchverlauf löschen?",

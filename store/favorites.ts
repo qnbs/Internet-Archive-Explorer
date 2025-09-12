@@ -115,9 +115,10 @@ export const removeUploaderFavoriteAtom = atom(
 // --- User Collections ---
 export const userCollectionsAtom = atomWithStorage<UserCollection[]>(STORAGE_KEYS.libraryCollections, []);
 
+// FIX: Modified atom to return the created collection, enabling chained actions.
 export const createCollectionAtom = atom(
   null,
-  (get, set, name: string) => {
+  (get, set, name: string): UserCollection => {
     const newCollection: UserCollection = {
       id: uuidv4(),
       name,
@@ -125,6 +126,7 @@ export const createCollectionAtom = atom(
       dateCreated: Date.now(),
     };
     set(userCollectionsAtom, (prev) => [...prev, newCollection].sort((a, b) => a.name.localeCompare(b.name)));
+    return newCollection;
   }
 );
 

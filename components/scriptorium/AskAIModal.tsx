@@ -3,6 +3,7 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
+// FIX: Correct import for geminiService from the new file
 import { answerFromText } from '../../services/geminiService';
 import { sanitizeHtml } from '../../utils/sanitizer';
 
@@ -81,7 +82,7 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ documentText, onClose })
                         />
                     ) : (
                         <div className="text-center text-gray-500 py-10">
-                            <p>{t('scriptorium:reader.askAIModalTitle')}</p>
+                            <p>{t('scriptorium:reader.askAIModalPrompt')}</p>
                         </div>
                     )}
                 </div>

@@ -1,13 +1,18 @@
 import React, { useState, useId } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+// FIX: Use direct imports to prevent circular dependency issues.
 import {
     settingsAtom,
     setSettingAtom,
     resetSettingsAtom,
+} from '../store/settings';
+import {
     searchHistoryAtom,
     clearSearchHistoryAtom,
+} from '../store/search';
+import {
     languageAtom,
-} from '../store';
+} from '../store/i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import type { AppSettings, Language } from '../types';
 import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon } from '../components/Icons';

@@ -48,6 +48,8 @@
   "readNow": "Read Now",
   "readInBookReader": "Read in BookReader",
   "closeReader": "Close Reader",
+  "selectAll": "Select All",
+  "clearSelection": "Clear selection",
   "imageViewer": {
     "zoomIn": "Zoom In",
     "zoomOut": "Zoom Out",

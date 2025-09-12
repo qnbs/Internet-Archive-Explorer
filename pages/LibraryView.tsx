@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemsAtom, userCollectionsAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { libraryItemsAtom, userCollectionsAtom } from '../store/favorites';
 import type { LibraryItem, LibraryFilter, MediaType } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { StarIcon, UsersIcon } from '../components/Icons';
 import { UploaderFavoritesTab } from '../components/favorites/UploaderFavoritesTab';
 import { LibrarySidebar } from '../components/library/LibrarySidebar';
+// FIX: Correct import for LibraryItemList from the new file
 import { LibraryItemList } from '../components/library/LibraryItemList';
 import { LibraryDetailPane } from '../components/library/LibraryDetailPane';
 

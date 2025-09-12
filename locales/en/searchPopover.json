@@ -10,5 +10,6 @@
     "all": "All Items",
     "free": "Freely Available",
     "borrowable": "Borrowable Only"
-  }
+  },
+  "language": "Language"
 }

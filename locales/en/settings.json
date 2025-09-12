@@ -19,7 +19,7 @@
     "defaultSort": "Default Search Sort",
     "defaultSortDesc": "Choose the default sorting order for new searches in the main explorer view.",
     "rememberFilters": "Remember Filters",
-    "rememberFiltersDesc": "Preserve your media type and year range filters from the Explorer page across browser sessions."
+    "rememberFiltersDesc": "Preserve your last-used media type and year range filters from the Explorer page across sessions."
   },
   "ui": {
     "title": "User Interface",
@@ -57,7 +57,7 @@
   },
   "content": {
     "title": "Content & Hubs",
-    "defaultUploaderDetailTab": "Default Uploader Tab",
+    "defaultUploaderDetailTab": "Default Contributor Tab",
     "defaultUploaderDetailTabDesc": "Select the tab that is opened by default when viewing a contributor's profile.",
     "autoplayMedia": "Autoplay Media",
     "autoplayMediaDesc": "Automatically start playing audio previews when opening an item's detail view.",

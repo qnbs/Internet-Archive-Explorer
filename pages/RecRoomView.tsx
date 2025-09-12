@@ -40,7 +40,9 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
             setResults(data.response.docs);
         } else {
             setResults(prevResults => {
-                const newDocs = data.response.docs.filter(doc => !prevResults.some(res => res.identifier === doc.identifier));
+                // OPTIMIZATION: Use a Set for O(n) duplicate checking instead of O(n^2).
+                const existingIds = new Set(prevResults.map(res => res.identifier));
+                const newDocs = data.response.docs.filter(doc => !existingIds.has(doc.identifier));
                 return [...prevResults, ...newDocs];
             });
         }

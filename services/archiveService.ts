@@ -115,7 +115,7 @@ export const getItemCount = async (query: string): Promise<number> => {
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
   const data = await apiFetch<ArchiveSearchResponse>(url, `item count for query "${query}"`);
-  return data.response.numFound;
+  return data?.response?.numFound || 0;
 };
 
 export const getReviewsByUploader = async (

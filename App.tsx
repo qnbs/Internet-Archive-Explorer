@@ -2,17 +2,18 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
+    modalAtom
+} from './store/app';
+// FIX: Updated atom imports to their new location in store/archive.ts to break a circular dependency.
+import { toastAtom, selectedProfileAtom, profileReturnViewAtom } from './store/archive';
+import { 
     resolvedThemeAtom, 
-    selectedProfileAtom, 
-    modalAtom, 
-    profileReturnViewAtom,
     reduceMotionAtom,
     highContrastModeAtom,
     underlineLinksAtom,
     fontSizeAtom,
-    toastAtom
-} from './store';
-import type { View } from './types';
+} from './store/settings';
+import type { View, Uploader, Profile, ArchiveItemSummary } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -23,6 +24,7 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { ToastContainer } from './components/Toast';
 import ErrorBoundary from './components/ErrorBoundary';
+// FIX: Correct import for ModalManager from the new file
 import { ModalManager } from './components/ModalManager';
 import { Spinner } from './components/Spinner';
 
@@ -39,10 +41,12 @@ const RecRoomView = React.lazy(() => import('./pages/RecRoomView'));
 const VideothekView = React.lazy(() => import('./pages/VideothekView'));
 const AudiothekView = React.lazy(() => import('./pages/AudiothekView'));
 const ImagesHubView = React.lazy(() => import('./pages/ImagesHubView'));
+const UploaderHubView = React.lazy(() => import('./pages/UploaderHubView'));
 const UploaderDetailView = React.lazy(() => import('./pages/UploaderDetailView'));
 const SettingsView = React.lazy(() => import('./pages/SettingsView'));
 const HelpView = React.lazy(() => import('./pages/HelpView'));
 const StorytellerView = React.lazy(() => import('./pages/StorytellerView'));
+const MyArchiveView = React.lazy(() => import('./pages/MyArchiveView'));
 
 const PageSpinner: React.FC = () => (
     <div className="flex justify-center items-center h-full pt-20">
@@ -105,6 +109,7 @@ const MainApp: React.FC = () => {
 
   // Keyboard shortcuts
   useEffect(() => {
+      // FIX: Correctly name the event argument 'e' and provide its type.
       const handleKeyDown = (e: KeyboardEvent) => {
           if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
               e.preventDefault();
@@ -118,22 +123,26 @@ const MainApp: React.FC = () => {
   const renderActiveView = () => {
     // Prevent rendering views that rely on translations before they are loaded
     if (isLoadingTranslations) return null;
+    
+    const handleSelectItem = (item: ArchiveItemSummary) => setModal({ type: 'itemDetail', item });
 
     switch (activeView) {
-      case 'explore': return <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
+      case 'explore': return <ExplorerView onSelectItem={handleSelectItem} />;
       case 'library': return <LibraryView />;
+      case 'myArchive': return <MyArchiveView onSelectItem={handleSelectItem} />;
       case 'scriptorium': return <ScriptoriumView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
-      case 'movies': return <VideothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
-      case 'audio': return <AudiothekView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
-      case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
+      case 'movies': return <VideothekView onSelectItem={handleSelectItem} />;
+      case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
+      case 'image': return <ImagesHubView onSelectItem={handleSelectItem} />;
       case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
+      case 'uploaderHub': return <UploaderHubView />;
       case 'uploaderDetail':
-        return selectedProfile ? <UploaderDetailView profile={selectedProfile} onBack={navigation.goBackFromProfile} onSelectItem={(item) => setModal({ type: 'itemDetail', item })} returnView={profileReturnView} /> : <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
+        return selectedProfile ? <UploaderDetailView profile={selectedProfile} onBack={navigation.goBackFromProfile} onSelectItem={handleSelectItem} returnView={profileReturnView} /> : <ExplorerView onSelectItem={handleSelectItem} />;
       case 'settings': return <SettingsView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
       case 'help': return <HelpView />;
       case 'storyteller': return <StorytellerView />;
       default:
-        return <ExplorerView onSelectItem={(item) => setModal({ type: 'itemDetail', item })} />;
+        return <ExplorerView onSelectItem={handleSelectItem} />;
     }
   };
 

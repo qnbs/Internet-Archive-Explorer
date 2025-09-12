@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom, modalAtom } from '../../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom } from '../../store/favorites';
+import { modalAtom } from '../../store/app';
 import type { LibraryItem } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { RichTextEditor } from '../RichTextEditor';

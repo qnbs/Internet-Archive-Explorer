@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import { useLanguage } from './useLanguage';
 import { useAtom, useAtomValue } from 'jotai';
-import { themeAtom, resolvedThemeAtom, languageAtom } from '../store';
+// FIX: Use direct imports to prevent circular dependency issues.
+import { themeAtom, resolvedThemeAtom } from '../store/settings';
+import { languageAtom } from '../store/i18n';
 import type { Command, View } from '../types';
 import {
   CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, UsersIcon,

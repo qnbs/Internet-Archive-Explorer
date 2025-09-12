@@ -13,18 +13,23 @@ export const useUploaderStats = (profile: Profile) => {
         setError(null);
         try {
             const baseQuery = getProfileApiQuery(profile);
+            const username = profile.searchIdentifier.split('@')[0];
 
-            const mediaTypes: (keyof UploaderStats)[] = ['movies', 'audio', 'texts', 'image', 'software'];
-            const promises = mediaTypes.map(type => 
-                getItemCount(`${baseQuery} AND mediatype:${type}`)
-            );
-            promises.unshift(getItemCount(baseQuery)); // For total count
+            const mediaTypes: (keyof Pick<UploaderStats, 'movies' | 'audio' | 'texts' | 'image' | 'software'>)[] = ['movies', 'audio', 'texts', 'image', 'software'];
+            
+            const promises: Promise<number>[] = [
+                getItemCount(baseQuery), // Total
+                ...mediaTypes.map(type => getItemCount(`${baseQuery} AND mediatype:${type}`)),
+                getItemCount(`uploader:("${profile.searchIdentifier}") AND mediatype:collection`), // Collections
+                getItemCount(`collection:(fav-${username})`), // Favorites
+                getItemCount(`reviewer:("${profile.searchIdentifier}")`), // Reviews
+            ];
 
             const results = await Promise.all(promises);
             
-            const [total, movies, audio, texts, image, software] = results;
+            const [total, movies, audio, texts, image, software, collections, favorites, reviews] = results;
 
-            setStats({ total, movies, audio, texts, image, software });
+            setStats({ total, movies, audio, texts, image, software, collections, favorites, reviews });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load stats');
         } finally {

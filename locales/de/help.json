@@ -46,7 +46,46 @@
       "icon": "UsersIcon",
       "questions": [
         { "q": "qUploaderProfile", "a": "aUploaderProfile" },
-        { "q": "qFollow", "a": "aFollow" }
+        { "q": "qFollow", "a": "aFollow" },
+        { "q": "qMyArchive", "a": "aMyArchive" }
+      ]
+    },
+    {
+      "id": "uploading",
+      "icon": "UploadIcon",
+      "questions": [
+        { "q": "upload-qReq", "a": "upload-aReq" },
+        { "q": "upload-qFiles", "a": "upload-aFiles" },
+        { "q": "upload-qFormats", "a": "upload-aFormats" },
+        { "q": "upload-qSteps", "a": "upload-aSteps" },
+        { "q": "upload-qMetadata", "a": "upload-aMetadata" },
+        { "q": "upload-qScannedBook", "a": "upload-aScannedBook" },
+        { "q": "upload-qBatch", "a": "upload-aBatch" },
+        { "q": "upload-qNaming", "a": "upload-aNaming" }
+      ]
+    },
+    {
+      "id": "accounts",
+      "icon": "UsersIcon",
+      "questions": [
+        { "q": "account-qBenefits", "a": "account-aBenefits" },
+        { "q": "account-qCreate", "a": "account-aCreate" },
+        { "q": "account-qScreenName", "a": "account-aScreenName" },
+        { "q": "account-qUserName", "a": "account-aUserName" },
+        { "q": "account-qEmail", "a": "account-aEmail" },
+        { "q": "account-qAvatar", "a": "account-aAvatar" },
+        { "q": "account-qLoginFail", "a": "account-aLoginFail" },
+        { "q": "account-qLocked", "a": "account-aLocked" }
+      ]
+    },
+    {
+      "id": "lending",
+      "icon": "BookIcon",
+      "questions": [
+        { "q": "lending-qBorrowHow", "a": "lending-aBorrowHow" },
+        { "q": "lending-qBorrowReturn", "a": "lending-aBorrowReturn" },
+        { "q": "lending-qBorrowUnavailable", "a": "lending-aBorrowUnavailable" },
+        { "q": "lending-qBorrowWaitlist", "a": "lending-aBorrowWaitlist" }
       ]
     },
     {
@@ -61,6 +100,7 @@
       "id": "faq",
       "icon": "InfoIcon",
       "questions": [
+        { "q": "qImageViewer", "a": "aImageViewer" },
         { "q": "qDownload", "a": "aDownload" },
         { "q": "qOfficial", "a": "aOfficial" },
         { "q": "qAboutApp", "a": "aAboutApp" }
@@ -71,15 +111,20 @@
   "hubs": { "title": "Entdeckung & Hubs" },
   "library": { "title": "Meine Bibliothek" },
   "scriptorium": { "title": "Das Scriptorium" },
-  "contributors": { "title": "Mitwirkende" },
+  "contributors": { "title": "Mitwirkende & Mein Archiv" },
+  "uploading": { "title": "Inhalte hochladen" },
+  "accounts": { "title": "Kontoverwaltung" },
+  "lending": { "title": "Die Leihbibliothek" },
   "settings": { "title": "Einstellungen & Daten" },
   "faq": { "title": "Häufig gestellte Fragen" },
+
   "qSearch": "Wie suche ich nach Einträgen?",
-  "aSearch": "Verwenden Sie die Hauptsuchleiste oben auf der Seite für allgemeine Suchen. Auf der 'Entdecken'-Seite können Sie bei angezeigten Ergebnissen die Filtersteuerelemente verwenden, um die Ergebnisse nach Medientyp, Jahr und mehr einzugrenzen. Für erweiterte Abfragen können Sie die Lucene-Syntax wie <code>creator:(\"Walt Disney\")</code> verwenden.",
+  "aSearch": "Verwenden Sie die Hauptsuchleiste oben auf der Seite für allgemeine Suchen. Sie können das <strong>Filter-Popover</strong> (Trichter-Symbol) öffnen, um die Ergebnisse nach Medientyp, Jahr und mehr einzugrenzen. Für erweiterte Abfragen können Sie die Lucene-Syntax wie <code>creator:(\"Walt Disney\")</code> direkt in der Suchleiste verwenden.",
   "qNav": "Wie navigiere ich in der App?",
-  "aNav": "Verwenden Sie das Seitenmenü (auf dem Desktop) oder die untere Navigationsleiste (auf Mobilgeräten), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, Ihrer <strong>Bibliothek</strong> und den verschiedenen Inhalts-Hubs (Videothek, Audiothek usw.) zu wechseln.",
+  "aNav": "Verwenden Sie das <strong>Seitenmenü</strong> (auf dem Desktop) oder die <strong>untere Navigationsleiste</strong> (auf Mobilgeräten), um zwischen den Hauptbereichen wie dem <strong>Explorer</strong>, Ihrer <strong>Bibliothek</strong> und den verschiedenen Inhalts-Hubs (Videothek, Audiothek usw.) zu wechseln.",
   "qCommandPalette": "Was ist die Befehlspalette?",
-  "aCommandPalette": "Die Befehlspalette ist ein leistungsstarkes Werkzeug für schnelle Navigation und Aktionen. Drücken Sie <strong>Cmd/Ctrl + K</strong>, um sie zu öffnen. Von dort aus können Sie tippen, um sofort zu jedem Bereich zu finden und zu springen, das Design umzuschalten oder die Sprache zu ändern.",
+  "aCommandPalette": "Die Befehlspalette ist ein leistungsstarkes Werkzeug für schnelle Navigation und Aktionen. Drücken Sie <code>Cmd/Ctrl + K</code>, um sie zu öffnen. Von dort aus können Sie tippen, um sofort zu jedem Bereich zu finden und zu springen, das Design umzuschalten oder die Sprache zu ändern.",
+
   "qExplorer": "Was ist der Explorer-Hub?",
   "aExplorer": "Die Hauptseite 'Entdecken' ist Ihr zentraler Hub für Entdeckungen. Wenn Sie nicht aktiv suchen, werden hier kuratierte und dynamische Inhalte wie 'Aktuelle Trends' und 'An diesem Tag in der Geschichte' angezeigt, um Ihnen zu helfen, interessante Einträge zu finden.",
   "qCinemaAudio": "Was sind die Videothek, Audiothek und der Bilder-Hub?",
@@ -88,26 +133,78 @@
   "aRecRoom": "Der Rec Room ist ein Hub für abspielbare Software aus den Archiven. Er konzentriert sich auf die umfangreiche Sammlung emulierter MS-DOS-Spiele, die Sie direkt in Ihrem Browser ohne Downloads spielen können.",
   "qStoryteller": "Was ist der Geschichtenerzähler?",
   "aStoryteller": "Dies ist eine experimentelle Funktion, die von Gemini AI unterstützt wird. Sie können ein Thema oder eine kreative Anregung geben, und die KI generiert eine kurze, originelle Geschichte, die vom Geist des Internet Archive inspiriert ist.",
+
   "qLibrary": "Was ist 'Meine Bibliothek'?",
-  "aLibrary": "Meine Bibliothek ist Ihr persönlicher Bereich zur Kuratierung von Inhalten. Wenn Sie einen Eintrag favorisieren (indem Sie auf das Sternsymbol klicken), wird er hier hinzugefügt. Die Bibliothek verwendet auf größeren Bildschirmen ein Drei-Fenster-Layout: eine Seitenleiste zum Filtern nach Ihren Sammlungen und Tags, eine zentrale Liste Ihrer Einträge und ein Detailfenster zum Anzeigen von Notizen und Metadaten.",
+  "aLibrary": "<strong>Meine Bibliothek</strong> ist Ihr persönlicher Bereich zur Kuratierung von Inhalten. Wenn Sie einen Eintrag favorisieren (indem Sie auf das Sternsymbol klicken), wird er hier hinzugefügt. Die Bibliothek verwendet auf größeren Bildschirmen ein Drei-Fenster-Layout: eine Seitenleiste zum Filtern nach Ihren Sammlungen und Tags, eine zentrale Liste Ihrer Einträge und ein Detailfenster zum Anzeigen von Notizen und Metadaten.",
   "qCollectionsTags": "Wie verwende ich Sammlungen und Tags?",
-  "aCollectionsTags": "In Ihrer Bibliothek können Sie benutzerdefinierte **Sammlungen** erstellen, um Einträge für ein bestimmtes Projekt zu gruppieren. Sie können auch jedem Eintrag **Tags** hinzufügen, um eine detailliertere Filterung zu ermöglichen. Verwenden Sie die Seitenleiste, um Ihre Bibliothek so zu filtern, dass nur Einträge in einer bestimmten Sammlung oder mit einem bestimmten Tag angezeigt werden.",
+  "aCollectionsTags": "In Ihrer Bibliothek können Sie benutzerdefinierte <strong>Sammlungen</strong> erstellen, um Einträge für ein bestimmtes Projekt zu gruppieren. Sie können auch jedem Eintrag <strong>Tags</strong> hinzufügen, um eine detailliertere Filterung zu ermöglichen. Verwenden Sie die Seitenleiste, um Ihre Bibliothek so zu filtern, dass nur Einträge in einer bestimmten Sammlung oder mit einem bestimmten Tag angezeigt werden.",
   "qBulkActions": "Kann ich mehrere Einträge auf einmal verwalten?",
-  "aBulkActions": "Ja. Klicken Sie im Eintragslistenfenster Ihrer Bibliothek auf die Schaltfläche 'Einträge auswählen'. Dadurch wird der 'Auswahlmodus' aktiviert, in dem Sie mehrere Einträge markieren können. Es erscheint eine neue Symbolleiste, mit der Sie Massenaktionen durchführen können, z. B. Einträge löschen, zu einer Sammlung hinzufügen oder Tags zu allen ausgewählten Einträgen hinzufügen.",
+  "aBulkActions": "Ja. Im Eintragslistenfenster Ihrer Bibliothek können Sie den <strong>Auswahlmodus</strong> aktivieren, indem Sie auf 'Alle auswählen' klicken oder einen Eintrag auswählen. Es erscheint eine neue Symbolleiste, mit der Sie Massenaktionen durchführen können, z. B. Einträge löschen, zu einer Sammlung hinzufügen, Tags hinzufügen oder die 'Magische Organisation' verwenden, um KI-gestützte Vorschläge zu erhalten.",
+
   "qScriptorium": "Wofür ist das Scriptorium?",
   "aScriptorium": "Das Scriptorium ist ein leistungsstarkes Werkzeug für die Forschung. Es ermöglicht Ihnen, textbasierte Dokumente aus dem Archiv in persönlichen 'Worksets' für eine fokussierte Untersuchung zu sammeln.",
   "qWorksets": "Wie verwende ich Worksets?",
   "aWorksets": "Vom Scriptorium-Hub aus können Sie neue Worksets erstellen (z. B. 'Meine Romanrecherche'). Sobald Sie ein Workset öffnen, können Sie Textdokumente durch Durchsuchen des Archivs hinzufügen. Alle Ihre Worksets und deren Inhalte werden lokal in Ihrem Browser gespeichert.",
   "qReaderAi": "Was sind die KI-Werkzeuge im Dokumentenleser?",
-  "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können eine prägnante Zusammenfassung des Textes erstellen oder Schlüssel-'Entitäten' – wie Personen, Orte und Organisationen – extrahieren, um Ihnen zu helfen, den Inhalt zu verstehen und verwandte Informationen zu finden.",
+  "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können:<ul><li><strong>Zusammenfassen:</strong> Eine prägnante Zusammenfassung des Textes erstellen.</li><li><strong>Entitäten extrahieren:</strong> Wichtige Personen, Orte und Organisationen identifizieren.</li><li><strong>Frage stellen:</strong> Eine Frage zum Text stellen und eine auf dem Inhalt basierende Antwort erhalten.</li></ul>Der Dokumentenleser verfügt außerdem über eine anpassbare Zwei-Fenster-Ansicht mit einem Rich-Text-Editor zum Erstellen von dauerhaften Notizen.",
+  
   "qUploaderProfile": "Was sind die Profilseiten von Mitwirkenden?",
   "aUploaderProfile": "Jeder Uploader und Ersteller hat eine detaillierte Profilseite. Der Inhalt ist in Tabs organisiert: 'Uploads' zeigt alle Beiträge mit leistungsstarken Filter- und Sortiersteuerungen. Andere Tabs wie 'Bewertungen', 'Sammlungen' und 'Favoriten' erscheinen dynamisch, wenn der Mitwirkende diese Art von Inhalt hat, und bieten eine umfassende Ansicht seiner Aktivitäten.",
   "qFollow": "Wie folge ich einem Mitwirkenden?",
-  "aFollow": "Klicken Sie auf der Profilseite eines Mitwirkenden auf das Sternsymbol neben seinem Namen. Dadurch wird er zur Liste 'Gefolgte Uploader' in Ihrer Bibliothek für einen schnellen Zugriff hinzugefügt.",
+  "aFollow": "Klicken Sie auf der Profilseite eines Mitwirkenden auf das Sternsymbol neben seinem Namen. Dadurch wird er zur Liste 'Gefolgte Mitwirkende' in Ihrer Bibliothek für einen schnellen Zugriff hinzugefügt.",
+  "qMyArchive": "Was ist 'Mein Archiv'?",
+  "aMyArchive": "Mein Archiv ermöglicht es Ihnen, Ihr öffentliches Internet Archive-Konto mit der App zu verbinden. Einmal verbunden, bietet es eine personalisierte Dashboard-Ansicht Ihrer eigenen Uploads, Sammlungen und Statistiken und verwendet dabei dieselbe leistungsstarke Oberfläche wie die öffentlichen Profile von Mitwirkenden.",
+
+  "upload-qReq": "Was benötige ich, um mit dem Hochladen zu beginnen?",
+  "upload-aReq": "Sie müssen sich für ein <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>kostenloses Konto</a> auf archive.org registrieren, bevor Sie etwas hochladen können.",
+  "upload-qFiles": "Welche Dateien kann ich hochladen?",
+  "upload-aFiles": "Mit einem kostenlosen Konto können Sie Dateien wie Musik, Audioaufnahmen, Videos, Software, Bilder und vieles mehr hochladen. Bitte beachten Sie die <a href='https://archive.org/about/terms.php' target='_blank' rel='noopener noreferrer'>Nutzungsbedingungen</a> des Internet Archive für weitere Informationen zu zulässigen Inhalten.",
+  "upload-qFormats": "Welche Dateiformate sollte ich verwenden?",
+  "upload-aFormats": "Es gibt im Allgemeinen drei Kategorien von Dateien: Datendateien, Metadatendateien und Forschungsdateien. Genaue Details und Tipps zur Verwaltung dieser Dateien finden Sie auf der offiziellen <a href='https://help.archive.org/help/file-formats-and-best-practices/' target='_blank' rel='noopener noreferrer'>Seite zu Dateiformaten</a>.",
+  "upload-qSteps": "Was sind die grundlegenden Schritte zum Hochladen?",
+  "upload-aSteps": "Der grundlegende Prozess ist wie folgt:<ul><li>Stellen Sie zunächst sicher, dass Sie in Ihrem kostenlosen Konto auf archive.org angemeldet sind.</li><li>Wählen Sie das 'Upload'-Symbol, das sich normalerweise in der oberen Navigationsleiste befindet.</li><li>Wählen Sie 'Dateien hochladen' und ziehen Sie Ihre Dateien per Drag & Drop oder verwenden Sie die Dateiauswahl.</li><li>Füllen Sie das Metadatenformular aus, um Ihren Eintrag zu beschreiben.</li><li>Klicken Sie auf die Schaltfläche 'Hochladen und Eintrag erstellen'.</li><li>Die Verarbeitung Ihres Eintrags kann je nach Dateigröße und -typ einige Zeit in Anspruch nehmen.</li></ul>",
+  "upload-qMetadata": "Welche Metadaten sind erforderlich?",
+  "upload-aMetadata": "Beim Hochladen müssen Sie ein Formular mit den folgenden Details ausfüllen:<ul><li><strong>Seitentitel (erforderlich):</strong> Der Titel der Eintragsseite.</li><li><strong>Seiten-URL (erforderlich):</strong> Ein eindeutiger Bezeichner für die URL (5-80 Zeichen, Kleinbuchstaben, Zahlen, Bindestriche empfohlen).</li><li><strong>Beschreibung (erforderlich):</strong> Eine Beschreibung der von Ihnen hochgeladenen Materialien.</li><li><strong>Schlagwörter (erforderlich):</strong> Relevante Tags, maximal 10.</li><li><strong>Ersteller:</strong> Die Person oder Organisation, die den Inhalt erstellt hat.</li><li><strong>Datum:</strong> Das Erstellungsdatum des Inhalts.</li><li><strong>Sammlung:</strong> Wird oft automatisch basierend auf dem Dateityp ausgewählt.</li><li><strong>Sprache:</strong> Wichtig für Textelemente, um Suche und OCR zu ermöglichen.</li><li><strong>Lizenz:</strong> Wählen Sie eine Creative-Commons-Lizenz für Ihr Werk.</li></ul>",
+  "upload-qScannedBook": "Wie lade ich ein gescanntes Buch hoch?",
+  "upload-aScannedBook": "Das Hochladen eines gescannten Buches umfasst einige wichtige Schritte:<ul><li><strong>1. Buch scannen:</strong> Scannen Sie alle Seiten (einschließlich Cover) in hoher Qualität (mindestens 300 dpi). Stellen Sie sicher, dass die Bilder scharf und zugeschnitten sind.</li><li><strong>2. ZIP/TAR-Datei erstellen:</strong> Stellen Sie sicher, dass die Bilddateien sequenziell benannt sind (z. B. 001.jpg, 002.jpg). Komprimieren Sie den Ordner mit den Bildern in eine einzelne .zip- oder .tar-Datei.</li><li><strong>3. Datei korrekt benennen:</strong> Die Datei muss mit Ihrem gewählten eindeutigen Bezeichner benannt sein und auf <code>_images.zip</code> enden (z. B. <code>meintollesbuch_images.zip</code>).</li><li><strong>4. Hochladen:</strong> Laden Sie die einzelne ZIP-Datei hoch. Das System verarbeitet sie automatisch in ein Buchformat. Sie können Metadaten manuell eingeben oder eine optionale MARC-Datensatzdatei bereitstellen.</li></ul>",
+  "upload-qBatch": "Kann ich Dateien in großen Mengen hochladen?",
+  "upload-aBatch": "Ja, das Hochladen von Stapeln ist möglich. Aufgrund des Zeitaufwands wird empfohlen, das <a href='https://archive.org/developers/internetarchive/index.html' target='_blank' rel='noopener noreferrer'>Internet Archive Command-Line Tool</a> zu verwenden, um Ihre Uploads zu skripten. Dies erfordert eine gewisse Vertrautheit mit Kommandozeilen-Schnittstellen.",
+  "upload-qNaming": "Wie sollte ich meine Dateien benennen?",
+  "upload-aNaming": "Dateinamen unterliegen einigen Einschränkungen. Bitte verwenden Sie nur Buchstaben ohne Akzente (einfaches ASCII), Zahlen, Bindestriche, Unterstriche oder Punkte. Verwenden Sie keine Sonderzeichen.",
+
+  "account-qBenefits": "Was ermöglicht mir ein Internet Archive-Konto?",
+  "account-aBenefits": "Ein kostenloses Konto ermöglicht es Ihnen:<ul><li>Dateien auf die Website hochzuladen.</li><li>Bücher aus der Leihbibliothek auszuleihen.</li><li>Bewertungen abzugeben und an Foren teilzunehmen.</li><li>Sammlungen und Favoriten zu pflegen.</li><li>Einige eingeschränkte Inhalte anzusehen.</li></ul>",
+  "account-qCreate": "Wie erstelle ich ein Konto?",
+  "account-aCreate": "Sie können <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>ein Konto erstellen</a>, indem Sie das Registrierungsformular ausfüllen. Die von Ihnen gewählte E-Mail-Adresse und der Anzeigename müssen eindeutig sein und dürfen auf der Website noch nicht verwendet werden.",
+  "account-qScreenName": "Was ist ein Anzeigename und kann ich ihn ändern?",
+  "account-aScreenName": "Ihr <strong>Anzeigename</strong> ist Ihr öffentlicher Name auf der Website, der bei Uploads und Bewertungen sichtbar ist. Sie können Ihren Anzeigenamen jederzeit in Ihren Kontoeinstellungen ändern, nachdem Sie sich angemeldet haben.",
+  "account-qUserName": "Was ist ein Benutzername?",
+  "account-aUserName": "Ihr <strong>Benutzername</strong> (z. B. <code>@foo</code>) wird bei der Erstellung Ihres Kontos automatisch basierend auf Ihrem Anzeigenamen generiert. Es ist ein dauerhafter, eindeutiger Systembezeichner für Ihre Daten und kann nicht geändert werden, auch wenn Sie Ihren Anzeigenamen ändern.",
+  "account-qEmail": "Warum benötigen Sie meine E-Mail und kann ich sie ändern?",
+  "account-aEmail": "Ihre E-Mail wird zur Verifizierung Ihres Kontos, zum Anmelden und zur Passwortwiederherstellung verwendet. Sie können Ihre E-Mail-Adresse in Ihren Kontoeinstellungen ändern, müssen aber auch das Internet Archive unter <code>info@archive.org</code> benachrichtigen, um sicherzustellen, dass alle Ihre vorhandenen Materialien mit der neuen Adresse verknüpft werden.",
+  "account-qAvatar": "Wie ändere ich mein Profilbild (Avatar)?",
+  "account-aAvatar": "Melden Sie sich bei Ihrem Konto an, klicken Sie auf Ihren Anzeigenamen und gehen Sie zu 'Meine Bibliothek'. Fahren Sie mit der Maus über das Standard-Profilbild, bis eine Aufforderung erscheint, dann können Sie ein neues Bild hochladen und speichern.",
+  "account-qLoginFail": "Warum ist meine Anmeldung fehlgeschlagen?",
+  "account-aLoginFail": "Anmeldefehler können aus mehreren Gründen auftreten:<ul><li>Sie versuchen, sich mit Ihrem Anzeigenamen anstelle Ihrer vollständigen E-Mail-Adresse anzumelden.</li><li>Es gibt einen Tippfehler in Ihrer E-Mail oder Ihrem Passwort.</li><li>Ihre Feststelltaste (Caps Lock) ist aktiviert, da Passwörter zwischen Groß- und Kleinschreibung unterscheiden.</li></ul>Wenn Sie Ihr Passwort vergessen haben, verwenden Sie den Link 'Passwort vergessen?' auf der Anmeldeseite.",
+  "account-qLocked": "Warum ist mein Konto gesperrt?",
+  "account-aLocked": "Konten können aus verschiedenen Gründen gesperrt werden, einschließlich eines Verstoßes gegen die Nutzungsbedingungen. Wenn Sie der Meinung sind, dass Ihr Konto fälschlicherweise gesperrt wurde, sollten Sie sich direkt an das Internet Archive wenden.",
+
+  "lending-qBorrowHow": "Wie leihe ich ein Buch aus und lese es offline?",
+  "lending-aBorrowHow": "Das System des Internet Archive verwendet Adobe Digital Editions (ADE) oder andere LCP-kompatible Apps zum Offline-Lesen. Leihen Sie zuerst das Buch auf der Website aus. Laden Sie dann die verschlüsselte PDF- oder ePub-Datei herunter. Das Öffnen dieser Datei (<code>.acsm</code>) in Ihrer autorisierten Lese-App ermöglicht es Ihnen, es für die Dauer der Ausleihe offline zu lesen.",
+  "lending-qBorrowReturn": "Wie gebe ich ein ausgeliehenes Buch zurück?",
+  "lending-aBorrowReturn": "Sie können ein Buch vorzeitig aus Ihrer Lese-App (wie Adobe Digital Editions) zurückgeben. Danach ist es eine gute Praxis, auch die Eintragsseite auf der Website des Internet Archive zu besuchen und auf die Schaltfläche 'Zurückgeben' zu klicken, um sicherzustellen, dass es sofort für die nächste Person verfügbar wird. Wenn Sie nichts tun, wird das Buch nach 14 Tagen automatisch zurückgegeben.",
+  "lending-qBorrowUnavailable": "Warum sind einige Bücher als 'Ausleihe nicht verfügbar' gekennzeichnet?",
+  "lending-aBorrowUnavailable": "Infolge des Rechtsstreits <em>Hachette gegen Internet Archive</em> wurden über 500.000 Bücher aus der Leihbibliothek entfernt. Diese Bücher werden als 'Ausleihe nicht verfügbar' angezeigt und können derzeit nicht von allgemeinen Nutzern ausgeliehen werden. Bücher sind weiterhin für Nutzer mit Leseschwächen verfügbar.",
+  "lending-qBorrowWaitlist": "Wie lange ist die Wartezeit für ein Buch auf der Warteliste?",
+  "lending-aBorrowWaitlist": "Wenn ein Buch bereits ausgeliehen ist, können Sie sich auf eine Warteliste setzen lassen. Die Wartezeit hängt von Ihrer Position in der Liste ab und davon, wann der aktuelle Ausleiher das Buch zurückgibt. Sie werden per E-Mail benachrichtigt, wenn Sie an der Reihe sind, und haben dann 48 Stunden Zeit, das Buch auszuleihen, bevor es der nächsten Person angeboten wird.",
+
   "qSettings": "Wie kann ich die App anpassen?",
-  "aSettings": "Die Seite **Einstellungen** bietet umfangreiche Anpassungsmöglichkeiten. Sie können das visuelle Design (Hell/Dunkel/System) ändern, die Layoutdichte und Schriftgröße anpassen, Standardverhalten für Inhalte und KI-Funktionen festlegen und die Anwendungssprache ändern.",
+  "aSettings": "Die Seite <strong>Einstellungen</strong> bietet umfangreiche Anpassungsmöglichkeiten. Sie können das visuelle Design (Hell/Dunkel/System) ändern, die Layoutdichte und Schriftgröße anpassen, Standardverhalten für Inhalte und KI-Funktionen festlegen und die Anwendungssprache ändern.",
   "qData": "Wie werden meine Daten gespeichert und verwaltet?",
-  "aData": "Alle Ihre persönlichen Daten – einschließlich Einstellungen, Bibliothekseinträge, Worksets und gefolgte Uploader – werden **lokal im Speicher Ihres Browsers** gespeichert. Es werden keine Daten an einen Server gesendet. Auf der Seite 'Einstellungen' unter 'Daten & Datenschutz' können Sie alle Ihre Daten zur Sicherung in eine JSON-Datei exportieren oder in einen anderen Browser importieren.",
+  "aData": "Alle Ihre persönlichen Daten – einschließlich Einstellungen, Bibliothekseinträge, Worksets und gefolgte Mitwirkende – werden <strong>lokal im Speicher Ihres Browsers</strong> gespeichert. Es werden keine Daten an einen Server gesendet. Auf der Seite 'Einstellungen' unter 'Daten & Datenschutz' können Sie alle Ihre Daten zur Sicherung in eine JSON-Datei exportieren oder in einen anderen Browser importieren.",
+  
+  "qImageViewer": "Wie funktioniert der erweiterte Bildbetrachter?",
+  "aImageViewer": "Wenn Sie ein Bildelement öffnen, erscheint es in einem speziellen Betrachter. Sie können:<ul><li><strong>Zoomen:</strong> Verwenden Sie Ihr Mausrad oder die Schaltflächen in der Symbolleiste, um hinein- und herauszuzoomen. Der Zoom fokussiert auf die Position Ihres Cursors.</li><li><strong>Schwenken:</strong> Klicken und ziehen Sie das Bild, um es zu verschieben, wenn Sie hineingezoomt haben.</li><li><strong>Drehen:</strong> Verwenden Sie die Schaltflächen in der Symbolleiste, um das Bild in 90-Grad-Schritten zu drehen.</li><li><strong>Zurücksetzen:</strong> Klicken Sie auf die Schaltfläche zum Zurücksetzen, um das Bild auf den Standard-Zoom, die Standard-Position und -Drehung zurückzusetzen.</li><li><strong>Vollbild:</strong> Betrachten Sie das Bild im Vollbildmodus Ihres Browsers.</li></ul>",
   "qDownload": "Kann ich Einträge herunterladen?",
   "aDownload": "Ja. In der Detailansicht eines Eintrags (zugänglich durch Klicken auf eine beliebige Eintragskarte) finden Sie den Tab 'Dateien'. Hier werden alle Quelldateien aufgelistet, die zum Download zur Verfügung stehen. Klicken Sie auf eine Datei, um sie in einem neuen Tab zu öffnen oder direkt herunterzuladen.",
   "qOfficial": "Ist dies eine offizielle Anwendung des Internet Archive?",
