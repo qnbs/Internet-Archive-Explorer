@@ -100,7 +100,6 @@ export interface ExtractedEntities {
 
 export interface WorksetDocument extends ArchiveItemSummary {
     notes: string;
-    // FIX: Add worksetId to associate a document with its parent workset.
     worksetId: string;
 }
 

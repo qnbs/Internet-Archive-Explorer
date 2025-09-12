@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { modalAtom } from '../store';
+import { MediaType } from '../types';
 
 // Import Modal Components
 import { ItemDetailModal } from './ItemDetailModal';
+import { ImageDetailModal } from './ImageDetailModal';
 import { EmulatorModal } from './EmulatorModal';
 import { CommandPalette } from './CommandPalette';
 import { ConfirmationModal } from './ConfirmationModal';
@@ -30,28 +32,36 @@ export const ModalManager: React.FC = () => {
     
     switch (modalState.type) {
         case 'itemDetail':
-            return (
-                <ItemDetailModal
+            const commonProps = {
+                item: modalState.item,
+                onClose: handleClose,
+                onCreatorSelect: (creator: string) => {
+                    handleClose();
+                    navigation.navigateToCreator(creator);
+                },
+                onUploaderSelect: (uploader: string) => {
+                    handleClose();
+                    navigation.navigateToUploader(uploader);
+                },
+                onEmulate: (item: any) => { // 'any' for compatibility
+                    handleClose();
+                    setModalState({ type: 'emulator', item });
+                },
+                onSelectItem: (item: any) => { // 'any' for compatibility
+                    setModalState({ type: 'itemDetail', item });
+                }
+            };
+            
+            if (modalState.item.mediatype === MediaType.Image) {
+                return <ImageDetailModal 
                     item={modalState.item}
-                    onClose={handleClose}
-                    onCreatorSelect={(creator: string) => {
-                        handleClose();
-                        navigation.navigateToCreator(creator);
-                    }}
-                    onUploaderSelect={(uploader: string) => {
-                        handleClose();
-                        navigation.navigateToUploader(uploader);
-                    }}
-                    onEmulate={(item) => {
-                        handleClose();
-                        setModalState({ type: 'emulator', item });
-                    }}
-                    onSelectItem={(item) => {
-                        // When selecting a related item, we effectively "replace" the current modal
-                        setModalState({ type: 'itemDetail', item });
-                    }}
-                />
-            );
+                    onClose={commonProps.onClose}
+                    onCreatorSelect={commonProps.onCreatorSelect}
+                    onUploaderSelect={commonProps.onUploaderSelect}
+                />;
+            }
+
+            return <ItemDetailModal {...commonProps} />;
 
         case 'emulator':
             return <EmulatorModal item={modalState.item} onClose={handleClose} />;

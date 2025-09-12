@@ -53,14 +53,13 @@ const PageSpinner: React.FC = () => (
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {
     const { addToast } = useToast();
-    // FIX: Use `useAtom` to get both value and setter. This allows resetting the atom after consuming the toast.
     const [toast, setToast] = useAtom(toastAtom); 
     
     useEffect(() => {
         // The initial value of the atom is null, so we ignore it
         if (toast) {
             addToast(toast.message, toast.type);
-            // FIX: Reset the atom to null so the toast doesn't re-appear on re-renders.
+            // Reset the atom to null so the toast doesn't re-appear on re-renders.
             setToast(null);
         }
     }, [toast, addToast, setToast]);

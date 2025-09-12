@@ -47,5 +47,15 @@
   "autosaved": "Automatisch gespeichert",
   "readNow": "Jetzt lesen",
   "readInBookReader": "Im BookReader lesen",
-  "closeReader": "Reader schließen"
+  "closeReader": "Reader schließen",
+  "imageViewer": {
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern",
+    "rotateLeft": "Nach links drehen",
+    "rotateRight": "Nach rechts drehen",
+    "resetView": "Ansicht zurücksetzen",
+    "fullscreen": "Vollbild",
+    "download": "Bild herunterladen",
+    "loadingError": "Das hochauflösende Bild konnte nicht geladen werden."
+  }
 }

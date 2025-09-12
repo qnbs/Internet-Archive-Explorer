@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-// FIX: Import ToastMessage type to use in the atom definition.
 import type { View, Profile, ArchiveItemSummary, ConfirmationOptions, ToastMessage, UserCollection } from '../types';
 
 export type ModalState =
@@ -19,8 +18,6 @@ export const selectedProfileAtom = atom<Profile | null>(null);
 export const profileReturnViewAtom = atom<View>('explore');
 export const modalAtom = atom<ModalState>({ type: 'closed' });
 
-// FIX: Changed toastAtom to be a readable/writable atom holding the toast state.
-// The ToastBridge component will consume this state to show a toast and then reset it to null.
-// The `id` property is included to ensure that setting the atom with the same message/type still triggers updates.
-// By using a type assertion, we can help TypeScript resolve the type correctly in complex module dependency scenarios.
+// This atom holds the toast state. The ToastBridge component consumes this state 
+// to show a toast and then resets it to null.
 export const toastAtom = atom(null as Omit<ToastMessage, 'duration'> | null);

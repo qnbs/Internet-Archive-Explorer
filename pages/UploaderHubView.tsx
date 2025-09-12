@@ -71,7 +71,6 @@ export const UploaderHubView: React.FC<UploaderHubViewProps> = ({ onSelectUpload
                  {filteredUploaders.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredUploaders.map((uploader, index) => {
-                            // FIX: Construct a Profile object to pass to the UploaderProfileCard component.
                             const profile: Profile = {
                                 name: uploader.username,
                                 searchIdentifier: uploader.searchUploader,

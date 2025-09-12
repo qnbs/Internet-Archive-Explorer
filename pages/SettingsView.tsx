@@ -247,10 +247,81 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
     const resetSettings = useSetAtom(resetSettingsAtom);
     const clearSearchHistory = useSetAtom(clearSearchHistoryAtom);
     
-    const handleExport = () => { /* ... (implementation unchanged) ... */ };
-    const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => { /* ... (implementation unchanged) ... */ };
-    const handleReset = () => { /* ... (implementation unchanged) ... */ };
-    const handleClearHistory = () => { /* ... (implementation unchanged) ... */ };
+    const handleExport = () => {
+        try {
+            const data = exportAllData();
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `archive-explorer-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            addToast(t('settings:data.exportSuccess'), 'success');
+        } catch (error) {
+            console.error(error);
+            addToast(t('settings:data.exportError'), 'error');
+        }
+    };
+
+    const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const jsonString = e.target?.result as string;
+                showConfirmation({
+                    title: t('settings:data.importButtonConfirm'),
+                    message: t('settings:data.importConfirm'),
+                    confirmLabel: t('settings:data.importButtonConfirm'),
+                    onConfirm: () => {
+                        try {
+                            importData(jsonString);
+                            addToast(t('settings:data.importSuccess'), 'success');
+                            setTimeout(() => window.location.reload(), 1500);
+                        } catch (importError) {
+                             addToast(importError instanceof Error ? importError.message : t('settings:data.importError'), 'error');
+                        }
+                    },
+                });
+            } catch (readError) {
+                 addToast(t('settings:data.importErrorFile'), 'error');
+            } finally {
+                if(event.target) event.target.value = '';
+            }
+        };
+        reader.readAsText(file);
+    };
+
+    const handleReset = () => {
+        showConfirmation({
+            title: t('settings:data.resetButton'),
+            message: t('settings:data.resetAllDesc'),
+            confirmLabel: t('settings:data.resetButton'),
+            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+            onConfirm: () => {
+                resetSettings();
+                addToast(t('settings:data.resetSuccess'), 'success');
+            },
+        });
+    };
+
+    const handleClearHistory = () => {
+         showConfirmation({
+            title: t('settings:data.clearHistoryTitle'),
+            message: t('settings:data.clearHistoryDesc'),
+            confirmLabel: t('settings:data.clearHistory'),
+            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+            onConfirm: () => {
+                clearSearchHistory();
+                addToast(t('settings:data.clearHistorySuccess'), 'success');
+            },
+        });
+    };
 
     return (
         <div className="space-y-8">

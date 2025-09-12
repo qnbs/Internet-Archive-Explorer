@@ -2,7 +2,6 @@ import type { AppSettings, LibraryItem, Workset } from '../types';
 import { STORAGE_KEYS as SETTINGS_KEYS } from '../store/settings';
 import { STORAGE_KEYS as FAVORITES_KEYS } from '../store/favorites';
 import { STORAGE_KEYS as SEARCH_KEYS } from '../store/search';
-// FIX: Corrected the import path for the Scriptorium storage key.
 import { STORAGE_KEY as SCRIPTORIUM_KEY } from '../store/scriptorium';
 
 interface BackupData {

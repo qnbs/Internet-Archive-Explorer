@@ -2,7 +2,6 @@
 // This simplifies imports in components and avoids circular dependencies.
 
 export * from './app';
-// FIX: Explicitly export from files with naming conflicts to avoid ambiguity for 'STORAGE_KEYS'.
 export {
     defaultSettings,
     settingsAtom,
@@ -48,7 +47,6 @@ export {
     uploaderFavoriteSetAtom,
     addUploaderFavoriteAtom,
     removeUploaderFavoriteAtom,
-    // FIX: Exported missing atoms related to library collections, tags, and bulk item removal.
     userCollectionsAtom,
     createCollectionAtom,
     deleteCollectionAtom,

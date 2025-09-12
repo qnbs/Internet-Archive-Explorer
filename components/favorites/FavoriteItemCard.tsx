@@ -58,7 +58,6 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
             <h3 className={`font-semibold text-sm truncate ${isDetailViewTarget ? 'text-white' : 'text-gray-200'}`} title={item.title}>
               {item.title}
             </h3>
-            {/* FIX: Moved title prop to a wrapper div to avoid passing an invalid prop to the Icon component. */}
             {isRestricted && <div className="flex-shrink-0" title={t('modals:details.restrictedItemTooltip')}><InfoIcon className="w-4 h-4 text-yellow-400" /></div>}
         </div>
         <p className="text-xs text-gray-400 truncate" title={creatorName}>{creatorName}</p>

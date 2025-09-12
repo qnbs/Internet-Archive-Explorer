@@ -7,7 +7,6 @@ interface AnalysisToolbarProps {
     documentText: string | null;
 }
 
-// FIX: Added component implementation to resolve "not a module" error. This toolbar provides the "Ask AI" functionality.
 export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ documentText }) => {
     const { t } = useLanguage();
     const [isAskModalOpen, setIsAskModalOpen] = useState(false);

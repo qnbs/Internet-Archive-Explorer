@@ -62,7 +62,6 @@ export const addDocumentToWorksetAtom = atom(
                     documentExists = true;
                     return ws;
                 }
-                // FIX: Use `worksetId` property instead of `collection` to match the WorksetDocument type.
                 const newDocument: WorksetDocument = { ...item, notes: '', worksetId };
                 return { ...ws, documents: [...ws.documents, newDocument] };
             }

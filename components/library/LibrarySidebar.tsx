@@ -52,7 +52,6 @@ const FilterButton: React.FC<{ label: string; icon?: React.ReactNode; isActive: 
     </button>
 );
 
-// FIX: Replaced string literals with MediaType enum members to match the expected type.
 const mediaTypeFilters: { type: MediaType; labelKey: string; icon: React.ReactNode }[] = [
     { type: MediaType.Texts, labelKey: 'favorites:sidebar.mediaTypeTexts', icon: <BookIcon className="w-4 h-4" /> },
     { type: MediaType.Movies, labelKey: 'favorites:sidebar.mediaTypeMovies', icon: <MovieIcon className="w-4 h-4" /> },

@@ -80,7 +80,6 @@ const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) =
                     onCreateWorkset={(name) => {
                         const newWorkset = worksetsApi.createWorkset(name);
                         handleSelectWorkset(newWorkset);
-                        // FIX: Added return statement to match the function signature required by ScriptoriumHubProps.
                         return newWorkset;
                     }}
                     onDeleteWorkset={handleDeleteWorkset}

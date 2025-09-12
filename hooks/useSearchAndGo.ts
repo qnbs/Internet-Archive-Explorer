@@ -12,8 +12,6 @@ export const useSearchAndGo = () => {
   return useCallback((query: string, newFacets?: Partial<Facets>) => {
      setSearchQuery(query);
      addSearchHistory(query);
-     // FIX: Create a complete Facets object by combining defaults with the provided partial facets.
-     // This ensures required properties are always set.
      const defaultFacets: Facets = {
         mediaType: new Set(),
         availability: 'free',

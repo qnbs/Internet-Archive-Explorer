@@ -1,14 +1,16 @@
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useCallback } from 'react';
-// FIX: Changed import to use the central store index for consistency and to resolve a type inference issue.
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
+// Fix: Changed atom imports to be direct to resolve a "not callable" error.
+// This avoids a circular dependency issue from the store's index file,
+// which caused incorrect type inference for the atom setters.
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
-    const setActiveView = useSetAtom(activeViewAtom);
-    const setSelectedProfile = useSetAtom(selectedProfileAtom);
-    const setProfileReturnView = useSetAtom(profileReturnViewAtom);
+    const [, setActiveView] = useAtom(activeViewAtom);
+    const [, setSelectedProfile] = useAtom(selectedProfileAtom);
+    const [, setProfileReturnView] = useAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 
     const navigateTo = useCallback((view: View) => {
