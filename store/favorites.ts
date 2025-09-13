@@ -1,5 +1,3 @@
-
-
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { LibraryItem, UserCollection, ArchiveItemSummary } from '../types';

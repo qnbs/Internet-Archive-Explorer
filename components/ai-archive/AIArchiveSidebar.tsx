@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { allAIArchiveTagsAtom, aiArchiveAtom } from '../../store/aiArchive';
-// FIX: AIGenerationType is an enum, so it must be imported as a value, not just a type.
 import { AIGenerationType, type AIArchiveFilter, type Language } from '../../types';
 import { type SortOption } from '../../pages/AIArchiveView';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
     BrainIcon, StarIcon, CollectionIcon, TagIcon,
     BookIcon, ImageIcon, SparklesIcon, LanguageIcon,
-    SearchIcon, SortAscendingIcon, CloseIcon
+    SearchIcon, SortAscendingIcon, CloseIcon,
+    // Fix: Add missing icon imports
+    MovieIcon, AudioIcon, JoystickIcon
 } from '../Icons';
 
 
@@ -50,6 +51,10 @@ const generationTypeFilters: { type: AIGenerationType; labelKey: string; icon: R
     { type: AIGenerationType.Story, labelKey: 'aiArchive:types.story', icon: <SparklesIcon className="w-4 h-4" /> },
     { type: AIGenerationType.Answer, labelKey: 'aiArchive:types.answer', icon: <SparklesIcon className="w-4 h-4" /> },
     { type: AIGenerationType.MagicOrganize, labelKey: 'aiArchive:types.magicOrganize', icon: <SparklesIcon className="w-4 h-4" /> },
+    { type: AIGenerationType.MoviesInsight, labelKey: 'aiArchive:types.moviesInsight', icon: <MovieIcon className="w-4 h-4" /> },
+    { type: AIGenerationType.AudioInsight, labelKey: 'aiArchive:types.audioInsight', icon: <AudioIcon className="w-4 h-4" /> },
+    { type: AIGenerationType.ImagesInsight, labelKey: 'aiArchive:types.imagesInsight', icon: <ImageIcon className="w-4 h-4" /> },
+    { type: AIGenerationType.RecRoomInsight, labelKey: 'aiArchive:types.recRoomInsight', icon: <JoystickIcon className="w-4 h-4" /> },
 ];
 
 const languageFilters: { lang: Language, label: string }[] = [

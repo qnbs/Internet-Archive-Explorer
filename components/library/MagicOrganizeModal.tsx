@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
@@ -62,7 +59,6 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                     type: AIGenEnum.MagicOrganize,
                     content: res,
                     language,
-// FIX: Pass the full LibraryItem objects, which extend ArchiveItemSummary.
                     sources: itemsToOrganize,
                     prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
                 }, addAIEntry, autoArchive);

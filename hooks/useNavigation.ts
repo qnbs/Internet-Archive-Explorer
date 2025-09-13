@@ -1,8 +1,6 @@
-
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { activeViewAtom } from '../store/app';
-// FIX: Corrected import path from './store/atoms' to '../store/atoms' to ensure correct module resolution.
 import { selectedProfileAtom, profileReturnViewAtom } from '../store/atoms';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';

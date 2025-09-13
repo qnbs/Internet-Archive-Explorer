@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
@@ -21,7 +19,7 @@ import {
     accentColorAtom,
     defaultViewAtom,
 } from './store/settings';
-import type { View, Profile, ArchiveItemSummary, AccentColor } from './types';
+import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -97,8 +95,6 @@ const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
     '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9', '800': '#5b21b6', '900': '#4c1d95', '950': '#2e1065',
   },
 };
-
-type SelectItemHandler = (item: ArchiveItemSummary) => void;
 
 // Main App component logic
 const MainApp: React.FC = () => {
