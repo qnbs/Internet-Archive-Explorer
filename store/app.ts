@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { View, Profile, ArchiveItemSummary, ConfirmationOptions } from '../types';
+import type { View, Profile, ArchiveItemSummary, ConfirmationOptions, ToastType } from '../types';
 
 export type ModalState =
   | { type: 'none' }
@@ -23,3 +23,20 @@ export const activeViewAtom = atom<View>('explore');
  * Controls the currently displayed modal. Set to '{ type: "none" }' to close.
  */
 export const modalAtom = atom<ModalState>({ type: 'none' });
+
+/**
+ * Holds the profile data for the currently viewed uploader or creator.
+ */
+export const selectedProfileAtom = atom<Profile | null>(null);
+
+/**
+ * Stores the view to return to after closing a profile page.
+ */
+export const profileReturnViewAtom = atom<View | undefined>(undefined);
+
+/**
+ * A vehicle atom to trigger toasts from anywhere in the app.
+ * The ToastBridge component listens to this atom, displays the toast via context,
+ * and then resets the atom to null.
+ */
+export const toastAtom = atom<{ message: string; type: ToastType } | null>(null);

@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
-import { atomWithStorage, loadable } from 'jotai/utils';
+import { loadable } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
 import type { Language } from '../types';
 
 export const STORAGE_KEYS = {
@@ -7,7 +8,7 @@ export const STORAGE_KEYS = {
 };
 
 // --- Language & Translations ---
-export const languageAtom = atomWithStorage<Language>(STORAGE_KEYS.language, 'en');
+export const languageAtom = safeAtomWithStorage<Language>(STORAGE_KEYS.language, 'en');
 
 const NAMESPACES = [
   'common', 'header', 'sideMenu', 'bottomNav', 'explorer', 'searchPopover', 

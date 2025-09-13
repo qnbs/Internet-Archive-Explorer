@@ -50,8 +50,10 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
         }
 
         try {
-            if (textContent.length < 100) {
+            // Lowered threshold from 100 to 250 characters to be more forgiving.
+            if (textContent.length < 250) {
                  setSummaryError(t('aiTools:summaryErrorShort'));
+                 setIsSummarizing(false);
                  return;
             }
             const generatedSummary = await getSummary(textContent, language, summaryTone);

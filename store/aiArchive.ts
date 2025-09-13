@@ -1,17 +1,16 @@
 import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
-import type { AIArchiveEntry } from '../types';
-import { toastAtom } from './archive';
+import { safeAtomWithStorage } from './safeStorage';
+import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language } from '../types';
+import { toastAtom } from './app';
 import { v4 as uuidv4 } from 'uuid';
 
 export const STORAGE_KEY = 'ai-archive-v1';
 
 // --- Base State Atom ---
-export const aiArchiveAtom = atomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
+export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 
 // --- UI State Atoms ---
-// FIX: Add type assertion to ensure atom is inferred as writable, preventing type errors with useAtom.
-export const selectedAIEntryIdAtom = atom(null as string | null);
+export const selectedAIEntryIdAtom = atom<string | null>(null);
 export const aiArchiveSearchQueryAtom = atom('');
 
 // --- Derived Atoms ---
@@ -33,7 +32,7 @@ export const addAIArchiveEntryAtom = atom(
     (get, set, newEntry: AIArchiveEntry) => {
         set(aiArchiveAtom, (prev) => [newEntry, ...prev]);
         // Show a subtle toast that this was saved.
-        set(toastAtom, { type: 'info', message: `Saved to AI Archive.`, id: uuidv4() });
+        set(toastAtom, { type: 'info', message: `Saved to AI Archive.` });
     }
 );
 
@@ -41,7 +40,7 @@ export const deleteAIArchiveEntryAtom = atom(
     null,
     (get, set, entryId: string) => {
         set(aiArchiveAtom, (prev) => prev.filter((entry) => entry.id !== entryId));
-        set(toastAtom, { type: 'info', message: `AI entry deleted.`, id: uuidv4() });
+        set(toastAtom, { type: 'info', message: `AI entry deleted.` });
     }
 );
 
@@ -126,13 +125,17 @@ export const regenerateAIArchiveEntryAtom = atom(
             
             if (newContent) {
                 set(aiArchiveAtom, prev => prev.map(e => e.id === entryId ? { ...e, content: newContent!, timestamp: Date.now() } : e));
-                set(toastAtom, { type: 'success', message: `Entry regenerated.`, id: uuidv4() });
+                set(toastAtom, { type: 'success', message: `Entry regenerated.` });
             }
         } catch(err) {
             console.error("Regeneration failed:", err);
             const message = err instanceof Error ? err.message : "An unknown error occurred.";
-            set(toastAtom, { type: 'error', message: `Regeneration failed: ${message}`, id: uuidv4() });
+            set(toastAtom, { type: 'error', message: `Regeneration failed: ${message}` });
             throw err;
         }
     }
 );
+
+export const clearAIArchiveAtom = atom(null, (get, set) => {
+    set(aiArchiveAtom, []);
+});

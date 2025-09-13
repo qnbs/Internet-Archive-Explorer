@@ -9,6 +9,7 @@ import { CloseIcon, TagIcon, TrashIcon, RefreshIcon, ArrowLeftIcon } from '../Ic
 import { useSearchAndGo } from '../../hooks/useSearchAndGo';
 import { Spinner } from '../Spinner';
 import { SourceItemCard } from './SourceItemCard';
+import { sanitizeHtml } from '../../utils/sanitizer';
 
 interface AIArchiveDetailPaneProps {
     selectedEntry: AIArchiveEntry | null;
@@ -63,16 +64,13 @@ const ObjectViewer: React.FC<{ data: ExtractedEntities | ImageAnalysisResult, ty
 };
 
 // Encapsulates the logic for displaying different content types.
-const ContentViewer: React.FC<{ entry: AIArchiveEntry, onSave: (content: string) => void }> = ({ entry, onSave }) => {
+const ContentViewer: React.FC<{ entry: AIArchiveEntry }> = ({ entry }) => {
     if (typeof entry.content === 'string') {
         return (
-            <div className="flex-grow min-h-[200px] flex flex-col">
-                <RichTextEditor
-                    key={`${entry.id}-content`}
-                    initialValue={entry.content}
-                    onSave={onSave}
-                />
-            </div>
+            <div
+                className="prose prose-sm dark:prose-invert max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap p-3 bg-gray-900/50 rounded-lg"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(entry.content.replace(/\n/g, '<br />')) }}
+            />
         );
     }
 
@@ -97,12 +95,6 @@ export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ select
     const handleSaveNotes = (userNotes: string) => {
         if (selectedEntry) {
             updateEntry({ ...selectedEntry, userNotes });
-        }
-    };
-    
-    const handleSaveContent = (content: string) => {
-        if (selectedEntry) {
-            updateEntry({ ...selectedEntry, content });
         }
     };
 
@@ -202,8 +194,8 @@ export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ select
                 )}
 
                 <h4 className="font-semibold text-gray-300 pt-2">{t('aiArchive:details.content')}</h4>
-                <div className="flex-grow min-h-[200px] flex flex-col -mt-2">
-                    <ContentViewer entry={selectedEntry} onSave={handleSaveContent} />
+                <div className="flex-grow min-h-0 flex flex-col -mt-2">
+                    <ContentViewer entry={selectedEntry} />
                 </div>
                 
                  {selectedEntry.prompt && (

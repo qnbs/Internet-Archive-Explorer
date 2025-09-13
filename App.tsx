@@ -2,9 +2,11 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
-    modalAtom
+    modalAtom,
+    toastAtom,
+    selectedProfileAtom,
+    profileReturnViewAtom
 } from './store/app';
-import { toastAtom, selectedProfileAtom, profileReturnViewAtom } from './store/archive';
 import { 
     resolvedThemeAtom, 
     reduceMotionAtom,

@@ -2,7 +2,9 @@
 // This simplifies imports in components and avoids circular dependencies.
 
 export type { ModalState } from './app';
-export { activeViewAtom, modalAtom } from './app';
+// FIX: Export moved atoms from app.ts
+// Fix: Added toastAtom to the export list from app.ts and removed the incorrect export from toast.ts
+export { activeViewAtom, modalAtom, selectedProfileAtom, profileReturnViewAtom, toastAtom } from './app';
 export {
     defaultSettings,
     settingsAtom,
@@ -72,9 +74,6 @@ export {
 } from './scriptorium';
 export {
     myArchiveProfileAtom,
-    selectedProfileAtom,
-    profileReturnViewAtom,
-    toastAtom,
 } from './archive';
 export {
     aiArchiveAtom,

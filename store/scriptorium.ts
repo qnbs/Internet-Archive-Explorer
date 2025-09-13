@@ -1,17 +1,17 @@
 import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
 import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
-import { toastAtom } from './archive';
+import { toastAtom } from './app';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';
 
 // --- Base State Atom ---
-export const worksetsAtom = atomWithStorage<Workset[]>(STORAGE_KEY, []);
+export const worksetsAtom = safeAtomWithStorage<Workset[]>(STORAGE_KEY, []);
 
 // --- UI State Atoms ---
-export const selectedWorksetIdAtom = atomWithStorage<string | null>('scriptorium-selected-workset-id', null);
-export const selectedDocumentIdAtom = atomWithStorage<string | null>('scriptorium-selected-document-id', null);
+export const selectedWorksetIdAtom = safeAtomWithStorage<string | null>('scriptorium-selected-workset-id', null);
+export const selectedDocumentIdAtom = safeAtomWithStorage<string | null>('scriptorium-selected-document-id', null);
 
 
 // --- Write-only Action Atoms ---
@@ -26,7 +26,7 @@ export const createWorksetAtom = atom(
         };
         const currentWorksets = get(worksetsAtom);
         set(worksetsAtom, [...currentWorksets, newWorkset]);
-        set(toastAtom, { type: 'success', message: `Workset '${name}' created!`, id: uuidv4() });
+        set(toastAtom, { type: 'success', message: `Workset '${name}' created!` });
         return newWorkset;
     }
 );
@@ -38,7 +38,7 @@ export const deleteWorksetAtom = atom(
         const worksetName = worksets.find(ws => ws.id === id)?.name || '';
         const newWorksets = worksets.filter(ws => ws.id !== id);
         set(worksetsAtom, newWorksets);
-        set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.`, id: uuidv4() });
+        set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.` });
     }
 );
 
@@ -69,10 +69,10 @@ export const addDocumentToWorksetAtom = atom(
         });
 
         if (documentExists) {
-            set(toastAtom, { type: 'info', message: 'Document is already in this workset.', id: uuidv4() });
+            set(toastAtom, { type: 'info', message: 'Document is already in this workset.' });
         } else {
             set(worksetsAtom, newWorksets);
-            set(toastAtom, { type: 'success', message: 'Document added to workset.', id: uuidv4() });
+            set(toastAtom, { type: 'success', message: 'Document added to workset.' });
         }
     }
 );
@@ -88,7 +88,7 @@ export const removeDocumentFromWorksetAtom = atom(
                 return ws;
             })
         );
-        set(toastAtom, { type: 'info', message: 'Document removed from workset.', id: uuidv4() });
+        set(toastAtom, { type: 'info', message: 'Document removed from workset.' });
     }
 );
 
@@ -110,3 +110,7 @@ export const updateDocumentNotesAtom = atom(
         );
     }
 );
+
+export const clearScriptoriumAtom = atom(null, (get, set) => {
+    set(worksetsAtom, []);
+});

@@ -1,26 +1,11 @@
-import { atomWithStorage } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
+import type { Profile } from '../types';
 import { atom } from 'jotai';
-import type { Profile, ToastMessage, View } from '../types';
 
-export const myArchiveProfileAtom = atomWithStorage<Profile | null>('archive-user-profile-v1', null);
+export const myArchiveProfileAtom = safeAtomWithStorage<Profile | null>('archive-user-profile-v1', null);
 
-// Moved from store/app.ts to break a circular dependency.
+export const disconnectMyArchiveAtom = atom(null, (get, set) => {
+    set(myArchiveProfileAtom, null);
+});
 
-/**
- * Holds the profile data for the currently viewed uploader or creator.
- */
-// FIX: Add type assertion to ensure atom is inferred as writable, preventing type errors with useSetAtom/useAtom.
-export const selectedProfileAtom = atom(null as Profile | null);
-
-
-/**
- * Stores the view to return to after closing a profile page.
- */
-// FIX: Add type assertion to ensure atom is inferred as writable, preventing type errors with useSetAtom/useAtom.
-export const profileReturnViewAtom = atom(undefined as View | undefined);
-
-
-// Moved toastAtom here from store/app.ts to break a circular dependency.
-// This atom holds the toast state. The ToastBridge component consumes this state
-// to show a toast and then resets it to null.
-export const toastAtom = atom(null as Omit<ToastMessage, 'duration'> | null);
+// selectedProfileAtom and profileReturnViewAtom were moved to store/app.ts to fix potential circular dependency issues.

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { addTagsToItemsAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/archive';
+// Fix: Corrected import path for toastAtom
+import { toastAtom } from '../../store/app';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon } from '../Icons';
-import { v4 as uuidv4 } from 'uuid';
 
 interface AddTagsModalProps {
     itemIds: string[];
@@ -31,7 +31,7 @@ export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) 
         const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean);
         if (tags.length > 0) {
             addTagsToItems({ itemIds, tags });
-            setToast({ type: 'success', message: t('favorites:bulkActions.tagsAdded'), id: uuidv4() });
+            setToast({ type: 'success', message: t('favorites:bulkActions.tagsAdded') });
             onClose();
         }
     };

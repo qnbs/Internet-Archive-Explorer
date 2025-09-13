@@ -368,3 +368,10 @@ export const ExpandIcon: React.FC<IconProps> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m12 4V4h-4M4 16v4h4m12-4v4h-4" />
   </svg>
 );
+
+export const ArchiveLogoIcon: React.FC<IconProps> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M5 18V9.261a1 1 0 01.553-.894l7-3.5a1 1 0 01.894 0l7 3.5A1 1 0 0120 9.261V18M7 21V9m5 12V9m5 12V9" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 7l9-4 9 4" />
+  </svg>
+);

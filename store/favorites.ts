@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
 import type { LibraryItem, ArchiveItemSummary, UserCollection } from '../types';
 
@@ -11,7 +11,7 @@ export const STORAGE_KEYS = {
 
 // --- Library Items (formerly Item Favorites) ---
 
-export const libraryItemsAtom = atomWithStorage<LibraryItem[]>(STORAGE_KEYS.libraryItems, []);
+export const libraryItemsAtom = safeAtomWithStorage<LibraryItem[]>(STORAGE_KEYS.libraryItems, []);
 
 // Derived atom for quick ID lookups, improving performance for checking if an item is a favorite.
 export const libraryItemIdentifiersAtom = atom((get) => {
@@ -88,7 +88,7 @@ export const updateLibraryItemTagsAtom = atom(
 
 // --- Uploader Favorites ---
 
-export const uploaderFavoritesAtom = atomWithStorage<string[]>(STORAGE_KEYS.uploaderFavorites, []);
+export const uploaderFavoritesAtom = safeAtomWithStorage<string[]>(STORAGE_KEYS.uploaderFavorites, []);
 
 // Derived atom for quick ID lookups (Set).
 export const uploaderFavoriteSetAtom = atom((get) => new Set(get(uploaderFavoritesAtom)));
@@ -113,7 +113,7 @@ export const removeUploaderFavoriteAtom = atom(
 );
 
 // --- User Collections ---
-export const userCollectionsAtom = atomWithStorage<UserCollection[]>(STORAGE_KEYS.libraryCollections, []);
+export const userCollectionsAtom = safeAtomWithStorage<UserCollection[]>(STORAGE_KEYS.libraryCollections, []);
 
 export const createCollectionAtom = atom(
   null,
@@ -177,3 +177,14 @@ export const addTagsToItemsAtom = atom(
     }));
   }
 );
+
+// --- Data Clearing Atoms ---
+
+export const clearLibraryAndCollectionsAtom = atom(null, (get, set) => {
+    set(libraryItemsAtom, []);
+    set(userCollectionsAtom, []);
+});
+
+export const clearFollowedUploadersAtom = atom(null, (get, set) => {
+    set(uploaderFavoritesAtom, []);
+});

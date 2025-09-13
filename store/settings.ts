@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
-import { atomWithStorage, selectAtom } from 'jotai/utils';
+import { selectAtom } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
 import type { AppSettings, Theme } from '../types';
 
 export const STORAGE_KEYS = {
@@ -38,7 +39,7 @@ export const defaultSettings: AppSettings = {
     scrollbarColor: '#22d3ee', // Corresponds to Tailwind's cyan-400
 };
 
-export const settingsAtom = atomWithStorage<AppSettings>(STORAGE_KEYS.settings, defaultSettings);
+export const settingsAtom = safeAtomWithStorage<AppSettings>(STORAGE_KEYS.settings, defaultSettings);
 
 // Write-only atom to update a single setting
 export const setSettingAtom = atom(
@@ -80,7 +81,7 @@ export const scrollbarColorAtom = selectAtom(settingsAtom, s => s.scrollbarColor
 
 
 // --- Theme ---
-export const themeAtom = atomWithStorage<Theme>(STORAGE_KEYS.theme, 'system');
+export const themeAtom = safeAtomWithStorage<Theme>(STORAGE_KEYS.theme, 'system');
 
 const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 const systemThemeAtom = atom<'light' | 'dark'>(systemThemeQuery.matches ? 'dark' : 'light');

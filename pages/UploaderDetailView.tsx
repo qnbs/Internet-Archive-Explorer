@@ -43,9 +43,10 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
 
     useEffect(() => {
         if (!isLoadingTabs) {
-            const initialTab = (defaultTab as any) === 'dashboard' ? 'uploads' : defaultTab;
-            if (visibleTabs.includes(initialTab)) {
-                setActiveTab(initialTab);
+            // Ensure the default tab is valid and visible, otherwise fallback to the first visible tab.
+            const validTabs = new Set(visibleTabs);
+            if (validTabs.has(defaultTab)) {
+                setActiveTab(defaultTab);
             } else if (visibleTabs.length > 0) {
                 setActiveTab(visibleTabs[0]);
             }

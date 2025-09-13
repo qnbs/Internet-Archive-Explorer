@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon } from '../Icons';
@@ -35,9 +35,14 @@ const getContentSnippet = (entry: AIArchiveEntry): string => {
 
 export const AIArchiveItemCard: React.FC<AIArchiveItemCardProps> = React.memo(({ entry, isSelected, onSelect }) => {
   const { t, language } = useLanguage();
+  const [imageError, setImageError] = useState(false);
   const date = new Date(entry.timestamp).toLocaleDateString(language, { month: 'short', day: 'numeric', year: 'numeric' });
   const thumbnailUrl = entry.source ? `https://archive.org/services/get-item-image.php?identifier=${entry.source.identifier}` : null;
   
+  useEffect(() => {
+    setImageError(false);
+  }, [entry.id]);
+
   return (
     <article
       onClick={onSelect}
@@ -51,19 +56,16 @@ export const AIArchiveItemCard: React.FC<AIArchiveItemCardProps> = React.memo(({
           : 'bg-gray-800/60 border-transparent hover:bg-gray-700/80'
       }`}
     >
-        <div className="flex-shrink-0 mt-1 flex items-center justify-center">
-            {thumbnailUrl ? (
+        <div className={`flex-shrink-0 mt-1 w-10 h-10 rounded-md flex items-center justify-center text-cyan-300 ${isSelected ? 'bg-cyan-500/20' : 'bg-gray-700'}`}>
+            {thumbnailUrl && !imageError ? (
                 <img
                     src={thumbnailUrl}
                     alt=""
-                    className="w-10 h-10 object-cover rounded-md bg-gray-700"
+                    className="w-full h-full object-cover rounded-md"
                     loading="lazy"
+                    onError={() => setImageError(true)}
                 />
-            ) : (
-                <div className={`w-10 h-10 rounded-md flex items-center justify-center text-cyan-300 ${isSelected ? 'bg-cyan-500/20' : 'bg-gray-700'}`}>
-                    {ICONS[entry.type]}
-                </div>
-            )}
+            ) : ICONS[entry.type]}
         </div>
       <div className="flex-grow min-w-0">
          <div className="flex justify-between items-start">

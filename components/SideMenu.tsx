@@ -1,7 +1,7 @@
 import React from 'react';
 import type { View } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon, BrainIcon } from './Icons';
+import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon, BrainIcon, ArchiveLogoIcon } from './Icons';
 
 interface NavItem {
     view?: View;
@@ -92,9 +92,10 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
                 <div className="hidden md:flex flex-shrink-0 items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700/50">
                      <button
                         onClick={() => handleNavigation('explore')}
-                        className="flex items-center text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
+                        className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
                         aria-label="Home"
                     >
+                        <ArchiveLogoIcon className="text-cyan-600 dark:text-cyan-400"/>
                         <span>Archive Explorer</span>
                     </button>
                 </div>

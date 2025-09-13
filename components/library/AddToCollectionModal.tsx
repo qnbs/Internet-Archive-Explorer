@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, addItemsToCollectionAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/archive';
+// Fix: Corrected import path for toastAtom
+import { toastAtom } from '../../store/app';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, CollectionIcon } from '../Icons';
-import { v4 as uuidv4 } from 'uuid';
 
 interface AddToCollectionModalProps {
     itemIds: string[];
@@ -26,7 +26,7 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({ item
         if (!selectedCollectionId) return;
         addItemsToCollection({ collectionId: selectedCollectionId, itemIds });
         const collectionName = collections.find(c => c.id === selectedCollectionId)?.name || '';
-        setToast({ type: 'success', message: t('favorites:bulkActions.addedToCollection', { count: itemIds.length, collectionName }), id: uuidv4() });
+        setToast({ type: 'success', message: t('favorites:bulkActions.addedToCollection', { count: itemIds.length, collectionName }) });
         onClose();
     };
 

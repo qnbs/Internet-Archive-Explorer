@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { createCollectionAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/archive';
+// Fix: Corrected import path for toastAtom
+import { toastAtom } from '../../store/app';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon } from '../Icons';
-import { v4 as uuidv4 } from 'uuid';
-
 
 interface NewCollectionModalProps {
     onClose: () => void;
@@ -31,7 +30,7 @@ export const NewCollectionModal: React.FC<NewCollectionModalProps> = ({ onClose 
         const trimmedName = name.trim();
         if (trimmedName) {
             createCollection(trimmedName);
-            setToast({ type: 'success', message: t('favorites:modals.collectionCreated', { name: trimmedName }), id: uuidv4() });
+            setToast({ type: 'success', message: t('favorites:modals.collectionCreated', { name: trimmedName }) });
             onClose();
         }
     };

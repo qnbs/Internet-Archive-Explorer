@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/archive';
+// Fix: Corrected import path for toastAtom
+import { toastAtom } from '../../store/app';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import { v4 as uuidv4 } from 'uuid';
 import type { UserCollection } from '../../types';
 
 interface MagicOrganizeModalProps {
@@ -68,7 +68,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
         // Apply Tags
         if (selectedTags.size > 0) {
             addTagsToItems({ itemIds, tags: Array.from(selectedTags) });
-            setToast({ type: 'success', message: t('favorites:magicOrganize.tagsApplied'), id: uuidv4() });
+            setToast({ type: 'success', message: t('favorites:magicOrganize.tagsApplied') });
         }
 
         // Apply Collections
@@ -79,7 +79,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                     collection = createCollection(collectionName);
                 }
                 addItemsToCollection({ collectionId: collection.id, itemIds });
-                 setToast({ type: 'success', message: t('favorites:magicOrganize.collectionCreated', { name: collection.name }), id: uuidv4() });
+                 setToast({ type: 'success', message: t('favorites:magicOrganize.collectionCreated', { name: collection.name }) });
             });
         }
         

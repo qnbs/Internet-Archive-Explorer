@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import { safeAtomWithStorage } from './safeStorage';
 import type { Facets, MediaType } from '../types';
 
 export const STORAGE_KEYS = {
@@ -14,7 +14,7 @@ export const profileSearchQueryAtom = atom('');
 export const facetsAtom = atom<Facets>({ mediaType: new Set<MediaType>(), availability: 'all', language: undefined });
 
 // --- Search History ---
-export const searchHistoryAtom = atomWithStorage<string[]>(STORAGE_KEYS.searchHistory, []);
+export const searchHistoryAtom = safeAtomWithStorage<string[]>(STORAGE_KEYS.searchHistory, []);
 
 export const addSearchHistoryAtom = atom(
     null,
