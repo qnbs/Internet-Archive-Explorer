@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, addItemsToCollectionAtom } from '../../store/favorites';
-// Fix: Corrected import path for toastAtom
-import { toastAtom } from '../../store/app';
+// Fix: Corrected import path for toastAtom to resolve circular dependency.
+import { toastAtom } from '../../store/toast';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, CollectionIcon } from '../Icons';

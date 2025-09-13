@@ -2,7 +2,8 @@ import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
 import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
-import { toastAtom } from './app';
+// FIX: Updated toastAtom import to break circular dependency
+import { toastAtom } from './toast';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';
 

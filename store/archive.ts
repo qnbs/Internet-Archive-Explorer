@@ -7,5 +7,3 @@ export const myArchiveProfileAtom = safeAtomWithStorage<Profile | null>('archive
 export const disconnectMyArchiveAtom = atom(null, (get, set) => {
     set(myArchiveProfileAtom, null);
 });
-
-// selectedProfileAtom and profileReturnViewAtom were moved to store/app.ts to fix potential circular dependency issues.

@@ -2,9 +2,10 @@
 // This simplifies imports in components and avoids circular dependencies.
 
 export type { ModalState } from './app';
-// FIX: Export moved atoms from app.ts
-// Fix: Added toastAtom to the export list from app.ts and removed the incorrect export from toast.ts
-export { activeViewAtom, modalAtom, selectedProfileAtom, profileReturnViewAtom, toastAtom } from './app';
+// FIX: Updated exports to reflect atom moves, resolving circular dependencies.
+export { activeViewAtom, modalAtom } from './app';
+export { selectedProfileAtom, profileReturnViewAtom } from './atoms';
+export { toastAtom } from './toast';
 export {
     defaultSettings,
     settingsAtom,

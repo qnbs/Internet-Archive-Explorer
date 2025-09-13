@@ -1,7 +1,8 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language } from '../types';
-import { toastAtom } from './app';
+// FIX: Updated toastAtom import to break circular dependency
+import { toastAtom } from './toast';
 import { v4 as uuidv4 } from 'uuid';
 
 export const STORAGE_KEY = 'ai-archive-v1';
@@ -10,7 +11,7 @@ export const STORAGE_KEY = 'ai-archive-v1';
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 
 // --- UI State Atoms ---
-export const selectedAIEntryIdAtom = atom<string | null>(null);
+export const selectedAIEntryIdAtom = safeAtomWithStorage<string | null>('ai-archive-selected-entry-id', null);
 export const aiArchiveSearchQueryAtom = atom('');
 
 // --- Derived Atoms ---

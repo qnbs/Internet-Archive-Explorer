@@ -3,10 +3,10 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
     modalAtom,
-    toastAtom,
-    selectedProfileAtom,
-    profileReturnViewAtom
 } from './store/app';
+import { selectedProfileAtom, profileReturnViewAtom } from './store/atoms';
+// FIX: Updated toastAtom import to break circular dependency
+import { toastAtom } from './store/toast';
 import { 
     resolvedThemeAtom, 
     reduceMotionAtom,

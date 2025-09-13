@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
-import type { LibraryItem, ArchiveItemSummary, UserCollection } from '../types';
+import type { LibraryItem, ArchiveItemSummary, UserCollection, SortKey, SortDirection } from '../types';
 
 export const STORAGE_KEYS = {
     libraryItems: 'app-library-items-v2',
@@ -12,6 +12,10 @@ export const STORAGE_KEYS = {
 // --- Library Items (formerly Item Favorites) ---
 
 export const libraryItemsAtom = safeAtomWithStorage<LibraryItem[]>(STORAGE_KEYS.libraryItems, []);
+
+// UI State for sorting
+export const librarySortAtom = atom<{ key: SortKey; direction: SortDirection }>({ key: 'dateAdded', direction: 'desc' });
+
 
 // Derived atom for quick ID lookups, improving performance for checking if an item is a favorite.
 export const libraryItemIdentifiersAtom = atom((get) => {

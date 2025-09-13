@@ -1,6 +1,8 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
+import { activeViewAtom } from '../store/app';
+// FIX: Import atoms from the new central 'atoms' store file to break circular dependencies.
+import { selectedProfileAtom, profileReturnViewAtom } from '../store/atoms';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 
