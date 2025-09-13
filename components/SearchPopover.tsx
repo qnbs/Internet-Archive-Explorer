@@ -61,7 +61,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
                             <button 
                                 key={option.type}
                                 onClick={() => handleMediaTypeToggle(option.type)}
-                                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors border-2 ${facets.mediaType.has(option.type) ? 'bg-cyan-50 dark:bg-cyan-500/20 border-cyan-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors border-2 ${facets.mediaType.has(option.type) ? 'bg-accent-50 dark:bg-accent-500/20 border-accent-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
                                 aria-pressed={facets.mediaType.has(option.type)}
                             >
                                 {option.icon}
@@ -78,7 +78,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
                             <button
                                 key={lang}
                                 onClick={() => handleLanguageSelect(lang)}
-                                className={`text-center p-2 rounded-lg transition-colors border-2 text-xs ${facets.language === lang ? 'bg-cyan-50 dark:bg-cyan-500/20 border-cyan-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                                className={`text-center p-2 rounded-lg transition-colors border-2 text-xs ${facets.language === lang ? 'bg-accent-50 dark:bg-accent-500/20 border-accent-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
                                 aria-pressed={facets.language === lang}
                             >
                                 {lang}
@@ -99,7 +99,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
                                 aria-checked={facets.availability === option.key}
                             >
                                 <div className="w-4 h-4 rounded-full border-2 border-gray-400 dark:border-gray-500 flex items-center justify-center flex-shrink-0">
-                                    {facets.availability === option.key && <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>}
+                                    {facets.availability === option.key && <div className="w-2 h-2 bg-accent-500 rounded-full"></div>}
                                 </div>
                                 <span className="text-sm font-medium">{t(option.labelKey)}</span>
                             </button>

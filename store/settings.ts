@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { selectAtom } from 'jotai/utils';
 import { safeAtomWithStorage } from './safeStorage';
-import type { AppSettings, Theme } from '../types';
+import type { AppSettings, Theme, AccentColor } from '../types';
 
 export const STORAGE_KEYS = {
     settings: 'app-settings-v2',
@@ -15,12 +15,15 @@ export const defaultSettings: AppSettings = {
     showExplorerHub: true,
     defaultSort: 'downloads',
     rememberFilters: false,
+    rememberSort: false,
     
     // Appearance
     layoutDensity: 'comfortable',
-    reduceMotion: false,
-    
+    disableAnimations: false,
+    accentColor: 'cyan',
+
     // Content & Hubs
+    defaultView: 'explore',
     defaultUploaderDetailTab: 'uploads',
     defaultDetailTabAll: 'description',
     openLinksInNewTab: false,
@@ -28,6 +31,7 @@ export const defaultSettings: AppSettings = {
 
     // AI Features
     enableAiFeatures: true,
+    autoArchiveAI: true,
     defaultAiTab: 'description',
     autoRunEntityExtraction: false,
     summaryTone: 'detailed',
@@ -45,7 +49,8 @@ export const settingsAtom = safeAtomWithStorage<AppSettings>(STORAGE_KEYS.settin
 export const setSettingAtom = atom(
     null,
     (get, set, { key, value }: { key: keyof AppSettings; value: AppSettings[keyof AppSettings] }) => {
-        set(settingsAtom, (prev) => ({ ...prev, [key]: value }));
+        const currentSettings = get(settingsAtom);
+        set(settingsAtom, { ...currentSettings, [key]: value });
     }
 );
 
@@ -60,16 +65,20 @@ export const resultsPerPageAtom = selectAtom(settingsAtom, s => s.resultsPerPage
 export const showExplorerHubAtom = selectAtom(settingsAtom, s => s.showExplorerHub);
 export const defaultSortAtom = selectAtom(settingsAtom, s => s.defaultSort);
 export const rememberFiltersAtom = selectAtom(settingsAtom, s => s.rememberFilters);
+export const rememberSortAtom = selectAtom(settingsAtom, s => s.rememberSort);
 
 export const layoutDensityAtom = selectAtom(settingsAtom, s => s.layoutDensity);
-export const reduceMotionAtom = selectAtom(settingsAtom, s => s.reduceMotion);
+export const disableAnimationsAtom = selectAtom(settingsAtom, s => s.disableAnimations);
+export const accentColorAtom = selectAtom(settingsAtom, s => s.accentColor);
 
+export const defaultViewAtom = selectAtom(settingsAtom, s => s.defaultView);
 export const defaultUploaderDetailTabAtom = selectAtom(settingsAtom, s => s.defaultUploaderDetailTab);
 export const defaultDetailTabAllAtom = selectAtom(settingsAtom, s => s.defaultDetailTabAll);
 export const openLinksInNewTabAtom = selectAtom(settingsAtom, s => s.openLinksInNewTab);
 export const autoplayMediaAtom = selectAtom(settingsAtom, s => s.autoplayMedia);
 
 export const enableAiFeaturesAtom = selectAtom(settingsAtom, s => s.enableAiFeatures);
+export const autoArchiveAIAtom = selectAtom(settingsAtom, s => s.autoArchiveAI);
 export const defaultAiTabAtom = selectAtom(settingsAtom, s => s.defaultAiTab);
 export const autoRunEntityExtractionAtom = selectAtom(settingsAtom, s => s.autoRunEntityExtraction);
 export const summaryToneAtom = selectAtom(settingsAtom, s => s.summaryTone);

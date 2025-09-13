@@ -90,7 +90,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
   return (
     <div className="space-y-8">
         <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
-            <h2 className="text-3xl font-bold text-cyan-400 mb-4">{title}</h2>
+            <h2 className="text-3xl font-bold text-accent-400 mb-4">{title}</h2>
             <div className="text-gray-300 leading-relaxed space-y-4" dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />
              {collectionUrl && (
               <div className="mt-6">
@@ -98,7 +98,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
                   href={collectionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 shadow-lg"
+                  className="inline-flex items-center justify-center bg-accent-600 hover:bg-accent-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 shadow-lg"
                 >
                   {t('common:viewFullCollection')}
                   <ExternalLinkIcon />
@@ -109,12 +109,12 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
 
         {contributors && contributors.length > 0 && (
             <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
-                <h3 className="text-2xl font-bold text-cyan-400 mb-4">{t('common:topContributors')}</h3>
+                <h3 className="text-2xl font-bold text-accent-400 mb-4">{t('common:topContributors')}</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {contributors.map((c, i) => (
                         <div key={i} className="bg-gray-900/50 p-3 rounded-lg text-center border border-gray-700">
                         <p className="font-semibold text-gray-200 text-sm truncate" title={c.name}>{c.name}</p>
-                        <p className="text-xs text-cyan-400">{c.role}</p>
+                        <p className="text-xs text-accent-400">{c.role}</p>
                         </div>
                     ))}
                 </div>

@@ -84,7 +84,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
                      {onRetry && (
                         <button
                             onClick={onRetry}
-                            className="px-4 py-2 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-500 transition-colors"
+                            className="px-4 py-2 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-500 transition-colors"
                         >
                             {t('common:retry')}
                         </button>
@@ -114,13 +114,13 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
             {!hideTitle && (
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                        {titleIcon && <span className="mr-3 text-cyan-600 dark:text-cyan-400">{titleIcon}</span>}
+                        {titleIcon && <span className="mr-3 text-accent-600 dark:text-accent-400">{titleIcon}</span>}
                         {title}
                     </h2>
                     {viewMoreAction && (
                         <button
                             onClick={viewMoreAction}
-                            className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
+                            className="text-sm font-semibold text-accent-600 dark:text-accent-400 hover:text-accent-500 dark:hover:text-accent-300 transition-colors"
                         >
                             {viewMoreLabel || t('common:viewMore')} &rarr;
                         </button>

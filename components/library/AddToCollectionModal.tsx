@@ -16,6 +16,7 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({ item
     const { t } = useLanguage();
     const collections = useAtomValue(userCollectionsAtom);
     const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
+    // FIX: The useSetAtom hook now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const [selectedCollectionId, setSelectedCollectionId] = useState<string>('');
 

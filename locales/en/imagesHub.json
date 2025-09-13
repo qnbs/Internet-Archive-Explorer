@@ -11,5 +11,10 @@
     "flickrDesc": "Images from the world's public photography archives with no known copyright restrictions.",
     "brooklyn": "Brooklyn Museum",
     "brooklynDesc": "A diverse collection encompassing various cultures, from ancient Egyptian art to contemporary works."
+  },
+  "aiInsight": {
+    "title": "Museum Spotlight",
+    "description": "Let our AI curator design a mini-exhibit based on images from the collection, complete with a unique theme and title.",
+    "button": "Design an Exhibit"
   }
 }

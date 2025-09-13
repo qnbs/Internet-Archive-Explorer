@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getSummary, extractEntities } from '../services/geminiService';
-import { AIGenerationType, type ExtractedEntities } from '../types';
+import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../types';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { autoRunEntityExtractionAtom, summaryToneAtom } from '../store/settings';
+import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
@@ -12,14 +12,13 @@ import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPer
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 
 interface AIToolsTabProps {
-    itemIdentifier: string;
-    itemTitle: string;
+    item: ArchiveItemSummary;
     textContent: string | null;
     isLoadingText: boolean;
     onClose: () => void;
 }
 
-export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitle, textContent, isLoadingText, onClose }) => {
+export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoadingText, onClose }) => {
     const [summary, setSummary] = useState<string>('');
     const [isSummarizing, setIsSummarizing] = useState(false);
     const [summaryError, setSummaryError] = useState<string | null>(null);
@@ -32,6 +31,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
     const { t, language } = useLanguage();
     const autoRunEntityExtraction = useAtomValue(autoRunEntityExtractionAtom);
     const summaryTone = useAtomValue(summaryToneAtom);
+    const autoArchive = useAtomValue(autoArchiveAIAtom);
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
@@ -42,7 +42,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
         setSummary('');
 
         const archiveOptions = { tone: summaryTone };
-        const archivedSummary = findArchivedItemAnalysis<string>(itemIdentifier, AIGenerationType.Summary, aiArchive, archiveOptions);
+        const archivedSummary = findArchivedItemAnalysis<string>(item.identifier, AIGenerationType.Summary, aiArchive, archiveOptions);
         if (archivedSummary) {
             setSummary(archivedSummary);
             setIsSummarizing(false);
@@ -62,22 +62,23 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                 type: AIGenerationType.Summary,
                 content: generatedSummary,
                 language,
-                source: { identifier: itemIdentifier, title: itemTitle },
+                // FIX: Pass the full item object to provide full context, including mediaType.
+                source: { ...item, mediaType: item.mediatype },
                 prompt: JSON.stringify(archiveOptions),
-            }, addAIEntry);
+            }, addAIEntry, autoArchive);
         } catch (err) {
             setSummaryError((err as Error).message || t('aiTools:summaryErrorApi'));
         } finally {
             setIsSummarizing(false);
         }
-    }, [textContent, language, summaryTone, t, itemIdentifier, itemTitle, aiArchive, addAIEntry]);
+    }, [textContent, language, summaryTone, t, item, aiArchive, addAIEntry, autoArchive]);
     
     const handleExtractEntities = useCallback(async () => {
         if (!textContent || isExtracting) return;
         setIsExtracting(true);
         setEntityError(null);
 
-        const archivedEntities = findArchivedItemAnalysis<ExtractedEntities>(itemIdentifier, AIGenerationType.Entities, aiArchive);
+        const archivedEntities = findArchivedItemAnalysis<ExtractedEntities>(item.identifier, AIGenerationType.Entities, aiArchive);
         if (archivedEntities) {
             setEntities(archivedEntities);
             setIsExtracting(false);
@@ -91,14 +92,15 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                 type: AIGenerationType.Entities,
                 content: result,
                 language,
-                source: { identifier: itemIdentifier, title: itemTitle },
-            }, addAIEntry);
+                // FIX: Pass the full item object to provide full context, including mediaType.
+                source: { ...item, mediaType: item.mediatype },
+            }, addAIEntry, autoArchive);
         } catch (err) {
             setEntityError((err as Error).message || t('aiTools:entityErrorApi'));
         } finally {
             setIsExtracting(false);
         }
-    }, [textContent, isExtracting, language, t, itemIdentifier, itemTitle, aiArchive, addAIEntry]);
+    }, [textContent, isExtracting, language, t, item, aiArchive, addAIEntry, autoArchive]);
     
     useEffect(() => {
         if (autoRunEntityExtraction && textContent && !entities && !isExtracting) {
@@ -118,7 +120,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                 <h4 className="font-semibold text-gray-300 mb-2">{title}</h4>
                 <div className="flex flex-wrap gap-2">
                     {items.map((e, i) => (
-                        <button key={`${title}-${i}`} onClick={() => handleEntityClick(e)} className="bg-gray-700 hover:bg-cyan-600 text-gray-200 hover:text-white text-xs font-medium px-2 py-1 rounded-full transition-colors">
+                        <button key={`${title}-${i}`} onClick={() => handleEntityClick(e)} className="bg-gray-700 hover:bg-accent-600 text-gray-200 hover:text-white text-xs font-medium px-2 py-1 rounded-full transition-colors">
                             {e}
                         </button>
                     ))}
@@ -150,7 +152,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
         <div className="space-y-6">
             <div>
                 <div className="flex items-center justify-between mb-2">
-                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><SparklesIcon className="w-5 h-5 mr-2" /> {t('aiTools:summaryTitle')}</h3>
+                   <h3 className="text-lg font-semibold text-accent-400 flex items-center"><SparklesIcon className="w-5 h-5 mr-2" /> {t('aiTools:summaryTitle')}</h3>
                     <button onClick={handleGenerateSummary} disabled={isSummarizing || !textContent} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
                         <span>{isSummarizing ? t('aiTools:generating') : t('aiTools:generate')}</span>
                     </button>
@@ -164,7 +166,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
             </div>
              <div>
                 <div className="flex items-center justify-between mb-3">
-                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('aiTools:entityAnalysisTitle')}</h3>
+                   <h3 className="text-lg font-semibold text-accent-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('aiTools:entityAnalysisTitle')}</h3>
                     <button onClick={handleExtractEntities} disabled={isExtracting || !textContent} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
                         <span>{isExtracting ? t('aiTools:extracting') : t('aiTools:extract')}</span>
                     </button>

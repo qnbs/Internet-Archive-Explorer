@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary } from '../types';
-import { MediaType } from '../types';
+import { MediaType, AIGenerationType } from '../types';
 import { RecRoomItemCard } from '../components/RecRoomItemCard';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { JoystickIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
+import { AIInsightPanel } from '../components/AIInsightPanel';
+import { generateRetroGamingNote } from '../services/geminiService';
 
 interface RecRoomViewProps {
     onSelectItem: (item: ArchiveItemSummary) => void;
@@ -79,20 +81,29 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
 
   return (
     <div className="space-y-8">
-        <header className="p-6 sm:p-8 bg-gray-800/60 rounded-xl shadow-lg border border-cyan-500/20 text-center relative overflow-hidden">
-            <div className="absolute -top-12 -left-12 text-cyan-500/10 opacity-50">
+        <header className="p-6 sm:p-8 bg-gray-800/60 rounded-xl shadow-lg border border-accent-500/20 text-center relative overflow-hidden">
+            <div className="absolute -top-12 -left-12 text-accent-500/10 opacity-50">
                 <JoystickIcon className="w-48 h-48 transform rotate-[-15deg]" />
             </div>
-             <div className="absolute -bottom-12 -right-12 text-cyan-500/10 opacity-50">
+             <div className="absolute -bottom-12 -right-12 text-accent-500/10 opacity-50">
                 <JoystickIcon className="w-48 h-48 transform rotate-[15deg]" />
             </div>
             <div className="relative z-10">
-                <h1 className="text-3xl sm:text-5xl font-bold text-cyan-400 tracking-wider">{t('recRoom:title')}</h1>
+                <h1 className="text-3xl sm:text-5xl font-bold text-accent-400 tracking-wider">{t('recRoom:title')}</h1>
                 <p className="mt-4 max-w-3xl mx-auto text-base sm:text-lg text-gray-300 leading-relaxed">
                     {t('recRoom:description')}
                 </p>
             </div>
         </header>
+        
+        <AIInsightPanel
+            title={t('recRoom:aiInsight.title')}
+            description={t('recRoom:aiInsight.description')}
+            buttonLabel={t('recRoom:aiInsight.button')}
+            items={results.slice(0, 15)}
+            generationFn={generateRetroGamingNote}
+            generationType={AIGenerationType.RecRoomInsight}
+        />
 
         {error && (
              <div className="text-center py-20 bg-gray-800 rounded-lg">

@@ -215,3 +215,29 @@ export const askAboutImage = async (base64ImageData: string, mimeType: string, q
         throw new GeminiServiceError('Failed to get an answer about the image.');
     }
 };
+
+// --- Hub-Specific Creative Insights ---
+
+export const generateFilmDoubleFeatureConcept = async (titles: string[], language: string): Promise<string> => {
+    const systemInstruction = `You are a creative film critic and cinema historian. Based on the following list of film titles, create a short, imaginative concept for a 'double feature' night. Describe the theme that connects the films and give the event a catchy title. Be engaging and write in ${language}.`;
+    const prompt = `Film Titles: ${titles.join(', ')}. \n\nCreate a double feature concept.`;
+    return generateText(prompt, systemInstruction);
+};
+
+export const generateRadioShowConcept = async (titles: string[], language: string): Promise<string> => {
+    const systemInstruction = `You are a creative radio DJ and music historian. Based on the following list of audio titles (concerts, albums, etc.), invent a short concept for a fictional radio show episode. Give the episode a catchy title and briefly describe its theme. Be imaginative and write in ${language}.`;
+    const prompt = `Audio Titles: ${titles.join(', ')}. \n\nCreate a radio show concept.`;
+    return generateText(prompt, systemInstruction);
+};
+
+export const generateMuseumExhibitConcept = async (titles: string[], language: string): Promise<string> => {
+    const systemInstruction = `You are an imaginative museum curator. Based on the following list of image titles from various collections, invent a concept for a small, themed gallery exhibition. Give the exhibition a creative title and write a short, compelling description (2-3 sentences) that connects the images. Write in ${language}.`;
+    const prompt = `Image Titles: ${titles.join(', ')}. \n\nCreate a museum exhibit concept.`;
+    return generateText(prompt, systemInstruction);
+};
+
+export const generateRetroGamingNote = async (titles: string[], language: string): Promise<string> => {
+    const systemInstruction = `You are a nostalgic retro gaming journalist from the 1990s. Based on the following list of classic game titles, write a short, imaginative 'editor's note' for a fictional gaming magazine. Connect the games with a common theme or invent a fun anecdote about discovering them. Be creative and write in ${language}.`;
+    const prompt = `Game Titles: ${titles.join(', ')}. \n\nWrite a retro gaming magazine note.`;
+    return generateText(prompt, systemInstruction);
+};

@@ -5,7 +5,10 @@ import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { useLanguage } from '../hooks/useLanguage';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { ArtIcon, HistoryIcon, ScienceIcon } from '../components/Icons';
-import { MediaType } from '../types';
+import { MediaType, AIGenerationType } from '../types';
+import { useArchivalItems } from '../hooks/useArchivalItems';
+import { AIInsightPanel } from '../components/AIInsightPanel';
+import { generateMuseumExhibitConcept } from '../services/geminiService';
 
 // --- Sub-Components ---
 
@@ -113,12 +116,12 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
             className="bg-gray-800/60 p-4 rounded-xl text-left hover:bg-gray-700/80 transition-all duration-300 group flex flex-col h-full"
         >
             <div className="flex-shrink-0">
-                <div className="text-cyan-400 w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-cyan-500/20 transition-colors">
+                <div className="text-accent-400 w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-accent-500/20 transition-colors">
                     {collection.icon}
                 </div>
                 <h3 className="mt-4 font-bold text-lg text-white">{collection.title}</h3>
                 <p className="text-sm text-gray-400 mb-2">{collection.desc}</p>
-                <p className="text-xs font-semibold bg-gray-700 text-cyan-300 px-2 py-0.5 rounded-full inline-block">
+                <p className="text-xs font-semibold bg-gray-700 text-accent-300 px-2 py-0.5 rounded-full inline-block">
                     {data.itemCount.toLocaleString(language)} items
                 </p>
             </div>
@@ -158,6 +161,7 @@ interface ImagesHubViewProps {
 const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
     const collections = getCollections(t);
+    const { items: metItems } = useArchivalItems(collections[0].query);
     
     return (
         <div className="space-y-12 animate-page-fade-in">
@@ -168,6 +172,15 @@ const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 drop-shadow-md">{t('imagesHub:description')}</p>
                 </div>
             </header>
+
+            <AIInsightPanel
+                title={t('imagesHub:aiInsight.title')}
+                description={t('imagesHub:aiInsight.description')}
+                buttonLabel={t('imagesHub:aiInsight.button')}
+                items={metItems}
+                generationFn={generateMuseumExhibitConcept}
+                generationType={AIGenerationType.ImagesInsight}
+            />
 
             <section>
                  <h2 className="text-2xl font-bold text-white mb-4">{t('imagesHub:galleriesOfTheDay')}</h2>

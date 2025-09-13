@@ -63,8 +63,8 @@ const WebArchiveView: React.FC = () => {
     return (
         <div className="max-w-4xl mx-auto space-y-8 animate-page-fade-in">
             <header className="text-center p-6 bg-gray-800/60 rounded-xl">
-                <WebIcon className="w-12 h-12 mx-auto text-cyan-400 mb-4" />
-                <h1 className="text-3xl font-bold text-cyan-400">{t('webArchive:title')}</h1>
+                <WebIcon className="w-12 h-12 mx-auto text-accent-400 mb-4" />
+                <h1 className="text-3xl font-bold text-accent-400">{t('webArchive:title')}</h1>
                 <p className="mt-2 text-gray-300">{t('webArchive:description')}</p>
             </header>
             
@@ -75,7 +75,7 @@ const WebArchiveView: React.FC = () => {
                         value={url}
                         onChange={e => setUrl(e.target.value)}
                         placeholder={t('webArchive:urlPlaceholder')}
-                        className="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700/50 focus-within:border-cyan-500 rounded-lg py-3 pl-12 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none transition-colors"
+                        className="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700/50 focus-within:border-accent-500 rounded-lg py-3 pl-12 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none transition-colors"
                         disabled={isLoading}
                     />
                 </div>
@@ -101,7 +101,7 @@ const WebArchiveView: React.FC = () => {
                                         const date = new Date(parseInt(`${timestamp.slice(0,4)}-${timestamp.slice(4,6)}-${timestamp.slice(6,8)}T${timestamp.slice(8,10)}:${timestamp.slice(10,12)}:${timestamp.slice(12,14)}Z`));
                                         return (
                                             <tr key={i} className="border-b border-gray-700 hover:bg-gray-700/50">
-                                                <td className="px-6 py-4 font-mono text-cyan-400">
+                                                <td className="px-6 py-4 font-mono text-accent-400">
                                                     <a href={`https://web.archive.org/web/${timestamp}/${original}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                                         {date.toLocaleString(language, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                                     </a>
@@ -121,7 +121,7 @@ const WebArchiveView: React.FC = () => {
                     <h3 className="font-semibold text-white flex items-center gap-2"><HistoryIcon className="w-5 h-5"/> {t('webArchive:searchHistory')}</h3>
                     <div className="space-y-2">
                         {history.map(h => (
-                             <button key={h} onClick={() => { setUrl(h); performSearch(h); }} className="w-full text-left text-sm text-cyan-400 hover:underline p-2 bg-gray-800/60 rounded-md truncate">
+                             <button key={h} onClick={() => { setUrl(h); performSearch(h); }} className="w-full text-left text-sm text-accent-400 hover:underline p-2 bg-gray-800/60 rounded-md truncate">
                                 {h}
                             </button>
                         ))}

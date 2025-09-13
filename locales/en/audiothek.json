@@ -25,5 +25,10 @@
     "blackieBeats": "Blackie Beats Archive",
     "vaporwave": "Vaporwave",
     "airchecks": "Airchecks (Recordings of Radio)"
+  },
+  "aiInsight": {
+    "title": "Radio Archivist's Feature",
+    "description": "Let our AI DJ find a thematic thread through the audio collection and spin up a concept for a fictional radio show.",
+    "button": "Create Radio Show Concept"
   }
 }

@@ -77,7 +77,7 @@ export const UploaderSidebar: React.FC<UploaderSidebarProps> = ({ profile, stats
     return (
         <div className="bg-white dark:bg-gray-800/60 p-5 rounded-xl border border-gray-200 dark:border-gray-700/50 space-y-4 sticky top-20">
             {handleBackOrDisconnect && (
-                <button onClick={handleBackOrDisconnect} className="flex items-center space-x-2 text-sm text-cyan-600 dark:text-cyan-400 hover:underline mb-2">
+                <button onClick={handleBackOrDisconnect} className="flex items-center space-x-2 text-sm text-accent-600 dark:text-accent-400 hover:underline mb-2">
                     <ArrowLeftIcon className="w-4 h-4" />
                     <span>{backOrDisconnectLabel}</span>
                 </button>
@@ -92,7 +92,7 @@ export const UploaderSidebar: React.FC<UploaderSidebarProps> = ({ profile, stats
                             <StarIcon filled={isFavorite} className="w-6 h-6" />
                         </button>
                     )}
-                    <a href={uploaderUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-cyan-400 transition-colors rounded-full" aria-label="View on Archive.org">
+                    <a href={uploaderUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-accent-400 transition-colors rounded-full" aria-label="View on Archive.org">
                         <ExternalLinkIcon className="w-6 h-6" />
                     </a>
                 </div>

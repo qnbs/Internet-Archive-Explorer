@@ -1,44 +1,28 @@
 {
-  "added": "Added to My Library.",
-  "removed": "Removed from My Library.",
-  "uploaderAdded": "Contributor followed.",
-  "uploaderRemoved": "Contributor unfollowed.",
-  "filtersTitle": "Filters & Navigation",
-  "tabs": {
-    "items": "My Items",
-    "uploaders": "Followed Contributors"
-  },
+  "added": "Added to My Library",
+  "removed": "Removed from My Library",
+  "uploaderAdded": "Uploader followed",
+  "uploaderRemoved": "Uploader unfollowed",
   "noItemsTitle": "Your Library is Empty",
   "noItemsDesc": "Click the star icon on any item to save it here for later.",
+  "sidebar": {
+    "items": "Items",
+    "uploaders": "Followed",
+    "allItems": "All Items",
+    "untagged": "Untagged",
+    "tags": "Tags",
+    "noTags": "No tags yet."
+  },
   "noFavUploaders": "No Followed Contributors",
-  "noFavUploadersDesc": "Click the star icon on a contributor's profile to follow them and see them here.",
+  "noFavUploadersDesc": "Click the star icon on a contributor's profile to follow them.",
   "searchUploadersPlaceholder_one": "Search {{count}} contributor...",
   "searchUploadersPlaceholder_other": "Search {{count}} contributors...",
-  "noItemSelected": "Select an item from the list to see its details and your notes.",
-  "sidebar": {
-    "items": "My Items",
-    "uploaders": "Followed Contributors",
-    "allitems": "All Items",
-    "mediaTypes": "Media Types",
-    "mediaTypeTexts": "Texts",
-    "mediaTypeMovies": "Movies",
-    "mediaTypeAudio": "Audio",
-    "mediaTypeImage": "Images",
-    "mediaTypeSoftware": "Software",
-    "collections": "Collections",
-    "newCollection": "New Collection",
-    "tags": "Tags",
-    "untagged": "Untagged Items",
-    "noTags": "No tags have been added yet."
-  },
-  "itemDetail": {
-    "viewFullDetails": "View full details",
-    "tags": "Tags",
-    "noTags": "No tags for this item.",
-    "addTagPlaceholder": "Add a tag and press Enter"
-  },
   "details": {
-    "backToList": "Back to Item List"
+    "selectItem": "Select an item from the list to see its details.",
+    "tags": "Tags",
+    "addTagPlaceholder": "Add a tag and press Enter",
+    "notes": "My Notes",
+    "notesPlaceholder": "Your personal notes about this item..."
   },
   "modals": {
     "newCollectionTitle": "Create New Collection",
@@ -53,23 +37,21 @@
     "addToCollection": "Add to Collection",
     "addTags": "Add Tags",
     "magicOrganize": "Magic Organize",
-    "clearSelection": "Clear selection",
-    "deleteTitle_one": "Delete {{count}} item?",
-    "deleteTitle_other": "Delete {{count}} items?",
+    "deleteTitle_one": "Delete {{count}} Item?",
+    "deleteTitle_other": "Delete {{count}} Items?",
     "deleteMessage": "This will permanently remove the selected item(s) from your library. This action cannot be undone.",
     "selectCollection": "Select a collection",
-    "addedToCollection_one": "{{count}} item added to '{{collectionName}}'.",
-    "addedToCollection_other": "{{count}} items added to '{{collectionName}}'.",
-    "addTagsPrompt": "Enter tags, separated by commas.",
-    "tagsAdded": "Tags have been added to the selected items."
+    "addedToCollection_one": "Added {{count}} item to '{{collectionName}}'.",
+    "addedToCollection_other": "Added {{count}} items to '{{collectionName}}'.",
+    "addTagsPrompt": "Add tags, separated by commas",
+    "tagsAdded": "Tags have been added."
   },
   "magicOrganize": {
-    "title": "Magic Organize",
     "suggestedTags": "Suggested Tags",
-    "applyTags": "Apply Suggested Tags",
-    "tagsApplied": "AI-suggested tags have been applied.",
-    "suggestedCollections": "Suggested New Collections",
-    "createAndAdd": "Create '{{name}}' and add items",
-    "collectionCreated": "Collection '{{name}}' created and items added."
-  }
+    "suggestedCollections": "Suggested Collections",
+    "tagsApplied": "AI suggested tags applied.",
+    "collectionCreated": "Added items to AI suggested collection '{{name}}'."
+  },
+  "renameCollection": "Rename collection",
+  "collectionRenamed": "Collection renamed."
 }

@@ -12,5 +12,10 @@
     "ted_talks": "TED Talks",
     "tv_commercials": "Vintage TV Commercials",
     "newly_added": "Newly Added"
+  },
+  "aiInsight": {
+    "title": "Curator's Insight",
+    "description": "Discover a creative connection between films in the collection. Let our AI curator suggest a themed double feature for tonight.",
+    "button": "Suggest a Double Feature"
   }
 }

@@ -4,6 +4,7 @@ import {
     settingsAtom,
     setSettingAtom,
     resetSettingsAtom,
+    themeAtom,
 } from '../store/settings';
 import {
     searchHistoryAtom,
@@ -12,9 +13,18 @@ import {
 import {
     languageAtom,
 } from '../store/i18n';
+import {
+    clearLibraryAtom
+} from '../store/favorites';
+import {
+    clearScriptoriumAtom
+} from '../store/scriptorium';
+import {
+    clearAIArchiveAtom
+} from '../store/aiArchive';
 import { useLanguage } from '../hooks/useLanguage';
-import type { AppSettings, Language } from '../types';
-import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon } from '../components/Icons';
+import type { AppSettings, Language, AccentColor, View } from '../types';
+import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon, EyeIcon } from '../components/Icons';
 import { exportAllData, importData } from '../services/dataService';
 import type { ConfirmationOptions } from '../types';
 import { useToast } from '../contexts/ToastContext';
@@ -61,12 +71,12 @@ const SettingRow = <K extends keyof AppSettings>({ settingKey, label, descriptio
 const Toggle = ({ value, onChange, ariaProps }: { value: boolean, onChange: (v: boolean) => void, ariaProps: object }) => (
     <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} className="sr-only peer" {...ariaProps} />
-        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 rounded-full peer peer-focus:ring-2 peer-focus:ring-cyan-300 dark:peer-focus:ring-cyan-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-cyan-600"></div>
+        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 rounded-full peer peer-focus:ring-2 peer-focus:ring-accent-300 dark:peer-focus:ring-accent-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-accent-600"></div>
     </label>
 );
 
 const Select = <T extends string>({ value, onChange, options, ariaProps }: { value: T, onChange: (v: T) => void, options: {value: T, label: string}[], ariaProps: object }) => (
-    <select value={value} onChange={e => onChange(e.target.value as T)} className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm focus:ring-cyan-500 focus:border-cyan-500" {...ariaProps}>
+    <select value={value} onChange={e => onChange(e.target.value as T)} className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm focus:ring-accent-500 focus:border-accent-500" {...ariaProps}>
         {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
     </select>
 );
@@ -79,7 +89,7 @@ const RadioGroup = <T extends string>({ value, onChange, options, ariaProps }: {
                 onClick={() => onChange(opt.value)}
                 className={`flex-1 flex items-center justify-center space-x-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                     value === opt.value
-                        ? 'bg-white dark:bg-gray-800 text-cyan-700 dark:text-cyan-300 shadow-sm'
+                        ? 'bg-white dark:bg-gray-800 text-accent-700 dark:text-accent-300 shadow-sm'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-900/20'
                 }`}
                 aria-pressed={value === opt.value}
@@ -92,7 +102,7 @@ const RadioGroup = <T extends string>({ value, onChange, options, ariaProps }: {
 
 
 const NumberInput = ({ value, onChange, ariaProps }: { value: number, onChange: (v: number) => void, ariaProps: object }) => (
-    <input type="number" value={value} onChange={e => onChange(Number(e.target.value))} min={1} max={100} className="w-20 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:ring-cyan-500 focus:border-cyan-500" {...ariaProps} />
+    <input type="number" value={value} onChange={e => onChange(Number(e.target.value))} min={1} max={100} className="w-20 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:ring-accent-500 focus:border-accent-500" {...ariaProps} />
 );
 
 const LanguageSelector: React.FC<{ariaProps: object}> = ({ ariaProps }) => {
@@ -105,7 +115,7 @@ const LanguageSelector: React.FC<{ariaProps: object}> = ({ ariaProps }) => {
     };
 
     return (
-        <select value={lang} onChange={e => handleChange(e.target.value as Language)} className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm focus:ring-cyan-500 focus:border-cyan-500" {...ariaProps}>
+        <select value={lang} onChange={e => handleChange(e.target.value as Language)} className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm focus:ring-accent-500 focus:border-accent-500" {...ariaProps}>
             <option value="en">English</option>
             <option value="de">Deutsch</option>
         </select>
@@ -122,6 +132,28 @@ const ColorPicker = ({ value, onChange, ariaProps }: { value: string, onChange: 
     />
 );
 
+const AccentColorSelector: React.FC<{ value: AccentColor; onChange: (v: AccentColor) => void; ariaProps: object }> = ({ value, onChange, ariaProps }) => {
+    const colors: { name: AccentColor, class: string }[] = [
+        { name: 'cyan', class: 'bg-cyan-500' },
+        { name: 'emerald', class: 'bg-emerald-500' },
+        { name: 'rose', class: 'bg-rose-500' },
+        { name: 'violet', class: 'bg-violet-500' }
+    ];
+    return (
+        <div className="flex gap-2" {...ariaProps}>
+            {colors.map(color => (
+                <button
+                    key={color.name}
+                    onClick={() => onChange(color.name)}
+                    className={`w-8 h-8 rounded-full ${color.class} transition-transform hover:scale-110 ${value === color.name ? 'ring-2 ring-offset-2 ring-offset-gray-800 ring-white' : ''}`}
+                    aria-label={color.name}
+                    aria-pressed={value === color.name}
+                />
+            ))}
+        </div>
+    );
+};
+
 // --- Settings Panels ---
 
 const UISettingsPanel: React.FC = () => {
@@ -133,6 +165,9 @@ const UISettingsPanel: React.FC = () => {
                     {value: 'comfortable', label: t('settings:ui.densities.comfortable')},
                     {value: 'compact', label: t('settings:ui.densities.compact')}
                 ]} ariaProps={ariaProps} />}
+            </SettingRow>
+             <SettingRow settingKey="accentColor" label={t('settings:ui.accentColor')} description={t('settings:ui.accentColorDesc')}>
+                {(value, onChange, ariaProps) => <AccentColorSelector value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
              <SettingRow settingKey="scrollbarColor" label={t('settings:ui.scrollbarColor')} description={t('settings:ui.scrollbarColorDesc')}>
                 {(value, onChange, ariaProps) => <ColorPicker value={value} onChange={onChange} ariaProps={ariaProps} />}
@@ -172,7 +207,7 @@ const AccessibilitySettingsPanel: React.FC = () => {
              <SettingRow settingKey="underlineLinks" label={t('settings:accessibility.underlineLinks')} description={t('settings:accessibility.underlineLinksDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            <SettingRow settingKey="reduceMotion" label={t('settings:accessibility.reduceMotion')} description={t('settings:accessibility.reduceMotionDesc')}>
+            <SettingRow settingKey="disableAnimations" label={t('settings:accessibility.disableAnimations')} description={t('settings:accessibility.disableAnimationsDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
         </div>
@@ -199,14 +234,30 @@ const SearchSettingsPanel: React.FC = () => {
             <SettingRow settingKey="rememberFilters" label={t('settings:search.rememberFilters')} description={t('settings:search.rememberFiltersDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            <SettingRow settingKey="rememberSort" label={t('settings:search.rememberSort')} description={t('settings:search.rememberSortDesc')}>
+                {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
+            </SettingRow>
         </div>
     );
 };
 
 const ContentSettingsPanel: React.FC = () => {
     const { t } = useLanguage();
+    const viewOptions: { value: View; label: string }[] = [
+        { value: 'explore', label: t('sideMenu:explore') },
+        { value: 'library', label: t('sideMenu:library') },
+        { value: 'scriptorium', label: t('sideMenu:scriptorium') },
+        { value: 'movies', label: t('sideMenu:videothek') },
+        { value: 'audio', label: t('sideMenu:audiothek') },
+        { value: 'image', label: t('sideMenu:imagesHub') },
+        { value: 'recroom', label: t('sideMenu:recRoom') },
+        { value: 'aiArchive', label: t('sideMenu:aiArchive') },
+    ];
     return (
         <div className="space-y-2">
+            <SettingRow settingKey="defaultView" label={t('settings:content.defaultView')} description={t('settings:content.defaultViewDesc')}>
+                {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={viewOptions} ariaProps={ariaProps} />}
+            </SettingRow>
             <SettingRow settingKey="defaultDetailTabAll" label={t('settings:content.defaultDetailTabAll')} description={t('settings:content.defaultDetailTabAllDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
@@ -238,6 +289,9 @@ const AISettingsPanel: React.FC = () => {
             <SettingRow settingKey="enableAiFeatures" label={t('settings:ai.enableAiFeatures')} description={t('settings:ai.enableAiFeaturesDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            <SettingRow settingKey="autoArchiveAI" label={t('settings:ai.autoArchiveAI')} description={t('settings:ai.autoArchiveAIDesc')}>
+                {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
+            </SettingRow>
             <SettingRow settingKey="defaultAiTab" label={t('settings:ai.defaultAiTab')} description={t('settings:ai.defaultAiTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
@@ -263,6 +317,9 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
     const { addToast } = useToast();
     const resetSettings = useSetAtom(resetSettingsAtom);
     const clearSearchHistory = useSetAtom(clearSearchHistoryAtom);
+    const clearLibrary = useSetAtom(clearLibraryAtom);
+    const clearScriptorium = useSetAtom(clearScriptoriumAtom);
+    const clearAIArchive = useSetAtom(clearAIArchiveAtom);
     
     const handleExport = () => {
         try {
@@ -313,32 +370,31 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
         };
         reader.readAsText(file);
     };
-
-    const handleReset = () => {
+    
+    const createDataResetHandler = (
+        name: string,
+        descriptionKey: string,
+        clearAtom: () => void
+    ) => () => {
         showConfirmation({
-            title: t('settings:data.resetButton'),
-            message: t('settings:data.resetAllDesc'),
-            confirmLabel: t('settings:data.resetButton'),
+            title: t('settings:data.clearDataTitle', { name }),
+            message: t(descriptionKey),
+            confirmLabel: t('common:delete'),
             confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
             onConfirm: () => {
-                resetSettings();
-                addToast(t('settings:data.resetSuccess'), 'success');
+                clearAtom();
+                addToast(t('settings:data.clearDataSuccess', { name }), 'success');
             },
         });
     };
-
-    const handleClearHistory = () => {
-         showConfirmation({
-            title: t('settings:data.clearHistoryTitle'),
-            message: t('settings:data.clearHistoryDesc'),
-            confirmLabel: t('settings:data.clearHistory'),
-            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
-            onConfirm: () => {
-                clearSearchHistory();
-                addToast(t('settings:data.clearHistorySuccess'), 'success');
-            },
-        });
-    };
+    
+    const dataClearingActions = [
+        { name: t('sideMenu:library'), descriptionKey: 'settings:data.clearLibraryDesc', handler: createDataResetHandler(t('sideMenu:library'), 'settings:data.clearLibraryDesc', clearLibrary) },
+        { name: t('sideMenu:scriptorium'), descriptionKey: 'settings:data.clearScriptoriumDesc', handler: createDataResetHandler(t('sideMenu:scriptorium'), 'settings:data.clearScriptoriumDesc', clearScriptorium) },
+        { name: t('sideMenu:aiArchive'), descriptionKey: 'settings:data.clearAIArchiveDesc', handler: createDataResetHandler(t('sideMenu:aiArchive'), 'settings:data.clearAIArchiveDesc', clearAIArchive) },
+        { name: t('settings:data.searchHistory'), descriptionKey: 'settings:data.clearHistoryDesc', handler: createDataResetHandler(t('settings:data.searchHistory'), 'settings:data.clearHistoryDesc', clearSearchHistory) },
+        { name: t('settings:data.resetAll'), descriptionKey: 'settings:data.resetAllDesc', handler: createDataResetHandler(t('settings:data.resetAll'), 'settings:data.resetAllDesc', resetSettings) }
+    ];
 
     return (
         <div className="space-y-8">
@@ -355,7 +411,7 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
                 <div className="py-4">
                     <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.importAll')}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.importAllDesc')}</p>
-                    <label className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors cursor-pointer">
+                    <label className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-accent-600 text-white rounded-md hover:bg-accent-700 transition-colors cursor-pointer">
                         <UploadIcon />
                         <span>{t('settings:data.importButton')}</span>
                         <input type="file" accept=".json" className="hidden" onChange={handleImport} />
@@ -367,20 +423,15 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
                 <h3 className="text-lg font-semibold text-red-400">{t('settings:data.dangerZone')}</h3>
                 <p className="text-sm text-red-300/80 mb-4">{t('settings:data.dangerZoneDesc')}</p>
                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:data.searchHistory')}</h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings:data.searchHistoryDesc')}</p>
+                    {dataClearingActions.map(action => (
+                        <div key={action.name} className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                            <div>
+                                <h4 className="font-semibold text-gray-900 dark:text-gray-200">{action.name}</h4>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md">{t(action.descriptionKey)}</p>
+                            </div>
+                            <button onClick={action.handler} className="mt-2 sm:mt-0 flex-shrink-0 px-3 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">{t('common:delete')}</button>
                         </div>
-                        <button onClick={handleClearHistory} className="px-3 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">{t('settings:data.clearHistory')}</button>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-gray-200">{t('settings:data.resetAll')}</h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings:data.resetAllDesc')}</p>
-                        </div>
-                        <button onClick={handleReset} className="px-3 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">{t('settings:data.resetButton')}</button>
-                    </div>
+                    ))}
                  </div>
             </div>
         </div>
@@ -389,9 +440,9 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
 
 const getSections = (t: (key: string) => string) => [
     { id: 'ui', label: t('settings:sections.ui'), icon: <ImageIcon className="w-5 h-5" /> },
-    { id: 'accessibility', label: t('settings:sections.accessibility'), icon: <BookIcon className="w-5 h-5" /> },
+    { id: 'accessibility', label: t('settings:sections.accessibility'), icon: <EyeIcon className="w-5 h-5" /> },
     { id: 'search', label: t('settings:sections.search'), icon: <SearchIcon className="w-5 h-5" /> },
-    { id: 'content', label: t('settings:sections.content'), icon: <SettingsIcon className="w-5 h-5" /> },
+    { id: 'content', label: t('settings:sections.content'), icon: <BookIcon className="w-5 h-5" /> },
     { id: 'ai', label: t('settings:sections.ai'), icon: <SparklesIcon className="w-5 h-5" /> },
     { id: 'data', label: t('settings:sections.data'), icon: <TrashIcon className="w-5 h-5" /> },
 ];
@@ -422,7 +473,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
     return (
         <div className="space-y-8 animate-page-fade-in">
              <header className="text-center">
-                <h1 className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">{t('settings:title')}</h1>
+                <h1 className="text-4xl font-bold text-accent-600 dark:text-accent-400">{t('settings:title')}</h1>
                 <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">{t('settings:subtitle')}</p>
             </header>
             <div className="flex flex-col md:flex-row gap-8">
@@ -434,7 +485,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
                                 onClick={() => setActiveSection(section.id as SettingsSectionId)}
                                 className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
                                     activeSection === section.id 
-                                    ? 'bg-cyan-50 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300' 
+                                    ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/20 dark:text-accent-300' 
                                     : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                                 }`}
                             >

@@ -19,7 +19,9 @@
     "defaultSort": "Default Search Sort",
     "defaultSortDesc": "Choose the default sorting order for new searches in the main explorer view.",
     "rememberFilters": "Remember Filters",
-    "rememberFiltersDesc": "Preserve your last-used media type and year range filters from the Explorer page across sessions."
+    "rememberFiltersDesc": "Preserve your last-used media type and year range filters from the Explorer page across sessions.",
+    "rememberSort": "Remember Sort Order",
+    "rememberSortDesc": "Preserve your last-used sort criteria in the Uploader and My Archive views across sessions."
   },
   "ui": {
     "title": "User Interface",
@@ -29,6 +31,8 @@
       "comfortable": "Comfortable",
       "compact": "Compact"
     },
+    "accentColor": "Accent Color",
+    "accentColorDesc": "Customize the primary color used for highlights, links, and active elements across the app.",
     "scrollbarColor": "Scrollbar Color",
     "scrollbarColorDesc": "Customize the color of the scrollbar thumb to match your preference.",
     "theme": "Theme",
@@ -54,11 +58,13 @@
       "base": "Normal",
       "lg": "Large"
     },
-    "reduceMotion": "Reduce Motion",
-    "reduceMotionDesc": "Disables most animations and transitions for a simpler, more direct experience."
+    "disableAnimations": "Disable Animations",
+    "disableAnimationsDesc": "Disables most animations and transitions for a simpler, more direct experience."
   },
   "content": {
     "title": "Content & Hubs",
+    "defaultView": "Default View on Startup",
+    "defaultViewDesc": "Choose which page to display when you first open the application.",
     "defaultUploaderDetailTab": "Default Contributor Tab",
     "defaultUploaderDetailTabDesc": "Select the tab that is opened by default when viewing a contributor's profile.",
     "autoplayMedia": "Autoplay Media",
@@ -72,6 +78,8 @@
     "title": "AI Features",
     "enableAiFeatures": "Enable AI Features",
     "enableAiFeaturesDesc": "Globally enable or disable all features powered by the Gemini AI, such as summarization and entity analysis.",
+    "autoArchiveAI": "Auto-save AI Generations",
+    "autoArchiveAIDesc": "Automatically save all your AI-generated content to the AI Archive for future reference.",
     "defaultAiTab": "Default Detail View Tab (for Texts)",
     "defaultAiTabDesc": "Choose whether to see the standard description or the AI tools first when opening a text-based item.",
     "autoRunEntityExtraction": "Auto-run Entity Extraction",
@@ -100,21 +108,25 @@
     "importButtonConfirm": "Import & Overwrite",
     "importConfirm": "Are you sure you want to import this data? All current settings and saved items will be overwritten.",
     "importSuccess": "Data imported successfully! The page will now reload.",
-    "importError": "Failed to import data",
+    "importError": "Failed to import data.",
     "importErrorFile": "Could not read the file.",
     "title": "Your Data",
     "searchHistory": "Search History",
-    "searchHistoryDesc": "Clear your locally stored search history from the command palette.",
     "noHistory": "No search history yet.",
     "clearHistory": "Clear History",
-    "resetAll": "Reset App Settings",
+    "clearHistoryTitle": "Clear Search History?",
+    "clearHistoryDesc": "Clear your locally stored search history from the command palette.",
+    "clearHistorySuccess": "Search history cleared.",
+    "resetAll": "App Settings",
     "resetAllDesc": "This will reset all application settings to their defaults. Your library and worksets will NOT be affected.",
     "resetButton": "Reset Settings",
-    "resetSuccess": "Settings have been reset to default.",
-    "clearHistoryTitle": "Clear Search History?",
-    "clearHistoryDesc": "Are you sure you want to permanently delete your search history?",
-    "clearHistorySuccess": "Search history cleared.",
+    "resetSuccess": "Settings reset to default.",
     "dangerZone": "Danger Zone",
-    "dangerZoneDesc": "These actions are permanent and cannot be undone."
+    "dangerZoneDesc": "These actions are permanent and cannot be undone.",
+    "clearDataTitle": "Delete All {{name}} Data?",
+    "clearDataSuccess": "{{name}} data cleared.",
+    "clearLibraryDesc": "Permanently delete all of your saved library items, custom collections, and followed contributors.",
+    "clearScriptoriumDesc": "Permanently delete all of your Scriptorium worksets and associated notes.",
+    "clearAIArchiveDesc": "Permanently delete all of your saved AI generations from the AI Archive."
   }
 }

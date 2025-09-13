@@ -1,4 +1,3 @@
-
 {
   "title": "Der Rec Room",
   "description": "Willkommen in der Software-Bibliothek. Spielen Sie Tausende von klassischen MS-DOS-Spielen, Konsolentiteln und erkunden Sie historische Software direkt in Ihrem Browser. Keine Installation erforderlich.",
@@ -6,5 +5,10 @@
   "card": {
     "start": "Start",
     "startItem": "{{title}} starten"
+  },
+  "aiInsight": {
+    "title": "Retro-Gamer-Ecke",
+    "description": "Lassen Sie unseren KI-Journalisten eine nostalgische Anmerkung des Herausgebers verfassen, die eine lustige Verbindung zwischen den klassischen Spielen in der Spielhalle herstellt.",
+    "button": "Anmerkung verfassen"
   }
 }

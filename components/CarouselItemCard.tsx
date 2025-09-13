@@ -29,7 +29,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
 
   return (
     <div
-      className="flex-shrink-0 w-40 sm:w-48 cursor-pointer group focus-within:ring-2 focus-within:ring-cyan-400 rounded-lg scroll-snap-align-start"
+      className="flex-shrink-0 w-40 sm:w-48 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 rounded-lg scroll-snap-align-start"
       style={{ animationDelay: `${Math.min(index % 20 * 30, 600)}ms`}}
       onClick={() => onSelect(item)}
       role="button"
@@ -37,7 +37,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
       aria-label={t('itemCard:viewDetails', { title: item.title })}
     >
-      <div className={`relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500/10 dark:hover:shadow-cyan-500/30 transition-shadow duration-300 ${aspectClasses[aspectRatio]}`}>
+      <div className={`relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/10 dark:hover:shadow-accent-500/30 transition-shadow duration-300 ${aspectClasses[aspectRatio]}`}>
         {isRestricted && (
           <div className="absolute top-2 left-2 z-10 p-1.5 bg-black/60 rounded-full" title={t('modals:details.restrictedItemTooltip')}>
             <InfoIcon className="w-4 h-4 text-yellow-400" />
@@ -68,7 +68,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
         </div>
       </div>
       <div className="pt-2 px-1">
-        <h3 className="text-sm font-semibold text-gray-800 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors h-10 line-clamp-2" title={item.title}>
+        <h3 className="text-sm font-semibold text-gray-800 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors h-10 line-clamp-2" title={item.title}>
           {item.title}
         </h3>
         <div className="flex justify-between items-center">

@@ -1,16 +1,11 @@
 {
-  "searchPlaceholder": "KI-Archiv durchsuchen...",
   "empty": {
     "title": "Ihr KI-Archiv ist leer",
-    "description": "Wenn Sie KI-Funktionen wie Zusammenfassungen, Entitätenextraktion oder den Geschichtenerzähler verwenden, werden Ihre Generierungen automatisch hier gespeichert.",
-    "noSelection": "Wählen Sie einen Eintrag aus der Liste, um die Details anzuzeigen."
-  },
-  "list": {
-    "title": "Gespeicherte Generierungen"
+    "description": "Wenn Sie KI-Funktionen wie Zusammenfassungen oder Entitätenextraktion verwenden, werden Ihre Ergebnisse automatisch hier zur späteren Verwendung gespeichert."
   },
   "filters": {
-    "title": "Filter & Sortierung",
-    "all": "Alle Generierungen",
+    "title": "Archiv filtern",
+    "all": "Alle Einträge",
     "type": "Nach Typ",
     "language": "Nach Sprache",
     "sort": "Sortieren nach"
@@ -26,22 +21,25 @@
     "imageAnalysis": "Bildanalyse",
     "dailyInsight": "Täglicher Einblick",
     "story": "Geschichte",
-    "answer": "F&A"
+    "answer": "F&A",
+    "magicOrganize": "Organisationsvorschlag",
+    "moviesInsight": "Videothek-Einblick",
+    "audioInsight": "Audiothek-Einblick",
+    "imagesInsight": "Bilder-Hub-Einblick",
+    "recRoomInsight": "Rec-Room-Einblick"
+  },
+  "list": {
+    "title": "Generierungen"
   },
   "details": {
-    "source": "Quellenelement",
-    "content": "Generierter Inhalt",
-    "notes": "Meine Notizen",
-    "prompt": "Anweisung",
+    "select": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
+    "deleteTitle": "Diesen Eintrag löschen?",
+    "deleteMessage": "Sind Sie sicher, dass Sie diesen KI-generierten Eintrag endgültig aus Ihrem Archiv löschen möchten?",
+    "source": "Quelle",
+    "sources": "Quellen",
     "regenerate": "Neu generieren",
-    "regenerating": "Wird neu generiert...",
-    "timestamp": "Generiert am",
-    "language": "Sprache",
-    "back": "Zurück zur Liste"
+    "regenerateConfirm": "Dies stellt eine neue Anfrage an die KI mit den ursprünglichen Quelldaten. Der aktuelle Eintrag wird überschrieben. Möchten Sie fortfahren?"
   },
-  "delete": {
-    "title": "KI-Eintrag löschen?",
-    "message": "Sind Sie sicher, dass Sie diesen KI-generierten Eintrag endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
-  },
-  "toastSaved": "Im KI-Archiv gespeichert."
+  "searchPlaceholder": "Archiv durchsuchen...",
+  "insightGenerated": "Tageseinblick generiert und im KI-Archiv gespeichert!"
 }

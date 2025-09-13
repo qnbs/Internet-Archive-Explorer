@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult } from '../../types';
+// FIX: AIGenerationType is an enum used as a value, and MagicOrganizeResult is a new type dependency.
+import { AIGenerationType, type AIArchiveEntry, type ExtractedEntities, type ImageAnalysisResult, type MagicOrganizeResult } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
-import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon } from '../Icons';
+import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon, MovieIcon, AudioIcon, JoystickIcon } from '../Icons';
 
 interface AIArchiveItemCardProps {
   entry: AIArchiveEntry;
@@ -9,25 +10,36 @@ interface AIArchiveItemCardProps {
   onSelect: () => void;
 }
 
+// FIX: Added missing enum members to the ICONS record to satisfy the type and provide specific icons.
 const ICONS: Record<AIGenerationType, React.ReactNode> = {
-    summary: <BookIcon className="w-5 h-5" />,
-    entities: <TagIcon className="w-5 h-5" />,
-    imageAnalysis: <ImageIcon className="w-5 h-5" />,
-    dailyInsight: <StarIcon className="w-5 h-5" />,
-    story: <SparklesIcon className="w-5 h-5" />,
-    answer: <SparklesIcon className="w-5 h-5" />,
+    [AIGenerationType.Summary]: <BookIcon className="w-5 h-5" />,
+    [AIGenerationType.Entities]: <TagIcon className="w-5 h-5" />,
+    [AIGenerationType.ImageAnalysis]: <ImageIcon className="w-5 h-5" />,
+    [AIGenerationType.DailyInsight]: <StarIcon className="w-5 h-5" />,
+    [AIGenerationType.Story]: <SparklesIcon className="w-5 h-5" />,
+    [AIGenerationType.Answer]: <SparklesIcon className="w-5 h-5" />,
+    [AIGenerationType.MagicOrganize]: <SparklesIcon className="w-5 h-5" />,
+    [AIGenerationType.MoviesInsight]: <MovieIcon className="w-5 h-5" />,
+    [AIGenerationType.AudioInsight]: <AudioIcon className="w-5 h-5" />,
+    [AIGenerationType.ImagesInsight]: <ImageIcon className="w-5 h-5" />,
+    [AIGenerationType.RecRoomInsight]: <JoystickIcon className="w-5 h-5" />,
 };
 
 const getContentSnippet = (entry: AIArchiveEntry): string => {
     if (typeof entry.content === 'string') {
         return entry.content;
     }
-    if (entry.type === 'imageAnalysis') {
+    if (entry.type === AIGenerationType.ImageAnalysis) {
         return (entry.content as ImageAnalysisResult).description;
     }
-    if (entry.type === 'entities') {
+    if (entry.type === AIGenerationType.Entities) {
         const { people, places, organizations } = entry.content as ExtractedEntities;
         return [...people, ...places, ...organizations].slice(0, 5).join(', ');
+    }
+    // Add support for MagicOrganize content type to display a relevant snippet.
+    if (entry.type === AIGenerationType.MagicOrganize) {
+        const { tags } = entry.content as MagicOrganizeResult;
+        return `Tags: ${tags.slice(0, 5).join(', ')}`;
     }
     return 'Complex object';
 };

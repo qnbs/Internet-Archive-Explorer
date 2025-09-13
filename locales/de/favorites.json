@@ -1,49 +1,33 @@
 {
-  "added": "Zu meiner Bibliothek hinzugefügt.",
-  "removed": "Aus meiner Bibliothek entfernt.",
-  "uploaderAdded": "Mitwirkendem gefolgt.",
-  "uploaderRemoved": "Mitwirkendem nicht mehr gefolgt.",
-  "filtersTitle": "Filter & Navigation",
-  "tabs": {
-    "items": "Meine Einträge",
-    "uploaders": "Gefolgte Mitwirkende"
-  },
+  "added": "Zur Bibliothek hinzugefügt",
+  "removed": "Aus der Bibliothek entfernt",
+  "uploaderAdded": "Uploader gefolgt",
+  "uploaderRemoved": "Uploader nicht mehr gefolgt",
   "noItemsTitle": "Ihre Bibliothek ist leer",
   "noItemsDesc": "Klicken Sie auf das Sternsymbol bei einem beliebigen Eintrag, um ihn hier für später zu speichern.",
-  "noFavUploaders": "Keine gefolgten Mitwirkenden",
-  "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Mitwirkenden, um ihm zu folgen und ihn hier zu sehen.",
-  "searchUploadersPlaceholder_one": "{{count}} Mitwirkenden durchsuchen...",
-  "searchUploadersPlaceholder_other": "{{count}} Mitwirkende durchsuchen...",
-  "noItemSelected": "Wählen Sie einen Eintrag aus der Liste, um Details und Ihre Notizen anzuzeigen.",
   "sidebar": {
-    "items": "Meine Einträge",
-    "uploaders": "Gefolgte Mitwirkende",
-    "allitems": "Alle Einträge",
-    "mediaTypes": "Medientypen",
-    "mediaTypeTexts": "Texte",
-    "mediaTypeMovies": "Filme",
-    "mediaTypeAudio": "Audio",
-    "mediaTypeImage": "Bilder",
-    "mediaTypeSoftware": "Software",
-    "collections": "Sammlungen",
-    "newCollection": "Neue Sammlung",
+    "items": "Einträge",
+    "uploaders": "Gefolgt",
+    "allItems": "Alle Einträge",
+    "untagged": "Ohne Tags",
     "tags": "Tags",
-    "untagged": "Einträge ohne Tags",
-    "noTags": "Noch keine Tags hinzugefügt."
+    "noTags": "Noch keine Tags."
   },
-  "itemDetail": {
-    "viewFullDetails": "Vollständige Details anzeigen",
-    "tags": "Tags",
-    "noTags": "Keine Tags für diesen Eintrag.",
-    "addTagPlaceholder": "Tag hinzufügen und Enter drücken"
-  },
+  "noFavUploaders": "Keinen Mitwirkenden gefolgt",
+  "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Mitwirkenden, um ihm zu folgen.",
+  "searchUploadersPlaceholder_one": "Suche in {{count}} Mitwirkendem...",
+  "searchUploadersPlaceholder_other": "Suche in {{count}} Mitwirkenden...",
   "details": {
-    "backToList": "Zurück zur Eintragsliste"
+    "selectItem": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
+    "tags": "Tags",
+    "addTagPlaceholder": "Tag hinzufügen & Enter drücken",
+    "notes": "Meine Notizen",
+    "notesPlaceholder": "Ihre persönlichen Notizen zu diesem Eintrag..."
   },
   "modals": {
     "newCollectionTitle": "Neue Sammlung erstellen",
     "newCollectionName": "Name der Sammlung",
-    "newCollectionPlaceholder": "z.B. 'Geschichte der Raumfahrt'",
+    "newCollectionPlaceholder": "z.B. 'Geschichte des Weltraumrennens'",
     "create": "Erstellen",
     "collectionCreated": "Sammlung '{{name}}' erstellt."
   },
@@ -53,23 +37,21 @@
     "addToCollection": "Zu Sammlung hinzufügen",
     "addTags": "Tags hinzufügen",
     "magicOrganize": "Magisch Organisieren",
-    "clearSelection": "Auswahl aufheben",
     "deleteTitle_one": "{{count}} Eintrag löschen?",
     "deleteTitle_other": "{{count}} Einträge löschen?",
-    "deleteMessage": "Dies entfernt die ausgewählten Einträge dauerhaft aus Ihrer Bibliothek. Diese Aktion kann nicht rückgängig gemacht werden.",
-    "selectCollection": "Wählen Sie eine Sammlung",
+    "deleteMessage": "Dies entfernt die ausgewählten Einträge endgültig aus Ihrer Bibliothek. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "selectCollection": "Sammlung auswählen",
     "addedToCollection_one": "{{count}} Eintrag zu '{{collectionName}}' hinzugefügt.",
     "addedToCollection_other": "{{count}} Einträge zu '{{collectionName}}' hinzugefügt.",
-    "addTagsPrompt": "Tags durch Kommas getrennt eingeben.",
-    "tagsAdded": "Tags wurden zu den ausgewählten Einträgen hinzugefügt."
+    "addTagsPrompt": "Tags hinzufügen, getrennt durch Kommas",
+    "tagsAdded": "Tags wurden hinzugefügt."
   },
   "magicOrganize": {
-    "title": "Magisch Organisieren",
     "suggestedTags": "Vorgeschlagene Tags",
-    "applyTags": "Vorgeschlagene Tags anwenden",
-    "tagsApplied": "KI-vorgeschlagene Tags wurden angewendet.",
-    "suggestedCollections": "Vorgeschlagene neue Sammlungen",
-    "createAndAdd": "'{{name}}' erstellen und Einträge hinzufügen",
-    "collectionCreated": "Sammlung '{{name}}' erstellt und Einträge hinzugefügt."
-  }
+    "suggestedCollections": "Vorgeschlagene Sammlungen",
+    "tagsApplied": "KI-vorgeschlagene Tags angewendet.",
+    "collectionCreated": "Einträge zur KI-vorgeschlagenen Sammlung '{{name}}' hinzugefügt."
+  },
+  "renameCollection": "Sammlung umbenennen",
+  "collectionRenamed": "Sammlung umbenannt."
 }

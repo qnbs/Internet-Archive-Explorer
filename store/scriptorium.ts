@@ -27,6 +27,7 @@ export const createWorksetAtom = atom(
         };
         const currentWorksets = get(worksetsAtom);
         set(worksetsAtom, [...currentWorksets, newWorkset]);
+        // FIX: toastAtom is now writable, so this call is valid.
         set(toastAtom, { type: 'success', message: `Workset '${name}' created!` });
         return newWorkset;
     }
@@ -39,6 +40,7 @@ export const deleteWorksetAtom = atom(
         const worksetName = worksets.find(ws => ws.id === id)?.name || '';
         const newWorksets = worksets.filter(ws => ws.id !== id);
         set(worksetsAtom, newWorksets);
+        // FIX: toastAtom is now writable, so this call is valid.
         set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.` });
     }
 );
@@ -70,9 +72,11 @@ export const addDocumentToWorksetAtom = atom(
         });
 
         if (documentExists) {
+            // FIX: toastAtom is now writable, so this call is valid.
             set(toastAtom, { type: 'info', message: 'Document is already in this workset.' });
         } else {
             set(worksetsAtom, newWorksets);
+            // FIX: toastAtom is now writable, so this call is valid.
             set(toastAtom, { type: 'success', message: 'Document added to workset.' });
         }
     }
@@ -89,6 +93,7 @@ export const removeDocumentFromWorksetAtom = atom(
                 return ws;
             })
         );
+        // FIX: toastAtom is now writable, so this call is valid.
         set(toastAtom, { type: 'info', message: 'Document removed from workset.' });
     }
 );

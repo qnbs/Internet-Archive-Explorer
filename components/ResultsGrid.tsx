@@ -50,7 +50,7 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
         {onRetry && (
             <button
                 onClick={onRetry}
-                className="px-4 py-2 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-500 transition-colors"
+                className="px-4 py-2 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-500 transition-colors"
             >
                 {t('common:retry')}
             </button>

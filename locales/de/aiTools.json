@@ -10,6 +10,9 @@
   "summaryErrorShort": "Der Text ist zu kurz für eine sinnvolle Zusammenfassung.",
   "summaryErrorApi": "Die KI-Zusammenfassung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.",
   "entityErrorApi": "Die Entitäten konnten nicht extrahiert werden. Bitte versuchen Sie es später erneut.",
+  "askAboutText": "Fragen zu diesem Dokument",
+  "ask": "Fragen",
+  "askPlaceholder": "z.B. 'Was war die Hauptschlussfolgerung dieses Textes?'",
   "image": {
     "askPlaceholder": "Stellen Sie eine Folgefrage...",
     "askButton": "Fragen"

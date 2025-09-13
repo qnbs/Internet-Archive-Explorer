@@ -1,139 +1,65 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
-import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language } from '../types';
-// FIX: Updated toastAtom import to break circular dependency
-import { toastAtom } from './toast';
-import { v4 as uuidv4 } from 'uuid';
+import type { AIArchiveEntry } from '../types';
 
 export const STORAGE_KEY = 'ai-archive-v1';
 
-// --- Base State Atom ---
+// Base state atom
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 
-// --- UI State Atoms ---
-export const selectedAIEntryIdAtom = safeAtomWithStorage<string | null>('ai-archive-selected-entry-id', null);
-export const aiArchiveSearchQueryAtom = atom('');
+// UI state atoms
+// FIX: Simplified atom to be a primitive writable atom.
+export const selectedAIEntryIdAtom = atom<string | null>(null);
 
-// --- Derived Atoms ---
-export const allAIArchiveTagsAtom = atom((get) => {
+// FIX: Simplified atom to be a primitive writable atom.
+export const aiArchiveSearchQueryAtom = atom<string>('');
+
+
+// Derived read-only atoms
+export const allAIArchiveTagsAtom = atom(get => {
     const entries = get(aiArchiveAtom);
     const tags = new Set<string>();
-    for (const entry of entries) {
-        for (const tag of entry.tags) {
-            tags.add(tag);
-        }
-    }
+    entries.forEach(entry => {
+        entry.tags.forEach(tag => tags.add(tag));
+    });
     return Array.from(tags).sort();
 });
 
-// --- Write-only Action Atoms ---
-
+// Write-only action atoms
 export const addAIArchiveEntryAtom = atom(
     null,
     (get, set, newEntry: AIArchiveEntry) => {
-        set(aiArchiveAtom, (prev) => [newEntry, ...prev]);
-        // Show a subtle toast that this was saved.
-        set(toastAtom, { type: 'info', message: `Saved to AI Archive.` });
+        const currentArchive = get(aiArchiveAtom);
+        set(aiArchiveAtom, [newEntry, ...currentArchive]);
     }
 );
 
 export const deleteAIArchiveEntryAtom = atom(
     null,
     (get, set, entryId: string) => {
-        set(aiArchiveAtom, (prev) => prev.filter((entry) => entry.id !== entryId));
-        set(toastAtom, { type: 'info', message: `AI entry deleted.` });
+        set(aiArchiveAtom, archive => archive.filter(entry => entry.id !== entryId));
+        if (get(selectedAIEntryIdAtom) === entryId) {
+            // FIX: This set call is now valid because selectedAIEntryIdAtom is a primitive writable atom.
+            set(selectedAIEntryIdAtom, null);
+        }
     }
 );
 
 export const updateAIArchiveEntryAtom = atom(
     null,
     (get, set, updatedEntry: AIArchiveEntry) => {
-        set(aiArchiveAtom, (prev) =>
-            prev.map((entry) => (entry.id === updatedEntry.id ? updatedEntry : entry))
-        );
+        set(aiArchiveAtom, archive => archive.map(entry => entry.id === updatedEntry.id ? updatedEntry : entry));
     }
 );
 
 export const updateAIEntryTagsAtom = atom(
     null,
-    (get, set, { entryId, tags }: { entryId: string, tags: string[] }) => {
-        const uniqueTags = Array.from(new Set(tags)).sort();
-        set(aiArchiveAtom, entries => entries.map(entry => 
-            entry.id === entryId ? { ...entry, tags: uniqueTags } : entry
-        ));
-    }
-);
-
-export const regenerateAIArchiveEntryAtom = atom(
-    null,
-    async (get, set, entryId: string) => {
-        const entries = get(aiArchiveAtom);
-        const entryToRegen = entries.find(e => e.id === entryId);
-        if (!entryToRegen) return;
-
-        // Use dynamic imports to avoid circular dependencies and load services only when needed
-        const { getSummary, extractEntities, analyzeImage, generateStory, answerFromText, generateDailyHistoricalEvent } = await import('../services/geminiService');
-        const { getItemPlainText, getItemMetadata } = await import('../services/archiveService');
-        const { findBestImageUrl, urlToBase64 } = await import('../utils/imageUtils');
-
-        let newContent: AIArchiveEntry['content'] | null = null;
-        
-        try {
-            switch (entryToRegen.type) {
-                case 'summary': {
-                    if (!entryToRegen.source) throw new Error("Source missing for summary regeneration");
-                    const textContent = await getItemPlainText(entryToRegen.source.identifier);
-                    const tone = JSON.parse(entryToRegen.prompt || '{}').tone || 'detailed';
-                    newContent = await getSummary(textContent, entryToRegen.language, tone);
-                    break;
-                }
-                case 'entities': {
-                    if (!entryToRegen.source) throw new Error("Source missing for entity regeneration");
-                    const textContent = await getItemPlainText(entryToRegen.source.identifier);
-                    newContent = await extractEntities(textContent, entryToRegen.language);
-                    break;
-                }
-                case 'story': {
-                    if (!entryToRegen.prompt) throw new Error("Prompt missing for story regeneration");
-                    newContent = await generateStory(entryToRegen.prompt, entryToRegen.language);
-                    break;
-                }
-                 case 'dailyInsight': {
-                    if (!entryToRegen.prompt) throw new Error("Prompt missing for insight regeneration");
-                    const titles = entryToRegen.prompt.replace('Item Titles: ', '').split(', ');
-                    if (titles.length === 0 || titles[0] === '') throw new Error("Invalid prompt format for insight regeneration");
-                    newContent = await generateDailyHistoricalEvent(titles, entryToRegen.language);
-                    break;
-                }
-                case 'answer': {
-                    if (!entryToRegen.source || !entryToRegen.prompt) throw new Error("Source or prompt missing for answer regeneration");
-                    const textContent = await getItemPlainText(entryToRegen.source.identifier);
-                    newContent = await answerFromText(entryToRegen.prompt, textContent, entryToRegen.language);
-                    break;
-                }
-                case 'imageAnalysis': {
-                    if (!entryToRegen.source) throw new Error("Source missing for image analysis regeneration");
-                    const metadata = await getItemMetadata(entryToRegen.source.identifier);
-                    const imageUrl = findBestImageUrl(metadata.files, entryToRegen.source.identifier);
-                    if (!imageUrl) throw new Error("Could not find image URL to analyze.");
-                    const { base64, mimeType } = await urlToBase64(imageUrl);
-                    newContent = await analyzeImage(base64, mimeType, entryToRegen.language);
-                    break;
-                }
-                default:
-                    throw new Error("Regeneration not supported for this entry type.");
-            }
-            
-            if (newContent) {
-                set(aiArchiveAtom, prev => prev.map(e => e.id === entryId ? { ...e, content: newContent!, timestamp: Date.now() } : e));
-                set(toastAtom, { type: 'success', message: `Entry regenerated.` });
-            }
-        } catch(err) {
-            console.error("Regeneration failed:", err);
-            const message = err instanceof Error ? err.message : "An unknown error occurred.";
-            set(toastAtom, { type: 'error', message: `Regeneration failed: ${message}` });
-            throw err;
-        }
+    (get, set, { id, tags }: { id: string; tags: string[] }) => {
+        set(aiArchiveAtom, archive =>
+            archive.map(entry =>
+                entry.id === id ? { ...entry, tags: [...new Set(tags)].sort() } : entry
+            )
+        );
     }
 );
 

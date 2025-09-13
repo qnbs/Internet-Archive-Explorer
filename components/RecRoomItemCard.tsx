@@ -25,7 +25,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
 
   return (
     <div
-      className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group focus-within:ring-2 focus-within:ring-cyan-400 animate-fade-in"
+      className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/30 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 animate-fade-in"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
       onClick={() => onSelect(item)}
       role="button"
@@ -59,7 +59,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-4">
             <div>
-                <h3 className="text-md font-semibold text-white group-hover:text-cyan-400 transition-colors line-clamp-2" title={item.title}>
+                <h3 className="text-md font-semibold text-white group-hover:text-accent-400 transition-colors line-clamp-2" title={item.title}>
                   {item.title}
                 </h3>
                 <p className="text-sm text-gray-300 truncate mt-1" title={creatorName}>{creatorName}</p>

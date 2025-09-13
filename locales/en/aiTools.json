@@ -10,6 +10,9 @@
   "summaryErrorShort": "Text is too short to generate a meaningful summary.",
   "summaryErrorApi": "The AI summary could not be created. Please try again later.",
   "entityErrorApi": "Entities could not be extracted. Please try again later.",
+  "askAboutText": "Ask about this document",
+  "ask": "Ask",
+  "askPlaceholder": "e.g., 'What was the main conclusion of this text?'",
   "image": {
     "askPlaceholder": "Ask a follow-up question...",
     "askButton": "Ask"

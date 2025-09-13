@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { searchQueryAtom, facetsAtom } from '../store/search';
-import { showExplorerHubAtom } from '../store/settings';
-import { useDebounce } from '../hooks/useDebounce';
-import { searchArchive } from '../services/archiveService';
+import { showExplorerHubAtom, autoArchiveAIAtom } from '../store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '../types';
-import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { useLanguage } from '../hooks/useLanguage';
 import { OnThisDay } from '../components/OnThisDay';
@@ -16,6 +13,8 @@ import { generateDailyHistoricalEvent } from '../services/geminiService';
 import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
+import { searchArchive } from '../services/archiveService';
+import { toastAtom } from '../store/toast';
 
 interface ExplorerViewProps {
   onSelectItem: (item: ArchiveItemSummary) => void;
@@ -35,6 +34,9 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
     const { t, language } = useLanguage();
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+    // FIX: useSetAtom now works correctly because toastAtom is explicitly writable.
+    const setToast = useSetAtom(toastAtom);
+    const autoArchive = useAtomValue(autoArchiveAIAtom);
 
     const fetchTrendingItems = useCallback(async () => {
         setIsLoading(true);
@@ -72,19 +74,24 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
             const titles = items.map(item => item.title);
             const summary = await generateDailyHistoricalEvent(titles, language);
             setHistoricalSummary(summary);
-            archiveAIGeneration({
-                type: AIGenerationType.DailyInsight,
-                content: summary,
-                language,
-                prompt: `Item Titles: ${titles.join(', ')}`
-            }, addAIEntry);
+            if(autoArchive) {
+                archiveAIGeneration({
+                    type: AIGenerationType.DailyInsight,
+                    content: summary,
+                    language,
+                    prompt: `Item Titles: ${titles.join(', ')}`,
+                    sources: items.slice(0, 5) // Use top 5 items as sources
+                }, addAIEntry, autoArchive);
+                // FIX: Correctly call setToast with a single argument.
+                setToast({ type: 'success', message: t('aiArchive:insightGenerated') });
+            }
         } catch (aiError) {
             console.error("AI summary generation failed:", aiError);
             setSummaryError(t('explorer:errorInsight'));
         } finally {
             setIsGeneratingInsight(false);
         }
-    }, [items, isGeneratingInsight, language, t, addAIEntry]);
+    }, [items, isGeneratingInsight, language, t, addAIEntry, setToast, autoArchive]);
 
     const renderInsightContent = () => {
         if (historicalSummary) {
@@ -103,7 +110,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                     <p className="text-sm text-red-500 dark:text-red-400 leading-relaxed">
                         {summaryError}
                     </p>
-                    <button onClick={handleGenerateInsight} className="px-3 py-1.5 bg-cyan-600 text-white text-sm font-semibold rounded-lg hover:bg-cyan-500 transition-colors">
+                    <button onClick={handleGenerateInsight} className="px-3 py-1.5 bg-accent-600 text-white text-sm font-semibold rounded-lg hover:bg-accent-500 transition-colors">
                         {t('common:retry')}
                     </button>
                 </div>
@@ -117,7 +124,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                 <button
                     onClick={handleGenerateInsight}
                     disabled={items.length === 0}
-                    className="flex items-center justify-center mx-auto space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center mx-auto space-x-2 px-4 py-2 text-sm font-semibold bg-accent-600 hover:bg-accent-500 text-white rounded-lg transition-colors shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed"
                 >
                     <SparklesIcon className="w-4 h-4" />
                     <span>{t('explorer:generateInsightButton')}</span>
@@ -130,7 +137,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
         <section className="animate-fade-in" role="region" aria-label={t('explorer:trending')}>
              <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                    <TrendingIcon className="mr-3 text-cyan-600 dark:text-cyan-400" />
+                    <TrendingIcon className="mr-3 text-accent-600 dark:text-accent-400" />
                     {t('explorer:trending')}
                 </h2>
             </div>
@@ -149,7 +156,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                 </div>
                 <div className="lg:col-span-1 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50">
                     <h3 className="font-bold text-lg text-gray-900 dark:text-white flex items-center mb-3">
-                        <SparklesIcon className="w-5 h-5 mr-2 text-cyan-500" />
+                        <SparklesIcon className="w-5 h-5 mr-2 text-accent-500" />
                         {t('explorer:dailyInsight')}
                     </h3>
                     {renderInsightContent()}

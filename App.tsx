@@ -4,18 +4,23 @@ import {
     activeViewAtom, 
     modalAtom,
 } from './store/app';
-import { selectedProfileAtom, profileReturnViewAtom } from './store/atoms';
+import {
+    selectedProfileAtom,
+    profileReturnViewAtom,
+} from './store/atoms';
 // FIX: Updated toastAtom import to break circular dependency
 import { toastAtom } from './store/toast';
 import { 
     resolvedThemeAtom, 
-    reduceMotionAtom,
+    disableAnimationsAtom,
     highContrastModeAtom,
     underlineLinksAtom,
     fontSizeAtom,
     scrollbarColorAtom,
+    accentColorAtom,
+    defaultViewAtom,
 } from './store/settings';
-import type { View, Uploader, Profile, ArchiveItemSummary } from './types';
+import type { View, Uploader, Profile, ArchiveItemSummary, AccentColor } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -59,6 +64,7 @@ const PageSpinner: React.FC = () => (
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {
     const { addToast } = useToast();
+    // FIX: Changed to useAtom since toastAtom is now a derived atom. useSetAtom would not work for reset.
     const [toast, setToast] = useAtom(toastAtom); 
     
     useEffect(() => {
@@ -66,6 +72,7 @@ const ToastBridge: React.FC = () => {
         if (toast) {
             addToast(toast.message, toast.type);
             // Reset the atom to null so the toast doesn't re-appear on re-renders.
+            // FIX: The setter function from useAtom is now correctly typed and callable.
             setToast(null);
         }
     }, [toast, addToast, setToast]);
@@ -73,16 +80,38 @@ const ToastBridge: React.FC = () => {
     return null;
 };
 
+const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
+  cyan: {
+    '50': '#ecfeff', '100': '#cffafe', '200': '#a5f3fd', '300': '#67e8f9', '400': '#22d3ee',
+    '500': '#06b6d4', '600': '#0891b2', '700': '#0e7490', '800': '#155e75', '900': '#164e63', '950': '#083344',
+  },
+  emerald: {
+    '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '300': '#6ee7b7', '400': '#34d399',
+    '500': '#10b981', '600': '#059669', '700': '#047857', '800': '#065f46', '900': '#064e3b', '950': '#022c22',
+  },
+  rose: {
+    '50': '#fff1f2', '100': '#ffe4e6', '200': '#fecdd3', '300': '#fda4af', '400': '#fb7185',
+    '500': '#f43f5e', '600': '#e11d48', '700': '#be123c', '800': '#9f1239', '900': '#881337', '950': '#4c0519',
+  },
+  violet: {
+    '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '300': '#c4b5fd', '400': '#a78bfa',
+    '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9', '800': '#5b21b6', '900': '#4c1d95', '950': '#2e1065',
+  },
+};
+
+
 // Main App component logic
 const MainApp: React.FC = () => {
+  const defaultView = useAtomValue(defaultViewAtom);
   const [activeView, setActiveView] = useAtom(activeViewAtom);
   const selectedProfile = useAtomValue(selectedProfileAtom);
   const resolvedTheme = useAtomValue(resolvedThemeAtom);
-  const reduceMotion = useAtomValue(reduceMotionAtom);
+  const disableAnimations = useAtomValue(disableAnimationsAtom);
   const highContrast = useAtomValue(highContrastModeAtom);
   const underlineLinks = useAtomValue(underlineLinksAtom);
   const fontSize = useAtomValue(fontSizeAtom);
   const scrollbarColor = useAtomValue(scrollbarColorAtom);
+  const accentColor = useAtomValue(accentColorAtom);
   const setModal = useSetAtom(modalAtom);
   const profileReturnView = useAtomValue(profileReturnViewAtom);
   const { isLoading: isLoadingTranslations } = useLanguage();
@@ -91,10 +120,15 @@ const MainApp: React.FC = () => {
   
   const navigation = useNavigation();
 
+  // Set initial view from settings
+  useEffect(() => {
+    setActiveView(defaultView);
+  }, [defaultView, setActiveView]);
+
   // Apply theme and accessibility classes to the document
   useEffect(() => {
     document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
-    document.documentElement.classList.toggle('reduce-motion', reduceMotion);
+    document.documentElement.classList.toggle('disable-animations', disableAnimations);
     document.documentElement.classList.toggle('high-contrast', highContrast);
     document.documentElement.classList.toggle('underline-links', underlineLinks);
     
@@ -102,6 +136,13 @@ const MainApp: React.FC = () => {
       fontSize === 'sm' ? '14px' :
       fontSize === 'lg' ? '18px' :
       '16px'; // base
+      
+    // Apply accent color
+    const colors = ACCENT_COLORS[accentColor] || ACCENT_COLORS.cyan;
+    for (const [shade, value] of Object.entries(colors)) {
+        document.documentElement.style.setProperty(`--color-accent-${shade}`, value);
+    }
+
 
     // Dynamic styles for scrollbar
     const styleId = 'dynamic-scrollbar-styles';
@@ -114,14 +155,16 @@ const MainApp: React.FC = () => {
     
     const trackColor = resolvedTheme === 'dark' ? '#2d3748' : '#f1f1f1'; // Corresponds to dark:bg-gray-800 and bg-gray-100
     
+    // FIX: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+    // Use an explicit type assertion to assure TypeScript that `scrollbarColor` is a string.
     styleElement.innerHTML = `
       ::-webkit-scrollbar { width: 8px; height: 8px; }
       ::-webkit-scrollbar-track { background: ${trackColor}; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb { background: ${scrollbarColor}; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb { background: ${scrollbarColor as string}; border-radius: 10px; }
       ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
     `;
       
-  }, [resolvedTheme, reduceMotion, highContrast, underlineLinks, fontSize, scrollbarColor]);
+  }, [resolvedTheme, disableAnimations, highContrast, underlineLinks, fontSize, scrollbarColor, accentColor]);
   
   // Ensure every view change scrolls the page to the top
   useEffect(() => {
@@ -184,21 +227,22 @@ const MainApp: React.FC = () => {
         </main>
         <BottomNav activeView={activeView} setActiveView={setActiveView} />
       </div>
-      
+      <ToastContainer />
       <ModalManager />
     </div>
   );
 };
 
-// App wrapper with providers, to be used in index.tsx
-const App: React.FC = () => (
-  <ErrorBoundary>
+
+const App: React.FC = () => {
+  return (
+    <ErrorBoundary>
       <ToastProvider>
         <ToastBridge />
         <MainApp />
-        <ToastContainer />
       </ToastProvider>
-  </ErrorBoundary>
-);
+    </ErrorBoundary>
+  );
+};
 
 export default App;

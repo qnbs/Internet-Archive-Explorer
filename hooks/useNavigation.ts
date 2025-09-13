@@ -8,6 +8,7 @@ import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
+    // FIX: These atoms are now explicitly writable, so useSetAtom works correctly.
     const setSelectedProfile = useSetAtom(selectedProfileAtom);
     const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);

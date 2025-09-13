@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language } from '../types';
+import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language, MagicOrganizeResult } from '../types';
 
 // This service is now the single source of truth for retrieving and persisting AI generations.
 // It reads from and writes to the global `aiArchiveAtom` via arguments passed from components.
@@ -60,14 +60,19 @@ export const findArchivedItemAnalysis = <T>(
 // --- Write operations (archiving new generations) ---
 
 /**
- * Creates and saves a new AIArchiveEntry to the global store via a setter function.
+ * Creates and saves a new AIArchiveEntry to the global store via a setter function,
+ * respecting the user's auto-archive setting.
  * @param data The data for the new archive entry.
  * @param addEntry The Jotai setter function for adding an entry.
+ * @param autoArchive A boolean indicating if the user has auto-archiving enabled.
  */
 export const archiveAIGeneration = (
     data: Omit<AIArchiveEntry, 'id' | 'timestamp' | 'tags' | 'userNotes'>,
-    addEntry: (entry: AIArchiveEntry) => void
+    addEntry: (entry: AIArchiveEntry) => void,
+    autoArchive: boolean
 ): void => {
+    if (!autoArchive) return;
+
     const newEntry: AIArchiveEntry = {
         ...data,
         id: uuidv4(),
@@ -87,6 +92,13 @@ export const archiveAIGeneration = (
             .slice(0, 3) // Take the first 3 prominent entities
             .map(e => e.toLowerCase());
         newEntry.tags.push(...entityTags);
+    }
+    
+    // For Magic Organize, auto-add the suggested tags as entry tags
+    if (data.type === 'magicOrganize' && typeof data.content === 'object' && data.content) {
+        const suggestions = data.content as MagicOrganizeResult;
+        const suggestionTags = suggestions.tags.slice(0, 5).map(t => t.toLowerCase());
+        newEntry.tags.push(...suggestionTags);
     }
     
     newEntry.tags = [...new Set(newEntry.tags)]; // Ensure unique tags

@@ -25,5 +25,10 @@
     "blackieBeats": "Blackie-Beats-Archiv",
     "vaporwave": "Vaporwave",
     "airchecks": "Airchecks (Radioaufnahmen)"
+  },
+  "aiInsight": {
+    "title": "Feature des Radio-Archivars",
+    "description": "Lassen Sie unseren KI-DJ einen thematischen Faden durch die Audiosammlung ziehen und ein Konzept für eine fiktive Radiosendung entwickeln.",
+    "button": "Radiosendungs-Konzept erstellen"
   }
 }

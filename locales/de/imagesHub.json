@@ -11,5 +11,10 @@
     "flickrDesc": "Bilder aus den öffentlichen Fotoarchiven der Welt, ohne bekannte Urheberrechtsbeschränkungen.",
     "brooklyn": "Brooklyn Museum",
     "brooklynDesc": "Eine vielfältige Sammlung, die verschiedene Kulturen umfasst, von altägyptischer Kunst bis zu zeitgenössischen Werken."
+  },
+  "aiInsight": {
+    "title": "Museums-Spotlight",
+    "description": "Lassen Sie unseren KI-Kurator eine Mini-Ausstellung basierend auf Bildern aus der Sammlung entwerfen, komplett mit einem einzigartigen Thema und Titel.",
+    "button": "Ausstellung entwerfen"
   }
 }

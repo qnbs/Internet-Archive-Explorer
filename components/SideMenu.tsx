@@ -47,7 +47,7 @@ const NavButton: React.FC<{ item: NavItem, isActive: boolean, onClick: (view: Vi
     return (
         <button
             onClick={() => item.view && onClick(item.view)}
-            className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-cyan-50 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+            className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/20 dark:text-accent-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
             aria-current={isActive ? 'page' : undefined}
         >
             <span className="mr-3">{item.icon}</span>
@@ -71,7 +71,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center w-full p-3 my-1 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="flex items-center w-full p-3 my-1 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50 transition-colors"
                 >
                     <span className="mr-3">{item.icon}</span>
                     <span className="font-medium">{t(item.labelKey)}</span>
@@ -95,7 +95,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
                         className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"
                         aria-label="Home"
                     >
-                        <ArchiveLogoIcon className="text-cyan-600 dark:text-cyan-400"/>
+                        <ArchiveLogoIcon className="text-accent-600 dark:text-accent-400"/>
                         <span>Archive Explorer</span>
                     </button>
                 </div>

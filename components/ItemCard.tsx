@@ -59,7 +59,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
 
   return (
     <article
-      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-cyan-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
+      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
       onClick={() => onSelect(item)}
       role="button"
@@ -105,7 +105,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-4">
             <div>
-                 <h3 className="text-md font-semibold text-white group-hover:text-cyan-400 transition-colors line-clamp-3" title={item.title}>
+                 <h3 className="text-md font-semibold text-white group-hover:text-accent-400 transition-colors line-clamp-3" title={item.title}>
                     {item.title}
                 </h3>
                 <p className="text-sm text-gray-300 truncate mt-1" title={creatorName}>{creatorName}</p>
@@ -117,7 +117,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
                             <span>{formatNumber(item.downloads)}</span>
                         </div>
                     )}
-                    <span className="text-xs capitalize bg-gray-700/80 text-cyan-300 px-2 py-1 rounded-full">{item.mediatype}</span>
+                    <span className="text-xs capitalize bg-gray-700/80 text-accent-300 px-2 py-1 rounded-full">{item.mediatype}</span>
                 </div>
             </div>
         </div>

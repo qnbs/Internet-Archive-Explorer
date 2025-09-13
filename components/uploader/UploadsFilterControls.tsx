@@ -42,7 +42,8 @@ export const UploadsFilterControls: React.FC<UploadsFilterControlsProps> = ({
             <div className="flex items-center flex-wrap gap-2">
                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium mr-2 shrink-0">{t('uploaderDetail:filters.title')}:</span>
                  {statItems.map(stat => {
-                    const count = stats ? stats[stat.key as keyof typeof stats] : 0;
+                    // FIX: Correctly typed `stat.key` to be a valid key of UploaderStats
+                    const count = stats ? stats[stat.key] : 0;
                     if (count === 0 && stat.key !== 'total') return null;
                     return (
                         <button

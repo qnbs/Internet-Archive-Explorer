@@ -4,7 +4,7 @@ import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon, ZoomInIcon, ZoomOutIcon, RotateClockwiseIcon, RotateCounterClockwiseIcon, RefreshIcon, ExpandIcon, DownloadIcon, SparklesIcon, ChevronDownIcon, ChevronUpIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
-import { enableAiFeaturesAtom } from '../store/settings';
+import { autoArchiveAIAtom, enableAiFeaturesAtom } from '../store/settings';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
@@ -154,6 +154,7 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
   const { t, language } = useLanguage();
   
   const enableAiFeatures = useAtomValue(enableAiFeaturesAtom);
+  const autoArchive = useAtomValue(autoArchiveAIAtom);
   const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
   const addLibraryItem = useSetAtom(addLibraryItemAtom);
   const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
@@ -232,11 +233,13 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
       const { base64, mimeType } = await urlToBase64(imageUrl);
       const result = await analyzeImage(base64, mimeType, language);
       setAnalysisResult(result);
+      // FIX: Added missing 'autoArchive' argument.
       archiveAIGeneration({
           type: AIGenerationType.ImageAnalysis,
           content: result, language,
-          source: { identifier: item.identifier, title: item.title, mediaType: item.mediatype },
-      }, addAIEntry);
+          // FIX: Pass the full item object to satisfy the source type, which requires more than just a few properties.
+          source: { ...item, mediaType: item.mediatype },
+      }, addAIEntry, autoArchive);
     } catch(err) {
       addToast(err instanceof Error ? err.message : 'Failed to analyze image.', 'error');
       setIsAiPanelOpen(false); // Close panel on error
@@ -252,13 +255,15 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
         const answer = await askAboutImage(base64, mimeType, question, language);
         
         // Persist this Q&A turn to the AI Archive
+        // FIX: Added missing 'autoArchive' argument.
         archiveAIGeneration({
             type: AIGenerationType.Answer,
             content: answer,
             language,
             prompt: question,
-            source: { identifier: item.identifier, title: item.title, mediaType: item.mediatype }
-        }, addAIEntry);
+            // FIX: Pass the full item object to satisfy the source type.
+            source: { ...item, mediaType: item.mediatype }
+        }, addAIEntry, autoArchive);
         
         return answer;
     } catch(err) {

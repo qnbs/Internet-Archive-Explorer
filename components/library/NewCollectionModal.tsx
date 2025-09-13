@@ -14,6 +14,7 @@ interface NewCollectionModalProps {
 export const NewCollectionModal: React.FC<NewCollectionModalProps> = ({ onClose }) => {
     const { t } = useLanguage();
     const createCollection = useSetAtom(createCollectionAtom);
+    // FIX: The useSetAtom hook now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const [name, setName] = useState('');
     const modalRef = useRef<HTMLDivElement>(null);

@@ -64,7 +64,7 @@ const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) =
     }
 
     return (
-        <div className="animate-page-fade-in">
+        <div className="animate-page-fade-in h-full">
             {selectedWorkset ? (
                 <WorkspacePanel 
                     workset={selectedWorkset} 

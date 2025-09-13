@@ -50,6 +50,7 @@ const generationTypeFilters: { type: AIGenerationType; labelKey: string; icon: R
     { type: AIGenerationType.DailyInsight, labelKey: 'aiArchive:types.dailyInsight', icon: <StarIcon className="w-4 h-4" /> },
     { type: AIGenerationType.Story, labelKey: 'aiArchive:types.story', icon: <SparklesIcon className="w-4 h-4" /> },
     { type: AIGenerationType.Answer, labelKey: 'aiArchive:types.answer', icon: <SparklesIcon className="w-4 h-4" /> },
+    { type: AIGenerationType.MagicOrganize, labelKey: 'aiArchive:types.magicOrganize', icon: <SparklesIcon className="w-4 h-4" /> },
 ];
 
 const languageFilters: { lang: Language, label: string }[] = [
@@ -111,7 +112,7 @@ export const AIArchiveSidebar: React.FC<AIArchiveSidebarProps> = ({ filter, setF
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder={t('aiArchive:searchPlaceholder')}
-                    className="w-full bg-gray-700/50 border-2 border-transparent focus-within:border-cyan-500 rounded-lg py-1.5 pl-9 pr-4 text-sm text-white placeholder-gray-400 focus:outline-none transition-colors"
+                    className="w-full bg-gray-700/50 border-2 border-transparent focus-within:border-cyan-500 rounded-lg py-1.5 pl-9 pr-4 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-colors"
                 />
             </div>
 

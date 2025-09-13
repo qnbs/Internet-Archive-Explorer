@@ -19,7 +19,9 @@
     "defaultSort": "Standard-Suchsortierung",
     "defaultSortDesc": "Wählen Sie die standardmäßige Sortierreihenfolge für neue Suchen in der Haupt-Explorer-Ansicht.",
     "rememberFilters": "Filter merken",
-    "rememberFiltersDesc": "Behält Ihre zuletzt verwendeten Filter für Medientyp und Jahresbereich auf der 'Entdecken'-Seite über Sitzungen hinweg bei."
+    "rememberFiltersDesc": "Behält Ihre zuletzt verwendeten Filter für Medientyp und Jahresbereich auf der 'Entdecken'-Seite über Sitzungen hinweg bei.",
+    "rememberSort": "Sortierung merken",
+    "rememberSortDesc": "Behält Ihre zuletzt verwendete Sortierreihenfolge in den Ansichten 'Uploader' und 'Mein Archiv' über Sitzungen hinweg bei."
   },
   "ui": {
     "title": "Benutzeroberfläche",
@@ -29,6 +31,8 @@
       "comfortable": "Komfortabel",
       "compact": "Kompakt"
     },
+    "accentColor": "Akzentfarbe",
+    "accentColorDesc": "Passen Sie die Primärfarbe an, die für Hervorhebungen, Links und aktive Elemente in der gesamten App verwendet wird.",
     "scrollbarColor": "Scrollleistenfarbe",
     "scrollbarColorDesc": "Passen Sie die Farbe des Scrollleisten-Reglers an Ihre Vorlieben an.",
     "theme": "Design",
@@ -54,11 +58,13 @@
       "base": "Normal",
       "lg": "Groß"
     },
-    "reduceMotion": "Bewegung reduzieren",
-    "reduceMotionDesc": "Deaktiviert die meisten Animationen und Übergänge für ein einfacheres, direkteres Erlebnis."
+    "disableAnimations": "Animationen deaktivieren",
+    "disableAnimationsDesc": "Deaktiviert die meisten Animationen und Übergänge für ein einfacheres, direkteres Erlebnis."
   },
   "content": {
     "title": "Inhalt & Hubs",
+    "defaultView": "Standardansicht beim Start",
+    "defaultViewDesc": "Wählen Sie aus, welche Seite beim ersten Öffnen der Anwendung angezeigt werden soll.",
     "defaultUploaderDetailTab": "Standard-Tab für Mitwirkende",
     "defaultUploaderDetailTabDesc": "Wählen Sie den Tab, der standardmäßig beim Anzeigen des Profils eines Mitwirkenden geöffnet wird.",
     "autoplayMedia": "Medien automatisch abspielen",
@@ -72,6 +78,8 @@
     "title": "KI-Funktionen",
     "enableAiFeatures": "KI-Funktionen aktivieren",
     "enableAiFeaturesDesc": "Aktiviert oder deaktiviert global alle Funktionen, die von der Gemini-KI unterstützt werden, wie z.B. Zusammenfassungen und Entitätenanalyse.",
+    "autoArchiveAI": "KI-Generierungen automatisch speichern",
+    "autoArchiveAIDesc": "Speichert automatisch alle Ihre KI-generierten Inhalte zur späteren Verwendung im KI-Archiv.",
     "defaultAiTab": "Standard-Detailansicht-Tab (für Texte)",
     "defaultAiTabDesc": "Wählen Sie, ob zuerst die Standardbeschreibung oder die KI-Tools angezeigt werden sollen, wenn Sie einen textbasierten Eintrag öffnen.",
     "autoRunEntityExtraction": "Entitätenextraktion automatisch ausführen",
@@ -104,17 +112,21 @@
     "importErrorFile": "Die Datei konnte nicht gelesen werden.",
     "title": "Ihre Daten",
     "searchHistory": "Suchverlauf",
-    "searchHistoryDesc": "Löschen Sie Ihren lokal gespeicherten Suchverlauf aus der Befehlspalette.",
     "noHistory": "Noch kein Suchverlauf.",
     "clearHistory": "Verlauf löschen",
-    "resetAll": "App-Einstellungen zurücksetzen",
-    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Bibliothek und Worksets sind davon NICHT betroffen.",
-    "resetButton": "Einstellungen zurücksetzen",
-    "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "clearHistoryTitle": "Suchverlauf löschen?",
     "clearHistoryDesc": "Möchten Sie Ihren Suchverlauf wirklich endgültig löschen?",
     "clearHistorySuccess": "Suchverlauf gelöscht.",
+    "resetAll": "App-Einstellungen",
+    "resetAllDesc": "Dies setzt alle Anwendungseinstellungen auf die Standardwerte zurück. Ihre Bibliothek und Worksets sind davon NICHT betroffen.",
+    "resetButton": "Einstellungen zurücksetzen",
+    "resetSuccess": "Einstellungen wurden auf Standard zurückgesetzt.",
     "dangerZone": "Gefahrenzone",
-    "dangerZoneDesc": "Diese Aktionen sind endgültig und können nicht rückgängig gemacht werden."
+    "dangerZoneDesc": "Diese Aktionen sind endgültig und können nicht rückgängig gemacht werden.",
+    "clearDataTitle": "Alle {{name}}-Daten löschen?",
+    "clearDataSuccess": "{{name}}-Daten gelöscht.",
+    "clearLibraryDesc": "Löschen Sie dauerhaft alle Ihre gespeicherten Bibliothekseinträge, benutzerdefinierten Sammlungen und gefolgten Mitwirkenden.",
+    "clearScriptoriumDesc": "Löschen Sie dauerhaft alle Ihre Scriptorium-Worksets und die zugehörigen Notizen.",
+    "clearAIArchiveDesc": "Löschen Sie dauerhaft alle Ihre gespeicherten KI-Generierungen aus dem KI-Archiv."
   }
 }

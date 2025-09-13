@@ -40,7 +40,7 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ profil
     
     return (
         <article
-            className="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-md hover:shadow-lg dark:hover:shadow-cyan-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
+            className="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
             style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
             onClick={() => onSelect(profile)}
             role="button"
@@ -57,16 +57,16 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ profil
             </button>
             <div className="flex items-start space-x-4">
                 <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-700 p-3 rounded-full">
-                    <UsersIcon className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
+                    <UsersIcon className="w-8 h-8 text-accent-600 dark:text-accent-400" />
                 </div>
                 <div className="flex-grow">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors pr-8">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors pr-8">
                         {profile.name}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2" title={t(descriptionKey)}>
                         {t(descriptionKey)}
                     </p>
-                    <span className="mt-3 inline-block text-xs capitalize bg-gray-100 dark:bg-gray-700/80 text-cyan-700 dark:text-cyan-300 px-2 py-1 rounded-full font-semibold">
+                    <span className="mt-3 inline-block text-xs capitalize bg-gray-100 dark:bg-gray-700/80 text-accent-700 dark:text-accent-300 px-2 py-1 rounded-full font-semibold">
                         {t(`uploaderHub:categories.${category}`)}
                     </span>
                 </div>

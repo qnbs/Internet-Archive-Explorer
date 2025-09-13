@@ -12,5 +12,10 @@
     "ted_talks": "TED Talks",
     "tv_commercials": "Vintage-Werbespots",
     "newly_added": "Neu hinzugefügt"
+  },
+  "aiInsight": {
+    "title": "Einblick des Kurators",
+    "description": "Entdecken Sie eine kreative Verbindung zwischen Filmen in der Sammlung. Lassen Sie unseren KI-Kurator ein thematisches Double Feature für heute Abend vorschlagen.",
+    "button": "Double Feature vorschlagen"
   }
 }

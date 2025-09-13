@@ -1,31 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { useLanguage } from '../../hooks/useLanguage';
+import { answerFromText } from '../../services/geminiService';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
-import { AILoadingIndicator } from '../AILoadingIndicator';
-import { answerFromText } from '../../services/geminiService';
-import { sanitizeHtml } from '../../utils/sanitizer';
+import { Spinner } from '../Spinner';
 import { archiveAIGeneration } from '../../services/aiPersistenceService';
-import { AIGenerationType } from '../../types';
-import { useSetAtom } from 'jotai';
 import { addAIArchiveEntryAtom } from '../../store/aiArchive';
-
+import { AIGenerationType, type WorksetDocument } from '../../types';
+import { autoArchiveAIAtom } from '../../store/settings';
 
 interface AskAIModalProps {
-    documentText: string;
+    textContent: string;
+    document: WorksetDocument;
     onClose: () => void;
 }
 
-export const AskAIModal: React.FC<AskAIModalProps> = ({ documentText, onClose }) => {
+export const AskAIModal: React.FC<AskAIModalProps> = ({ textContent, document, onClose }) => {
     const { t, language } = useLanguage();
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
-
     const modalRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+    const autoArchive = useAtomValue(autoArchiveAIAtom);
 
     useModalFocusTrap({ modalRef, isOpen: true, onClose });
 
@@ -36,87 +35,53 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ documentText, onClose })
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!question.trim() || isLoading) return;
-
         setIsLoading(true);
-        setError(null);
         setAnswer('');
-
         try {
-            const result = await answerFromText(question, documentText, language);
+            const result = await answerFromText(question, textContent, language);
             setAnswer(result);
+            // FIX: Added missing 'autoArchive' argument to the function call.
             archiveAIGeneration({
                 type: AIGenerationType.Answer,
                 content: result,
                 language,
                 prompt: question,
-            }, addAIEntry);
+                source: document,
+            }, addAIEntry, autoArchive);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+            setAnswer(err instanceof Error ? err.message : 'An error occurred.');
         } finally {
             setIsLoading(false);
         }
     };
     
     return (
-        <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-center p-4" 
-            onClick={onClose} 
-            role="dialog" 
-            aria-modal="true" 
-            aria-labelledby="ask-ai-title"
-        >
-            <div 
-                ref={modalRef} 
-                className="bg-gray-800 w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[80vh] border border-gray-700" 
-                onClick={e => e.stopPropagation()}
-            >
-                <header className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-                    <h2 id="ask-ai-title" className="text-lg font-bold text-white flex items-center gap-2">
-                        <SparklesIcon className="w-5 h-5 text-cyan-400"/>
-                        {t('scriptorium:reader.askAIModalTitle')}
-                    </h2>
-                    <button onClick={onClose} className="p-1 text-gray-400 hover:text-white rounded-full" aria-label={t('common:close')}><CloseIcon /></button>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-start pt-20 p-4" onClick={onClose}>
+            <div ref={modalRef} className="bg-gray-800 w-full max-w-2xl rounded-xl shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
+                <header className="flex items-center justify-between p-4 border-b border-gray-700">
+                    <h2 className="text-lg font-bold text-white">{t('aiTools:askAboutText')}</h2>
+                    <button onClick={onClose} className="p-1 text-gray-400 hover:text-white rounded-full"><CloseIcon /></button>
                 </header>
-                
-                <div className="p-4 flex-grow overflow-y-auto">
-                     {isLoading ? (
-                        <AILoadingIndicator type="story" /> // Re-using story messages like "formulating answer"
-                    ) : error ? (
-                        <div className="text-center text-red-400">
-                            <h3 className="font-bold text-lg mb-2">Error</h3>
-                            <p>{error}</p>
-                        </div>
-                    ) : answer ? (
-                         <div 
-                            className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap animate-fade-in"
-                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer.replace(/\n/g, '<br />')) }}
-                        />
-                    ) : (
-                        <div className="text-center text-gray-500 py-10">
-                            <p>{t('scriptorium:reader.askAIModalPrompt')}</p>
-                        </div>
-                    )}
-                </div>
-                
-                <footer className="p-4 border-t border-gray-700 flex-shrink-0">
-                    <form onSubmit={handleSubmit} className="flex gap-4">
+                <div className="p-6 space-y-4">
+                    <form onSubmit={handleSubmit} className="flex gap-2">
                         <input
                             ref={inputRef}
                             value={question}
                             onChange={e => setQuestion(e.target.value)}
-                            placeholder={t('scriptorium:reader.askAIPlaceholder')}
-                            className="flex-grow bg-gray-700 border-2 border-gray-600 rounded-lg py-2 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            placeholder={t('aiTools:askPlaceholder')}
+                            className="flex-grow bg-gray-700 border-2 border-gray-600 rounded-lg py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             disabled={isLoading}
                         />
-                        <button
-                            type="submit"
-                            disabled={isLoading || !question.trim()}
-                            className="flex-shrink-0 flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
-                        >
-                            {isLoading ? t('scriptorium:reader.asking') : t('scriptorium:reader.askAIButton')}
+                        <button type="submit" disabled={isLoading || !question.trim()} className="px-4 py-2 bg-cyan-600 text-white rounded-lg flex items-center gap-2 disabled:bg-gray-500">
+                            <SparklesIcon className="w-4 h-4" />
+                            <span>{isLoading ? t('common:loading') : t('aiTools:ask')}</span>
                         </button>
                     </form>
-                </footer>
+                    <div className="min-h-[100px] bg-gray-900/50 p-4 rounded-lg">
+                        {isLoading && <div className="flex justify-center"><Spinner /></div>}
+                        {answer && <p className="text-gray-300 whitespace-pre-wrap">{answer}</p>}
+                    </div>
+                </div>
             </div>
         </div>
     );

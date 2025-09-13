@@ -42,11 +42,13 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
                 return;
             }
             
-            const uniqueUploaders = [...new Set(data.response.docs.map(d => d.uploader).filter((u): u is string => !!u))];
+            // FIX: Correctly filter and type `uniqueUploaders` as a string array
+            const uniqueUploaders: string[] = [...new Set(data.response.docs.map(d => d.uploader).filter((u): u is string => !!u))];
             
             setVerificationData({ items: data.response.docs, ids: uniqueUploaders });
             
             if (uniqueUploaders.length > 0) {
+                // FIX: Ensure `setSelectedId` receives a string
                 setSelectedId(uniqueUploaders[0]);
             } else {
                  // Fallback if no uploader field is found, but creator matched. Use the screen name itself.

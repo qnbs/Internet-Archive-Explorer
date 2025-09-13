@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSetAtom } from 'jotai';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { SparklesIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { generateStory } from '../services/geminiService';
@@ -7,6 +7,7 @@ import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { sanitizeHtml } from '../utils/sanitizer';
 import { archiveAIGeneration } from '../services/aiPersistenceService';
 import { addAIArchiveEntryAtom } from '../store/aiArchive';
+import { autoArchiveAIAtom } from '../store/settings';
 import { AIGenerationType } from '../types';
 
 const StorytellerView: React.FC = () => {
@@ -16,6 +17,7 @@ const StorytellerView: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+  const autoArchive = useAtomValue(autoArchiveAIAtom);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ const StorytellerView: React.FC = () => {
         content: result,
         language,
         prompt: prompt,
-      }, addAIEntry);
+      }, addAIEntry, autoArchive);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
@@ -44,7 +46,7 @@ const StorytellerView: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-page-fade-in">
       <header className="text-center">
-        <h1 className="text-4xl font-bold text-cyan-600 dark:text-cyan-400 flex items-center justify-center gap-3">
+        <h1 className="text-4xl font-bold text-accent-600 dark:text-accent-400 flex items-center justify-center gap-3">
             <SparklesIcon className="w-10 h-10" />
             {t('storyteller:title')}
         </h1>
@@ -56,13 +58,13 @@ const StorytellerView: React.FC = () => {
               value={prompt}
               onChange={e => setPrompt(e.target.value)}
               placeholder={t('storyteller:promptPlaceholder')}
-              className="flex-grow bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700/50 focus-within:border-cyan-500 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none transition-colors"
+              className="flex-grow bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700/50 focus-within:border-accent-500 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none transition-colors"
               disabled={isLoading}
           />
           <button
               type="submit"
               disabled={isLoading || !prompt.trim()}
-              className="flex-shrink-0 flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300 shadow-lg disabled:bg-gray-500 disabled:cursor-not-allowed"
+              className="flex-shrink-0 flex items-center justify-center bg-accent-600 hover:bg-accent-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300 shadow-lg disabled:bg-gray-500 disabled:cursor-not-allowed"
           >
               <SparklesIcon className="w-5 h-5 mr-2" />
               {isLoading ? t('storyteller:generating') : t('storyteller:generateButton')}

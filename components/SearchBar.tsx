@@ -7,7 +7,7 @@ import type { Facets, MediaType } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 
 const Pill: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
-    <div className="flex items-center gap-1.5 bg-cyan-500/80 text-white text-xs font-semibold px-2 py-1 rounded-full animate-fade-in">
+    <div className="flex items-center gap-1.5 bg-accent-500/80 text-white text-xs font-semibold px-2 py-1 rounded-full animate-fade-in">
         <span className="capitalize">{label}</span>
         <button onClick={onRemove} className="rounded-full hover:bg-black/20" aria-label={`Remove ${label} filter`}>
             <CloseIcon className="w-3.5 h-3.5" />
@@ -93,7 +93,7 @@ export const SearchBar: React.FC = () => {
 
     return (
         <form onSubmit={handleSearchSubmit} className="flex-1 relative">
-            <div className="relative w-full flex items-center bg-gray-100/50 dark:bg-gray-700/50 rounded-lg border border-transparent focus-within:border-cyan-500 h-10 px-3 transition-colors">
+            <div className="relative w-full flex items-center bg-gray-100/50 dark:bg-gray-700/50 rounded-lg border border-transparent focus-within:border-accent-500 h-10 px-3 transition-colors">
                 <label htmlFor="header-search" className="sr-only">{getPlaceholder()}</label>
                 <SearchIcon className="w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none flex-shrink-0" />
 

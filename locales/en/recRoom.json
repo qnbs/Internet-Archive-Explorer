@@ -1,4 +1,3 @@
-
 {
   "title": "The Rec Room",
   "description": "Welcome to the Software Library. Play thousands of classic MS-DOS games, console titles, and explore historical software directly in your browser. No installation required.",
@@ -6,5 +5,10 @@
   "card": {
     "start": "Start",
     "startItem": "Start {{title}}"
+  },
+  "aiInsight": {
+    "title": "Retro Gamer's Corner",
+    "description": "Let our AI journalist write a nostalgic editor's note, finding a fun connection between classic games in the arcade.",
+    "button": "Write Editor's Note"
   }
 }

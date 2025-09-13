@@ -8,7 +8,12 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import type { UserCollection } from '../../types';
+import type { UserCollection, MagicOrganizeResult, AIGenerationType } from '../../types';
+import { archiveAIGeneration } from '../../services/aiPersistenceService';
+import { addAIArchiveEntryAtom } from '../../store/aiArchive';
+import { AIGenerationType as AIGenEnum } from '../../types';
+import { autoArchiveAIAtom } from '../../store/settings';
+
 
 interface MagicOrganizeModalProps {
     itemIds: string[];
@@ -23,8 +28,10 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
     const createCollection = useSetAtom(createCollectionAtom);
     const setToast = useSetAtom(toastAtom);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+    const autoArchive = useAtomValue(autoArchiveAIAtom);
 
-    const [suggestions, setSuggestions] = useState<{ tags: string[], collections: string[] } | null>(null);
+    const [suggestions, setSuggestions] = useState<MagicOrganizeResult | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
@@ -35,7 +42,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
 
     useEffect(() => {
         const itemsToOrganize = allLibraryItems.filter(item => itemIds.includes(item.identifier))
-            .map(item => ({ title: item.title, description: item.creator?.toString() }));
+            .map(item => ({ identifier: item.identifier, title: item.title, description: item.creator?.toString(), mediatype: item.mediatype }));
 
         if (itemsToOrganize.length === 0) {
             setError('No items selected for organization.');
@@ -48,11 +55,21 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                 setSuggestions(res);
                 setSelectedTags(new Set(res.tags));
                 setSelectedCollections(new Set(res.collections));
+
+                // Archive the generation
+                // FIX: Added missing 'autoArchive' argument.
+                archiveAIGeneration({
+                    type: AIGenEnum.MagicOrganize,
+                    content: res,
+                    language,
+                    sources: itemsToOrganize.map(({ identifier, title, mediatype }) => ({ identifier, title, mediaType: mediatype })),
+                    prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
+                }, addAIEntry, autoArchive);
             })
             .catch(err => setError(err.message || t('common:error')))
             .finally(() => setIsLoading(false));
 
-    }, [itemIds, allLibraryItems, language, t]);
+    }, [itemIds, allLibraryItems, language, t, addAIEntry, autoArchive]);
     
     const toggleSelection = (set: Set<string>, item: string) => {
         const newSet = new Set(set);

@@ -15,6 +15,7 @@ interface AddTagsModalProps {
 export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) => {
     const { t } = useLanguage();
     const addTagsToItems = useSetAtom(addTagsToItemsAtom);
+    // FIX: The useSetAtom hook now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const [tagsInput, setTagsInput] = useState('');
 
