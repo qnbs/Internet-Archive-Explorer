@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { getSummary, extractEntities } from '../services/geminiService';
-import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../types';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
-import { useLanguage } from '../hooks/useLanguage';
+import { getSummary, extractEntities } from '../../services/geminiService';
+import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../../types';
+import { useSearchAndGo } from '../../hooks/useSearchAndGo';
+import { useLanguage } from '../../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
@@ -10,15 +10,17 @@ import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
 import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
+import { toastAtom } from '../store/atoms';
 
 interface AIToolsTabProps {
     item: ArchiveItemSummary;
     textContent: string | null;
     isLoadingText: boolean;
+    textError: string | null;
     onClose: () => void;
 }
 
-export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoadingText, onClose }) => {
+export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoadingText, textError, onClose }) => {
     const [summary, setSummary] = useState<string>('');
     const [isSummarizing, setIsSummarizing] = useState(false);
     const [summaryError, setSummaryError] = useState<string | null>(null);
@@ -34,6 +36,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
     const autoArchive = useAtomValue(autoArchiveAIAtom);
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+    const setToast = useSetAtom(toastAtom);
 
     const handleGenerateSummary = useCallback(async () => {
         if (!textContent) return;
@@ -50,7 +53,6 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
         }
 
         try {
-            // Lowered threshold from 1000 to 250 characters to be more forgiving.
             if (textContent.length < 250) {
                  setSummaryError(t('aiTools:summaryErrorShort'));
                  setIsSummarizing(false);
@@ -61,8 +63,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
             archiveAIGeneration({
                 type: AIGenerationType.Summary,
                 content: generatedSummary,
-                language,
-                // FIX: Pass the full item object to provide full context, including mediaType.
+                language: language,
                 source: { ...item, mediaType: item.mediatype },
                 prompt: JSON.stringify(archiveOptions),
             }, addAIEntry, autoArchive);
@@ -71,7 +72,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
         } finally {
             setIsSummarizing(false);
         }
-    }, [textContent, language, summaryTone, t, item, aiArchive, addAIEntry, autoArchive]);
+    }, [textContent, language, summaryTone, t, item, aiArchive, addAIEntry, autoArchive, setToast]);
     
     const handleExtractEntities = useCallback(async () => {
         if (!textContent || isExtracting) return;
@@ -91,8 +92,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
             archiveAIGeneration({
                 type: AIGenerationType.Entities,
                 content: result,
-                language,
-                // FIX: Pass the full item object to provide full context, including mediaType.
+                language: language,
                 source: { ...item, mediaType: item.mediatype },
             }, addAIEntry, autoArchive);
         } catch (err) {
@@ -100,7 +100,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
         } finally {
             setIsExtracting(false);
         }
-    }, [textContent, isExtracting, language, t, item, aiArchive, addAIEntry, autoArchive]);
+    }, [textContent, isExtracting, language, t, item, aiArchive, addAIEntry, autoArchive, setToast]);
     
     useEffect(() => {
         if (autoRunEntityExtraction && textContent && !entities && !isExtracting) {
@@ -133,16 +133,25 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
         return <div className="flex justify-center items-center h-40"><Spinner /></div>;
     }
 
-    if (!textContent) {
-        return <p className="text-center text-gray-400">{t('common:error')}</p>
+    if (textError || !textContent) {
+        return (
+             <div className="flex items-center justify-center h-40 text-center text-red-400">
+                <p>{textError || t('common:error')}</p>
+            </div>
+        );
     }
     
-    const ErrorDisplay: React.FC<{ error: string | null }> = ({ error }) => {
+    const ErrorDisplay: React.FC<{ error: string | null; onRetry: () => void; }> = ({ error, onRetry }) => {
         if (!error) return null;
         return (
-            <div className="flex items-start space-x-2 text-red-400 text-sm p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
+            <div className="flex flex-col items-center justify-center space-y-2 text-red-400 text-sm p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                <div className="flex items-start space-x-2 text-center">
+                    <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span>{error}</span>
+                </div>
+                <button onClick={onRetry} className="px-3 py-1 bg-accent-600 text-white text-xs font-semibold rounded-lg hover:bg-accent-500 transition-colors">
+                    {t('common:retry')}
+                </button>
             </div>
         );
     };
@@ -159,7 +168,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700 min-h-[100px]">
                     {isSummarizing && <AILoadingIndicator type="summary" />}
-                    <ErrorDisplay error={summaryError} />
+                    <ErrorDisplay error={summaryError} onRetry={handleGenerateSummary} />
                     {summary && <p className="text-gray-300 text-sm leading-relaxed">{summary}</p>}
                     {!isSummarizing && !summaryError && !summary && <p className="text-gray-500 text-sm">{t('aiTools:generatePrompt')}</p>}
                 </div>
@@ -173,7 +182,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700 min-h-[100px] space-y-4">
                    {isExtracting && <AILoadingIndicator type="entities" />}
-                   <ErrorDisplay error={entityError} />
+                   <ErrorDisplay error={entityError} onRetry={handleExtractEntities} />
                    {entities && (
                        <>
                            <EntitySection title={t('common:people')} items={entities.people} />

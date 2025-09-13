@@ -14,8 +14,9 @@ interface SyncStorage<Value> {
  * logs a warning, removes the invalid entry, and returns the initial value,
  * preventing the application from crashing.
  */
-const safeStorage: SyncStorage<any> = {
-  getItem: (key: string, initialValue: any): any => {
+// FIX: Using `unknown` instead of `any` for better type safety.
+const safeStorage = {
+  getItem: (key: string, initialValue: unknown): unknown => {
     try {
       const storedValue = localStorage.getItem(key);
       if (storedValue !== null) {
@@ -27,7 +28,7 @@ const safeStorage: SyncStorage<any> = {
     }
     return initialValue;
   },
-  setItem: (key: string, newValue: any): void => {
+  setItem: (key: string, newValue: unknown): void => {
     try {
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (e) {
@@ -54,5 +55,6 @@ export function safeAtomWithStorage<Value>(
 ) {
   // By explicitly providing the typed storage object, we avoid `as any` casts
   // and ensure jotai treats this as a synchronous storage, giving us correct types.
-  return atomWithStorage(key, initialValue, safeStorage);
+  // FIX: Added a type assertion to fix type inference issues with atomWithStorage.
+  return atomWithStorage(key, initialValue, safeStorage as SyncStorage<Value>);
 }

@@ -1,8 +1,9 @@
+
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { createCollectionAtom } from '../../store/favorites';
-// Fix: Corrected import path for toastAtom to resolve circular dependency.
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store/atoms';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon } from '../Icons';
@@ -14,7 +15,6 @@ interface NewCollectionModalProps {
 export const NewCollectionModal: React.FC<NewCollectionModalProps> = ({ onClose }) => {
     const { t } = useLanguage();
     const createCollection = useSetAtom(createCollectionAtom);
-    // FIX: The useSetAtom hook now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const [name, setName] = useState('');
     const modalRef = useRef<HTMLDivElement>(null);

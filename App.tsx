@@ -1,4 +1,6 @@
-import React, { useState, useEffect, Suspense } from 'react';
+
+
+import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
@@ -7,9 +9,8 @@ import {
 import {
     selectedProfileAtom,
     profileReturnViewAtom,
+    toastAtom,
 } from './store/atoms';
-// FIX: Updated toastAtom import to break circular dependency
-import { toastAtom } from './store/toast';
 import { 
     resolvedThemeAtom, 
     disableAnimationsAtom,
@@ -20,7 +21,7 @@ import {
     accentColorAtom,
     defaultViewAtom,
 } from './store/settings';
-import type { View, Uploader, Profile, ArchiveItemSummary, AccentColor } from './types';
+import type { View, Profile, ArchiveItemSummary, AccentColor } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -64,15 +65,13 @@ const PageSpinner: React.FC = () => (
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {
     const { addToast } = useToast();
-    // FIX: Changed to useAtom since toastAtom is now a derived atom. useSetAtom would not work for reset.
     const [toast, setToast] = useAtom(toastAtom); 
     
     useEffect(() => {
-        // The initial value of the atom is null, so we ignore it
+        // The atom's value is an object or null. We act when it's an object.
         if (toast) {
             addToast(toast.message, toast.type);
-            // Reset the atom to null so the toast doesn't re-appear on re-renders.
-            // FIX: The setter function from useAtom is now correctly typed and callable.
+            // Reset the atom to prevent the toast from re-appearing on re-renders.
             setToast(null);
         }
     }, [toast, addToast, setToast]);
@@ -99,6 +98,7 @@ const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
   },
 };
 
+type SelectItemHandler = (item: ArchiveItemSummary) => void;
 
 // Main App component logic
 const MainApp: React.FC = () => {
@@ -155,12 +155,10 @@ const MainApp: React.FC = () => {
     
     const trackColor = resolvedTheme === 'dark' ? '#2d3748' : '#f1f1f1'; // Corresponds to dark:bg-gray-800 and bg-gray-100
     
-    // FIX: Argument of type 'unknown' is not assignable to parameter of type 'string'.
-    // Use an explicit type assertion to assure TypeScript that `scrollbarColor` is a string.
     styleElement.innerHTML = `
       ::-webkit-scrollbar { width: 8px; height: 8px; }
       ::-webkit-scrollbar-track { background: ${trackColor}; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb { background: ${scrollbarColor as string}; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb { background: ${scrollbarColor}; border-radius: 10px; }
       ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
     `;
       
@@ -183,11 +181,13 @@ const MainApp: React.FC = () => {
       return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setModal]);
 
+  const handleSelectItem: SelectItemHandler = useCallback((item) => {
+      setModal({ type: 'itemDetail', item });
+  }, [setModal]);
+
   const renderActiveView = () => {
     // Prevent rendering views that rely on translations before they are loaded
     if (isLoadingTranslations) return null;
-    
-    const handleSelectItem = (item: ArchiveItemSummary) => setModal({ type: 'itemDetail', item });
 
     switch (activeView) {
       case 'explore': return <ExplorerView onSelectItem={handleSelectItem} />;

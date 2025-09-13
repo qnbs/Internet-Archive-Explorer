@@ -49,7 +49,7 @@ const ReaderContent: React.FC<{ text: string, searchQuery: string }> = React.mem
 
 export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack }) => {
     const { t } = useLanguage();
-    const { plainText, isLoadingText } = useItemMetadata(document);
+    const { plainText, isLoadingText, textError } = useItemMetadata(document);
     const [searchQuery, setSearchQuery] = useState('');
 
     const ReaderPanel = (
@@ -63,7 +63,8 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
             </header>
             <div className="flex-grow overflow-y-auto">
                 {isLoadingText && <div className="flex justify-center items-center h-full"><Spinner /></div>}
-                {plainText ? <ReaderContent text={plainText} searchQuery={searchQuery} /> : !isLoadingText && <p className="p-4 text-gray-500">{t('common:noContent')}</p>}
+                {textError && <div className="flex justify-center items-center h-full text-red-400 p-4 text-center">{textError}</div>}
+                {plainText ? <ReaderContent text={plainText} searchQuery={searchQuery} /> : !isLoadingText && !textError && <p className="p-4 text-gray-500">{t('common:noContent')}</p>}
             </div>
             {plainText && <DocumentSearchBar text={plainText} onSearch={setSearchQuery} />}
         </div>

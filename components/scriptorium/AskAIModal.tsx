@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom, useAtomValue } from 'jotai';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -40,7 +41,6 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ textContent, document, o
         try {
             const result = await answerFromText(question, textContent, language);
             setAnswer(result);
-            // FIX: Added missing 'autoArchive' argument to the function call.
             archiveAIGeneration({
                 type: AIGenerationType.Answer,
                 content: result,

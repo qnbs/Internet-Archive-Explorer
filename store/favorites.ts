@@ -1,7 +1,9 @@
+
+
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { LibraryItem, UserCollection, ArchiveItemSummary } from '../types';
-import { toastAtom } from './toast';
+import { toastAtom } from './atoms';
 import { v4 as uuidv4 } from 'uuid';
 
 export const STORAGE_KEYS = {
@@ -102,7 +104,6 @@ export const deleteCollectionAtom = atom(
     }
 );
 
-// FIX: Add missing atom for updating a collection's name.
 export const updateCollectionNameAtom = atom(
     null,
     (get, set, { id, newName }: { id: string; newName: string }) => {

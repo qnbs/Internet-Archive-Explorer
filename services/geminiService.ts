@@ -29,7 +29,7 @@ const generateText = async (prompt: string, systemInstruction?: string): Promise
         return response.text;
     } catch (error) {
         console.error('Gemini API request failed:', error);
-        throw new GeminiServiceError('Failed to get a response from the AI. Please try again.');
+        throw new GeminiServiceError('The AI could not generate a response. Please try again.');
     }
 };
 
@@ -78,7 +78,7 @@ export const extractEntities = async (text: string, language: string): Promise<E
         };
     } catch (error) {
         console.error('Gemini API entity extraction failed:', error);
-        throw new GeminiServiceError('Failed to extract entities from the text.');
+        throw new GeminiServiceError('The AI could not extract entities from the text.');
     }
 };
 
@@ -149,7 +149,7 @@ export const organizeLibraryItems = async (items: { title: string; description?:
         };
     } catch (error) {
         console.error('Gemini API organization failed:', error);
-        throw new GeminiServiceError('Failed to get organizational suggestions.');
+        throw new GeminiServiceError('The AI could not generate organizational suggestions.');
     }
 };
 
@@ -189,7 +189,7 @@ export const analyzeImage = async (base64ImageData: string, mimeType: string, la
         };
     } catch (error) {
         console.error('Gemini API image analysis failed:', error);
-        throw new GeminiServiceError('Failed to get an analysis from the AI.');
+        throw new GeminiServiceError('The AI could not analyze the image.');
     }
 };
 
@@ -212,7 +212,7 @@ export const askAboutImage = async (base64ImageData: string, mimeType: string, q
         return response.text;
     } catch (error) {
         console.error('Gemini API image question failed:', error);
-        throw new GeminiServiceError('Failed to get an answer about the image.');
+        throw new GeminiServiceError('The AI could not answer the question about the image.');
     }
 };
 

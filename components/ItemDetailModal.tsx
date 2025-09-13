@@ -49,6 +49,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
       setActiveTab,
       plainText,
       isLoadingText,
+      textError,
       isPlaying,
       playableMedia,
       mediaRef,
@@ -90,10 +91,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
         )}
         {activeTab === 'ai' && item.mediatype === 'texts' && enableAiFeatures && (
             <AIToolsTab
-              // FIX: Pass the entire item object to provide full context to the AI tools tab.
               item={item}
               textContent={plainText}
               isLoadingText={isLoadingText}
+              textError={textError}
               onClose={handleClose}
             />
         )}

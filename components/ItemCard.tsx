@@ -3,7 +3,7 @@ import type { ArchiveItemSummary, MediaType } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
 import { useToast } from '../contexts/ToastContext';
-import { StarIcon, InfoIcon, EyeIcon } from './Icons';
+import { StarIcon, InfoIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { formatNumber } from '../utils/formatter';
 
@@ -59,7 +59,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
 
   return (
     <article
-      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
+      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
       onClick={() => onSelect(item)}
       role="button"

@@ -1,5 +1,5 @@
+
 import React, { useState, useEffect } from 'react';
-// FIX: AIGenerationType is an enum used as a value, and MagicOrganizeResult is a new type dependency.
 import { AIGenerationType, type AIArchiveEntry, type ExtractedEntities, type ImageAnalysisResult, type MagicOrganizeResult } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon, MovieIcon, AudioIcon, JoystickIcon } from '../Icons';
@@ -10,7 +10,6 @@ interface AIArchiveItemCardProps {
   onSelect: () => void;
 }
 
-// FIX: Added missing enum members to the ICONS record to satisfy the type and provide specific icons.
 const ICONS: Record<AIGenerationType, React.ReactNode> = {
     [AIGenerationType.Summary]: <BookIcon className="w-5 h-5" />,
     [AIGenerationType.Entities]: <TagIcon className="w-5 h-5" />,
@@ -36,7 +35,6 @@ const getContentSnippet = (entry: AIArchiveEntry): string => {
         const { people, places, organizations } = entry.content as ExtractedEntities;
         return [...people, ...places, ...organizations].slice(0, 5).join(', ');
     }
-    // Add support for MagicOrganize content type to display a relevant snippet.
     if (entry.type === AIGenerationType.MagicOrganize) {
         const { tags } = entry.content as MagicOrganizeResult;
         return `Tags: ${tags.slice(0, 5).join(', ')}`;

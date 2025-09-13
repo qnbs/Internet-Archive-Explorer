@@ -1,19 +1,12 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { AIArchiveEntry } from '../types';
+import { selectedAIEntryIdAtom } from './atoms';
 
 export const STORAGE_KEY = 'ai-archive-v1';
 
 // Base state atom
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
-
-// UI state atoms
-// FIX: Simplified atom to be a primitive writable atom.
-export const selectedAIEntryIdAtom = atom<string | null>(null);
-
-// FIX: Simplified atom to be a primitive writable atom.
-export const aiArchiveSearchQueryAtom = atom<string>('');
-
 
 // Derived read-only atoms
 export const allAIArchiveTagsAtom = atom(get => {
@@ -39,7 +32,6 @@ export const deleteAIArchiveEntryAtom = atom(
     (get, set, entryId: string) => {
         set(aiArchiveAtom, archive => archive.filter(entry => entry.id !== entryId));
         if (get(selectedAIEntryIdAtom) === entryId) {
-            // FIX: This set call is now valid because selectedAIEntryIdAtom is a primitive writable atom.
             set(selectedAIEntryIdAtom, null);
         }
     }

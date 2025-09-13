@@ -12,7 +12,7 @@ interface UploaderProfileCardProps {
     index: number;
 }
 
-export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ profile, onSelect, index }) => {
+export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = React.memo(({ profile, onSelect, index }) => {
     const { t } = useLanguage();
     const { addToast } = useToast();
     const favoriteUploaderSet = useAtomValue(uploaderFavoriteSetAtom);
@@ -73,4 +73,4 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = ({ profil
             </div>
         </article>
     );
-};
+});

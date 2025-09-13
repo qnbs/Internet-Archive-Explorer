@@ -1,4 +1,3 @@
-
 {
   "title": "Help & Documentation",
   "subtitle": "Everything you need to know about using the Archive Explorer.",
@@ -120,7 +119,7 @@
   "faq": { "title": "Frequently Asked Questions" },
 
   "qSearch": "How do I search for items?",
-  "aSearch": "Use the main search bar at the top of the page for general searches. You can open the <strong>Filter Popover</strong> (funnel icon) to narrow results by media type, year, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code> directly in the search bar.",
+  "aSearch": "Use the main search bar at the top of the page for general searches. You can open the <strong>Filter Popover</strong> (funnel icon) to narrow results by media type, language, and more. For advanced queries, you can use Lucene syntax like <code>creator:(\"Walt Disney\")</code> directly in the search bar.",
   "qNav": "How do I navigate the app?",
   "aNav": "Use the <strong>side menu</strong> (on desktop) or the <strong>bottom navigation bar</strong> (on mobile) to jump between the main sections like the <strong>Explorer</strong>, your <strong>Library</strong>, and the various content hubs (Videothek, Audiothek, etc.).",
   "qCommandPalette": "What is the Command Palette?",
@@ -147,14 +146,14 @@
   "qWorksets": "How do I use worksets?",
   "aWorksets": "From the Scriptorium hub, you can create new worksets (e.g., 'My Novel Research'). Once you open a workset, you can add text documents by searching the archive. All your worksets and their contents are saved locally in your browser.",
   "qReaderAi": "What are the AI tools in the document reader?",
-  "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can:<ul><li><strong>Summarize:</strong> Generate a concise summary of the text.</li><li><strong>Extract Entities:</strong> Identify key people, places, and organizations.</li><li><strong>Ask a Question:</strong> Ask a question about the text and get an answer based on its content.</li></ul>The document reader also features a resizable two-panel view with a rich text editor for taking persistent notes.",
+  "aReaderAi": "When you open a document in a workset, you have access to tools powered by Google's Gemini AI. You can:<ul><li><strong>Summarize:</strong> Generate a concise summary of the text.</li><li><strong>Extract Entities:</strong> Identify key people, places, and organizations.</li><li><strong>Ask a Question:</strong> Ask a question about the text and get an answer based on its content.</li></ul>The document reader also features a resizable two-panel view with a simple text editor for taking persistent notes.",
 
   "qUploaderProfile": "What are Contributor Profile pages?",
   "aUploaderProfile": "Every uploader and creator has a detailed profile page. The content is organized into tabs: 'Uploads' shows all their contributions with powerful filtering and sorting controls. Other tabs like 'Reviews', 'Collections', and 'Favorites' appear dynamically if the contributor has that type of content, providing a comprehensive view of their activity.",
   "qFollow": "How do I follow a contributor?",
   "aFollow": "On a contributor's profile page, click the star icon next to their name. This will add them to the 'Followed Contributors' list in your Library for quick access.",
   "qMyArchive": "What is 'My Archive'?",
-  "aMyArchive": "My Archive allows you to connect your public Internet Archive account to the app. Once connected, it provides a personalized dashboard view of your own uploads, collections, and stats, using the same powerful interface as the public contributor profiles.",
+  "aMyArchive": "'My Archive' allows you to connect your public Internet Archive account to the app. Once connected, it provides a personalized dashboard view of your own uploads, collections, and stats, using the same powerful interface as the public contributor profiles.",
   
   "upload-qReq": "What do I need to start uploading?",
   "upload-aReq": "You will need to register for a <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>free account</a> on archive.org before you can upload.",
@@ -205,11 +204,11 @@
   "aData": "All your personal data—including settings, library items, worksets, and followed uploaders—is stored <strong>locally in your browser's storage</strong>. No data is sent to a server. On the Settings page, under 'Data & Privacy', you can export all your data to a JSON file for backup or import it to another browser.",
   
   "qImageViewer": "How does the advanced image viewer work?",
-  "aImageViewer": "When you open an image item, it will appear in a special viewer. You can:<ul><li><strong>Zoom:</strong> Use your mouse wheel or the toolbar buttons to zoom in and out. The zoom will focus on your cursor's position.</li><li><strong>Pan:</strong> Click and drag the image to move it around when zoomed in.</li><li><strong>Rotate:</strong> Use the toolbar buttons to rotate the image in 90-degree increments.</li><li><strong>Reset:</strong> Click the reset button to return the image to its default zoom, position, and rotation.</li><li><strong>Fullscreen:</strong> View the image in your browser's fullscreen mode.</li></ul>",
+  "aImageViewer": "When you open an image item, it will appear in a special viewer. You can:<ul><li><strong>Zoom:</strong> Use your mouse wheel or the toolbar buttons (<code>+</code>/<code>-</code>) to zoom in and out. The zoom will focus on your cursor's position.</li><li><strong>Pan:</strong> Click and drag the image to move it around when zoomed in.</li><li><strong>Rotate:</strong> Use the toolbar buttons or press <code>r</code> (clockwise) and <code>Shift + R</code> (counter-clockwise).</li><li><strong>Reset:</strong> Click the reset button or press <code>0</code> to return the image to its default state.</li><li><strong>Fullscreen:</strong> View the image in your browser's fullscreen mode.</li></ul>",
   "qDownload": "Can I download items?",
   "aDownload": "Yes. In an item's detail view (accessible by clicking on any item card), go to the 'Files' tab. This lists all the source files available for download. Click any file to open it in a new tab or download it directly.",
   "qOfficial": "Is this an official Internet Archive application?",
   "aOfficial": "No, this is an independent project created by a third-party developer. It uses the public APIs provided by the Internet Archive but is not officially affiliated with or endorsed by them.",
   "qAboutApp": "Who built this application?",
-  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/qnbs/Internet-Archive-Explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
+  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/google/aistudio-applications/tree/main/internet-archive-explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
 }

@@ -14,7 +14,7 @@ import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { searchArchive } from '../services/archiveService';
-import { toastAtom } from '../store/toast';
+import { toastAtom } from '../store/atoms';
 
 interface ExplorerViewProps {
   onSelectItem: (item: ArchiveItemSummary) => void;
@@ -34,7 +34,6 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
     const { t, language } = useLanguage();
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
-    // FIX: useSetAtom now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const autoArchive = useAtomValue(autoArchiveAIAtom);
 
@@ -82,7 +81,6 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                     prompt: `Item Titles: ${titles.join(', ')}`,
                     sources: items.slice(0, 5) // Use top 5 items as sources
                 }, addAIEntry, autoArchive);
-                // FIX: Correctly call setToast with a single argument.
                 setToast({ type: 'success', message: t('aiArchive:insightGenerated') });
             }
         } catch (aiError) {

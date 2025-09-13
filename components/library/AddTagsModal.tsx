@@ -1,8 +1,9 @@
+
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { addTagsToItemsAtom } from '../../store/favorites';
-// Fix: Corrected import path for toastAtom to resolve circular dependency.
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store/atoms';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon } from '../Icons';
@@ -15,7 +16,6 @@ interface AddTagsModalProps {
 export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) => {
     const { t } = useLanguage();
     const addTagsToItems = useSetAtom(addTagsToItemsAtom);
-    // FIX: The useSetAtom hook now works correctly because toastAtom is explicitly writable.
     const setToast = useSetAtom(toastAtom);
     const [tagsInput, setTagsInput] = useState('');
 

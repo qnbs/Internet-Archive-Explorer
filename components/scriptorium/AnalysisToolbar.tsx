@@ -5,6 +5,8 @@ import type { ExtractedEntities, WorksetDocument } from '../../types';
 import { SparklesIcon, TagIcon } from '../Icons';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
+import { useSetAtom } from 'jotai';
+import { toastAtom } from '../../store/atoms';
 
 interface AnalysisToolbarProps {
     document: WorksetDocument;
@@ -16,6 +18,7 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysis, setAnalysis] = useState<{ type: 'summary' | 'entities'; data: string | ExtractedEntities } | null>(null);
     const [isAskModalOpen, setIsAskModalOpen] = useState(false);
+    const setToast = useSetAtom(toastAtom);
     
     const handleAnalyze = useCallback(async (type: 'summary' | 'entities') => {
         setIsAnalyzing(true);
@@ -30,18 +33,20 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
             }
         } catch (error) {
             console.error(error);
+            const message = error instanceof Error ? error.message : 'An unknown error occurred during analysis.';
+            setToast({ type: 'error', message });
         } finally {
             setIsAnalyzing(false);
         }
-    }, [textContent, language]);
+    }, [textContent, language, setToast]);
 
     return (
         <>
             <div className="flex items-center space-x-1">
-                <button onClick={() => handleAnalyze('summary')} className="p-2 rounded-full text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10" title={t('aiTools:summary')}>
+                <button onClick={() => handleAnalyze('summary')} className="p-2 rounded-full text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10" title={t('aiTools:summaryTitle')}>
                     <SparklesIcon className="w-5 h-5" />
                 </button>
-                <button onClick={() => handleAnalyze('entities')} className="p-2 rounded-full text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10" title={t('aiTools:entityAnalysis')}>
+                <button onClick={() => handleAnalyze('entities')} className="p-2 rounded-full text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10" title={t('aiTools:entityAnalysisTitle')}>
                     <TagIcon className="w-5 h-5" />
                 </button>
                 <button onClick={() => setIsAskModalOpen(true)} className="px-3 py-1.5 text-sm font-semibold rounded-full text-cyan-400 hover:bg-cyan-500/10" title={t('aiTools:ask')}>

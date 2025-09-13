@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { allAIArchiveTagsAtom, aiArchiveAtom } from '../../store/aiArchive';
 // FIX: AIGenerationType is an enum, so it must be imported as a value, not just a type.
-import { AIGenerationType } from '../../types';
-import type { AIArchiveFilter, Language } from '../../types';
+import { AIGenerationType, type AIArchiveFilter, type Language } from '../../types';
 import { type SortOption } from '../../pages/AIArchiveView';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 

@@ -54,6 +54,7 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
     // For text content
     const [plainText, setPlainText] = useState<string | null>(null);
     const [isLoadingText, setIsLoadingText] = useState(false);
+    const [textError, setTextError] = useState<string | null>(null);
 
     // For media playback (audio & video)
     const [isPlaying, setIsPlaying] = useState(false);
@@ -88,9 +89,13 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
     useEffect(() => {
         if (activeTab === 'ai' && item.mediatype === 'texts' && !plainText && !isLoadingText) {
             setIsLoadingText(true);
+            setTextError(null);
             getItemPlainText(item.identifier)
                 .then(setPlainText)
-                .catch(() => setPlainText('Failed to load text content.'))
+                .catch((err) => {
+                    setPlainText(null);
+                    setTextError(err.message || 'Failed to load text content.');
+                })
                 .finally(() => setIsLoadingText(false));
         }
     }, [activeTab, item.mediatype, item.identifier, plainText, isLoadingText]);
@@ -130,6 +135,7 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
         setActiveTab,
         plainText,
         isLoadingText,
+        textError,
         isPlaying,
         playableMedia,
         mediaRef,

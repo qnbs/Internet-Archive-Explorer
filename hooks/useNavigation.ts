@@ -1,14 +1,14 @@
+
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { activeViewAtom } from '../store/app';
-// FIX: Import atoms from the new central 'atoms' store file to break circular dependencies.
+// FIX: Corrected import path from './store/atoms' to '../store/atoms' to ensure correct module resolution.
 import { selectedProfileAtom, profileReturnViewAtom } from '../store/atoms';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
-    // FIX: These atoms are now explicitly writable, so useSetAtom works correctly.
     const setSelectedProfile = useSetAtom(selectedProfileAtom);
     const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);

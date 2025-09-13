@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { AIGenerationType, type ArchiveItemSummary, type ImageAnalysisResult, MediaType } from '../types';
+import { AIGenerationType, type ArchiveItemSummary, type ImageAnalysisResult, MediaType } from '../../types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon, ZoomInIcon, ZoomOutIcon, RotateClockwiseIcon, RotateCounterClockwiseIcon, RefreshIcon, ExpandIcon, DownloadIcon, SparklesIcon, ChevronDownIcon, ChevronUpIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -90,9 +90,12 @@ const AnalysisPanel: React.FC<AnalysisPanelProps> = ({ initialAnalysis, isInitia
         if (!question.trim()) return;
         setIsAnswering(true);
         const answer = await onAskFollowUp(question);
-        if (answer) {
-            setConversation(prev => [...prev, { q: question, a: answer }]);
-        }
+        
+        setConversation(prev => [...prev, {
+            q: question,
+            a: answer || t('aiTools:summaryErrorApi')
+        }]);
+
         setQuestion('');
         setIsAnswering(false);
     };
@@ -233,11 +236,9 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
       const { base64, mimeType } = await urlToBase64(imageUrl);
       const result = await analyzeImage(base64, mimeType, language);
       setAnalysisResult(result);
-      // FIX: Added missing 'autoArchive' argument.
       archiveAIGeneration({
           type: AIGenerationType.ImageAnalysis,
           content: result, language,
-          // FIX: Pass the full item object to satisfy the source type, which requires more than just a few properties.
           source: { ...item, mediaType: item.mediatype },
       }, addAIEntry, autoArchive);
     } catch(err) {
@@ -255,19 +256,17 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
         const answer = await askAboutImage(base64, mimeType, question, language);
         
         // Persist this Q&A turn to the AI Archive
-        // FIX: Added missing 'autoArchive' argument.
         archiveAIGeneration({
             type: AIGenerationType.Answer,
             content: answer,
             language,
             prompt: question,
-            // FIX: Pass the full item object to satisfy the source type.
             source: { ...item, mediaType: item.mediatype }
         }, addAIEntry, autoArchive);
         
         return answer;
     } catch(err) {
-        addToast(err instanceof Error ? err.message : 'AI query failed', 'error');
+        console.error("Follow-up question failed:", err);
         return null;
     }
   };

@@ -1,14 +1,16 @@
+
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
-// Fix: Corrected import path for toastAtom to resolve circular dependency.
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store/atoms';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import type { UserCollection, MagicOrganizeResult, AIGenerationType } from '../../types';
+import type { UserCollection, MagicOrganizeResult } from '../../types';
 import { archiveAIGeneration } from '../../services/aiPersistenceService';
 import { addAIArchiveEntryAtom } from '../../store/aiArchive';
 import { AIGenerationType as AIGenEnum } from '../../types';
@@ -41,8 +43,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     useModalFocusTrap({ modalRef, isOpen: true, onClose });
 
     useEffect(() => {
-        const itemsToOrganize = allLibraryItems.filter(item => itemIds.includes(item.identifier))
-            .map(item => ({ identifier: item.identifier, title: item.title, description: item.creator?.toString(), mediatype: item.mediatype }));
+        const itemsToOrganize = allLibraryItems.filter(item => itemIds.includes(item.identifier));
 
         if (itemsToOrganize.length === 0) {
             setError('No items selected for organization.');
@@ -50,19 +51,19 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
             return;
         }
 
-        organizeLibraryItems(itemsToOrganize, language)
+        organizeLibraryItems(itemsToOrganize.map(item => ({ title: item.title, description: item.creator?.toString() })), language)
             .then(res => {
                 setSuggestions(res);
                 setSelectedTags(new Set(res.tags));
                 setSelectedCollections(new Set(res.collections));
 
                 // Archive the generation
-                // FIX: Added missing 'autoArchive' argument.
                 archiveAIGeneration({
                     type: AIGenEnum.MagicOrganize,
                     content: res,
                     language,
-                    sources: itemsToOrganize.map(({ identifier, title, mediatype }) => ({ identifier, title, mediaType: mediatype })),
+// FIX: Pass the full LibraryItem objects, which extend ArchiveItemSummary.
+                    sources: itemsToOrganize,
                     prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
                 }, addAIEntry, autoArchive);
             })

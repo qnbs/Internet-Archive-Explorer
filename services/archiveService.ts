@@ -13,11 +13,16 @@ export class ArchiveServiceError extends Error {
 
 const handleFetchError = (e: unknown, context: string): never => {
     console.error(`Archive.org ${context} request failed:`, e);
+    // If it's already our custom error, just re-throw it.
     if (e instanceof ArchiveServiceError) throw e;
+    
+    // Check for a network error (e.g., offline, CORS issue in some environments)
     if (e instanceof TypeError && e.message === 'Failed to fetch') {
         throw new ArchiveServiceError(`A network error occurred. Please check your internet connection and try again.`);
     }
-    throw new ArchiveServiceError(`An unexpected error occurred while fetching ${context}.`);
+
+    // Provide a more user-friendly generic message
+    throw new ArchiveServiceError(`Could not retrieve ${context} from the Internet Archive. Please try again later.`);
 };
 
 async function apiFetch<T>(url: string, context: string): Promise<T> {

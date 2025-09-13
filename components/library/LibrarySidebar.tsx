@@ -1,9 +1,10 @@
+
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom } from '../../store/favorites';
 import { modalAtom } from '../../store/app';
-// FIX: Imported toastAtom from its direct source to break circular dependency.
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store/atoms';
 import type { LibraryFilter, UserCollection } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
@@ -38,7 +39,6 @@ const CollectionListItem: React.FC<{ collection: UserCollection; isActive: boole
     const setModal = useSetAtom(modalAtom);
     const deleteCollection = useSetAtom(deleteCollectionAtom);
     const updateCollectionName = useSetAtom(updateCollectionNameAtom);
-    // FIX: Get the setToast function from the toastAtom to show notifications. It is now correctly typed as writable.
     const setToast = useSetAtom(toastAtom);
 
     const [isEditing, setIsEditing] = useState(false);

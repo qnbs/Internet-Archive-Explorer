@@ -73,6 +73,9 @@ export interface ArchiveItemSummary {
   reviewbody?: string;
 }
 
+export type SelectItemHandler = (item: ArchiveItemSummary) => void;
+
+
 export interface ArchiveSearchResponse {
   response: {
     numFound: number;

@@ -47,9 +47,13 @@ export const importData = (jsonString: string): void => {
     try {
         const data: BackupData = JSON.parse(jsonString);
 
-        if (!data || data.version !== CURRENT_VERSION) {
-            throw new Error(`Invalid or unsupported backup file. Expected version ${CURRENT_VERSION}.`);
+        if (!data || typeof data.version !== 'number') {
+            throw new Error('Invalid backup file. The file is not a valid Archive Explorer backup.');
         }
+        if (data.version !== CURRENT_VERSION) {
+            throw new Error(`Unsupported backup version. Expected version ${CURRENT_VERSION}, but file is version ${data.version}.`);
+        }
+
 
         // Validate and save each part
         if (data.settings) localStorage.setItem(SETTINGS_KEYS.settings, JSON.stringify(data.settings));
@@ -59,6 +63,9 @@ export const importData = (jsonString: string): void => {
         if (data.searchHistory) localStorage.setItem(SEARCH_KEYS.searchHistory, JSON.stringify(data.searchHistory));
 
     } catch (error) {
+        if (error instanceof SyntaxError) {
+            throw new Error("Import failed: The file is not a valid JSON file.");
+        }
         console.error("Error importing data:", error);
         throw error instanceof Error ? error : new Error("An unknown error occurred during import.");
     }
