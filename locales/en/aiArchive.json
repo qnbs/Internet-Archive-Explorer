@@ -1,0 +1,47 @@
+{
+  "searchPlaceholder": "Search AI Archive...",
+  "empty": {
+    "title": "Your AI Archive is Empty",
+    "description": "As you use AI features like summarization, entity extraction, or the storyteller, your generations will be automatically saved here.",
+    "noSelection": "Select an entry from the list to view its details."
+  },
+  "list": {
+    "title": "Saved Generations"
+  },
+  "filters": {
+    "title": "Filters & Sorting",
+    "all": "All Generations",
+    "type": "By Type",
+    "language": "By Language",
+    "sort": "Sort By"
+  },
+  "sort": {
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "type": "By Type"
+  },
+  "types": {
+    "summary": "Summary",
+    "entities": "Entities",
+    "imageAnalysis": "Image Analysis",
+    "dailyInsight": "Daily Insight",
+    "story": "Story",
+    "answer": "Q&A"
+  },
+  "details": {
+    "source": "Source Item",
+    "content": "Generated Content",
+    "notes": "My Notes",
+    "prompt": "Prompt",
+    "regenerate": "Regenerate",
+    "regenerating": "Regenerating...",
+    "timestamp": "Generated on",
+    "language": "Language",
+    "back": "Back to List"
+  },
+  "delete": {
+    "title": "Delete AI Entry?",
+    "message": "Are you sure you want to permanently delete this AI-generated entry? This action cannot be undone."
+  },
+  "toastSaved": "Saved to AI Archive."
+}

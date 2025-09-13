@@ -22,5 +22,6 @@
   },
   "dailyInsight": "Daily Historical Insight",
   "generatingInsight": "Generating insight...",
-  "noInsight": "No historical insight available for today's trends."
+  "noInsight": "No historical insight available for today's trends.",
+  "errorInsight": "Failed to generate insight at this time."
 }

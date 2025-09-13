@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useSetAtom } from 'jotai';
 import { SparklesIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
-// FIX: Correct import for geminiService from the new file
 import { generateStory } from '../services/geminiService';
 import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { sanitizeHtml } from '../utils/sanitizer';
+import { archiveAIGeneration } from '../services/aiPersistenceService';
+import { addAIArchiveEntryAtom } from '../store/aiArchive';
+import { AIGenerationType } from '../types';
 
 const StorytellerView: React.FC = () => {
   const { t, language } = useLanguage();
@@ -12,6 +15,7 @@ const StorytellerView: React.FC = () => {
   const [story, setStory] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +28,12 @@ const StorytellerView: React.FC = () => {
     try {
       const result = await generateStory(prompt, language);
       setStory(result);
+      archiveAIGeneration({
+        type: AIGenerationType.Story,
+        content: result,
+        language,
+        prompt: prompt,
+      }, addAIEntry);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {

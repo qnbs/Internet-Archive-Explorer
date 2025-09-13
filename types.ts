@@ -26,11 +26,11 @@ export type View =
   | 'settings'
   | 'help'
   | 'uploaderDetail'
-  | 'uploaderProfile'
   | 'storyteller'
   | 'bookReader'
   | 'uploaderHub'
-  | 'myArchive';
+  | 'myArchive'
+  | 'aiArchive';
 
 export interface ArchiveItemSummary {
   identifier: string;
@@ -98,6 +98,11 @@ export interface ExtractedEntities {
     places: string[];
     organizations: string[];
     dates: string[];
+}
+
+export interface ImageAnalysisResult {
+    description: string;
+    tags: string[];
 }
 
 export interface WorksetDocument extends ArchiveItemSummary {
@@ -232,6 +237,7 @@ export interface AppSettings {
     highContrastMode: boolean;
     underlineLinks: boolean;
     fontSize: 'sm' | 'base' | 'lg';
+    scrollbarColor: string;
 }
 
 export interface Profile {
@@ -242,3 +248,35 @@ export interface Profile {
 }
 
 export type UploaderTab = 'uploads' | 'collections' | 'favorites' | 'reviews' | 'posts' | 'webArchive';
+
+// --- AI Archive ---
+export enum AIGenerationType {
+  Summary = 'summary',
+  Entities = 'entities',
+  ImageAnalysis = 'imageAnalysis',
+  DailyInsight = 'dailyInsight',
+  Story = 'story',
+  Answer = 'answer'
+}
+
+export interface AIArchiveEntry {
+  id: string;
+  type: AIGenerationType;
+  content: string | ExtractedEntities | ImageAnalysisResult;
+  source?: {
+    identifier: string;
+    title: string;
+    mediaType?: MediaType;
+  };
+  prompt?: string;
+  timestamp: number;
+  language: Language;
+  tags: string[];
+  userNotes: string; // Editable HTML notes about the entry
+}
+
+export type AIArchiveFilter = 
+  | { type: 'all' }
+  | { type: 'generation'; generationType: AIGenerationType }
+  | { type: 'language'; language: Language }
+  | { type: 'tag'; tag: string };

@@ -3,7 +3,6 @@ import type { ArchiveItemSummary } from '../types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
 import { enableAiFeaturesAtom } from '../store/settings';
 import { useToast } from '../contexts/ToastContext';
@@ -92,6 +91,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
         {activeTab === 'ai' && item.mediatype === 'texts' && enableAiFeatures && (
             <AIToolsTab 
               itemIdentifier={item.identifier} 
+              itemTitle={item.title}
               textContent={plainText}
               isLoadingText={isLoadingText}
               onClose={handleClose}

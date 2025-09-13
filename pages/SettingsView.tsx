@@ -1,6 +1,5 @@
 import React, { useState, useId } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import {
     settingsAtom,
     setSettingAtom,
@@ -113,6 +112,16 @@ const LanguageSelector: React.FC<{ariaProps: object}> = ({ ariaProps }) => {
     );
 };
 
+const ColorPicker = ({ value, onChange, ariaProps }: { value: string, onChange: (v: string) => void, ariaProps: object }) => (
+    <input 
+        type="color" 
+        value={value} 
+        onChange={e => onChange(e.target.value)} 
+        className="w-10 h-10 p-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md cursor-pointer"
+        {...ariaProps}
+    />
+);
+
 // --- Settings Panels ---
 
 const UISettingsPanel: React.FC = () => {
@@ -124,6 +133,9 @@ const UISettingsPanel: React.FC = () => {
                     {value: 'comfortable', label: t('settings:ui.densities.comfortable')},
                     {value: 'compact', label: t('settings:ui.densities.compact')}
                 ]} ariaProps={ariaProps} />}
+            </SettingRow>
+             <SettingRow settingKey="scrollbarColor" label={t('settings:ui.scrollbarColor')} description={t('settings:ui.scrollbarColorDesc')}>
+                {(value, onChange, ariaProps) => <ColorPicker value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
              <div className="flex flex-col sm:flex-row justify-between sm:items-start py-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="mb-2 sm:mb-0 max-w-md">

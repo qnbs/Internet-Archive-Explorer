@@ -22,5 +22,6 @@
   },
   "dailyInsight": "Täglicher historischer Einblick",
   "generatingInsight": "Einblick wird generiert...",
-  "noInsight": "Für die heutigen Trends ist kein historischer Einblick verfügbar."
+  "noInsight": "Für die heutigen Trends ist kein historischer Einblick verfügbar.",
+  "errorInsight": "Einblick konnte im Moment nicht generiert werden."
 }

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Modified createCollectionAtom to return the new collection, which is necessary for this component.
-import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom } from '../../store/favorites';
+import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
 import { toastAtom } from '../../store/archive';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -9,7 +8,7 @@ import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
 import { v4 as uuidv4 } from 'uuid';
-import { UserCollection } from '../../types';
+import type { UserCollection } from '../../types';
 
 interface MagicOrganizeModalProps {
     itemIds: string[];
@@ -18,8 +17,9 @@ interface MagicOrganizeModalProps {
 
 export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds, onClose }) => {
     const { t, language } = useLanguage();
-    const allItems = useAtomValue(libraryItemsAtom);
-    const addTags = useSetAtom(addTagsToItemsAtom);
+    const allLibraryItems = useAtomValue(libraryItemsAtom);
+    const existingCollections = useAtomValue(userCollectionsAtom);
+    const addTagsToItems = useSetAtom(addTagsToItemsAtom);
     const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
     const createCollection = useSetAtom(createCollectionAtom);
     const setToast = useSetAtom(toastAtom);
@@ -27,78 +27,107 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     const [suggestions, setSuggestions] = useState<{ tags: string[], collections: string[] } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+    const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
 
-    const modalRef = React.useRef<HTMLDivElement>(null);
+    const modalRef = useRef<HTMLDivElement>(null);
     useModalFocusTrap({ modalRef, isOpen: true, onClose });
 
     useEffect(() => {
-        const itemsToOrganize = allItems.filter(item => itemIds.includes(item.identifier))
-            .map(item => ({ title: item.title }));
+        const itemsToOrganize = allLibraryItems.filter(item => itemIds.includes(item.identifier))
+            .map(item => ({ title: item.title, description: item.creator?.toString() }));
 
-        if (itemsToOrganize.length > 0) {
-            organizeLibraryItems(itemsToOrganize, language)
-                .then(setSuggestions)
-                .catch(err => setError(err.message))
-                .finally(() => setIsLoading(false));
-        } else {
+        if (itemsToOrganize.length === 0) {
+            setError('No items selected for organization.');
             setIsLoading(false);
+            return;
         }
-    }, [itemIds, allItems, language]);
 
-    const handleApplyTags = () => {
-        if (!suggestions || suggestions.tags.length === 0) return;
-        addTags({ itemIds, tags: suggestions.tags });
-        setToast({ type: 'success', message: t('favorites:magicOrganize.tagsApplied'), id: uuidv4() });
-        onClose();
-    };
+        organizeLibraryItems(itemsToOrganize, language)
+            .then(res => {
+                setSuggestions(res);
+                setSelectedTags(new Set(res.tags));
+                setSelectedCollections(new Set(res.collections));
+            })
+            .catch(err => setError(err.message || t('common:error')))
+            .finally(() => setIsLoading(false));
+
+    }, [itemIds, allLibraryItems, language, t]);
     
-    const handleCreateCollection = (name: string) => {
-        const newCollection: UserCollection = createCollection(name);
-        if (newCollection) {
-            addItemsToCollection({ collectionId: newCollection.id, itemIds });
-            setToast({ type: 'success', message: t('favorites:magicOrganize.collectionCreated', { name }), id: uuidv4() });
-            onClose();
+    const toggleSelection = (set: Set<string>, item: string) => {
+        const newSet = new Set(set);
+        if (newSet.has(item)) {
+            newSet.delete(item);
+        } else {
+            newSet.add(item);
         }
+        return newSet;
+    };
+
+    const handleApply = () => {
+        // Apply Tags
+        if (selectedTags.size > 0) {
+            addTagsToItems({ itemIds, tags: Array.from(selectedTags) });
+            setToast({ type: 'success', message: t('favorites:magicOrganize.tagsApplied'), id: uuidv4() });
+        }
+
+        // Apply Collections
+        if (selectedCollections.size > 0) {
+            Array.from(selectedCollections).forEach(collectionName => {
+                let collection = existingCollections.find(c => c.name.toLowerCase() === collectionName.toLowerCase());
+                if (!collection) {
+                    collection = createCollection(collectionName);
+                }
+                addItemsToCollection({ collectionId: collection.id, itemIds });
+                 setToast({ type: 'success', message: t('favorites:magicOrganize.collectionCreated', { name: collection.name }), id: uuidv4() });
+            });
+        }
+        
+        onClose();
     };
 
     return (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="magic-organize-title">
-             <div ref={modalRef} className="bg-gray-800 w-full max-w-lg rounded-xl shadow-2xl flex flex-col max-h-[80vh]">
-                 <header className="flex items-center justify-between p-4 border-b border-gray-700">
-                    <h2 id="magic-organize-title" className="text-lg font-bold text-white flex items-center gap-2">
-                        <SparklesIcon className="text-cyan-400" />
-                        {t('favorites:magicOrganize.title')}
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={onClose} role="dialog">
+            <div ref={modalRef} className="bg-gray-800 w-full max-w-lg rounded-xl shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
+                <header className="flex items-center justify-between p-4 border-b border-gray-700">
+                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                        <SparklesIcon className="text-cyan-400" /> {t('favorites:bulkActions.magicOrganize')}
                     </h2>
                     <button onClick={onClose} className="p-1 text-gray-400 hover:text-white rounded-full"><CloseIcon /></button>
                 </header>
-                <div className="p-6 overflow-y-auto">
-                    {isLoading && <AILoadingIndicator type="summary" />}
-                    {error && <p className="text-red-400 text-center">{error}</p>}
-                    {suggestions && (
-                        <div className="space-y-6">
-                             <div>
-                                <h3 className="font-semibold text-white mb-2">{t('favorites:magicOrganize.suggestedTags')}</h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {suggestions.tags.map(tag => <span key={tag} className="bg-gray-700 text-cyan-300 text-xs font-semibold px-2 py-1 rounded-full">{tag}</span>)}
-                                </div>
-                                <button onClick={handleApplyTags} className="mt-4 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-4 text-sm rounded-lg">
-                                    {t('favorites:magicOrganize.applyTags')}
-                                </button>
-                            </div>
+                
+                <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+                    {isLoading ? <AILoadingIndicator type="summary" /> :
+                     error ? <p className="text-red-400 text-center">{error}</p> :
+                     suggestions && (
+                        <>
                             <div>
-                                <h3 className="font-semibold text-white mb-2">{t('favorites:magicOrganize.suggestedCollections')}</h3>
-                                <div className="space-y-2">
-                                    {suggestions.collections.map(name => (
-                                        <button key={name} onClick={() => handleCreateCollection(name)} className="w-full text-left p-3 bg-gray-700/50 hover:bg-gray-700 rounded-md">
-                                            {t('favorites:magicOrganize.createAndAdd', { name })}
-                                        </button>
+                                <h3 className="font-semibold text-gray-300 mb-2">{t('favorites:magicOrganize.suggestedTags')}</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {suggestions.tags.map(tag => (
+                                        <button key={tag} onClick={() => setSelectedTags(s => toggleSelection(s, tag))} className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedTags.has(tag) ? 'bg-cyan-500/20 border-cyan-500 text-white' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}>{tag}</button>
                                     ))}
                                 </div>
                             </div>
-                        </div>
-                    )}
+                             <div>
+                                <h3 className="font-semibold text-gray-300 mb-2">{t('favorites:magicOrganize.suggestedCollections')}</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {suggestions.collections.map(coll => (
+                                        <button key={coll} onClick={() => setSelectedCollections(s => toggleSelection(s, coll))} className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedCollections.has(coll) ? 'bg-cyan-500/20 border-cyan-500 text-white' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}>{coll}</button>
+                                    ))}
+                                </div>
+                            </div>
+                        </>
+                     )
+                    }
                 </div>
-             </div>
+
+                <footer className="px-6 py-4 bg-gray-900/50 rounded-b-xl text-right">
+                    <button onClick={handleApply} disabled={isLoading || !!error} className="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed">
+                        {t('common:confirm')}
+                    </button>
+                </footer>
+            </div>
         </div>
     );
 };

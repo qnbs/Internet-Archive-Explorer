@@ -6,6 +6,10 @@
   "summaryErrorShort": "Text is too short to generate a meaningful summary.",
   "summaryErrorApi": "The AI summary could not be created. Please try again later.",
   "entityErrorApi": "Entities could not be extracted. Please try again later.",
+  "image": {
+    "askPlaceholder": "Ask a follow-up question...",
+    "askButton": "Ask"
+  },
   "loadingMessages": {
     "connecting": "Connecting to Gemini AI...",
     "analyzing": "Analyzing text structure...",

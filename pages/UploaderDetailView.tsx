@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { defaultUploaderDetailTabAtom } from '../store/settings';
 import { profileSearchQueryAtom } from '../store/search';
-import type { ArchiveItemSummary, Profile, View, UploaderTab } from '../types';
+import type { ArchiveItemSummary, Profile, View, UploaderTab, MediaType } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { useUploaderStats } from '../hooks/useUploaderStats';
 import { useUploaderTabCounts } from '../hooks/useUploaderTabCounts';
@@ -17,6 +16,7 @@ import { UploaderReviewsTab } from '../components/uploader/UploaderReviewsTab';
 import { UploaderPostsTab } from '../components/uploader/UploaderPostsTab';
 import { UploaderWebArchiveTab } from '../components/uploader/UploaderWebArchiveTab';
 import { Spinner } from '../components/Spinner';
+import { ChevronUpIcon, ChevronDownIcon } from '../components/Icons';
 
 interface UploaderDetailViewProps {
     profile: Profile;
@@ -33,7 +33,8 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
     const { visibleTabs, isLoading: isLoadingTabs } = useUploaderTabCounts(profile);
     
     const [activeTab, setActiveTab] = useState<UploaderTab>('uploads');
-    const [mediaTypeFilter, setMediaTypeFilter] = useState<any>('all');
+    const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaType | 'all'>('all');
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
     const {
         results, isLoading: isLoadingUploads, isLoadingMore, error, totalResults, hasMore, lastElementRef, handleRetry,
@@ -95,13 +96,21 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
     return (
         <div className="flex flex-col lg:flex-row gap-6 animate-page-fade-in">
             <aside className="w-full lg:w-1/3 xl:w-1/4 flex-shrink-0">
-                <UploaderSidebar 
-                    profile={profile} 
-                    stats={stats} 
-                    isLoadingStats={isLoadingStats}
-                    onBack={!isMyArchiveView ? () => onBack(returnView) : undefined}
-                    onDisconnect={isMyArchiveView ? () => onBack() : undefined}
-                />
+                 <div className="lg:hidden bg-gray-800/60 rounded-lg mb-4 border border-gray-700/50">
+                    <button onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="w-full flex justify-between items-center p-3">
+                        <h3 className="font-semibold text-white">Profile & Stats</h3>
+                        {isSidebarExpanded ? <ChevronUpIcon/> : <ChevronDownIcon/>}
+                    </button>
+                </div>
+                <div className={`${isSidebarExpanded ? 'block' : 'hidden'} lg:block`}>
+                    <UploaderSidebar 
+                        profile={profile} 
+                        stats={stats} 
+                        isLoadingStats={isLoadingStats}
+                        onBack={!isMyArchiveView ? () => onBack(returnView) : undefined}
+                        onDisconnect={isMyArchiveView ? () => onBack() : undefined}
+                    />
+                </div>
             </aside>
             <main className="flex-grow min-w-0">
                 <UploaderHeader 

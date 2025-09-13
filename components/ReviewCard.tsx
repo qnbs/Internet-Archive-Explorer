@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { modalAtom } from '../store/app';
 import type { ArchiveItemSummary } from '../types';
 import { useLanguage } from '../hooks/useLanguage';

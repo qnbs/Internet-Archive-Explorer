@@ -7,7 +7,7 @@ import { type LibraryFilter, MediaType } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
     StarIcon, UsersIcon, CollectionIcon, TagIcon, PlusIcon, TrashIcon,
-    BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon
+    BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, CloseIcon
 } from '../Icons';
 
 interface LibrarySidebarProps {
@@ -15,6 +15,7 @@ interface LibrarySidebarProps {
     setActiveTab: (tab: 'items' | 'uploaders') => void;
     filter: LibraryFilter;
     setFilter: (filter: LibraryFilter) => void;
+    onClose?: () => void;
 }
 
 const NavButton: React.FC<{ label: string; icon: React.ReactNode; isActive: boolean; onClick: () => void; }> = ({ label, icon, isActive, onClick }) => (
@@ -71,7 +72,7 @@ const mediaTypeFilters: { type: MediaType; labelKey: string; icon: React.ReactNo
     { type: MediaType.Software, labelKey: 'favorites:sidebar.mediaTypeSoftware', icon: <JoystickIcon className="w-4 h-4" /> },
 ];
 
-export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setActiveTab, filter, setFilter }) => {
+export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setActiveTab, filter, setFilter, onClose }) => {
     const { t } = useLanguage();
     const libraryItems = useAtomValue(libraryItemsAtom);
     const collections = useAtomValue(userCollectionsAtom);
@@ -112,73 +113,83 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
     }, [libraryItems, collections, allTags]);
 
     return (
-        <aside className="w-full md:w-64 flex-shrink-0 bg-gray-800/60 p-4 rounded-xl flex flex-col">
-            <h2 className="text-xl font-bold text-white mb-4 px-2">{t('sideMenu:library')}</h2>
-            <nav className="space-y-1 mb-4">
-                <NavButton label={t('favorites:tabs.items')} icon={<StarIcon className="w-5 h-5"/>} isActive={activeTab === 'items'} onClick={() => setActiveTab('items')} />
-                <NavButton label={t('favorites:tabs.uploaders')} icon={<UsersIcon className="w-5 h-5"/>} isActive={activeTab === 'uploaders'} onClick={() => setActiveTab('uploaders')} />
-            </nav>
+        <aside className="w-full md:w-64 flex-shrink-0 bg-gray-800/60 md:bg-transparent md:p-0 p-4 rounded-xl flex flex-col h-full">
+            {onClose ? (
+                <div className="flex justify-between items-center mb-4 flex-shrink-0">
+                    <h2 className="text-xl font-bold text-white">{t('favorites:filtersTitle')}</h2>
+                    <button onClick={onClose} className="p-2 -mr-2 text-gray-400 hover:text-white"><CloseIcon /></button>
+                </div>
+            ) : (
+                <h2 className="text-xl font-bold text-white mb-4 px-2">{t('sideMenu:library')}</h2>
+            )}
 
-            {activeTab === 'items' && (
-                <div className="flex-grow overflow-y-auto space-y-4">
-                    <div className="space-y-1">
-                        <FilterButton label={t('favorites:sidebar.allitems')} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} count={counts.all} />
-                        <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.mediaTypes')}</h3>
-                        {mediaTypeFilters.map(f => (
-                             <FilterButton 
-                                key={f.type}
-                                label={t(f.labelKey)} 
-                                icon={f.icon}
-                                isActive={filter.type === 'mediaType' && filter.mediaType === f.type} 
-                                onClick={() => setFilter({ type: 'mediaType', mediaType: f.type })} 
-                                count={counts.mediaTypes[f.type]}
-                            />
-                        ))}
-                    </div>
-                    <div>
-                        <div className="flex justify-between items-center px-3 pt-3 pb-1">
-                            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.collections')}</h3>
-                            <button onClick={handleNewCollection} className="text-cyan-400 hover:text-cyan-300" aria-label={t('favorites:sidebar.newCollection')}>
-                                <PlusIcon className="w-4 h-4" />
-                            </button>
-                        </div>
+            <div className="flex-grow overflow-y-auto -mr-4 pr-4">
+                <nav className="space-y-1 mb-4">
+                    <NavButton label={t('favorites:tabs.items')} icon={<StarIcon className="w-5 h-5"/>} isActive={activeTab === 'items'} onClick={() => setActiveTab('items')} />
+                    <NavButton label={t('favorites:tabs.uploaders')} icon={<UsersIcon className="w-5 h-5"/>} isActive={activeTab === 'uploaders'} onClick={() => setActiveTab('uploaders')} />
+                </nav>
+
+                {activeTab === 'items' && (
+                    <div className="space-y-4">
                         <div className="space-y-1">
-                            {collections.map(c => (
+                            <FilterButton label={t('favorites:sidebar.allitems')} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} count={counts.all} />
+                            <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.mediaTypes')}</h3>
+                            {mediaTypeFilters.map(f => (
                                 <FilterButton 
-                                    key={c.id} 
-                                    label={c.name} 
-                                    icon={<CollectionIcon className="w-4 h-4"/>} 
-                                    isActive={filter.type === 'collection' && filter.id === c.id} 
-                                    onClick={() => setFilter({ type: 'collection', id: c.id })}
-                                    onDelete={() => deleteCollection(c.id)}
-                                    count={counts.collections[c.id]}
+                                    key={f.type}
+                                    label={t(f.labelKey)} 
+                                    icon={f.icon}
+                                    isActive={filter.type === 'mediaType' && filter.mediaType === f.type} 
+                                    onClick={() => setFilter({ type: 'mediaType', mediaType: f.type })} 
+                                    count={counts.mediaTypes[f.type]}
                                 />
                             ))}
                         </div>
-                    </div>
-                     <div>
-                        <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.tags')}</h3>
-                        <div className="space-y-1">
-                            <FilterButton 
-                                label={t('favorites:sidebar.untagged')} 
-                                isActive={filter.type === 'untagged'} 
-                                onClick={() => setFilter({ type: 'untagged' })} 
-                                count={counts.untagged}
-                            />
-                            {allTags.length > 0 ? allTags.map(tag => (
+                        <div>
+                            <div className="flex justify-between items-center px-3 pt-3 pb-1">
+                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.collections')}</h3>
+                                <button onClick={handleNewCollection} className="text-cyan-400 hover:text-cyan-300" aria-label={t('favorites:sidebar.newCollection')}>
+                                    <PlusIcon className="w-4 h-4" />
+                                </button>
+                            </div>
+                            <div className="space-y-1">
+                                {collections.map(c => (
+                                    <FilterButton 
+                                        key={c.id} 
+                                        label={c.name} 
+                                        icon={<CollectionIcon className="w-4 h-4"/>} 
+                                        isActive={filter.type === 'collection' && filter.id === c.id} 
+                                        onClick={() => setFilter({ type: 'collection', id: c.id })}
+                                        onDelete={() => deleteCollection(c.id)}
+                                        count={counts.collections[c.id]}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('favorites:sidebar.tags')}</h3>
+                            <div className="space-y-1">
                                 <FilterButton 
-                                    key={tag} 
-                                    label={tag} 
-                                    icon={<TagIcon className="w-4 h-4"/>} 
-                                    isActive={filter.type === 'tag' && filter.tag === tag} 
-                                    onClick={() => setFilter({ type: 'tag', tag: tag })} 
-                                    count={counts.tags[tag]}
+                                    label={t('favorites:sidebar.untagged')} 
+                                    isActive={filter.type === 'untagged'} 
+                                    onClick={() => setFilter({ type: 'untagged' })} 
+                                    count={counts.untagged}
                                 />
-                            )) : <p className="px-3 text-sm text-gray-500">{t('favorites:sidebar.noTags')}</p>}
+                                {allTags.length > 0 ? allTags.map(tag => (
+                                    <FilterButton 
+                                        key={tag} 
+                                        label={tag} 
+                                        icon={<TagIcon className="w-4 h-4"/>} 
+                                        isActive={filter.type === 'tag' && filter.tag === tag} 
+                                        onClick={() => setFilter({ type: 'tag', tag: tag })} 
+                                        count={counts.tags[tag]}
+                                    />
+                                )) : <p className="px-3 text-sm text-gray-500">{t('favorites:sidebar.noTags')}</p>}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </aside>
     );
 };

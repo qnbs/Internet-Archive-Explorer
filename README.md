@@ -74,12 +74,14 @@ A central hub for all your saved items and followed contributors, organized in a
 -   **AI Summarization**: On-demand, generate concise summaries of long texts with adjustable tones (simple, detailed, academic).
 -   **Entity Extraction**: Automatically identify and tag people, places, organizations, and dates within texts to aid further discovery.
 -   **Contextual Q&A**: Ask questions about a document in the Scriptorium and receive answers based solely on the provided text.
+-   **Multi-turn Image Analysis**: After an initial automated analysis, engage in a conversation with the AI by asking follow-up questions about an image to get more specific details.
 -   **Magic Organization**: Select multiple items in your library and get AI suggestions for relevant tags and new collection names.
 -   **Daily Historical Insight**: The Explorer Hub features a daily, AI-generated blurb that creatively connects the day's trending items.
 -   **Creative Storytelling**: Use the Storyteller tool to generate engaging narratives based on your ideas.
 
 ### Enhanced Media Viewers
 -   **Advanced Image Viewer**: A fully-featured, in-modal image viewer with smooth zoom (mouse-wheel controlled), panning, rotation, fullscreen mode, and direct download capabilities.
+-   **Keyboard Shortcuts**: The image viewer is fully controllable via the keyboard (`+`/`-` for zoom, `r` to rotate, `0` to reset) for power users.
 -   **Embedded Players**: Seamlessly play emulated software, read books in the Archive's BookReader, and listen to audio previews directly within modal views.
 
 ### Power-User Tools & Accessibility
@@ -215,12 +217,14 @@ Ein zentraler Hub für alle Ihre gespeicherten Inhalte und Mitwirkenden, organis
 -   **KI-Zusammenfassung**: Generieren Sie auf Abruf prägnante Zusammenfassungen langer Texte mit einstellbaren Tonalitäten (einfach, detailliert, akademisch).
 -   **Entitätenextraktion**: Identifizieren und kennzeichnen Sie automatisch Personen, Orte, Organisationen und Daten in Texten, um weitere Entdeckungen zu fördern.
 -   **Kontextbezogene F&A**: Stellen Sie Fragen zu einem Dokument im Scriptorium und erhalten Sie Antworten, die ausschließlich auf dem bereitgestellten Text basieren.
+-   **Multimodale Bildanalyse**: Führen Sie nach einer ersten automatisierten Analyse ein Gespräch mit der KI, indem Sie Folgefragen zu einem Bild stellen, um spezifischere Details zu erhalten.
 -   **Magische Organisation**: Wählen Sie mehrere Elemente in Ihrer Bibliothek aus und erhalten Sie KI-Vorschläge für relevante Tags und neue Sammlungsnamen.
 -   **Täglicher historischer Einblick**: Der Explorer-Hub bietet einen täglichen, KI-generierten Kurztext, der die Trend-Elemente des Tages kreativ verbindet.
 -   **Kreatives Geschichtenerzählen**: Nutzen Sie das Storyteller-Tool, um fesselnde Erzählungen basierend auf Ihren Ideen zu erstellen.
 
 ### <a name="erweiterte-medienbetrachter-de"></a>Erweiterte Medienbetrachter
 -   **Fortschrittlicher Bildbetrachter**: Ein voll ausgestatteter, in das Modal integrierter Bildbetrachter mit stufenlosem Zoom (per Mausrad), Schwenken, Rotation, Vollbildmodus und direkten Download-Möglichkeiten.
+-   **Tastaturkürzel**: Der Bildbetrachter ist für Power-User vollständig über die Tastatur steuerbar (`+`/`-` für Zoom, `r` zum Drehen, `0` zum Zurücksetzen).
 -   **Eingebettete Player**: Spielen Sie emulierte Software nahtlos ab, lesen Sie Bücher im BookReader des Archivs und hören Sie Audiovorschauen direkt in den Modalansichten.
 
 ### <a name="power-user-tools--barrierefreiheit-de"></a>Power-User-Tools & Barrierefreiheit

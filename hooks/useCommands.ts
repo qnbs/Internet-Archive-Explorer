@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { useLanguage } from './useLanguage';
 import { useAtom, useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
-import { themeAtom, resolvedThemeAtom } from '../store/settings';
+import { themeAtom } from '../store/settings';
 import { languageAtom } from '../store/i18n';
 import type { Command, View } from '../types';
 import {
   CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, UsersIcon,
-  JoystickIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LanguageIcon, WebIcon
+  JoystickIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LanguageIcon, WebIcon, BrainIcon
 } from '../components/Icons';
+import { resolvedThemeAtom } from '../store/settings';
 
 interface CommandActions {
   navigateTo: (view: View) => void;
@@ -32,6 +32,7 @@ export const useCommands = (actions: CommandActions): Command[] => {
       { id: 'nav-audiothek', section: t('commandPalette:sections.navigation'), label: t('sideMenu:audiothek'), description: t('commandPalette:nav.audiothekDesc'), icon: React.createElement(AudioIcon, { className: iconClass }), action: () => actions.navigateTo('audio'), keywords: 'music sound' },
       { id: 'nav-images', section: t('commandPalette:sections.navigation'), label: t('sideMenu:imagesHub'), description: t('commandPalette:nav.imagesDesc'), icon: React.createElement(ImageIcon, { className: iconClass }), action: () => actions.navigateTo('image'), keywords: 'pictures photos' },
       { id: 'nav-recroom', section: t('commandPalette:sections.navigation'), label: t('sideMenu:recRoom'), description: t('commandPalette:nav.recroomDesc'), icon: React.createElement(JoystickIcon, { className: iconClass }), action: () => actions.navigateTo('recroom'), keywords: 'games software dos' },
+      { id: 'nav-ai-archive', section: t('commandPalette:sections.navigation'), label: t('sideMenu:aiArchive'), description: t('commandPalette:nav.aiArchiveDesc'), icon: React.createElement(BrainIcon, { className: iconClass }), action: () => actions.navigateTo('aiArchive'), keywords: 'ai artificial intelligence generations' },
       { id: 'nav-webarchive', section: t('commandPalette:sections.navigation'), label: t('sideMenu:webArchive'), description: t('commandPalette:nav.webArchiveDesc'), icon: React.createElement(WebIcon, { className: iconClass }), action: () => window.open('https://web.archive.org/', '_blank'), keywords: 'wayback machine websites history' },
       { id: 'nav-settings', section: t('commandPalette:sections.navigation'), label: t('sideMenu:settings'), description: t('commandPalette:nav.settingsDesc'), icon: React.createElement(SettingsIcon, { className: iconClass }), action: () => actions.navigateTo('settings'), keywords: 'options config' },
       { id: 'nav-help', section: t('commandPalette:sections.navigation'), label: t('sideMenu:help'), description: t('commandPalette:nav.helpDesc'), icon: React.createElement(HelpIcon, { className: iconClass }), action: () => actions.navigateTo('help'), keywords: 'faq support' },

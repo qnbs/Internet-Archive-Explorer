@@ -6,7 +6,6 @@ import { WorkspacePanel } from '../components/scriptorium/WorkspacePanel';
 import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
 import { Spinner } from '../components/Spinner';
 import { useLanguage } from '../hooks/useLanguage';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { selectedWorksetIdAtom, selectedDocumentIdAtom, worksetsAtom } from '../store/scriptorium';
 
 interface ScriptoriumViewProps {

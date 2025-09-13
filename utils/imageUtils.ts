@@ -1,3 +1,4 @@
+
 import type { ArchiveFile } from '../types';
 
 /**
@@ -53,4 +54,35 @@ export const findBestImageUrl = (files: ArchiveFile[], identifier: string): stri
   }
 
   return null;
+};
+
+
+/**
+ * Fetches an image from a URL and converts it to a base64 string.
+ * @param imageUrl The URL of the image to fetch.
+ * @returns A promise that resolves to an object containing the base64 string and MIME type.
+ */
+export const urlToBase64 = async (imageUrl: string): Promise<{ base64: string; mimeType: string }> => {
+    // AI Studio provides a CORS proxy, which is necessary for fetching images from archive.org
+    const proxyUrl = `/proxy?url=${encodeURIComponent(imageUrl)}`;
+    const response = await fetch(proxyUrl);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    const mimeType = blob.type;
+
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+            const base64String = (reader.result as string).split(',')[1];
+            if (base64String) {
+                resolve({ base64: base64String, mimeType });
+            } else {
+                reject(new Error('Failed to convert blob to base64'));
+            }
+        };
+        reader.readAsDataURL(blob);
+    });
 };

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { profileSearchQueryAtom } from '../store/search';
 import { resultsPerPageAtom } from '../store/settings';
 import { useDebounce } from './useDebounce';
@@ -60,7 +59,8 @@ export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType 
         setPage(1);
         const query = buildQuery();
         performSearch(query, 1, sort, sortDirection);
-    }, [profile, debouncedSearchQuery, mediaTypeFilter, sort, sortDirection, buildQuery, performSearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [profile, debouncedSearchQuery, mediaTypeFilter, sort, sortDirection, buildQuery]);
 
     const handleLoadMore = useCallback(() => {
         if (isLoading || isLoadingMore) return;

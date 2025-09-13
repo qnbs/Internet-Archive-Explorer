@@ -2,7 +2,6 @@ import React from 'react';
 import type { Profile } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { uploaderFavoriteSetAtom, addUploaderFavoriteAtom, removeUploaderFavoriteAtom } from '../store/favorites';
 import { useToast } from '../contexts/ToastContext';
 import { StarIcon, UsersIcon } from './Icons';

@@ -1,8 +1,8 @@
 import type { ArchiveSearchResponse, ArchiveMetadata, WaybackResponse, ArchiveItemSummary } from '../types';
+import { metadataCache } from './cacheService';
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
-const metadataCache = new Map<string, ArchiveMetadata>();
 
 export class ArchiveServiceError extends Error {
   constructor(message: string) {

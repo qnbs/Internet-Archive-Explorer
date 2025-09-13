@@ -1,8 +1,8 @@
 // This file serves as a central hub for exporting all Jotai atoms.
 // This simplifies imports in components and avoids circular dependencies.
 
-// FIX: Added export for atoms from the newly created store/app.ts
-export * from './app';
+export type { ModalState } from './app';
+export { activeViewAtom, modalAtom } from './app';
 export {
     defaultSettings,
     settingsAtom,
@@ -59,5 +59,30 @@ export {
     languageAtom,
     loadableTranslationsAtom,
 } from './i18n';
-export * from './scriptorium';
-export * from './archive';
+export {
+    worksetsAtom,
+    selectedWorksetIdAtom,
+    selectedDocumentIdAtom,
+    createWorksetAtom,
+    deleteWorksetAtom,
+    updateWorksetNameAtom,
+    addDocumentToWorksetAtom,
+    removeDocumentFromWorksetAtom,
+    updateDocumentNotesAtom,
+} from './scriptorium';
+export {
+    myArchiveProfileAtom,
+    selectedProfileAtom,
+    profileReturnViewAtom,
+    toastAtom,
+} from './archive';
+export {
+    aiArchiveAtom,
+    selectedAIEntryIdAtom,
+    aiArchiveSearchQueryAtom,
+    allAIArchiveTagsAtom,
+    addAIArchiveEntryAtom,
+    deleteAIArchiveEntryAtom,
+    updateAIArchiveEntryAtom,
+    updateAIEntryTagsAtom
+} from './aiArchive';

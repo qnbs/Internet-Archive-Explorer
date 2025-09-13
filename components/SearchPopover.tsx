@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { facetsAtom } from '../store/search';
 import { useLanguage } from '../hooks/useLanguage';
 import { MediaType, Availability } from '../types';

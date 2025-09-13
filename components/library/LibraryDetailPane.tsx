@@ -6,10 +6,11 @@ import { modalAtom } from '../../store/app';
 import type { LibraryItem } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { RichTextEditor } from '../RichTextEditor';
-import { CloseIcon, TagIcon, PlusIcon } from '../Icons';
+import { CloseIcon, TagIcon, PlusIcon, ArrowLeftIcon } from '../Icons';
 
 interface LibraryDetailPaneProps {
     selectedItem: LibraryItem | null;
+    onBack?: () => void;
 }
 
 const Tag: React.FC<{ tag: string, onRemove: () => void }> = ({ tag, onRemove }) => (
@@ -21,7 +22,7 @@ const Tag: React.FC<{ tag: string, onRemove: () => void }> = ({ tag, onRemove })
     </div>
 );
 
-export const LibraryDetailPane: React.FC<LibraryDetailPaneProps> = ({ selectedItem }) => {
+export const LibraryDetailPane: React.FC<LibraryDetailPaneProps> = ({ selectedItem, onBack }) => {
     const { t } = useLanguage();
     const setModal = useSetAtom(modalAtom);
     const updateNotes = useSetAtom(updateLibraryItemNotesAtom);
@@ -52,7 +53,7 @@ export const LibraryDetailPane: React.FC<LibraryDetailPaneProps> = ({ selectedIt
     
     if (!selectedItem) {
         return (
-            <div className="bg-gray-800/60 rounded-xl h-full flex items-center justify-center">
+            <div className="bg-gray-800/60 rounded-xl h-full hidden md:flex items-center justify-center">
                 <p className="text-gray-500">{t('favorites:noItemSelected')}</p>
             </div>
         );
@@ -60,12 +61,21 @@ export const LibraryDetailPane: React.FC<LibraryDetailPaneProps> = ({ selectedIt
     
     return (
         <div className="bg-gray-800/60 rounded-xl h-full flex flex-col">
-            <header className="p-4 border-b border-gray-700 flex-shrink-0">
-                <h3 className="font-bold text-lg text-white truncate">{selectedItem.title}</h3>
-                <p className="text-sm text-gray-400 truncate">{Array.isArray(selectedItem.creator) ? selectedItem.creator.join(', ') : selectedItem.creator}</p>
-                <button onClick={() => setModal({ type: 'itemDetail', item: selectedItem })} className="text-sm text-cyan-400 hover:underline mt-2">
-                    {t('favorites:itemDetail.viewFullDetails')} &rarr;
-                </button>
+            <header className="p-4 border-b border-gray-700 flex-shrink-0 flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                     {onBack && (
+                        <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white" aria-label={t('favorites:details.backToList')}>
+                            <ArrowLeftIcon />
+                        </button>
+                    )}
+                    <div className="min-w-0">
+                        <h3 className="font-bold text-lg text-white truncate">{selectedItem.title}</h3>
+                        <p className="text-sm text-gray-400 truncate">{Array.isArray(selectedItem.creator) ? selectedItem.creator.join(', ') : selectedItem.creator}</p>
+                        <button onClick={() => setModal({ type: 'itemDetail', item: selectedItem })} className="text-sm text-cyan-400 hover:underline mt-2">
+                            {t('favorites:itemDetail.viewFullDetails')} &rarr;
+                        </button>
+                    </div>
+                </div>
             </header>
 
             <div className="flex-grow flex flex-col p-4 space-y-4 min-h-0">

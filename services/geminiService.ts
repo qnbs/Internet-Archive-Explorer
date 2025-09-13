@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
-import type { ExtractedEntities } from '../types';
+import type { ExtractedEntities, ImageAnalysisResult } from '../types';
 
 // Initialize the Google Gemini API client
 // The API key is sourced from environment variables, as per guidelines.
@@ -150,5 +150,68 @@ export const organizeLibraryItems = async (items: { title: string; description?:
     } catch (error) {
         console.error('Gemini API organization failed:', error);
         throw new GeminiServiceError('Failed to get organizational suggestions.');
+    }
+};
+
+/**
+ * Analyzes an image and returns a description and relevant tags.
+ */
+export const analyzeImage = async (base64ImageData: string, mimeType: string, language: string): Promise<ImageAnalysisResult> => {
+    const schema = {
+        type: Type.OBJECT,
+        properties: {
+            description: { type: Type.STRING, description: 'A detailed, objective description of the image content, focusing on facts.' },
+            tags: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+                description: 'A list of 5-7 relevant, specific keywords or tags based on the image content (e.g., "astronaut", "lunar module", "space suit").'
+            },
+        },
+        required: ['description', 'tags']
+    };
+
+    const imagePart = { inlineData: { data: base64ImageData, mimeType } };
+    const textPart = { text: `Analyze this image. Provide a detailed description and suggest relevant search tags. Respond in ${language}.` };
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: { parts: [imagePart, textPart] },
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: schema,
+            },
+        });
+        const parsed = JSON.parse(response.text.trim());
+        return {
+            description: parsed.description || '',
+            tags: parsed.tags || [],
+        };
+    } catch (error) {
+        console.error('Gemini API image analysis failed:', error);
+        throw new GeminiServiceError('Failed to get an analysis from the AI.');
+    }
+};
+
+/**
+ * Asks a follow-up question about an image.
+ */
+export const askAboutImage = async (base64ImageData: string, mimeType: string, question: string, language: string): Promise<string> => {
+    const imagePart = { inlineData: { data: base64ImageData, mimeType } };
+    const textPart = { text: question };
+    const systemInstruction = `You are an expert at analyzing images. Answer the user's question about the image concisely. Respond in ${language}.`;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: { parts: [imagePart, textPart] },
+            config: {
+                systemInstruction,
+            },
+        });
+        return response.text;
+    } catch (error) {
+        console.error('Gemini API image question failed:', error);
+        throw new GeminiServiceError('Failed to get an answer about the image.');
     }
 };

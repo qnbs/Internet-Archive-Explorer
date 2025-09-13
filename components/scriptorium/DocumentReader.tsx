@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { WorksetDocument, ExtractedEntities } from '../../types';
+import { AIGenerationType, type WorksetDocument, type ExtractedEntities } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
-// FIX: `getItemPlainText` is exported from `archiveService`, not `geminiService`.
 import { getItemPlainText } from '../../services/archiveService';
-// FIX: Correct import for geminiService from the new file
 import { getSummary, extractEntities } from '../../services/geminiService';
 import { Spinner } from '../Spinner';
 import { ArrowLeftIcon, BookIcon } from '../Icons';
@@ -11,13 +9,14 @@ import { AnalysisToolbar } from './AnalysisToolbar';
 import { RichTextEditor } from '../RichTextEditor';
 import { useWorksets } from '../../hooks/useWorksets';
 import { useSetAtom, useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { modalAtom } from '../../store/app';
 import { summaryToneAtom } from '../../store/settings';
 import { ResizablePanel } from './ResizablePanel';
 import { AnalysisPane } from './AnalysisPane';
 import { DocumentSearchBar } from './DocumentSearchBar';
 import { sanitizeHtml } from '../../utils/sanitizer';
+import { findArchivedItemAnalysis, archiveAIGeneration } from '../../services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '../../store/aiArchive';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
@@ -29,6 +28,8 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
     const { updateDocumentNotes } = useWorksets();
     const setModal = useSetAtom(modalAtom);
     const summaryTone = useAtomValue(summaryToneAtom);
+    const aiArchive = useAtomValue(aiArchiveAtom);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
     const [plainText, setPlainText] = useState<string | null>(null);
     const [isLoadingText, setIsLoadingText] = useState(true);
@@ -74,9 +75,25 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
         if (!plainText) return;
         setIsAnalyzing(true);
         setAnalysisPane(null);
+
+        const archiveOptions = { tone: summaryTone };
+        const archivedSummary = findArchivedItemAnalysis<string>(document.identifier, AIGenerationType.Summary, aiArchive, archiveOptions);
+        if (archivedSummary) {
+            setAnalysisPane({ type: 'summary', data: archivedSummary });
+            setIsAnalyzing(false);
+            return;
+        }
+
         try {
             const summary = await getSummary(plainText, language, summaryTone);
             setAnalysisPane({ type: 'summary', data: summary });
+            archiveAIGeneration({
+                type: AIGenerationType.Summary,
+                content: summary,
+                language,
+                source: { identifier: document.identifier, title: document.title, mediaType: document.mediatype },
+                prompt: JSON.stringify(archiveOptions),
+            }, addAIEntry);
         } catch (e) { console.error(e) } finally {
             setIsAnalyzing(false);
         }
@@ -86,9 +103,23 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
         if (!plainText) return;
         setIsAnalyzing(true);
         setAnalysisPane(null);
+        
+        const archivedEntities = findArchivedItemAnalysis<ExtractedEntities>(document.identifier, AIGenerationType.Entities, aiArchive);
+        if (archivedEntities) {
+            setAnalysisPane({ type: 'entities', data: archivedEntities });
+            setIsAnalyzing(false);
+            return;
+        }
+
         try {
             const entities = await extractEntities(plainText, language);
             setAnalysisPane({ type: 'entities', data: entities });
+            archiveAIGeneration({
+                type: AIGenerationType.Entities,
+                content: entities,
+                language,
+                source: { identifier: document.identifier, title: document.title, mediaType: document.mediatype },
+            }, addAIEntry);
         } catch (e) { console.error(e) } finally {
             setIsAnalyzing(false);
         }
@@ -137,7 +168,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
         <div className="h-full flex flex-col">
             <header className="flex-shrink-0 p-3 md:p-4 border-b border-gray-700 flex items-center justify-between gap-4">
                 <div className="flex items-center space-x-3 min-w-0">
-                    <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white">
+                    <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white" aria-label={t('scriptorium.backToList')}>
                         <ArrowLeftIcon />
                     </button>
                     <div className="min-w-0">

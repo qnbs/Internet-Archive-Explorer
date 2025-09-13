@@ -40,7 +40,6 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
             setResults(data.response.docs);
         } else {
             setResults(prevResults => {
-                // OPTIMIZATION: Use a Set for O(n) duplicate checking instead of O(n^2).
                 const existingIds = new Set(prevResults.map(res => res.identifier));
                 const newDocs = data.response.docs.filter(doc => !existingIds.has(doc.identifier));
                 return [...prevResults, ...newDocs];
@@ -61,8 +60,7 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
 
   useEffect(() => {
     performSearch(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only once on mount
+  }, [performSearch]);
   
   const handleLoadMore = useCallback(() => {
     setPage(prevPage => {
@@ -105,7 +103,7 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
         {isLoading ? (
              <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
                 {Array.from({ length: 12 }).map((_, index) => (
-                    <SkeletonCard key={`skeleton-initial-${index}`} />
+                    <SkeletonCard key={`skeleton-initial-${index}`} aspectRatio="video" />
                 ))}
             </div>
         ) : (
@@ -121,7 +119,7 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
                 {isLoadingMore && (
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6 mt-6">
                         {Array.from({ length: 4 }).map((_, index) => (
-                            <SkeletonCard key={`skeleton-more-${index}`} />
+                            <SkeletonCard key={`skeleton-more-${index}`} aspectRatio="video" />
                         ))}
                     </div>
                 )}

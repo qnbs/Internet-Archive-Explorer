@@ -35,6 +35,7 @@ export const defaultSettings: AppSettings = {
     highContrastMode: false,
     underlineLinks: false,
     fontSize: 'base',
+    scrollbarColor: '#22d3ee', // Corresponds to Tailwind's cyan-400
 };
 
 export const settingsAtom = atomWithStorage<AppSettings>(STORAGE_KEYS.settings, defaultSettings);
@@ -75,6 +76,7 @@ export const summaryToneAtom = selectAtom(settingsAtom, s => s.summaryTone);
 export const highContrastModeAtom = selectAtom(settingsAtom, s => s.highContrastMode);
 export const underlineLinksAtom = selectAtom(settingsAtom, s => s.underlineLinks);
 export const fontSizeAtom = selectAtom(settingsAtom, s => s.fontSize);
+export const scrollbarColorAtom = selectAtom(settingsAtom, s => s.scrollbarColor);
 
 
 // --- Theme ---

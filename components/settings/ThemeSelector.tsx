@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { themeAtom } from '../../store/settings';
 import type { Theme } from '../../types';
 import { SunIcon, MoonIcon, SettingsIcon } from '../Icons';

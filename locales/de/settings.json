@@ -29,6 +29,8 @@
       "comfortable": "Komfortabel",
       "compact": "Kompakt"
     },
+    "scrollbarColor": "Scrollleistenfarbe",
+    "scrollbarColorDesc": "Passen Sie die Farbe des Scrollleisten-Reglers an Ihre Vorlieben an.",
     "theme": "Design",
     "themeDesc": "Wählen Sie das Aussehen der Anwendung. 'System' passt sich automatisch der Einstellung Ihres Betriebssystems an.",
     "themes": {

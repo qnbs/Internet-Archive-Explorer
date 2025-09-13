@@ -1,6 +1,5 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { useCallback } from 'react';
-// FIX: Use direct import from 'store/i18n' to prevent circular dependencies.
 import { languageAtom, loadableTranslationsAtom } from '../store/i18n';
 import type { Language } from '../types';
 

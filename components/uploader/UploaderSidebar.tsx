@@ -47,9 +47,17 @@ export const UploaderSidebar: React.FC<UploaderSidebarProps> = ({ profile, stats
         }
     };
     
-    // FIX: Correctly construct the uploader URL and encode the username to handle special characters.
-    const usernameForUrl = profile.searchIdentifier.split('@')[0];
-    const uploaderUrl = `https://archive.org/details/@${encodeURIComponent(usernameForUrl)}`;
+    const getUploaderUrl = () => {
+        const isStandardProfile = !profile.curatedData?.searchField || ['uploader', 'creator'].includes(profile.curatedData.searchField);
+        if (isStandardProfile) {
+            const usernameForUrl = profile.searchIdentifier.split('@')[0];
+            return `https://archive.org/details/@${encodeURIComponent(usernameForUrl)}`;
+        }
+        // For non-standard profiles (e.g., scanner), link to a search query instead.
+        const query = getProfileApiQuery(profile);
+        return `https://archive.org/search?query=${encodeURIComponent(query)}`;
+    };
+    const uploaderUrl = getUploaderUrl();
     
     const descriptionKey = profile.curatedData?.descriptionKey 
         || profile.curatedData?.customDescriptionKey 

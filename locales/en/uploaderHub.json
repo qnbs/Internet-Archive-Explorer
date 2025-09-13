@@ -18,5 +18,9 @@
     "software": "Software",
     "video": "Video",
     "history": "History"
+  },
+  "comingSoon": {
+    "title": "Under Construction",
+    "description": "This section is currently being revamped to bring you an even better experience. Check back soon to discover the amazing contributors to the archive!"
   }
 }

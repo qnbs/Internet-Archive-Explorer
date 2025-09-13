@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { searchQueryAtom, facetsAtom } from '../store/search';
 import { showExplorerHubAtom } from '../store/settings';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchArchive } from '../services/archiveService';
-import type { ArchiveItemSummary } from '../types';
+import { AIGenerationType, type ArchiveItemSummary } from '../types';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { ResultsGrid } from '../components/ResultsGrid';
 import { useLanguage } from '../hooks/useLanguage';
@@ -13,9 +12,10 @@ import { OnThisDay } from '../components/OnThisDay';
 import { TrendingIcon, SparklesIcon } from '../components/Icons';
 import { ContentCarousel } from '../components/ContentCarousel';
 import { useExplorerSearch } from '../hooks/useExplorerSearch';
-// FIX: Correct import for geminiService from the new file
 import { generateDailyHistoricalEvent } from '../services/geminiService';
 import { Spinner } from '../components/Spinner';
+import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 
 interface ExplorerViewProps {
   onSelectItem: (item: ArchiveItemSummary) => void;
@@ -26,41 +26,57 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [historicalSummary, setHistoricalSummary] = useState<string>('');
-    const [isSummarizing, setIsSummarizing] = useState(false);
+    const [isSummarizing, setIsSummarizing] = useState(true);
+    const [summaryError, setSummaryError] = useState<string | null>(null);
     const { t, language } = useLanguage();
+    const aiArchive = useAtomValue(aiArchiveAtom);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
-    const fetchTrending = useCallback(async () => {
+    const fetchTrendingAndInsight = useCallback(async () => {
         setIsLoading(true);
-        setError(null);
-        setHistoricalSummary('');
         setIsSummarizing(true);
+        setError(null);
+        setSummaryError(null);
+        setHistoricalSummary('');
+
+        const archivedInsight = findArchivedDailyInsight(language, aiArchive);
+        if (archivedInsight) {
+            setHistoricalSummary(archivedInsight);
+            setIsSummarizing(false);
+        }
 
         try {
             const data = await searchArchive('', 1, ['-week']);
             const trendingItems = data.response?.docs.slice(0, 15) || [];
             setItems(trendingItems);
             
-            if (trendingItems.length > 0) {
-                const titles = trendingItems.map(item => item.title);
+            if (!archivedInsight && trendingItems.length > 0) {
                 try {
+                    const titles = trendingItems.map(item => item.title);
                     const summary = await generateDailyHistoricalEvent(titles, language);
                     setHistoricalSummary(summary);
+                    archiveAIGeneration({
+                        type: AIGenerationType.DailyInsight,
+                        content: summary,
+                        language,
+                        prompt: `Item Titles: ${titles.join(', ')}`
+                    }, addAIEntry);
                 } catch (aiError) {
                     console.error("AI summary generation failed:", aiError);
-                    setHistoricalSummary('');
+                    setSummaryError(t('explorer:errorInsight'));
                 }
             }
         } catch (err) {
             setError(t('common:error'));
         } finally {
             setIsLoading(false);
-            setIsSummarizing(false);
+            if(archivedInsight) setIsSummarizing(false);
         }
-    }, [t, language]);
+    }, [t, language, aiArchive, addAIEntry]);
 
     useEffect(() => {
-        fetchTrending();
-    }, [fetchTrending]);
+        fetchTrendingAndInsight();
+    }, [fetchTrendingAndInsight]);
 
     return (
         <section className="animate-fade-in" role="region" aria-label={t('explorer:trending')}>
@@ -77,7 +93,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                         items={items}
                         isLoading={isLoading}
                         error={error}
-                        onRetry={fetchTrending}
+                        onRetry={fetchTrendingAndInsight}
                         onSelectItem={onSelectItem}
                         cardAspectRatio="portrait"
                         hideTitle={true}
@@ -93,6 +109,10 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                              <Spinner size="sm" />
                              <span>{t('explorer:generatingInsight')}</span>
                         </div>
+                    ) : summaryError ? (
+                         <p className="text-sm text-red-500 dark:text-red-400 leading-relaxed">
+                            {summaryError}
+                        </p>
                     ) : historicalSummary ? (
                         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                             {historicalSummary}
@@ -114,7 +134,8 @@ const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     const showHub = useAtomValue(showExplorerHubAtom);
     const [facets] = useAtom(facetsAtom);
     
-    const hasActiveSearch = searchQuery.trim().length > 0 || facets.mediaType.size > 0 || facets.collection || facets.yearStart || facets.yearEnd;
+    const hasActiveSearch = searchQuery.trim().length > 0 || facets.mediaType.size > 0 || !!facets.collection || !!facets.yearStart || !!facets.yearEnd || facets.availability !== 'all' || !!facets.language;
+
 
     if (showHub && !hasActiveSearch) {
         return (

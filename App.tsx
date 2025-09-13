@@ -4,7 +4,6 @@ import {
     activeViewAtom, 
     modalAtom
 } from './store/app';
-// FIX: Updated atom imports to their new location in store/archive.ts to break a circular dependency.
 import { toastAtom, selectedProfileAtom, profileReturnViewAtom } from './store/archive';
 import { 
     resolvedThemeAtom, 
@@ -12,6 +11,7 @@ import {
     highContrastModeAtom,
     underlineLinksAtom,
     fontSizeAtom,
+    scrollbarColorAtom,
 } from './store/settings';
 import type { View, Uploader, Profile, ArchiveItemSummary } from './types';
 
@@ -24,7 +24,6 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { ToastContainer } from './components/Toast';
 import ErrorBoundary from './components/ErrorBoundary';
-// FIX: Correct import for ModalManager from the new file
 import { ModalManager } from './components/ModalManager';
 import { Spinner } from './components/Spinner';
 
@@ -47,6 +46,7 @@ const SettingsView = React.lazy(() => import('./pages/SettingsView'));
 const HelpView = React.lazy(() => import('./pages/HelpView'));
 const StorytellerView = React.lazy(() => import('./pages/StorytellerView'));
 const MyArchiveView = React.lazy(() => import('./pages/MyArchiveView'));
+const AIArchiveView = React.lazy(() => import('./pages/AIArchiveView'));
 
 const PageSpinner: React.FC = () => (
     <div className="flex justify-center items-center h-full pt-20">
@@ -80,6 +80,7 @@ const MainApp: React.FC = () => {
   const highContrast = useAtomValue(highContrastModeAtom);
   const underlineLinks = useAtomValue(underlineLinksAtom);
   const fontSize = useAtomValue(fontSizeAtom);
+  const scrollbarColor = useAtomValue(scrollbarColorAtom);
   const setModal = useSetAtom(modalAtom);
   const profileReturnView = useAtomValue(profileReturnViewAtom);
   const { isLoading: isLoadingTranslations } = useLanguage();
@@ -99,8 +100,26 @@ const MainApp: React.FC = () => {
       fontSize === 'sm' ? '14px' :
       fontSize === 'lg' ? '18px' :
       '16px'; // base
+
+    // Dynamic styles for scrollbar
+    const styleId = 'dynamic-scrollbar-styles';
+    let styleElement = document.getElementById(styleId);
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = styleId;
+        document.head.appendChild(styleElement);
+    }
+    
+    const trackColor = resolvedTheme === 'dark' ? '#2d3748' : '#f1f1f1'; // Corresponds to dark:bg-gray-800 and bg-gray-100
+    
+    styleElement.innerHTML = `
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: ${trackColor}; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb { background: ${scrollbarColor}; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
+    `;
       
-  }, [resolvedTheme, reduceMotion, highContrast, underlineLinks, fontSize]);
+  }, [resolvedTheme, reduceMotion, highContrast, underlineLinks, fontSize, scrollbarColor]);
   
   // Ensure every view change scrolls the page to the top
   useEffect(() => {
@@ -109,7 +128,6 @@ const MainApp: React.FC = () => {
 
   // Keyboard shortcuts
   useEffect(() => {
-      // FIX: Correctly name the event argument 'e' and provide its type.
       const handleKeyDown = (e: KeyboardEvent) => {
           if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
               e.preventDefault();
@@ -133,7 +151,7 @@ const MainApp: React.FC = () => {
       case 'scriptorium': return <ScriptoriumView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
       case 'movies': return <VideothekView onSelectItem={handleSelectItem} />;
       case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
-      case 'image': return <ImagesHubView onSelectItem={handleSelectItem} />;
+      case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'imageDetail', item })} />;
       case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
       case 'uploaderHub': return <UploaderHubView />;
       case 'uploaderDetail':
@@ -141,6 +159,7 @@ const MainApp: React.FC = () => {
       case 'settings': return <SettingsView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
       case 'help': return <HelpView />;
       case 'storyteller': return <StorytellerView />;
+      case 'aiArchive': return <AIArchiveView />;
       default:
         return <ExplorerView onSelectItem={handleSelectItem} />;
     }

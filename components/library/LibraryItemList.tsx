@@ -5,13 +5,14 @@ import { modalAtom } from '../../store/app';
 import type { LibraryItem, LibraryFilter } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { FavoriteItemCard } from '../favorites/FavoriteItemCard';
-import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon } from '../Icons';
+import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon, FilterIcon } from '../Icons';
 
 interface LibraryItemListProps {
     items: LibraryItem[];
     filter: LibraryFilter;
     selectedItemId: string | null;
     onSelectItem: (id: string | null) => void;
+    onOpenFilters: () => void;
 }
 
 const BulkActionsToolbar: React.FC<{ selectedIds: string[], onClear: () => void }> = ({ selectedIds, onClear }) => {
@@ -51,7 +52,7 @@ const BulkActionsToolbar: React.FC<{ selectedIds: string[], onClear: () => void 
     );
 };
 
-export const LibraryItemList: React.FC<LibraryItemListProps> = ({ items, filter, selectedItemId, onSelectItem }) => {
+export const LibraryItemList: React.FC<LibraryItemListProps> = ({ items, filter, selectedItemId, onSelectItem, onOpenFilters }) => {
     const { t } = useLanguage();
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const isSelectMode = selectedIds.size > 0;
@@ -79,12 +80,17 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({ items, filter,
         <div className="bg-gray-800/60 rounded-xl h-full flex flex-col p-4">
             <header className="flex-shrink-0 pb-3 flex justify-between items-center">
                 <h2 className="text-lg font-bold text-white">{t('favorites:sidebar.items')}</h2>
-                <button 
-                  onClick={() => setSelectedIds(new Set(items.map(i => i.identifier)))}
-                  className="text-sm font-medium text-cyan-400 hover:underline"
-                >
-                  {t('common:selectAll')}
-                </button>
+                <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => setSelectedIds(new Set(items.map(i => i.identifier)))}
+                      className="text-sm font-medium text-cyan-400 hover:underline"
+                    >
+                      {t('common:selectAll')}
+                    </button>
+                    <button onClick={onOpenFilters} className="p-2 -mr-2 text-gray-300 md:hidden bg-gray-700/50 rounded-lg hover:bg-gray-700">
+                        <FilterIcon className="w-5 h-5" />
+                    </button>
+                </div>
             </header>
             
             {isSelectMode && <BulkActionsToolbar selectedIds={Array.from(selectedIds)} onClear={() => setSelectedIds(new Set())} />}

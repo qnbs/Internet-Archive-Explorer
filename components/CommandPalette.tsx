@@ -75,6 +75,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
       e.preventDefault();
       if(flatCommands[activeIndex]) {
           flatCommands[activeIndex].action();
+          onClose();
       } else if (query.trim()) {
           actions.globalSearch(query);
       }
@@ -126,7 +127,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
                                 <li
                                     id={`command-item-${currentIndex}`}
                                     key={cmd.id}
-                                    onClick={cmd.action}
+                                    onClick={() => { cmd.action(); onClose(); }}
                                     onMouseMove={() => setActiveIndex(currentIndex)}
                                     role="option"
                                     aria-selected={isActive}

@@ -3,9 +3,13 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '../Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-// FIX: Correct import for geminiService from the new file
 import { answerFromText } from '../../services/geminiService';
 import { sanitizeHtml } from '../../utils/sanitizer';
+import { archiveAIGeneration } from '../../services/aiPersistenceService';
+import { AIGenerationType } from '../../types';
+import { useSetAtom } from 'jotai';
+import { addAIArchiveEntryAtom } from '../../store/aiArchive';
+
 
 interface AskAIModalProps {
     documentText: string;
@@ -18,6 +22,7 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ documentText, onClose })
     const [answer, setAnswer] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
     const modalRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -39,6 +44,12 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ documentText, onClose })
         try {
             const result = await answerFromText(question, documentText, language);
             setAnswer(result);
+            archiveAIGeneration({
+                type: AIGenerationType.Answer,
+                content: result,
+                language,
+                prompt: question,
+            }, addAIEntry);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         } finally {

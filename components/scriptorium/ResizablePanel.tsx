@@ -1,13 +1,19 @@
-import React, { useState, useCallback, useRef } from 'react';
+
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useLanguage } from '../../hooks/useLanguage';
+import { BookIcon, PencilAltIcon } from '../Icons';
 
 interface ResizablePanelProps {
-    panelA: React.ReactNode;
-    panelB: React.ReactNode;
+    panelA: React.ReactNode; // Reader
+    panelB: React.ReactNode; // Notes
 }
 
 export const ResizablePanel: React.FC<ResizablePanelProps> = ({ panelA, panelB }) => {
+    const { t } = useLanguage();
     const [panelASize, setPanelASize] = useState(50); // Initial size in percentage
     const isResizing = useRef(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [mobileTab, setMobileTab] = useState<'reader' | 'notes'>('reader');
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         isResizing.current = true;
@@ -19,8 +25,9 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({ panelA, panelB }
     }, []);
 
     const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!isResizing.current) return;
-        const parent = e.currentTarget as HTMLElement;
+        if (!isResizing.current || !containerRef.current) return;
+        
+        const parent = containerRef.current;
         const rect = parent.getBoundingClientRect();
         const newSize = ((e.clientX - rect.left) / rect.width) * 100;
         if (newSize > 20 && newSize < 80) { // Constrain size
@@ -28,31 +35,37 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({ panelA, panelB }
         }
     }, []);
     
-    // Add and remove global mouse listeners
-    React.useEffect(() => {
-        const parentElement = document.getElementById('resizable-container');
-        if (parentElement) {
-            parentElement.addEventListener('mousemove', handleMouseMove);
-            parentElement.addEventListener('mouseup', handleMouseUp);
-            parentElement.addEventListener('mouseleave', handleMouseUp);
-        }
-
+    useEffect(() => {
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
         return () => {
-             if (parentElement) {
-                parentElement.removeEventListener('mousemove', handleMouseMove);
-                parentElement.removeEventListener('mouseup', handleMouseUp);
-                parentElement.removeEventListener('mouseleave', handleMouseUp);
-            }
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [handleMouseMove, handleMouseUp]);
 
 
     return (
-        <div id="resizable-container" className="flex-grow flex flex-col md:flex-row min-h-0">
-            {/* Mobile View: Tab-like behavior */}
+        <div ref={containerRef} className="flex-grow flex flex-col min-h-0">
+            {/* Mobile View: Tab-based interface */}
             <div className="md:hidden flex flex-col h-full">
-                <div className="h-1/2 overflow-hidden">{panelA}</div>
-                <div className="h-1/2 overflow-hidden border-t-2 border-gray-700">{panelB}</div>
+                <div className="flex-shrink-0 border-b border-gray-700 flex">
+                    <button 
+                        onClick={() => setMobileTab('reader')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium ${mobileTab === 'reader' ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400'}`}
+                    >
+                        <BookIcon className="w-4 h-4" /> {t('scriptorium:reader.tabReader')}
+                    </button>
+                    <button 
+                        onClick={() => setMobileTab('notes')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium ${mobileTab === 'notes' ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400'}`}
+                    >
+                        <PencilAltIcon className="w-4 h-4" /> {t('scriptorium:reader.tabNotes')}
+                    </button>
+                </div>
+                <div className="flex-grow overflow-hidden">
+                    {mobileTab === 'reader' ? panelA : panelB}
+                </div>
             </div>
 
             {/* Desktop View: Resizable Panels */}
@@ -61,7 +74,7 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({ panelA, panelB }
                     {panelA}
                 </div>
                 <div 
-                    className="w-1.5 h-full cursor-col-resize bg-gray-700 hover:bg-cyan-500 transition-colors"
+                    className="w-1.5 h-full cursor-col-resize bg-gray-700 hover:bg-cyan-500 transition-colors flex-shrink-0"
                     onMouseDown={handleMouseDown}
                 />
                 <div className="h-full flex-grow" style={{ width: `${100 - panelASize}%` }}>

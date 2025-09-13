@@ -1,0 +1,47 @@
+{
+  "searchPlaceholder": "KI-Archiv durchsuchen...",
+  "empty": {
+    "title": "Ihr KI-Archiv ist leer",
+    "description": "Wenn Sie KI-Funktionen wie Zusammenfassungen, Entitätenextraktion oder den Geschichtenerzähler verwenden, werden Ihre Generierungen automatisch hier gespeichert.",
+    "noSelection": "Wählen Sie einen Eintrag aus der Liste, um die Details anzuzeigen."
+  },
+  "list": {
+    "title": "Gespeicherte Generierungen"
+  },
+  "filters": {
+    "title": "Filter & Sortierung",
+    "all": "Alle Generierungen",
+    "type": "Nach Typ",
+    "language": "Nach Sprache",
+    "sort": "Sortieren nach"
+  },
+  "sort": {
+    "newest": "Neueste zuerst",
+    "oldest": "Älteste zuerst",
+    "type": "Nach Typ"
+  },
+  "types": {
+    "summary": "Zusammenfassung",
+    "entities": "Entitäten",
+    "imageAnalysis": "Bildanalyse",
+    "dailyInsight": "Täglicher Einblick",
+    "story": "Geschichte",
+    "answer": "F&A"
+  },
+  "details": {
+    "source": "Quellenelement",
+    "content": "Generierter Inhalt",
+    "notes": "Meine Notizen",
+    "prompt": "Anweisung",
+    "regenerate": "Neu generieren",
+    "regenerating": "Wird neu generiert...",
+    "timestamp": "Generiert am",
+    "language": "Sprache",
+    "back": "Zurück zur Liste"
+  },
+  "delete": {
+    "title": "KI-Eintrag löschen?",
+    "message": "Sind Sie sicher, dass Sie diesen KI-generierten Eintrag endgültig löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+  },
+  "toastSaved": "Im KI-Archiv gespeichert."
+}

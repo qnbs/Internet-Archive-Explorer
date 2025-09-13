@@ -1,8 +1,9 @@
 {
-  "added": "Zur Meine Bibliothek hinzugefügt.",
-  "removed": "Aus Meine Bibliothek entfernt.",
-  "uploaderAdded": "Mitwirkendem wird gefolgt.",
-  "uploaderRemoved": "Mitwirkendem wird nicht mehr gefolgt.",
+  "added": "Zu meiner Bibliothek hinzugefügt.",
+  "removed": "Aus meiner Bibliothek entfernt.",
+  "uploaderAdded": "Mitwirkendem gefolgt.",
+  "uploaderRemoved": "Mitwirkendem nicht mehr gefolgt.",
+  "filtersTitle": "Filter & Navigation",
   "tabs": {
     "items": "Meine Einträge",
     "uploaders": "Gefolgte Mitwirkende"
@@ -28,13 +29,16 @@
     "newCollection": "Neue Sammlung",
     "tags": "Tags",
     "untagged": "Einträge ohne Tags",
-    "noTags": "Es wurden noch keine Tags hinzugefügt."
+    "noTags": "Noch keine Tags hinzugefügt."
   },
   "itemDetail": {
     "viewFullDetails": "Vollständige Details anzeigen",
     "tags": "Tags",
     "noTags": "Keine Tags für diesen Eintrag.",
     "addTagPlaceholder": "Tag hinzufügen und Enter drücken"
+  },
+  "details": {
+    "backToList": "Zurück zur Eintragsliste"
   },
   "modals": {
     "newCollectionTitle": "Neue Sammlung erstellen",
@@ -48,24 +52,24 @@
     "selected_other": "{{count}} Einträge ausgewählt",
     "addToCollection": "Zu Sammlung hinzufügen",
     "addTags": "Tags hinzufügen",
-    "magicOrganize": "Magische Organisation",
+    "magicOrganize": "Magisch Organisieren",
     "clearSelection": "Auswahl aufheben",
     "deleteTitle_one": "{{count}} Eintrag löschen?",
     "deleteTitle_other": "{{count}} Einträge löschen?",
     "deleteMessage": "Dies entfernt die ausgewählten Einträge dauerhaft aus Ihrer Bibliothek. Diese Aktion kann nicht rückgängig gemacht werden.",
-    "selectCollection": "Eine Sammlung auswählen",
-    "addedToCollection_one": "{{count}} Eintrag wurde zu '{{collectionName}}' hinzugefügt.",
-    "addedToCollection_other": "{{count}} Einträge wurden zu '{{collectionName}}' hinzugefügt.",
-    "addTagsPrompt": "Tags eingeben, durch Kommas getrennt.",
+    "selectCollection": "Wählen Sie eine Sammlung",
+    "addedToCollection_one": "{{count}} Eintrag zu '{{collectionName}}' hinzugefügt.",
+    "addedToCollection_other": "{{count}} Einträge zu '{{collectionName}}' hinzugefügt.",
+    "addTagsPrompt": "Tags durch Kommas getrennt eingeben.",
     "tagsAdded": "Tags wurden zu den ausgewählten Einträgen hinzugefügt."
   },
   "magicOrganize": {
-    "title": "Magische Organisation",
+    "title": "Magisch Organisieren",
     "suggestedTags": "Vorgeschlagene Tags",
     "applyTags": "Vorgeschlagene Tags anwenden",
     "tagsApplied": "KI-vorgeschlagene Tags wurden angewendet.",
     "suggestedCollections": "Vorgeschlagene neue Sammlungen",
-    "createAndAdd": "'{{name}}' erstellen & Einträge hinzufügen",
+    "createAndAdd": "'{{name}}' erstellen und Einträge hinzufügen",
     "collectionCreated": "Sammlung '{{name}}' erstellt und Einträge hinzugefügt."
   }
 }

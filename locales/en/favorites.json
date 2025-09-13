@@ -3,6 +3,7 @@
   "removed": "Removed from My Library.",
   "uploaderAdded": "Contributor followed.",
   "uploaderRemoved": "Contributor unfollowed.",
+  "filtersTitle": "Filters & Navigation",
   "tabs": {
     "items": "My Items",
     "uploaders": "Followed Contributors"
@@ -35,6 +36,9 @@
     "tags": "Tags",
     "noTags": "No tags for this item.",
     "addTagPlaceholder": "Add a tag and press Enter"
+  },
+  "details": {
+    "backToList": "Back to Item List"
   },
   "modals": {
     "newCollectionTitle": "Create New Collection",

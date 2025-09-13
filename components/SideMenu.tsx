@@ -1,7 +1,7 @@
 import React from 'react';
 import type { View } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon } from './Icons';
+import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon, BrainIcon } from './Icons';
 
 interface NavItem {
     view?: View;
@@ -26,6 +26,7 @@ const collectionNavItems: NavItem[] = [
 ];
 
 const toolNavItems: NavItem[] = [
+    { view: 'aiArchive', labelKey: 'sideMenu:aiArchive', icon: <BrainIcon /> },
     { href: 'https://web.archive.org/', labelKey: 'sideMenu:webArchive', icon: <WebIcon /> },
 ];
 

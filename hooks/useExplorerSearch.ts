@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
-// FIX: Use a direct import to prevent circular dependency issues.
 import { searchQueryAtom, facetsAtom } from '../store/search';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchArchive } from '../services/archiveService';
 import type { ArchiveItemSummary } from '../types';
-import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { useInfiniteScroll } from './useInfiniteScroll';
 import { useLanguage } from '../hooks/useLanguage';
 import { buildArchiveQuery } from '../utils/queryBuilder';
 
@@ -44,7 +43,6 @@ export const useExplorerSearch = () => {
         } else {
           setResults(prev => {
             const currentResults = searchPage === 1 ? [] : prev;
-            // OPTIMIZATION: Use a Set for O(n) duplicate checking instead of O(n^2).
             const existingIds = new Set(currentResults.map(item => item.identifier));
             const uniqueNewDocs = newDocs.filter(item => !existingIds.has(item.identifier));
             const combinedResults = [...currentResults, ...uniqueNewDocs];

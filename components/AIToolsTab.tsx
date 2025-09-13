@@ -1,24 +1,25 @@
 import React, { useState, useCallback, useEffect } from 'react';
-// FIX: Correct import for geminiService from the new file
 import { getSummary, extractEntities } from '../services/geminiService';
-import type { ExtractedEntities } from '../types';
+import { AIGenerationType, type ExtractedEntities } from '../types';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { useLanguage } from '../hooks/useLanguage';
-import { useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
+import { useAtomValue, useSetAtom } from 'jotai';
 import { autoRunEntityExtractionAtom, summaryToneAtom } from '../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
+import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 
 interface AIToolsTabProps {
     itemIdentifier: string;
+    itemTitle: string;
     textContent: string | null;
     isLoadingText: boolean;
     onClose: () => void;
 }
 
-export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textContent, isLoadingText, onClose }) => {
+export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitle, textContent, isLoadingText, onClose }) => {
     const [summary, setSummary] = useState<string>('');
     const [isSummarizing, setIsSummarizing] = useState(false);
     const [summaryError, setSummaryError] = useState<string | null>(null);
@@ -31,12 +32,23 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
     const { t, language } = useLanguage();
     const autoRunEntityExtraction = useAtomValue(autoRunEntityExtractionAtom);
     const summaryTone = useAtomValue(summaryToneAtom);
+    const aiArchive = useAtomValue(aiArchiveAtom);
+    const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
     const handleGenerateSummary = useCallback(async () => {
         if (!textContent) return;
         setIsSummarizing(true);
         setSummaryError(null);
         setSummary('');
+
+        const archiveOptions = { tone: summaryTone };
+        const archivedSummary = findArchivedItemAnalysis<string>(itemIdentifier, AIGenerationType.Summary, aiArchive, archiveOptions);
+        if (archivedSummary) {
+            setSummary(archivedSummary);
+            setIsSummarizing(false);
+            return;
+        }
+
         try {
             if (textContent.length < 100) {
                  setSummaryError(t('aiTools.summaryErrorShort'));
@@ -44,26 +56,47 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
             }
             const generatedSummary = await getSummary(textContent, language, summaryTone);
             setSummary(generatedSummary);
+            archiveAIGeneration({
+                type: AIGenerationType.Summary,
+                content: generatedSummary,
+                language,
+                source: { identifier: itemIdentifier, title: itemTitle },
+                prompt: JSON.stringify(archiveOptions),
+            }, addAIEntry);
         } catch (err) {
             setSummaryError((err as Error).message || t('aiTools.summaryErrorApi'));
         } finally {
             setIsSummarizing(false);
         }
-    }, [textContent, language, summaryTone, t]);
+    }, [textContent, language, summaryTone, t, itemIdentifier, itemTitle, aiArchive, addAIEntry]);
     
     const handleExtractEntities = useCallback(async () => {
         if (!textContent || isExtracting) return;
         setIsExtracting(true);
         setEntityError(null);
+
+        const archivedEntities = findArchivedItemAnalysis<ExtractedEntities>(itemIdentifier, AIGenerationType.Entities, aiArchive);
+        if (archivedEntities) {
+            setEntities(archivedEntities);
+            setIsExtracting(false);
+            return;
+        }
+
         try {
             const result = await extractEntities(textContent, language);
             setEntities(result);
+            archiveAIGeneration({
+                type: AIGenerationType.Entities,
+                content: result,
+                language,
+                source: { identifier: itemIdentifier, title: itemTitle },
+            }, addAIEntry);
         } catch (err) {
             setEntityError((err as Error).message || t('aiTools.entityErrorApi'));
         } finally {
             setIsExtracting(false);
         }
-    }, [textContent, isExtracting, language, t]);
+    }, [textContent, isExtracting, language, t, itemIdentifier, itemTitle, aiArchive, addAIEntry]);
     
     useEffect(() => {
         if (autoRunEntityExtraction && textContent && !entities && !isExtracting) {
@@ -129,9 +162,9 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
             </div>
              <div>
                 <div className="flex items-center justify-between mb-3">
-                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('scriptorium.reader.entityAnalysis')}</h3>
+                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('scriptorium:reader.entityAnalysis')}</h3>
                     <button onClick={handleExtractEntities} disabled={isExtracting} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
-                        <span>{isExtracting ? t('scriptorium.reader.extracting') : t('scriptorium.reader.extract')}</span>
+                        <span>{isExtracting ? t('scriptorium:reader.extracting') : t('scriptorium:reader.extract')}</span>
                     </button>
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700 min-h-[100px] space-y-4">
@@ -139,13 +172,13 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, textCont
                    <ErrorDisplay error={entityError} />
                    {entities && (
                        <>
-                           <EntitySection title={t('common.people')} items={entities.people} />
-                           <EntitySection title={t('common.places')} items={entities.places} />
-                           <EntitySection title={t('common.organizations')} items={entities.organizations} />
-                           <EntitySection title={t('common.dates')} items={entities.dates} />
+                           <EntitySection title={t('common:people')} items={entities.people} />
+                           <EntitySection title={t('common:places')} items={entities.places} />
+                           <EntitySection title={t('common:organizations')} items={entities.organizations} />
+                           <EntitySection title={t('common:dates')} items={entities.dates} />
                        </>
                    )}
-                   {!isExtracting && !entityError && !entities && <p className="text-gray-500 text-sm">{t('scriptorium.reader.extractPrompt')}</p>}
+                   {!isExtracting && !entityError && !entities && <p className="text-gray-500 text-sm">{t('scriptorium:reader.extractPrompt')}</p>}
                 </div>
            </div>
         </div>

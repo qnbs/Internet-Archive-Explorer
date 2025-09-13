@@ -4,7 +4,6 @@ import { useLanguage } from '../hooks/useLanguage';
 import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon, BookIcon } from './Icons';
 import { formatIdentifierForDisplay, formatNumber } from '../utils/formatter';
 import { useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { modalAtom } from '../store/app';
 
 interface ItemDetailSidebarProps {
@@ -188,11 +187,6 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                         <a href={metadata.metadata.licenseurl} target="_blank" rel="noopener noreferrer" className="text-cyan-600 dark:text-cyan-400 hover:underline truncate">
                             {t('common:viewLicense')}
                         </a>
-                    </MetadataRow>
-                )}
-                {typeof item.week === 'number' && (
-                    <MetadataRow label={t('common:viewsThisWeek')}>
-                        {item.week.toLocaleString(language)}
                     </MetadataRow>
                 )}
                 {typeof item.downloads === 'number' && (

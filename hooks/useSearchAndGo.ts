@@ -1,6 +1,5 @@
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { activeViewAtom } from '../store/app';
 import { addSearchHistoryAtom, facetsAtom, searchQueryAtom } from '../store/search';
 import type { Facets } from '../types';

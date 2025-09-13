@@ -1,13 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
+import React, { useState, useMemo, useEffect } from 'react';
+import { useAtomValue } from 'jotai';
 import { libraryItemsAtom, userCollectionsAtom } from '../store/favorites';
-import type { LibraryItem, LibraryFilter, MediaType } from '../types';
+import type { LibraryItem, LibraryFilter } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { StarIcon, UsersIcon } from '../components/Icons';
+import { StarIcon, FilterIcon, CloseIcon } from '../components/Icons';
 import { UploaderFavoritesTab } from '../components/favorites/UploaderFavoritesTab';
 import { LibrarySidebar } from '../components/library/LibrarySidebar';
-// FIX: Correct import for LibraryItemList from the new file
 import { LibraryItemList } from '../components/library/LibraryItemList';
 import { LibraryDetailPane } from '../components/library/LibraryDetailPane';
 
@@ -30,6 +28,7 @@ const LibraryView: React.FC = () => {
     const libraryItems = useAtomValue(libraryItemsAtom);
     const collections = useAtomValue(userCollectionsAtom);
     const { t } = useLanguage();
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const filteredItems = useMemo(() => {
         let items = [...libraryItems];
@@ -58,45 +57,64 @@ const LibraryView: React.FC = () => {
     );
 
     // When filter changes, if selected item is no longer in the filtered list, deselect it.
-    React.useEffect(() => {
+    useEffect(() => {
         if (selectedItemId && !filteredItems.some(item => item.identifier === selectedItemId)) {
             setSelectedItemId(null);
         }
     }, [filter, filteredItems, selectedItemId]);
 
     return (
-        <div className="flex flex-col md:flex-row gap-6 h-[calc(100vh-10rem)] animate-page-fade-in">
-            <LibrarySidebar
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                filter={filter}
-                setFilter={setFilter}
-            />
-            <main className="flex-grow flex flex-col md:flex-row gap-6 min-w-0">
-                {activeTab === 'items' && (
-                    <>
-                        {libraryItems.length === 0 ? (
-                            <LibraryEmptyState />
-                        ) : (
-                            <>
-                                <div className="w-full md:w-2/5 lg:w-1/3 flex-shrink-0">
-                                    <LibraryItemList 
-                                        items={filteredItems}
-                                        filter={filter}
-                                        selectedItemId={selectedItemId}
-                                        onSelectItem={setSelectedItemId}
-                                    />
-                                </div>
-                                <div className="w-full md:w-3/5 lg:w-2/3 flex-shrink-0 hidden md:block">
-                                     <LibraryDetailPane 
-                                        selectedItem={selectedItem}
-                                     />
-                                </div>
-                            </>
-                        )}
-                    </>
-                )}
-                {activeTab === 'uploaders' && (
+        <div className="flex flex-col md:flex-row gap-6 h-full animate-page-fade-in">
+            <div className="hidden md:block">
+                <LibrarySidebar
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    filter={filter}
+                    setFilter={setFilter}
+                />
+            </div>
+
+            {isFilterOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsFilterOpen(false)}>
+                    <div className="absolute inset-y-0 left-0 w-4/5 max-w-xs bg-gray-800 shadow-xl animate-fade-in-left" onClick={e => e.stopPropagation()}>
+                        <LibrarySidebar
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}
+                            filter={filter}
+                            setFilter={setFilter}
+                            onClose={() => setIsFilterOpen(false)}
+                         />
+                    </div>
+                </div>
+            )}
+
+            <main className="flex-grow flex-col md:flex-row gap-6 min-w-0 flex">
+                {activeTab === 'items' ? (
+                    libraryItems.length === 0 ? (
+                        <LibraryEmptyState />
+                    ) : (
+                        <div className="relative flex-grow overflow-hidden md:flex md:gap-6">
+                            {/* Item List Panel */}
+                            <div className={`absolute inset-0 transition-transform duration-300 ease-in-out md:relative md:w-2/5 lg:w-1/3 md:flex-shrink-0 ${selectedItemId ? '-translate-x-full md:translate-x-0' : 'translate-x-0'}`}>
+                                <LibraryItemList 
+                                    items={filteredItems}
+                                    filter={filter}
+                                    selectedItemId={selectedItemId}
+                                    onSelectItem={setSelectedItemId}
+                                    onOpenFilters={() => setIsFilterOpen(true)}
+                                />
+                            </div>
+
+                            {/* Detail Pane */}
+                            <div className={`absolute inset-0 transition-transform duration-300 ease-in-out md:relative md:w-3/5 lg:w-2/3 md:flex-shrink-0 ${selectedItemId ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}`}>
+                                 <LibraryDetailPane 
+                                    selectedItem={selectedItem}
+                                    onBack={() => setSelectedItemId(null)}
+                                 />
+                            </div>
+                        </div>
+                    )
+                ) : (
                     <div className="w-full">
                         <UploaderFavoritesTab />
                     </div>

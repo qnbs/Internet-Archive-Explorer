@@ -15,7 +15,7 @@ const NAMESPACES = [
   'scriptorium', 'favorites', 'uploaderProfileCard', 'uploaderDetail', 
   'reviewCard', 'modals', 'aiTools', 'settings', 'help', 
   'commandPalette', 'uploaders', 'storyteller', 'webArchive', 'myArchive',
-  'uploaderHub' // FIX: Added missing namespace to resolve warnings.
+  'uploaderHub', 'aiArchive'
 ];
 const translationsCache = new Map<Language, Record<string, any>>();
 

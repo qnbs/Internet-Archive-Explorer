@@ -20,9 +20,9 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, onBack,
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     return (
-        <div className="flex gap-6 h-[calc(100vh-10rem)]">
-            {/* Document List Panel (Visible on mobile by default, or on desktop) */}
-            <div className={`w-full md:w-1/3 lg:w-1/4 flex-col bg-gray-800/60 rounded-xl p-4 overflow-hidden ${selectedDocument ? 'hidden md:flex' : 'flex'}`}>
+        <div className="relative h-full overflow-hidden md:flex md:gap-6">
+            {/* Document List Panel */}
+            <div className={`absolute inset-0 transition-transform duration-300 ease-in-out md:relative md:w-1/3 lg:w-1/4 flex flex-col bg-gray-800/60 rounded-xl p-4 overflow-hidden ${selectedDocument ? '-translate-x-full md:translate-x-0' : 'translate-x-0'}`}>
                 <header className="flex-shrink-0">
                     <button onClick={onBack} className="flex items-center space-x-2 text-sm text-cyan-400 hover:underline mb-4">
                         <ArrowLeftIcon className="w-4 h-4" />
@@ -51,10 +51,10 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({ workset, onBack,
                     )}
                 </div>
             </div>
-             {/* Document Reader Panel (Visible on mobile only when a doc is selected, or on desktop) */}
-            <div className={`w-full md:w-2/3 lg:w-3/4 flex-col bg-gray-800/60 rounded-xl overflow-hidden ${selectedDocument ? 'flex' : 'hidden md:flex'}`}>
+             {/* Document Reader Panel */}
+            <div className={`absolute inset-0 transition-transform duration-300 ease-in-out md:relative md:w-2/3 lg:w-3/4 flex flex-col bg-gray-800/60 rounded-xl overflow-hidden ${selectedDocument ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}`}>
                 {selectedDocument ? <DocumentReader document={selectedDocument} onBack={() => onSelectDocument(null)} /> : (
-                    <div className="flex items-center justify-center h-full">
+                    <div className="hidden md:flex items-center justify-center h-full">
                         <p className="text-gray-400">{t('scriptorium.selectDocument')}</p>
                     </div>
                 )}

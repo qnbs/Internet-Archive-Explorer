@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { ArchiveItemSummary, ArchiveMetadata, ArchiveFile } from '../types';
 import { getItemMetadata, getItemPlainText } from '../services/archiveService';
 import { useAtomValue } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { defaultAiTabAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '../store/settings';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';

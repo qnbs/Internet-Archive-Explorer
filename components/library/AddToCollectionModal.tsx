@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-// FIX: Use direct imports to prevent circular dependency issues.
 import { userCollectionsAtom, addItemsToCollectionAtom } from '../../store/favorites';
 import { toastAtom } from '../../store/archive';
 import { useLanguage } from '../../hooks/useLanguage';

@@ -51,11 +51,11 @@
   "selectAll": "Select All",
   "clearSelection": "Clear selection",
   "imageViewer": {
-    "zoomIn": "Zoom In",
-    "zoomOut": "Zoom Out",
-    "rotateLeft": "Rotate Left",
-    "rotateRight": "Rotate Right",
-    "resetView": "Reset View",
+    "zoomIn": "Zoom In (+)",
+    "zoomOut": "Zoom Out (-)",
+    "rotateLeft": "Rotate Left (Shift+R)",
+    "rotateRight": "Rotate Right (R)",
+    "resetView": "Reset View (0)",
     "fullscreen": "Fullscreen",
     "download": "Download Image",
     "loadingError": "Could not load high-resolution image."
