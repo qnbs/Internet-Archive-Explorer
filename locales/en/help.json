@@ -1,3 +1,4 @@
+
 {
   "title": "Help & Documentation",
   "subtitle": "Everything you need to know about using the Archive Explorer.",
@@ -210,5 +211,5 @@
   "qOfficial": "Is this an official Internet Archive application?",
   "aOfficial": "No, this is an independent project created by a third-party developer. It uses the public APIs provided by the Internet Archive but is not officially affiliated with or endorsed by them.",
   "qAboutApp": "Who built this application?",
-  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/google/aistudio-applications/tree/main/internet-archive-explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
+  "aAboutApp": "This application was built and is hosted in <strong>AI Studio</strong>, a web-based development environment for building AI-integrated applications. You can <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-cyan-600/20 text-cyan-800 dark:text-cyan-200 hover:bg-cyan-600/30' href='https://ai.studio/apps/drive/1GWHcbnmh7qZKnqj_rXUyrQYBzkoCJ4E-' target='_blank' rel='noopener noreferrer'>explore in AI Studio</a> and <a class='inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors bg-gray-600/20 text-gray-800 dark:text-gray-200 hover:bg-gray-600/30' href='https://github.com/qnbs/Internet-Archive-Explorer' target='_blank' rel='noopener noreferrer'>view on GitHub</a> to see the code and build your own version."
 }

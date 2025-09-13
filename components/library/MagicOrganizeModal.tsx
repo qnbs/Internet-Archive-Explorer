@@ -63,7 +63,8 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                     prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
                 }, addAIEntry, autoArchive);
             })
-            .catch(err => setError(err.message || t('common:error')))
+            // Fix: Cast caught error to Error type to safely access 'message' property.
+            .catch(err => setError((err as Error).message || t('common:error')))
             .finally(() => setIsLoading(false));
 
     }, [itemIds, allLibraryItems, language, t, addAIEntry, autoArchive]);
