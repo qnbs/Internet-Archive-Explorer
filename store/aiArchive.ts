@@ -72,7 +72,7 @@ export const regenerateAIArchiveEntryAtom = atom(
         if (!entryToRegen) return;
 
         // Use dynamic imports to avoid circular dependencies and load services only when needed
-        const { getSummary, extractEntities, analyzeImage, generateStory, answerFromText } = await import('../services/geminiService');
+        const { getSummary, extractEntities, analyzeImage, generateStory, answerFromText, generateDailyHistoricalEvent } = await import('../services/geminiService');
         const { getItemPlainText, getItemMetadata } = await import('../services/archiveService');
         const { findBestImageUrl, urlToBase64 } = await import('../utils/imageUtils');
 
@@ -96,6 +96,13 @@ export const regenerateAIArchiveEntryAtom = atom(
                 case 'story': {
                     if (!entryToRegen.prompt) throw new Error("Prompt missing for story regeneration");
                     newContent = await generateStory(entryToRegen.prompt, entryToRegen.language);
+                    break;
+                }
+                 case 'dailyInsight': {
+                    if (!entryToRegen.prompt) throw new Error("Prompt missing for insight regeneration");
+                    const titles = entryToRegen.prompt.replace('Item Titles: ', '').split(', ');
+                    if (titles.length === 0 || titles[0] === '') throw new Error("Invalid prompt format for insight regeneration");
+                    newContent = await generateDailyHistoricalEvent(titles, entryToRegen.language);
                     break;
                 }
                 case 'answer': {

@@ -62,6 +62,27 @@ const ObjectViewer: React.FC<{ data: ExtractedEntities | ImageAnalysisResult, ty
     return null;
 };
 
+// Encapsulates the logic for displaying different content types.
+const ContentViewer: React.FC<{ entry: AIArchiveEntry, onSave: (content: string) => void }> = ({ entry, onSave }) => {
+    if (typeof entry.content === 'string') {
+        return (
+            <div className="flex-grow min-h-[200px] flex flex-col">
+                <RichTextEditor
+                    key={`${entry.id}-content`}
+                    initialValue={entry.content}
+                    onSave={onSave}
+                />
+            </div>
+        );
+    }
+
+    if (entry.type === AIGenerationType.ImageAnalysis || entry.type === AIGenerationType.Entities) {
+         return <ObjectViewer data={entry.content} type={entry.type} />;
+    }
+
+    return <p className="text-gray-500 text-sm">Cannot display content of this type.</p>;
+};
+
 export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ selectedEntry, onBack }) => {
     const { t, language } = useLanguage();
     const setModal = useSetAtom(modalAtom);
@@ -72,16 +93,16 @@ export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ select
     
     const [newTag, setNewTag] = useState('');
     const [isRegenerating, setIsRegenerating] = useState(false);
-
-    const handleSaveContent = (content: string) => {
-        if (selectedEntry) {
-            updateEntry({ ...selectedEntry, content });
-        }
-    };
     
     const handleSaveNotes = (userNotes: string) => {
         if (selectedEntry) {
             updateEntry({ ...selectedEntry, userNotes });
+        }
+    };
+    
+    const handleSaveContent = (content: string) => {
+        if (selectedEntry) {
+            updateEntry({ ...selectedEntry, content });
         }
     };
 
@@ -136,7 +157,6 @@ export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ select
         );
     }
     
-    const isContentEditable = typeof selectedEntry.content === 'string';
     const sourceImageUrl = selectedEntry.type === AIGenerationType.ImageAnalysis && selectedEntry.source
         ? `https://archive.org/services/get-item-image.php?identifier=${selectedEntry.source.identifier}`
         : null;
@@ -182,20 +202,9 @@ export const AIArchiveDetailPane: React.FC<AIArchiveDetailPaneProps> = ({ select
                 )}
 
                 <h4 className="font-semibold text-gray-300 pt-2">{t('aiArchive:details.content')}</h4>
-
-                {isContentEditable ? (
-                    <div className="flex-grow min-h-[200px] flex flex-col -mt-4">
-                         <RichTextEditor
-                            key={`${selectedEntry.id}-content`}
-                            initialValue={selectedEntry.content as string}
-                            onSave={handleSaveContent}
-                        />
-                    </div>
-                ) : (
-                    <div className="-mt-2">
-                        <ObjectViewer data={selectedEntry.content as any} type={selectedEntry.type as any} />
-                    </div>
-                )}
+                <div className="flex-grow min-h-[200px] flex flex-col -mt-2">
+                    <ContentViewer entry={selectedEntry} onSave={handleSaveContent} />
+                </div>
                 
                  {selectedEntry.prompt && (
                     <div className="flex-shrink-0">

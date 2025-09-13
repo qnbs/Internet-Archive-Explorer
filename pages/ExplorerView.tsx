@@ -13,7 +13,7 @@ import { TrendingIcon, SparklesIcon } from '../components/Icons';
 import { ContentCarousel } from '../components/ContentCarousel';
 import { useExplorerSearch } from '../hooks/useExplorerSearch';
 import { generateDailyHistoricalEvent } from '../services/geminiService';
-import { Spinner } from '../components/Spinner';
+import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 
@@ -22,61 +22,109 @@ interface ExplorerViewProps {
 }
 
 const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }> = ({ onSelectItem }) => {
+    // States for the carousel
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    
+    // States for the insight panel
     const [historicalSummary, setHistoricalSummary] = useState<string>('');
-    const [isSummarizing, setIsSummarizing] = useState(true);
+    const [isGeneratingInsight, setIsGeneratingInsight] = useState(false);
     const [summaryError, setSummaryError] = useState<string | null>(null);
+    
     const { t, language } = useLanguage();
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
-    const fetchTrendingAndInsight = useCallback(async () => {
+    const fetchTrendingItems = useCallback(async () => {
         setIsLoading(true);
-        setIsSummarizing(true);
         setError(null);
-        setSummaryError(null);
-        setHistoricalSummary('');
-
-        const archivedInsight = findArchivedDailyInsight(language, aiArchive);
-        if (archivedInsight) {
-            setHistoricalSummary(archivedInsight);
-            setIsSummarizing(false);
-        }
-
         try {
             const data = await searchArchive('', 1, ['-week']);
             const trendingItems = data.response?.docs.slice(0, 15) || [];
             setItems(trendingItems);
-            
-            if (!archivedInsight && trendingItems.length > 0) {
-                try {
-                    const titles = trendingItems.map(item => item.title);
-                    const summary = await generateDailyHistoricalEvent(titles, language);
-                    setHistoricalSummary(summary);
-                    archiveAIGeneration({
-                        type: AIGenerationType.DailyInsight,
-                        content: summary,
-                        language,
-                        prompt: `Item Titles: ${titles.join(', ')}`
-                    }, addAIEntry);
-                } catch (aiError) {
-                    console.error("AI summary generation failed:", aiError);
-                    setSummaryError(t('explorer:errorInsight'));
-                }
-            }
         } catch (err) {
             setError(t('common:error'));
         } finally {
             setIsLoading(false);
-            if(archivedInsight) setIsSummarizing(false);
         }
-    }, [t, language, aiArchive, addAIEntry]);
+    }, [t]);
 
+    // Fetch trending items once on mount
     useEffect(() => {
-        fetchTrendingAndInsight();
-    }, [fetchTrendingAndInsight]);
+        fetchTrendingItems();
+    }, [fetchTrendingItems]);
+
+    // Check for cached insight when language or archive changes
+    useEffect(() => {
+        const archivedInsight = findArchivedDailyInsight(language, aiArchive);
+        setHistoricalSummary(archivedInsight || '');
+        setSummaryError(null);
+    }, [language, aiArchive]);
+
+    const handleGenerateInsight = useCallback(async () => {
+        if (items.length === 0 || isGeneratingInsight) return;
+
+        setIsGeneratingInsight(true);
+        setSummaryError(null);
+
+        try {
+            const titles = items.map(item => item.title);
+            const summary = await generateDailyHistoricalEvent(titles, language);
+            setHistoricalSummary(summary);
+            archiveAIGeneration({
+                type: AIGenerationType.DailyInsight,
+                content: summary,
+                language,
+                prompt: `Item Titles: ${titles.join(', ')}`
+            }, addAIEntry);
+        } catch (aiError) {
+            console.error("AI summary generation failed:", aiError);
+            setSummaryError(t('explorer:errorInsight'));
+        } finally {
+            setIsGeneratingInsight(false);
+        }
+    }, [items, isGeneratingInsight, language, t, addAIEntry]);
+
+    const renderInsightContent = () => {
+        if (historicalSummary) {
+            return (
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed animate-fade-in">
+                    {historicalSummary}
+                </p>
+            );
+        }
+        if (isGeneratingInsight) {
+            return <AILoadingIndicator type="story" />;
+        }
+        if (summaryError) {
+            return (
+                <div className="text-center space-y-3">
+                    <p className="text-sm text-red-500 dark:text-red-400 leading-relaxed">
+                        {summaryError}
+                    </p>
+                    <button onClick={handleGenerateInsight} className="px-3 py-1.5 bg-cyan-600 text-white text-sm font-semibold rounded-lg hover:bg-cyan-500 transition-colors">
+                        {t('common:retry')}
+                    </button>
+                </div>
+            );
+        }
+        return (
+            <div className="text-center space-y-3 pt-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {t('explorer:generateInsightPrompt')}
+                </p>
+                <button
+                    onClick={handleGenerateInsight}
+                    disabled={items.length === 0}
+                    className="flex items-center justify-center mx-auto space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed"
+                >
+                    <SparklesIcon className="w-4 h-4" />
+                    <span>{t('explorer:generateInsightButton')}</span>
+                </button>
+            </div>
+        );
+    };
 
     return (
         <section className="animate-fade-in" role="region" aria-label={t('explorer:trending')}>
@@ -93,7 +141,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                         items={items}
                         isLoading={isLoading}
                         error={error}
-                        onRetry={fetchTrendingAndInsight}
+                        onRetry={fetchTrendingItems}
                         onSelectItem={onSelectItem}
                         cardAspectRatio="portrait"
                         hideTitle={true}
@@ -104,24 +152,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                         <SparklesIcon className="w-5 h-5 mr-2 text-cyan-500" />
                         {t('explorer:dailyInsight')}
                     </h3>
-                    {isSummarizing ? (
-                        <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 text-sm">
-                             <Spinner size="sm" />
-                             <span>{t('explorer:generatingInsight')}</span>
-                        </div>
-                    ) : summaryError ? (
-                         <p className="text-sm text-red-500 dark:text-red-400 leading-relaxed">
-                            {summaryError}
-                        </p>
-                    ) : historicalSummary ? (
-                        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                            {historicalSummary}
-                        </p>
-                    ) : !isLoading && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                           {t('explorer:noInsight')}
-                        </p>
-                    )}
+                    {renderInsightContent()}
                 </div>
             </div>
         </section>

@@ -249,7 +249,18 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
     if (!imageUrl) return null;
     try {
         const { base64, mimeType } = await urlToBase64(imageUrl);
-        return await askAboutImage(base64, mimeType, question, language);
+        const answer = await askAboutImage(base64, mimeType, question, language);
+        
+        // Persist this Q&A turn to the AI Archive
+        archiveAIGeneration({
+            type: AIGenerationType.Answer,
+            content: answer,
+            language,
+            prompt: question,
+            source: { identifier: item.identifier, title: item.title, mediaType: item.mediatype }
+        }, addAIEntry);
+        
+        return answer;
     } catch(err) {
         addToast(err instanceof Error ? err.message : 'AI query failed', 'error');
         return null;

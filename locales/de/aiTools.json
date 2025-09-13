@@ -1,5 +1,9 @@
 {
-  "summary": "KI-Zusammenfassung",
+  "summaryTitle": "KI-Zusammenfassung",
+  "entityAnalysisTitle": "Entitätenanalyse",
+  "extract": "Extrahieren",
+  "extracting": "Wird extrahiert...",
+  "extractPrompt": "Klicken Sie auf 'Extrahieren', um Personen, Orte und mehr aus dem Text zu identifizieren.",
   "generate": "Generieren",
   "generating": "Wird generiert...",
   "generatePrompt": "Klicken Sie auf 'Generieren', um eine KI-gestützte Zusammenfassung dieses Textes zu erstellen.",

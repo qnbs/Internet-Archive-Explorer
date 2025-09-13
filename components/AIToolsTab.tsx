@@ -51,7 +51,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
 
         try {
             if (textContent.length < 100) {
-                 setSummaryError(t('aiTools.summaryErrorShort'));
+                 setSummaryError(t('aiTools:summaryErrorShort'));
                  return;
             }
             const generatedSummary = await getSummary(textContent, language, summaryTone);
@@ -64,7 +64,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                 prompt: JSON.stringify(archiveOptions),
             }, addAIEntry);
         } catch (err) {
-            setSummaryError((err as Error).message || t('aiTools.summaryErrorApi'));
+            setSummaryError((err as Error).message || t('aiTools:summaryErrorApi'));
         } finally {
             setIsSummarizing(false);
         }
@@ -92,7 +92,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                 source: { identifier: itemIdentifier, title: itemTitle },
             }, addAIEntry);
         } catch (err) {
-            setEntityError((err as Error).message || t('aiTools.entityErrorApi'));
+            setEntityError((err as Error).message || t('aiTools:entityErrorApi'));
         } finally {
             setIsExtracting(false);
         }
@@ -130,7 +130,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
     }
 
     if (!textContent) {
-        return <p className="text-center text-gray-400">{t('common.error')}</p>
+        return <p className="text-center text-gray-400">{t('common:error')}</p>
     }
     
     const ErrorDisplay: React.FC<{ error: string | null }> = ({ error }) => {
@@ -148,23 +148,23 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
         <div className="space-y-6">
             <div>
                 <div className="flex items-center justify-between mb-2">
-                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><SparklesIcon className="w-5 h-5 mr-2" /> {t('aiTools.summary')}</h3>
-                    <button onClick={handleGenerateSummary} disabled={isSummarizing} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
-                        <span>{isSummarizing ? t('aiTools.generating') : t('aiTools.generate')}</span>
+                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><SparklesIcon className="w-5 h-5 mr-2" /> {t('aiTools:summaryTitle')}</h3>
+                    <button onClick={handleGenerateSummary} disabled={isSummarizing || !textContent} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
+                        <span>{isSummarizing ? t('aiTools:generating') : t('aiTools:generate')}</span>
                     </button>
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700 min-h-[100px]">
                     {isSummarizing && <AILoadingIndicator type="summary" />}
                     <ErrorDisplay error={summaryError} />
                     {summary && <p className="text-gray-300 text-sm leading-relaxed">{summary}</p>}
-                    {!isSummarizing && !summaryError && !summary && <p className="text-gray-500 text-sm">{t('aiTools.generatePrompt')}</p>}
+                    {!isSummarizing && !summaryError && !summary && <p className="text-gray-500 text-sm">{t('aiTools:generatePrompt')}</p>}
                 </div>
             </div>
              <div>
                 <div className="flex items-center justify-between mb-3">
-                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('scriptorium:reader.entityAnalysis')}</h3>
-                    <button onClick={handleExtractEntities} disabled={isExtracting} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
-                        <span>{isExtracting ? t('scriptorium:reader.extracting') : t('scriptorium:reader.extract')}</span>
+                   <h3 className="text-lg font-semibold text-cyan-400 flex items-center"><TagIcon className="h-5 w-5 mr-2" /> {t('aiTools:entityAnalysisTitle')}</h3>
+                    <button onClick={handleExtractEntities} disabled={isExtracting || !textContent} className="flex items-center space-x-2 px-3 py-1 text-sm font-medium rounded-lg transition-colors bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed">
+                        <span>{isExtracting ? t('aiTools:extracting') : t('aiTools:extract')}</span>
                     </button>
                 </div>
                 <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700 min-h-[100px] space-y-4">
@@ -178,7 +178,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ itemIdentifier, itemTitl
                            <EntitySection title={t('common:dates')} items={entities.dates} />
                        </>
                    )}
-                   {!isExtracting && !entityError && !entities && <p className="text-gray-500 text-sm">{t('scriptorium:reader.extractPrompt')}</p>}
+                   {!isExtracting && !entityError && !entities && <p className="text-gray-500 text-sm">{t('aiTools:extractPrompt')}</p>}
                 </div>
            </div>
         </div>

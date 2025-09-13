@@ -23,5 +23,7 @@
   "dailyInsight": "Daily Historical Insight",
   "generatingInsight": "Generating insight...",
   "noInsight": "No historical insight available for today's trends.",
-  "errorInsight": "Failed to generate insight at this time."
+  "errorInsight": "Failed to generate insight at this time.",
+  "generateInsightButton": "Generate Insight",
+  "generateInsightPrompt": "Curious how today's trending items connect? Click to generate a unique historical insight."
 }

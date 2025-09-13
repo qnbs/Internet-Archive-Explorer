@@ -1,5 +1,9 @@
 {
-  "summary": "AI Summary",
+  "summaryTitle": "AI Summary",
+  "entityAnalysisTitle": "Entity Analysis",
+  "extract": "Extract",
+  "extracting": "Extracting...",
+  "extractPrompt": "Click 'Extract' to identify people, places, and more from the text.",
   "generate": "Generate",
   "generating": "Generating...",
   "generatePrompt": "Click 'Generate' to create an AI-powered summary of this text.",
