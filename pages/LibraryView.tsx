@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { libraryItemsAtom, userCollectionsAtom } from '../store/favorites';
 import type { LibraryItem, LibraryFilter } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
-import { StarIcon, FilterIcon, CloseIcon } from '../components/Icons';
+import { StarIcon } from '../components/Icons';
 import { UploaderFavoritesTab } from '../components/favorites/UploaderFavoritesTab';
 import { LibrarySidebar } from '../components/library/LibrarySidebar';
 import { LibraryItemList } from '../components/library/LibraryItemList';
@@ -13,7 +13,7 @@ import { LibraryDetailPane } from '../components/library/LibraryDetailPane';
 const LibraryEmptyState: React.FC = () => {
     const { t } = useLanguage();
     return (
-        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-2">
+        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-full">
             <StarIcon className="w-16 h-16 text-gray-700 mb-4" />
             <h2 className="text-xl font-bold text-white">{t('favorites:noItemsTitle')}</h2>
             <p className="mt-2 max-w-sm">{t('favorites:noItemsDesc')}</p>

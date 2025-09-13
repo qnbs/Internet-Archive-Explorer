@@ -6,11 +6,11 @@ import type { Profile, View } from '../types';
  * This atom is placed here to avoid circular dependencies between `store/app` and other stores.
  */
 const baseSelectedProfileAtom = atom<Profile | null>(null);
-// FIX: The explicit generic type arguments for `atom` were causing incorrect type inference.
-// Switched to inferring the type from the read/write functions, with an explicit type on the `update` parameter to guide TypeScript.
+// FIX: Removed explicit type on `update` parameter to allow TypeScript to correctly infer the atom as writable.
+// The explicit type was too narrow and caused overload resolution to fail.
 export const selectedProfileAtom = atom(
     (get) => get(baseSelectedProfileAtom),
-    (get, set, update: Profile | null) => {
+    (get, set, update) => {
         set(baseSelectedProfileAtom, update);
     }
 );
@@ -21,11 +21,11 @@ export const selectedProfileAtom = atom(
  * This atom is placed here to avoid circular dependencies.
  */
 const baseProfileReturnViewAtom = atom<View | undefined>(undefined);
-// FIX: The explicit generic type arguments for `atom` were causing incorrect type inference.
-// Switched to inferring the type from the read/write functions, with an explicit type on the `update` parameter to guide TypeScript.
+// FIX: Removed explicit type on `update` parameter to allow TypeScript to correctly infer the atom as writable.
+// The explicit type was too narrow and caused overload resolution to fail.
 export const profileReturnViewAtom = atom(
     (get) => get(baseProfileReturnViewAtom),
-    (get, set, update: View | undefined) => {
+    (get, set, update) => {
         set(baseProfileReturnViewAtom, update);
     }
 );

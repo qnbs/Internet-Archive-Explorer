@@ -8,11 +8,11 @@ import type { ToastType } from '../types';
  * Placed here to avoid circular dependencies, as many stores need to trigger toasts.
  */
 const baseToastAtom = atom<{ message: string; type: ToastType } | null>(null);
-// FIX: The explicit generic type arguments for `atom` were causing incorrect type inference.
-// Switched to inferring the type from the read/write functions, with an explicit type on the `update` parameter to guide TypeScript.
+// FIX: Removed explicit type on `update` parameter to allow TypeScript to correctly infer the atom as writable.
+// The explicit type was too narrow and caused overload resolution to fail.
 export const toastAtom = atom(
     (get) => get(baseToastAtom),
-    (get, set, update: { message: string; type: ToastType } | null) => {
+    (get, set, update) => {
         set(baseToastAtom, update);
     }
 );

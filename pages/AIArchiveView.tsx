@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useAtomValue, useAtom, useSetAtom } from 'jotai';
+import { useAtomValue, useAtom } from 'jotai';
 import { aiArchiveAtom, selectedAIEntryIdAtom, aiArchiveSearchQueryAtom } from '../store/aiArchive';
 import type { AIArchiveEntry, AIArchiveFilter } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
@@ -12,7 +12,7 @@ import { useDebounce } from '../hooks/useDebounce';
 const AIArchiveEmptyState: React.FC = () => {
     const { t } = useLanguage();
     return (
-        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-2">
+        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-full">
             <BrainIcon className="w-16 h-16 text-gray-700 mb-4" />
             <h2 className="text-xl font-bold text-white">{t('aiArchive:empty.title')}</h2>
             <p className="mt-2 max-w-sm">{t('aiArchive:empty.description')}</p>
