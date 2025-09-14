@@ -1,4 +1,4 @@
-const CACHE_NAME = 'internet-archive-explorer-v4';
+const CACHE_NAME = 'internet-archive-explorer-v5';
 const API_HOSTNAME = 'archive.org';
 const CDN_HOSTNAME = 'aistudiocdn.com';
 
@@ -52,7 +52,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // API calls: Network First, then Cache
+  // Navigation strategy: Network First, then Cache for the app shell.
+  // This is the most important change to fix the "stale app" problem.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => {
+        // Serve the cached app shell if offline
+        return caches.match('/'); 
+      })
+    );
+    return;
+  }
+
+  // API strategy: Network First, then Cache.
   if (url.hostname.includes(API_HOSTNAME)) {
     event.respondWith(
       fetch(request)
@@ -65,33 +77,25 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(() => {
           return caches.match(request).then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
-            }
-            return new Response(null, { status: 503, statusText: 'Service Unavailable' });
+            return cachedResponse || new Response(null, { status: 503, statusText: 'Service Unavailable' });
           });
         })
     );
     return;
   }
 
-  // Static assets & CDN: Cache First, then Network
-  if (STATIC_ASSETS.includes(request.url) || url.hostname.includes(CDN_HOSTNAME) || request.url.startsWith(self.location.origin)) {
-    event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        return cachedResponse || fetch(request).then((networkResponse) => {
-          if(networkResponse.ok) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request, responseToCache);
-            });
-          }
-          return networkResponse;
-        });
-      })
-    );
-    return;
-  }
-  
-  event.respondWith(fetch(request));
+  // Static assets strategy (JS, CSS, CDN, etc.): Cache First, then Network.
+  event.respondWith(
+    caches.match(request).then((cachedResponse) => {
+      return cachedResponse || fetch(request).then((networkResponse) => {
+        if (networkResponse.ok) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+        }
+        return networkResponse;
+      });
+    })
+  );
 });
