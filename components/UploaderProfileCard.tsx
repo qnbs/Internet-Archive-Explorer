@@ -21,8 +21,8 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = React.mem
 
     const isFavorite = favoriteUploaderSet.has(profile.searchIdentifier);
     
+    // Fix: Removed non-existent property 'customDescriptionKey'.
     const descriptionKey = profile.curatedData?.descriptionKey 
-        || profile.curatedData?.customDescriptionKey 
         || (profile.type === 'creator' ? 'uploaderProfileCard:genericCreatorDescription' : 'uploaderProfileCard:genericDescription');
     
     const category = profile.curatedData?.category || 'community';

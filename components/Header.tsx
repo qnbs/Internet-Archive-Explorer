@@ -4,6 +4,7 @@ import { MenuIcon, FilterIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { SearchPopover } from './SearchPopover';
 import { SearchBar } from './SearchBar';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -47,6 +48,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
                 {isPopoverOpen && <SearchPopover onClose={() => setIsPopoverOpen(false)} />}
             </div>
         </div>
+
+        <PWAInstallButton />
 
         <button onClick={onOpenCommandPalette} className="flex-shrink-0 h-10 w-10 flex flex-col items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-700/50 hover:text-gray-800 dark:hover:text-gray-200 transition-colors" aria-label={t('header:openCommandPalette')}>
             <span className="text-lg leading-none">⌘</span>

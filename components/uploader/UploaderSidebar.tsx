@@ -59,8 +59,8 @@ export const UploaderSidebar: React.FC<UploaderSidebarProps> = ({ profile, stats
     };
     const uploaderUrl = getUploaderUrl();
     
+    // Fix: Removed non-existent property 'customDescriptionKey'.
     const descriptionKey = profile.curatedData?.descriptionKey 
-        || profile.curatedData?.customDescriptionKey 
         || (profile.type === 'creator' ? 'uploaderProfileCard:genericCreatorDescription' : 'uploaderProfileCard:genericDescription');
         
     const chartData = stats ? [

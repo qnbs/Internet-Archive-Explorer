@@ -18,8 +18,9 @@ import {
     scrollbarColorAtom,
     accentColorAtom,
     defaultViewAtom,
+    defaultSettings,
 } from './store/settings';
-import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler } from './types';
+import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler, ConfirmationOptions, MediaType } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -53,6 +54,7 @@ const HelpView = React.lazy(() => import('./pages/HelpView'));
 const StorytellerView = React.lazy(() => import('./pages/StorytellerView'));
 const MyArchiveView = React.lazy(() => import('./pages/MyArchiveView'));
 const AIArchiveView = React.lazy(() => import('./pages/AIArchiveView'));
+const WebArchiveView = React.lazy(() => import('./pages/WebArchiveView'));
 
 const PageSpinner: React.FC = () => (
     <div className="flex justify-center items-center h-full pt-20">
@@ -96,149 +98,133 @@ const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
   },
 };
 
-// Main App component logic
-const MainApp: React.FC = () => {
-  const defaultView = useAtomValue(defaultViewAtom);
+const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useAtom(activeViewAtom);
+  const setModal = useSetAtom(modalAtom);
   const selectedProfile = useAtomValue(selectedProfileAtom);
+  const profileReturnView = useAtomValue(profileReturnViewAtom);
+
+  const defaultView = useAtomValue(defaultViewAtom);
   const resolvedTheme = useAtomValue(resolvedThemeAtom);
   const disableAnimations = useAtomValue(disableAnimationsAtom);
-  const highContrast = useAtomValue(highContrastModeAtom);
+  const highContrastMode = useAtomValue(highContrastModeAtom);
   const underlineLinks = useAtomValue(underlineLinksAtom);
   const fontSize = useAtomValue(fontSizeAtom);
   const scrollbarColor = useAtomValue(scrollbarColorAtom);
   const accentColor = useAtomValue(accentColorAtom);
-  const setModal = useSetAtom(modalAtom);
-  const profileReturnView = useAtomValue(profileReturnViewAtom);
-  const { isLoading: isLoadingTranslations } = useLanguage();
   
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { navigateTo, goBackFromProfile } = useNavigation();
   
-  const navigation = useNavigation();
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
-  // Set initial view from settings
   useEffect(() => {
-    setActiveView(defaultView);
-  }, [defaultView, setActiveView]);
+    const storedSettings = localStorage.getItem('app-settings-v2');
+    let initialView: View;
+    if (!storedSettings) {
+        initialView = defaultSettings.defaultView;
+    } else {
+        const settings = JSON.parse(storedSettings);
+        initialView = settings.defaultView || defaultSettings.defaultView;
+    }
+    setActiveView(initialView);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Apply theme and accessibility classes to the document
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
-    document.documentElement.classList.toggle('disable-animations', disableAnimations);
-    document.documentElement.classList.toggle('high-contrast', highContrast);
-    document.documentElement.classList.toggle('underline-links', underlineLinks);
-    
-    document.documentElement.style.fontSize = 
-      fontSize === 'sm' ? '14px' :
-      fontSize === 'lg' ? '18px' :
-      '16px'; // base
-      
-    // Apply accent color
-    const colors = ACCENT_COLORS[accentColor] || ACCENT_COLORS.cyan;
-    for (const [shade, value] of Object.entries(colors)) {
-        document.documentElement.style.setProperty(`--color-accent-${shade}`, value);
+    document.documentElement.className = resolvedTheme;
+  }, [resolvedTheme]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const colors = ACCENT_COLORS[accentColor];
+    for (const [shade, color] of Object.entries(colors)) {
+      root.style.setProperty(`--color-accent-${shade}`, color);
     }
 
+    if (disableAnimations) root.classList.add('no-animations'); else root.classList.remove('no-animations');
+    if (highContrastMode) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
+    if (underlineLinks) document.body.classList.add('underline-links'); else document.body.classList.remove('underline-links');
+    
+    document.body.style.fontSize = { sm: '14px', base: '16px', lg: '18px' }[fontSize];
 
-    // Dynamic styles for scrollbar
-    const styleId = 'dynamic-scrollbar-styles';
-    let styleElement = document.getElementById(styleId);
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = styleId;
-        document.head.appendChild(styleElement);
+    const styleId = 'custom-scrollbar-style';
+    let style = document.getElementById(styleId) as HTMLStyleElement;
+    if (!style) {
+        style = document.createElement('style');
+        style.id = styleId;
+        document.head.appendChild(style);
     }
-    
-    const trackColor = resolvedTheme === 'dark' ? '#2d3748' : '#f1f1f1'; // Corresponds to dark:bg-gray-800 and bg-gray-100
-    
-    styleElement.innerHTML = `
-      ::-webkit-scrollbar { width: 8px; height: 8px; }
-      ::-webkit-scrollbar-track { background: ${trackColor}; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb { background: ${scrollbarColor}; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
-    `;
-      
-  }, [resolvedTheme, disableAnimations, highContrast, underlineLinks, fontSize, scrollbarColor, accentColor]);
-  
-  // Ensure every view change scrolls the page to the top
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [activeView]);
+    style.innerHTML = `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor} !important; }`;
+  }, [accentColor, disableAnimations, highContrastMode, underlineLinks, fontSize, scrollbarColor]);
 
-  // Keyboard shortcuts
-  useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-          if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-              e.preventDefault();
-              setModal({ type: 'commandPalette' });
-          }
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
+  const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);
+
+  const handleSelectItem = useCallback<SelectItemHandler>((item) => {
+    if(item.mediatype === 'image') {
+        setModal({ type: 'imageDetail', item });
+    } else {
+        setModal({ type: 'itemDetail', item });
+    }
   }, [setModal]);
 
-  const handleSelectItem: SelectItemHandler = useCallback((item) => {
-      setModal({ type: 'itemDetail', item });
+  const showConfirmation = useCallback((options: ConfirmationOptions) => {
+    setModal({ type: 'confirmation', options });
   }, [setModal]);
 
-  const renderActiveView = () => {
-    // Prevent rendering views that rely on translations before they are loaded
-    if (isLoadingTranslations) return null;
-
+  const renderView = () => {
     switch (activeView) {
       case 'explore': return <ExplorerView onSelectItem={handleSelectItem} />;
       case 'library': return <LibraryView />;
-      case 'myArchive': return <MyArchiveView onSelectItem={handleSelectItem} />;
-      case 'scriptorium': return <ScriptoriumView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
+      case 'scriptorium': return <ScriptoriumView showConfirmation={showConfirmation} />;
+      case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
       case 'movies': return <VideothekView onSelectItem={handleSelectItem} />;
       case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
-      case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'imageDetail', item })} />;
-      case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
+      case 'image': return <ImagesHubView onSelectItem={handleSelectItem} />;
       case 'uploaderHub': return <UploaderHubView />;
       case 'uploaderDetail':
-        return selectedProfile ? <UploaderDetailView profile={selectedProfile} onBack={navigation.goBackFromProfile} onSelectItem={handleSelectItem} returnView={profileReturnView} /> : <ExplorerView onSelectItem={handleSelectItem} />;
-      case 'settings': return <SettingsView showConfirmation={(options) => setModal({ type: 'confirmation', options })} />;
+        if (!selectedProfile) return <ExplorerView onSelectItem={handleSelectItem} />;
+        return <UploaderDetailView profile={selectedProfile} onBack={goBackFromProfile} onSelectItem={handleSelectItem} returnView={profileReturnView} />;
+      case 'settings': return <SettingsView showConfirmation={showConfirmation}/>;
       case 'help': return <HelpView />;
       case 'storyteller': return <StorytellerView />;
+      case 'myArchive': return <MyArchiveView onSelectItem={handleSelectItem} />;
       case 'aiArchive': return <AIArchiveView />;
+      case 'webArchive': return <WebArchiveView />;
       default:
         return <ExplorerView onSelectItem={handleSelectItem} />;
     }
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen font-sans transition-colors">
+    <div className="md:pl-64">
       <SideMenu
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        isOpen={isSideMenuOpen}
+        onClose={() => setIsSideMenuOpen(false)}
         activeView={activeView}
-        setActiveView={setActiveView}
+        setActiveView={navigateTo}
       />
-      <div className="md:pl-64 flex flex-col min-h-screen">
-        <Header onMenuClick={() => setIsMenuOpen(true)} onOpenCommandPalette={() => setModal({ type: 'commandPalette' })} />
-        <main className="flex-grow container mx-auto p-4 sm:p-6 mt-16 mb-16 md:mb-0">
-          <Suspense fallback={<PageSpinner />}>
-            {renderActiveView()}
-          </Suspense>
-        </main>
-        <BottomNav activeView={activeView} setActiveView={setActiveView} />
-      </div>
-      <ToastContainer />
+      <Header onMenuClick={() => setIsSideMenuOpen(true)} onOpenCommandPalette={openCommandPalette} />
+      
+      <main className="p-4 sm:p-6 pb-20 md:pb-6 pt-20 h-screen overflow-y-auto">
+         <ErrorBoundary>
+            <Suspense fallback={<PageSpinner />}>
+                {renderView()}
+            </Suspense>
+         </ErrorBoundary>
+      </main>
+
+      <BottomNav activeView={activeView} setActiveView={navigateTo} />
       <ModalManager />
     </div>
   );
-};
+}
 
-
-const App: React.FC = () => {
-  return (
-    <ErrorBoundary>
-      <ToastProvider>
-        <ToastBridge />
-        <MainApp />
-      </ToastProvider>
-    </ErrorBoundary>
-  );
-};
+const App: React.FC = () => (
+  <ToastProvider>
+    <ToastContainer />
+    <ToastBridge />
+    <AppContent />
+  </ToastProvider>
+);
 
 export default App;

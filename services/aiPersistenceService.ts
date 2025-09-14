@@ -81,8 +81,10 @@ export const archiveAIGeneration = (
         userNotes: '',
     };
     
-    if (data.source?.mediaType) {
-        newEntry.tags.push(data.source.mediaType);
+    // Fix: Corrected typo from mediaType to mediatype
+    if (data.source?.mediatype) {
+        // Fix: Corrected typo from mediaType to mediatype
+        newEntry.tags.push(data.source.mediatype);
     }
     
     // For entities, auto-add the first few entities as tags

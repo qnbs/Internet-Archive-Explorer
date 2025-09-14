@@ -64,7 +64,8 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 type: AIGenerationType.Summary,
                 content: generatedSummary,
                 language: language,
-                source: { ...item, mediaType: item.mediatype },
+                // Fix: Corrected typo from mediaType to mediatype.
+                source: { ...item, mediatype: item.mediatype },
                 prompt: JSON.stringify(archiveOptions),
             }, addAIEntry, autoArchive);
         } catch (err) {
@@ -72,7 +73,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
         } finally {
             setIsSummarizing(false);
         }
-    }, [textContent, language, summaryTone, t, item, aiArchive, addAIEntry, autoArchive, setToast]);
+    }, [textContent, language, summaryTone, t, item, aiArchive, addAIEntry, autoArchive]);
     
     const handleExtractEntities = useCallback(async () => {
         if (!textContent || isExtracting) return;
@@ -93,14 +94,15 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 type: AIGenerationType.Entities,
                 content: result,
                 language: language,
-                source: { ...item, mediaType: item.mediatype },
+                // Fix: Corrected typo from mediaType to mediatype.
+                source: { ...item, mediatype: item.mediatype },
             }, addAIEntry, autoArchive);
         } catch (err) {
             setEntityError((err as Error).message || t('aiTools:entityErrorApi'));
         } finally {
             setIsExtracting(false);
         }
-    }, [textContent, isExtracting, language, t, item, aiArchive, addAIEntry, autoArchive, setToast]);
+    }, [textContent, isExtracting, language, t, item, aiArchive, addAIEntry, autoArchive]);
     
     useEffect(() => {
         if (autoRunEntityExtraction && textContent && !entities && !isExtracting) {

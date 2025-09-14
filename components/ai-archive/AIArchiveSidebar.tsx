@@ -8,7 +8,6 @@ import {
     BrainIcon, StarIcon, CollectionIcon, TagIcon,
     BookIcon, ImageIcon, SparklesIcon, LanguageIcon,
     SearchIcon, SortAscendingIcon, CloseIcon,
-    // Fix: Add missing icon imports
     MovieIcon, AudioIcon, JoystickIcon
 } from '../Icons';
 
@@ -140,7 +139,9 @@ export const AIArchiveSidebar: React.FC<AIArchiveSidebarProps> = ({ filter, setF
                     </div>
                     
                     <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('aiArchive:filters.type')}</h3>
-                    {generationTypeFilters.map(f => (
+                    {generationTypeFilters.map(f => {
+                        if (!counts.generations[f.type]) return null;
+                        return (
                          <FilterButton 
                             key={f.type}
                             label={t(f.labelKey)} 
@@ -149,7 +150,7 @@ export const AIArchiveSidebar: React.FC<AIArchiveSidebarProps> = ({ filter, setF
                             onClick={() => setFilter({ type: 'generation', generationType: f.type })} 
                             count={counts.generations[f.type]}
                         />
-                    ))}
+                    )})}
 
                     <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('aiArchive:filters.language')}</h3>
                      {availableLanguages.map(f => (

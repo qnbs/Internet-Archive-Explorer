@@ -33,4 +33,4 @@ export const toastAtom = atom(null as ToastUpdate);
  */
 // Fix: Use `atom(null as ...)` pattern for better type inference of writable atoms.
 export const selectedAIEntryIdAtom = atom(null as string | null);
-export const aiArchiveSearchQueryAtom = atom<string>('');
+export const aiArchiveSearchQueryAtom = atom('');

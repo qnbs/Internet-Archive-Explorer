@@ -173,6 +173,7 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
   const [analysisResult, setAnalysisResult] = useState<ImageAnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isAiPanelOpen, setIsAiPanelOpen] = useState(false);
+  const [hasCheckedCache, setHasCheckedCache] = useState(false);
   
   const isFavorite = libraryItemIdentifiers.has(item.identifier);
   
@@ -200,6 +201,18 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
           if (bestUrl) setImageUrl(bestUrl);
       }
   }, [metadata, item.identifier]);
+  
+  useEffect(() => {
+    if (!metadata || !enableAiFeatures || hasCheckedCache) return;
+
+    const archivedAnalysis = findArchivedItemAnalysis<ImageAnalysisResult>(item.identifier, AIGenerationType.ImageAnalysis, aiArchive);
+    if (archivedAnalysis) {
+        setAnalysisResult(archivedAnalysis);
+        setIsAiPanelOpen(true);
+    }
+    setHasCheckedCache(true);
+  }, [metadata, item.identifier, aiArchive, enableAiFeatures, hasCheckedCache]);
+
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
@@ -220,17 +233,10 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
   const handleDownload = () => imageUrl && window.open(imageUrl, '_blank');
   
   const handleAnalyze = async () => {
-    if (!imageUrl || !enableAiFeatures) return;
+    if (!imageUrl || isAnalyzing || analysisResult) return;
+
     setIsAnalyzing(true);
     setAnalysisResult(null);
-    setIsAiPanelOpen(true);
-
-    const archivedAnalysis = findArchivedItemAnalysis<ImageAnalysisResult>(item.identifier, AIGenerationType.ImageAnalysis, aiArchive);
-    if (archivedAnalysis) {
-        setAnalysisResult(archivedAnalysis);
-        setIsAnalyzing(false);
-        return;
-    }
 
     try {
       const { base64, mimeType } = await urlToBase64(imageUrl);
@@ -239,7 +245,8 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
       archiveAIGeneration({
           type: AIGenerationType.ImageAnalysis,
           content: result, language,
-          source: { ...item, mediaType: item.mediatype },
+          // Fix: Corrected typo from mediaType to mediatype.
+          source: { ...item, mediatype: item.mediatype },
       }, addAIEntry, autoArchive);
     } catch(err) {
       addToast(err instanceof Error ? err.message : 'Failed to analyze image.', 'error');
@@ -255,13 +262,13 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
         const { base64, mimeType } = await urlToBase64(imageUrl);
         const answer = await askAboutImage(base64, mimeType, question, language);
         
-        // Persist this Q&A turn to the AI Archive
         archiveAIGeneration({
             type: AIGenerationType.Answer,
             content: answer,
             language,
             prompt: question,
-            source: { ...item, mediaType: item.mediatype }
+            // Fix: Corrected typo from mediaType to mediatype.
+            source: { ...item, mediatype: item.mediatype }
         }, addAIEntry, autoArchive);
         
         return answer;
@@ -317,7 +324,12 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
                     />
                      {enableAiFeatures && (
                         <div className="border border-gray-700 rounded-lg">
-                            <button onClick={() => { if(!analysisResult) handleAnalyze(); setIsAiPanelOpen(o => !o); }} className="w-full flex justify-between items-center p-3 text-left">
+                            <button onClick={() => {
+                                if (!isAiPanelOpen && !analysisResult) {
+                                    handleAnalyze();
+                                }
+                                setIsAiPanelOpen(o => !o);
+                             }} className="w-full flex justify-between items-center p-3 text-left">
                                 <h3 className="font-semibold text-cyan-400 flex items-center gap-2"><SparklesIcon/> {t('common:aiAnalysis')}</h3>
                                 { isAiPanelOpen ? <ChevronUpIcon/> : <ChevronDownIcon/> }
                             </button>

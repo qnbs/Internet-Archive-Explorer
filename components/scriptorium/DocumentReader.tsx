@@ -7,7 +7,7 @@ import { ArrowLeftIcon } from '../Icons';
 import { DocumentSearchBar } from './DocumentSearchBar';
 import { AnalysisToolbar } from './AnalysisToolbar';
 import { ResizablePanel } from './ResizablePanel';
-import { RichTextEditor } from '../RichTextEditor';
+import { NotesEditor } from '../RichTextEditor';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
@@ -75,7 +75,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
             <header className="flex-shrink-0 p-3 bg-gray-900/50 border-b border-gray-700">
                 <h2 className="font-bold text-white">{t('scriptorium:reader.notes')}</h2>
             </header>
-            <RichTextEditor document={document} />
+            <NotesEditor document={document} />
         </div>
     );
     

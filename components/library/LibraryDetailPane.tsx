@@ -21,21 +21,41 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
     const [tags, setTags] = useState<string[]>([]);
     const [tagInput, setTagInput] = useState('');
 
+    const [isSavingNotes, setIsSavingNotes] = useState(false);
+    const [isNotesSaved, setIsNotesSaved] = useState(false);
+    // Fix: Corrected invalid hook call syntax and improved type safety for the timeout ref.
+    const notesSavedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
     const updateNotesAtom = useSetAtom(updateLibraryItemNotesAtom);
     const updateTagsAtom = useSetAtom(updateLibraryItemTagsAtom);
     
-    const debouncedNotes = useDebounce(notes, 500);
+    const debouncedNotes = useDebounce(notes, 1000);
 
     useEffect(() => {
         if (selectedItem) {
             setNotes(selectedItem.notes);
             setTags(selectedItem.tags);
+            setIsSavingNotes(false);
+            setIsNotesSaved(false);
+            // Fix: Guard clearTimeout to prevent errors if the ref is not set.
+            if (notesSavedTimeout.current) clearTimeout(notesSavedTimeout.current);
         }
     }, [selectedItem]);
     
     useEffect(() => {
+        if (selectedItem && notes !== selectedItem.notes) {
+            setIsSavingNotes(true);
+            setIsNotesSaved(false);
+            if (notesSavedTimeout.current) clearTimeout(notesSavedTimeout.current);
+        }
+    }, [notes, selectedItem]);
+    
+    useEffect(() => {
         if (selectedItem && debouncedNotes !== selectedItem.notes) {
             updateNotesAtom({ id: selectedItem.identifier, notes: debouncedNotes });
+            setIsSavingNotes(false);
+            setIsNotesSaved(true);
+            notesSavedTimeout.current = setTimeout(() => setIsNotesSaved(false), 2000);
         }
     }, [debouncedNotes, selectedItem, updateNotesAtom]);
     
@@ -94,7 +114,13 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
                     />
                 </div>
                 <div>
-                    <h3 className="font-semibold text-gray-300 mb-2">{t('favorites:details.notes')}</h3>
+                    <div className="flex justify-between items-center mb-2">
+                        <h3 className="font-semibold text-gray-300">{t('favorites:details.notes')}</h3>
+                        <div className="text-right text-xs text-gray-500 h-4">
+                            {isSavingNotes && <span>Saving...</span>}
+                            {isNotesSaved && <span className="text-green-400">Saved</span>}
+                        </div>
+                    </div>
                     <textarea
                         value={notes}
                         onChange={e => setNotes(e.target.value)}
