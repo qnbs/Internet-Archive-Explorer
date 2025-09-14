@@ -15,7 +15,8 @@ interface SyncStorage<Value> {
  * preventing the application from crashing.
  */
 const safeStorage = {
-  getItem: (key: string, initialValue: unknown): unknown => {
+  // Fix: Using `any` instead of `unknown` to prevent the atom's value from being inferred as `unknown`, which caused cascading type errors.
+  getItem: (key: string, initialValue: any): any => {
     try {
       const storedValue = localStorage.getItem(key);
       if (storedValue !== null) {
@@ -27,7 +28,8 @@ const safeStorage = {
     }
     return initialValue;
   },
-  setItem: (key: string, newValue: unknown): void => {
+  // Fix: Using `any` instead of `unknown` to match the `getItem` signature and ensure type compatibility.
+  setItem: (key: string, newValue: any): void => {
     try {
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (e) {
