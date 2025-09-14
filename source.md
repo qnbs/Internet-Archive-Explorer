@@ -1,3 +1,34 @@
+
+# Internet Archive Explorer: Source Code Documentation (Part 1 of 8)
+
+This document contains the foundational code for the Internet Archive Explorer application. It includes the main HTML entrypoint, core application logic, type definitions, and service modules responsible for all external API communication.
+
+## Directory Structure (This File)
+
+```
+/
+├── App.tsx
+├── index.html
+├── index.tsx
+├── manifest.json
+├── metadata.json
+├── package.json
+├── services/
+│   ├── aiPersistenceService.ts
+│   ├── archiveService.ts
+│   ├── cacheService.ts
+│   ├── dataService.ts
+│   └── geminiService.ts
+├── sw.js
+├── types.ts
+└── vite.config.js
+```
+
+---
+
+# /index.html
+
+```html
 <!doctype html>
 <html lang="en" class="dark">
   <head>
@@ -110,7 +141,7 @@
   </head>
   <body class="bg-gray-100 dark:bg-gray-900">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -126,3 +157,164 @@
     </script>
   </body>
 </html>
+```
+
+# /index.tsx
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
+}
+
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+      <App />
+  </React.StrictMode>
+);
+```
+
+# /package.json
+
+```json
+{
+  "name": "internet-archive-explorer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@google/genai": "^1.19.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^5.0.2",
+    "jotai": "^2.14.0",
+    "typescript": "^5.5.4",
+    "uuid": "^10.0.0",
+    "vite": "^7.1.5"
+  }
+}
+```
+
+# /vite.config.js
+
+```javascript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
+# /manifest.json
+
+```json
+{
+  "name": "Internet Archive Explorer",
+  "short_name": "IA Explorer",
+  "description": "A visually appealing and highly functional web application to browse, view, and discover content from the Internet Archive, enhanced with AI-powered summaries.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#083344",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "./icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "./icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+```
+
+# /sw.js
+
+```javascript
+const CACHE_NAME = 'internet-archive-explorer-v2';
+const API_HOSTNAME = 'archive.org';
+const CDN_HOSTNAME = 'aistudiocdn.com';
+
+const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon-192.svg',
+  '/icon-512.svg',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+  'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
+  'https://aistudiocdn.com/react@^19.1.1',
+  'https://aistudiocdn.com/react-dom@^19.1.1',
+  'https://aistudiocdn.com/jotai@^2.14.0',
+  'https://aistudiocdn.com/@google/genai@^1.19.0'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('[SW] Opened cache');
+      return Promise.all(
+        STATIC_ASSETS.map(url => cache.add(url).catch(err => console.warn(`[SW] Failed to cache ${url}:`, err)))
+      );
+    })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('[SW] Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // API calls: Network First, then Cache
+  if (url.hostname.includes(API_HOSTNAME)) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+          return networkResponse;
+        })
+        .catch(()

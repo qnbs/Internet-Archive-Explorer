@@ -1,9 +1,9 @@
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 import type { ExtractedEntities, ImageAnalysisResult } from '../types';
 
-// Initialize the Google Gemini API client
-// The API key is sourced from environment variables, as per guidelines.
-const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
+// Lazily initialize the Google Gemini API client
+let ai: GoogleGenAI | null = null;
+let initError: GeminiServiceError | null = null;
 
 class GeminiServiceError extends Error {
   constructor(message: string) {
@@ -12,14 +12,31 @@ class GeminiServiceError extends Error {
   }
 }
 
+function initializeAi() {
+    // This function will be called before any AI operation.
+    // It initializes the client once, and caches any initialization error.
+    if (ai) return; // Already initialized successfully
+    if (initError) throw initError; // Don't try again if it failed once
+
+    try {
+        // Per instructions, the API key is expected to be in the execution environment.
+        // If 'process' is not defined, this will throw a ReferenceError, which we catch.
+        ai = new GoogleGenAI({apiKey: process.env.API_KEY});
+    } catch (e) {
+        console.error("Gemini AI initialization failed. This is likely due to a missing or misconfigured API key in the deployment environment.", e);
+        // Create and cache the error to be thrown on subsequent calls.
+        initError = new GeminiServiceError('The AI service could not be initialized. Please check the application configuration and ensure the API key is available.');
+        throw initError;
+    }
+}
+
 /**
  * A helper function to call the Gemini API and handle errors.
- * @param {string} prompt - The text prompt to send to the model.
- * @returns {Promise<string>} The generated text response.
  */
 const generateText = async (prompt: string, systemInstruction?: string): Promise<string> => {
+    initializeAi(); // Initialize on first use
     try {
-        const response: GenerateContentResponse = await ai.models.generateContent({
+        const response: GenerateContentResponse = await ai!.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
             config: {
@@ -29,6 +46,7 @@ const generateText = async (prompt: string, systemInstruction?: string): Promise
         return response.text;
     } catch (error) {
         console.error('Gemini API request failed:', error);
+        if (error instanceof GeminiServiceError) throw error;
         throw new GeminiServiceError('The AI could not generate a response. Please try again.');
     }
 };
@@ -46,6 +64,7 @@ export const getSummary = async (text: string, language: string, tone: 'simple' 
  * Extracts named entities (people, places, organizations, dates) from a text.
  */
 export const extractEntities = async (text: string, language: string): Promise<ExtractedEntities> => {
+    initializeAi();
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -58,7 +77,7 @@ export const extractEntities = async (text: string, language: string): Promise<E
     };
 
     try {
-        const response = await ai.models.generateContent({
+        const response = await ai!.models.generateContent({
             model: "gemini-2.5-flash",
             contents: `Extract the key named entities (people, places, organizations, dates) from the following text. The response should be in ${language}.\n\nTEXT: "${text}"`,
             config: {
@@ -69,7 +88,6 @@ export const extractEntities = async (text: string, language: string): Promise<E
         
         const jsonStr = response.text.trim();
         const parsed = JSON.parse(jsonStr);
-        // Ensure all properties are arrays, even if empty.
         return {
             people: parsed.people || [],
             places: parsed.places || [],
@@ -78,6 +96,7 @@ export const extractEntities = async (text: string, language: string): Promise<E
         };
     } catch (error) {
         console.error('Gemini API entity extraction failed:', error);
+        if (error instanceof GeminiServiceError) throw error;
         throw new GeminiServiceError('The AI could not extract entities from the text.');
     }
 };
@@ -112,6 +131,7 @@ export const generateDailyHistoricalEvent = async (titles: string[], language: s
  * Suggests tags and collections for a list of library items.
  */
 export const organizeLibraryItems = async (items: { title: string; description?: string }[], language: string): Promise<{ tags: string[]; collections: string[] }> => {
+    initializeAi();
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -132,7 +152,7 @@ export const organizeLibraryItems = async (items: { title: string; description?:
     const itemList = items.map(item => `- ${item.title}`).join('\n');
 
     try {
-        const response = await ai.models.generateContent({
+        const response = await ai!.models.generateContent({
             model: "gemini-2.5-flash",
             contents: `Analyze this list of library items and suggest relevant tags and collection names. The response should be in ${language}.\n\nITEMS:\n${itemList}`,
             config: {
@@ -149,6 +169,7 @@ export const organizeLibraryItems = async (items: { title: string; description?:
         };
     } catch (error) {
         console.error('Gemini API organization failed:', error);
+        if (error instanceof GeminiServiceError) throw error;
         throw new GeminiServiceError('The AI could not generate organizational suggestions.');
     }
 };
@@ -157,6 +178,7 @@ export const organizeLibraryItems = async (items: { title: string; description?:
  * Analyzes an image and returns a description and relevant tags.
  */
 export const analyzeImage = async (base64ImageData: string, mimeType: string, language: string): Promise<ImageAnalysisResult> => {
+    initializeAi();
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -174,7 +196,7 @@ export const analyzeImage = async (base64ImageData: string, mimeType: string, la
     const textPart = { text: `Analyze this image. Provide a detailed description and suggest relevant search tags. Respond in ${language}.` };
 
     try {
-        const response = await ai.models.generateContent({
+        const response = await ai!.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: { parts: [imagePart, textPart] },
             config: {
@@ -189,6 +211,7 @@ export const analyzeImage = async (base64ImageData: string, mimeType: string, la
         };
     } catch (error) {
         console.error('Gemini API image analysis failed:', error);
+        if (error instanceof GeminiServiceError) throw error;
         throw new GeminiServiceError('The AI could not analyze the image.');
     }
 };
@@ -197,12 +220,13 @@ export const analyzeImage = async (base64ImageData: string, mimeType: string, la
  * Asks a follow-up question about an image.
  */
 export const askAboutImage = async (base64ImageData: string, mimeType: string, question: string, language: string): Promise<string> => {
+    initializeAi();
     const imagePart = { inlineData: { data: base64ImageData, mimeType } };
     const textPart = { text: question };
     const systemInstruction = `You are an expert at analyzing images. Answer the user's question about the image concisely. Respond in ${language}.`;
 
     try {
-        const response = await ai.models.generateContent({
+        const response = await ai!.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: { parts: [imagePart, textPart] },
             config: {
@@ -212,6 +236,7 @@ export const askAboutImage = async (base64ImageData: string, mimeType: string, q
         return response.text;
     } catch (error) {
         console.error('Gemini API image question failed:', error);
+        if (error instanceof GeminiServiceError) throw error;
         throw new GeminiServiceError('The AI could not answer the question about the image.');
     }
 };
