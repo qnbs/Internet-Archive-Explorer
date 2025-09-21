@@ -21,12 +21,11 @@ import { ChevronUpIcon, ChevronDownIcon } from '../components/Icons';
 interface UploaderDetailViewProps {
     profile: Profile;
     onBack: (returnView?: View) => void;
-    onSelectItem: (item: ArchiveItemSummary) => void;
     returnView?: View;
     isMyArchiveView?: boolean;
 }
 
-const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, onSelectItem, returnView, isMyArchiveView }) => {
+const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack, returnView, isMyArchiveView }) => {
     const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
     const profileSearchQuery = useAtomValue(profileSearchQueryAtom);
     const { stats, isLoading: isLoadingStats } = useUploaderStats(profile);
@@ -70,7 +69,6 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
                             isLoading={isLoadingUploads}
                             isLoadingMore={isLoadingMore}
                             error={error}
-                            onSelectItem={onSelectItem}
                             hasMore={hasMore}
                             totalResults={totalResults}
                             lastElementRef={lastElementRef}
@@ -80,15 +78,15 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({ profile, onBack
                     </div>
                 );
             case 'collections':
-                return <div className={tabContentWrapperClass}><UploaderCollections profile={profile} onSelectItem={onSelectItem} /></div>;
+                return <div className={tabContentWrapperClass}><UploaderCollections profile={profile} /></div>;
             case 'favorites':
-                return <div className={tabContentWrapperClass}><UploaderFavorites profile={profile} onSelectItem={onSelectItem} /></div>;
+                return <div className={tabContentWrapperClass}><UploaderFavorites profile={profile} /></div>;
             case 'reviews':
                 return <div className={tabContentWrapperClass}><UploaderReviewsTab profile={profile} /></div>;
             case 'posts':
-                return <div className={tabContentWrapperClass}><UploaderPostsTab profile={profile} onSelectItem={onSelectItem} /></div>;
+                return <div className={tabContentWrapperClass}><UploaderPostsTab profile={profile} /></div>;
             case 'webArchive':
-                return <div className={tabContentWrapperClass}><UploaderWebArchiveTab profile={profile} onSelectItem={onSelectItem} /></div>;
+                return <div className={tabContentWrapperClass}><UploaderWebArchiveTab profile={profile} /></div>;
             default:
                 return null;
         }

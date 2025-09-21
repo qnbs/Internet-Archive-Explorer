@@ -2,6 +2,7 @@ import React from 'react';
 import type { ArchiveItemSummary, MediaType } from '../types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
+import { selectItemAtom } from '../store/app';
 import { useToast } from '../contexts/ToastContext';
 import { StarIcon, InfoIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
@@ -9,7 +10,6 @@ import { formatNumber } from '../utils/formatter';
 
 interface ItemCardProps {
   item: ArchiveItemSummary;
-  onSelect: (item: ArchiveItemSummary) => void;
   index: number;
 }
 
@@ -25,13 +25,14 @@ const getMediaTypeIconPath = (mediaType: MediaType): string => {
 };
 
 
-export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, index }) => {
+export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) => {
   const { addToast } = useToast();
   const { t } = useLanguage();
   
   const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
   const addLibraryItem = useSetAtom(addLibraryItemAtom);
   const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
+  const selectItem = useSetAtom(selectItemAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');
@@ -61,10 +62,10 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, onSelect, i
     <article
       className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
-      onClick={() => onSelect(item)}
+      onClick={() => selectItem(item)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
       aria-label={t('itemCard:viewDetails', { title: item.title })}
     >
       <button 

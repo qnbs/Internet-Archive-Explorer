@@ -23,3 +23,18 @@ export const activeViewAtom = atom<View>('explore');
  * Controls the currently displayed modal. Set to '{ type: "none" }' to close.
  */
 export const modalAtom = atom<ModalState>({ type: 'none' });
+
+/**
+ * A write-only atom to handle opening the correct item detail modal.
+ * This decouples item cards from the main app logic.
+ */
+export const selectItemAtom = atom(
+    null,
+    (get, set, item: ArchiveItemSummary) => {
+        if (item.mediatype === 'image') {
+            set(modalAtom, { type: 'imageDetail', item });
+        } else {
+            set(modalAtom, { type: 'itemDetail', item });
+        }
+    }
+);

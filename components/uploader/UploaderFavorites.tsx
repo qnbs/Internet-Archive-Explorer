@@ -7,12 +7,11 @@ import { useLanguage } from '../../hooks/useLanguage';
 
 interface UploaderFavoritesProps {
     profile: Profile;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
 const FAVORITES_PAGE_SIZE = 12;
 
-export const UploaderFavorites: React.FC<UploaderFavoritesProps> = ({ profile, onSelectItem }) => {
+export const UploaderFavorites: React.FC<UploaderFavoritesProps> = ({ profile }) => {
     const { t } = useLanguage();
     const [favorites, setFavorites] = useState<ArchiveItemSummary[]>([]);
     const [page, setPage] = useState(1);
@@ -77,7 +76,6 @@ export const UploaderFavorites: React.FC<UploaderFavoritesProps> = ({ profile, o
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={total}
                 lastElementRef={lastElementRef}

@@ -7,12 +7,11 @@ import { useLanguage } from '../../hooks/useLanguage';
 
 interface UploaderCollectionsProps {
     profile: Profile;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
 const COLLECTIONS_PAGE_SIZE = 12;
 
-export const UploaderCollections: React.FC<UploaderCollectionsProps> = ({ profile, onSelectItem }) => {
+export const UploaderCollections: React.FC<UploaderCollectionsProps> = ({ profile }) => {
     const { t } = useLanguage();
     const [collections, setCollections] = useState<ArchiveItemSummary[]>([]);
     const [page, setPage] = useState(1);
@@ -71,7 +70,6 @@ export const UploaderCollections: React.FC<UploaderCollectionsProps> = ({ profil
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={total}
                 lastElementRef={lastElementRef}

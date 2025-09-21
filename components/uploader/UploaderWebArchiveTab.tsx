@@ -7,12 +7,11 @@ import { useLanguage } from '../../hooks/useLanguage';
 
 interface UploaderWebArchiveTabProps {
     profile: Profile;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
 const PAGE_SIZE = 12;
 
-export const UploaderWebArchiveTab: React.FC<UploaderWebArchiveTabProps> = ({ profile, onSelectItem }) => {
+export const UploaderWebArchiveTab: React.FC<UploaderWebArchiveTabProps> = ({ profile }) => {
     const { t } = useLanguage();
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [page, setPage] = useState(1);
@@ -71,7 +70,6 @@ export const UploaderWebArchiveTab: React.FC<UploaderWebArchiveTabProps> = ({ pr
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={total}
                 lastElementRef={lastElementRef}

@@ -11,10 +11,9 @@ interface CollectionCarouselProps {
     title: string;
     query: string;
   };
-  onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const CollectionCarousel: React.FC<CollectionCarouselProps> = ({ collection, onSelectItem }) => {
+export const CollectionCarousel: React.FC<CollectionCarouselProps> = ({ collection }) => {
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -45,7 +44,6 @@ export const CollectionCarousel: React.FC<CollectionCarouselProps> = ({ collecti
             isLoading={isLoading}
             error={error}
             onRetry={fetchItems}
-            onSelectItem={onSelectItem}
             cardAspectRatio="portrait"
         />
     );

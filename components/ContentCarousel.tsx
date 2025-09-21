@@ -11,7 +11,6 @@ interface ContentCarouselProps {
     isLoading: boolean;
     error: string | null;
     onRetry?: () => void;
-    onSelectItem: (item: ArchiveItemSummary) => void;
     cardAspectRatio: AspectRatio;
     viewMoreAction?: () => void;
     viewMoreLabel?: string;
@@ -25,7 +24,6 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     isLoading,
     error,
     onRetry,
-    onSelectItem,
     cardAspectRatio,
     viewMoreAction,
     viewMoreLabel,
@@ -97,7 +95,6 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
             <CarouselItemCard
                 key={item.identifier}
                 item={item}
-                onSelect={onSelectItem}
                 aspectRatio={cardAspectRatio}
                 index={index}
             />

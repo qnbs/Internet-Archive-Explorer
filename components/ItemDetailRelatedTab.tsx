@@ -5,15 +5,13 @@ import { RelatedItems } from './RelatedItems';
 interface ItemDetailRelatedTabProps {
     metadata: ArchiveMetadata;
     currentItemIdentifier: string;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const ItemDetailRelatedTab: React.FC<ItemDetailRelatedTabProps> = ({ metadata, currentItemIdentifier, onSelectItem }) => {
+export const ItemDetailRelatedTab: React.FC<ItemDetailRelatedTabProps> = ({ metadata, currentItemIdentifier }) => {
     return (
         <RelatedItems 
             metadata={metadata} 
             currentItemIdentifier={currentItemIdentifier} 
-            onSelectItem={onSelectItem} 
         />
     );
 };

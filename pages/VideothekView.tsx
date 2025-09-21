@@ -8,9 +8,7 @@ import { useArchivalItems } from '../hooks/useArchivalItems';
 import { generateFilmDoubleFeatureConcept } from '../services/geminiService';
 import { AIInsightPanel } from '../components/AIInsightPanel';
 
-interface VideothekViewProps {
-  onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface VideothekViewProps {}
 
 const getCollections = (t: (key: string) => string) => [
     { key: 'newly_added', title: t('videothek:collections.newly_added'), query: `mediatype:(${MediaType.Movies})` },
@@ -21,14 +19,14 @@ const getCollections = (t: (key: string) => string) => [
     { key: 'silent_films', title: t('videothek:collections.silent_films'), query: 'subject:"silent film" AND mediatype:(movies)' },
 ];
 
-const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) => {
+const VideothekView: React.FC<VideothekViewProps> = () => {
     const { t } = useLanguage();
     const collections = getCollections(t);
     const { items: newlyAddedItems } = useArchivalItems(collections[0].query);
 
     return (
         <div className="space-y-12 animate-page-fade-in">
-            <HeroSection onSelectItem={onSelectItem} />
+            <HeroSection />
 
             <AIInsightPanel
                 title={t('videothek:aiInsight.title')}
@@ -44,7 +42,6 @@ const VideothekView: React.FC<VideothekViewProps> = ({ onSelectItem }) => {
                     key={collection.key}
                     title={collection.title}
                     query={collection.query}
-                    onSelectItem={onSelectItem}
                     cardAspectRatio="portrait"
                 />
             ))}

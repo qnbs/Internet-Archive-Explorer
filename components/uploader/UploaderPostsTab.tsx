@@ -7,12 +7,11 @@ import { useLanguage } from '../../hooks/useLanguage';
 
 interface UploaderPostsTabProps {
     profile: Profile;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
 const PAGE_SIZE = 12;
 
-export const UploaderPostsTab: React.FC<UploaderPostsTabProps> = ({ profile, onSelectItem }) => {
+export const UploaderPostsTab: React.FC<UploaderPostsTabProps> = ({ profile }) => {
     const { t } = useLanguage();
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [page, setPage] = useState(1);
@@ -71,7 +70,6 @@ export const UploaderPostsTab: React.FC<UploaderPostsTabProps> = ({ profile, onS
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={total}
                 lastElementRef={lastElementRef}

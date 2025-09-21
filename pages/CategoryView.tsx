@@ -128,7 +128,6 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaT
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={totalResults}
                 lastElementRef={lastElementRef}

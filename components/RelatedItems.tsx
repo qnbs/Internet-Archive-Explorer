@@ -7,10 +7,9 @@ import { ContentCarousel } from './ContentCarousel';
 interface RelatedItemsProps {
   metadata: ArchiveMetadata;
   currentItemIdentifier: string;
-  onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const RelatedItems: React.FC<RelatedItemsProps> = ({ metadata, currentItemIdentifier, onSelectItem }) => {
+export const RelatedItems: React.FC<RelatedItemsProps> = ({ metadata, currentItemIdentifier }) => {
     const [related, setRelated] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -70,7 +69,6 @@ export const RelatedItems: React.FC<RelatedItemsProps> = ({ metadata, currentIte
             isLoading={isLoading}
             error={error}
             onRetry={fetchRelated}
-            onSelectItem={onSelectItem}
             cardAspectRatio="portrait"
         />
     );

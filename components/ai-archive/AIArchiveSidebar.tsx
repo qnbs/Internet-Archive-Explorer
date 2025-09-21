@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { allAIArchiveTagsAtom, aiArchiveAtom } from '../../store/aiArchive';
-// Fix: Corrected the import for the sort option type.
 import { AIGenerationType, type AIArchiveFilter, type Language, type AIArchiveSortOption } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
     BrainIcon, StarIcon, CollectionIcon, TagIcon,
     BookIcon, ImageIcon, SparklesIcon, LanguageIcon,
-    SearchIcon, SortAscendingIcon, CloseIcon,
+    SearchIcon, CloseIcon,
     MovieIcon, AudioIcon, JoystickIcon
 } from '../Icons';
 
@@ -17,7 +16,6 @@ interface AIArchiveSidebarProps {
     setFilter: (filter: AIArchiveFilter) => void;
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    // Fix: Updated the type to use AIArchiveSortOption.
     sort: AIArchiveSortOption;
     setSort: (sort: AIArchiveSortOption) => void;
     onClose?: () => void;

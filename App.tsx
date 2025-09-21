@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
@@ -21,7 +20,7 @@ import {
     defaultViewAtom,
     defaultSettings,
 } from './store/settings';
-import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler, ConfirmationOptions, MediaType, AppSettings } from './types';
+import type { View, Profile, ArchiveItemSummary, AccentColor, ConfirmationOptions, MediaType, AppSettings } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -162,39 +161,31 @@ const AppContent: React.FC = () => {
 
   const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);
 
-  const handleSelectItem = useCallback<SelectItemHandler>((item) => {
-    if(item.mediatype === 'image') {
-        setModal({ type: 'imageDetail', item });
-    } else {
-        setModal({ type: 'itemDetail', item });
-    }
-  }, [setModal]);
-
   const showConfirmation = useCallback((options: ConfirmationOptions) => {
     setModal({ type: 'confirmation', options });
   }, [setModal]);
 
   const renderView = () => {
     switch (activeView) {
-      case 'explore': return <ExplorerView onSelectItem={handleSelectItem} />;
+      case 'explore': return <ExplorerView />;
       case 'library': return <LibraryView />;
       case 'scriptorium': return <ScriptoriumView showConfirmation={showConfirmation} />;
       case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
-      case 'movies': return <VideothekView onSelectItem={handleSelectItem} />;
-      case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
-      case 'image': return <ImagesHubView onSelectItem={handleSelectItem} />;
+      case 'movies': return <VideothekView />;
+      case 'audio': return <AudiothekView />;
+      case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'imageDetail', item })} />;
       case 'uploaderHub': return <UploaderHubView />;
       case 'uploaderDetail':
-        if (!selectedProfile) return <ExplorerView onSelectItem={handleSelectItem} />;
-        return <UploaderDetailView profile={selectedProfile} onBack={goBackFromProfile} onSelectItem={handleSelectItem} returnView={profileReturnView} />;
+        if (!selectedProfile) return <ExplorerView />;
+        return <UploaderDetailView profile={selectedProfile} onBack={goBackFromProfile} returnView={profileReturnView} />;
       case 'settings': return <SettingsView showConfirmation={showConfirmation}/>;
       case 'help': return <HelpView />;
       case 'storyteller': return <StorytellerView />;
-      case 'myArchive': return <MyArchiveView onSelectItem={handleSelectItem} />;
+      case 'myArchive': return <MyArchiveView />;
       case 'aiArchive': return <AIArchiveView />;
       case 'webArchive': return <WebArchiveView />;
       default:
-        return <ExplorerView onSelectItem={handleSelectItem} />;
+        return <ExplorerView />;
     }
   };
 

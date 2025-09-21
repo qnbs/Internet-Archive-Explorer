@@ -1,7 +1,6 @@
 import React from 'react';
-import type { ArchiveItemSummary } from '../types';
 import { AudiothekHero } from '../components/audiothek/AudiothekHero';
-import { CategoryGrid } from '../components/CategoryGrid';
+import { CategoryGrid } from '../components/audiothek/CategoryGrid';
 import { useLanguage } from '../hooks/useLanguage';
 import { ArchivalCarousel } from '../components/ArchivalCarousel';
 import { AIInsightPanel } from '../components/AIInsightPanel';
@@ -9,12 +8,13 @@ import { useArchivalItems } from '../hooks/useArchivalItems';
 import { generateRadioShowConcept } from '../services/geminiService';
 import { AIGenerationType } from '../types';
 
-interface AudiothekViewProps {
-  onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface AudiothekViewProps {}
 
 const getShelves = (t: (key: string) => string) => [
     { key: 'librivox', title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
+    { key: 'otr', title: t('audiothek:shelves.otr'), query: 'collection:oldtimeradio' },
+    { key: 'grateful_dead', title: t('audiothek:shelves.grateful_dead'), query: 'collection:GratefulDead' },
+    { key: '78rpm', title: t('audiothek:shelves.78rpm'), query: 'collection:georgeblood' },
 ];
 
 const getAdditionalAudioCollections = (t: (key: string) => string) => [
@@ -26,7 +26,7 @@ const getAdditionalAudioCollections = (t: (key: string) => string) => [
     { key: 'airchecks', title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
 ];
 
-const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
+const AudiothekView: React.FC<AudiothekViewProps> = () => {
     const { t } = useLanguage();
     const shelves = getShelves(t);
     const additionalAudioCollections = getAdditionalAudioCollections(t);
@@ -51,7 +51,6 @@ const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
                     key={shelf.key}
                     title={shelf.title}
                     query={shelf.query}
-                    onSelectItem={onSelectItem}
                     cardAspectRatio="square"
                 />
             ))}
@@ -61,7 +60,6 @@ const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
                     key={collection.key}
                     title={collection.title}
                     query={collection.query}
-                    onSelectItem={onSelectItem}
                     cardAspectRatio="square"
                 />
             ))}

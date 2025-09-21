@@ -55,7 +55,6 @@ export const ModalManager: React.FC = () => {
                     onCreatorSelect={handleCreatorSelect}
                     onUploaderSelect={handleUploaderSelect}
                     onEmulate={handleEmulate}
-                    onSelectItem={handleSelectItem}
                 />
             );
         case 'imageDetail':

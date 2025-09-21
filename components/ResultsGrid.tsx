@@ -11,7 +11,6 @@ interface ResultsGridProps {
   isLoading: boolean;
   isLoadingMore: boolean;
   error: string | null;
-  onSelectItem: (item: ArchiveItemSummary) => void;
   hasMore: boolean;
   totalResults: number;
   lastElementRef?: (node: HTMLDivElement | null) => void;
@@ -24,7 +23,6 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   isLoading,
   isLoadingMore,
   error,
-  onSelectItem,
   hasMore,
   totalResults,
   lastElementRef,
@@ -78,7 +76,7 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-6">
         {results.map((item, index) => (
           <div key={item.identifier} ref={index === results.length - 1 ? lastElementRef : null}>
-            <ItemCard item={item} onSelect={onSelectItem} index={index} />
+            <ItemCard item={item} index={index} />
           </div>
         ))}
       </div>

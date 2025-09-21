@@ -5,7 +5,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { searchArchive } from '../services/archiveService';
 import { ContentCarousel } from './ContentCarousel';
 
-export const OnThisDay: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }> = ({ onSelectItem }) => {
+export const OnThisDay: React.FC = () => {
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -63,7 +63,6 @@ export const OnThisDay: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => v
             isLoading={isLoading}
             error={error}
             onRetry={fetchOnThisDay}
-            onSelectItem={onSelectItem}
             cardAspectRatio="portrait"
             viewMoreAction={handleViewMore}
             viewMoreLabel={t('common:viewMore')}

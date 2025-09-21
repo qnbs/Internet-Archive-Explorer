@@ -178,8 +178,6 @@ export interface Profile {
 export type Theme = 'light' | 'dark' | 'system';
 export type Language = 'en' | 'de';
 
-export type SelectItemHandler = (item: ArchiveItemSummary) => void;
-
 export type AccentColor = 'cyan' | 'emerald' | 'rose' | 'violet';
 
 export interface AppSettings {

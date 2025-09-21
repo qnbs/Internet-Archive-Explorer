@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { AIGenerationType, type AIArchiveEntry, type ExtractedEntities, type ImageAnalysisResult, type MagicOrganizeResult } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';

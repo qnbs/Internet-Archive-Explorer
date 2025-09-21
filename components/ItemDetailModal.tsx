@@ -23,10 +23,9 @@ interface ItemDetailModalProps {
   onCreatorSelect: (creator: string) => void;
   onUploaderSelect: (searchUploader: string) => void;
   onEmulate: (item: ArchiveItemSummary) => void;
-  onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose, onCreatorSelect, onUploaderSelect, onEmulate, onSelectItem }) => {
+export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose, onCreatorSelect, onUploaderSelect, onEmulate }) => {
   const [isClosing, setIsClosing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
@@ -102,7 +101,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
           <ItemDetailFilesTab files={metadata.files} itemIdentifier={item.identifier} />
         )}
         {activeTab === 'related' && (
-          <ItemDetailRelatedTab metadata={metadata} currentItemIdentifier={item.identifier} onSelectItem={onSelectItem} />
+          <ItemDetailRelatedTab metadata={metadata} currentItemIdentifier={item.identifier} />
         )}
       </div>
     );

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useSetAtom } from 'jotai';
+import { selectItemAtom } from '../../store/app';
 import type { ArchiveItemSummary } from '../../types';
 import { searchArchive } from '../../services/archiveService';
 import { Spinner } from '../Spinner';
 import { useLanguage } from '../../hooks/useLanguage';
 
-interface HeroSectionProps {
-  onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface HeroSectionProps {}
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectItem }) => {
+export const HeroSection: React.FC<HeroSectionProps> = () => {
     const [item, setItem] = useState<ArchiveItemSummary | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const { t } = useLanguage();
+    const selectItem = useSetAtom(selectItemAtom);
 
     useEffect(() => {
         const fetchFeatured = async () => {
@@ -43,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectItem }) => {
     return (
         <div 
             className="relative rounded-xl overflow-hidden bg-gray-900 aspect-video flex items-end p-8 text-white cursor-pointer group"
-            onClick={() => onSelectItem(item)}
+            onClick={() => selectItem(item)}
         >
             <img src={thumbnailUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>

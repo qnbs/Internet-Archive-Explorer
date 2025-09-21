@@ -16,11 +16,9 @@ import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { searchArchive } from '../services/archiveService';
 import { toastAtom } from '../store/atoms';
 
-interface ExplorerViewProps {
-  onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface ExplorerViewProps {}
 
-const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void }> = ({ onSelectItem }) => {
+const TrendingItems: React.FC = () => {
     // States for the carousel
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -147,7 +145,6 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
                         isLoading={isLoading}
                         error={error}
                         onRetry={fetchTrendingItems}
-                        onSelectItem={onSelectItem}
                         cardAspectRatio="portrait"
                         hideTitle={true}
                     />
@@ -164,7 +161,7 @@ const TrendingItems: React.FC<{ onSelectItem: (item: ArchiveItemSummary) => void
     );
 };
 
-const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
+const ExplorerView: React.FC<ExplorerViewProps> = () => {
     const [searchQuery] = useAtom(searchQueryAtom);
     const { results, isLoading, isLoadingMore, error, totalResults, hasMore, lastElementRef, handleRetry } = useExplorerSearch();
     const showHub = useAtomValue(showExplorerHubAtom);
@@ -176,8 +173,8 @@ const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
     if (showHub && !hasActiveSearch) {
         return (
             <div className="space-y-12">
-                <TrendingItems onSelectItem={onSelectItem} />
-                <OnThisDay onSelectItem={onSelectItem} />
+                <TrendingItems />
+                <OnThisDay />
             </div>
         );
     }
@@ -189,7 +186,6 @@ const ExplorerView: React.FC<ExplorerViewProps> = ({ onSelectItem }) => {
                 isLoading={isLoading}
                 isLoadingMore={isLoadingMore}
                 error={error}
-                onSelectItem={onSelectItem}
                 hasMore={hasMore}
                 totalResults={totalResults}
                 lastElementRef={lastElementRef}

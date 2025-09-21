@@ -1,6 +1,8 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
+import { useSetAtom } from 'jotai';
+import { selectItemAtom } from '../store/app';
 import { InfoIcon } from './Icons';
 import { formatNumber } from '../utils/formatter';
 
@@ -8,13 +10,13 @@ export type AspectRatio = 'video' | 'square' | 'portrait';
 
 interface CarouselItemCardProps {
   item: ArchiveItemSummary;
-  onSelect: (item: ArchiveItemSummary) => void;
   aspectRatio: AspectRatio;
   index: number;
 }
 
-export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ item, onSelect, aspectRatio, index }) => {
+export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ item, aspectRatio, index }) => {
   const { t } = useLanguage();
+  const selectItem = useSetAtom(selectItemAtom);
   const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
   const publicYear = new Date(item.publicdate).getFullYear();
   const isRestricted = item['access-restricted-item'] === 'true';
@@ -31,10 +33,10 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(({ i
     <div
       className="flex-shrink-0 w-40 sm:w-48 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 rounded-lg scroll-snap-align-start"
       style={{ animationDelay: `${Math.min(index % 20 * 30, 600)}ms`}}
-      onClick={() => onSelect(item)}
+      onClick={() => selectItem(item)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
       aria-label={t('itemCard:viewDetails', { title: item.title })}
     >
       <div className={`relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/10 dark:hover:shadow-accent-500/30 transition-shadow duration-300 ${aspectClasses[aspectRatio]}`}>

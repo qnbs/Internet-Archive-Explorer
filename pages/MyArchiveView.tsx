@@ -119,7 +119,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
              <p className="mt-2 text-gray-300">{t('myArchive:connect.confirmDescription')}</p>
              
              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-6">
-                {verificationData?.items.map((item, index) => <ItemCard key={item.identifier} item={item} onSelect={() => {}} index={index} />)}
+                {verificationData?.items.map((item, index) => <ItemCard key={item.identifier} item={item} index={index} />)}
              </div>
 
              <div className="space-y-3 text-left max-w-md mx-auto">
@@ -161,16 +161,14 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
     );
 };
 
-interface MyArchiveViewProps {
-    onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface MyArchiveViewProps {}
 
 /**
  * The main component for the "My Archive" feature.
  * It manages the connection state and renders either the ConnectView
  * or the full UploaderDetailView as the user's personal dashboard.
  */
-const MyArchiveView: React.FC<MyArchiveViewProps> = ({ onSelectItem }) => {
+const MyArchiveView: React.FC<MyArchiveViewProps> = () => {
     const [profile, setProfile] = useAtom(myArchiveProfileAtom);
 
     // If a profile is connected, render the unified UploaderDetailView.
@@ -183,7 +181,6 @@ const MyArchiveView: React.FC<MyArchiveViewProps> = ({ onSelectItem }) => {
                     profile={profile} 
                     // The 'onBack' handler here serves as the "Disconnect" or "Switch User" function.
                     onBack={() => setProfile(null)}
-                    onSelectItem={onSelectItem}
                     isMyArchiveView={true}
                 />
             </div>

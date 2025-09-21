@@ -9,14 +9,10 @@
     "podcasts": "Podcasts"
   },
   "shelves": {
-    "newly_added": "Neu hinzugefügt",
-    "grateful_dead": "Grateful Dead",
     "otr": "Old-Time-Radio",
     "librivox": "LibriVox-Hörbücher",
-    "classical_music": "Klassische Musik",
-    "poetry": "Poesie & Gesprochenes Wort",
-    "78rpm": "Das Great 78 Project",
-    "radio_plays": "Hörspiele"
+    "grateful_dead": "Grateful Dead",
+    "78rpm": "Das Great 78 Project"
   },
   "collections": {
     "archiveOfContemporaryMusic": "Archiv für Zeitgenössische Musik",
