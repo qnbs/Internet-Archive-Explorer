@@ -155,10 +155,7 @@ const getCollections = (t: (key: string) => string) => [
 ];
 
 // --- Main Component ---
-interface ImagesHubViewProps {
-    onSelectItem: (item: ArchiveItemSummary) => void;
-}
-const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
+const ImagesHubView: React.FC = () => {
     const { t } = useLanguage();
     const collections = getCollections(t);
     const { items: metItems } = useArchivalItems(collections[0].query);
@@ -168,11 +165,11 @@ const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
             <header className="relative text-center rounded-xl min-h-[40vh] flex flex-col justify-center items-center text-white p-6 overflow-hidden">
                 <HeroGallery />
                 <div className="relative z-10">
-                    <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight drop-shadow-lg">{t('sideMenu:imagesHub')}</h1>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 drop-shadow-md">{t('imagesHub:description')}</p>
+                    <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-shadow-lg">{t('imagesHub:title')}</h1>
+                    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 text-shadow">{t('imagesHub:description')}</p>
                 </div>
             </header>
-
+            
             <AIInsightPanel
                 title={t('imagesHub:aiInsight.title')}
                 description={t('imagesHub:aiInsight.description')}
@@ -182,14 +179,14 @@ const ImagesHubView: React.FC<ImagesHubViewProps> = ({ onSelectItem }) => {
                 generationType={AIGenerationType.ImagesInsight}
             />
 
-            <section>
-                 <h2 className="text-2xl font-bold text-white mb-4">{t('imagesHub:galleriesOfTheDay')}</h2>
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {collections.map(c => <GalleryCard key={c.key} collection={c} />)}
-                </div>
-            </section>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {collections.map(collection => (
+                    <GalleryCard key={collection.key} collection={collection} />
+                ))}
+            </div>
         </div>
     );
 };
 
+// FIX: Add default export for React.lazy() to work correctly.
 export default ImagesHubView;

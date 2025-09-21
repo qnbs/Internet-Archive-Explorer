@@ -10,11 +10,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { AIInsightPanel } from '../components/AIInsightPanel';
 import { generateRetroGamingNote } from '../services/geminiService';
 
-interface RecRoomViewProps {
-    onSelectItem: (item: ArchiveItemSummary) => void;
-}
-
-const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
+const RecRoomView: React.FC = () => {
   const { t } = useLanguage();
   const [results, setResults] = useState<ArchiveItemSummary[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -122,7 +118,7 @@ const RecRoomView: React.FC<RecRoomViewProps> = ({ onSelectItem }) => {
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
                     {results.map((item, index) => (
                         <div ref={results.length === index + 1 ? lastElementRef : null} key={item.identifier}>
-                          <RecRoomItemCard item={item} onSelect={onSelectItem} index={index} />
+                          <RecRoomItemCard item={item} index={index} />
                         </div>
                     ))}
                 </div>

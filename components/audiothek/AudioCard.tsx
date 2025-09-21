@@ -1,23 +1,24 @@
 import React from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { currentTrackAtom, isPlayingAtom, playItemAtom, addToQueueAtom, togglePlayPauseAtom } from '../../store/audioPlayer';
+import { selectItemAtom } from '../../store/app';
 import type { ArchiveItemSummary } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { PlayIcon, PauseIcon, PlusIcon, InfoIcon } from '../Icons';
 
 interface AudioCardProps {
   item: ArchiveItemSummary;
-  onSelectDetails: (item: ArchiveItemSummary) => void;
   index: number;
 }
 
-export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, onSelectDetails, index }) => {
+export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) => {
   const { t } = useLanguage();
   const currentTrack = useAtomValue(currentTrackAtom);
   const isPlaying = useAtomValue(isPlayingAtom);
   const playItem = useSetAtom(playItemAtom);
   const addToQueue = useSetAtom(addToQueueAtom);
   const togglePlay = useSetAtom(togglePlayPauseAtom);
+  const selectItem = useSetAtom(selectItemAtom);
   
   const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
   const isCurrentTrack = currentTrack?.identifier === item.identifier;
@@ -38,7 +39,7 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, onSelectD
   
   const handleSelectDetails = (e: React.MouseEvent) => {
       e.stopPropagation();
-      onSelectDetails(item);
+      selectItem(item);
   };
   
   return (

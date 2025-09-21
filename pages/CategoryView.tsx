@@ -7,7 +7,6 @@ import { useLanguage } from '../hooks/useLanguage';
 import { sanitizeHtml } from '../utils/sanitizer';
 
 interface CategoryViewProps {
-    onSelectItem: (item: ArchiveItemSummary) => void;
     mediaType: MediaType | string;
     title: string;
     description: string;
@@ -22,7 +21,7 @@ const ExternalLinkIcon: React.FC = () => (
 );
 
 
-export const CategoryView: React.FC<CategoryViewProps> = ({ onSelectItem, mediaType, title, description, collectionUrl, contributors }) => {
+export const CategoryView: React.FC<CategoryViewProps> = ({ mediaType, title, description, collectionUrl, contributors }) => {
   const [results, setResults] = useState<ArchiveItemSummary[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalResults, setTotalResults] = useState<number>(0);

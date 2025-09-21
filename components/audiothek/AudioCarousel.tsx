@@ -9,10 +9,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../Icons';
 interface AudioCarouselProps {
     title: string;
     query: string;
-    onSelectItem: (item: ArchiveItemSummary) => void;
 }
 
-export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query, onSelectItem }) => {
+export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) => {
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const [items, setItems] = useState<ArchiveItemSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -88,7 +87,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query, onSe
                     ) : error ? (
                         <div className="text-red-400 p-4">{error}</div>
                     ) : (
-                        items.map((item, index) => <AudioCard key={item.identifier} item={item} onSelectDetails={onSelectItem} index={index} />)
+                        items.map((item, index) => <AudioCard key={item.identifier} item={item} index={index} />)
                     )}
                 </div>
                  <button

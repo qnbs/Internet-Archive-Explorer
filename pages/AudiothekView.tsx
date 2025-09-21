@@ -11,9 +11,7 @@ import { AIGenerationType, ArchiveItemSummary } from '../types';
 import { AudioPlayer } from '../components/audiothek/AudioPlayer';
 import { playlistAtom } from '../store/audioPlayer';
 
-interface AudiothekViewProps {
-    onSelectItem: (item: ArchiveItemSummary) => void;
-}
+interface AudiothekViewProps {}
 
 const getShelves = (t: (key: string) => string) => [
     { key: 'librivox', title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
@@ -31,7 +29,7 @@ const getAdditionalAudioCollections = (t: (key: string) => string) => [
     { key: 'airchecks', title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
 ];
 
-const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
+const AudiothekView: React.FC<AudiothekViewProps> = () => {
     const { t } = useLanguage();
     const shelves = getShelves(t);
     const additionalAudioCollections = getAdditionalAudioCollections(t);
@@ -58,7 +56,6 @@ const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
                     key={shelf.key}
                     title={shelf.title}
                     query={shelf.query}
-                    onSelectItem={onSelectItem}
                 />
             ))}
             <div className="border-t border-gray-700"></div>
@@ -67,7 +64,6 @@ const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
                     key={collection.key}
                     title={collection.title}
                     query={collection.query}
-                    onSelectItem={onSelectItem}
                 />
             ))}
             {playlist.length > 0 && <AudioPlayer />}

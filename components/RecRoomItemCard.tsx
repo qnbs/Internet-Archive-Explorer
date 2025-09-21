@@ -2,15 +2,17 @@ import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { JoystickIcon, InfoIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
+import { useSetAtom } from 'jotai';
+import { selectItemAtom } from '../store/app';
 
 interface RecRoomItemCardProps {
   item: ArchiveItemSummary;
-  onSelect: (item: ArchiveItemSummary) => void;
   index: number;
 }
 
-export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ item, onSelect, index }) => {
+export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ item, index }) => {
   const { t } = useLanguage();
+  const selectItem = useSetAtom(selectItemAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');
@@ -27,10 +29,10 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
     <div
       className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/30 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 animate-fade-in"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
-      onClick={() => onSelect(item)}
+      onClick={() => selectItem(item)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(item)}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
       aria-label={t('recRoom:card.startItem', { title: item.title })}
     >
       <div className="relative aspect-w-4 aspect-h-3">

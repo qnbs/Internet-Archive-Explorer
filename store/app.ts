@@ -33,6 +33,8 @@ export const selectItemAtom = atom(
     (get, set, item: ArchiveItemSummary) => {
         if (item.mediatype === 'image') {
             set(modalAtom, { type: 'imageDetail', item });
+        } else if (item.mediatype === 'software') {
+            set(modalAtom, { type: 'emulator', item });
         } else {
             set(modalAtom, { type: 'itemDetail', item });
         }
