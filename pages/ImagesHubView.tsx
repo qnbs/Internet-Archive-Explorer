@@ -188,5 +188,4 @@ const ImagesHubView: React.FC = () => {
     );
 };
 
-// FIX: Add default export for React.lazy() to work correctly.
 export default ImagesHubView;

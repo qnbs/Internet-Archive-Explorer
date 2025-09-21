@@ -37,11 +37,6 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
       addToQueue(item);
   };
   
-  const handleSelectDetails = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      selectItem(item);
-  };
-  
   return (
     <div
       className="flex-shrink-0 w-48 group scroll-snap-align-start"
@@ -63,7 +58,7 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
         </div>
         <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button onClick={handleAddToQueue} title={t('audiothek:player.addToQueue')} className="p-2 bg-black/50 hover:bg-cyan-500/80 rounded-full text-white transition-colors"><PlusIcon className="w-4 h-4"/></button>
-            <button onClick={handleSelectDetails} title={t('common:viewDetails')} className="p-2 bg-black/50 hover:bg-cyan-500/80 rounded-full text-white transition-colors"><InfoIcon className="w-4 h-4"/></button>
+            <button onClick={() => selectItem(item)} title={t('common:viewDetails')} className="p-2 bg-black/50 hover:bg-cyan-500/80 rounded-full text-white transition-colors"><InfoIcon className="w-4 h-4"/></button>
         </div>
          {isCurrentTrack && isPlaying && (
             <div className="absolute bottom-2 right-2 flex items-end h-4 space-x-1 pointer-events-none">

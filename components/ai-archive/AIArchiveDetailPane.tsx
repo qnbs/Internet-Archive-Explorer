@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { deleteAIArchiveEntryAtom, updateAIEntryTagsAtom, updateAIArchiveEntryAtom } from '../../store/aiArchive';
@@ -72,7 +71,6 @@ export const AIArchiveDetailPane: React.FC<{ selectedEntry: AIArchiveEntry | nul
     const [tagInput, setTagInput] = useState('');
     const [isSavingNotes, setIsSavingNotes] = useState(false);
     const [isNotesSaved, setIsNotesSaved] = useState(false);
-    // Fix: Corrected invalid hook call syntax and improved type safety for the timeout ref.
     const notesSavedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const debouncedNotes = useDebounce(notes, 1000);
@@ -82,11 +80,10 @@ export const AIArchiveDetailPane: React.FC<{ selectedEntry: AIArchiveEntry | nul
             setNotes(selectedEntry.userNotes || '');
             setIsSavingNotes(false);
             setIsNotesSaved(false);
-            // Fix: Guard clearTimeout to prevent errors if the ref is not set.
             if (notesSavedTimeout.current) clearTimeout(notesSavedTimeout.current);
         }
     }, [selectedEntry]);
-
+    
     useEffect(() => {
         if (selectedEntry && notes !== (selectedEntry.userNotes || '')) {
             setIsSavingNotes(true);
@@ -94,17 +91,16 @@ export const AIArchiveDetailPane: React.FC<{ selectedEntry: AIArchiveEntry | nul
             if (notesSavedTimeout.current) clearTimeout(notesSavedTimeout.current);
         }
     }, [notes, selectedEntry]);
-
+    
     useEffect(() => {
         if (selectedEntry && debouncedNotes !== (selectedEntry.userNotes || '')) {
             updateEntry({ ...selectedEntry, userNotes: debouncedNotes });
             setIsSavingNotes(false);
             setIsNotesSaved(true);
-            // FIX: Use standard `setTimeout` for consistency.
             notesSavedTimeout.current = setTimeout(() => setIsNotesSaved(false), 2000);
         }
     }, [debouncedNotes, selectedEntry, updateEntry]);
-
+    
     const handleTagAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && tagInput.trim() && selectedEntry) {
             e.preventDefault();
@@ -113,7 +109,7 @@ export const AIArchiveDetailPane: React.FC<{ selectedEntry: AIArchiveEntry | nul
             setTagInput('');
         }
     };
-
+    
     const handleTagRemove = (tagToRemove: string) => {
         if (!selectedEntry) return;
         const newTags = selectedEntry.tags.filter(t => t !== tagToRemove);

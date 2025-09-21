@@ -7,11 +7,9 @@ import { AudioCarousel } from '../components/audiothek/AudioCarousel';
 import { AIInsightPanel } from '../components/AIInsightPanel';
 import { useArchivalItems } from '../hooks/useArchivalItems';
 import { generateRadioShowConcept } from '../services/geminiService';
-import { AIGenerationType, ArchiveItemSummary } from '../types';
+import { AIGenerationType } from '../types';
 import { AudioPlayer } from '../components/audiothek/AudioPlayer';
 import { playlistAtom } from '../store/audioPlayer';
-
-interface AudiothekViewProps {}
 
 const getShelves = (t: (key: string) => string) => [
     { key: 'librivox', title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
@@ -29,7 +27,7 @@ const getAdditionalAudioCollections = (t: (key: string) => string) => [
     { key: 'airchecks', title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
 ];
 
-const AudiothekView: React.FC<AudiothekViewProps> = () => {
+const AudiothekView: React.FC = () => {
     const { t } = useLanguage();
     const shelves = getShelves(t);
     const additionalAudioCollections = getAdditionalAudioCollections(t);

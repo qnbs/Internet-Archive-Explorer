@@ -147,7 +147,6 @@ export const addItemsToCollectionAtom = atom(
 
 // --- User Tags ---
 export const allTagsAtom = atom(get => {
-    // FIX: Explicitly type `items` as `LibraryItem[]` to ensure type safety.
     const items: LibraryItem[] = Object.values(get(libraryItemsAtom));
     const tags = new Set<string>();
     items.forEach(item => {
