@@ -42,10 +42,12 @@ export const PWAInstallButton: React.FC = () => {
         return null;
     }
 
+    const buttonFocusStyles = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-500 dark:focus-visible:ring-offset-gray-800";
+
     return (
         <button
             onClick={handleInstallClick}
-            className="flex-shrink-0 h-10 w-10 flex flex-col items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-700/50 hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
+            className={`flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-700/50 hover:text-accent-600 dark:hover:text-accent-400 transition-colors ${buttonFocusStyles}`}
             title="Install App"
             aria-label="Install App"
         >

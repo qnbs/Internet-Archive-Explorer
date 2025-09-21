@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internet Archive Explorer</title>
     
-    <link rel="manifest" href="./manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#06b6d4" />
-    <link rel="apple-touch-icon" href="./icon-192.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Archive Explorer" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3clinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' style='stop-color:%2322d3ee;stop-opacity:1' /%3e%3cstop offset='100%25' style='stop-color:%230891b2;stop-opacity:1' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect width='100' height='100' rx='20' fill='%23083344'/%3e%3cpath d='M 25 75 L 50 25 L 75 75' stroke='url(%23grad)' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3e%3cpath d='M 30 75 A 20 20 0 0 1 70 75' stroke='%23cffafe' stroke-width='12' stroke-linecap='round' fill='none'/%3e%3c/svg%3e" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,6 +109,29 @@
         .underline-links a {
             text-decoration: underline;
         }
+        [contenteditable][data-placeholder]:empty:before {
+            content: attr(data-placeholder);
+            color: #6b7280; /* gray-500 */
+            pointer-events: none;
+            display: block;
+        }
+        /* Fix for contenteditable placeholder creating unwanted height */
+        [contenteditable][data-placeholder]:empty {
+            min-height: 0;
+        }
+        
+        /* Accessibility: Disable animations based on user setting */
+        .no-animations *,
+        .no-animations *::before,
+        .no-animations *::after {
+          animation-delay: -1ms !important;
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          background-attachment: initial !important;
+          scroll-behavior: auto !important;
+          transition-delay: 0s !important;
+          transition-duration: 0s !important;
+        }
     </style>
   </head>
   <body class="bg-gray-100 dark:bg-gray-900">
@@ -114,7 +140,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
+          navigator.serviceWorker.register('/service-worker.js')
             .then(registration => {
               console.log('ServiceWorker registration successful with scope: ', registration.scope);
             })

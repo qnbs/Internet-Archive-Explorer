@@ -27,7 +27,8 @@ export const exportAllData = (): string => {
 
     try {
         data.settings = JSON.parse(localStorage.getItem(SETTINGS_KEYS.settings) || '{}');
-        data.libraryItems = JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '[]');
+        // Convert the library items record to an array for export consistency.
+        data.libraryItems = Object.values(JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '{}'));
         data.uploaderFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEYS.uploaderFavorites) || '[]');
         data.scriptoriumWorksets = JSON.parse(localStorage.getItem(SCRIPTORIUM_KEY) || '[]');
         data.searchHistory = JSON.parse(localStorage.getItem(SEARCH_KEYS.searchHistory) || '[]');
@@ -57,7 +58,16 @@ export const importData = (jsonString: string): void => {
 
         // Validate and save each part
         if (data.settings) localStorage.setItem(SETTINGS_KEYS.settings, JSON.stringify(data.settings));
-        if (data.libraryItems) localStorage.setItem(FAVORITES_KEYS.libraryItems, JSON.stringify(data.libraryItems));
+        
+        // Convert imported library items array back into a record for storage.
+        if (Array.isArray(data.libraryItems)) {
+             const libraryItemsRecord = data.libraryItems.reduce((acc, item) => {
+                acc[item.identifier] = item;
+                return acc;
+            }, {} as Record<string, LibraryItem>);
+            localStorage.setItem(FAVORITES_KEYS.libraryItems, JSON.stringify(libraryItemsRecord));
+        }
+
         if (data.uploaderFavorites) localStorage.setItem(FAVORITES_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
         if (data.scriptoriumWorksets) localStorage.setItem(SCRIPTORIUM_KEY, JSON.stringify(data.scriptoriumWorksets));
         if (data.searchHistory) localStorage.setItem(SEARCH_KEYS.searchHistory, JSON.stringify(data.searchHistory));

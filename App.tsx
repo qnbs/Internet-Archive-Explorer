@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
@@ -20,7 +21,7 @@ import {
     defaultViewAtom,
     defaultSettings,
 } from './store/settings';
-import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler, ConfirmationOptions, MediaType } from './types';
+import type { View, Profile, ArchiveItemSummary, AccentColor, SelectItemHandler, ConfirmationOptions, MediaType, AppSettings } from './types';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -123,7 +124,8 @@ const AppContent: React.FC = () => {
     if (!storedSettings) {
         initialView = defaultSettings.defaultView;
     } else {
-        const settings = JSON.parse(storedSettings);
+        // FIX: Explicitly type the parsed settings to avoid 'any' type and ensure type safety.
+        const settings: Partial<AppSettings> = JSON.parse(storedSettings);
         initialView = settings.defaultView || defaultSettings.defaultView;
     }
     setActiveView(initialView);
@@ -154,7 +156,8 @@ const AppContent: React.FC = () => {
         style.id = styleId;
         document.head.appendChild(style);
     }
-    style.innerHTML = `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor} !important; }`;
+    // FIX: Explicitly cast scrollbarColor to a string to prevent potential type errors
+    style.innerHTML = `::-webkit-scrollbar-thumb { background-color: ${String(scrollbarColor)} !important; }`;
   }, [accentColor, disableAnimations, highContrastMode, underlineLinks, fontSize, scrollbarColor]);
 
   const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);
@@ -205,7 +208,7 @@ const AppContent: React.FC = () => {
       />
       <Header onMenuClick={() => setIsSideMenuOpen(true)} onOpenCommandPalette={openCommandPalette} />
       
-      <main className="p-4 sm:p-6 pb-20 md:pb-6 pt-20 h-screen overflow-y-auto">
+      <main className="p-4 sm:p-6 pb-20 md:pb-6 pt-18 h-screen overflow-y-auto">
          <ErrorBoundary>
             <Suspense fallback={<PageSpinner />}>
                 {renderView()}

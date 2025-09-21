@@ -1,62 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { useSetAtom } from 'jotai';
-import { updateDocumentNotesAtom } from '../store/scriptorium';
-import type { WorksetDocument } from '../types';
-import { useDebounce } from '../hooks/useDebounce';
+import React, { useRef, useCallback, useEffect } from 'react';
+import { useLanguage } from '../hooks/useLanguage';
+import { BoldIcon, ItalicIcon, UnderlineIcon, ListUnorderedIcon, ListOrderedIcon } from './Icons';
 
-interface NotesEditorProps {
-    document: WorksetDocument;
+interface RichTextEditorProps {
+    value: string;
+    onChange: (html: string) => void;
+    placeholder?: string;
+    className?: string;
 }
 
-export const NotesEditor: React.FC<NotesEditorProps> = ({ document }) => {
-    const [notes, setNotes] = useState(document.notes);
-    const updateNotes = useSetAtom(updateDocumentNotesAtom);
-    const debouncedNotes = useDebounce(notes, 1000);
-    const [isSaving, setIsSaving] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
-    // Fix: Corrected invalid hook call syntax and improved type safety for the timeout ref.
-    const savedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+const ToolbarButton: React.FC<{
+    onClick: (e: React.MouseEvent) => void;
+    title: string;
+    children: React.ReactNode;
+}> = ({ onClick, title, children }) => (
+    <button
+        type="button"
+        onMouseDown={e => e.preventDefault()}
+        onClick={onClick}
+        title={title}
+        className="p-2 rounded-md text-gray-400 hover:bg-gray-600 hover:text-white transition-colors"
+    >
+        {children}
+    </button>
+);
 
-    // Reset local state when document changes
-    useEffect(() => {
-        setNotes(document.notes);
-        setIsSaving(false);
-        setIsSaved(false);
-        // Fix: Guard clearTimeout to prevent errors if the ref is not set.
-        if (savedTimeout.current) clearTimeout(savedTimeout.current);
-    }, [document]);
-    
-    // Show saving indicator
-    useEffect(() => {
-        if (notes !== document.notes) {
-            setIsSaving(true);
-            setIsSaved(false);
-            if (savedTimeout.current) clearTimeout(savedTimeout.current);
-        }
-    }, [notes, document.notes]);
+export const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, placeholder, className }) => {
+    const { t } = useLanguage();
+    const editorRef = useRef<HTMLDivElement>(null);
 
-    // Save debounced notes to global state
-    useEffect(() => {
-        if (document && debouncedNotes !== document.notes) {
-            updateNotes({ worksetId: document.worksetId, documentId: document.identifier, notes: debouncedNotes });
-            setIsSaving(false);
-            setIsSaved(true);
-            savedTimeout.current = setTimeout(() => setIsSaved(false), 2000);
+    const handleCommand = (e: React.MouseEvent, command: string) => {
+        e.preventDefault();
+        document.execCommand(command, false);
+        if (editorRef.current) {
+            onChange(editorRef.current.innerHTML);
+            editorRef.current.focus();
         }
-    }, [debouncedNotes, document, updateNotes]);
+    };
+
+    const handleInput = useCallback((e: React.FormEvent<HTMLDivElement>) => {
+        onChange(e.currentTarget.innerHTML);
+    }, [onChange]);
     
+    // This is a workaround to sync the div content if the value is updated externally (e.g. switching items)
+    useEffect(() => {
+        if (editorRef.current && editorRef.current.innerHTML !== value) {
+            editorRef.current.innerHTML = value;
+        }
+    }, [value]);
+
     return (
-        <div className="h-full flex flex-col">
-            <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Start typing your notes here..."
-                className="w-full h-full bg-transparent text-gray-300 p-4 resize-none focus:outline-none placeholder-gray-500"
-            />
-            <div className="flex-shrink-0 text-right px-4 py-1 text-xs text-gray-500 h-6">
-                {isSaving && <span>Saving...</span>}
-                {isSaved && <span className="text-green-400">Saved</span>}
+        <div className={`h-full flex flex-col bg-gray-900/50 rounded-lg border border-gray-700 ${className || ''}`}>
+            <div className="flex-shrink-0 flex items-center space-x-1 p-1 border-b border-gray-700">
+                <ToolbarButton onClick={(e) => handleCommand(e, 'bold')} title={t('common:richText.bold')}><BoldIcon /></ToolbarButton>
+                <ToolbarButton onClick={(e) => handleCommand(e, 'italic')} title={t('common:richText.italic')}><ItalicIcon /></ToolbarButton>
+                <ToolbarButton onClick={(e) => handleCommand(e, 'underline')} title={t('common:richText.underline')}><UnderlineIcon /></ToolbarButton>
+                <div className="w-px h-6 bg-gray-700 mx-1"></div>
+                <ToolbarButton onClick={(e) => handleCommand(e, 'insertUnorderedList')} title={t('common:richText.unorderedList')}><ListUnorderedIcon /></ToolbarButton>
+                <ToolbarButton onClick={(e) => handleCommand(e, 'insertOrderedList')} title={t('common:richText.orderedList')}><ListOrderedIcon /></ToolbarButton>
             </div>
+            <div
+                ref={editorRef}
+                contentEditable
+                onInput={handleInput}
+                dangerouslySetInnerHTML={{ __html: value }}
+                className="prose-editor w-full flex-grow bg-transparent text-gray-300 p-3 overflow-y-auto resize-none focus:outline-none placeholder-gray-500 prose prose-sm dark:prose-invert max-w-none"
+                data-placeholder={placeholder}
+            />
         </div>
     );
 };

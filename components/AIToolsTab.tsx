@@ -1,10 +1,12 @@
+
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { getSummary, extractEntities } from '../../services/geminiService';
 import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../../types';
 import { useSearchAndGo } from '../../hooks/useSearchAndGo';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../store/settings';
+import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
@@ -64,12 +66,12 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 type: AIGenerationType.Summary,
                 content: generatedSummary,
                 language: language,
-                // Fix: Corrected typo from mediaType to mediatype.
-                source: { ...item, mediatype: item.mediatype },
+                source: item,
                 prompt: JSON.stringify(archiveOptions),
             }, addAIEntry, autoArchive);
         } catch (err) {
-            setSummaryError((err as Error).message || t('aiTools:summaryErrorApi'));
+            // FIX: Use `instanceof Error` for type-safe error handling.
+            setSummaryError(err instanceof Error ? err.message : t('aiTools:summaryErrorApi'));
         } finally {
             setIsSummarizing(false);
         }
@@ -94,11 +96,11 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 type: AIGenerationType.Entities,
                 content: result,
                 language: language,
-                // Fix: Corrected typo from mediaType to mediatype.
-                source: { ...item, mediatype: item.mediatype },
+                source: item,
             }, addAIEntry, autoArchive);
         } catch (err) {
-            setEntityError((err as Error).message || t('aiTools:entityErrorApi'));
+            // FIX: Corrected copy-paste error using entityErrorApi instead of summaryErrorApi.
+            setEntityError(err instanceof Error ? err.message : t('aiTools:entityErrorApi'));
         } finally {
             setIsExtracting(false);
         }

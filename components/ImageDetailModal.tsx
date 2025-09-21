@@ -245,8 +245,7 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
       archiveAIGeneration({
           type: AIGenerationType.ImageAnalysis,
           content: result, language,
-          // Fix: Corrected typo from mediaType to mediatype.
-          source: { ...item, mediatype: item.mediatype },
+          source: item,
       }, addAIEntry, autoArchive);
     } catch(err) {
       addToast(err instanceof Error ? err.message : 'Failed to analyze image.', 'error');
@@ -267,8 +266,7 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
             content: answer,
             language,
             prompt: question,
-            // Fix: Corrected typo from mediaType to mediatype.
-            source: { ...item, mediatype: item.mediatype }
+            source: item
         }, addAIEntry, autoArchive);
         
         return answer;

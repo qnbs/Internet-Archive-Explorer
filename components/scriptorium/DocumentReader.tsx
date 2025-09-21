@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { WorksetDocument } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useItemMetadata } from '../../hooks/useItemMetadata';
@@ -7,7 +7,10 @@ import { ArrowLeftIcon } from '../Icons';
 import { DocumentSearchBar } from './DocumentSearchBar';
 import { AnalysisToolbar } from './AnalysisToolbar';
 import { ResizablePanel } from './ResizablePanel';
-import { NotesEditor } from '../RichTextEditor';
+import { RichTextEditor } from '../RichTextEditor';
+import { useSetAtom } from 'jotai';
+import { updateDocumentNotesAtom } from '../../store/scriptorium';
+import { useDebounce } from '../../hooks/useDebounce';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
@@ -47,6 +50,55 @@ const ReaderContent: React.FC<{ text: string, searchQuery: string }> = React.mem
     );
 });
 
+
+const ScriptoriumNotesEditor: React.FC<{ document: WorksetDocument }> = ({ document }) => {
+    const [notes, setNotes] = useState(document.notes);
+    const updateNotesAtomAction = useSetAtom(updateDocumentNotesAtom);
+    const debouncedNotes = useDebounce(notes, 1000);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
+    const savedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        setNotes(document.notes);
+        setIsSaving(false);
+        setIsSaved(false);
+        if (savedTimeout.current) clearTimeout(savedTimeout.current);
+    }, [document]);
+
+    useEffect(() => {
+        if (notes !== document.notes) {
+            setIsSaving(true);
+            setIsSaved(false);
+            if (savedTimeout.current) clearTimeout(savedTimeout.current);
+        }
+    }, [notes, document.notes]);
+
+    useEffect(() => {
+        if (document && debouncedNotes !== document.notes) {
+            updateNotesAtomAction({ worksetId: document.worksetId, documentId: document.identifier, notes: debouncedNotes });
+            setIsSaving(false);
+            setIsSaved(true);
+            savedTimeout.current = setTimeout(() => setIsSaved(false), 2000);
+        }
+    }, [debouncedNotes, document, updateNotesAtomAction]);
+    
+    return (
+        <div className="h-full flex flex-col">
+            <RichTextEditor
+                value={notes}
+                onChange={setNotes}
+                placeholder="Start typing your notes here..."
+                className="border-none rounded-none"
+            />
+            <div className="flex-shrink-0 text-right px-4 py-1 text-xs text-gray-500 h-6 bg-gray-900/50 rounded-b-lg">
+                {isSaving && <span>Saving...</span>}
+                {isSaved && <span className="text-green-400">Saved</span>}
+            </div>
+        </div>
+    );
+};
+
 export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack }) => {
     const { t } = useLanguage();
     const { plainText, isLoadingText, textError } = useItemMetadata(document);
@@ -75,7 +127,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
             <header className="flex-shrink-0 p-3 bg-gray-900/50 border-b border-gray-700">
                 <h2 className="font-bold text-white">{t('scriptorium:reader.notes')}</h2>
             </header>
-            <NotesEditor document={document} />
+            <ScriptoriumNotesEditor document={document} />
         </div>
     );
     

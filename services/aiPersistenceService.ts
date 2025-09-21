@@ -81,9 +81,7 @@ export const archiveAIGeneration = (
         userNotes: '',
     };
     
-    // Fix: Corrected typo from mediaType to mediatype
     if (data.source?.mediatype) {
-        // Fix: Corrected typo from mediaType to mediatype
         newEntry.tags.push(data.source.mediatype);
     }
     

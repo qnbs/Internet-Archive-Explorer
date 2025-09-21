@@ -94,8 +94,8 @@ export const useItemMetadata = (item: ArchiveItemSummary) => {
                 .then(setPlainText)
                 .catch((err) => {
                     setPlainText(null);
-                    // Fix: Cast caught error to Error type to safely access 'message' property.
-                    setTextError((err as Error).message || 'Failed to load text content.');
+                    const message = err instanceof Error ? err.message : 'Failed to load text content.';
+                    setTextError(message);
                 })
                 .finally(() => setIsLoadingText(false));
         }

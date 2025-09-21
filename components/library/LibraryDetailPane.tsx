@@ -6,6 +6,7 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useDebounce } from '../../hooks/useDebounce';
 import { StarIcon, ArrowLeftIcon, TagIcon, CloseIcon } from '../Icons';
 import { modalAtom } from '../../store/app';
+import { RichTextEditor } from '../RichTextEditor';
 
 const Tag: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
     <div className="flex items-center gap-1.5 bg-cyan-500/80 text-white text-xs font-semibold pl-2 pr-1 py-1 rounded-full">
@@ -23,7 +24,6 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
 
     const [isSavingNotes, setIsSavingNotes] = useState(false);
     const [isNotesSaved, setIsNotesSaved] = useState(false);
-    // Fix: Corrected invalid hook call syntax and improved type safety for the timeout ref.
     const notesSavedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const updateNotesAtom = useSetAtom(updateLibraryItemNotesAtom);
@@ -37,7 +37,6 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
             setTags(selectedItem.tags);
             setIsSavingNotes(false);
             setIsNotesSaved(false);
-            // Fix: Guard clearTimeout to prevent errors if the ref is not set.
             if (notesSavedTimeout.current) clearTimeout(notesSavedTimeout.current);
         }
     }, [selectedItem]);
@@ -121,11 +120,11 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
                             {isNotesSaved && <span className="text-green-400">Saved</span>}
                         </div>
                     </div>
-                    <textarea
+                    <RichTextEditor
                         value={notes}
-                        onChange={e => setNotes(e.target.value)}
+                        onChange={setNotes}
                         placeholder={t('favorites:details.notesPlaceholder')}
-                        className="w-full h-48 bg-gray-900/50 p-3 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        className="h-48"
                     />
                 </div>
             </div>

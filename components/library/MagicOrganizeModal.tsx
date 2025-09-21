@@ -40,7 +40,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     useModalFocusTrap({ modalRef, isOpen: true, onClose });
 
     useEffect(() => {
-        const itemsToOrganize = allLibraryItems.filter(item => itemIds.includes(item.identifier));
+        const itemsToOrganize = itemIds.map(id => allLibraryItems[id]).filter(Boolean);
 
         if (itemsToOrganize.length === 0) {
             setError('No items selected for organization.');
@@ -63,8 +63,8 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                     prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
                 }, addAIEntry, autoArchive);
             })
-            // Fix: Cast caught error to Error type to safely access 'message' property.
-            .catch(err => setError((err as Error).message || t('common:error')))
+            // FIX: Use `instanceof Error` for type-safe error handling.
+            .catch(err => setError(err instanceof Error ? err.message : t('common:error')))
             .finally(() => setIsLoading(false));
 
     }, [itemIds, allLibraryItems, language, t, addAIEntry, autoArchive]);

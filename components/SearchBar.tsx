@@ -92,31 +92,32 @@ export const SearchBar: React.FC = () => {
     const hasActiveFilters = facets.mediaType.size > 0 || facets.availability !== 'all' || !!facets.language;
 
     return (
-        <form onSubmit={handleSearchSubmit} className="flex-1 relative">
-            <div className="relative w-full flex items-center bg-gray-100/50 dark:bg-gray-700/50 rounded-lg border border-transparent focus-within:border-accent-500 h-10 px-3 transition-colors">
-                <label htmlFor="header-search" className="sr-only">{getPlaceholder()}</label>
-                <SearchIcon className="w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none flex-shrink-0" />
+        <form 
+            onSubmit={handleSearchSubmit} 
+            className="flex-1 min-w-0 relative flex items-center bg-gray-100/50 dark:bg-gray-700/50 rounded-lg border border-transparent focus-within:border-accent-500 h-10 px-3 transition-colors"
+        >
+            <label htmlFor="header-search" className="sr-only">{getPlaceholder()}</label>
+            <SearchIcon className="w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none flex-shrink-0" />
 
-                <div className="flex items-center gap-1.5 ml-2 overflow-x-hidden">
-                    {Array.from(facets.mediaType).map((type: MediaType) => <Pill key={type} label={type} onRemove={() => handleRemoveMediaType(type)} />)}
-                    {facets.language && <Pill key={facets.language} label={facets.language} onRemove={handleRemoveLanguage} />}
-                </div>
-
-                <input
-                    id="header-search"
-                    type="text"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    placeholder={hasActiveFilters ? '' : getPlaceholder()}
-                    className="flex-grow w-full bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none ml-2"
-                />
-
-                {inputValue && (
-                    <button type="button" onClick={handleClearSearch} className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">
-                        <CloseIcon className="w-4 h-4" />
-                    </button>
-                )}
+            <div className="flex items-center gap-1.5 ml-2 overflow-x-hidden">
+                {Array.from(facets.mediaType).map((type: MediaType) => <Pill key={type} label={type} onRemove={() => handleRemoveMediaType(type)} />)}
+                {facets.language && <Pill key={facets.language} label={facets.language} onRemove={handleRemoveLanguage} />}
             </div>
+
+            <input
+                id="header-search"
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder={hasActiveFilters ? '' : getPlaceholder()}
+                className="flex-grow w-full bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none ml-2"
+            />
+
+            {inputValue && (
+                <button type="button" onClick={handleClearSearch} className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">
+                    <CloseIcon className="w-4 h-4" />
+                </button>
+            )}
         </form>
     );
 };

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { deleteAIArchiveEntryAtom, updateAIEntryTagsAtom, updateAIArchiveEntryAtom } from '../../store/aiArchive';
@@ -99,7 +100,8 @@ export const AIArchiveDetailPane: React.FC<{ selectedEntry: AIArchiveEntry | nul
             updateEntry({ ...selectedEntry, userNotes: debouncedNotes });
             setIsSavingNotes(false);
             setIsNotesSaved(true);
-            notesSavedTimeout.current = window.setTimeout(() => setIsNotesSaved(false), 2000);
+            // FIX: Use standard `setTimeout` for consistency.
+            notesSavedTimeout.current = setTimeout(() => setIsNotesSaved(false), 2000);
         }
     }, [debouncedNotes, selectedEntry, updateEntry]);
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { libraryItemsAtom, userCollectionsAtom } from '../store/favorites';
@@ -31,8 +30,11 @@ const LibraryView: React.FC = () => {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    // FIX: Explicitly type allItemsArray to ensure correct type inference downstream.
+    const allItemsArray: LibraryItem[] = useMemo(() => Object.values(allItems), [allItems]);
+
     const filteredItems = useMemo(() => {
-        let items = [...allItems].sort((a, b) => b.addedAt - a.addedAt);
+        let items = [...allItemsArray].sort((a, b) => b.addedAt - a.addedAt);
         if (activeTab !== 'items') return [];
 
         switch (filter.type) {
@@ -48,10 +50,10 @@ const LibraryView: React.FC = () => {
             default:
                 return items;
         }
-    }, [allItems, filter, collections, activeTab]);
+    }, [allItemsArray, filter, collections, activeTab]);
 
     const selectedItem = useMemo(() => {
-        return allItems.find(item => item.identifier === selectedItemId) || null;
+        return allItems[selectedItemId || ''] || null;
     }, [allItems, selectedItemId]);
 
     // When filter changes, deselect item if it's not in the new filtered list
@@ -66,7 +68,7 @@ const LibraryView: React.FC = () => {
             return <UploaderFavoritesTab />;
         }
         
-        if (allItems.length === 0) {
+        if (allItemsArray.length === 0) {
             return (
                 <div className="flex items-center justify-center min-h-[50vh]">
                     <LibraryEmptyState />
