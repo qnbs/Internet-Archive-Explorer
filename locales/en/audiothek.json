@@ -26,5 +26,14 @@
     "title": "Radio Archivist's Feature",
     "description": "Let our AI DJ find a thematic thread through the audio collection and spin up a concept for a fictional radio show.",
     "button": "Create Radio Show Concept"
+  },
+  "player": {
+    "nowPlaying": "Now Playing",
+    "playlist": "Playlist",
+    "upNext": "Up Next",
+    "emptyPlaylist": "Playlist is empty",
+    "addToQueue": "Add to Queue",
+    "clearPlaylist": "Clear Playlist",
+    "volume": "Volume"
   }
 }

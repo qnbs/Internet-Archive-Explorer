@@ -164,6 +164,14 @@ const AppContent: React.FC = () => {
   const showConfirmation = useCallback((options: ConfirmationOptions) => {
     setModal({ type: 'confirmation', options });
   }, [setModal]);
+  
+  const handleSelectItem = useCallback((item: ArchiveItemSummary) => {
+    if (item.mediatype === 'image') {
+      setModal({ type: 'imageDetail', item });
+    } else {
+      setModal({ type: 'itemDetail', item });
+    }
+  }, [setModal]);
 
   const renderView = () => {
     switch (activeView) {
@@ -171,8 +179,9 @@ const AppContent: React.FC = () => {
       case 'library': return <LibraryView />;
       case 'scriptorium': return <ScriptoriumView showConfirmation={showConfirmation} />;
       case 'recroom': return <RecRoomView onSelectItem={(item) => setModal({ type: 'emulator', item })} />;
+      // FIX: The `onSelectItem` prop is not defined for VideothekView and is not needed as its child components use a Jotai atom for selection.
       case 'movies': return <VideothekView />;
-      case 'audio': return <AudiothekView />;
+      case 'audio': return <AudiothekView onSelectItem={handleSelectItem} />;
       case 'image': return <ImagesHubView onSelectItem={(item) => setModal({ type: 'imageDetail', item })} />;
       case 'uploaderHub': return <UploaderHubView />;
       case 'uploaderDetail':

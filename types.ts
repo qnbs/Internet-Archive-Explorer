@@ -296,3 +296,8 @@ export type AIArchiveFilter =
   | { type: 'tag'; tag: string };
   
 export type AIArchiveSortOption = 'timestamp_desc' | 'timestamp_asc' | 'type_asc';
+
+export interface PlayableTrack extends ArchiveItemSummary {
+  playableUrl: string;
+  duration?: string;
+}

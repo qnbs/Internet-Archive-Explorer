@@ -26,5 +26,14 @@
     "title": "Feature des Radio-Archivars",
     "description": "Lassen Sie unseren KI-DJ einen thematischen Faden durch die Audiosammlung ziehen und ein Konzept für eine fiktive Radiosendung entwickeln.",
     "button": "Radiosendungs-Konzept erstellen"
+  },
+  "player": {
+    "nowPlaying": "Aktuelle Wiedergabe",
+    "playlist": "Wiedergabeliste",
+    "upNext": "Als Nächstes",
+    "emptyPlaylist": "Wiedergabeliste ist leer",
+    "addToQueue": "Zur Warteschlange hinzufügen",
+    "clearPlaylist": "Wiedergabeliste leeren",
+    "volume": "Lautstärke"
   }
 }

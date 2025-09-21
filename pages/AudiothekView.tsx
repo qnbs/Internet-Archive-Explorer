@@ -1,14 +1,19 @@
 import React from 'react';
+import { useAtom } from 'jotai';
 import { AudiothekHero } from '../components/audiothek/AudiothekHero';
 import { CategoryGrid } from '../components/audiothek/CategoryGrid';
 import { useLanguage } from '../hooks/useLanguage';
-import { ArchivalCarousel } from '../components/ArchivalCarousel';
+import { AudioCarousel } from '../components/audiothek/AudioCarousel';
 import { AIInsightPanel } from '../components/AIInsightPanel';
 import { useArchivalItems } from '../hooks/useArchivalItems';
 import { generateRadioShowConcept } from '../services/geminiService';
-import { AIGenerationType } from '../types';
+import { AIGenerationType, ArchiveItemSummary } from '../types';
+import { AudioPlayer } from '../components/audiothek/AudioPlayer';
+import { playlistAtom } from '../store/audioPlayer';
 
-interface AudiothekViewProps {}
+interface AudiothekViewProps {
+    onSelectItem: (item: ArchiveItemSummary) => void;
+}
 
 const getShelves = (t: (key: string) => string) => [
     { key: 'librivox', title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },
@@ -26,14 +31,16 @@ const getAdditionalAudioCollections = (t: (key: string) => string) => [
     { key: 'airchecks', title: t('audiothek:collections.airchecks'), query: 'collection:airchecks' },
 ];
 
-const AudiothekView: React.FC<AudiothekViewProps> = () => {
+const AudiothekView: React.FC<AudiothekViewProps> = ({ onSelectItem }) => {
     const { t } = useLanguage();
     const shelves = getShelves(t);
     const additionalAudioCollections = getAdditionalAudioCollections(t);
     const { items: librivoxItems } = useArchivalItems(shelves[0].query);
+    const [playlist] = useAtom(playlistAtom);
+
 
     return (
-        <div className="space-y-12 animate-page-fade-in">
+        <div className="space-y-12 animate-page-fade-in pb-24">
             <AudiothekHero />
             <CategoryGrid />
             
@@ -47,22 +54,23 @@ const AudiothekView: React.FC<AudiothekViewProps> = () => {
             />
 
             {shelves.map(shelf => (
-                <ArchivalCarousel
+                <AudioCarousel
                     key={shelf.key}
                     title={shelf.title}
                     query={shelf.query}
-                    cardAspectRatio="square"
+                    onSelectItem={onSelectItem}
                 />
             ))}
             <div className="border-t border-gray-700"></div>
              {additionalAudioCollections.map(collection => (
-                <ArchivalCarousel
+                <AudioCarousel
                     key={collection.key}
                     title={collection.title}
                     query={collection.query}
-                    cardAspectRatio="square"
+                    onSelectItem={onSelectItem}
                 />
             ))}
+            {playlist.length > 0 && <AudioPlayer />}
         </div>
     );
 };

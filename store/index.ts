@@ -2,7 +2,7 @@
 // This simplifies imports in components and avoids circular dependencies.
 
 export type { ModalState } from './app';
-export { activeViewAtom, modalAtom } from './app';
+export { activeViewAtom, modalAtom, selectItemAtom } from './app';
 export { selectedProfileAtom, profileReturnViewAtom } from './atoms';
 export {
     defaultSettings,
@@ -83,3 +83,16 @@ export {
     updateAIArchiveEntryAtom,
     updateAIEntryTagsAtom
 } from './aiArchive';
+export {
+    playlistAtom,
+    currentTrackIndexAtom,
+    isPlayingAtom,
+    currentTrackAtom,
+    playItemAtom,
+    addToQueueAtom,
+    togglePlayPauseAtom,
+    nextTrackAtom,
+    prevTrackAtom,
+    clearPlaylistAtom,
+    removeFromPlaylistAtom
+} from './audioPlayer';
