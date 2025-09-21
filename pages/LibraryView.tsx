@@ -30,7 +30,6 @@ const LibraryView: React.FC = () => {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    // FIX: Explicitly type allItemsArray to ensure correct type inference downstream.
     const allItemsArray: LibraryItem[] = useMemo(() => Object.values(allItems), [allItems]);
 
     const filteredItems = useMemo(() => {

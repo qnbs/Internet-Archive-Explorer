@@ -3,7 +3,6 @@
 
 export type { ModalState } from './app';
 export { activeViewAtom, modalAtom, selectItemAtom } from './app';
-// FIX: Export from the correct module 'app' instead of the deprecated 'atoms'.
 export { selectedProfileAtom, profileReturnViewAtom } from './app';
 export {
     defaultSettings,

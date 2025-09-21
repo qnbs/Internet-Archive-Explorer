@@ -8,7 +8,6 @@ export const STORAGE_KEY = 'ai-archive-v1';
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 
 // --- UI State Atoms (moved from store/atoms.ts) ---
-// FIX: Changed to safeAtomWithStorage to ensure it's correctly typed as a WritableAtom.
 export const selectedAIEntryIdAtom = safeAtomWithStorage<string | null>('ai-archive-selected-entry-id', null);
 export const aiArchiveSearchQueryAtom = atom('');
 

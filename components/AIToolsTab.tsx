@@ -1,5 +1,3 @@
-
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { getSummary, extractEntities } from '../../services/geminiService';
 import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../../types';
@@ -12,7 +10,6 @@ import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
 import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
 import { toastAtom } from '../store/app';
 
 interface AIToolsTabProps {
@@ -99,7 +96,6 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 source: item,
             }, addAIEntry, autoArchive);
         } catch (err) {
-            // FIX: Corrected copy-paste error using entityErrorApi instead of summaryErrorApi.
             setEntityError(err instanceof Error ? err.message : t('aiTools:entityErrorApi'));
         } finally {
             setIsExtracting(false);
