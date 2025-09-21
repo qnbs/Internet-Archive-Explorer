@@ -1,18 +1,14 @@
-
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { aiArchiveAtom } from '../store/aiArchive';
 import { aiArchiveSearchQueryAtom, selectedAIEntryIdAtom } from '../store/atoms';
-import type { AIArchiveEntry, AIArchiveFilter } from '../types';
+import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '../types';
 import { BrainIcon, FilterIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { useDebounce } from '../hooks/useDebounce';
 import { AIArchiveSidebar } from '../components/ai-archive/AIArchiveSidebar';
 import { AIArchiveList } from '../components/ai-archive/AIArchiveList';
 import { AIArchiveDetailPane } from '../components/ai-archive/AIArchiveDetailPane';
-
-export type SortOption = 'timestamp_desc' | 'timestamp_asc' | 'type_asc';
 
 const AIArchiveEmptyState: React.FC = () => {
     const { t } = useLanguage();
@@ -32,7 +28,7 @@ const AIArchiveView: React.FC = () => {
     const [selectedEntryId, setSelectedEntryId] = useAtom(selectedAIEntryIdAtom);
     
     const [filter, setFilter] = useState<AIArchiveFilter>({ type: 'all' });
-    const [sort, setSort] = useState<SortOption>('timestamp_desc');
+    const [sort, setSort] = useState<AIArchiveSortOption>('timestamp_desc');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 300);

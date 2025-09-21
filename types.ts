@@ -296,3 +296,5 @@ export type AIArchiveFilter =
   | { type: 'generation'; generationType: AIGenerationType }
   | { type: 'language'; language: Language }
   | { type: 'tag'; tag: string };
+  
+export type AIArchiveSortOption = 'timestamp_desc' | 'timestamp_asc' | 'type_asc';

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ArchiveItemSummary } from '../types';
 import { AudiothekHero } from '../components/audiothek/AudiothekHero';
-import { CategoryGrid } from '../components/audiothek/CategoryGrid';
+import { CategoryGrid } from '../components/CategoryGrid';
 import { useLanguage } from '../hooks/useLanguage';
 import { ArchivalCarousel } from '../components/ArchivalCarousel';
 import { AIInsightPanel } from '../components/AIInsightPanel';

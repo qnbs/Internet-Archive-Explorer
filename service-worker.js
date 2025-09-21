@@ -1,14 +1,11 @@
-const CACHE_NAME = 'pwa-cache-v1';
+const CACHE_NAME = 'pwa-cache-v2';
 
-// App Shell: The minimal resources needed for the app to start.
 const APP_SHELL_URLS = [
   '/',
   '/index.html',
   '/index.tsx',
-  "data:image/svg+xml,%3csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3clinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' style='stop-color:%2322d3ee;stop-opacity:1' /%3e%3cstop offset='100%25' style='stop-color:%230891b2;stop-opacity:1' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect width='100' height='100' rx='20' fill='%23083344'/%3e%3cpath d='M 25 75 L 50 25 L 75 75' stroke='url(%23grad)' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3e%3cpath d='M 30 75 A 20 20 0 0 1 70 75' stroke='%23cffafe' stroke-width='12' stroke-linecap='round' fill='none'/%3e%3c/svg%3e"
 ];
 
-// Third-party resources to cache
 const THIRD_PARTY_URLS = [
   'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
@@ -24,7 +21,6 @@ const THIRD_PARTY_URLS = [
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
 
-// Install event: cache the app shell and third-party resources.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -33,12 +29,12 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
       .catch(error => {
-        console.error('[Service Worker] Failed to cache App Shell:', error);
+        console.error('[Service Worker] Failed to cache resources:', error);
       })
   );
+  self.skipWaiting();
 });
 
-// Activate event: clean up old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -50,38 +46,62 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  return self.clients.claim();
 });
 
-// Fetch event: serve from cache, falling back to network.
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') {
-      return;
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Use a network-first strategy for API calls.
+  if (url.hostname.includes('archive.org')) {
+    event.respondWith(
+      fetch(request)
+        .then(networkResponse => {
+          if (networkResponse.ok) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, responseToCache));
+          }
+          return networkResponse;
+        })
+        .catch(async () => {
+          // If the network fails, try the cache.
+          const cachedResponse = await caches.match(request);
+          return cachedResponse || new Response(JSON.stringify({ offline: true }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        })
+    );
+    return;
   }
   
+  // Use a cache-first strategy for all other requests.
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      try {
-        const networkResponse = await fetch(event.request);
-        if (networkResponse && networkResponse.status === 200 && !event.request.url.startsWith('chrome-extension://')) {
-          await cache.put(event.request, networkResponse.clone());
+    caches.match(request)
+      .then(cachedResponse => {
+        // Return the cached response if it exists.
+        if (cachedResponse) {
+          return cachedResponse;
         }
-        return networkResponse;
-      } catch (error) {
-        console.error('[Service Worker] Fetch failed:', error);
-        if (event.request.mode === 'navigate') {
-            const indexPage = await cache.match('/index.html');
-            if (indexPage) return indexPage;
+        // If not, fetch from the network, cache it, and return it.
+        return fetch(request).then(networkResponse => {
+          if (networkResponse.ok) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(request, responseToCache);
+            });
+          }
+          return networkResponse;
+        });
+      })
+      .catch(error => {
+        console.error('[SW] Fetch failed:', error);
+        // If a navigation request fails and is not in cache, return the offline page.
+        if (request.mode === 'navigate') {
+          return caches.match('/index.html');
         }
-        return new Response(null, { status: 500, statusText: "Service Worker fetch failed" });
-      }
-    })
+      })
   );
 });
