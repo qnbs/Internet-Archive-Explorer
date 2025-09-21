@@ -12,7 +12,8 @@ import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
 import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-import { toastAtom } from '../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../store/app';
 
 interface AIToolsTabProps {
     item: ArchiveItemSummary;
@@ -70,7 +71,6 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
                 prompt: JSON.stringify(archiveOptions),
             }, addAIEntry, autoArchive);
         } catch (err) {
-            // FIX: Use `instanceof Error` for type-safe error handling.
             setSummaryError(err instanceof Error ? err.message : t('aiTools:summaryErrorApi'));
         } finally {
             setIsSummarizing(false);

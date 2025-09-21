@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../../store/app';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
@@ -63,7 +64,6 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                     prompt: `Organize the following items:\n${itemsToOrganize.map(i => `- ${i.title}`).join('\n')}`
                 }, addAIEntry, autoArchive);
             })
-            // FIX: Use `instanceof Error` for type-safe error handling.
             .catch(err => setError(err instanceof Error ? err.message : t('common:error')))
             .finally(() => setIsLoading(false));
 

@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, addItemsToCollectionAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../../store/app';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import { CloseIcon, CollectionIcon } from '../Icons';

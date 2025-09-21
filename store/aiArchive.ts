@@ -1,14 +1,19 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { AIArchiveEntry } from '../types';
-import { selectedAIEntryIdAtom } from './atoms';
 
 export const STORAGE_KEY = 'ai-archive-v1';
 
-// Base state atom
+// --- Base State Atom ---
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 
-// Derived read-only atoms
+// --- UI State Atoms (moved from store/atoms.ts) ---
+// FIX: Changed to safeAtomWithStorage to ensure it's correctly typed as a WritableAtom.
+export const selectedAIEntryIdAtom = safeAtomWithStorage<string | null>('ai-archive-selected-entry-id', null);
+export const aiArchiveSearchQueryAtom = atom('');
+
+
+// --- Derived Read-only Atoms ---
 export const allAIArchiveTagsAtom = atom(get => {
     const entries = get(aiArchiveAtom);
     const tags = new Set<string>();
@@ -18,7 +23,7 @@ export const allAIArchiveTagsAtom = atom(get => {
     return Array.from(tags).sort();
 });
 
-// Write-only action atoms
+// --- Write-only Action Atoms ---
 export const addAIArchiveEntryAtom = atom(
     null,
     (get, set, newEntry: AIArchiveEntry) => {

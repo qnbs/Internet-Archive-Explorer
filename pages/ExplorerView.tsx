@@ -14,7 +14,8 @@ import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { searchArchive } from '../services/archiveService';
-import { toastAtom } from '../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../store/app';
 
 interface ExplorerViewProps {}
 

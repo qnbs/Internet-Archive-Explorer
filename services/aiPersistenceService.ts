@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { AIArchiveEntry, AIGenerationType, ExtractedEntities, ImageAnalysisResult, Language, MagicOrganizeResult } from '../types';
+import { selectedAIEntryIdAtom } from '../store/aiArchive';
 
 // This service is now the single source of truth for retrieving and persisting AI generations.
 // It reads from and writes to the global `aiArchiveAtom` via arguments passed from components.

@@ -6,7 +6,8 @@ import { SparklesIcon, TagIcon } from '../Icons';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
 import { useSetAtom } from 'jotai';
-import { toastAtom } from '../../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../../store/app';
 
 interface AnalysisToolbarProps {
     document: WorksetDocument;

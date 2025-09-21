@@ -3,7 +3,8 @@ import { safeAtomWithStorage } from './safeStorage';
 import type { PlayableTrack, ArchiveItemSummary, ArchiveFile } from '../types';
 import { getItemMetadata } from '../services/archiveService';
 import { findPlayableAudioFile } from '../utils/audioUtils';
-import { toastAtom } from './atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from './app';
 
 // --- Base State Atoms ---
 export const playlistAtom = safeAtomWithStorage<PlayableTrack[]>('audio-playlist', []);

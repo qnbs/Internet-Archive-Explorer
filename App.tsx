@@ -3,12 +3,10 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
     activeViewAtom, 
     modalAtom,
-} from './store/app';
-import {
     selectedProfileAtom,
     profileReturnViewAtom,
     toastAtom,
-} from './store/atoms';
+} from './store/app';
 import { 
     defaultSettings,
 } from './store/settings';

@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom } from '../../store/favorites';
 import { modalAtom } from '../../store/app';
-import { toastAtom } from '../../store/atoms';
+// FIX: Import toastAtom from the correct module 'store/app' instead of the deprecated 'store/atoms'.
+import { toastAtom } from '../../store/app';
 import type { LibraryFilter, UserCollection } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 

@@ -63,7 +63,7 @@ export const AppearanceManager: React.FC = () => {
             style.id = styleId;
             document.head.appendChild(style);
         }
-        style.innerHTML = `::-webkit-scrollbar-thumb { background-color: ${String(scrollbarColor)} !important; }`;
+        style.innerHTML = `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor as string} !important; }`;
     }, [accentColor, disableAnimations, highContrastMode, underlineLinks, fontSize, scrollbarColor]);
 
     return null;

@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { LibraryItem, UserCollection, ArchiveItemSummary } from '../types';
-import { toastAtom } from './atoms';
+import { toastAtom } from './app';
 import { v4 as uuidv4 } from 'uuid';
 
 export const STORAGE_KEYS = {

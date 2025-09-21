@@ -1,4 +1,6 @@
 import { atom } from 'jotai';
+// FIX: Import safeAtomWithStorage to create atoms with robust writable types.
+import { safeAtomWithStorage } from './safeStorage';
 import type { View, Profile, ArchiveItemSummary, ConfirmationOptions, ToastType } from '../types';
 
 export type ModalState =
@@ -40,3 +42,27 @@ export const selectItemAtom = atom(
         }
     }
 );
+
+// --- Global Atoms Moved from store/atoms.ts for better organization ---
+
+/**
+ * Holds the profile data for the currently viewed uploader or creator.
+ */
+// FIX: Changed to safeAtomWithStorage to ensure it's correctly typed as a WritableAtom.
+export const selectedProfileAtom = safeAtomWithStorage<Profile | null>('app-selected-profile', null);
+
+
+/**
+ * Stores the view to return to after closing a profile page.
+ */
+// FIX: Changed to safeAtomWithStorage to ensure it's correctly typed as a WritableAtom.
+export const profileReturnViewAtom = safeAtomWithStorage<View | undefined>('app-profile-return-view', undefined);
+
+/**
+ * A vehicle atom to trigger toasts from anywhere in the app.
+ * The ToastBridge component listens to this atom, displays the toast via context,
+ * and then resets the atom to null.
+ */
+export type ToastUpdate = { message: string; type: ToastType } | null;
+// FIX: Changed to safeAtomWithStorage to ensure it's correctly typed as a WritableAtom, preventing numerous type errors.
+export const toastAtom = safeAtomWithStorage<ToastUpdate>('app-toast-trigger', null);

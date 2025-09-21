@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { aiArchiveAtom } from '../store/aiArchive';
-import { aiArchiveSearchQueryAtom, selectedAIEntryIdAtom } from '../store/atoms';
+import { aiArchiveSearchQueryAtom, selectedAIEntryIdAtom } from '../store/aiArchive';
 import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '../types';
 import { BrainIcon, FilterIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
