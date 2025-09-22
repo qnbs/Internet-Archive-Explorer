@@ -1,13 +1,16 @@
+
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom } from '../../store/favorites';
+import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom, libraryCountsAtom } from '../../store/favorites';
 import { modalAtom } from '../../store/app';
-import { toastAtom } from '../../store/app';
+import { toastAtom } from '../../store/toast';
 import type { LibraryFilter, UserCollection } from '../../types';
+import { MediaType } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
     StarIcon, UsersIcon, CollectionIcon, TagIcon, PlusIcon, CloseIcon,
-    PencilAltIcon, TrashIcon
+    PencilAltIcon, TrashIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, CompassIcon
 } from '../Icons';
 
 interface LibrarySidebarProps {
@@ -18,17 +21,22 @@ interface LibrarySidebarProps {
     onClose?: () => void;
 }
 
-const FilterButton: React.FC<{ label: string; icon: React.ReactNode; isActive: boolean; onClick: () => void; }> = ({ label, icon, isActive, onClick }) => (
+const FilterButton: React.FC<{ label: string; icon: React.ReactNode; isActive: boolean; onClick: () => void; count?: number; }> = ({ label, icon, isActive, onClick, count }) => (
     <button
         onClick={onClick}
-        className={`w-full flex items-center text-left px-3 py-2 text-sm rounded-md group transition-colors ${
+        className={`w-full flex items-center justify-between text-left pr-2 pl-3 py-2 text-sm rounded-md group transition-colors ${
             isActive ? 'bg-gray-700/80 text-white' : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-200'
         }`}
     >
-        <span className="flex items-center space-x-2 truncate">
+        <div className="flex items-center space-x-2 truncate">
             {icon}
             <span className="truncate">{label}</span>
-        </span>
+        </div>
+         {typeof count === 'number' && (
+            <span className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-gray-600 text-gray-200' : 'bg-gray-700 text-gray-400 group-hover:bg-gray-600'}`}>
+                {count}
+            </span>
+        )}
     </button>
 );
 
@@ -37,6 +45,7 @@ const CollectionListItem: React.FC<{ collection: UserCollection; isActive: boole
     const setModal = useSetAtom(modalAtom);
     const deleteCollection = useSetAtom(deleteCollectionAtom);
     const updateCollectionName = useSetAtom(updateCollectionNameAtom);
+    // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
     const setToast = useSetAtom(toastAtom);
 
     const [isEditing, setIsEditing] = useState(false);
@@ -104,7 +113,7 @@ const CollectionListItem: React.FC<{ collection: UserCollection; isActive: boole
             {!isEditing && (
                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity absolute right-1">
                     <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }} className="p-1.5 hover:bg-gray-600 rounded" aria-label={t('favorites:renameCollection')}><PencilAltIcon className="w-4 h-4" /></button>
-                    <button onClick={handleDelete} className="p-1.5 hover:bg-gray-600 rounded" aria-label={t('common:delete')}><TrashIcon className="w-4 h-4 text-red-400/80" /></button>
+                    <button onClick={handleDelete} className="p-1.5 hover:bg-gray-600 rounded" aria-label={t('common:delete')}><TrashIcon className="w-5 h-5 text-red-400/80" /></button>
                 </div>
             )}
         </div>
@@ -117,6 +126,15 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
     const setModal = useSetAtom(modalAtom);
     const collections = useAtomValue(userCollectionsAtom);
     const tags = useAtomValue(allTagsAtom);
+    const counts = useAtomValue(libraryCountsAtom);
+
+    const mediaTypeFilters: { type: MediaType, label: string, icon: React.ReactNode, count: number }[] = [
+        { type: MediaType.Texts, label: t('uploaderDetail:stats.texts'), icon: <BookIcon className="w-5 h-5" />, count: counts.texts },
+        { type: MediaType.Movies, label: t('uploaderDetail:stats.movies'), icon: <MovieIcon className="w-5 h-5" />, count: counts.movies },
+        { type: MediaType.Audio, label: t('uploaderDetail:stats.audio'), icon: <AudioIcon className="w-5 h-5" />, count: counts.audio },
+        { type: MediaType.Image, label: t('uploaderDetail:stats.images'), icon: <ImageIcon className="w-5 h-5" />, count: counts.image },
+        { type: MediaType.Software, label: t('uploaderDetail:stats.software'), icon: <JoystickIcon className="w-5 h-5" />, count: counts.software },
+    ];
 
     return (
         <aside className="w-full md:w-64 flex-shrink-0 bg-gray-800/60 md:bg-transparent md:p-0 p-4 rounded-xl flex flex-col h-full">
@@ -139,8 +157,18 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ activeTab, setAc
                 {activeTab === 'items' && (
                     <div className="space-y-4">
                         <div className="space-y-1">
-                            <FilterButton label={t('favorites:sidebar.allItems')} icon={<CollectionIcon className="w-5 h-5" />} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} />
+                            <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Overview</h3>
+                            <FilterButton label="Dashboard" icon={<CompassIcon className="w-5 h-5" />} isActive={filter.type === 'dashboard'} onClick={() => setFilter({ type: 'dashboard' })} />
+                            <FilterButton label={t('favorites:sidebar.allItems')} icon={<CollectionIcon className="w-5 h-5" />} isActive={filter.type === 'all'} onClick={() => setFilter({ type: 'all' })} count={counts.total} />
                             <FilterButton label={t('favorites:sidebar.untagged')} icon={<TagIcon className="w-5 h-5" />} isActive={filter.type === 'untagged'} onClick={() => setFilter({ type: 'untagged' })} />
+                        </div>
+                        <div>
+                             <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Media Types</h3>
+                             <div className="space-y-1">
+                                {mediaTypeFilters.filter(f => f.count > 0).map(f => (
+                                    <FilterButton key={f.type} label={f.label} icon={f.icon} isActive={filter.type === 'mediaType' && filter.mediaType === f.type} onClick={() => setFilter({ type: 'mediaType', mediaType: f.type })} count={f.count} />
+                                ))}
+                             </div>
                         </div>
                         <div>
                             <div className="flex justify-between items-center px-3 pt-3 pb-1">

@@ -3,7 +3,9 @@
     "close": "Close Emulator",
     "providedBy": "Emulator provided by The Internet Archive.",
     "escToExit": "Press ESC to exit fullscreen.",
-    "loading": "Loading Emulation..."
+    "loading": "Loading Emulation...",
+    "reset": "Reset Emulator",
+    "fullscreen": "Enter Fullscreen"
   },
   "details": {
     "searchByCreator": "Search for more by {{creator}}",

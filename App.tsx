@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
@@ -5,8 +7,9 @@ import {
     modalAtom,
     selectedProfileAtom,
     profileReturnViewAtom,
-    toastAtom,
 } from './store/app';
+// FIX: Update toastAtom import to its new location to resolve circular dependencies.
+import { toastAtom } from './store/toast';
 import { 
     defaultSettings,
 } from './store/settings';
@@ -60,6 +63,8 @@ const ToastBridge: React.FC = () => {
     useEffect(() => {
         // The atom's value is an object or null. We act when it's an object.
         if (toast) {
+            // FIX: The error "This expression is not callable" was a symptom of a larger circular dependency issue with Jotai atoms.
+            // Relocating toastAtom to its own file and fixing the store's barrel file (`store/index.ts`) fixes the type inference, making `addToast` callable as expected.
             addToast(toast.message, toast.type);
             // Reset the atom to prevent the toast from re-appearing on re-renders.
             setToast(null);

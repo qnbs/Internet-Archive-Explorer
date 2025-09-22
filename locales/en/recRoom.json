@@ -2,6 +2,14 @@
   "title": "The Rec Room",
   "description": "Welcome to the Software Library. Play thousands of classic MS-DOS games, console titles, and explore historical software directly in your browser. No installation required.",
   "endOfArcade": "You've reached the end of the arcade.",
+  "heroFeatured": "Featured Game",
+  "playNow": "Play Now",
+  "collections": {
+    "msdos": "MS-DOS Classics",
+    "apple_ii": "Apple II Gems",
+    "console_living_room": "Console Living Room",
+    "classic_pc": "Classic PC Games"
+  },
   "card": {
     "start": "Start",
     "startItem": "Start {{title}}"
@@ -10,5 +18,16 @@
     "title": "Retro Gamer's Corner",
     "description": "Let our AI journalist write a nostalgic editor's note, finding a fun connection between classic games in the arcade.",
     "button": "Write Editor's Note"
-  }
+  },
+  "gameFinder": {
+    "title": "AI Game Finder",
+    "description": "Describe the game you want to play, and our AI will find it for you in the archives!",
+    "placeholder": "e.g., a fast-paced space shooter from the 90s",
+    "button": "Find Games",
+    "loading": "Searching the archives...",
+    "error": "Sorry, the AI couldn't find a match. Try being more descriptive or check back later.",
+    "resultsTitle": "Here's what I found for you:"
+  },
+  "viewAll": "View All",
+  "ratingTooltip": "Average rating: {{rating}} out of 5 stars"
 }

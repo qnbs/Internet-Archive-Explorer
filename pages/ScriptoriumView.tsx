@@ -1,39 +1,42 @@
-import React, { useEffect } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+
+import React, { useState, useMemo, useEffect } from 'react';
+import { useAtom } from 'jotai';
+import { selectedWorksetIdAtom, selectedDocumentIdAtom } from '../store/scriptorium';
 import { useWorksets } from '../hooks/useWorksets';
 import { ScriptoriumHub } from '../components/scriptorium/ScriptoriumHub';
 import { WorkspacePanel } from '../components/scriptorium/WorkspacePanel';
-import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
 import { Spinner } from '../components/Spinner';
-import { useLanguage } from '../hooks/useLanguage';
-import { selectedWorksetIdAtom, selectedDocumentIdAtom, worksetsAtom } from '../store/scriptorium';
+import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
 
 interface ScriptoriumViewProps {
-    showConfirmation: (options: ConfirmationOptions) => void;
+  showConfirmation: (options: ConfirmationOptions) => void;
 }
 
 const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) => {
-    const worksetsApi = useWorksets();
-    const { t } = useLanguage();
-    
-    const worksets = useAtomValue(worksetsAtom);
+    const { worksets, isLoading, ...worksetsApi } = useWorksets();
     const [selectedWorksetId, setSelectedWorksetId] = useAtom(selectedWorksetIdAtom);
     const [selectedDocumentId, setSelectedDocumentId] = useAtom(selectedDocumentIdAtom);
 
-    const selectedWorkset = worksets.find(ws => ws.id === selectedWorksetId) || null;
-    const selectedDocument = selectedWorkset?.documents.find(doc => doc.identifier === selectedDocumentId) || null;
+    const selectedWorkset = useMemo(() => {
+        return worksets.find(ws => ws.id === selectedWorksetId);
+    }, [worksets, selectedWorksetId]);
 
-    // Effect to clear selected document if workset changes or becomes invalid
+    const selectedDocument = useMemo(() => {
+        return selectedWorkset?.documents.find(d => d.identifier === selectedDocumentId);
+    }, [selectedWorkset, selectedDocumentId]);
+    
+    // Deselect document if its workset is no longer selected
     useEffect(() => {
-        if (selectedWorkset && !selectedWorkset.documents.some(d => d.identifier === selectedDocumentId)) {
-            setSelectedDocumentId(null);
+        if (selectedWorksetId && selectedDocumentId) {
+            const workset = worksets.find(ws => ws.id === selectedWorksetId);
+            if (!workset || !workset.documents.some(d => d.identifier === selectedDocumentId)) {
+                setSelectedDocumentId(null);
+            }
         }
-    }, [selectedWorkset, selectedDocumentId, setSelectedDocumentId]);
-
-
+    }, [selectedWorksetId, selectedDocumentId, worksets, setSelectedDocumentId]);
+    
     const handleSelectWorkset = (workset: Workset) => {
         setSelectedWorksetId(workset.id);
-        setSelectedDocumentId(null); // Clear document selection when changing workset
     };
 
     const handleBackToHub = () => {
@@ -42,49 +45,44 @@ const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) =
     };
 
     const handleDeleteWorkset = (id: string) => {
-        const workset = worksetsApi.worksets.find(ws => ws.id === id);
-        if (!workset) return;
-
         showConfirmation({
-            title: t('scriptorium:deleteWorkset'),
-            message: t('scriptorium:confirmDelete', { worksetName: workset.name }),
-            confirmLabel: t('common:delete'),
-            confirmClass: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+            title: 'Delete Workset?',
+            message: `Are you sure you want to delete this workset? This action cannot be undone.`,
             onConfirm: () => {
                 worksetsApi.deleteWorkset(id);
                 if (selectedWorksetId === id) {
                     handleBackToHub();
                 }
-            },
+            }
         });
     };
-    
-    if (worksetsApi.isLoading) {
-        return <div className="flex justify-center items-center h-64"><Spinner size="lg" /></div>;
+
+    if (isLoading) {
+        return <div className="flex justify-center items-center h-full"><Spinner size="lg" /></div>;
     }
 
-    return (
-        <div className="animate-page-fade-in h-full">
-            {selectedWorkset ? (
+    if (selectedWorkset) {
+        return (
+            <div className="h-[calc(100vh-6rem)] animate-page-fade-in">
                 <WorkspacePanel 
                     workset={selectedWorkset} 
                     onBack={handleBackToHub}
-                    selectedDocument={selectedDocument}
-                    onSelectDocument={(doc) => setSelectedDocumentId(doc ? doc.identifier : null)}
+                    selectedDocument={selectedDocument || null}
+                    onSelectDocument={(doc) => setSelectedDocumentId(doc?.identifier || null)}
                 />
-            ) : (
-                <ScriptoriumHub 
-                    worksets={worksetsApi.worksets} 
-                    onSelectWorkset={handleSelectWorkset}
-                    onCreateWorkset={(name) => {
-                        const newWorkset = worksetsApi.createWorkset(name);
-                        handleSelectWorkset(newWorkset);
-                        return newWorkset;
-                    }}
-                    onDeleteWorkset={handleDeleteWorkset}
-                    onRenameWorkset={worksetsApi.updateWorksetName}
-                />
-            )}
+            </div>
+        );
+    }
+
+    return (
+        <div className="animate-page-fade-in">
+            <ScriptoriumHub
+                worksets={worksets}
+                onSelectWorkset={handleSelectWorkset}
+                onCreateWorkset={(name) => worksetsApi.createWorkset(name)}
+                onDeleteWorkset={handleDeleteWorkset}
+                onRenameWorkset={worksetsApi.updateWorksetName}
+            />
         </div>
     );
 };

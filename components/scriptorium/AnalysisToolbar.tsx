@@ -1,3 +1,5 @@
+
+
 import React, { useState, useCallback } from 'react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { getSummary, extractEntities } from '../../services/geminiService';
@@ -6,7 +8,8 @@ import { SparklesIcon, TagIcon } from '../Icons';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
 import { useSetAtom } from 'jotai';
-import { toastAtom } from '../../store/app';
+// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
+import { toastAtom } from '../../store/toast';
 
 interface AnalysisToolbarProps {
     document: WorksetDocument;
@@ -18,6 +21,7 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysis, setAnalysis] = useState<{ type: 'summary' | 'entities'; data: string | ExtractedEntities } | null>(null);
     const [isAskModalOpen, setIsAskModalOpen] = useState(false);
+    // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
     const setToast = useSetAtom(toastAtom);
     
     const handleAnalyze = useCallback(async (type: 'summary' | 'entities') => {

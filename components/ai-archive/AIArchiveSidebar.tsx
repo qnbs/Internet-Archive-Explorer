@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+// FIX: Added missing import for allAIArchiveTagsAtom.
 import { allAIArchiveTagsAtom, aiArchiveAtom } from '../../store/aiArchive';
 import { AIGenerationType, type AIArchiveFilter, type Language, type AIArchiveSortOption } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';

@@ -1,7 +1,11 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import type { View, Profile, ArchiveItemSummary, ConfirmationOptions, ToastType } from '../types';
 
+/**
+ * Defines the shape of all possible modal states in the application.
+ * The modal is controlled by a single atom, and its 'type' property
+ * determines which modal component is rendered.
+ */
 export type ModalState =
   | { type: 'none' }
   | { type: 'itemDetail'; item: ArchiveItemSummary }
@@ -17,48 +21,72 @@ export type ModalState =
 
 /**
  * Represents the currently active main view/page of the application.
+ * e.g., 'explore', 'library', 'settings'.
  */
 export const activeViewAtom = atom<View>('explore');
 
 /**
- * Controls the currently displayed modal. Set to '{ type: "none" }' to close.
+ * The central atom for controlling the application's modal state.
+ * To open a modal, set this atom to an object with the corresponding 'type' and any required props.
+ * To close any modal, set it back to `{ type: 'none' }`.
+ * @example set(modalAtom, { type: 'itemDetail', item: myItem });
+ * @example set(modalAtom, { type: 'none' });
  */
 export const modalAtom = atom<ModalState>({ type: 'none' });
 
+// --- Derived Modal Atoms for Convenience and Performance ---
+
 /**
- * A write-only atom to handle opening the correct item detail modal.
- * This decouples item cards from the main app logic.
+ * A read-only derived atom that returns `true` if any modal is currently open.
+ * Components can subscribe to this for a lightweight way to check modal visibility
+ * without re-rendering when the modal's specific content changes.
+ * @example const isModalOpen = useAtomValue(isModalOpenAtom);
+ */
+export const isModalOpenAtom = atom((get) => get(modalAtom).type !== 'none');
+
+/**
+ * A read-only derived atom that returns the `type` of the currently active modal, or 'none'.
+ * Useful for components that need to know which modal is open without needing its data.
+ */
+export const currentModalTypeAtom = atom((get) => get(modalAtom).type);
+
+
+/**
+ * A sophisticated write-only "action" atom to handle opening the correct item detail modal
+ * based on the item's `mediatype`. This encapsulates the selection logic, decoupling item
+ * cards from the main application's modal management.
+ * @example const selectItem = useSetAtom(selectItemAtom);
+ *          selectItem(myItem);
  */
 export const selectItemAtom = atom(
-    null,
+    null, // This is a write-only atom
     (get, set, item: ArchiveItemSummary) => {
-        if (item.mediatype === 'image') {
-            set(modalAtom, { type: 'imageDetail', item });
-        } else if (item.mediatype === 'software') {
-            set(modalAtom, { type: 'emulator', item });
-        } else {
-            set(modalAtom, { type: 'itemDetail', item });
+        switch (item.mediatype) {
+            case 'image':
+                set(modalAtom, { type: 'imageDetail', item });
+                break;
+            case 'software':
+                set(modalAtom, { type: 'emulator', item });
+                break;
+            // Potentially more custom modals based on mediatype in the future
+            default:
+                set(modalAtom, { type: 'itemDetail', item });
+                break;
         }
     }
 );
 
-// --- Global Atoms Moved from store/atoms.ts for better organization ---
+// --- Profile Navigation Atoms ---
 
 /**
- * Holds the profile data for the currently viewed uploader or creator.
+ * Holds the profile data for the currently viewed contributor or creator.
+ * Set to a `Profile` object to navigate to the `uploaderDetail` view.
+ * Set to `null` to return from it.
  */
-export const selectedProfileAtom = safeAtomWithStorage<Profile | null>('app-selected-profile', null);
-
-
-/**
- * Stores the view to return to after closing a profile page.
- */
-export const profileReturnViewAtom = safeAtomWithStorage<View | undefined>('app-profile-return-view', undefined);
+export const selectedProfileAtom = atom<Profile | null>(null);
 
 /**
- * A vehicle atom to trigger toasts from anywhere in the app.
- * The ToastBridge component listens to this atom, displays the toast via context,
- * and then resets the atom to null.
- */
-export type ToastUpdate = { message: string; type: ToastType } | null;
-export const toastAtom = safeAtomWithStorage<ToastUpdate>('app-toast-trigger', null);
+* Stores the view from which the user navigated to a profile page,
+* allowing for a contextual "back" action.
+*/
+export const profileReturnViewAtom = atom<View | undefined>(undefined);

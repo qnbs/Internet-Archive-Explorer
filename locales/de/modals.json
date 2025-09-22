@@ -3,7 +3,9 @@
     "close": "Emulator schließen",
     "providedBy": "Emulator bereitgestellt von The Internet Archive.",
     "escToExit": "Drücken Sie ESC, um den Vollbildmodus zu verlassen.",
-    "loading": "Emulation wird geladen..."
+    "loading": "Emulation wird geladen...",
+    "reset": "Emulator zurücksetzen",
+    "fullscreen": "Vollbildmodus"
   },
   "details": {
     "searchByCreator": "Suche nach mehr von {{creator}}",

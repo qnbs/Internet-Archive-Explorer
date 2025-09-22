@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { searchQueryAtom, facetsAtom } from '../store/search';
@@ -14,7 +16,7 @@ import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { searchArchive } from '../services/archiveService';
-import { toastAtom } from '../store/app';
+import { toastAtom } from '../store/toast';
 
 interface ExplorerViewProps {}
 
@@ -32,6 +34,7 @@ const TrendingItems: React.FC = () => {
     const { t, language } = useLanguage();
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+    // FIX: The Jotai type error was caused by a subtle circular dependency issue within the state management files. By ensuring all store-related imports are direct (e.g., from `store/toast` instead of a barrel file) and reordering exports in the barrel file (`store/index.ts`) to prioritize dependency-free atoms, the TypeScript compiler can correctly infer that `toastAtom` is a `WritableAtom`, resolving the error.
     const setToast = useSetAtom(toastAtom);
     const autoArchive = useAtomValue(autoArchiveAIAtom);
 

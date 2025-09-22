@@ -1,135 +1,122 @@
-import React, { useState, useMemo, useEffect } from 'react';
+
+
+
+
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { WorksetDocument } from '../../types';
+import { getItemPlainText } from '../../services/archiveService';
 import { useLanguage } from '../../hooks/useLanguage';
-import { useItemMetadata } from '../../hooks/useItemMetadata';
 import { Spinner } from '../Spinner';
-import { ArrowLeftIcon } from '../Icons';
-import { DocumentSearchBar } from './DocumentSearchBar';
 import { AnalysisToolbar } from './AnalysisToolbar';
+import { DocumentSearchBar } from './DocumentSearchBar';
 import { ResizablePanel } from './ResizablePanel';
 import { RichTextEditor } from '../RichTextEditor';
-import { useSetAtom } from 'jotai';
-import { updateDocumentNotesAtom } from '../../store/scriptorium';
+import { useWorksets } from '../../hooks/useWorksets';
 import { useDebounce } from '../../hooks/useDebounce';
+import { ArrowLeftIcon } from '../Icons';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
-    onBack: () => void;
+    onBack: () => void; // For mobile view
 }
-
-const ReaderContent: React.FC<{ text: string, searchQuery: string }> = React.memo(({ text, searchQuery }) => {
-    const paragraphs = useMemo(() => text.split('\n').filter(p => p.trim() !== ''), [text]);
-
-    const highlightedText = useMemo(() => {
-        if (!searchQuery) return null;
-        try {
-            const regex = new RegExp(`(${searchQuery})`, 'gi');
-            
-            return paragraphs.map((p, i) => (
-                <p key={i}>
-                    {p.split(regex).map((part, j) => {
-                        if (j % 2 === 1) { // It's a match
-                            const matchIndex = p.indexOf(part, (j > 1 ? p.indexOf(p.split(regex)[j-2]) + p.split(regex)[j-2].length : 0));
-                            return <mark key={j} className="bg-yellow-400 text-black" data-match-index={matchIndex}>{part}</mark>;
-                        }
-                        return part;
-                    })}
-                </p>
-            ));
-        } catch (e) {
-            // Invalid regex, just show paragraphs
-            return paragraphs.map((p, i) => <p key={i}>{p}</p>);
-        }
-    }, [paragraphs, searchQuery]);
-
-
-    return (
-        <div className="p-4 text-gray-300 leading-relaxed space-y-4 prose-invert prose-sm max-w-none">
-            {highlightedText ? highlightedText : paragraphs.map((p, i) => <p key={i}>{p}</p>)}
-        </div>
-    );
-});
-
-
-const ScriptoriumNotesEditor: React.FC<{ document: WorksetDocument }> = ({ document }) => {
-    const [notes, setNotes] = useState(document.notes);
-    const updateNotesAtomAction = useSetAtom(updateDocumentNotesAtom);
-    const debouncedNotes = useDebounce(notes, 1000);
-    const [isSaving, setIsSaving] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
-    const savedTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => {
-        setNotes(document.notes);
-        setIsSaving(false);
-        setIsSaved(false);
-        if (savedTimeout.current) clearTimeout(savedTimeout.current);
-    }, [document]);
-
-    useEffect(() => {
-        if (notes !== document.notes) {
-            setIsSaving(true);
-            setIsSaved(false);
-            if (savedTimeout.current) clearTimeout(savedTimeout.current);
-        }
-    }, [notes, document.notes]);
-
-    useEffect(() => {
-        if (document && debouncedNotes !== document.notes) {
-            updateNotesAtomAction({ worksetId: document.worksetId, documentId: document.identifier, notes: debouncedNotes });
-            setIsSaving(false);
-            setIsSaved(true);
-            savedTimeout.current = setTimeout(() => setIsSaved(false), 2000);
-        }
-    }, [debouncedNotes, document, updateNotesAtomAction]);
-    
-    return (
-        <div className="h-full flex flex-col">
-            <RichTextEditor
-                value={notes}
-                onChange={setNotes}
-                placeholder="Start typing your notes here..."
-                className="border-none rounded-none"
-            />
-            <div className="flex-shrink-0 text-right px-4 py-1 text-xs text-gray-500 h-6 bg-gray-900/50 rounded-b-lg">
-                {isSaving && <span>Saving...</span>}
-                {isSaved && <span className="text-green-400">Saved</span>}
-            </div>
-        </div>
-    );
-};
 
 export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack }) => {
     const { t } = useLanguage();
-    const { plainText, isLoadingText, textError } = useItemMetadata(document);
+    const { updateDocumentNotes } = useWorksets();
+    
+    const [textContent, setTextContent] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
     const [searchQuery, setSearchQuery] = useState('');
+    const [notes, setNotes] = useState(document.notes || '');
+    const debouncedNotes = useDebounce(notes, 1000);
 
-    const ReaderPanel = (
-        <div className="h-full flex flex-col bg-gray-800 rounded-lg overflow-hidden">
-            <header className="flex-shrink-0 p-3 bg-gray-900/50 border-b border-gray-700 flex items-center justify-between">
-                <div className="flex items-center gap-2 min-w-0">
-                    <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white"><ArrowLeftIcon className="w-5 h-5" /></button>
-                    <h2 className="font-bold text-white truncate text-lg">{document.title}</h2>
+    useEffect(() => {
+        setIsLoading(true);
+        setError(null);
+        getItemPlainText(document.identifier)
+            .then(setTextContent)
+            .catch(err => setError(err instanceof Error ? err.message : 'Failed to load document text.'))
+            .finally(() => setIsLoading(false));
+    }, [document.identifier]);
+    
+    useEffect(() => {
+        setNotes(document.notes || '');
+    }, [document.identifier, document.notes]);
+    
+    useEffect(() => {
+        if (debouncedNotes !== document.notes) {
+            updateDocumentNotes({
+                worksetId: document.worksetId,
+                documentId: document.identifier,
+                notes: debouncedNotes
+            });
+        }
+    }, [debouncedNotes, document.identifier, document.notes, document.worksetId, updateDocumentNotes]);
+
+
+    const highlightedText = useMemo(() => {
+        if (!textContent || !searchQuery) return textContent;
+        
+        let regex: RegExp;
+        try {
+            // User can input regex, so we handle potential errors
+            regex = new RegExp(searchQuery, 'gi');
+        } catch (e) {
+            // Invalid regex, return original text without highlighting
+            return textContent;
+        }
+
+        // FIX: The `replace` callback's first argument `match` is a string and does not have an `.index` property.
+        // The offset (index) of the match is passed as one of the later arguments. This implementation
+        // correctly extracts the offset regardless of capture groups in the search query.
+        return textContent.replace(regex, (...args) => {
+            const match = args[0];
+            const offset = args[args.length - 2]; // The offset is the second to last argument.
+            return `<mark data-match-index="${offset}" class="bg-yellow-400 text-black">${match}</mark>`;
+        });
+    }, [textContent, searchQuery]);
+    
+    const renderContent = () => {
+        if (isLoading) return <div className="flex justify-center items-center h-full"><Spinner /></div>;
+        if (error) return <div className="p-4 text-red-400 text-center">{error}</div>;
+        if (textContent) {
+            return (
+                <div className="h-full flex flex-col">
+                    <div className="flex-grow p-4 overflow-y-auto prose prose-sm dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: highlightedText }} />
+                    <DocumentSearchBar text={textContent} onSearch={setSearchQuery} />
                 </div>
-                {plainText && <AnalysisToolbar document={document} textContent={plainText} />}
+            );
+        }
+        return null;
+    };
+    
+    const readerPanel = (
+        <div className="h-full flex flex-col bg-gray-900 rounded-lg overflow-hidden">
+            <header className="flex-shrink-0 flex items-center justify-between p-3 border-b border-gray-700">
+                <div className="flex items-center gap-2 min-w-0">
+                    <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white"><ArrowLeftIcon className="w-4 h-4" /></button>
+                    <h3 className="text-md font-bold text-white truncate">{document.title}</h3>
+                </div>
+                {textContent && <AnalysisToolbar document={document} textContent={textContent} />}
             </header>
-            <div className="flex-grow overflow-y-auto">
-                {isLoadingText && <div className="flex justify-center items-center h-full"><Spinner /></div>}
-                {textError && <div className="flex justify-center items-center h-full text-red-400 p-4 text-center">{textError}</div>}
-                {plainText ? <ReaderContent text={plainText} searchQuery={searchQuery} /> : !isLoadingText && !textError && <p className="p-4 text-gray-500">{t('common:noContent')}</p>}
-            </div>
-            {plainText && <DocumentSearchBar text={plainText} onSearch={setSearchQuery} />}
+            {renderContent()}
         </div>
     );
     
-    const NotesPanel = (
-        <div className="h-full flex flex-col bg-gray-800 rounded-lg overflow-hidden">
-            <header className="flex-shrink-0 p-3 bg-gray-900/50 border-b border-gray-700">
-                <h2 className="font-bold text-white">{t('scriptorium:reader.notes')}</h2>
+    const notesPanel = (
+         <div className="h-full flex flex-col bg-gray-900 rounded-lg overflow-hidden">
+            <header className="flex-shrink-0 p-3 border-b border-gray-700">
+                <h3 className="text-md font-bold text-white">{t('scriptorium.reader.notes')}</h3>
             </header>
-            <ScriptoriumNotesEditor document={document} />
+            <RichTextEditor
+                value={notes}
+                onChange={setNotes}
+                placeholder={t('scriptorium:reader.notesPlaceholder')}
+            />
         </div>
     );
-    
-    return <ResizablePanel panelA={ReaderPanel} panelB={NotesPanel} />;
+
+    return <ResizablePanel panelA={readerPanel} panelB={notesPanel} />;
 };

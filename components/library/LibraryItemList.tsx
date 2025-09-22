@@ -4,8 +4,8 @@ import { removeLibraryItemsAtom } from '../../store/favorites';
 import { modalAtom } from '../../store/app';
 import type { LibraryItem, LibraryFilter } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
-import { FavoriteItemCard } from '../favorites/FavoriteItemCard';
-import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon, FilterIcon } from '../Icons';
+import { LibraryItemCard } from './LibraryItemCard';
+import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon, FilterIcon, SearchIcon } from '../Icons';
 
 interface LibraryItemListProps {
     items: LibraryItem[];
@@ -54,13 +54,26 @@ const BulkActionsToolbar: React.FC<{ selectedIds: string[], onClear: () => void 
 
 export const LibraryItemList: React.FC<LibraryItemListProps> = ({ items, filter, selectedItemId, onSelectItem, onOpenFilters }) => {
     const { t } = useLanguage();
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const isSelectMode = selectedIds.size > 0;
 
-    // Clear selection when filter changes
+    // Clear selection and search when filter changes
     useEffect(() => {
         setSelectedIds(new Set());
+        setSearchQuery('');
     }, [filter]);
+
+    const searchedItems = useMemo(() => {
+        if (!searchQuery) return items;
+        const lowerQuery = searchQuery.toLowerCase();
+        return items.filter(item => 
+            item.title.toLowerCase().includes(lowerQuery) ||
+            (Array.isArray(item.creator) ? item.creator.join(' ') : item.creator || '').toLowerCase().includes(lowerQuery) ||
+            item.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) ||
+            item.notes.toLowerCase().includes(lowerQuery)
+        );
+    }, [items, searchQuery]);
 
     const handleItemClick = (item: LibraryItem) => {
         if (isSelectMode) {
@@ -78,26 +91,32 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({ items, filter,
 
     return (
         <div className="bg-gray-800/60 rounded-xl h-full flex flex-col p-4">
-            <header className="flex-shrink-0 pb-3 flex justify-between items-center">
-                <h2 className="text-lg font-bold text-white">{t('favorites:sidebar.items')}</h2>
-                <div className="flex items-center gap-2">
-                    <button 
+            <div className="flex-shrink-0 flex flex-col gap-3">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-lg font-bold text-white">{t('favorites:sidebar.items')}</h2>
+                     <button 
                       onClick={() => setSelectedIds(new Set(items.map(i => i.identifier)))}
                       className="text-sm font-medium text-cyan-400 hover:underline"
                     >
                       {t('common:selectAll')}
                     </button>
-                    <button onClick={onOpenFilters} className="p-2 -mr-2 text-gray-300 md:hidden bg-gray-700/50 rounded-lg hover:bg-gray-700">
-                        <FilterIcon className="w-5 h-5" />
-                    </button>
                 </div>
-            </header>
+                 <div className="relative">
+                    <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    <input
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder="Search in collection..."
+                        className="w-full bg-gray-700/50 border-2 border-transparent focus:border-cyan-500 rounded-lg text-sm pl-9 pr-3 py-1.5 focus:outline-none"
+                    />
+                </div>
+            </div>
             
-            {isSelectMode && <BulkActionsToolbar selectedIds={Array.from(selectedIds)} onClear={() => setSelectedIds(new Set())} />}
+            {isSelectMode && <div className="mt-2"><BulkActionsToolbar selectedIds={Array.from(selectedIds)} onClear={() => setSelectedIds(new Set())} /></div>}
             
             <div className="flex-grow overflow-y-auto space-y-2 pr-1 mt-2">
-                {items.length > 0 ? items.map(item => (
-                    <FavoriteItemCard
+                {searchedItems.length > 0 ? searchedItems.map(item => (
+                    <LibraryItemCard
                         key={item.identifier}
                         item={item}
                         onSelect={() => handleItemClick(item)}

@@ -46,7 +46,7 @@ export const searchArchive = async (
   query: string,
   page: number,
   sorts: string[] = [],
-  fields: string[] = ['identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader', 'access-restricted-item', 'week', 'downloads'],
+  fields: string[] = ['identifier', 'title', 'creator', 'publicdate', 'mediatype', 'uploader', 'access-restricted-item', 'week', 'downloads', 'avg_rating'],
   limit: number = SEARCH_PAGE_SIZE
 ): Promise<ArchiveSearchResponse> => {
   

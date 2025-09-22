@@ -2,6 +2,14 @@
   "title": "Der Rec Room",
   "description": "Willkommen in der Software-Bibliothek. Spielen Sie Tausende von klassischen MS-DOS-Spielen, Konsolentiteln und erkunden Sie historische Software direkt in Ihrem Browser. Keine Installation erforderlich.",
   "endOfArcade": "Sie haben das Ende der Spielhalle erreicht.",
+  "heroFeatured": "Vorgestelltes Spiel",
+  "playNow": "Jetzt spielen",
+  "collections": {
+    "msdos": "MS-DOS-Klassiker",
+    "apple_ii": "Apple II Juwelen",
+    "console_living_room": "Konsolen-Wohnzimmer",
+    "classic_pc": "Klassische PC-Spiele"
+  },
   "card": {
     "start": "Start",
     "startItem": "{{title}} starten"
@@ -10,5 +18,16 @@
     "title": "Retro-Gamer-Ecke",
     "description": "Lassen Sie unseren KI-Journalisten eine nostalgische Anmerkung des Herausgebers verfassen, die eine lustige Verbindung zwischen den klassischen Spielen in der Spielhalle herstellt.",
     "button": "Anmerkung verfassen"
-  }
+  },
+  "gameFinder": {
+    "title": "KI-Spiele-Finder",
+    "description": "Beschreiben Sie das Spiel, das Sie spielen möchten, und unsere KI findet es für Sie in den Archiven!",
+    "placeholder": "z.B. ein rasanter Weltraum-Shooter aus den 90ern",
+    "button": "Spiele finden",
+    "loading": "Durchsuche die Archive...",
+    "error": "Entschuldigung, die KI konnte keine Übereinstimmung finden. Versuchen Sie, Ihre Beschreibung zu detaillieren oder schauen Sie später wieder vorbei.",
+    "resultsTitle": "Hier ist, was ich für Sie gefunden habe:"
+  },
+  "viewAll": "Alle ansehen",
+  "ratingTooltip": "Durchschnittsbewertung: {{rating}} von 5 Sternen"
 }

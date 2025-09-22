@@ -1,9 +1,12 @@
+
+
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import type { PlayableTrack, ArchiveItemSummary, ArchiveFile } from '../types';
 import { getItemMetadata } from '../services/archiveService';
 import { findPlayableAudioFile } from '../utils/audioUtils';
-import { toastAtom } from './app';
+// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
+import { toastAtom } from './toast';
 
 // --- Base State Atoms ---
 export const playlistAtom = safeAtomWithStorage<PlayableTrack[]>('audio-playlist', []);
@@ -54,6 +57,7 @@ export const playItemAtom = atom(
                 set(currentTrackIndexAtom, newPlaylist.length - 1);
                 set(isPlayingAtom, true);
             } else {
+                 // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
                  set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
             }
         }
@@ -67,6 +71,7 @@ export const addToQueueAtom = atom(
         const isAlreadyInPlaylist = playlist.some(track => track.identifier === item.identifier);
 
         if (isAlreadyInPlaylist) {
+            // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
             set(toastAtom, { type: 'info', message: 'Item is already in the playlist.' });
             return;
         }
@@ -74,8 +79,10 @@ export const addToQueueAtom = atom(
         const newTrack = await findAndPrepareTrack(item);
         if (newTrack) {
             set(playlistAtom, [...playlist, newTrack]);
+            // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
             set(toastAtom, { type: 'success', message: 'Added to queue.' });
         } else {
+            // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
             set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
         }
     }

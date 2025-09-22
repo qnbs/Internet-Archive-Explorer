@@ -278,10 +278,12 @@ export interface AIArchiveEntry {
 }
 
 export type LibraryFilter =
+  | { type: 'dashboard' }
   | { type: 'all' }
   | { type: 'untagged' }
   | { type: 'collection'; id: string }
-  | { type: 'tag'; tag: string };
+  | { type: 'tag'; tag: string }
+  | { type: 'mediaType'; mediaType: MediaType };
 
 export interface UserCollection {
     id: string;

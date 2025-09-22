@@ -1,9 +1,18 @@
 // This file serves as a central hub for exporting all Jotai atoms.
 // This simplifies imports in components and avoids circular dependencies.
 
+// FIX: Reordered exports to resolve circular dependencies. Atoms with no dependencies are exported first.
+export { toastAtom } from './toast';
+
 export type { ModalState } from './app';
-export { activeViewAtom, modalAtom, selectItemAtom } from './app';
-export { selectedProfileAtom, profileReturnViewAtom } from './app';
+export { 
+    activeViewAtom, 
+    modalAtom, 
+    selectItemAtom, 
+    selectedProfileAtom, 
+    profileReturnViewAtom 
+} from './app';
+
 export {
     defaultSettings,
     settingsAtom,
@@ -13,6 +22,7 @@ export {
     showExplorerHubAtom,
     defaultSortAtom,
     rememberFiltersAtom,
+    rememberSortAtom,
     layoutDensityAtom,
     disableAnimationsAtom,
     defaultUploaderDetailTabAtom,
@@ -28,7 +38,10 @@ export {
     fontSizeAtom,
     themeAtom,
     resolvedThemeAtom,
+    accentColorAtom,
+    scrollbarColorAtom,
 } from './settings';
+
 export {
     searchQueryAtom,
     profileSearchQueryAtom,
@@ -37,6 +50,17 @@ export {
     addSearchHistoryAtom,
     clearSearchHistoryAtom,
 } from './search';
+
+export {
+    languageAtom,
+    loadableTranslationsAtom,
+} from './i18n';
+
+export {
+    myArchiveProfileAtom,
+} from './archive';
+
+// These atoms have dependencies on other store files
 export {
     libraryItemsAtom,
     libraryItemIdentifiersAtom,
@@ -56,11 +80,9 @@ export {
     allTagsAtom,
     addTagsToItemsAtom,
     removeLibraryItemsAtom,
+    clearLibraryAtom,
 } from './favorites';
-export {
-    languageAtom,
-    loadableTranslationsAtom,
-} from './i18n';
+
 export {
     worksetsAtom,
     selectedWorksetIdAtom,
@@ -71,18 +93,26 @@ export {
     addDocumentToWorksetAtom,
     removeDocumentFromWorksetAtom,
     updateDocumentNotesAtom,
+    clearScriptoriumAtom,
 } from './scriptorium';
-export {
-    myArchiveProfileAtom,
-} from './archive';
+
 export {
     aiArchiveAtom,
     allAIArchiveTagsAtom,
     addAIArchiveEntryAtom,
     deleteAIArchiveEntryAtom,
     updateAIArchiveEntryAtom,
-    updateAIEntryTagsAtom
+    updateAIEntryTagsAtom,
+    selectedAIEntryIdAtom,
+    aiArchiveSearchQueryAtom,
+    aiArchiveFilterAtom,
+    aiArchiveSortAtom,
+    selectedAIEntryAtom,
+    aiArchiveCountsAtom,
+    filteredAndSortedEntriesAtom,
+    clearAIArchiveAtom,
 } from './aiArchive';
+
 export {
     playlistAtom,
     currentTrackIndexAtom,

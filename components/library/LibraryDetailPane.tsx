@@ -4,7 +4,7 @@ import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom } from '../../sto
 import type { LibraryItem } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useDebounce } from '../../hooks/useDebounce';
-import { StarIcon, ArrowLeftIcon, TagIcon, CloseIcon } from '../Icons';
+import { StarIcon, ArrowLeftIcon, TagIcon, CloseIcon, BookIcon } from '../Icons';
 import { modalAtom } from '../../store/app';
 import { RichTextEditor } from '../RichTextEditor';
 
@@ -15,8 +15,15 @@ const Tag: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemov
     </div>
 );
 
+const InfoRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+    <div className="flex justify-between items-baseline text-xs">
+        <span className="font-semibold text-gray-400">{label}:</span>
+        <span className="text-gray-200 truncate pl-4" title={value}>{value}</span>
+    </div>
+);
+
 export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onBack: () => void; }> = ({ selectedItem, onBack }) => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const setModal = useSetAtom(modalAtom);
     const [notes, setNotes] = useState('');
     const [tags, setTags] = useState<string[]>([]);
@@ -99,6 +106,12 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
             </header>
             
             <div className="flex-grow overflow-y-auto mt-4 space-y-4 pr-1">
+                 <div className="p-3 bg-gray-900/50 rounded-lg space-y-1.5">
+                    <InfoRow label={t('common:creator')} value={Array.isArray(selectedItem.creator) ? selectedItem.creator.join(', ') : selectedItem.creator || 'N/A'} />
+                    <InfoRow label={t('common:published')} value={new Date(selectedItem.publicdate).getFullYear().toString()} />
+                    <InfoRow label={t('common:mediaType')} value={selectedItem.mediatype} />
+                 </div>
+
                  <div>
                     <h3 className="font-semibold text-gray-300 mb-2 flex items-center gap-2"><TagIcon className="w-5 h-5 text-gray-400"/> {t('favorites:details.tags')}</h3>
                     <div className="flex flex-wrap gap-2">
@@ -114,7 +127,7 @@ export const LibraryDetailPane: React.FC<{ selectedItem: LibraryItem | null; onB
                 </div>
                 <div>
                     <div className="flex justify-between items-center mb-2">
-                        <h3 className="font-semibold text-gray-300">{t('favorites:details.notes')}</h3>
+                         <h3 className="font-semibold text-gray-300 flex items-center gap-2"><BookIcon className="w-5 h-5 text-gray-400"/> {t('favorites:details.notes')}</h3>
                         <div className="text-right text-xs text-gray-500 h-4">
                             {isSavingNotes && <span>Saving...</span>}
                             {isNotesSaved && <span className="text-green-400">Saved</span>}

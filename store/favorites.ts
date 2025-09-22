@@ -1,7 +1,9 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
+// FIX: Import MediaType as a value, not just a type, because it is an enum used at runtime.
 import type { LibraryItem, UserCollection, ArchiveItemSummary } from '../types';
-import { toastAtom } from './app';
+import { MediaType } from '../types';
+import { toastAtom } from './toast';
 import { v4 as uuidv4 } from 'uuid';
 
 export const STORAGE_KEYS = {
@@ -173,6 +175,29 @@ export const addTagsToItemsAtom = atom(
         });
     }
 );
+
+// --- Derived Analytics Atom ---
+export const libraryCountsAtom = atom(get => {
+    const items = Object.values(get(libraryItemsAtom));
+    const counts = {
+        total: items.length,
+        movies: 0,
+        audio: 0,
+        texts: 0,
+        image: 0,
+        software: 0,
+    };
+    for (const item of items) {
+        switch (item.mediatype) {
+            case MediaType.Movies: counts.movies++; break;
+            case MediaType.Audio: counts.audio++; break;
+            case MediaType.Texts: counts.texts++; break;
+            case MediaType.Image: counts.image++; break;
+            case MediaType.Software: counts.software++; break;
+        }
+    }
+    return counts;
+});
 
 // --- Global Library Actions ---
 export const clearLibraryAtom = atom(null, (get, set) => {

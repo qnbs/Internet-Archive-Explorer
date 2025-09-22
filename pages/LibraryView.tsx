@@ -1,24 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { libraryItemsAtom, userCollectionsAtom } from '../store/favorites';
-import { UploaderFavoritesTab } from '../components/favorites/UploaderFavoritesTab';
-import type { LibraryItem, LibraryFilter } from '../types';
+import type { LibraryItem, LibraryFilter, MediaType } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { LibrarySidebar } from '../components/library/LibrarySidebar';
-import { LibraryItemList } from '../components/library/LibraryItemList';
-import { LibraryDetailPane } from '../components/library/LibraryDetailPane';
-import { StarIcon, FilterIcon } from '../components/Icons';
-
-const LibraryEmptyState: React.FC = () => {
-    const { t } = useLanguage();
-    return (
-        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-full">
-            <StarIcon className="w-16 h-16 text-gray-700 mb-4" />
-            <h2 className="text-xl font-bold text-white">{t('favorites:noItemsTitle')}</h2>
-            <p className="mt-2 max-w-sm">{t('favorites:noItemsDesc')}</p>
-        </div>
-    );
-};
+import { LibraryDashboard } from '../components/library/LibraryDashboard';
+import { LibraryCollectionView } from '../components/library/LibraryCollectionView';
+import { UploaderFavoritesTab } from '../components/library/UploaderFavoritesTab';
+import { FilterIcon } from '../components/Icons';
 
 const LibraryView: React.FC = () => {
     const { t } = useLanguage();
@@ -26,8 +15,7 @@ const LibraryView: React.FC = () => {
     const collections = useAtomValue(userCollectionsAtom);
     
     const [activeTab, setActiveTab] = useState<'items' | 'uploaders'>('items');
-    const [filter, setFilter] = useState<LibraryFilter>({ type: 'all' });
-    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const [filter, setFilter] = useState<LibraryFilter>({ type: 'dashboard' });
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const allItemsArray: LibraryItem[] = useMemo(() => Object.values(allItems), [allItems]);
@@ -45,57 +33,31 @@ const LibraryView: React.FC = () => {
                 return items.filter(item => item.tags.includes(filter.tag));
             case 'untagged':
                 return items.filter(item => item.tags.length === 0);
+            case 'mediaType':
+                return items.filter(item => item.mediatype === filter.mediaType);
             case 'all':
-            default:
                 return items;
+            case 'dashboard':
+            default:
+                return []; // Dashboard doesn't show a list
         }
     }, [allItemsArray, filter, collections, activeTab]);
 
-    const selectedItem = useMemo(() => {
-        return allItems[selectedItemId || ''] || null;
-    }, [allItems, selectedItemId]);
-
-    // When filter changes, deselect item if it's not in the new filtered list
-    useEffect(() => {
-        if (selectedItemId && !filteredItems.some(i => i.identifier === selectedItemId)) {
-            setSelectedItemId(null);
-        }
-    }, [filteredItems, selectedItemId]);
+    const handleSetFilter = (newFilter: LibraryFilter) => {
+        setFilter(newFilter);
+        setIsSidebarOpen(false); // Close sidebar on selection in mobile
+    };
 
     const renderContent = () => {
         if (activeTab === 'uploaders') {
             return <UploaderFavoritesTab />;
         }
         
-        if (allItemsArray.length === 0) {
-            return (
-                <div className="flex items-center justify-center min-h-[50vh]">
-                    <LibraryEmptyState />
-                </div>
-            );
+        if (filter.type === 'dashboard') {
+            return <LibraryDashboard setFilter={handleSetFilter} />;
         }
 
-        return (
-             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full min-h-[calc(100vh-12rem)]">
-                <div className="lg:col-span-1">
-                    <LibraryItemList
-                        items={filteredItems}
-                        filter={filter}
-                        selectedItemId={selectedItemId}
-                        onSelectItem={setSelectedItemId}
-                        onOpenFilters={() => setIsSidebarOpen(true)}
-                    />
-                </div>
-                <div className="hidden lg:block lg:col-span-2">
-                    <LibraryDetailPane selectedItem={selectedItem} onBack={() => setSelectedItemId(null)} />
-                </div>
-                {selectedItem && (
-                    <div className="fixed inset-0 bg-gray-900 z-20 p-4 md:p-6 lg:hidden animate-fade-in-left">
-                        <LibraryDetailPane selectedItem={selectedItem} onBack={() => setSelectedItemId(null)} />
-                    </div>
-                )}
-            </div>
-        );
+        return <LibraryCollectionView items={filteredItems} filter={filter} />;
     };
 
     return (
@@ -107,7 +69,7 @@ const LibraryView: React.FC = () => {
                             activeTab={activeTab}
                             setActiveTab={setActiveTab}
                             filter={filter}
-                            setFilter={setFilter}
+                            setFilter={handleSetFilter}
                             onClose={() => setIsSidebarOpen(false)}
                         />
                     </div>
@@ -118,7 +80,7 @@ const LibraryView: React.FC = () => {
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                     filter={filter}
-                    setFilter={setFilter}
+                    setFilter={handleSetFilter}
                 />
             </div>
              <div className="flex-1 min-w-0">

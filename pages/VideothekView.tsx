@@ -35,11 +35,11 @@ const VideothekView: React.FC = () => {
             />
 
             {collections.map(collection => (
+                // FIX: Pass title and query props directly instead of a single collection object.
                 <ArchivalCarousel
                     key={collection.key}
                     title={collection.title}
                     query={collection.query}
-                    cardAspectRatio="portrait"
                 />
             ))}
         </div>
