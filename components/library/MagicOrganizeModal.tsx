@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
@@ -91,7 +92,8 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
 
         // Apply Collections
         if (selectedCollections.size > 0) {
-            Array.from(selectedCollections).forEach(collectionName => {
+            // FIX: Explicitly type `collectionName` as string to fix toLowerCase error.
+            Array.from(selectedCollections).forEach((collectionName: string) => {
                 let collection = existingCollections.find(c => c.name.toLowerCase() === collectionName.toLowerCase());
                 if (!collection) {
                     collection = createCollection(collectionName);

@@ -112,7 +112,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
         <div id="command-list" role="listbox" className="max-h-[60vh] overflow-y-auto p-2">
             {flatCommands.length > 0 ? (
                 Object.entries(
-                    flatCommands.reduce((acc, cmd) => {
+                    // FIX: Explicitly type the accumulator to help TypeScript infer the return type correctly.
+                    flatCommands.reduce((acc: Record<string, Command[]>, cmd) => {
                         (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
                         return acc;
                     }, {} as Record<string, Command[]>)

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+// FIX: Import React to make React.FC available.
+import React, { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { 
     resolvedThemeAtom, 

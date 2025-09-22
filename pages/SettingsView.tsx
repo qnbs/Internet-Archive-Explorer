@@ -170,15 +170,18 @@ const UISettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="layoutDensity" label={t('settings:ui.layoutDensity')} description={t('settings:ui.layoutDensityDesc')}>
                 {(value, onChange, ariaProps) => <RadioGroup value={value} onChange={onChange} options={[
                     {value: 'comfortable', label: t('settings:ui.densities.comfortable')},
                     {value: 'compact', label: t('settings:ui.densities.compact')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="accentColor" label={t('settings:ui.accentColor')} description={t('settings:ui.accentColorDesc')}>
                 {(value, onChange, ariaProps) => <AccentColorSelector value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="scrollbarColor" label={t('settings:ui.scrollbarColor')} description={t('settings:ui.scrollbarColorDesc')}>
                 {(value, onChange, ariaProps) => <ColorPicker value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -204,6 +207,7 @@ const AccessibilitySettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="fontSize" label={t('settings:accessibility.fontSize')} description={t('settings:accessibility.fontSizeDesc')}>
                 {(value, onChange, ariaProps) => <RadioGroup value={value} onChange={onChange} options={[
                     {value: 'sm', label: t('settings:accessibility.sizes.sm')},
@@ -211,12 +215,15 @@ const AccessibilitySettingsPanel: React.FC = () => {
                     {value: 'lg', label: t('settings:accessibility.sizes.lg')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="highContrastMode" label={t('settings:accessibility.highContrast')} description={t('settings:accessibility.highContrastDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="underlineLinks" label={t('settings:accessibility.underlineLinks')} description={t('settings:accessibility.underlineLinksDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="disableAnimations" label={t('settings:accessibility.disableAnimations')} description={t('settings:accessibility.disableAnimationsDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -228,9 +235,11 @@ const SearchSettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="resultsPerPage" label={t('settings:search.resultsPerPage')} description={t('settings:search.resultsPerPageDesc')}>
                 {(value, onChange, ariaProps) => <NumberInput value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="defaultSort" label={t('settings:search.defaultSort')} description={t('settings:search.defaultSortDesc')}>
                  {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'downloads', label: t('uploaderDetail:sortCriteria.downloads')},
@@ -238,12 +247,15 @@ const SearchSettingsPanel: React.FC = () => {
                     {value: 'publicdate', label: t('uploaderDetail:sortCriteria.publicdate')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="showExplorerHub" label={t('settings:search.showExplorerHub')} description={t('settings:search.showExplorerHubDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="rememberFilters" label={t('settings:search.rememberFilters')} description={t('settings:search.rememberFiltersDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="rememberSort" label={t('settings:search.rememberSort')} description={t('settings:search.rememberSortDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -265,9 +277,11 @@ const ContentSettingsPanel: React.FC = () => {
     ];
     return (
         <div className="space-y-2">
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="defaultView" label={t('settings:content.defaultView')} description={t('settings:content.defaultViewDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={viewOptions} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="defaultDetailTabAll" label={t('settings:content.defaultDetailTabAll')} description={t('settings:content.defaultDetailTabAllDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
@@ -275,6 +289,7 @@ const ContentSettingsPanel: React.FC = () => {
                     {value: 'related', label: t('common:related')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="defaultUploaderDetailTab" label={t('settings:content.defaultUploaderDetailTab')} description={t('settings:content.defaultUploaderDetailTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'uploads', label: t('uploaderDetail:tabs.uploads')},
@@ -282,9 +297,11 @@ const ContentSettingsPanel: React.FC = () => {
                     {value: 'favorites', label: t('uploaderDetail:tabs.favorites')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="autoplayMedia" label={t('settings:content.autoplayMedia')} description={t('settings:content.autoplayMediaDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="openLinksInNewTab" label={t('settings:content.openLinksInNewTab')} description={t('settings:content.openLinksInNewTabDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -296,21 +313,26 @@ const AISettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="enableAiFeatures" label={t('settings:ai.enableAiFeatures')} description={t('settings:ai.enableAiFeaturesDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="autoArchiveAI" label={t('settings:ai.autoArchiveAI')} description={t('settings:ai.autoArchiveAIDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="defaultAiTab" label={t('settings:ai.defaultAiTab')} description={t('settings:ai.defaultAiTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
                     {value: 'ai', label: t('common:aiAnalysis')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
+            {/* FIX: Add children render prop to SettingRow */}
             <SettingRow settingKey="autoRunEntityExtraction" label={t('settings:ai.autoRunEntityExtraction')} description={t('settings:ai.autoRunEntityExtractionDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
+             {/* FIX: Add children render prop to SettingRow */}
              <SettingRow settingKey="summaryTone" label={t('settings:ai.summaryTone')} description={t('settings:ai.summaryToneDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'simple', label: t('settings:ai.tones.simple')},
@@ -330,42 +352,7 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
     const clearLibrary = useSetAtom(clearLibraryAtom);
     const clearScriptorium = useSetAtom(clearScriptoriumAtom);
     const clearAIArchive = useSetAtom(clearAIArchiveAtom);
-    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isAppInstalled, setIsAppInstalled] = useState(false);
 
-    useEffect(() => {
-        const handleBeforeInstallPrompt = (e: Event) => {
-            e.preventDefault();
-            setDeferredPrompt(e as BeforeInstallPromptEvent);
-        };
-        const checkInstalled = () => {
-            if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
-                setIsAppInstalled(true);
-            }
-        };
-        checkInstalled();
-
-        const handleAppInstalled = () => setIsAppInstalled(true);
-        
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        window.addEventListener('appinstalled', handleAppInstalled);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-            window.removeEventListener('appinstalled', handleAppInstalled);
-        };
-    }, []);
-
-    const handleInstallClick = async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            await deferredPrompt.userChoice;
-            setDeferredPrompt(null);
-        } else if (!isAppInstalled) {
-            addToast(t('settings:data.howToInstall'), 'info', 10000);
-        }
-    };
-    
     const handleExport = () => {
         try {
             const data = exportAllData();
@@ -461,21 +448,6 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
                         <span>{t('settings:data.importButton')}</span>
                         <input type="file" accept=".json" className="hidden" onChange={handleImport} />
                     </label>
-                </div>
-                <div className="py-4 border-t border-gray-200 dark:border-gray-700">
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.installApp')}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.installAppDesc')}</p>
-                     {isAppInstalled ? (
-                         <button disabled className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-gray-500 text-white rounded-md cursor-not-allowed">
-                            <DownloadIcon />
-                            <span>{t('settings:data.installedButton')}</span>
-                        </button>
-                    ) : (
-                        <button onClick={handleInstallClick} className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors">
-                            <DownloadIcon />
-                            <span>{t('settings:data.installButton')}</span>
-                        </button>
-                    )}
                 </div>
             </div>
 
