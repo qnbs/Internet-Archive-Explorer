@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCommands } from '../hooks/useCommands';
 import type { Command, View } from '../types';
@@ -115,7 +116,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
             {flatCommands.length > 0 ? (
                 Object.entries(
                     // FIX: Explicitly type the accumulator to help TypeScript infer the return type correctly.
-                    flatCommands.reduce((acc: Record<string, Command[]>, cmd) => {
+                    flatCommands.reduce((acc, cmd) => {
                         (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
                         return acc;
                     }, {} as Record<string, Command[]>)

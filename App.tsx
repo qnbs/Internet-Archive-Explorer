@@ -7,7 +7,6 @@ import {
     selectedProfileAtom,
     profileReturnViewAtom,
 } from './store/app';
-// FIX: Update toastAtom import to its new location to resolve circular dependencies.
 import { toastAtom } from './store/toast';
 import { 
     defaultSettings,
@@ -18,6 +17,7 @@ import { deferredPromptAtom, isAppInstalledAtom, type BeforeInstallPromptEvent }
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
+import { useLanguage } from './hooks/useLanguage';
 
 // Layout Components
 import { SideMenu } from './components/SideMenu';
@@ -62,12 +62,8 @@ const ToastBridge: React.FC = () => {
     const [toast, setToast] = useAtom(toastAtom); 
     
     useEffect(() => {
-        // The atom's value is an object or null. We act when it's an object.
         if (toast) {
-            // FIX: The error "This expression is not callable" was a symptom of a larger circular dependency issue with Jotai atoms.
-            // Relocating toastAtom to its own file and fixing the store's barrel file (`store/index.ts`) fixes the type inference, making `addToast` callable as expected.
             addToast(toast.message, toast.type);
-            // Reset the atom to prevent the toast from re-appearing on re-renders.
             setToast(null);
         }
     }, [toast, addToast, setToast]);
@@ -82,6 +78,8 @@ const AppContent: React.FC = () => {
   const profileReturnView = useAtomValue(profileReturnViewAtom);
   const setDeferredPrompt = useSetAtom(deferredPromptAtom);
   const setIsAppInstalled = useSetAtom(isAppInstalledAtom);
+  const { addToast } = useToast();
+  const { t } = useLanguage();
 
   
   const { navigateTo, goBackFromProfile } = useNavigation();
@@ -105,10 +103,9 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     const checkInstalledStatus = () => {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-        // The `standalone` property is for iOS Safari
         if (isStandalone || (window.navigator as any).standalone) {
             setIsAppInstalled(true);
-            setDeferredPrompt(null); // If installed, we don't need the prompt
+            setDeferredPrompt(null);
         } else {
             setIsAppInstalled(false);
         }
@@ -119,7 +116,13 @@ const AppContent: React.FC = () => {
     const handleBeforeInstallPrompt = (e: Event) => {
         e.preventDefault();
         setDeferredPrompt(e as BeforeInstallPromptEvent);
-        setIsAppInstalled(false); // Can't be installed if a prompt is offered
+        setIsAppInstalled(false);
+
+        const installToastShown = sessionStorage.getItem('install-toast-shown');
+        if (!installToastShown) {
+            addToast(t('settings:data.installAppDesc'), 'info', 10000);
+            sessionStorage.setItem('install-toast-shown', 'true');
+        }
     };
 
     const handleAppInstalled = () => {
@@ -138,7 +141,7 @@ const AppContent: React.FC = () => {
         window.removeEventListener('appinstalled', handleAppInstalled);
         mediaQueryList.removeEventListener('change', checkInstalledStatus);
     };
-  }, [setDeferredPrompt, setIsAppInstalled]);
+  }, [setDeferredPrompt, setIsAppInstalled, addToast, t]);
 
 
   const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);

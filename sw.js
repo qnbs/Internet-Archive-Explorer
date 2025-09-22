@@ -1,9 +1,10 @@
-const CACHE_NAME = 'internet-archive-explorer-v2';
+const CACHE_NAME = 'internet-archive-explorer-v3';
 const API_HOSTNAME = 'archive.org';
 
 const APP_SHELL_URLS = [
   '/',
   '/index.html',
+  '/index.tsx',
   '/manifest.json',
   '/icon-192.svg',
   '/icon-512.svg',
@@ -16,7 +17,43 @@ const THIRD_PARTY_URLS = [
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
 
-// Install event: Caches the app shell and third-party assets.
+const offlineFallback = new Response(`
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Internet Archive Explorer</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+      background-color: #111827; 
+      color: #d1d5db; 
+      text-align: center; 
+      padding: 50px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    h1 { color: #fff; }
+    svg { width: 80px; height: 80px; margin-bottom: 20px; color: #06b6d4; }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+  <h1>You are offline</h1>
+  <p>This page cannot be loaded right now. Please check your internet connection.</p>
+  <p>Previously visited pages may still be available.</p>
+</body>
+</html>`, {
+  headers: { 'Content-Type': 'text/html; charset=utf-8' }
+});
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -29,7 +66,6 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate event: Cleans up old caches to ensure the user always has the latest version.
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -45,18 +81,15 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event: Implements caching strategies.
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Ignore non-GET requests or non-http/https requests.
   if (request.method !== 'GET' || !url.protocol.startsWith('http')) {
     return;
   }
 
   // Strategy for API calls (archive.org): Network first, then Cache.
-  // This ensures data is fresh but provides an offline fallback.
   if (url.hostname.includes(API_HOSTNAME)) {
     event.respondWith(
         fetch(request)
@@ -82,7 +115,6 @@ self.addEventListener('fetch', (event) => {
   }
   
   // Strategy for all other requests (app shell, CDN assets): Cache first, then Network.
-  // This is fast and provides a reliable offline experience for static assets.
   event.respondWith(
     caches.match(request).then(cachedResponse => {
       if (cachedResponse) {
@@ -100,7 +132,7 @@ self.addEventListener('fetch', (event) => {
       }).catch(error => {
         console.error('[SW] Fetch failed:', error);
         if (request.mode === 'navigate') {
-          return caches.match('/');
+          return offlineFallback;
         }
       });
     })
