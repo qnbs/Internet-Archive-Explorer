@@ -1,10 +1,12 @@
+
 {
   "placeholder": "Type a command or search...",
   "title": "Command Palette",
   "sections": {
     "navigation": "Navigation",
     "actions": "Actions",
-    "uploaders": "Uploaders"
+    "uploaders": "Uploaders",
+    "app": "Application"
   },
   "nav": {
     "exploreDesc": "Go to the main explorer page",
@@ -23,6 +25,8 @@
     "toggleTheme": "Toggle theme",
     "toggleThemeDesc": "Switch between light and dark mode",
     "toggleLanguage": "Switch language",
-    "toggleLanguageDesc": "Switch between English and German"
+    "toggleLanguageDesc": "Switch between English and German",
+    "installAppDesc": "Install this app to your device for offline access.",
+    "appInstalledDesc": "The application is already installed on your device."
   }
 }

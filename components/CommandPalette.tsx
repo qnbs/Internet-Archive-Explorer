@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCommands } from '../hooks/useCommands';
 import type { Command, View } from '../types';
@@ -19,7 +21,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const commands = useCommands(actions);
+  const commands = useCommands({ ...actions, onClosePalette: onClose });
   const paletteRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();

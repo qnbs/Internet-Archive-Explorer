@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { 
@@ -14,6 +13,8 @@ import {
     defaultSettings,
 } from './store/settings';
 import type { View, Profile, ConfirmationOptions, AppSettings } from './types';
+import { deferredPromptAtom, isAppInstalledAtom, type BeforeInstallPromptEvent } from './store/pwa';
+
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -79,6 +80,9 @@ const AppContent: React.FC = () => {
   const setModal = useSetAtom(modalAtom);
   const selectedProfile = useAtomValue(selectedProfileAtom);
   const profileReturnView = useAtomValue(profileReturnViewAtom);
+  const setDeferredPrompt = useSetAtom(deferredPromptAtom);
+  const setIsAppInstalled = useSetAtom(isAppInstalledAtom);
+
   
   const { navigateTo, goBackFromProfile } = useNavigation();
   
@@ -96,6 +100,46 @@ const AppContent: React.FC = () => {
     setActiveView(initialView);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Effect for PWA installation management
+  useEffect(() => {
+    const checkInstalledStatus = () => {
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        // The `standalone` property is for iOS Safari
+        if (isStandalone || (window.navigator as any).standalone) {
+            setIsAppInstalled(true);
+            setDeferredPrompt(null); // If installed, we don't need the prompt
+        } else {
+            setIsAppInstalled(false);
+        }
+    };
+
+    checkInstalledStatus();
+
+    const handleBeforeInstallPrompt = (e: Event) => {
+        e.preventDefault();
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        setIsAppInstalled(false); // Can't be installed if a prompt is offered
+    };
+
+    const handleAppInstalled = () => {
+        setDeferredPrompt(null);
+        setIsAppInstalled(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
+    mediaQueryList.addEventListener('change', checkInstalledStatus);
+
+    return () => {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.removeEventListener('appinstalled', handleAppInstalled);
+        mediaQueryList.removeEventListener('change', checkInstalledStatus);
+    };
+  }, [setDeferredPrompt, setIsAppInstalled]);
+
 
   const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);
 

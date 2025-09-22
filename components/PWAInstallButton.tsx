@@ -1,61 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../hooks/useLanguage';
-import { DownloadIcon } from './Icons';
 
-// BeforeInstallPromptEvent is not in standard TS lib, so we define it
-interface BeforeInstallPromptEvent extends Event {
-    readonly platforms: string[];
-    readonly userChoice: Promise<{
-        outcome: 'accepted' | 'dismissed';
-        platform: string;
-    }>;
-    prompt(): Promise<void>;
-}
+import React from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { deferredPromptAtom, isAppInstalledAtom } from '../store/pwa';
+import { useLanguage } from '../hooks/useLanguage';
+import { DownloadIcon, CheckIcon } from './Icons';
 
 export const PWAInstallButton: React.FC = () => {
     const { t } = useLanguage();
-    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isAppInstalled, setIsAppInstalled] = useState(false);
-
-    useEffect(() => {
-        const checkInstalledStatus = () => {
-            // This media query is a reliable way to check if the app is running in standalone mode.
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-            // The `standalone` property is a non-standard but widely supported way for iOS.
-            if (isStandalone || (window.navigator as any).standalone) {
-                setIsAppInstalled(true);
-            } else {
-                setIsAppInstalled(false);
-            }
-        };
-
-        checkInstalledStatus();
-
-        const handleBeforeInstallPrompt = (e: Event) => {
-            e.preventDefault();
-            setDeferredPrompt(e as BeforeInstallPromptEvent);
-        };
-
-        const handleAppInstalled = () => {
-            // When the app is installed, clear the deferred prompt and update the state.
-            setDeferredPrompt(null);
-            setIsAppInstalled(true);
-        };
-
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        window.addEventListener('appinstalled', handleAppInstalled);
-
-        // Listen for changes in display mode, which can happen if the app is installed
-        // while the tab is still open in the browser.
-        const mediaQueryList = window.matchMedia('(display-mode: standalone)');
-        mediaQueryList.addEventListener('change', checkInstalledStatus);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-            window.removeEventListener('appinstalled', handleAppInstalled);
-            mediaQueryList.removeEventListener('change', checkInstalledStatus);
-        };
-    }, []);
+    const deferredPrompt = useAtomValue(deferredPromptAtom);
+    const setDeferredPrompt = useSetAtom(deferredPromptAtom);
+    const isAppInstalled = useAtomValue(isAppInstalledAtom);
 
     const handleInstallClick = async () => {
         if (isAppInstalled || !deferredPrompt) return;
@@ -63,8 +17,7 @@ export const PWAInstallButton: React.FC = () => {
         deferredPrompt.prompt();
         // Wait for the user to respond to the prompt.
         await deferredPrompt.userChoice;
-        // Clear the deferredPrompt so it can be garbage collected. The 'appinstalled'
-        // event will handle the final state change if the user accepts.
+        // The prompt is a one-time use object. We clear it from state.
         setDeferredPrompt(null);
     };
     
@@ -91,7 +44,7 @@ export const PWAInstallButton: React.FC = () => {
             title={title}
             aria-label={title}
         >
-            <DownloadIcon className="w-5 h-5" />
+            {isAppInstalled ? <CheckIcon className="w-5 h-5" /> : <DownloadIcon className="w-5 h-5" />}
         </button>
     );
 };

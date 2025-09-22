@@ -1,10 +1,12 @@
+
 {
   "placeholder": "Befehl eingeben oder suchen...",
   "title": "Befehlspalette",
   "sections": {
     "navigation": "Navigation",
     "actions": "Aktionen",
-    "uploaders": "Uploader"
+    "uploaders": "Uploader",
+    "app": "Anwendung"
   },
   "nav": {
     "exploreDesc": "Zur Hauptentdeckungsseite gehen",
@@ -23,6 +25,8 @@
     "toggleTheme": "Theme umschalten",
     "toggleThemeDesc": "Zwischen hellem und dunklem Modus wechseln",
     "toggleLanguage": "Sprache wechseln",
-    "toggleLanguageDesc": "Wechseln Sie zwischen Englisch und Deutsch"
+    "toggleLanguageDesc": "Wechseln Sie zwischen Englisch und Deutsch",
+    "installAppDesc": "Installieren Sie diese App auf Ihrem Gerät für Offline-Zugriff.",
+    "appInstalledDesc": "Die Anwendung ist bereits auf Ihrem Gerät installiert."
   }
 }

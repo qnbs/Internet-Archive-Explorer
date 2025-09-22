@@ -1,3 +1,5 @@
+
+
 import React, { useState, useId, useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -40,16 +42,6 @@ type SettingProps<K extends keyof AppSettings> = {
     description: string;
     children: (value: AppSettings[K], onChange: (value: AppSettings[K]) => void, ariaProps: { 'aria-labelledby': string, 'aria-describedby': string }) => React.ReactNode;
 };
-
-// --- PWA Install Prompt Event Type ---
-interface BeforeInstallPromptEvent extends Event {
-    readonly platforms: string[];
-    readonly userChoice: Promise<{
-        outcome: 'accepted' | 'dismissed';
-        platform: string;
-    }>;
-    prompt(): Promise<void>;
-}
 
 const SettingRow = <K extends keyof AppSettings>({ settingKey, label, description, children }: SettingProps<K>) => {
     const id = useId();

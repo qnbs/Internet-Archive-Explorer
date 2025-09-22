@@ -1,3 +1,4 @@
+
 import React, { useMemo } from 'react';
 import { useLanguage } from './useLanguage';
 import { useAtom, useAtomValue } from 'jotai';
@@ -6,13 +7,16 @@ import { languageAtom } from '../store/i18n';
 import type { Command, View } from '../types';
 import {
   CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, UsersIcon,
-  JoystickIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LanguageIcon, WebIcon, BrainIcon
+  JoystickIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LanguageIcon, WebIcon, BrainIcon,
+  DownloadIcon, CheckIcon
 } from '../components/Icons';
 import { resolvedThemeAtom } from '../store/settings';
+import { deferredPromptAtom, isAppInstalledAtom } from '../store/pwa';
 
 interface CommandActions {
   navigateTo: (view: View) => void;
   globalSearch: (query: string) => void;
+  onClosePalette: () => void;
 }
 
 export const useCommands = (actions: CommandActions): Command[] => {
@@ -20,6 +24,8 @@ export const useCommands = (actions: CommandActions): Command[] => {
   const [theme, setTheme] = useAtom(themeAtom);
   const [language, setLanguage] = useAtom(languageAtom);
   const resolvedTheme = useAtomValue(resolvedThemeAtom);
+  const [deferredPrompt, setDeferredPrompt] = useAtom(deferredPromptAtom);
+  const isAppInstalled = useAtomValue(isAppInstalledAtom);
 
   const commands = useMemo(() => {
     const iconClass = "w-5 h-5 text-gray-400";
@@ -43,9 +49,37 @@ export const useCommands = (actions: CommandActions): Command[] => {
       { id: 'action-language', section: t('commandPalette:sections.actions'), label: t('commandPalette:actions.toggleLanguage'), description: t('commandPalette:actions.toggleLanguageDesc'), icon: React.createElement(LanguageIcon, { className: iconClass }), action: () => setLanguage(language === 'en' ? 'de' : 'en'), keywords: 'german english sprache' },
     ];
     
-    return [...navigationCommands, ...actionCommands];
+    const appCommands: Command[] = [];
+    if (isAppInstalled) {
+        appCommands.push({
+            id: 'pwa-installed',
+            section: t('commandPalette:sections.app'),
+            label: t('settings:data.installedButton'),
+            description: t('commandPalette:actions.appInstalledDesc'),
+            icon: React.createElement(CheckIcon, { className: iconClass }),
+            action: () => {}, // No-op
+            keywords: 'pwa install installed application'
+        });
+    } else if (deferredPrompt) {
+        appCommands.push({
+            id: 'pwa-install',
+            section: t('commandPalette:sections.app'),
+            label: t('settings:data.installButton'),
+            description: t('commandPalette:actions.installAppDesc'),
+            icon: React.createElement(DownloadIcon, { className: iconClass }),
+            action: () => {
+                deferredPrompt.prompt();
+                setDeferredPrompt(null);
+                actions.onClosePalette();
+            },
+            keywords: 'pwa install application download'
+        });
+    }
 
-  }, [t, resolvedTheme, language, actions, setLanguage, setTheme]);
+
+    return [...navigationCommands, ...actionCommands, ...appCommands];
+
+  }, [t, resolvedTheme, language, actions, setTheme, setLanguage, isAppInstalled, deferredPrompt, setDeferredPrompt]);
 
   return commands;
 };
