@@ -15,17 +15,30 @@ interface BeforeInstallPromptEvent extends Event {
 export const PWAInstallButton: React.FC = () => {
     const { t } = useLanguage();
     const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+    const [isAppInstalled, setIsAppInstalled] = useState(false);
 
     useEffect(() => {
+        // Check installation status on component mount.
+        if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+            setIsAppInstalled(true);
+        }
+
         const handleBeforeInstallPrompt = (e: Event) => {
             e.preventDefault();
             setDeferredPrompt(e as BeforeInstallPromptEvent);
         };
 
+        const handleAppInstalled = () => {
+            setIsAppInstalled(true);
+            setDeferredPrompt(null);
+        };
+
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', handleAppInstalled);
 
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            window.removeEventListener('appinstalled', handleAppInstalled);
         };
     }, []);
 
@@ -38,7 +51,8 @@ export const PWAInstallButton: React.FC = () => {
         setDeferredPrompt(null);
     };
 
-    if (!deferredPrompt) {
+    // Only show the header install button if the prompt is available and the app isn't installed.
+    if (!deferredPrompt || isAppInstalled) {
         return null;
     }
 

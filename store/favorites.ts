@@ -1,8 +1,7 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 // FIX: Import MediaType as a value, not just a type, because it is an enum used at runtime.
-import type { LibraryItem, UserCollection, ArchiveItemSummary } from '../types';
-import { MediaType } from '../types';
+import { type LibraryItem, type UserCollection, type ArchiveItemSummary, MediaType } from '../types';
 import { toastAtom } from './toast';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -178,7 +177,8 @@ export const addTagsToItemsAtom = atom(
 
 // --- Derived Analytics Atom ---
 export const libraryCountsAtom = atom(get => {
-    const items = Object.values(get(libraryItemsAtom));
+    // FIX: Explicitly type the result of Object.values to ensure TypeScript knows it's an array of LibraryItem.
+    const items: LibraryItem[] = Object.values(get(libraryItemsAtom));
     const counts = {
         total: items.length,
         movies: 0,

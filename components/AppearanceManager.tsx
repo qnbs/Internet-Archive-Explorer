@@ -129,6 +129,7 @@ export const AppearanceManager: React.FC = () => {
         // --- 3. Dynamic Style Injection for Pseudo-elements ---
         updateStyleTag(
             'custom-scrollbar-style',
+            // FIX: Cast scrollbarColor to string to resolve the 'unknown' type error.
             `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor as string} !important; }`
         );
         

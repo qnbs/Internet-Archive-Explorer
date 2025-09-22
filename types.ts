@@ -70,7 +70,7 @@ export interface ArchiveItemSummary {
   downloads?: number;
   week?: number;
   avg_rating?: string;
-  // Fix: Add optional properties for review data.
+  // FIX: Add optional properties for review data.
   reviewdate?: string;
   reviewtitle?: string;
   reviewbody?: string;

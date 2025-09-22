@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
     settingsAtom,
@@ -40,6 +40,16 @@ type SettingProps<K extends keyof AppSettings> = {
     description: string;
     children: (value: AppSettings[K], onChange: (value: AppSettings[K]) => void, ariaProps: { 'aria-labelledby': string, 'aria-describedby': string }) => React.ReactNode;
 };
+
+// --- PWA Install Prompt Event Type ---
+interface BeforeInstallPromptEvent extends Event {
+    readonly platforms: string[];
+    readonly userChoice: Promise<{
+        outcome: 'accepted' | 'dismissed';
+        platform: string;
+    }>;
+    prompt(): Promise<void>;
+}
 
 const SettingRow = <K extends keyof AppSettings>({ settingKey, label, description, children }: SettingProps<K>) => {
     const id = useId();
@@ -320,6 +330,41 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
     const clearLibrary = useSetAtom(clearLibraryAtom);
     const clearScriptorium = useSetAtom(clearScriptoriumAtom);
     const clearAIArchive = useSetAtom(clearAIArchiveAtom);
+    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+    const [isAppInstalled, setIsAppInstalled] = useState(false);
+
+    useEffect(() => {
+        const handleBeforeInstallPrompt = (e: Event) => {
+            e.preventDefault();
+            setDeferredPrompt(e as BeforeInstallPromptEvent);
+        };
+        const checkInstalled = () => {
+            if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+                setIsAppInstalled(true);
+            }
+        };
+        checkInstalled();
+
+        const handleAppInstalled = () => setIsAppInstalled(true);
+        
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', handleAppInstalled);
+
+        return () => {
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            window.removeEventListener('appinstalled', handleAppInstalled);
+        };
+    }, []);
+
+    const handleInstallClick = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            setDeferredPrompt(null);
+        } else if (!isAppInstalled) {
+            addToast(t('settings:data.howToInstall'), 'info', 10000);
+        }
+    };
     
     const handleExport = () => {
         try {
@@ -416,6 +461,21 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
                         <span>{t('settings:data.importButton')}</span>
                         <input type="file" accept=".json" className="hidden" onChange={handleImport} />
                     </label>
+                </div>
+                <div className="py-4 border-t border-gray-200 dark:border-gray-700">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-200 mb-2">{t('settings:data.installApp')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings:data.installAppDesc')}</p>
+                     {isAppInstalled ? (
+                         <button disabled className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-gray-500 text-white rounded-md cursor-not-allowed">
+                            <DownloadIcon />
+                            <span>{t('settings:data.installedButton')}</span>
+                        </button>
+                    ) : (
+                        <button onClick={handleInstallClick} className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors">
+                            <DownloadIcon />
+                            <span>{t('settings:data.installButton')}</span>
+                        </button>
+                    )}
                 </div>
             </div>
 
