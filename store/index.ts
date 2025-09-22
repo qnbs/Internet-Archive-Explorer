@@ -60,6 +60,23 @@ export {
     myArchiveProfileAtom,
 } from './archive';
 
+export {
+    aiArchiveAtom,
+    allAIArchiveTagsAtom,
+    addAIArchiveEntryAtom,
+    deleteAIArchiveEntryAtom,
+    updateAIArchiveEntryAtom,
+    updateAIEntryTagsAtom,
+    selectedAIEntryIdAtom,
+    aiArchiveSearchQueryAtom,
+    aiArchiveFilterAtom,
+    aiArchiveSortAtom,
+    selectedAIEntryAtom,
+    aiArchiveCountsAtom,
+    filteredAndSortedEntriesAtom,
+    clearAIArchiveAtom,
+} from './aiArchive';
+
 // These atoms have dependencies on other store files
 export {
     libraryItemsAtom,
@@ -95,23 +112,6 @@ export {
     updateDocumentNotesAtom,
     clearScriptoriumAtom,
 } from './scriptorium';
-
-export {
-    aiArchiveAtom,
-    allAIArchiveTagsAtom,
-    addAIArchiveEntryAtom,
-    deleteAIArchiveEntryAtom,
-    updateAIArchiveEntryAtom,
-    updateAIEntryTagsAtom,
-    selectedAIEntryIdAtom,
-    aiArchiveSearchQueryAtom,
-    aiArchiveFilterAtom,
-    aiArchiveSortAtom,
-    selectedAIEntryAtom,
-    aiArchiveCountsAtom,
-    filteredAndSortedEntriesAtom,
-    clearAIArchiveAtom,
-} from './aiArchive';
 
 export {
     playlistAtom,
