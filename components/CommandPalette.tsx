@@ -1,31 +1,43 @@
-
-
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCommands } from '../hooks/useCommands';
 import type { Command, View } from '../types';
 import { SearchIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
-
-interface CommandActions {
-  navigateTo: (view: View) => void;
-  globalSearch: (query: string) => void;
-}
+import { useSetAtom } from 'jotai';
+import { activeViewAtom } from '../store';
+import { searchQueryAtom } from '../store';
 
 interface CommandPaletteProps {
   onClose: () => void;
-  actions: CommandActions;
 }
 
-export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions }) => {
+export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const commands = useCommands({ ...actions, onClosePalette: onClose });
+  
+  const setActiveView = useSetAtom(activeViewAtom);
+  const setGlobalSearchQuery = useSetAtom(searchQueryAtom);
+  
   const paletteRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
+
+  const commandActions = {
+      navigateTo: (view: View) => {
+          setActiveView(view);
+          onClose();
+      },
+      globalSearch: (q: string) => {
+          setGlobalSearchQuery(q);
+          setActiveView('explore');
+          onClose();
+      },
+      onClosePalette: onClose,
+  };
+  const commands = useCommands(commandActions);
+
 
   useModalFocusTrap({ modalRef: paletteRef, isOpen: isMounted, onClose });
 
@@ -45,17 +57,15 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
   }, [query, commands]);
   
   const groupedCommands = useMemo(() => {
-      const groups: Record<string, Command[]> = {};
-      for (const command of filteredCommands) {
-          if (!groups[command.section]) {
-              groups[command.section] = [];
-          }
-          groups[command.section].push(command);
-      }
-      return Object.entries(groups).flatMap(([section, cmds]) => [{ isHeader: true, title: section }, ...cmds]);
+      // FIX: Explicitly type the accumulator to help TypeScript infer the return type correctly.
+      return filteredCommands.reduce((acc: Record<string, Command[]>, cmd) => {
+          (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
+          return acc;
+      // FIX: Cast the initial value of reduce to the correct type to avoid `unknown` type inference.
+      }, {} as Record<string, Command[]>);
   }, [filteredCommands]);
   
-  const flatCommands = useMemo(() => groupedCommands.filter(item => !('isHeader' in item)) as Command[], [groupedCommands]);
+  const flatCommands = useMemo(() => filteredCommands, [filteredCommands]);
 
 
   useEffect(() => {
@@ -78,9 +88,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
       e.preventDefault();
       if(flatCommands[activeIndex]) {
           flatCommands[activeIndex].action();
-          onClose();
       } else if (query.trim()) {
-          actions.globalSearch(query);
+          commandActions.globalSearch(query);
       }
     }
   };
@@ -114,13 +123,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
         </div>
         <div id="command-list" role="listbox" className="max-h-[60vh] overflow-y-auto p-2">
             {flatCommands.length > 0 ? (
-                Object.entries(
-                    // FIX: Explicitly type the accumulator to help TypeScript infer the return type correctly.
-                    flatCommands.reduce((acc, cmd) => {
-                        (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
-                        return acc;
-                    }, {} as Record<string, Command[]>)
-                ).map(([section, commandsInSection]) => (
+                Object.entries(groupedCommands).map(([section, commandsInSection]) => (
                     <div key={section} className="mb-2">
                         <h3 className="px-2 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400" id={`section-header-${section}`}>{section}</h3>
                         <ul role="group" aria-labelledby={`section-header-${section}`}>
@@ -131,7 +134,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose, actions
                                 <li
                                     id={`command-item-${currentIndex}`}
                                     key={cmd.id}
-                                    onClick={() => { cmd.action(); onClose(); }}
+                                    onClick={() => { cmd.action(); }}
                                     onMouseMove={() => setActiveIndex(currentIndex)}
                                     role="option"
                                     aria-selected={isActive}

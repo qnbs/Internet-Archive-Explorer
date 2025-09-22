@@ -8,6 +8,8 @@ export type { ModalState } from './app';
 export { 
     activeViewAtom, 
     modalAtom, 
+    isModalOpenAtom,
+    currentModalTypeAtom,
     selectItemAtom, 
     selectedProfileAtom, 
     profileReturnViewAtom 
@@ -30,6 +32,7 @@ export {
     openLinksInNewTabAtom,
     autoplayMediaAtom,
     enableAiFeaturesAtom,
+    autoArchiveAIAtom,
     defaultAiTabAtom,
     autoRunEntityExtractionAtom,
     summaryToneAtom,
@@ -58,6 +61,7 @@ export {
 
 export {
     myArchiveProfileAtom,
+    disconnectMyArchiveAtom,
 } from './archive';
 
 export {
@@ -97,6 +101,7 @@ export {
     allTagsAtom,
     addTagsToItemsAtom,
     removeLibraryItemsAtom,
+    libraryCountsAtom,
     clearLibraryAtom,
 } from './favorites';
 
@@ -126,3 +131,8 @@ export {
     clearPlaylistAtom,
     removeFromPlaylistAtom
 } from './audioPlayer';
+
+export {
+    deferredPromptAtom,
+    isAppInstalledAtom
+} from './pwa';

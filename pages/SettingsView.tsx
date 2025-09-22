@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useId, useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -8,28 +5,16 @@ import {
     setSettingAtom,
     resetSettingsAtom,
     themeAtom,
-} from '../store/settings';
-import {
-    searchHistoryAtom,
-    clearSearchHistoryAtom,
-} from '../store/search';
-import {
     languageAtom,
-} from '../store/i18n';
-import {
-    clearLibraryAtom
-} from '../store/favorites';
-import {
-    clearScriptoriumAtom
-} from '../store/scriptorium';
-import {
-    clearAIArchiveAtom
-} from '../store/aiArchive';
+    clearSearchHistoryAtom,
+    clearLibraryAtom,
+    clearScriptoriumAtom,
+    clearAIArchiveAtom,
+} from '../store';
 import { useLanguage } from '../hooks/useLanguage';
-import type { AppSettings, Language, AccentColor, View } from '../types';
+import type { AppSettings, Language, AccentColor, View, ConfirmationOptions } from '../types';
 import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon, EyeIcon } from '../components/Icons';
 import { exportAllData, importData } from '../services/dataService';
-import type { ConfirmationOptions } from '../types';
 import { useToast } from '../contexts/ToastContext';
 import { ThemeSelector } from '../components/settings/ThemeSelector';
 
@@ -163,18 +148,18 @@ const UISettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved RadioGroup inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="layoutDensity" label={t('settings:ui.layoutDensity')} description={t('settings:ui.layoutDensityDesc')}>
                 {(value, onChange, ariaProps) => <RadioGroup value={value} onChange={onChange} options={[
                     {value: 'comfortable', label: t('settings:ui.densities.comfortable')},
                     {value: 'compact', label: t('settings:ui.densities.compact')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved AccentColorSelector inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="accentColor" label={t('settings:ui.accentColor')} description={t('settings:ui.accentColorDesc')}>
                 {(value, onChange, ariaProps) => <AccentColorSelector value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved ColorPicker inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="scrollbarColor" label={t('settings:ui.scrollbarColor')} description={t('settings:ui.scrollbarColorDesc')}>
                 {(value, onChange, ariaProps) => <ColorPicker value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -200,7 +185,7 @@ const AccessibilitySettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved RadioGroup inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="fontSize" label={t('settings:accessibility.fontSize')} description={t('settings:accessibility.fontSizeDesc')}>
                 {(value, onChange, ariaProps) => <RadioGroup value={value} onChange={onChange} options={[
                     {value: 'sm', label: t('settings:accessibility.sizes.sm')},
@@ -208,15 +193,15 @@ const AccessibilitySettingsPanel: React.FC = () => {
                     {value: 'lg', label: t('settings:accessibility.sizes.lg')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="highContrastMode" label={t('settings:accessibility.highContrast')} description={t('settings:accessibility.highContrastDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="underlineLinks" label={t('settings:accessibility.underlineLinks')} description={t('settings:accessibility.underlineLinksDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="disableAnimations" label={t('settings:accessibility.disableAnimations')} description={t('settings:accessibility.disableAnimationsDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -228,11 +213,11 @@ const SearchSettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved NumberInput inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="resultsPerPage" label={t('settings:search.resultsPerPage')} description={t('settings:search.resultsPerPageDesc')}>
                 {(value, onChange, ariaProps) => <NumberInput value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="defaultSort" label={t('settings:search.defaultSort')} description={t('settings:search.defaultSortDesc')}>
                  {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'downloads', label: t('uploaderDetail:sortCriteria.downloads')},
@@ -240,15 +225,15 @@ const SearchSettingsPanel: React.FC = () => {
                     {value: 'publicdate', label: t('uploaderDetail:sortCriteria.publicdate')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="showExplorerHub" label={t('settings:search.showExplorerHub')} description={t('settings:search.showExplorerHubDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="rememberFilters" label={t('settings:search.rememberFilters')} description={t('settings:search.rememberFiltersDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="rememberSort" label={t('settings:search.rememberSort')} description={t('settings:search.rememberSortDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -270,11 +255,11 @@ const ContentSettingsPanel: React.FC = () => {
     ];
     return (
         <div className="space-y-2">
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="defaultView" label={t('settings:content.defaultView')} description={t('settings:content.defaultViewDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={viewOptions} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="defaultDetailTabAll" label={t('settings:content.defaultDetailTabAll')} description={t('settings:content.defaultDetailTabAllDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
@@ -282,7 +267,7 @@ const ContentSettingsPanel: React.FC = () => {
                     {value: 'related', label: t('common:related')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="defaultUploaderDetailTab" label={t('settings:content.defaultUploaderDetailTab')} description={t('settings:content.defaultUploaderDetailTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'uploads', label: t('uploaderDetail:tabs.uploads')},
@@ -290,11 +275,11 @@ const ContentSettingsPanel: React.FC = () => {
                     {value: 'favorites', label: t('uploaderDetail:tabs.favorites')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="autoplayMedia" label={t('settings:content.autoplayMedia')} description={t('settings:content.autoplayMediaDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="openLinksInNewTab" label={t('settings:content.openLinksInNewTab')} description={t('settings:content.openLinksInNewTabDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
@@ -306,26 +291,26 @@ const AISettingsPanel: React.FC = () => {
     const { t } = useLanguage();
     return (
         <div className="space-y-2">
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="enableAiFeatures" label={t('settings:ai.enableAiFeatures')} description={t('settings:ai.enableAiFeaturesDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="autoArchiveAI" label={t('settings:ai.autoArchiveAI')} description={t('settings:ai.autoArchiveAIDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="defaultAiTab" label={t('settings:ai.defaultAiTab')} description={t('settings:ai.defaultAiTabDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'description', label: t('common:description')},
                     {value: 'ai', label: t('common:aiAnalysis')}
                 ]} ariaProps={ariaProps} />}
             </SettingRow>
-            {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Toggle inside SettingRow as a render prop child to fix missing 'children' prop error. */}
             <SettingRow settingKey="autoRunEntityExtraction" label={t('settings:ai.autoRunEntityExtraction')} description={t('settings:ai.autoRunEntityExtractionDesc')}>
                 {(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             </SettingRow>
-             {/* FIX: Add children render prop to SettingRow */}
+            {/* FIX: Moved Select inside SettingRow as a render prop child to fix missing 'children' prop error. */}
              <SettingRow settingKey="summaryTone" label={t('settings:ai.summaryTone')} description={t('settings:ai.summaryToneDesc')}>
                 {(value, onChange, ariaProps) => <Select value={value} onChange={onChange} options={[
                     {value: 'simple', label: t('settings:ai.tones.simple')},

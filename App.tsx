@@ -6,13 +6,13 @@ import {
     modalAtom,
     selectedProfileAtom,
     profileReturnViewAtom,
-} from './store/app';
-import { toastAtom } from './store/toast';
-import { 
+    toastAtom,
     defaultSettings,
-} from './store/settings';
+    deferredPromptAtom,
+    isAppInstalledAtom,
+} from './store';
 import type { View, Profile, ConfirmationOptions, AppSettings } from './types';
-import { deferredPromptAtom, isAppInstalledAtom, type BeforeInstallPromptEvent } from './store/pwa';
+import type { BeforeInstallPromptEvent } from './store/pwa';
 
 
 // Providers & Contexts
@@ -101,45 +101,37 @@ const AppContent: React.FC = () => {
 
   // Effect for PWA installation management
   useEffect(() => {
-    const checkInstalledStatus = () => {
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-        if (isStandalone || (window.navigator as any).standalone) {
-            setIsAppInstalled(true);
-            setDeferredPrompt(null);
-        } else {
-            setIsAppInstalled(false);
-        }
-    };
-
-    checkInstalledStatus();
-
     const handleBeforeInstallPrompt = (e: Event) => {
+        // Prevent the mini-infobar from appearing on mobile
         e.preventDefault();
+        // Stash the event so it can be triggered later.
         setDeferredPrompt(e as BeforeInstallPromptEvent);
+        // Update UI to notify the user they can install the PWA
         setIsAppInstalled(false);
+        console.log(`'beforeinstallprompt' event was fired.`);
 
+        // Optionally, send analytics event that PWA install promo was shown.
         const installToastShown = sessionStorage.getItem('install-toast-shown');
         if (!installToastShown) {
             addToast(t('settings:data.installAppDesc'), 'info', 10000);
             sessionStorage.setItem('install-toast-shown', 'true');
         }
     };
-
+    
     const handleAppInstalled = () => {
+        // Hide the app-provided install promotion
         setDeferredPrompt(null);
         setIsAppInstalled(true);
+        // Clear the deferredPrompt so it can be garbage collected
+        console.log('PWA was installed');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
-    mediaQueryList.addEventListener('change', checkInstalledStatus);
-
     return () => {
         window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         window.removeEventListener('appinstalled', handleAppInstalled);
-        mediaQueryList.removeEventListener('change', checkInstalledStatus);
     };
   }, [setDeferredPrompt, setIsAppInstalled, addToast, t]);
 

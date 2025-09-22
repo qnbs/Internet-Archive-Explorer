@@ -1,15 +1,12 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-// FIX: Import from specific store file to prevent circular dependencies.
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue within the state management files. By ensuring all store-related imports are direct (e.g., from `store/app` instead of a barrel file) and reordering exports in the barrel file (`store/index.ts`) to prioritize dependency-free atoms, the TypeScript compiler can correctly infer that the atoms are `WritableAtom`, resolving the error.
     const setSelectedProfile = useSetAtom(selectedProfileAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue within the state management files. By ensuring all store-related imports are direct (e.g., from `store/app` instead of a barrel file) and reordering exports in the barrel file (`store/index.ts`) to prioritize dependency-free atoms, the TypeScript compiler can correctly infer that the atoms are `WritableAtom`, resolving the error.
     const setProfileReturnView = useSetAtom(profileReturnViewAtom);
     const currentView = useAtomValue(activeViewAtom);
 

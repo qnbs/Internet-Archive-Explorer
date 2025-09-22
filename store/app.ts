@@ -65,9 +65,6 @@ export const selectItemAtom = atom(
             case 'image':
                 set(modalAtom, { type: 'imageDetail', item });
                 break;
-            case 'software':
-                set(modalAtom, { type: 'emulator', item });
-                break;
             // Potentially more custom modals based on mediatype in the future
             default:
                 set(modalAtom, { type: 'itemDetail', item });
