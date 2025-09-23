@@ -4,7 +4,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
-// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
 import { toastAtom } from '../../store/toast';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -30,7 +29,6 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     const addTagsToItems = useSetAtom(addTagsToItemsAtom);
     const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
     const createCollection = useSetAtom(createCollectionAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
     const setToast = useSetAtom(toastAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
     const autoArchive = useAtomValue(autoArchiveAIAtom);
@@ -92,7 +90,6 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
 
         // Apply Collections
         if (selectedCollections.size > 0) {
-            // FIX: Explicitly type `collectionName` as string to fix toLowerCase error.
             Array.from(selectedCollections).forEach((collectionName: string) => {
                 let collection = existingCollections.find(c => c.name.toLowerCase() === collectionName.toLowerCase());
                 if (!collection) {

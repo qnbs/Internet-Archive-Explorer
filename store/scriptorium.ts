@@ -1,10 +1,7 @@
-
-
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
 import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
-// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
 import { toastAtom } from './toast';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';
@@ -29,7 +26,6 @@ export const createWorksetAtom = atom(
         };
         const currentWorksets = get(worksetsAtom);
         set(worksetsAtom, [...currentWorksets, newWorkset]);
-        // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
         set(toastAtom, { type: 'success', message: `Workset '${name}' created!` });
         return newWorkset;
     }
@@ -42,7 +38,6 @@ export const deleteWorksetAtom = atom(
         const worksetName = worksets.find(ws => ws.id === id)?.name || '';
         const newWorksets = worksets.filter(ws => ws.id !== id);
         set(worksetsAtom, newWorksets);
-        // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
         set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.` });
     }
 );
@@ -74,11 +69,9 @@ export const addDocumentToWorksetAtom = atom(
         });
 
         if (documentExists) {
-            // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
             set(toastAtom, { type: 'info', message: 'Document is already in this workset.' });
         } else {
             set(worksetsAtom, newWorksets);
-            // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
             set(toastAtom, { type: 'success', message: 'Document added to workset.' });
         }
     }
@@ -95,7 +88,6 @@ export const removeDocumentFromWorksetAtom = atom(
                 return ws;
             })
         );
-        // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
         set(toastAtom, { type: 'info', message: 'Document removed from workset.' });
     }
 );

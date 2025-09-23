@@ -1,4 +1,4 @@
-const CACHE_NAME = 'internet-archive-explorer-v3';
+const CACHE_NAME = 'internet-archive-explorer-v4';
 const API_HOSTNAME = 'archive.org';
 
 const APP_SHELL_URLS = [

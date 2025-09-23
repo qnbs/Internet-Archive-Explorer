@@ -69,12 +69,13 @@ export const searchArchive = async (
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
-    if (metadataCache.has(identifier)) {
-        return metadataCache.get(identifier)!;
+    const cachedData = await metadataCache.get(identifier);
+    if (cachedData) {
+        return cachedData;
     }
     const url = `${API_BASE_URL}/metadata/${identifier}`;
     const data = await apiFetch<ArchiveMetadata>(url, `metadata for ${identifier}`);
-    metadataCache.set(identifier, data);
+    await metadataCache.set(identifier, data);
     return data;
 };
 

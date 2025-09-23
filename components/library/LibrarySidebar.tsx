@@ -45,7 +45,6 @@ const CollectionListItem: React.FC<{ collection: UserCollection; isActive: boole
     const setModal = useSetAtom(modalAtom);
     const deleteCollection = useSetAtom(deleteCollectionAtom);
     const updateCollectionName = useSetAtom(updateCollectionNameAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
     const setToast = useSetAtom(toastAtom);
 
     const [isEditing, setIsEditing] = useState(false);

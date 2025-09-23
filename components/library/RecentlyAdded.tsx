@@ -11,8 +11,8 @@ export const RecentlyAdded: React.FC = () => {
     const allItems = useAtomValue(libraryItemsAtom);
 
     const recentItems = useMemo(() => {
-        // FIX: Explicitly type the result of Object.values to ensure 'addedAt' property is recognized.
-        return (Object.values(allItems) as LibraryItem[])
+        const items: LibraryItem[] = Object.values(allItems);
+        return items
             .sort((a, b) => b.addedAt - a.addedAt)
             .slice(0, 15);
     }, [allItems]);
@@ -24,7 +24,6 @@ export const RecentlyAdded: React.FC = () => {
     return (
         <ContentCarousel
             title="Recently Added"
-            // FIX: The type cast above ensures recentItems is LibraryItem[], which is compatible with ArchiveItemSummary[].
             items={recentItems}
             isLoading={false}
             error={null}

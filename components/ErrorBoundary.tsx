@@ -42,7 +42,7 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    // FIX: Destructure children from this.props to resolve potential type inference issue.
+    // FIX: Directly return this.props.children to avoid potential destructuring-related type errors.
     return this.props.children;
   }
 }

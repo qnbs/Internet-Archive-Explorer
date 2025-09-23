@@ -64,12 +64,9 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
             return textContent;
         }
 
-        // FIX: The `replace` callback's first argument `match` is a string and does not have an `.index` property.
-        // The offset (index) of the match is passed as one of the later arguments. This implementation
-        // correctly extracts the offset regardless of capture groups in the search query.
         return textContent.replace(regex, (...args) => {
             const match = args[0];
-            const offset = args[args.length - 2]; // The offset is the second to last argument.
+            const offset = args[args.length - 2];
             return `<mark data-match-index="${offset}" class="bg-yellow-400 text-black">${match}</mark>`;
         });
     }, [textContent, searchQuery]);

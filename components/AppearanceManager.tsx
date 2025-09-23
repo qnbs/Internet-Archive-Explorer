@@ -1,3 +1,4 @@
+// FIX: Add missing React import.
 import React, { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { 
@@ -8,7 +9,7 @@ import {
     fontSizeAtom,
     scrollbarColorAtom,
     accentColorAtom
-} from '../store/settings';
+} from '../store';
 import type { AccentColor } from '../types';
 
 const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
@@ -106,13 +107,15 @@ export const AppearanceManager: React.FC = () => {
         root.classList.toggle('no-animations', disableAnimations);
         document.body.classList.toggle('high-contrast', highContrastMode);
         document.body.classList.toggle('underline-links', underlineLinks);
-        root.style.fontSize = { sm: '14px', base: '16px', lg: '18px' }[fontSize];
+        
+        const fontSizeMap = { sm: '14px', base: '16px', lg: '18px' };
+        document.body.style.fontSize = fontSizeMap[fontSize];
 
         // 3. Dynamic Style Injection for Pseudo-elements
         const scrollbarTag = domElementsRef.current.styleTags['scrollbar'];
         if (scrollbarTag) {
-            // FIX: Use String() to safely convert a potentially 'unknown' type to a string for interpolation.
-            const newContent = `::-webkit-scrollbar-thumb { background-color: ${String(scrollbarColor)} !important; }`;
+            // FIX: Cast `scrollbarColor` to string to resolve type error.
+            const newContent = `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor as string} !important; }`;
             if (scrollbarTag.textContent !== newContent) {
                 scrollbarTag.textContent = newContent;
             }

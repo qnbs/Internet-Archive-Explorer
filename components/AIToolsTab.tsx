@@ -1,18 +1,17 @@
 
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { getSummary, extractEntities } from '../../services/geminiService';
-import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../../types';
-import { useSearchAndGo } from '../../hooks/useSearchAndGo';
-import { useLanguage } from '../../hooks/useLanguage';
+import { getSummary, extractEntities } from '../services/geminiService';
+import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../types';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../../store/settings';
+import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../store/settings';
 import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
-import { findArchivedItemAnalysis, archiveAIGeneration } from '../../services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '../../store/aiArchive';
-// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
+import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { toastAtom } from '../store/toast';
 
 interface AIToolsTabProps {
@@ -39,7 +38,6 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({ item, textContent, isLoa
     const autoArchive = useAtomValue(autoArchiveAIAtom);
     const aiArchive = useAtomValue(aiArchiveAtom);
     const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue within the state management files. By ensuring all store-related imports are direct (e.g., from `store/toast` instead of a barrel file) and reordering exports in the barrel file (`store/index.ts`) to prioritize dependency-free atoms, the TypeScript compiler can correctly infer that `toastAtom` is a `WritableAtom`, resolving the error.
     const setToast = useSetAtom(toastAtom);
 
     const handleGenerateSummary = useCallback(async () => {

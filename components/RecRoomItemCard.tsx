@@ -1,9 +1,9 @@
 import React from 'react';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary } from '../../types';
 import { JoystickIcon, InfoIcon, StarIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { useSetAtom } from 'jotai';
-import { selectItemAtom } from '../store/app';
+import { modalAtom } from '../store/app';
 
 interface RecRoomItemCardProps {
   item: ArchiveItemSummary;
@@ -12,7 +12,7 @@ interface RecRoomItemCardProps {
 
 export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ item, index }) => {
   const { t } = useLanguage();
-  const selectItem = useSetAtom(selectItemAtom);
+  const setModal = useSetAtom(modalAtom);
   
   const getCreator = (creator: string | string[] | undefined): string => {
     if (!creator) return t('itemCard:unknownCreator');
@@ -25,15 +25,19 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   const publicYear = new Date(item.publicdate).getFullYear();
   const isRestricted = item['access-restricted-item'] === 'true';
   const rating = item.avg_rating ? parseFloat(item.avg_rating).toFixed(1) : null;
+  
+  const handleSelect = () => {
+      setModal({ type: 'emulator', item });
+  }
 
   return (
     <div
       className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/30 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 animate-fade-in w-64 sm:w-72 flex-shrink-0 scroll-snap-align-start"
       style={{ animationDelay: `${Math.min(index % 24 * 30, 500)}ms`, opacity: 0 }}
-      onClick={() => selectItem(item)}
+      onClick={handleSelect}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSelect()}
       aria-label={t('recRoom:card.startItem', { title: item.title })}
     >
       <div className="relative aspect-w-4 aspect-h-3">

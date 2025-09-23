@@ -6,10 +6,10 @@ import {
     modalAtom,
     selectedProfileAtom,
     profileReturnViewAtom,
-    toastAtom,
     defaultSettings,
     deferredPromptAtom,
     isAppInstalledAtom,
+    toastAtom,
 } from './store';
 import type { View, Profile, ConfirmationOptions, AppSettings } from './types';
 import type { BeforeInstallPromptEvent } from './store/pwa';

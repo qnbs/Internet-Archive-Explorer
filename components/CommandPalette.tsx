@@ -5,8 +5,7 @@ import { SearchIcon } from './Icons';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 import { useSetAtom } from 'jotai';
-import { activeViewAtom } from '../store';
-import { searchQueryAtom } from '../store';
+import { activeViewAtom, searchQueryAtom } from '../store';
 
 interface CommandPaletteProps {
   onClose: () => void;
@@ -57,11 +56,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
   }, [query, commands]);
   
   const groupedCommands = useMemo(() => {
-      // FIX: Explicitly type the accumulator to help TypeScript infer the return type correctly.
       return filteredCommands.reduce((acc: Record<string, Command[]>, cmd) => {
           (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
           return acc;
-      // FIX: Cast the initial value of reduce to the correct type to avoid `unknown` type inference.
+// FIX: Explicitly type the initial value for `reduce` to ensure correct type inference for `groupedCommands`.
       }, {} as Record<string, Command[]>);
   }, [filteredCommands]);
   

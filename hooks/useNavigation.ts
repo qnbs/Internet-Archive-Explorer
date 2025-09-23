@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store';
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
 import { UPLOADER_DATA } from '../pages/uploaderData';
 import type { View, Profile } from '../types';
 

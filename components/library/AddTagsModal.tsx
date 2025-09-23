@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { addTagsToItemsAtom } from '../../store/favorites';
-// FIX: Changed toastAtom import to its new isolated file to prevent circular dependencies.
 import { toastAtom } from '../../store/toast';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
@@ -17,7 +16,6 @@ interface AddTagsModalProps {
 export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) => {
     const { t } = useLanguage();
     const addTagsToItems = useSetAtom(addTagsToItemsAtom);
-    // FIX: The Jotai type error was caused by a subtle circular dependency issue. Correcting the store's barrel file (`store/index.ts`) allows TypeScript to correctly infer that `toastAtom` is a `WritableAtom`.
     const setToast = useSetAtom(toastAtom);
     const [tagsInput, setTagsInput] = useState('');
 

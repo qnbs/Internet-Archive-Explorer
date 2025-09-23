@@ -1,4 +1,3 @@
-// FIX: Import React to make React-specific types available.
 import React, { useState, useCallback, MouseEvent as ReactMouseEvent } from 'react';
 
 const ZOOM_SENSITIVITY = 0.001;

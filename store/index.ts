@@ -1,7 +1,7 @@
 // This file serves as a central hub for exporting all Jotai atoms.
 // This simplifies imports in components and avoids circular dependencies.
 
-// FIX: Reordered exports to resolve circular dependencies. Atoms with no dependencies are exported first.
+// Atoms with no dependencies are exported first.
 export { toastAtom } from './toast';
 
 export type { ModalState } from './app';
