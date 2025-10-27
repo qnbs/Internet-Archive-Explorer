@@ -12,7 +12,7 @@ import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
 import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-import { toastAtom } from '../store/toast';
+import { toastAtom } from '../store';
 
 interface AIToolsTabProps {
     item: ArchiveItemSummary;

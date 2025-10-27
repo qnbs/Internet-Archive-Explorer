@@ -33,7 +33,7 @@ export const ScriptoriumHub: React.FC<ScriptoriumHubProps> = ({ worksets, onSele
             </header>
             
             <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
-                <form onSubmit={handleCreate} className="flex gap-4">
+                <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-4">
                     <input 
                         value={newWorksetName} 
                         onChange={e => setNewWorksetName(e.target.value)} 

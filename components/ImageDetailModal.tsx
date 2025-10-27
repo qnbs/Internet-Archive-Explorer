@@ -8,7 +8,7 @@ import { autoArchiveAIAtom, enableAiFeaturesAtom } from '../store/settings';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
-import { useItemMetadata } from '../hooks/useItemMetadata';
+// FIX: Corrected import from useItemMetadata to useItemDetail, which is the correct hook.
 import { useImageViewer } from '../hooks/useImageViewer';
 import { findBestImageUrl, urlToBase64 } from '../utils/imageUtils';
 import { analyzeImage, askAboutImage } from '../services/geminiService';
@@ -17,6 +17,7 @@ import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPer
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { ItemDetailProvider, useItemDetailContext } from '../contexts/ItemDetailContext';
 
 
 // --- Sub-components moved inside to manage complex state ---
@@ -147,7 +148,7 @@ interface ImageDetailModalProps {
   onUploaderSelect: (uploader: string) => void;
 }
 
-export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClose, onCreatorSelect, onUploaderSelect }) => {
+const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = ({ onClose, onCreatorSelect, onUploaderSelect }) => {
   const [isClosing, setIsClosing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
@@ -164,7 +165,7 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
   const aiArchive = useAtomValue(aiArchiveAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
 
-  const { metadata, isLoading, error } = useItemMetadata(item);
+  const { item, metadata, isLoading, error } = useItemDetailContext();
   const viewer = useImageViewer();
 
   const [imageUrl, setImageUrl] = useState<string | null>(`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`);
@@ -316,9 +317,9 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
                  {error && <div className="text-center text-red-400 p-4">{error}</div>}
                  {metadata && ( <>
                     <ItemDetailSidebar
-                        item={item} metadata={metadata} onEmulate={() => {}} onCreatorSelect={onCreatorSelect} onUploaderSelect={onUploaderSelect}
-                        playableMedia={null} mediaRef={{current: null}} isPlaying={false} handlePlayPause={() => {}}
-                        mediaEventListeners={{ onPlay: ()=>{}, onPause: ()=>{}, onEnded: ()=>{} }}
+                        onEmulate={() => {}} 
+                        onCreatorSelect={onCreatorSelect} 
+                        onUploaderSelect={onUploaderSelect}
                     />
                      {enableAiFeatures && (
                         <div className="border border-gray-700 rounded-lg">
@@ -350,3 +351,9 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({ item, onClos
     </div>
   );
 };
+
+export const ImageDetailModal: React.FC<ImageDetailModalProps> = (props) => (
+    <ItemDetailProvider item={props.item}>
+        <ImageDetailModalContent {...props} />
+    </ItemDetailProvider>
+);

@@ -13,6 +13,7 @@ export type ModalState =
   | { type: 'emulator'; item: ArchiveItemSummary }
   | { type: 'bookReader'; item: ArchiveItemSummary }
   | { type: 'commandPalette' }
+  | { type: 'pwaInstall' }
   | { type: 'confirmation'; options: ConfirmationOptions }
   | { type: 'newCollection' }
   | { type: 'addToCollection'; itemIds: string[] }

@@ -130,8 +130,7 @@
     "clearAIArchiveDesc": "Permanently delete all of your saved AI generations from the AI Archive.",
     "installApp": "Install App",
     "installAppDesc": "Install the Internet Archive Explorer as a standalone application on your device for a better offline experience and easy access.",
-    "installButton": "Install Application",
-    "installedButton": "App Installed",
-    "howToInstall": "To install this app, look for the 'Add to Home Screen' or 'Install' option in your browser's menu."
+    "installButton": "Install",
+    "installedButton": "App Installed"
   }
 }

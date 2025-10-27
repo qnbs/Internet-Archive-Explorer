@@ -147,7 +147,7 @@ export const addItemsToCollectionAtom = atom(
 
 // --- User Tags ---
 export const allTagsAtom = atom(get => {
-    const items: LibraryItem[] = Object.values(get(libraryItemsAtom));
+    const items = Object.values(get(libraryItemsAtom)) as LibraryItem[];
     const tags = new Set<string>();
     items.forEach(item => {
         item.tags.forEach(tag => tags.add(tag));
@@ -176,7 +176,7 @@ export const addTagsToItemsAtom = atom(
 
 // --- Derived Analytics Atom ---
 export const libraryCountsAtom = atom(get => {
-    const items: LibraryItem[] = Object.values(get(libraryItemsAtom));
+    const items = Object.values(get(libraryItemsAtom)) as LibraryItem[];
     const counts = {
         total: items.length,
         movies: 0,

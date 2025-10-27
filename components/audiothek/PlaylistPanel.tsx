@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
-    playlistAtom, currentTrackIndexAtom, removeFromPlaylistAtom, clearPlaylistAtom, playItemAtom
+    playlistAtom, currentTrackIndexAtom, removeFromPlaylistAtom, clearPlaylistAtom
 } from '../../store/audioPlayer';
 import { useLanguage } from '../../hooks/useLanguage';
 import { TrashIcon, PlayIcon, CloseIcon } from '../Icons';

@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, { ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -8,17 +8,19 @@ interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
-  };
+class ErrorBoundary extends React.Component<Props, State> {
+  // FIX: Added a constructor to properly initialize the component's state and props.
+  // This ensures `this.props` is correctly typed and accessible within the component instance.
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-  public static getDerivedStateFromError(_: Error): State {
+  static getDerivedStateFromError(_: Error): State {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log the error and component stack to the console for easier debugging
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("========================================");
     console.error("Uncaught error in ErrorBoundary:");
     console.error(error);
@@ -26,10 +28,10 @@ class ErrorBoundary extends Component<Props, State> {
     console.error("========================================");
   }
 
-  public render() {
+  render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="fixed inset-0 flex flex-col justify-center items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 text-center">
+        <div className="fixed inset-0 flex flex-col justify-center items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 text-center z-[100]">
           <h1 className="text-2xl font-bold text-red-500">Something went wrong.</h1>
           <p className="mt-2">We're sorry for the inconvenience. Please try refreshing the page.</p>
           <button
@@ -42,7 +44,6 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    // FIX: Directly return this.props.children to avoid potential destructuring-related type errors.
     return this.props.children;
   }
 }

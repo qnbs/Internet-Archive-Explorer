@@ -1,11 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { aiArchiveAtom } from '../store/aiArchive';
-import { aiArchiveSearchQueryAtom, selectedAIEntryIdAtom } from '../store/aiArchive';
+import { 
+    aiArchiveAtom,
+    aiArchiveSearchQueryAtom, 
+    selectedAIEntryIdAtom,
+    filteredAndSortedEntriesAtom
+} from '../store/aiArchive';
 import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '../types';
 import { BrainIcon, FilterIcon } from '../components/Icons';
 import { useLanguage } from '../hooks/useLanguage';
-import { useDebounce } from '../hooks/useDebounce';
 import { AIArchiveSidebar } from '../components/ai-archive/AIArchiveSidebar';
 import { AIArchiveList } from '../components/ai-archive/AIArchiveList';
 import { AIArchiveDetailPane } from '../components/ai-archive/AIArchiveDetailPane';
@@ -26,50 +29,12 @@ const AIArchiveView: React.FC = () => {
     const allEntries = useAtomValue(aiArchiveAtom);
     const [searchQuery, setSearchQuery] = useAtom(aiArchiveSearchQueryAtom);
     const [selectedEntryId, setSelectedEntryId] = useAtom(selectedAIEntryIdAtom);
+    const filteredAndSortedEntries = useAtomValue(filteredAndSortedEntriesAtom);
     
+    // UI state for filter/sort is kept local to the view
     const [filter, setFilter] = useState<AIArchiveFilter>({ type: 'all' });
     const [sort, setSort] = useState<AIArchiveSortOption>('timestamp_desc');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const debouncedSearchQuery = useDebounce(searchQuery, 300);
-
-    const filteredAndSortedEntries = useMemo(() => {
-        let entries = [...allEntries];
-        
-        // Filter by search query
-        if (debouncedSearchQuery) {
-            const lowerQuery = debouncedSearchQuery.toLowerCase();
-            entries = entries.filter(e => 
-                (e.source?.title?.toLowerCase().includes(lowerQuery)) ||
-                (typeof e.content === 'string' && e.content.toLowerCase().includes(lowerQuery)) ||
-                (e.prompt?.toLowerCase().includes(lowerQuery))
-            );
-        }
-
-        // Filter by active filter
-        switch (filter.type) {
-            case 'generation':
-                entries = entries.filter(e => e.type === filter.generationType);
-                break;
-            case 'language':
-                entries = entries.filter(e => e.language === filter.language);
-                break;
-            case 'tag':
-                entries = entries.filter(e => e.tags.includes(filter.tag));
-                break;
-        }
-
-        // Sort
-        return entries.sort((a, b) => {
-            switch (sort) {
-                case 'timestamp_asc': return a.timestamp - b.timestamp;
-                case 'type_asc': return a.type.localeCompare(b.type);
-                case 'timestamp_desc':
-                default:
-                    return b.timestamp - a.timestamp;
-            }
-        });
-    }, [allEntries, debouncedSearchQuery, filter, sort]);
 
     const selectedEntry = useMemo(() => {
         return allEntries.find(e => e.id === selectedEntryId) || null;

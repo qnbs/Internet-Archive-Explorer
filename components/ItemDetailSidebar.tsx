@@ -1,26 +1,16 @@
 import React from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata } from '../types';
+import type { ArchiveItemSummary } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 import { JoystickIcon, PlayIcon, PauseIcon, MusicNoteIcon, ExternalLinkIcon, InfoIcon, BookIcon } from './Icons';
-import { formatIdentifierForDisplay, formatNumber } from '../utils/formatter';
+import { formatIdentifierForDisplay } from '../utils/formatter';
 import { useSetAtom } from 'jotai';
 import { modalAtom } from '../store/app';
+import { useItemDetailContext } from '../contexts/ItemDetailContext';
 
 interface ItemDetailSidebarProps {
-    item: ArchiveItemSummary;
-    metadata: ArchiveMetadata;
     onEmulate: (item: ArchiveItemSummary) => void;
     onCreatorSelect: (creator: string) => void;
     onUploaderSelect: (uploader: string) => void;
-    playableMedia: { url: string; type: 'audio' | 'video' } | null;
-    mediaRef: React.RefObject<HTMLMediaElement>;
-    isPlaying: boolean;
-    handlePlayPause: () => void;
-    mediaEventListeners: {
-        onPlay: () => void;
-        onPause: () => void;
-        onEnded: () => void;
-    };
 }
 
 const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton?: boolean }> = React.memo(({ label, children, isButton }) => (
@@ -36,31 +26,27 @@ const MetadataRow: React.FC<{ label: string; children: React.ReactNode; isButton
     </div>
 ));
 
-export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
-    item, metadata, onEmulate, onCreatorSelect, onUploaderSelect,
-    playableMedia, mediaRef, isPlaying, handlePlayPause, mediaEventListeners
-}) => {
+export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({ onEmulate, onCreatorSelect, onUploaderSelect }) => {
     const { t, language } = useLanguage();
     const setModal = useSetAtom(modalAtom);
+    const {
+        item, metadata, playableMedia, mediaRef, isPlaying, handlePlayPause, mediaEventListeners
+    } = useItemDetailContext();
+
+    if (!metadata) return null; // Should be handled by parent layout
+
     const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
     
     const creators = Array.isArray(metadata.metadata.creator) ? metadata.metadata.creator : (metadata.metadata.creator ? [metadata.metadata.creator] : []);
     const uploader = metadata.metadata.uploader;
 
-    const handleCreatorClick = (creator: string) => {
-        onCreatorSelect(creator);
-    };
-    
-    const handleUploaderClick = (uploader: string) => {
-        onUploaderSelect(uploader);
-    };
-
+    const handleCreatorClick = (creator: string) => onCreatorSelect(creator);
+    const handleUploaderClick = (uploader: string) => onUploaderSelect(uploader);
     const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString(language, { year: 'numeric', month: 'long', day: 'numeric' });
 
     return (
         <div className="space-y-4">
             <div className="rounded-lg overflow-hidden aspect-[3/4] shadow-md bg-gray-200 dark:bg-gray-700 relative group">
-                {/* Video Player */}
                 {playableMedia?.type === 'video' && (
                     <video
                         ref={mediaRef as React.RefObject<HTMLVideoElement>}
@@ -72,8 +58,6 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                         controls
                     />
                 )}
-
-                {/* Thumbnail Image */}
                 <img
                     src={thumbnailUrl}
                     alt={`Cover for ${item.title}`}
@@ -91,7 +75,6 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                     }}
                 />
                 
-                {/* Play/Pause Overlay */}
                 {playableMedia && (
                     <div
                         onClick={handlePlayPause}
@@ -106,8 +89,7 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                     </div>
                 )}
 
-                 {/* Audio Playback Indicator Bar */}
-                {playableMedia?.type === 'audio' && isPlaying && (
+                 {playableMedia?.type === 'audio' && isPlaying && (
                     <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm pointer-events-none">
                         <div className="flex items-center text-white animate-fade-in">
                             <MusicNoteIcon className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -117,7 +99,6 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
                 )}
             </div>
             
-            {/* Hidden Audio Player Element */}
             {playableMedia?.type === 'audio' && (
                 <audio
                     ref={mediaRef as React.RefObject<HTMLAudioElement>}

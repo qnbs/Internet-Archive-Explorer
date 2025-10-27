@@ -130,8 +130,7 @@
     "clearAIArchiveDesc": "Löschen Sie dauerhaft alle Ihre gespeicherten KI-Generierungen aus dem KI-Archiv.",
     "installApp": "App installieren",
     "installAppDesc": "Installieren Sie den Internet Archive Explorer als eigenständige Anwendung auf Ihrem Gerät für ein besseres Offline-Erlebnis und einfachen Zugriff.",
-    "installButton": "Anwendung installieren",
-    "installedButton": "App installiert",
-    "howToInstall": "Um diese App zu installieren, suchen Sie in Ihrem Browser-Menü nach der Option 'Zum Startbildschirm hinzufügen' oder 'Installieren'."
+    "installButton": "Installieren",
+    "installedButton": "App installiert"
   }
 }

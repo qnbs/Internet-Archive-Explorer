@@ -8,7 +8,7 @@ import type { Profile, ArchiveItemSummary } from '../types';
 import UploaderDetailView from './UploaderDetailView';
 import { searchArchive } from '../services/archiveService';
 import { Spinner } from '../components/Spinner';
-import { ItemCard } from '../components/ItemCard';
+import { ContentCarousel } from '../components/ContentCarousel';
 
 
 /**
@@ -117,8 +117,15 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
              <h1 className="text-2xl font-bold text-white">{t('myArchive:connect.confirmTitle')}</h1>
              <p className="mt-2 text-gray-300">{t('myArchive:connect.confirmDescription')}</p>
              
-             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-6">
-                {verificationData?.items.map((item, index) => <ItemCard key={item.identifier} item={item} index={index} />)}
+             <div className="my-6">
+                <ContentCarousel
+                    title={t('myArchive:connect.confirmTitle')}
+                    hideTitle={true}
+                    items={verificationData?.items || []}
+                    isLoading={false}
+                    error={null}
+                    cardAspectRatio="portrait"
+                />
              </div>
 
              <div className="space-y-3 text-left max-w-md mx-auto">
@@ -150,7 +157,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
     )
 
     return (
-        <div className="text-center max-w-3xl mx-auto p-6 bg-gray-800/60 rounded-xl animate-fade-in">
+        <div className="text-center max-w-4xl mx-auto p-6 bg-gray-800/60 rounded-xl animate-fade-in">
             <UsersIcon className="w-16 h-16 mx-auto text-cyan-400 mb-4" />
             {step === 'input' && renderInputStep()}
             {step === 'verifying' && <Spinner size="lg" />}

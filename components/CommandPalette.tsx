@@ -42,7 +42,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
 
   useEffect(() => {
     setIsMounted(true);
-    inputRef.current?.focus();
+    // Only focus the input on desktop views where it is visible
+    if (window.matchMedia('(min-width: 768px)').matches) {
+        inputRef.current?.focus();
+    }
   }, []);
 
   const filteredCommands = useMemo(() => {
@@ -59,7 +62,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
       return filteredCommands.reduce((acc: Record<string, Command[]>, cmd) => {
           (acc[cmd.section] = acc[cmd.section] || []).push(cmd);
           return acc;
-// FIX: Explicitly type the initial value for `reduce` to ensure correct type inference for `groupedCommands`.
       }, {} as Record<string, Command[]>);
   }, [filteredCommands]);
   
@@ -103,7 +105,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
         aria-labelledby="command-palette-label"
       >
         <h2 id="command-palette-label" className="sr-only">{t('commandPalette:title')}</h2>
-        <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
+        
+        {/* Desktop Search Input */}
+        <div className="hidden md:flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
           <SearchIcon className="w-5 h-5 text-gray-400 mr-3" />
           <input
             ref={inputRef}
@@ -119,9 +123,15 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
             aria-activedescendant={`command-item-${activeIndex}`}
           />
         </div>
+
+        {/* Mobile Title */}
+        <div className="md:hidden p-3 border-b border-gray-200 dark:border-gray-700 text-center">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t('commandPalette:title')}</h3>
+        </div>
+
         <div id="command-list" role="listbox" className="max-h-[60vh] overflow-y-auto p-2">
             {flatCommands.length > 0 ? (
-                Object.entries(groupedCommands).map(([section, commandsInSection]) => (
+                Object.entries(groupedCommands).map(([section, commandsInSection]: [string, Command[]]) => (
                     <div key={section} className="mb-2">
                         <h3 className="px-2 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400" id={`section-header-${section}`}>{section}</h3>
                         <ul role="group" aria-labelledby={`section-header-${section}`}>

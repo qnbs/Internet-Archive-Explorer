@@ -54,6 +54,16 @@ const WebArchiveView: React.FC = () => {
             setIsLoading(false);
         }
     }, [t, setHistory]);
+
+    useEffect(() => {
+        const sharedUrl = sessionStorage.getItem('sharedUrl');
+        if (sharedUrl) {
+            sessionStorage.removeItem('sharedUrl'); // Consume the shared URL
+            const decodedUrl = decodeURIComponent(sharedUrl);
+            setUrl(decodedUrl);
+            performSearch(decodedUrl);
+        }
+    }, [performSearch]);
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

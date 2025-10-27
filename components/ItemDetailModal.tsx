@@ -1,21 +1,13 @@
 import React, { useState, useCallback, useRef, useId, useEffect } from 'react';
 import type { ArchiveItemSummary } from '../types';
-import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
-import { enableAiFeaturesAtom } from '../store/settings';
 import { useToast } from '../contexts/ToastContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
-import { useItemMetadata } from '../hooks/useItemMetadata';
-import type { ItemDetailTab } from '../hooks/useItemMetadata';
-import { ItemDetailSidebar } from './ItemDetailSidebar';
-import { ItemDetailTabs } from './ItemDetailTabs';
-import { ItemDetailDescriptionTab } from './ItemDetailDescriptionTab';
-import { ItemDetailFilesTab } from './ItemDetailFilesTab';
-import { ItemDetailRelatedTab } from './ItemDetailRelatedTab';
-import { AIToolsTab } from './AIToolsTab';
+import { ItemDetailProvider, useItemDetailContext } from '../contexts/ItemDetailContext';
+import { ItemDetailLayout } from './ItemDetailLayout';
 
 interface ItemDetailModalProps {
   item: ArchiveItemSummary;
@@ -25,37 +17,19 @@ interface ItemDetailModalProps {
   onEmulate: (item: ArchiveItemSummary) => void;
 }
 
-export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose, onCreatorSelect, onUploaderSelect, onEmulate }) => {
+const ItemDetailModalContent: React.FC<Omit<ItemDetailModalProps, 'item'>> = ({ onClose, onCreatorSelect, onUploaderSelect, onEmulate }) => {
   const [isClosing, setIsClosing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
   const modalRef = useRef<HTMLDivElement>(null);
-  const uniqueId = useId();
   
   const { addToast } = useToast();
   const { t } = useLanguage();
   
-  const enableAiFeatures = useAtomValue(enableAiFeaturesAtom);
   const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
   const addLibraryItem = useSetAtom(addLibraryItemAtom);
   const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
-
-  const {
-      metadata,
-      isLoading,
-      error,
-      activeTab,
-      setActiveTab,
-      plainText,
-      isLoadingText,
-      textError,
-      isPlaying,
-      playableMedia,
-      mediaRef,
-      handlePlayPause,
-      mediaEventListeners,
-      fetchMetadata,
-  } = useItemMetadata(item);
+  const { item } = useItemDetailContext(); // Get the item from context
 
   const isFavorite = libraryItemIdentifiers.has(item.identifier);
   
@@ -67,7 +41,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
-    setTimeout(onClose, 300); // Duration of the animation
+    setTimeout(onClose, 300);
   }, [onClose]);
 
   const handleFavoriteClick = () => {
@@ -78,33 +52,6 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
       addLibraryItem(item);
       addToast(t('favorites:added'), 'success');
     }
-  };
-
-  const renderTabContent = () => {
-    if (!metadata) return null;
-    
-    return (
-      <div className="pt-2 animate-fade-in" key={activeTab}>
-        {activeTab === 'description' && (
-          <ItemDetailDescriptionTab description={metadata.metadata.description} />
-        )}
-        {activeTab === 'ai' && item.mediatype === 'texts' && enableAiFeatures && (
-            <AIToolsTab
-              item={item}
-              textContent={plainText}
-              isLoadingText={isLoadingText}
-              textError={textError}
-              onClose={handleClose}
-            />
-        )}
-        {activeTab === 'files' && (
-          <ItemDetailFilesTab files={metadata.files} itemIdentifier={item.identifier} />
-        )}
-        {activeTab === 'related' && (
-          <ItemDetailRelatedTab metadata={metadata} currentItemIdentifier={item.identifier} />
-        )}
-      </div>
-    );
   };
   
   return (
@@ -129,48 +76,19 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose,
             </button>
         </header>
 
-        <div className="flex-grow overflow-y-auto p-6">
-          {isLoading && <div className="flex justify-center items-center h-full"><Spinner size="lg" /></div>}
-          {error && (
-            <div className="flex flex-col justify-center items-center h-full text-center">
-                <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-                <button
-                    onClick={fetchMetadata}
-                    className="px-4 py-2 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-500 transition-colors"
-                >
-                    {t('common:retry')}
-                </button>
-            </div>
-          )}
-          {metadata && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-1">
-                <ItemDetailSidebar
-                    item={item}
-                    metadata={metadata}
-                    onEmulate={onEmulate}
-                    onCreatorSelect={onCreatorSelect}
-                    onUploaderSelect={onUploaderSelect}
-                    playableMedia={playableMedia}
-                    mediaRef={mediaRef}
-                    isPlaying={isPlaying}
-                    handlePlayPause={handlePlayPause}
-                    mediaEventListeners={mediaEventListeners}
-                />
-              </div>
-              <div className="md:col-span-2 space-y-4">
-                <ItemDetailTabs
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    showAiTab={item.mediatype === 'texts' && enableAiFeatures}
-                    uniqueId={uniqueId}
-                />
-                {renderTabContent()}
-              </div>
-            </div>
-          )}
-        </div>
+        <ItemDetailLayout 
+            onCreatorSelect={onCreatorSelect}
+            onUploaderSelect={onUploaderSelect}
+            onEmulate={onEmulate}
+            onClose={handleClose}
+        />
       </div>
     </div>
   );
 };
+
+export const ItemDetailModal: React.FC<ItemDetailModalProps> = (props) => (
+  <ItemDetailProvider item={props.item}>
+    <ItemDetailModalContent {...props} />
+  </ItemDetailProvider>
+);

@@ -1,5 +1,11 @@
 import React from 'react';
 
+declare global {
+  interface Window {
+    waitingServiceWorker?: ServiceWorker;
+  }
+}
+
 // --- Core App State ---
 export type View =
   | 'explore'

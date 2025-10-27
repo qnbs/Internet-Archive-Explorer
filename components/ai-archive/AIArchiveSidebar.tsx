@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-// FIX: Added missing import for allAIArchiveTagsAtom.
 import { allAIArchiveTagsAtom, aiArchiveAtom } from '../../store/aiArchive';
 import { AIGenerationType, type AIArchiveFilter, type Language, type AIArchiveSortOption } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { 
     BrainIcon, StarIcon, CollectionIcon, TagIcon,
     BookIcon, ImageIcon, SparklesIcon, LanguageIcon,
-    SearchIcon, CloseIcon,
+    SearchIcon, SortAscendingIcon, CloseIcon,
     MovieIcon, AudioIcon, JoystickIcon
 } from '../Icons';
 

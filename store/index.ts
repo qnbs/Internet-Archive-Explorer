@@ -134,5 +134,6 @@ export {
 
 export {
     deferredPromptAtom,
-    isAppInstalledAtom
+    isAppInstalledAtom,
+    waitingWorkerAtom
 } from './pwa';

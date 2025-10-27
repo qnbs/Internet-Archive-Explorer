@@ -8,7 +8,7 @@ import { SparklesIcon, TagIcon } from '../Icons';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
 import { useSetAtom } from 'jotai';
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store';
 
 interface AnalysisToolbarProps {
     document: WorksetDocument;

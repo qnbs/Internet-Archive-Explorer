@@ -1,4 +1,3 @@
-// FIX: Add missing React import.
 import React, { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { 
@@ -7,8 +6,8 @@ import {
     highContrastModeAtom,
     underlineLinksAtom,
     fontSizeAtom,
+    accentColorAtom,
     scrollbarColorAtom,
-    accentColorAtom
 } from '../store';
 import type { AccentColor } from '../types';
 
@@ -42,68 +41,31 @@ export const AppearanceManager: React.FC = () => {
     const highContrastMode = useAtomValue(highContrastModeAtom);
     const underlineLinks = useAtomValue(underlineLinksAtom);
     const fontSize = useAtomValue(fontSizeAtom);
-    const scrollbarColor = useAtomValue(scrollbarColorAtom);
     const accentColor = useAtomValue(accentColorAtom);
+    const scrollbarThumbColor = useAtomValue(scrollbarColorAtom);
 
     const previousThemeRef = useRef(resolvedTheme);
-    const domElementsRef = useRef<{
-        styleTags: { [key: string]: HTMLStyleElement | null };
-        metaTags: { [key: string]: HTMLMetaElement | null };
-    }>({ styleTags: {}, metaTags: {} });
-
-    // Effect to find/create necessary DOM elements once on mount and cache them.
-    useEffect(() => {
-        const createStyleTag = (id: string) => {
-            let tag = document.getElementById(id) as HTMLStyleElement;
-            if (!tag) {
-                tag = document.createElement('style');
-                tag.id = id;
-                document.head.appendChild(tag);
-            }
-            return tag;
-        };
-
-        domElementsRef.current.styleTags['theme-transition'] = createStyleTag('theme-transition-style');
-        domElementsRef.current.styleTags['scrollbar'] = createStyleTag('custom-scrollbar-style');
-        domElementsRef.current.metaTags['theme-color'] = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
-
-        // Inject transition styles
-        const transitionTag = domElementsRef.current.styleTags['theme-transition'];
-        if (transitionTag) {
-            transitionTag.textContent = `
-              :root.theme-transitioning,
-              :root.theme-transitioning body,
-              :root.theme-transitioning .bg-white,
-              :root.theme-transitioning .bg-gray-100,
-              :root.theme-transitioning .dark\\:bg-gray-800,
-              :root.theme-transitioning .dark\\:bg-gray-900 {
-                  transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease !important;
-              }
-            `;
-        }
-    }, []);
 
     useEffect(() => {
         const root = document.documentElement;
 
-        // 1. Theme & Accent Color Application
-        const colors = ACCENT_COLORS[accentColor];
-        for (const [shade, color] of Object.entries(colors)) {
-            root.style.setProperty(`--color-accent-${shade}`, color);
-        }
-
         if (previousThemeRef.current !== resolvedTheme) {
             root.classList.add('theme-transitioning');
         }
-        root.classList.remove('light', 'dark');
-        root.classList.add(resolvedTheme);
+        
+        root.className = resolvedTheme; // Set theme class directly
         previousThemeRef.current = resolvedTheme;
+        const transitionTimeout = setTimeout(() => root.classList.remove('theme-transitioning'), 350);
 
-        const transitionTimeout = setTimeout(() => {
-            root.classList.remove('theme-transitioning');
-        }, 350);
+        const colors = ACCENT_COLORS[accentColor];
+        for (const [shade, color] of Object.entries(colors)) {
+            root.style.setProperty(`--color-accent-${shade}`, color as string);
+        }
+        
+        root.style.setProperty('--scrollbar-thumb-color', scrollbarThumbColor);
+        const hoverColor = ACCENT_COLORS[accentColor]['600']; // Use a darker shade for hover
+        root.style.setProperty('--scrollbar-thumb-hover-color', hoverColor);
 
-        // 2. Accessibility & UI Classes
         root.classList.toggle('no-animations', disableAnimations);
         document.body.classList.toggle('high-contrast', highContrastMode);
         document.body.classList.toggle('underline-links', underlineLinks);
@@ -111,27 +73,14 @@ export const AppearanceManager: React.FC = () => {
         const fontSizeMap = { sm: '14px', base: '16px', lg: '18px' };
         document.body.style.fontSize = fontSizeMap[fontSize];
 
-        // 3. Dynamic Style Injection for Pseudo-elements
-        const scrollbarTag = domElementsRef.current.styleTags['scrollbar'];
-        if (scrollbarTag) {
-            // FIX: Cast `scrollbarColor` to string to resolve type error.
-            const newContent = `::-webkit-scrollbar-thumb { background-color: ${scrollbarColor as string} !important; }`;
-            if (scrollbarTag.textContent !== newContent) {
-                scrollbarTag.textContent = newContent;
-            }
-        }
-        
-        // 4. PWA/Mobile Meta Theme Color
-        const themeColorMeta = domElementsRef.current.metaTags['theme-color'];
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
         if (themeColorMeta) {
             const themeColor = resolvedTheme === 'dark' ? colors['800'] : colors['500'];
-            if (themeColorMeta.content !== themeColor) {
-                themeColorMeta.content = themeColor;
-            }
+            themeColorMeta.setAttribute('content', themeColor);
         }
 
         return () => clearTimeout(transitionTimeout);
-    }, [resolvedTheme, disableAnimations, highContrastMode, underlineLinks, fontSize, scrollbarColor, accentColor]);
+    }, [resolvedTheme, disableAnimations, highContrastMode, underlineLinks, fontSize, accentColor, scrollbarThumbColor]);
 
     return null;
 };

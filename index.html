@@ -5,18 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internet Archive Explorer</title>
     
-    <link rel="icon" href="/icon-192.svg" type="image/svg+xml">
+    <!-- SEO & Social Media -->
+    <meta name="description" content="A modern web app to browse, view, and discover content from the Internet Archive, enhanced with AI-powered summaries." />
+    <meta property="og:title" content="Internet Archive Explorer" />
+    <meta property="og:description" content="Discover content from the Internet Archive with an advanced, AI-powered interface." />
+    <meta property="og:image" content="https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss1.png" />
+    <meta property="og:url" content="." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- PWA & Mobile -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#06b6d4" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Archive Explorer" />
-    <link rel="apple-touch-icon" href="/icon-192.svg" />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Dependencies -->
     <script type="importmap">
       {
         "imports": {
@@ -34,6 +45,7 @@
       }
     </script>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio"></script>
     <script>
       tailwind.config = {
@@ -42,112 +54,114 @@
           extend: {
             colors: {
               accent: {
-                50: 'var(--color-accent-50)',
-                100: 'var(--color-accent-100)',
-                200: 'var(--color-accent-200)',
-                300: 'var(--color-accent-300)',
-                400: 'var(--color-accent-400)',
-                500: 'var(--color-accent-500)',
-                600: 'var(--color-accent-600)',
-                700: 'var(--color-accent-700)',
-                800: 'var(--color-accent-800)',
-                900: 'var(--color-accent-900)',
-                950: 'var(--color-accent-950)',
+                50: 'var(--color-accent-50)', 100: 'var(--color-accent-100)', 200: 'var(--color-accent-200)',
+                300: 'var(--color-accent-300)', 400: 'var(--color-accent-400)', 500: 'var(--color-accent-500)',
+                600: 'var(--color-accent-600)', 700: 'var(--color-accent-700)', 800: 'var(--color-accent-800)',
+                900: 'var(--color-accent-900)', 950: 'var(--color-accent-950)',
               },
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            boxShadow: {
-              't-lg': '0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 -4px 6px -4px rgb(0 0 0 / 0.1)',
-            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], },
+            boxShadow: { 't-lg': '0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 -4px 6px -4px rgb(0 0 0 / 0.1)', },
           }
         }
       }
     </script>
     
+    <!-- App Styles -->
     <style type="text/tailwindcss">
         @layer base {
           :root {
             font-family: 'Inter', sans-serif;
-            
-            /* Default to Cyan */
-            --color-accent-50: #ecfeff;
-            --color-accent-100: #cffafe;
-            --color-accent-200: #a5f3fd;
-            --color-accent-300: #67e8f9;
-            --color-accent-400: #22d3ee;
-            --color-accent-500: #06b6d4;
-            --color-accent-600: #0891b2;
-            --color-accent-700: #0e7490;
-            --color-accent-800: #155e75;
-            --color-accent-900: #164e63;
-            --color-accent-950: #083344;
+            --color-accent-50: #ecfeff; --color-accent-100: #cffafe; --color-accent-200: #a5f3fd;
+            --color-accent-300: #67e8f9; --color-accent-400: #22d3ee; --color-accent-500: #06b6d4;
+            --color-accent-600: #0891b2; --color-accent-700: #0e7490; --color-accent-800: #155e75;
+            --color-accent-900: #164e63; --color-accent-950: #083344;
           }
+          html { -webkit-tap-highlight-color: transparent; }
+          .theme-transitioning, .theme-transitioning * { transition: background-color 0.3s, color 0.3s, border-color 0.3s !important; }
         }
+    </style>
+    <style>
+        /* Pre-React Loading Spinner */
+        #app-loader {
+            display: flex; align-items: center; justify-content: center;
+            position: fixed; inset: 0; background-color: #111827; z-index: 100;
+        }
+        .spinner {
+            width: 48px; height: 48px;
+            border: 4px solid #0e7490;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Modern, theme-aware scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background-color: #f3f4f6; }
+        .dark ::-webkit-scrollbar-track { background-color: #111827; }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb-color, #06b6d4);
+            border-radius: 10px; border: 2px solid transparent; background-clip: content-box;
+        }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover-color, #0891b2); }
         
         /* Custom animations */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
-      
         @keyframes pageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-page-fade-in { animation: pageFadeIn 0.4s ease-out forwards; }
-        
         @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
         .animate-fade-in-left { animation: fadeInLeft 0.3s ease-out forwards; }
 
         /* Styles for the rich text editor content */
-        .prose-editor ul, .prose-editor ol {
-          list-style-position: inside;
-          padding-left: 1rem;
-        }
-        .prose-editor ul {
-          list-style-type: disc;
-        }
-        .prose-editor ol {
-          list-style-type: decimal;
-        }
-        .underline-links a {
-            text-decoration: underline;
-        }
-        [contenteditable][data-placeholder]:empty:before {
-            content: attr(data-placeholder);
-            color: #6b7280; /* gray-500 */
-            pointer-events: none;
-            display: block;
-        }
-        /* Fix for contenteditable placeholder creating unwanted height */
-        [contenteditable][data-placeholder]:empty {
-            min-height: 0;
-        }
+        .prose-editor ul, .prose-editor ol { list-style-position: inside; padding-left: 1rem; }
+        .prose-editor ul { list-style-type: disc; } .prose-editor ol { list-style-type: decimal; }
+        .underline-links a { text-decoration: underline; }
+        [contenteditable][data-placeholder]:empty:before { content: attr(data-placeholder); color: #6b7280; pointer-events: none; display: block; }
+        [contenteditable][data-placeholder]:empty { min-height: 0; }
         
-        /* Accessibility: Disable animations based on user setting */
-        .no-animations *,
-        .no-animations *::before,
-        .no-animations *::after {
-          animation-delay: -1ms !important;
-          animation-duration: 1ms !important;
-          animation-iteration-count: 1 !important;
-          background-attachment: initial !important;
-          scroll-behavior: auto !important;
-          transition-delay: 0s !important;
-          transition-duration: 0s !important;
+        /* Accessibility */
+        .no-animations *, .no-animations *::before, .no-animations *::after {
+          animation: none !important; transition: none !important; scroll-behavior: auto !important;
         }
     </style>
   </head>
   <body class="bg-gray-100 dark:bg-gray-900">
-    <div id="root"></div>
+    <div id="root">
+      <div id="app-loader"><div class="spinner"></div></div>
+    </div>
     <script type="module" src="/index.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(error => {
-              console.log('ServiceWorker registration failed: ', error);
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('ServiceWorker registration successful with scope: ', reg.scope);
+            // Listen for updates
+            reg.addEventListener('updatefound', () => {
+              const newWorker = reg.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // A new SW is installed and waiting, and there's a controller. This is an update.
+                    window.waitingServiceWorker = newWorker;
+                    // Notify the React app that an update is ready.
+                    document.dispatchEvent(new CustomEvent('swUpdateReady'));
+                  }
+                });
+              }
             });
+          })
+          .catch(err => console.log('ServiceWorker registration failed: ', err));
+        
+        let refreshing;
+        // When the new worker takes control, refresh the page to apply the updates.
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          window.location.reload();
+          refreshing = true;
         });
       }
     </script>

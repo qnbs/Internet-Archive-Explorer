@@ -13,6 +13,7 @@ import { AddToCollectionModal } from './library/AddToCollectionModal';
 import { AddTagsModal } from './library/AddTagsModal';
 import { MagicOrganizeModal } from './library/MagicOrganizeModal';
 import { ArchiveItemSummary } from '../types';
+import { InstallModal } from './modals/InstallModal';
 
 export const ModalManager: React.FC = () => {
     const [modal, setModal] = useAtom(modalAtom);
@@ -60,6 +61,8 @@ export const ModalManager: React.FC = () => {
             return <BookReaderModal item={modal.item} onClose={closeModal} />;
         case 'commandPalette':
             return <CommandPalette onClose={closeModal} />;
+        case 'pwaInstall':
+            return <InstallModal onClose={closeModal} />;
         case 'confirmation':
             return (
                 <ConfirmationModal

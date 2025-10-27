@@ -1,36 +1,27 @@
 {
   "name": "Internet Archive Explorer",
   "short_name": "IA Explorer",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
   "background_color": "#083344",
   "theme_color": "#06b6d4",
   "description": "A visually appealing and highly functional web application to browse, view, and discover content from the Internet Archive, enhanced with AI-powered summaries.",
   "icons": [
     {
-      "src": "/icon-192.svg",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/icon-512.svg",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=",
       "sizes": "512x512",
       "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
   "categories": [
@@ -41,63 +32,52 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshots/screenshot1.png",
+      "src": "https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss1.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Explore Page"
     },
     {
-      "src": "/screenshots/screenshot2.png",
+      "src": "https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss2.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Item Detail View"
-    },
-    {
-      "src": "/screenshots/screenshot3.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "My Library View"
     }
   ],
+  "share_target": {
+    "action": "/?view=webArchive",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "shortcuts": [
-    {
-      "name": "Explore",
-      "short_name": "Explore",
-      "description": "Discover content on the Internet Archive",
-      "url": "/?view=explore",
-      "icons": [
-        {
-          "src": "data:image/svg+xml;utf8,%3csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M12 21a9 9 0 100-18 9 9 0 000 18z'/%3e%3cpath d='M12 3v2m0 14v2M4.22 4.22l1.42 1.42m12.72 12.72l-1.42-1.42M3 12h2m14 0h2M4.22 19.78l1.42-1.42m12.72-12.72l-1.42 1.42'/%3e%3cpath d='M12 8l-2 4h4l-2-4z'/%3e%3c/svg%3e",
-          "sizes": "96x96"
-        }
-      ]
-    },
     {
       "name": "My Library",
       "short_name": "Library",
       "description": "Access your saved items and collections",
       "url": "/?view=library",
-      "icons": [
-        {
-          "src": "data:image/svg+xml;utf8,%3csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 20 20' fill='white' stroke='white'%3e%3cpath d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'/%3e%3c/svg%3e",
-          "sizes": "96x96"
-        }
-      ]
+      "icons": [{ "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=", "sizes": "192x192", "purpose": "any" }]
     },
     {
       "name": "Scriptorium",
       "short_name": "Scriptorium",
       "description": "Open your research workspace",
       "url": "/?view=scriptorium",
-      "icons": [
-        {
-          "src": "data:image/svg+xml;utf8,%3csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/%3e%3c/svg%3e",
-          "sizes": "96x96"
-        }
-      ]
+      "icons": [{ "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=", "sizes": "192x192", "purpose": "any" }]
+    },
+    {
+      "name": "Search Archive",
+      "short_name": "Search",
+      "description": "Search the Internet Archive",
+      "url": "/?view=explore",
+      "icons": [{ "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjJkM2VlO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA4OTFiMjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDgzMzQ0Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIyLjUpIHNjYWxlKDIuNSkiIHN0cm9rZT0idXJsKCNncmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgMjFoMThNNSAxOFY5LjI2MWExIDEgMCAwMS41NTMtLjg5NGw3LTMuNWExIDEgMCAwMS44OTQgMGw3IDMuNUExIDEgMCAwMTIwIDkuMjYxVjE4TTcgMjFWOW01IDEyVjltNSAxMlY5IiAvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTMgN2w5LTQgOSA0IiAvPjwvZz48L3N2Zz4=", "sizes": "192x192", "purpose": "any" }]
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }

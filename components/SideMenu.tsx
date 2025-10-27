@@ -89,7 +89,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, activeView,
             <div className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-opacity md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={onClose} />
             <aside className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-40 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:shadow-none flex flex-col border-r border-gray-200 dark:border-gray-700/50`}>
                 {/* Desktop Logo Header */}
-                <div className="hidden md:flex flex-shrink-0 items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700/50">
+                <div className="hidden md:flex flex-shrink-0 items-center h-20 px-4 border-b border-gray-200 dark:border-gray-700/50">
                      <button
                         onClick={() => handleNavigation('explore')}
                         className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white flex-shrink-0"

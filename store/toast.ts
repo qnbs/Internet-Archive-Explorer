@@ -1,16 +1,10 @@
 import { atom } from 'jotai';
-import type { ToastType } from '../types';
+import type { ToastMessage } from '../types';
 
 /**
- * Represents the data structure for a toast notification request.
+ * An atom to hold a single toast message object.
+ * Components can write to this atom to trigger a toast.
+ * The ToastBridge component listens for changes and uses the ToastContext to display it.
+ * It's set to null after being displayed to be ready for the next message.
  */
-export type ToastUpdate = { message: string; type: ToastType } | null;
-
-/**
- * A "vehicle" atom designed to trigger toast notifications from anywhere in the app.
- * It is consumed by a single `ToastBridge` component which listens for changes,
- * displays the toast using a React Context, and then resets this atom to `null`.
- * This pattern decouples state logic from the UI implementation of the toast.
- * @example setToast({ type: 'success', message: 'Operation successful!' });
- */
-export const toastAtom = atom<ToastUpdate>(null);
+export const toastAtom = atom<ToastMessage | null>(null);

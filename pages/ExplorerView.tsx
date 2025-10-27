@@ -16,7 +16,7 @@ import { AILoadingIndicator } from '../components/AILoadingIndicator';
 import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 import { searchArchive } from '../services/archiveService';
-import { toastAtom } from '../store/toast';
+import { toastAtom } from '../store';
 
 const TrendingItems: React.FC = () => {
     // States for the carousel

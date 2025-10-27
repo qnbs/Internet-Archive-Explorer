@@ -1,0 +1,17 @@
+{
+  "title": "Archive Explorer installieren",
+  "description": "Installieren Sie die App auf Ihrem Gerät für ein besseres, schnelleres und integrierteres Erlebnis.",
+  "benefits": {
+    "title": "Vorteile der Installation:",
+    "item1": "App-ähnliches Erlebnis ohne Browser-Tabs.",
+    "item2": "Schnelleres Starten direkt von Ihrem Startbildschirm oder Desktop.",
+    "item3": "Offline-Zugriff auf zuvor angesehene Inhalte und Ihre Bibliothek."
+  },
+  "installButton": "App installieren",
+  "ios": {
+    "title": "Anleitung zur Installation unter iOS",
+    "step1": "Tippen Sie auf die 'Teilen'-Schaltfläche in Ihrer Browser-Symbolleiste.",
+    "step2": "Scrollen Sie nach unten und tippen Sie auf 'Zum Home-Bildschirm'."
+  },
+  "notAvailable": "Die Installation wird von Ihrem Browser derzeit nicht unterstützt."
+}

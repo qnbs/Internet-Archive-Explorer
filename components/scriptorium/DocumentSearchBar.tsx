@@ -44,22 +44,22 @@ export const DocumentSearchBar: React.FC<DocumentSearchBarProps> = ({ text, onSe
     };
 
     return (
-        <div className="flex-shrink-0 p-2 border-t border-gray-700 bg-gray-900/50 flex items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-                <SearchIcon className="w-4 h-4 text-gray-500" />
+        <div className="flex-shrink-0 p-2 border-t border-gray-700 bg-gray-900/50 flex items-center justify-between text-sm gap-4">
+            <div className="flex items-center gap-2 flex-grow min-w-0">
+                <SearchIcon className="w-4 h-4 text-gray-500 flex-shrink-0" />
                 <input
                     type="text"
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     placeholder={t('scriptorium:reader.searchDocument')}
-                    className="bg-transparent focus:outline-none w-48"
+                    className="bg-transparent focus:outline-none w-full"
                 />
                  {query && (
                     <button onClick={clearSearch} className="p-1 rounded-full text-gray-500 hover:text-white"><CloseIcon className="w-4 h-4" /></button>
                  )}
             </div>
             {query && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-gray-400">
                         {matches.length > 0
                           ? t('scriptorium:reader.matchCount', { current: currentMatchIndex + 1, total: matches.length, count: matches.length })

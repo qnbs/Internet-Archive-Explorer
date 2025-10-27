@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/toast';
+import { toastAtom } from '../../store';
 import { organizeLibraryItems } from '../../services/geminiService';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';

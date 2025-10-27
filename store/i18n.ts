@@ -16,7 +16,7 @@ const NAMESPACES = [
   'scriptorium', 'favorites', 'uploaderProfileCard', 'uploaderDetail', 
   'reviewCard', 'modals', 'aiTools', 'settings', 'help', 
   'commandPalette', 'uploaders', 'storyteller', 'webArchive', 'myArchive',
-  'uploaderHub', 'aiArchive'
+  'uploaderHub', 'aiArchive', 'updateNotification', 'installBanner', 'pwaModal'
 ];
 const translationsCache = new Map<Language, Record<string, any>>();
 
