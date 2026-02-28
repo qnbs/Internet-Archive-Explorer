@@ -4,19 +4,72 @@ import type { Language, ExtractedEntities, ImageAnalysisResult, MagicOrganizeRes
 
 // Per guidelines, initialize once and use the API key from environment variables.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-const model = 'gemini-2.5-flash';
+
+// Model selection strategy
+// We use the PRO model for complex reasoning and creativity, and FLASH for speed and multimodal tasks.
+const MODELS = {
+    FAST: 'gemini-2.5-flash',
+    SMART: 'gemini-3-pro-preview',
+};
+
+/**
+ * Robustly extracts a JSON object or array from a string, handling markdown code blocks
+ * and conversational filler text.
+ */
+const extractJson = (text: string): string => {
+    if (!text) return "{}";
+
+    // 1. Try extracting from markdown code blocks (json or just block)
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if (codeBlockMatch) {
+        return codeBlockMatch[1];
+    }
+    
+    // 2. Heuristic: Find the widest range of text that starts with {/[ and ends with }/]
+    // This handles cases where the model says "Here is the JSON: { ... }"
+    const firstBrace = text.indexOf('{');
+    const firstBracket = text.indexOf('[');
+    const lastBrace = text.lastIndexOf('}');
+    const lastBracket = text.lastIndexOf(']');
+    
+    let start = -1;
+    let end = -1;
+
+    // Determine if we are looking for an object or an array based on which comes first
+    if (firstBrace !== -1 && (firstBracket === -1 || firstBrace < firstBracket)) {
+        if (lastBrace > firstBrace) {
+            start = firstBrace;
+            end = lastBrace + 1;
+        }
+    } else if (firstBracket !== -1) {
+        if (lastBracket > firstBracket) {
+            start = firstBracket;
+            end = lastBracket + 1;
+        }
+    }
+
+    if (start !== -1 && end !== -1) {
+        return text.substring(start, end);
+    }
+
+    // 3. Fallback: Return text as-is. If it's invalid, JSON.parse will throw, which is handled by caller.
+    return text;
+};
 
 // Helper function to handle potential API errors
 const generateContentHelper = async (params: any, isJson: boolean = false) => {
     try {
         const response = await ai.models.generateContent(params);
-        // The .text property is the correct way to access the response content.
         const text = response.text;
-        if (isJson) {
-            // Ensure the extracted text is a valid JSON string before returning.
-            return text.trim().replace(/```json/g, '').replace(/```/g, '');
+
+        if (!text) {
+             throw new Error('The AI model returned an empty response. This may be due to safety settings or an internal error.');
         }
-        return text;
+
+        if (isJson) {
+            return extractJson(text);
+        }
+        return text.trim();
     } catch (e) {
         console.error("Gemini API call failed:", e);
         if (e instanceof Error) {
@@ -26,6 +79,9 @@ const generateContentHelper = async (params: any, isJson: boolean = false) => {
             }
             if (e.message.includes('429')) {
                 throw new Error('API request limit reached. Please try again later.');
+            }
+            if (e.message.includes('empty response')) {
+                throw e;
             }
         }
         throw new Error('An unexpected error occurred while contacting the AI service.');
@@ -43,7 +99,7 @@ export const getSummary = async (textContent: string, language: Language, tone: 
     const systemInstruction = `You are a helpful assistant that summarizes text. The user will provide a block of text. ${tones[tone]} The summary should be in ${language}.`;
 
     return generateContentHelper({
-        model,
+        model: MODELS.FAST, // Flash is sufficient and faster for summarization
         contents: textContent,
         config: { systemInstruction },
     });
@@ -63,8 +119,9 @@ export const extractEntities = async (textContent: string, language: Language): 
         required: ["people", "places", "organizations", "dates"]
     };
     
+    // Use SMART model (Gemini 3 Pro) for high-fidelity entity recognition and context awareness
     const jsonText = await generateContentHelper({
-        model,
+        model: MODELS.SMART,
         contents: textContent,
         config: {
             systemInstruction,
@@ -86,7 +143,7 @@ export const answerFromText = async (question: string, context: string, language
     const prompt = `CONTEXT:\n---\n${context}\n---\n\nQUESTION: ${question}`;
 
     return generateContentHelper({
-        model,
+        model: MODELS.FAST, // Flash is generally good for RAG/Contextual QA on small-medium contexts
         contents: prompt,
         config: { systemInstruction },
     });
@@ -94,8 +151,9 @@ export const answerFromText = async (question: string, context: string, language
 
 export const generateStory = async (prompt: string, language: Language): Promise<string> => {
     const systemInstruction = `You are a creative storyteller. Write a short story based on the user's prompt. The story should be in ${language}.`;
+    // Use SMART model for maximum creativity, narrative coherence, and style
     return generateContentHelper({
-        model,
+        model: MODELS.SMART,
         contents: prompt,
         config: { systemInstruction },
     });
@@ -107,7 +165,7 @@ const generateInsightFromTitles = async (titles: string[], language: Language, t
     const prompt = `TITLES:\n- ${titles.join('\n- ')}`;
 
     return generateContentHelper({
-        model,
+        model: MODELS.SMART, // Smart model finds deeper, more subtle connections between items
         contents: prompt,
         config: { systemInstruction },
     });
@@ -143,7 +201,7 @@ export const analyzeImage = async (base64Data: string, mimeType: string, languag
     };
 
     const jsonText = await generateContentHelper({
-        model,
+        model: MODELS.FAST, // 2.5-Flash is excellent and fast for standard image understanding
         contents: { parts: [textPart, imagePart] },
         config: {
             systemInstruction,
@@ -166,7 +224,7 @@ export const askAboutImage = async (base64Data: string, mimeType: string, questi
     const imagePart = { inlineData: { data: base64Data, mimeType } };
 
     return generateContentHelper({
-        model,
+        model: MODELS.FAST,
         contents: { parts: [textPart, imagePart] },
         config: { systemInstruction },
     });
@@ -187,8 +245,9 @@ export const organizeLibraryItems = async (items: { title: string; description?:
         required: ["tags", "collections"]
     };
 
+    // Use SMART model for complex classification logic and taxonomy generation
     const jsonText = await generateContentHelper({
-        model,
+        model: MODELS.SMART,
         contents: prompt,
         config: {
             systemInstruction,

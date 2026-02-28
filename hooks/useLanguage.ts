@@ -1,5 +1,6 @@
+
 import { useAtom, useAtomValue } from 'jotai';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { languageAtom, loadableTranslationsAtom } from '../store/i18n';
 import type { Language } from '../types';
 
@@ -17,6 +18,11 @@ const getNestedTranslation = (obj: Record<string, any>, path: string): string | 
 export const useLanguage = (): LanguageHook => {
     const [language, setLanguage] = useAtom(languageAtom);
     const loadableTranslations = useAtomValue(loadableTranslationsAtom);
+
+    // Effect to update the HTML lang attribute for accessibility and browser behavior
+    useEffect(() => {
+        document.documentElement.lang = language;
+    }, [language]);
 
     const t = useCallback((key: string, replacements?: Record<string, string | number>): string => {
         if (loadableTranslations.state === 'loading') return '';

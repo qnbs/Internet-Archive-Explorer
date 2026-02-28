@@ -1,3 +1,4 @@
+
 import type { ArchiveSearchResponse, ArchiveMetadata, WaybackResponse, ArchiveItemSummary } from '../types';
 import { metadataCache } from './cacheService';
 
@@ -25,9 +26,52 @@ const handleFetchError = (e: unknown, context: string): never => {
     throw new ArchiveServiceError(`Could not retrieve ${context} from the Internet Archive. Please try again later.`);
 };
 
+/**
+ * Fetches a URL with exponential backoff retry logic for 5xx errors and network failures.
+ * 
+ * @param url The URL to fetch
+ * @param options Fetch options
+ * @param retries Number of retries remaining (default 3)
+ * @param backoff Initial backoff delay in ms (default 500)
+ */
+async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 3, backoff = 500): Promise<Response> {
+    try {
+        const response = await fetch(url, options);
+        
+        // Retry on server errors (5xx) or rate limiting (429)
+        if (!response.ok && (response.status >= 500 || response.status === 429)) {
+            if (retries > 0) {
+                // Exponential backoff with full jitter: delay = random_between(0, min(cap, base * 2 ^ attempt))
+                // Simplified here to: delay = backoff + jitter
+                const jitter = Math.random() * 200;
+                const delay = backoff + jitter;
+                
+                console.warn(`Fetch failed with ${response.status}. Retrying in ${Math.round(delay)}ms... (${retries} retries left)`);
+                await new Promise(r => setTimeout(r, delay));
+                
+                return fetchWithRetry(url, options, retries - 1, backoff * 2);
+            }
+        }
+        
+        return response;
+    } catch (e) {
+        // Retry on network errors (fetch throws on network failure)
+        if (retries > 0) {
+             const jitter = Math.random() * 200;
+             const delay = backoff + jitter;
+             
+             console.warn(`Network request failed. Retrying in ${Math.round(delay)}ms... (${retries} retries left)`);
+             await new Promise(r => setTimeout(r, delay));
+             
+             return fetchWithRetry(url, options, retries - 1, backoff * 2);
+        }
+        throw e;
+    }
+}
+
 async function apiFetch<T>(url: string, context: string): Promise<T> {
     try {
-        const response = await fetch(url);
+        const response = await fetchWithRetry(url);
         if (!response.ok) {
             throw new ArchiveServiceError(`Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`);
         }
@@ -36,7 +80,12 @@ async function apiFetch<T>(url: string, context: string): Promise<T> {
         if (!text) {
             return [] as T; // Return an empty array or appropriate empty value for the type T
         }
-        return JSON.parse(text) as T;
+        try {
+            return JSON.parse(text) as T;
+        } catch (jsonError) {
+             // Sometimes Archive.org might return HTML error pages with 200 OK (rare but possible behind load balancers)
+             throw new ArchiveServiceError(`Invalid JSON response for ${context}.`);
+        }
     } catch (e) {
         handleFetchError(e, context);
     }
@@ -80,13 +129,15 @@ export const getItemMetadata = async (identifier: string): Promise<ArchiveMetada
 };
 
 export const getItemPlainText = async (identifier: string): Promise<string> => {
+  // Attempt to fetch DjVu TXT first as it's often cleaner
   const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
   
   try {
-    const response = await fetch(txtUrl);
+    const response = await fetchWithRetry(txtUrl);
     if (!response.ok) {
       if (response.status === 404) {
-         const response2 = await fetch(`${API_BASE_URL}/stream/${identifier}/${identifier}.txt`);
+         // Fallback to standard text file
+         const response2 = await fetchWithRetry(`${API_BASE_URL}/stream/${identifier}/${identifier}.txt`);
          if(response2.ok) {
             return await response2.text();
          }

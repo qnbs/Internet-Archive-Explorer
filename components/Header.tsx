@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
         </button>
         
         {/* Search bar container (takes up all available space) */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 mt-1">
           <SearchBar />
         </div>
 
