@@ -137,7 +137,8 @@
     </div>
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
+        const appBase = '/Internet-Archive-Explorer/';
+        navigator.serviceWorker.register(`${appBase}sw.js`, { scope: appBase })
           .then(reg => {
             console.log('ServiceWorker registration successful with scope: ', reg.scope);
             // Listen for updates

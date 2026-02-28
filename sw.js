@@ -1,13 +1,15 @@
 // A robust, production-ready service worker for the PWA.
-const CACHE_NAME = 'internet-archive-explorer-v2'; // Bump version for updates
+const CACHE_NAME = 'internet-archive-explorer-v3'; // Bump version for updates
 const API_HOSTNAME = 'archive.org';
 const IMAGE_HOSTNAMES = ['archive.org']; // Can add more if needed
 
+const BASE_PATH = new URL(self.registration.scope).pathname;
+
 // App Shell: Critical assets that make the app run.
 const APP_SHELL_URLS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
+  BASE_PATH,
+  `${BASE_PATH}index.html`,
+  `${BASE_PATH}manifest.json`,
 ];
 
 // Third-party assets that are critical for the app to function.
@@ -116,7 +118,7 @@ self.addEventListener('fetch', (event) => {
         return await fetch(request);
       } catch (error) {
         console.log('[SW] Fetch failed; returning offline page instead.', error);
-        const cachedResponse = await caches.match('/');
+        const cachedResponse = await caches.match(BASE_PATH);
         return cachedResponse || new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' }});
       }
     })());
