@@ -1,7 +1,13 @@
-// Basic sanitizer to prevent XSS. For production, a library like DOMPurify is recommended.
+import DOMPurify from 'dompurify';
+import type { Config } from 'dompurify';
+
+const SANITIZE_OPTIONS: Config = {
+    USE_PROFILES: { html: true },
+    FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'style', 'link', 'meta'],
+    FORBID_ATTR: ['style'],
+};
+
 export const sanitizeHtml = (html: string): string => {
     if (typeof html !== 'string') return '';
-    return html
-        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
-        .replace(/on\w+\s*=\s*("([^"]*)"|'([^']*)'|[^>\s]+)/gi, '');
+    return String(DOMPurify.sanitize(html, SANITIZE_OPTIONS));
 };

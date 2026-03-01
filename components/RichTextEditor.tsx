@@ -1,6 +1,7 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useMemo } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { BoldIcon, ItalicIcon, UnderlineIcon, ListUnorderedIcon, ListOrderedIcon } from './Icons';
+import { sanitizeHtml } from '@/utils/sanitizer';
 
 interface RichTextEditorProps {
     value: string;
@@ -28,26 +29,27 @@ const ToolbarButton: React.FC<{
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, placeholder, className }) => {
     const { t } = useLanguage();
     const editorRef = useRef<HTMLDivElement>(null);
+    const sanitizedValue = useMemo(() => sanitizeHtml(value), [value]);
 
     const handleCommand = (e: React.MouseEvent, command: string) => {
         e.preventDefault();
         document.execCommand(command, false);
         if (editorRef.current) {
-            onChange(editorRef.current.innerHTML);
+            onChange(sanitizeHtml(editorRef.current.innerHTML));
             editorRef.current.focus();
         }
     };
 
     const handleInput = useCallback((e: React.FormEvent<HTMLDivElement>) => {
-        onChange(e.currentTarget.innerHTML);
+        onChange(sanitizeHtml(e.currentTarget.innerHTML));
     }, [onChange]);
     
     // This is a workaround to sync the div content if the value is updated externally (e.g. switching items)
     useEffect(() => {
-        if (editorRef.current && editorRef.current.innerHTML !== value) {
-            editorRef.current.innerHTML = value;
+        if (editorRef.current && editorRef.current.innerHTML !== sanitizedValue) {
+            editorRef.current.innerHTML = sanitizedValue;
         }
-    }, [value]);
+    }, [sanitizedValue]);
 
     return (
         <div className={`h-full flex flex-col bg-gray-900/50 rounded-lg border border-gray-700 ${className || ''}`}>
@@ -63,7 +65,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange,
                 ref={editorRef}
                 contentEditable
                 onInput={handleInput}
-                dangerouslySetInnerHTML={{ __html: value }}
+                dangerouslySetInnerHTML={{ __html: sanitizedValue }}
                 className="prose-editor w-full flex-grow bg-transparent text-gray-300 p-3 overflow-y-auto resize-none focus:outline-none placeholder-gray-500 prose prose-sm dark:prose-invert max-w-none"
                 data-placeholder={placeholder}
             />

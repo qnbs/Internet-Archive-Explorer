@@ -83,9 +83,14 @@ const parseGeminiText = (responseJson: any): string => {
 
 const getApiKey = (): string => {
   if (typeof window === 'undefined') return '';
-  const localKey = localStorage.getItem('gemini_api_key') || '';
+  const sessionKey = sessionStorage.getItem('gemini_api_key') || '';
+  const legacyLocalKey = localStorage.getItem('gemini_api_key') || '';
+  if (!sessionKey && legacyLocalKey) {
+    sessionStorage.setItem('gemini_api_key', legacyLocalKey);
+    localStorage.removeItem('gemini_api_key');
+  }
   const envKey = (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env?.VITE_API_KEY || '';
-  return localKey || envKey;
+  return sessionKey || legacyLocalKey || envKey;
 };
 
 const getAiClient = (): GoogleGenAI => {

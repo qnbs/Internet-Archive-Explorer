@@ -5,7 +5,16 @@ const STORAGE_KEY = 'gemini_api_key';
 export const ApiKeyInput: React.FC = () => {
     const [apiKey, setApiKey] = useState<string>(() => {
         if (typeof window === 'undefined') return '';
-        return localStorage.getItem(STORAGE_KEY) || '';
+        const sessionValue = sessionStorage.getItem(STORAGE_KEY);
+        if (sessionValue) return sessionValue;
+
+        const legacyValue = localStorage.getItem(STORAGE_KEY) || '';
+        if (legacyValue) {
+            sessionStorage.setItem(STORAGE_KEY, legacyValue);
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        return legacyValue;
     });
     const [isSaved, setIsSaved] = useState<boolean>(() => !!apiKey);
 
@@ -16,7 +25,12 @@ export const ApiKeyInput: React.FC = () => {
 
     const handleSave = () => {
         const value = apiKey.trim();
-        localStorage.setItem(STORAGE_KEY, value);
+        if (value) {
+            sessionStorage.setItem(STORAGE_KEY, value);
+        } else {
+            sessionStorage.removeItem(STORAGE_KEY);
+        }
+        localStorage.removeItem(STORAGE_KEY);
         setIsSaved(!!value);
     };
 

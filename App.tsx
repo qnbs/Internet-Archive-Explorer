@@ -139,13 +139,11 @@ const AppContent: React.FC = () => {
         e.preventDefault();
         setDeferredPrompt(e as BeforeInstallPromptEvent);
         setIsAppInstalled(false);
-        console.log(`'beforeinstallprompt' event was fired and captured.`);
     };
     
     const handleAppInstalled = () => {
         setDeferredPrompt(null);
         setIsAppInstalled(true);
-        console.log('PWA was installed');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -165,10 +163,10 @@ const AppContent: React.FC = () => {
           }
       };
 
-      document.addEventListener('swUpdateReady', handleUpdateReady);
+        window.addEventListener('swUpdateReady', handleUpdateReady as EventListener);
 
       return () => {
-          document.removeEventListener('swUpdateReady', handleUpdateReady);
+          window.removeEventListener('swUpdateReady', handleUpdateReady as EventListener);
       };
   }, [setWaitingWorker]);
 
