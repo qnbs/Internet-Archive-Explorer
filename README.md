@@ -146,11 +146,20 @@ GitHub Workflows:
 - `.github/workflows/ci.yml`
   - Trigger: Push/PR auf `main`
   - Prüft Build und kritische Artefakte (`dist/index.html`, `dist/sw.js`, `dist/.nojekyll`, `dist/locales/...`)
+  - Führt zusätzlich Playwright-E2E-Smokechecks aus (API-Key speichern, optionaler OAuth-Login sichtbar, Grundnavigation)
 
 - `.github/workflows/pages-smoke.yml`
-  - Trigger: Push auf `gh-pages`
+  - Trigger: Nach erfolgreichem Deploy-Workflow von `main` (`workflow_run`)
   - Prüft Live-URL, Service Worker, Main-Bundle, Manifest und Locale-Endpunkte
   - Führt zusätzlich Basis-A11y-Heuristiken auf Live-HTML aus (ohne neue Abhängigkeiten)
+
+### E2E-Smoke lokal ausführen
+
+```bash
+npm ci
+npx playwright install --with-deps chromium
+npm run test:e2e
+```
 
 ### Finaler Live-Test (manuell)
 
@@ -190,8 +199,9 @@ Checks:
 - Lokal reproduzieren mit:
 
 ```bash
-npm install
+npm ci
 npm run build
+npm run test:e2e
 ```
 
 ## Projektstruktur

@@ -48,3 +48,9 @@ jobs:
           set -euo pipefail
           grep -q '/Internet-Archive-Explorer/assets/' dist/index.html
           grep -q '/Internet-Archive-Explorer/sw-register.js' dist/index.html
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E smoke tests
+        run: npm run test:e2e
