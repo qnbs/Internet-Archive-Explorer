@@ -2,6 +2,7 @@
 const CACHE_NAME = 'internet-archive-explorer-v3'; // Bump version for updates
 const API_HOSTNAME = 'archive.org';
 const IMAGE_HOSTNAMES = ['archive.org']; // Can add more if needed
+const NETWORK_TIMEOUT_MS = 15000;
 
 const BASE_PATH = new URL(self.registration.scope).pathname;
 
@@ -24,6 +25,16 @@ const THIRD_PARTY_URLS = [
 ];
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
+
+const timeoutFetch = async (request, timeoutMs = NETWORK_TIMEOUT_MS) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(request, { signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+};
 
 const OFFLINE_FALLBACK_PAGE = `
 <!DOCTYPE html>
@@ -52,7 +63,6 @@ const OFFLINE_FALLBACK_PAGE = `
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching app shell and third-party assets');
       return cache.addAll(urlsToCache);
     }).catch(err => {
         console.error('[SW] Pre-caching failed:', err);
@@ -68,7 +78,6 @@ self.addEventListener('activate', (event) => {
       if ('navigationPreload' in self.registration) {
         try {
           await self.registration.navigationPreload.enable();
-          console.log('[SW] Navigation Preload enabled.');
         } catch (e) {
           console.error('[SW] Navigation Preload could not be enabled:', e);
         }
@@ -79,7 +88,6 @@ self.addEventListener('activate', (event) => {
       await Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
-            console.log('[SW] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -115,9 +123,8 @@ self.addEventListener('fetch', (event) => {
         if (preloadResponse) {
           return preloadResponse;
         }
-        return await fetch(request);
+        return await timeoutFetch(request);
       } catch (error) {
-        console.log('[SW] Fetch failed; returning offline page instead.', error);
         const cachedResponse = await caches.match(BASE_PATH);
         return cachedResponse || new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' }});
       }
@@ -134,7 +141,7 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
         try {
-          const networkResponse = await fetch(request);
+          const networkResponse = await timeoutFetch(request);
           cache.put(request, networkResponse.clone());
           return networkResponse;
         } catch (error) {
@@ -157,7 +164,7 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
         // Not in cache, fetch from network and cache it
-        const networkResponse = await fetch(request);
+        const networkResponse = await timeoutFetch(request);
         cache.put(request, networkResponse.clone());
         return networkResponse;
       })
@@ -170,7 +177,7 @@ self.addEventListener('fetch', (event) => {
     caches.open(CACHE_NAME).then(async cache => {
       const cachedResponse = await cache.match(request);
       
-      const fetchPromise = fetch(request).then(networkResponse => {
+      const fetchPromise = timeoutFetch(request).then(networkResponse => {
         if (networkResponse && networkResponse.status === 200) {
           cache.put(request, networkResponse.clone());
         }
