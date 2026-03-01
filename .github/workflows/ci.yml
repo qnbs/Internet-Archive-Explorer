@@ -47,4 +47,4 @@ jobs:
         run: |
           set -euo pipefail
           grep -q '/Internet-Archive-Explorer/assets/' dist/index.html
-          grep -q 'serviceWorker.register' dist/index.html
+          grep -q '/Internet-Archive-Explorer/sw-register.js' dist/index.html
