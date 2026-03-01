@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://accounts.google.com; script-src 'self' https://cdn.tailwindcss.com 'sha256-QDjzenPk49vzsMgQ2fXaA1yvu9VQFYaZA0K3PaoylNI=' 'sha256-ZbxlTY0+Oc6e//XWxgMTBOGdj6XZszBYZ2vjGiBcL7M=' 'sha256-ulJr8nQmyxVjpQVfVF9q40pdrsg5vm2p1ixiISNlFrM=' 'sha256-qWYVi3FVyWJ22ZcFmCrN7DJKHHzAZDGSDL3jG4p9TvI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://archive.org https://web.archive.org https://generativelanguage.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://aistudiocdn.com ws: wss:; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' https: blob:; upgrade-insecure-requests"
+    />
     <title>Internet Archive Explorer</title>
     
     <!-- SEO & Social Media -->
@@ -51,7 +55,7 @@
     </script>
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio" integrity="sha384-DtktztXHyfBBqlgvhpzFILvWE/2pgcanfRWTs+DeWzmTh1I1hYrHkCXYMAAcR65N" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
