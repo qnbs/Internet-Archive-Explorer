@@ -28,14 +28,6 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - name: Validate OAuth secret
-        run: |
-          set -euo pipefail
-          if [[ -z "${{ secrets.VITE_GOOGLE_CLIENT_ID }}" ]]; then
-            echo "::error title=Missing Secret::Repository secret VITE_GOOGLE_CLIENT_ID is required for OAuth builds."
-            exit 1
-          fi
-
       - name: Install dependencies
         run: npm ci
 

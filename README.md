@@ -70,6 +70,7 @@ Standardmäßig läuft Vite lokal unter `http://localhost:5173`.
 Datei: `.env.local` (nicht committen)
 
 ```env
+VITE_API_KEY=your-gemini-api-key
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 ```
 
@@ -77,12 +78,16 @@ Vorlage: `.env.example`
 
 ## OAuth + Gemini
 
-Die App unterstützt Google OAuth 2.0 (Authorization Code + PKCE) für Gemini-Nutzung im Browser.
+Die App unterstützt zwei Wege für Gemini im Browser:
+
+- Standard: API-Key pro Nutzer (lokal im Browser gespeichert)
+- Optional: Google OAuth 2.0 (Authorization Code + PKCE)
 
 ### Sicherheitsprinzipien
 
 - Kein Client-Secret im Frontend
 - `VITE_GOOGLE_CLIENT_ID` nur via `import.meta.env`
+- API-Key kann pro Nutzer lokal gesetzt werden (Session Storage)
 - PKCE + `state`-Validierung
 - OAuth-`code` wird nach Redirect aus URL entfernt
 - Token wird mit TTL gehalten (in-memory + Storage), bei 401/403 invalidiert
@@ -91,7 +96,7 @@ Die App unterstützt Google OAuth 2.0 (Authorization Code + PKCE) für Gemini-Nu
 ### Gemini-Aufrufe
 
 - Primär via `Authorization: Bearer <token>`
-- Fallback-Verhalten abhängig von aktueller App-Konfiguration
+- Alternativ via Gemini API-Key (wenn kein OAuth-Token vorhanden ist)
 
 ## Build & Deploy (GitHub Pages)
 
@@ -118,15 +123,15 @@ Zusätzlich gibt es einen CI-Deploy-Workflow nach GitHub Pages:
 
 - `.github/workflows/deploy-pages.yml`
 - Trigger: Push auf `main` und manuell via `workflow_dispatch`
-- Build nutzt `VITE_GOOGLE_CLIENT_ID` aus GitHub Repository Secrets
+- Build nutzt optional `VITE_GOOGLE_CLIENT_ID` aus GitHub Repository Secrets
 
-Einmalig im Repository setzen:
+Optional im Repository setzen (nur für OAuth-Login nötig):
 
 1. **Settings → Secrets and variables → Actions**
 2. Neues Secret: `VITE_GOOGLE_CLIENT_ID`
 3. Wert: Deine Google OAuth Client-ID (`...apps.googleusercontent.com`)
 
-Ohne dieses Secret bricht der Deploy-Workflow bewusst mit einer klaren Fehlermeldung ab.
+Ohne dieses Secret funktionieren API-Key-basierte Gemini-Funktionen weiterhin.
 
 ### Wichtige Deploy-Details
 

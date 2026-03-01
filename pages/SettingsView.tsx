@@ -26,6 +26,7 @@ import { exportAllData, importData } from '@/services/dataService';
 import { useToast } from '@/contexts/ToastContext';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { PWAInstallManager } from '@/components/settings/PWAInstallManager';
+import { ApiKeyInput } from '@/components/ApiKeyInput';
 import { GoogleLoginButton } from '@/components/GoogleLoginButton';
 
 type SettingsSectionId = 'ui' | 'accessibility' | 'search' | 'content' | 'ai' | 'data';
@@ -498,6 +499,14 @@ const AISettingsPanel: React.FC = () => {
   const { t } = useLanguage();
   return (
     <div className="space-y-2">
+      <div className="py-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-200">Gemini API-Key</h3>
+        <p className="mt-1 mb-3 text-sm text-gray-500 dark:text-gray-400">
+          Standardweg: Nutzer hinterlegen ihren eigenen Gemini API-Key lokal im Browser.
+        </p>
+        <ApiKeyInput />
+      </div>
+
       <SettingRow
         settingKey="enableAiFeatures"
         label={t('settings:ai.enableAiFeatures')}
@@ -557,7 +566,17 @@ const AISettingsPanel: React.FC = () => {
       />
 
       <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-        <GoogleLoginButton />
+        <details className="rounded-lg border border-gray-200 bg-gray-50/60 p-3 dark:border-gray-700 dark:bg-gray-800/40">
+          <summary className="cursor-pointer text-sm font-semibold text-gray-900 dark:text-gray-200">
+            Optional: Google OAuth (Gemini)
+          </summary>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            Nur nötig, wenn statt API-Key ein Google OAuth-Login verwendet werden soll.
+          </p>
+          <div className="mt-3">
+            <GoogleLoginButton />
+          </div>
+        </details>
       </div>
     </div>
   );
