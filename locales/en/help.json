@@ -1,4 +1,3 @@
-
 {
   "title": "Help & Documentation",
   "subtitle": "Everything you need to know about using the Archive Explorer.",
@@ -155,7 +154,7 @@
   "aFollow": "On a contributor's profile page, click the star icon next to their name. This will add them to the 'Followed Contributors' list in your Library for quick access.",
   "qMyArchive": "What is 'My Archive'?",
   "aMyArchive": "'My Archive' allows you to connect your public Internet Archive account to the app. Once connected, it provides a personalized dashboard view of your own uploads, collections, and stats, using the same powerful interface as the public contributor profiles.",
-  
+
   "upload-qReq": "What do I need to start uploading?",
   "upload-aReq": "You will need to register for a <a href='https://archive.org/account/login.createaccount.php' target='_blank' rel='noopener noreferrer'>free account</a> on archive.org before you can upload.",
   "upload-qFiles": "What files can I upload?",
@@ -203,7 +202,7 @@
   "aSettings": "The <strong>Settings</strong> page offers extensive customization. You can change the visual theme (Light/Dark/System), adjust layout density and font size, set default behaviors for content and AI features, and change the application language.",
   "qData": "How is my data stored and managed?",
   "aData": "All your personal data—including settings, library items, worksets, and followed uploaders—is stored <strong>locally in your browser's storage</strong>. No data is sent to a server. On the Settings page, under 'Data & Privacy', you can export all your data to a JSON file for backup or import it to another browser.",
-  
+
   "qImageViewer": "How does the advanced image viewer work?",
   "aImageViewer": "When you open an image item, it will appear in a special viewer. You can:<ul><li><strong>Zoom:</strong> Use your mouse wheel or the toolbar buttons (<code>+</code>/<code>-</code>) to zoom in and out. The zoom will focus on your cursor's position.</li><li><strong>Pan:</strong> Click and drag the image to move it around when zoomed in.</li><li><strong>Rotate:</strong> Use the toolbar buttons or press <code>r</code> (clockwise) and <code>Shift + R</code> (counter-clockwise).</li><li><strong>Reset:</strong> Click the reset button or press <code>0</code> to return the image to its default state.</li><li><strong>Fullscreen:</strong> View the image in your browser's fullscreen mode.</li></ul>",
   "qDownload": "Can I download items?",
