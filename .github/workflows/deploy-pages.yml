@@ -37,4 +37,4 @@ jobs:
       - name: Deploy dist to gh-pages branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: 'npx gh-pages -d dist -m "deploy: ${{ github.sha }}"'
+        run: 'npx gh-pages -d dist -m "deploy: ${{ github.sha }}"'
