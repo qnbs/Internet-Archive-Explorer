@@ -20,7 +20,9 @@ async function openSettings(page: import('@playwright/test').Page) {
 test('API-Key kann gespeichert werden', async ({ page }) => {
   await openSettings(page);
 
-  await page.getByRole('button', { name: labels.aiSection }).click();
+  const aiSectionButton = page.getByRole('button', { name: labels.aiSection });
+  await aiSectionButton.click();
+  await expect(aiSectionButton).toHaveClass(/bg-accent-50|bg-accent-500\/20/);
 
   const apiInput = page.locator('#gemini-api-key-input');
   const keyValue = 'AIzaSySmokeTestKey_1234567890';
@@ -34,7 +36,10 @@ test('API-Key kann gespeichert werden', async ({ page }) => {
 
   await page.reload();
   await openSettings(page);
-  await page.getByRole('button', { name: labels.aiSection }).click();
+  const aiSectionButtonAfterReload = page.getByRole('button', { name: labels.aiSection });
+  await expect(aiSectionButtonAfterReload).not.toHaveClass(/bg-accent-50|bg-accent-500\/20/);
+  await aiSectionButtonAfterReload.click();
+  await expect(aiSectionButtonAfterReload).toHaveClass(/bg-accent-50|bg-accent-500\/20/);
   await expect(page.getByText(labels.apiKeySaved)).toBeVisible();
 });
 
@@ -56,9 +61,11 @@ test('Grundnavigation über SideMenu funktioniert', async ({ page }) => {
   const scriptoriumButton = page.getByRole('button', { name: labels.scriptorium }).first();
   await scriptoriumButton.click();
   await expect(scriptoriumButton).toHaveAttribute('aria-current', 'page');
+  await expect(exploreButton).not.toHaveAttribute('aria-current', 'page');
 
   const settingsButton = page.getByRole('button', { name: labels.settings }).first();
   await settingsButton.click();
   await expect(settingsButton).toHaveAttribute('aria-current', 'page');
+  await expect(scriptoriumButton).not.toHaveAttribute('aria-current', 'page');
   await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
 });
