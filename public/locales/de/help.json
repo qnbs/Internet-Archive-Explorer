@@ -1,4 +1,3 @@
-
 {
   "title": "Hilfe & Dokumentation",
   "subtitle": "Alles, was Sie über die Nutzung des Archive Explorers wissen müssen.",
@@ -148,7 +147,7 @@
   "aWorksets": "Vom Scriptorium-Hub aus können Sie neue Worksets erstellen (z. B. 'Meine Romanrecherche'). Sobald Sie ein Workset öffnen, können Sie Textdokumente durch Durchsuchen des Archivs hinzufügen. Alle Ihre Worksets und deren Inhalte werden lokal in Ihrem Browser gespeichert.",
   "qReaderAi": "Was sind die KI-Werkzeuge im Dokumentenleser?",
   "aReaderAi": "Wenn Sie ein Dokument in einem Workset öffnen, haben Sie Zugriff auf Werkzeuge, die von Googles Gemini-KI unterstützt werden. Sie können:<ul><li><strong>Zusammenfassen:</strong> Eine prägnante Zusammenfassung des Textes erstellen.</li><li><strong>Entitäten extrahieren:</strong> Wichtige Personen, Orte und Organisationen identifizieren.</li><li><strong>Frage stellen:</strong> Eine Frage zum Text stellen und eine auf dem Inhalt basierende Antwort erhalten.</li></ul>Der Dokumentenleser verfügt außerdem über eine anpassbare Zwei-Fenster-Ansicht mit einem einfachen Texteditor zum Erstellen von dauerhaften Notizen.",
-  
+
   "qUploaderProfile": "Was sind die Profilseiten von Mitwirkenden?",
   "aUploaderProfile": "Jeder Uploader und Ersteller hat eine detaillierte Profilseite. Der Inhalt ist in Tabs organisiert: 'Uploads' zeigt alle Beiträge mit leistungsstarken Filter- und Sortiersteuerungen. Andere Tabs wie 'Bewertungen', 'Sammlungen' und 'Favoriten' erscheinen dynamisch, wenn der Mitwirkende diese Art von Inhalt hat, und bieten eine umfassende Ansicht seiner Aktivitäten.",
   "qFollow": "Wie folge ich einem Mitwirkenden?",
@@ -203,7 +202,7 @@
   "aSettings": "Die Seite <strong>Einstellungen</strong> bietet umfangreiche Anpassungsmöglichkeiten. Sie können das visuelle Design (Hell/Dunkel/System) ändern, die Layoutdichte und Schriftgröße anpassen, Standardverhalten für Inhalte und KI-Funktionen festlegen und die Anwendungssprache ändern.",
   "qData": "Wie werden meine Daten gespeichert und verwaltet?",
   "aData": "Alle Ihre persönlichen Daten – einschließlich Einstellungen, Bibliothekseinträge, Worksets und gefolgte Mitwirkende – werden <strong>lokal im Speicher Ihres Browsers</strong> gespeichert. Es werden keine Daten an einen Server gesendet. Auf der Seite 'Einstellungen' unter 'Daten & Datenschutz' können Sie alle Ihre Daten zur Sicherung in eine JSON-Datei exportieren oder in einen anderen Browser importieren.",
-  
+
   "qImageViewer": "Wie funktioniert der erweiterte Bildbetrachter?",
   "aImageViewer": "Wenn Sie ein Bildelement öffnen, erscheint es in einem speziellen Betrachter. Sie können:<ul><li><strong>Zoomen:</strong> Verwenden Sie Ihr Mausrad oder die Schaltflächen in der Symbolleiste (<code>+</code>/<code>-</code>), um hinein- und herauszuzoomen. Der Zoom fokussiert auf die Position Ihres Cursors.</li><li><strong>Schwenken:</strong> Klicken und ziehen Sie das Bild, um es zu verschieben, wenn Sie hineingezoomt haben.</li><li><strong>Drehen:</strong> Verwenden Sie die Schaltflächen in der Symbolleiste oder drücken Sie <code>r</code> (im Uhrzeigersinn) und <code>Umschalttaste + R</code> (gegen den Uhrzeigersinn).</li><li><strong>Zurücksetzen:</strong> Klicken Sie auf die Schaltfläche zum Zurücksetzen oder drücken Sie <code>0</code>, um das Bild in den Standardzustand zurückzusetzen.</li><li><strong>Vollbild:</strong> Betrachten Sie das Bild im Vollbildmodus Ihres Browsers.</li></ul>",
   "qDownload": "Kann ich Einträge herunterladen?",

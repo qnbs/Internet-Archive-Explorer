@@ -10,14 +10,17 @@ export const useSearchAndGo = () => {
   const setActiveView = useSetAtom(activeViewAtom);
   const addSearchHistory = useSetAtom(addSearchHistoryAtom);
 
-  return useCallback((query: string, newFacets?: Partial<Facets>) => {
-     setSearchQuery(query);
-     addSearchHistory(query);
-     const defaultFacets: Facets = {
+  return useCallback(
+    (query: string, newFacets?: Partial<Facets>) => {
+      setSearchQuery(query);
+      addSearchHistory(query);
+      const defaultFacets: Facets = {
         mediaType: new Set(),
         availability: 'all',
-     };
-     setFacets({ ...defaultFacets, ...newFacets });
-     setActiveView('explore');
-  }, [setSearchQuery, addSearchHistory, setFacets, setActiveView]);
+      };
+      setFacets({ ...defaultFacets, ...newFacets });
+      setActiveView('explore');
+    },
+    [setSearchQuery, addSearchHistory, setFacets, setActiveView],
+  );
 };

@@ -51,7 +51,6 @@ export const isModalOpenAtom = atom((get) => get(modalAtom).type !== 'none');
  */
 export const currentModalTypeAtom = atom((get) => get(modalAtom).type);
 
-
 /**
  * A sophisticated write-only "action" atom to handle opening the correct item detail modal
  * based on the item's `mediatype`. This encapsulates the selection logic, decoupling item
@@ -60,18 +59,18 @@ export const currentModalTypeAtom = atom((get) => get(modalAtom).type);
  *          selectItem(myItem);
  */
 export const selectItemAtom = atom(
-    null, // This is a write-only atom
-    (get, set, item: ArchiveItemSummary) => {
-        switch (item.mediatype) {
-            case 'image':
-                set(modalAtom, { type: 'imageDetail', item });
-                break;
-            // Potentially more custom modals based on mediatype in the future
-            default:
-                set(modalAtom, { type: 'itemDetail', item });
-                break;
-        }
+  null, // This is a write-only atom
+  (get, set, item: ArchiveItemSummary) => {
+    switch (item.mediatype) {
+      case 'image':
+        set(modalAtom, { type: 'imageDetail', item });
+        break;
+      // Potentially more custom modals based on mediatype in the future
+      default:
+        set(modalAtom, { type: 'itemDetail', item });
+        break;
     }
+  },
 );
 
 // --- Profile Navigation Atoms ---
@@ -84,7 +83,7 @@ export const selectItemAtom = atom(
 export const selectedProfileAtom = atom<Profile | null>(null);
 
 /**
-* Stores the view from which the user navigated to a profile page,
-* allowing for a contextual "back" action.
-*/
+ * Stores the view from which the user navigated to a profile page,
+ * allowing for a contextual "back" action.
+ */
 export const profileReturnViewAtom = atom<View | undefined>(undefined);

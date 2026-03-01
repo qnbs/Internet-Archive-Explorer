@@ -22,7 +22,11 @@ const getLocalStorage = (): Storage | null => {
 const isValid = (token: StoredOAuthToken | null): token is StoredOAuthToken =>
   !!token && Date.now() < token.expiresAt;
 
-export const setStoredOAuthToken = (accessToken: string, expiresInSeconds: number, scope: string) => {
+export const setStoredOAuthToken = (
+  accessToken: string,
+  expiresInSeconds: number,
+  scope: string,
+) => {
   const ttl = Math.max(60, Math.min(expiresInSeconds, 3600) - 60);
   const token: StoredOAuthToken = {
     accessToken,
@@ -42,7 +46,10 @@ export const getStoredOAuthTokenMeta = (): StoredOAuthToken | null => {
   try {
     const session = getSessionStorage();
     const local = getLocalStorage();
-    const raw = session?.getItem(GEMINI_OAUTH_STORAGE_KEY) ?? local?.getItem(GEMINI_OAUTH_STORAGE_KEY) ?? null;
+    const raw =
+      session?.getItem(GEMINI_OAUTH_STORAGE_KEY) ??
+      local?.getItem(GEMINI_OAUTH_STORAGE_KEY) ??
+      null;
 
     if (!raw) return null;
 
@@ -62,7 +69,8 @@ export const getStoredOAuthTokenMeta = (): StoredOAuthToken | null => {
   }
 };
 
-export const getValidAccessToken = (): string | null => getStoredOAuthTokenMeta()?.accessToken ?? null;
+export const getValidAccessToken = (): string | null =>
+  getStoredOAuthTokenMeta()?.accessToken ?? null;
 
 export const clearStoredOAuthToken = () => {
   inMemoryToken = null;

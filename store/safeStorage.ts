@@ -15,21 +15,22 @@ interface SyncStorage<Value> {
  * preventing the application from crashing.
  */
 const safeStorage = {
-  // FIX: Using `any` instead of `unknown` to prevent the atom's value from being inferred as `unknown`, which caused cascading type errors.
-  getItem: (key: string, initialValue: any): any => {
+  getItem: (key: string, initialValue: unknown): unknown => {
     try {
       const storedValue = localStorage.getItem(key);
       if (storedValue !== null) {
         return JSON.parse(storedValue);
       }
     } catch (e) {
-      console.warn(`[Jotai] Could not parse localStorage key "${key}". Removing corrupted data.`, e);
+      console.warn(
+        `[Jotai] Could not parse localStorage key "${key}". Removing corrupted data.`,
+        e,
+      );
       localStorage.removeItem(key);
     }
     return initialValue;
   },
-  // FIX: Using `any` instead of `unknown` to match the `getItem` signature and ensure type compatibility.
-  setItem: (key: string, newValue: any): void => {
+  setItem: (key: string, newValue: unknown): void => {
     try {
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (e) {
@@ -50,11 +51,8 @@ const safeStorage = {
  * @param initialValue The initial value of the atom if none is stored.
  * @returns A Jotai atom that syncs with localStorage safely.
  */
-export function safeAtomWithStorage<Value>(
-  key: string,
-  initialValue: Value
-) {
-  // By explicitly providing the typed storage object, we ensure jotai treats 
+export function safeAtomWithStorage<Value>(key: string, initialValue: Value) {
+  // By explicitly providing the typed storage object, we ensure jotai treats
   // this as a synchronous storage, giving us correct types for our atoms.
   return atomWithStorage(key, initialValue, safeStorage as SyncStorage<Value>);
 }

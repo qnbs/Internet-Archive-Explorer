@@ -1,8 +1,4 @@
-import type {
-  ArchiveMetadata,
-  ArchiveSearchResponse,
-  WaybackResponse,
-} from '@/types';
+import type { ArchiveMetadata, ArchiveSearchResponse, WaybackResponse } from '@/types';
 import { metadataCache } from '@/services/cacheService';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
@@ -17,8 +13,7 @@ class ArchiveServiceError extends Error {
   }
 }
 
-const delay = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 const handleFetchError = (error: unknown, context: string): never => {
   if (error instanceof ArchiveServiceError) {
@@ -26,19 +21,17 @@ const handleFetchError = (error: unknown, context: string): never => {
   }
 
   if (error instanceof DOMException && error.name === 'AbortError') {
-    throw new ArchiveServiceError(
-      `The request for ${context} timed out. Please try again.`
-    );
+    throw new ArchiveServiceError(`The request for ${context} timed out. Please try again.`);
   }
 
   if (error instanceof TypeError) {
     throw new ArchiveServiceError(
-      'A network error occurred. Please check your internet connection and try again.'
+      'A network error occurred. Please check your internet connection and try again.',
     );
   }
 
   throw new ArchiveServiceError(
-    `Could not load ${context} from the Internet Archive. Please try again later.`
+    `Could not load ${context} from the Internet Archive. Please try again later.`,
   );
 };
 
@@ -46,7 +39,7 @@ async function fetchWithRetry(
   url: string,
   options: RequestInit = {},
   retries = 2,
-  backoffMs = 400
+  backoffMs = 400,
 ): Promise<Response> {
   try {
     const response = await fetchWithTimeout(url, options, REQUEST_TIMEOUT_MS);
@@ -77,7 +70,7 @@ async function apiFetch<T>(url: string, context: string): Promise<T> {
 
     if (!response.ok) {
       throw new ArchiveServiceError(
-        `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`
+        `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`,
       );
     }
 
@@ -112,7 +105,7 @@ export const searchArchive = async (
     'downloads',
     'avg_rating',
   ],
-  limit: number = SEARCH_PAGE_SIZE
+  limit: number = SEARCH_PAGE_SIZE,
 ): Promise<ArchiveSearchResponse> => {
   const params = new URLSearchParams({
     q: query || 'featured',
@@ -132,9 +125,7 @@ export const searchArchive = async (
   return apiFetch<ArchiveSearchResponse>(url, 'search results');
 };
 
-export const getItemMetadata = async (
-  identifier: string
-): Promise<ArchiveMetadata> => {
+export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
   const cachedData = await metadataCache.get(identifier);
   if (cachedData) {
     return cachedData;
@@ -154,7 +145,7 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
     if (!response.ok) {
       if (response.status === 404) {
         const fallbackResponse = await fetchWithRetry(
-          `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`
+          `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`,
         );
         if (fallbackResponse.ok) {
           return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();
@@ -162,7 +153,7 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
       }
 
       throw new ArchiveServiceError(
-        `Failed to fetch plain text for ${identifier}. Status: ${response.status}`
+        `Failed to fetch plain text for ${identifier}. Status: ${response.status}`,
       );
     }
 
@@ -188,7 +179,7 @@ export const searchWaybackMachine = async (url: string): Promise<WaybackResponse
         Array.isArray(row) &&
         row.length >= 2 &&
         typeof row[0] === 'string' &&
-        typeof row[1] === 'string'
+        typeof row[1] === 'string',
     )
     .map((row) => [row[0], row[1]]);
 
@@ -203,10 +194,7 @@ export const getItemCount = async (query: string): Promise<number> => {
   });
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  const data = await apiFetch<ArchiveSearchResponse>(
-    url,
-    `item count for query "${query}"`
-  );
+  const data = await apiFetch<ArchiveSearchResponse>(url, `item count for query "${query}"`);
 
   return data.response?.numFound ?? 0;
 };
@@ -214,7 +202,7 @@ export const getItemCount = async (query: string): Promise<number> => {
 export const getReviewsByUploader = async (
   uploader: string,
   page: number,
-  limit: number = 10
+  limit: number = 10,
 ): Promise<ArchiveSearchResponse> => {
   const query = `reviewer:("${uploader}")`;
   const fields = [

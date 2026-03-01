@@ -3,7 +3,7 @@ import React from 'react';
 type AspectRatio = 'video' | 'square' | 'portrait';
 
 interface SkeletonCardProps {
-    aspectRatio?: AspectRatio;
+  aspectRatio?: AspectRatio;
 }
 
 export const SkeletonCard: React.FC<SkeletonCardProps> = ({ aspectRatio = 'portrait' }) => {

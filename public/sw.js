@@ -7,21 +7,17 @@ const NETWORK_TIMEOUT_MS = 15000;
 const BASE_PATH = new URL(self.registration.scope).pathname;
 
 // App Shell: Critical assets that make the app run.
-const APP_SHELL_URLS = [
-  BASE_PATH,
-  `${BASE_PATH}index.html`,
-  `${BASE_PATH}manifest.json`,
-];
+const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`, `${BASE_PATH}manifest.json`];
 
 // Third-party assets that are critical for the app to function.
 const THIRD_PARTY_URLS = [
-    'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-    'https://aistudiocdn.com/@google/genai@^1.19.0',
-    'https://aistudiocdn.com/react@^19.1.1',
-    'https://aistudiocdn.com/jotai@^2.14.0',
-    'https://aistudiocdn.com/uuid@^13.0.0',
-    'https://aistudiocdn.com/react-dom@^19.1.1',
+  'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+  'https://aistudiocdn.com/@google/genai@^1.19.0',
+  'https://aistudiocdn.com/react@^19.1.1',
+  'https://aistudiocdn.com/jotai@^2.14.0',
+  'https://aistudiocdn.com/uuid@^13.0.0',
+  'https://aistudiocdn.com/react-dom@^19.1.1',
 ];
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
@@ -62,11 +58,14 @@ const OFFLINE_FALLBACK_PAGE = `
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    }).catch(err => {
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => {
+        return cache.addAll(urlsToCache);
+      })
+      .catch((err) => {
         console.error('[SW] Pre-caching failed:', err);
-    })
+      }),
   );
   self.skipWaiting();
 });
@@ -90,18 +89,20 @@ self.addEventListener('activate', (event) => {
           if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
-        })
+        }),
       );
-      
+
       await self.clients.claim();
-    })()
+    })(),
   );
 });
 
 const isImageRequest = (request) => {
   const url = new URL(request.url);
   const isImageHost = IMAGE_HOSTNAMES.includes(url.hostname);
-  const isImagePath = url.pathname.startsWith('/services/get-item-image.php') || url.pathname.startsWith('/download/');
+  const isImagePath =
+    url.pathname.startsWith('/services/get-item-image.php') ||
+    url.pathname.startsWith('/download/');
   const isImageDestination = request.destination === 'image';
   return isImageHost && (isImagePath || isImageDestination);
 };
@@ -117,18 +118,23 @@ self.addEventListener('fetch', (event) => {
 
   // Strategy 1: Navigation requests -> Network-First with Preload & Offline Fallback
   if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResponse = await event.preloadResponse;
-        if (preloadResponse) {
-          return preloadResponse;
+    event.respondWith(
+      (async () => {
+        try {
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
+          return await timeoutFetch(request);
+        } catch (error) {
+          const cachedResponse = await caches.match(BASE_PATH);
+          return (
+            cachedResponse ||
+            new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' } })
+          );
         }
-        return await timeoutFetch(request);
-      } catch (error) {
-        const cachedResponse = await caches.match(BASE_PATH);
-        return cachedResponse || new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' }});
-      }
-    })());
+      })(),
+    );
     return;
   }
 
@@ -146,15 +152,22 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         } catch (error) {
           console.error('[SW] API fetch failed and no cache was available:', error);
-          return new Response(JSON.stringify({ error: 'offline', message: 'The request could not be completed while offline.' }), {
-            status: 503, headers: { 'Content-Type': 'application/json' }
-          });
+          return new Response(
+            JSON.stringify({
+              error: 'offline',
+              message: 'The request could not be completed while offline.',
+            }),
+            {
+              status: 503,
+              headers: { 'Content-Type': 'application/json' },
+            },
+          );
         }
-      })
+      }),
     );
     return;
   }
-  
+
   // Strategy 3: Image requests -> Cache-First
   if (isImageRequest(request)) {
     event.respondWith(
@@ -167,30 +180,31 @@ self.addEventListener('fetch', (event) => {
         const networkResponse = await timeoutFetch(request);
         cache.put(request, networkResponse.clone());
         return networkResponse;
-      })
+      }),
     );
     return;
   }
-  
+
   // Strategy 4: All other assets (static files, CDNs) -> Stale-While-Revalidate
   event.respondWith(
-    caches.open(CACHE_NAME).then(async cache => {
+    caches.open(CACHE_NAME).then(async (cache) => {
       const cachedResponse = await cache.match(request);
-      
-      const fetchPromise = timeoutFetch(request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200) {
-          cache.put(request, networkResponse.clone());
-        }
-        return networkResponse;
-      }).catch(err => {
-        // Network failed, but we might have a cached response
-      });
+
+      const fetchPromise = timeoutFetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            cache.put(request, networkResponse.clone());
+          }
+          return networkResponse;
+        })
+        .catch((err) => {
+          // Network failed, but we might have a cached response
+        });
 
       return cachedResponse || fetchPromise;
-    })
+    }),
   );
 });
-
 
 // Listen for a message from the client to skip waiting and activate the new SW
 self.addEventListener('message', (event) => {

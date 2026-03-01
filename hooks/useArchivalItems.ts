@@ -9,32 +9,32 @@ import { searchArchive } from '@/services/archiveService';
  * @returns An object containing the items, loading state, and error state.
  */
 export const useArchivalItems = (query: string, limit: number = 15) => {
-    const [items, setItems] = useState<ArchiveItemSummary[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  const [items, setItems] = useState<ArchiveItemSummary[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    const fetchItems = useCallback(async () => {
-        if (!query) {
-            setIsLoading(false);
-            return;
-        }
-        setIsLoading(true);
-        setError(null);
-        try {
-            // Fetch top `limit` most downloaded items matching the query
-            const data = await searchArchive(query, 1, ['-downloads'], undefined, limit);
-            setItems(data.response?.docs || []);
-        } catch (err) {
-            console.error(`Failed to fetch archival items for query: ${query}`, err);
-            setError('Failed to fetch items.');
-        } finally {
-            setIsLoading(false);
-        }
-    }, [query, limit]);
+  const fetchItems = useCallback(async () => {
+    if (!query) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Fetch top `limit` most downloaded items matching the query
+      const data = await searchArchive(query, 1, ['-downloads'], undefined, limit);
+      setItems(data.response?.docs || []);
+    } catch (err) {
+      console.error(`Failed to fetch archival items for query: ${query}`, err);
+      setError('Failed to fetch items.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [query, limit]);
 
-    useEffect(() => {
-        fetchItems();
-    }, [fetchItems]);
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
-    return { items, isLoading, error, refetch: fetchItems };
+  return { items, isLoading, error, refetch: fetchItems };
 };

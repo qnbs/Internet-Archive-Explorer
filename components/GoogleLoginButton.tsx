@@ -10,7 +10,7 @@ export const GoogleLoginButton: React.FC = () => {
     statusRef.current?.focus();
     if (isAuthenticated) {
       const firstInteractive = document.querySelector<HTMLElement>(
-        '#main-content button, #main-content a, #main-content input, #main-content [tabindex]:not([tabindex="-1"])'
+        '#main-content button, #main-content a, #main-content input, #main-content [tabindex]:not([tabindex="-1"])',
       );
       firstInteractive?.focus();
     }

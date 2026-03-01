@@ -1,12 +1,12 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { 
-    worksetsAtom, 
-    createWorksetAtom, 
-    deleteWorksetAtom, 
-    updateWorksetNameAtom, 
-    addDocumentToWorksetAtom, 
-    removeDocumentFromWorksetAtom, 
-    updateDocumentNotesAtom 
+import {
+  worksetsAtom,
+  createWorksetAtom,
+  deleteWorksetAtom,
+  updateWorksetNameAtom,
+  addDocumentToWorksetAtom,
+  removeDocumentFromWorksetAtom,
+  updateDocumentNotesAtom,
 } from '@/store/scriptorium';
 import { useEffect, useState } from 'react';
 
@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 export const useWorksets = () => {
   const [isLoading, setIsLoading] = useState(true);
   const worksets = useAtomValue(worksetsAtom);
-  
+
   // Setters for all the actions
   const createWorkset = useSetAtom(createWorksetAtom);
   const deleteWorkset = useSetAtom(deleteWorksetAtom);

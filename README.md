@@ -108,6 +108,7 @@ npm run deploy
 ```
 
 Deploy-Pipeline:
+
 - `predeploy` → `npm run build`
 - Upload von `dist/` via `gh-pages -d dist`
 
@@ -158,6 +159,7 @@ curl -I https://qnbs.github.io/Internet-Archive-Explorer/locales/en/common.json
 Symptom: UI zeigt Keys wie `explorer:searchPlaceholder`
 
 Checks:
+
 - `https://qnbs.github.io/Internet-Archive-Explorer/locales/de/common.json` muss `200` liefern
 - Build enthält `dist/locales/de` und `dist/locales/en`
 

@@ -29,11 +29,11 @@ export const useImageViewer = (): UseImageViewerReturn => {
 
   const clampZoom = (newZoom: number) => Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
 
-  const zoomIn = useCallback(() => setZoom(prev => clampZoom(prev * 1.2)), []);
-  const zoomOut = useCallback(() => setZoom(prev => clampZoom(prev / 1.2)), []);
+  const zoomIn = useCallback(() => setZoom((prev) => clampZoom(prev * 1.2)), []);
+  const zoomOut = useCallback(() => setZoom((prev) => clampZoom(prev / 1.2)), []);
 
-  const rotateCW = useCallback(() => setRotation(prev => (prev + 90) % 360), []);
-  const rotateCCW = useCallback(() => setRotation(prev => (prev - 90 + 360) % 360), []);
+  const rotateCW = useCallback(() => setRotation((prev) => (prev + 90) % 360), []);
+  const rotateCCW = useCallback(() => setRotation((prev) => (prev - 90 + 360) % 360), []);
 
   const reset = useCallback(() => {
     setZoom(1);
@@ -41,46 +41,55 @@ export const useImageViewer = (): UseImageViewerReturn => {
     setOffset({ x: 0, y: 0 });
   }, []);
 
-  const handleMouseDown = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setDragStart({
-      x: e.clientX - offset.x,
-      y: e.clientY - offset.y,
-    });
-  }, [offset]);
+  const handleMouseDown = useCallback(
+    (e: ReactMouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - offset.x,
+        y: e.clientY - offset.y,
+      });
+    },
+    [offset],
+  );
 
-  const handleMouseMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    setOffset({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y,
-    });
-  }, [isDragging, dragStart]);
+  const handleMouseMove = useCallback(
+    (e: ReactMouseEvent<HTMLDivElement>) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      setOffset({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    },
+    [isDragging, dragStart],
+  );
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
   }, []);
 
-  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const { clientX, clientY, deltaY } = e;
-    const rect = e.currentTarget.getBoundingClientRect();
-    
-    const newZoom = clampZoom(zoom - deltaY * ZOOM_SENSITIVITY * zoom);
-    
-    // Calculate the mouse position relative to the image container
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+  const handleWheel = useCallback(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const { clientX, clientY, deltaY } = e;
+      const rect = e.currentTarget.getBoundingClientRect();
 
-    // Calculate the offset adjustment needed to keep the point under the cursor stationary
-    const newOffsetX = x - (x - offset.x) * (newZoom / zoom);
-    const newOffsetY = y - (y - offset.y) * (newZoom / zoom);
+      const newZoom = clampZoom(zoom - deltaY * ZOOM_SENSITIVITY * zoom);
 
-    setZoom(newZoom);
-    setOffset({ x: newOffsetX, y: newOffsetY });
-  }, [zoom, offset]);
+      // Calculate the mouse position relative to the image container
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      // Calculate the offset adjustment needed to keep the point under the cursor stationary
+      const newOffsetX = x - (x - offset.x) * (newZoom / zoom);
+      const newOffsetY = y - (y - offset.y) * (newZoom / zoom);
+
+      setZoom(newZoom);
+      setOffset({ x: newOffsetX, y: newOffsetY });
+    },
+    [zoom, offset],
+  );
 
   return {
     zoom,

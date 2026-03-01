@@ -1,20 +1,19 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { 
-    activeViewAtom, 
-    modalAtom,
-    defaultSettings,
-    deferredPromptAtom,
-    isAppInstalledAtom,
-    toastAtom,
-    selectedProfileAtom,
-    profileReturnViewAtom,
-    waitingWorkerAtom,
-    playlistAtom,
+import {
+  activeViewAtom,
+  modalAtom,
+  defaultSettings,
+  deferredPromptAtom,
+  isAppInstalledAtom,
+  toastAtom,
+  selectedProfileAtom,
+  profileReturnViewAtom,
+  waitingWorkerAtom,
+  playlistAtom,
 } from './store';
 import type { View, Profile, ConfirmationOptions, AppSettings } from './types';
 import type { BeforeInstallPromptEvent } from './store/pwa';
-
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
@@ -29,7 +28,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { ModalManager } from './components/ModalManager';
 import { Spinner } from './components/Spinner';
 import { AppearanceManager } from './components/AppearanceManager';
-
 
 // Hooks
 import { useNavigation } from './hooks/useNavigation';
@@ -54,26 +52,25 @@ const UpdateNotification = React.lazy(() => import('./components/UpdateNotificat
 const AudioPlayer = React.lazy(() => import('./components/audiothek/AudioPlayer'));
 const InstallBanner = React.lazy(() => import('./components/InstallBanner'));
 
-
 const PageSpinner: React.FC = () => (
-    <div className="flex justify-center items-center h-full pt-20">
-        <Spinner size="lg" />
-    </div>
+  <div className="flex justify-center items-center h-full pt-20">
+    <Spinner size="lg" />
+  </div>
 );
 
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {
-    const { addToast } = useToast();
-    const [toast, setToast] = useAtom(toastAtom); 
-    
-    useEffect(() => {
-        if (toast) {
-            addToast(toast.message, toast.type);
-            setToast(null);
-        }
-    }, [toast, addToast, setToast]);
+  const { addToast } = useToast();
+  const [toast, setToast] = useAtom(toastAtom);
 
-    return null;
+  useEffect(() => {
+    if (toast) {
+      addToast(toast.message, toast.type);
+      setToast(null);
+    }
+  }, [toast, addToast, setToast]);
+
+  return null;
 };
 
 const AppContent: React.FC = () => {
@@ -85,10 +82,10 @@ const AppContent: React.FC = () => {
   const [isAppInstalled, setIsAppInstalled] = useAtom(isAppInstalledAtom);
   const [waitingWorker, setWaitingWorker] = useAtom(waitingWorkerAtom);
   const [playlist] = useAtom(playlistAtom);
-  
+
   const { navigateTo, goBackFromProfile } = useNavigation();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  
+
   // Dynamically adjust main content padding to account for the persistent audio player
   const mainContentPadding = playlist.length > 0 ? 'pb-44 md:pb-20' : 'pb-24 md:pb-6';
 
@@ -104,7 +101,7 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewFromUrl = urlParams.get('view') as View;
-    
+
     if (viewFromUrl) {
       // Special handling for Web Share Target API
       if (viewFromUrl === 'webArchive' && urlParams.has('url')) {
@@ -119,90 +116,113 @@ const AppContent: React.FC = () => {
       const storedSettings = localStorage.getItem('app-settings-v2');
       let initialView: View;
       if (!storedSettings) {
-          initialView = defaultSettings.defaultView;
+        initialView = defaultSettings.defaultView;
       } else {
-          const settings: Partial<AppSettings> = JSON.parse(storedSettings);
-          initialView = settings.defaultView || defaultSettings.defaultView;
+        const settings: Partial<AppSettings> = JSON.parse(storedSettings);
+        initialView = settings.defaultView || defaultSettings.defaultView;
       }
       setActiveView(initialView);
     }
-    
+
     // Check initial PWA installation state
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsAppInstalled(isStandalone);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Effect for PWA installation management
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
-        e.preventDefault();
-        setDeferredPrompt(e as BeforeInstallPromptEvent);
-        setIsAppInstalled(false);
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      setIsAppInstalled(false);
     };
-    
+
     const handleAppInstalled = () => {
-        setDeferredPrompt(null);
-        setIsAppInstalled(true);
+      setDeferredPrompt(null);
+      setIsAppInstalled(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
-        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        window.removeEventListener('appinstalled', handleAppInstalled);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, [setDeferredPrompt, setIsAppInstalled]);
-  
+
   // Effect for PWA update management
   useEffect(() => {
-      const handleUpdateReady = () => {
-          if (window.waitingServiceWorker) {
-              setWaitingWorker(window.waitingServiceWorker);
-          }
-      };
+    const handleUpdateReady = () => {
+      if (window.waitingServiceWorker) {
+        setWaitingWorker(window.waitingServiceWorker);
+      }
+    };
 
-        window.addEventListener('swUpdateReady', handleUpdateReady as EventListener);
+    window.addEventListener('swUpdateReady', handleUpdateReady as EventListener);
 
-      return () => {
-          window.removeEventListener('swUpdateReady', handleUpdateReady as EventListener);
-      };
+    return () => {
+      window.removeEventListener('swUpdateReady', handleUpdateReady as EventListener);
+    };
   }, [setWaitingWorker]);
 
   const handleUpdate = () => {
-      if (waitingWorker) {
-          waitingWorker.postMessage({ type: 'SKIP_WAITING' });
-          // The 'controllerchange' listener in index.html will handle the reload
-          setWaitingWorker(null);
-      }
+    if (waitingWorker) {
+      waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+      // The 'controllerchange' listener in index.html will handle the reload
+      setWaitingWorker(null);
+    }
   };
 
   const openCommandPalette = useCallback(() => setModal({ type: 'commandPalette' }), [setModal]);
 
-  const showConfirmation = useCallback((options: ConfirmationOptions) => {
-    setModal({ type: 'confirmation', options });
-  }, [setModal]);
-  
+  const showConfirmation = useCallback(
+    (options: ConfirmationOptions) => {
+      setModal({ type: 'confirmation', options });
+    },
+    [setModal],
+  );
+
   const renderView = () => {
     switch (activeView) {
-      case 'explore': return <ExplorerView />;
-      case 'library': return <LibraryView />;
-      case 'scriptorium': return <ScriptoriumView showConfirmation={showConfirmation} />;
-      case 'recroom': return <RecRoomView />;
-      case 'movies': return <VideothekView />;
-      case 'audio': return <AudiothekView />;
-      case 'image': return <ImagesHubView />;
-      case 'uploaderHub': return <UploaderHubView />;
+      case 'explore':
+        return <ExplorerView />;
+      case 'library':
+        return <LibraryView />;
+      case 'scriptorium':
+        return <ScriptoriumView showConfirmation={showConfirmation} />;
+      case 'recroom':
+        return <RecRoomView />;
+      case 'movies':
+        return <VideothekView />;
+      case 'audio':
+        return <AudiothekView />;
+      case 'image':
+        return <ImagesHubView />;
+      case 'uploaderHub':
+        return <UploaderHubView />;
       case 'uploaderDetail':
         if (!selectedProfile) return <ExplorerView />;
-        return <UploaderDetailView profile={selectedProfile} onBack={goBackFromProfile} returnView={profileReturnView} />;
-      case 'settings': return <SettingsView showConfirmation={showConfirmation}/>;
-      case 'help': return <HelpView />;
-      case 'storyteller': return <StorytellerView />;
-      case 'myArchive': return <MyArchiveView />;
-      case 'aiArchive': return <AIArchiveView />;
-      case 'webArchive': return <WebArchiveView />;
+        return (
+          <UploaderDetailView
+            profile={selectedProfile}
+            onBack={goBackFromProfile}
+            returnView={profileReturnView}
+          />
+        );
+      case 'settings':
+        return <SettingsView showConfirmation={showConfirmation} />;
+      case 'help':
+        return <HelpView />;
+      case 'storyteller':
+        return <StorytellerView />;
+      case 'myArchive':
+        return <MyArchiveView />;
+      case 'aiArchive':
+        return <AIArchiveView />;
+      case 'webArchive':
+        return <WebArchiveView />;
       default:
         return <ExplorerView />;
     }
@@ -217,26 +237,27 @@ const AppContent: React.FC = () => {
         activeView={activeView}
         setActiveView={navigateTo}
       />
-      <Header onMenuClick={() => setIsSideMenuOpen(true)} onOpenCommandPalette={openCommandPalette} />
-      
+      <Header
+        onMenuClick={() => setIsSideMenuOpen(true)}
+        onOpenCommandPalette={openCommandPalette}
+      />
+
       <main className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
-         <ErrorBoundary>
-            <Suspense fallback={<PageSpinner />}>
-                {renderView()}
-            </Suspense>
-         </ErrorBoundary>
+        <ErrorBoundary>
+          <Suspense fallback={<PageSpinner />}>{renderView()}</Suspense>
+        </ErrorBoundary>
       </main>
 
       <Suspense fallback={null}>
-          <InstallBanner deferredPrompt={deferredPrompt} isAppInstalled={isAppInstalled} />
-          <UpdateNotification waitingWorker={waitingWorker} onUpdate={handleUpdate} />
-          {playlist.length > 0 && <AudioPlayer />}
+        <InstallBanner deferredPrompt={deferredPrompt} isAppInstalled={isAppInstalled} />
+        <UpdateNotification waitingWorker={waitingWorker} onUpdate={handleUpdate} />
+        {playlist.length > 0 && <AudioPlayer />}
       </Suspense>
       <BottomNav activeView={activeView} setActiveView={navigateTo} />
       <ModalManager />
     </div>
   );
-}
+};
 
 const App = () => (
   <ToastProvider>

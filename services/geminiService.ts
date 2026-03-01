@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type } from '@google/genai';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 import { clearStoredOAuthToken, getValidAccessToken } from '@/services/geminiAuthStorage';
 import type {
@@ -7,6 +7,10 @@ import type {
   ImageAnalysisResult,
   MagicOrganizeResult,
   ArchiveItemSummary,
+  GeminiApiResponse,
+  GeminiContent,
+  GeminiGenerateParams,
+  GeminiPart,
 } from '@/types';
 
 const MODELS = {
@@ -22,7 +26,7 @@ let lastRequestTs = 0;
 let aiClient: GoogleGenAI | null = null;
 let aiClientKey = '';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const extractJson = (text: string): string => {
   if (!text) return '{}';
@@ -59,7 +63,7 @@ const extractJson = (text: string): string => {
   return text;
 };
 
-const normalizeContents = (contents: any) => {
+const normalizeContents = (contents: GeminiGenerateParams['contents']): GeminiContent[] => {
   if (typeof contents === 'string') {
     return [{ role: 'user', parts: [{ text: contents }] }];
   }
@@ -75,10 +79,10 @@ const normalizeContents = (contents: any) => {
   return [{ role: 'user', parts: [{ text: String(contents ?? '') }] }];
 };
 
-const parseGeminiText = (responseJson: any): string => {
+const parseGeminiText = (responseJson: GeminiApiResponse): string => {
   const parts = responseJson?.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return '';
-  return parts.map((part: any) => part?.text ?? '').join('');
+  return parts.map((part: GeminiPart) => part?.text ?? '').join('');
 };
 
 const getApiKey = (): string => {
@@ -89,7 +93,8 @@ const getApiKey = (): string => {
     sessionStorage.setItem('gemini_api_key', legacyLocalKey);
     localStorage.removeItem('gemini_api_key');
   }
-  const envKey = (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env?.VITE_API_KEY || '';
+  const envKey =
+    (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env?.VITE_API_KEY || '';
   return sessionKey || legacyLocalKey || envKey;
 };
 
@@ -109,7 +114,10 @@ const getAiClient = (): GoogleGenAI => {
   return aiClient;
 };
 
-export async function generateContent(params: any, accessToken?: string): Promise<string> {
+export async function generateContent(
+  params: GeminiGenerateParams,
+  accessToken?: string,
+): Promise<string> {
   const sinceLast = Date.now() - lastRequestTs;
   if (sinceLast < MIN_REQUEST_INTERVAL_MS) {
     await sleep(MIN_REQUEST_INTERVAL_MS - sinceLast);
@@ -156,7 +164,7 @@ export async function generateContent(params: any, accessToken?: string): Promis
           },
           body: JSON.stringify(body),
         },
-        REQUEST_TIMEOUT_MS
+        REQUEST_TIMEOUT_MS,
       );
 
       if (response.status === 401 || response.status === 403) {
@@ -174,7 +182,7 @@ export async function generateContent(params: any, accessToken?: string): Promis
         throw new Error('Gemini-Aufruf fehlgeschlagen.');
       }
 
-      const json = await response.json();
+      const json = (await response.json()) as GeminiApiResponse;
       const text = parseGeminiText(json);
       if (!text) {
         throw new Error('Leere Antwort von Gemini.');
@@ -195,7 +203,7 @@ export async function generateContent(params: any, accessToken?: string): Promis
   return text.trim();
 }
 
-const generateContentHelper = async (params: any, isJson: boolean = false) => {
+const generateContentHelper = async (params: GeminiGenerateParams, isJson: boolean = false) => {
   try {
     const text = await generateContent(params);
     return isJson ? extractJson(text) : text;
@@ -214,7 +222,7 @@ const generateContentHelper = async (params: any, isJson: boolean = false) => {
 export const getSummary = async (
   textContent: string,
   language: Language,
-  tone: 'simple' | 'detailed' | 'academic'
+  tone: 'simple' | 'detailed' | 'academic',
 ): Promise<string> => {
   const tones = {
     simple: 'Provide a brief, easy-to-understand summary, suitable for a general audience.',
@@ -231,16 +239,35 @@ export const getSummary = async (
   });
 };
 
-export const extractEntities = async (textContent: string, language: Language): Promise<ExtractedEntities> => {
+export const extractEntities = async (
+  textContent: string,
+  language: Language,
+): Promise<ExtractedEntities> => {
   const systemInstruction = `You are an entity extraction expert. Analyze the text and identify key people, places, organizations, and dates. Respond only with a valid JSON object. The response must be in ${language}.`;
 
   const responseSchema = {
     type: Type.OBJECT,
     properties: {
-      people: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'List of names of people mentioned.' },
-      places: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'List of cities, countries, or specific locations.' },
-      organizations: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'List of companies, institutions, or groups.' },
-      dates: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'List of specific dates or time periods.' },
+      people: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'List of names of people mentioned.',
+      },
+      places: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'List of cities, countries, or specific locations.',
+      },
+      organizations: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'List of companies, institutions, or groups.',
+      },
+      dates: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'List of specific dates or time periods.',
+      },
     },
     required: ['people', 'places', 'organizations', 'dates'],
   };
@@ -255,7 +282,7 @@ export const extractEntities = async (textContent: string, language: Language): 
         responseSchema,
       },
     },
-    true
+    true,
   );
 
   try {
@@ -265,7 +292,11 @@ export const extractEntities = async (textContent: string, language: Language): 
   }
 };
 
-export const answerFromText = async (question: string, context: string, language: Language): Promise<string> => {
+export const answerFromText = async (
+  question: string,
+  context: string,
+  language: Language,
+): Promise<string> => {
   const systemInstruction = `You are a helpful assistant. Answer the user's question based *only* on the provided text context. If the answer is not in the text, say so. Respond in ${language}.`;
   const prompt = `CONTEXT:\n---\n${context}\n---\n\nQUESTION: ${question}`;
 
@@ -290,7 +321,7 @@ const generateInsightFromTitles = async (
   titles: string[],
   language: Language,
   topic: string,
-  instruction: string
+  instruction: string,
 ): Promise<string> => {
   const systemInstruction = `You are an expert in ${topic}. Based on the following list of titles, generate ${instruction}. The response should be a single, concise paragraph in ${language}.`;
   const prompt = `TITLES:\n- ${titles.join('\n- ')}`;
@@ -307,7 +338,7 @@ export const generateDailyHistoricalEvent = (titles: string[], language: Languag
     titles,
     language,
     'history',
-    'a plausible historical event or trend that connects some of these items for "On This Day in History"'
+    'a plausible historical event or trend that connects some of these items for "On This Day in History"',
   );
 
 export const generateRetroGamingNote = (titles: string[], language: Language) =>
@@ -315,7 +346,7 @@ export const generateRetroGamingNote = (titles: string[], language: Language) =>
     titles,
     language,
     'retro gaming',
-    'a compelling note about the significance or shared history of some of these classic games'
+    'a compelling note about the significance or shared history of some of these classic games',
   );
 
 export const generateMuseumExhibitConcept = (titles: string[], language: Language) =>
@@ -323,7 +354,7 @@ export const generateMuseumExhibitConcept = (titles: string[], language: Languag
     titles,
     language,
     'museum curation',
-    'a creative concept for a museum exhibit that connects some of these images or artworks'
+    'a creative concept for a museum exhibit that connects some of these images or artworks',
   );
 
 export const generateFilmDoubleFeatureConcept = (titles: string[], language: Language) =>
@@ -331,7 +362,7 @@ export const generateFilmDoubleFeatureConcept = (titles: string[], language: Lan
     titles,
     language,
     'film history',
-    'an interesting "double feature" pairing from these films and explain the thematic connection'
+    'an interesting "double feature" pairing from these films and explain the thematic connection',
   );
 
 export const generateRadioShowConcept = (titles: string[], language: Language) =>
@@ -339,13 +370,13 @@ export const generateRadioShowConcept = (titles: string[], language: Language) =
     titles,
     language,
     'radio programming',
-    'a concept for a radio show block or segment that incorporates some of these audio titles'
+    'a concept for a radio show block or segment that incorporates some of these audio titles',
   );
 
 export const analyzeImage = async (
   base64Data: string,
   mimeType: string,
-  language: Language
+  language: Language,
 ): Promise<ImageAnalysisResult> => {
   const systemInstruction = `Analyze the image and provide a one-sentence description and a list of relevant tags. Respond only with a valid JSON object. The response must be in ${language}.`;
   const textPart = { text: 'Describe this image and provide relevant tags.' };
@@ -354,8 +385,15 @@ export const analyzeImage = async (
   const responseSchema = {
     type: Type.OBJECT,
     properties: {
-      description: { type: Type.STRING, description: 'A single-sentence description of the image.' },
-      tags: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'A list of 5-10 relevant tags.' },
+      description: {
+        type: Type.STRING,
+        description: 'A single-sentence description of the image.',
+      },
+      tags: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'A list of 5-10 relevant tags.',
+      },
     },
     required: ['description', 'tags'],
   };
@@ -370,7 +408,7 @@ export const analyzeImage = async (
         responseSchema,
       },
     },
-    true
+    true,
   );
 
   try {
@@ -384,7 +422,7 @@ export const askAboutImage = async (
   base64Data: string,
   mimeType: string,
   question: string,
-  language: Language
+  language: Language,
 ): Promise<string> => {
   const systemInstruction = `You are a helpful assistant answering questions about an image. Respond in ${language}.`;
   const textPart = { text: question };
@@ -399,18 +437,28 @@ export const askAboutImage = async (
 
 export const organizeLibraryItems = async (
   items: { title: string; description?: string }[],
-  language: Language
+  language: Language,
 ): Promise<MagicOrganizeResult> => {
   const systemInstruction = `You are a library organization expert. Based on the list of item titles and descriptions, suggest relevant tags and collection names. Provide a maximum of 5 tags and 3 collections. Respond only with a valid JSON object. The response must be in ${language}.`;
 
-  const itemList = items.map(item => `- ${item.title}${item.description ? ` (${item.description})` : ''}`).join('\n');
+  const itemList = items
+    .map((item) => `- ${item.title}${item.description ? ` (${item.description})` : ''}`)
+    .join('\n');
   const prompt = `Organize these items:\n${itemList}`;
 
   const responseSchema = {
     type: Type.OBJECT,
     properties: {
-      tags: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'A list of suggested tags.' },
-      collections: { type: Type.ARRAY, items: { type: Type.STRING }, description: 'A list of suggested collection names.' },
+      tags: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'A list of suggested tags.',
+      },
+      collections: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+        description: 'A list of suggested collection names.',
+      },
     },
     required: ['tags', 'collections'],
   };
@@ -425,7 +473,7 @@ export const organizeLibraryItems = async (
         responseSchema,
       },
     },
-    true
+    true,
   );
 
   try {

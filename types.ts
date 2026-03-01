@@ -3,6 +3,7 @@ import React from 'react';
 declare global {
   interface Window {
     waitingServiceWorker?: ServiceWorker;
+    MSStream?: unknown;
   }
 }
 
@@ -43,26 +44,26 @@ export interface ConfirmationOptions {
 }
 
 export interface Command {
-    id: string;
-    section: string;
-    label: string;
-    description?: string;
-    icon?: React.ReactNode;
-    action: () => void;
-    keywords?: string;
+  id: string;
+  section: string;
+  label: string;
+  description?: string;
+  icon?: React.ReactNode;
+  action: () => void;
+  keywords?: string;
 }
 
 // --- Archive.org API Types ---
 
 export enum MediaType {
-    Audio = 'audio',
-    Movies = 'movies',
-    Texts = 'texts',
-    Image = 'image',
-    Software = 'software',
-    Collection = 'collection',
-    Data = 'data',
-    Web = 'web',
+  Audio = 'audio',
+  Movies = 'movies',
+  Texts = 'texts',
+  Image = 'image',
+  Software = 'software',
+  Collection = 'collection',
+  Data = 'data',
+  Web = 'web',
 }
 
 export interface ArchiveItemSummary {
@@ -92,40 +93,40 @@ export interface ArchiveSearchResponse {
 }
 
 export interface ArchiveFile {
-    name: string;
-    source: string;
-    format: string;
-    size?: string;
-    length?: string;
+  name: string;
+  source: string;
+  format: string;
+  size?: string;
+  length?: string;
 }
 
 export interface ArchiveMetadata {
-    metadata: {
-        identifier: string;
-        title: string;
-        creator?: string | string[];
-        uploader?: string;
-        publicdate: string;
-        mediatype: MediaType;
-        description?: string | string[];
-        licenseurl?: string;
-        collection?: string[];
-        'access-restricted-item'?: 'true' | 'false';
+  metadata: {
+    identifier: string;
+    title: string;
+    creator?: string | string[];
+    uploader?: string;
+    publicdate: string;
+    mediatype: MediaType;
+    description?: string | string[];
+    licenseurl?: string;
+    collection?: string[];
+    'access-restricted-item'?: 'true' | 'false';
+  };
+  files: ArchiveFile[];
+  reviews?: {
+    reviewtitle?: string;
+    reviewbody?: string;
+    stars?: string;
+    reviewdate?: string;
+    reviewer?: string;
+  }[];
+  similars?: {
+    [key: string]: {
+      count: number;
+      items: ArchiveItemSummary[];
     };
-    files: ArchiveFile[];
-    reviews?: {
-        reviewtitle?: string;
-        reviewbody?: string;
-        stars?: string;
-        reviewdate?: string;
-        reviewer?: string;
-    }[];
-    similars?: {
-        [key: string]: {
-            count: number;
-            items: ArchiveItemSummary[];
-        }
-    };
+  };
 }
 
 export type WaybackResponse = [string, string][];
@@ -133,26 +134,39 @@ export type WaybackResponse = [string, string][];
 // --- Application-Specific Types ---
 
 export interface LibraryItem extends ArchiveItemSummary {
-    notes: string;
-    tags: string[];
-    addedAt: number;
-    collections: string[];
+  notes: string;
+  tags: string[];
+  addedAt: number;
+  collections: string[];
 }
 
 export interface WorksetDocument extends ArchiveItemSummary {
-    notes: string;
-    worksetId: string;
+  notes: string;
+  worksetId: string;
 }
 
 export interface Workset {
-    id: string;
-    name: string;
-    documents: WorksetDocument[];
+  id: string;
+  name: string;
+  documents: WorksetDocument[];
 }
 
-export type UploaderTab = 'uploads' | 'collections' | 'favorites' | 'reviews' | 'posts' | 'webArchive';
+export type UploaderTab =
+  | 'uploads'
+  | 'collections'
+  | 'favorites'
+  | 'reviews'
+  | 'posts'
+  | 'webArchive';
 
-export type UploaderCategory = 'archivist' | 'institution' | 'music' | 'community' | 'software' | 'video' | 'history';
+export type UploaderCategory =
+  | 'archivist'
+  | 'institution'
+  | 'music'
+  | 'community'
+  | 'software'
+  | 'video'
+  | 'history';
 
 export interface Uploader {
   username: string;
@@ -165,15 +179,15 @@ export interface Uploader {
 }
 
 export interface UploaderStats {
-    total: number;
-    movies: number;
-    audio: number;
-    texts: number;
-    image: number;
-    software: number;
-    collections: number;
-    favorites: number;
-    reviews: number;
+  total: number;
+  movies: number;
+  audio: number;
+  texts: number;
+  image: number;
+  software: number;
+  collections: number;
+  favorites: number;
+  reviews: number;
 }
 export interface Profile {
   name: string;
@@ -188,63 +202,62 @@ export type Language = 'en' | 'de';
 export type AccentColor = 'cyan' | 'emerald' | 'rose' | 'violet';
 
 export interface AppSettings {
-    // Search & Discovery
-    resultsPerPage: number;
-    showExplorerHub: boolean;
-    defaultSort: 'downloads' | 'week' | 'publicdate';
-    rememberFilters: boolean;
-    rememberSort: boolean;
-    
-    // Appearance
-    layoutDensity: 'comfortable' | 'compact';
-    disableAnimations: boolean;
-    accentColor: AccentColor;
+  // Search & Discovery
+  resultsPerPage: number;
+  showExplorerHub: boolean;
+  defaultSort: 'downloads' | 'week' | 'publicdate';
+  rememberFilters: boolean;
+  rememberSort: boolean;
 
-    // Content & Hubs
-    defaultView: View;
-    defaultUploaderDetailTab: UploaderTab;
-    defaultDetailTabAll: 'description' | 'files' | 'related';
-    openLinksInNewTab: boolean;
-    autoplayMedia: boolean;
+  // Appearance
+  layoutDensity: 'comfortable' | 'compact';
+  disableAnimations: boolean;
+  accentColor: AccentColor;
 
-    // AI Features
-    enableAiFeatures: boolean;
-    autoArchiveAI: boolean;
-    defaultAiTab: 'description' | 'ai';
-    autoRunEntityExtraction: boolean;
-    summaryTone: 'simple' | 'detailed' | 'academic';
+  // Content & Hubs
+  defaultView: View;
+  defaultUploaderDetailTab: UploaderTab;
+  defaultDetailTabAll: 'description' | 'files' | 'related';
+  openLinksInNewTab: boolean;
+  autoplayMedia: boolean;
 
-    // Accessibility
-    highContrastMode: boolean;
-    underlineLinks: boolean;
-    fontSize: 'sm' | 'base' | 'lg';
-    scrollbarColor: string;
+  // AI Features
+  enableAiFeatures: boolean;
+  autoArchiveAI: boolean;
+  defaultAiTab: 'description' | 'ai';
+  autoRunEntityExtraction: boolean;
+  summaryTone: 'simple' | 'detailed' | 'academic';
+
+  // Accessibility
+  highContrastMode: boolean;
+  underlineLinks: boolean;
+  fontSize: 'sm' | 'base' | 'lg';
+  scrollbarColor: string;
 }
 
 export interface CategoryContent {
-    title: string;
-    description: string;
-    collectionUrl?: string;
-    contributors?: { name: string; role: string }[];
+  title: string;
+  description: string;
+  collectionUrl?: string;
+  contributors?: { name: string; role: string }[];
 }
-
 
 export type Availability = 'all' | 'free' | 'borrowable';
 
 export interface Facets {
-    mediaType: Set<MediaType>;
-    yearStart?: number;
-    yearEnd?: number;
-    collection?: string;
-    availability: Availability;
-    language?: string;
+  mediaType: Set<MediaType>;
+  yearStart?: number;
+  yearEnd?: number;
+  collection?: string;
+  availability: Availability;
+  language?: string;
 }
 
 export interface ExtractedEntities {
-    people: string[];
-    places: string[];
-    organizations: string[];
-    dates: string[];
+  people: string[];
+  places: string[];
+  organizations: string[];
+  dates: string[];
 }
 
 export interface ImageAnalysisResult {
@@ -252,23 +265,22 @@ export interface ImageAnalysisResult {
   tags: string[];
 }
 export interface MagicOrganizeResult {
-    tags: string[];
-    collections: string[];
+  tags: string[];
+  collections: string[];
 }
 
-
 export enum AIGenerationType {
-    Summary = 'summary',
-    Entities = 'entities',
-    ImageAnalysis = 'imageAnalysis',
-    DailyInsight = 'dailyInsight',
-    Story = 'story',
-    Answer = 'answer',
-    MagicOrganize = 'magicOrganize',
-    MoviesInsight = 'moviesInsight',
-    AudioInsight = 'audioInsight',
-    ImagesInsight = 'imagesInsight',
-    RecRoomInsight = 'recRoomInsight',
+  Summary = 'summary',
+  Entities = 'entities',
+  ImageAnalysis = 'imageAnalysis',
+  DailyInsight = 'dailyInsight',
+  Story = 'story',
+  Answer = 'answer',
+  MagicOrganize = 'magicOrganize',
+  MoviesInsight = 'moviesInsight',
+  AudioInsight = 'audioInsight',
+  ImagesInsight = 'imagesInsight',
+  RecRoomInsight = 'recRoomInsight',
 }
 
 export interface AIArchiveEntry {
@@ -293,9 +305,9 @@ export type LibraryFilter =
   | { type: 'mediaType'; mediaType: MediaType };
 
 export interface UserCollection {
-    id: string;
-    name: string;
-    itemIdentifiers: string[];
+  id: string;
+  name: string;
+  itemIdentifiers: string[];
 }
 
 export type AIArchiveFilter =
@@ -303,10 +315,69 @@ export type AIArchiveFilter =
   | { type: 'generation'; generationType: AIGenerationType }
   | { type: 'language'; language: Language }
   | { type: 'tag'; tag: string };
-  
+
 export type AIArchiveSortOption = 'timestamp_desc' | 'timestamp_asc' | 'type_asc';
 
 export interface PlayableTrack extends ArchiveItemSummary {
   playableUrl: string;
   duration?: string;
+}
+
+export interface GeminiInlineData {
+  data: string;
+  mimeType: string;
+}
+
+export interface GeminiPart {
+  text?: string;
+  inlineData?: GeminiInlineData;
+}
+
+export interface GeminiContent {
+  role?: 'user' | 'model' | 'system';
+  parts: GeminiPart[];
+}
+
+export interface GeminiSystemInstruction {
+  parts: GeminiPart[];
+}
+
+export interface GeminiGenerationConfig {
+  systemInstruction?: string | GeminiSystemInstruction;
+  responseMimeType?: string;
+  responseSchema?: unknown;
+  temperature?: number;
+  topP?: number;
+  topK?: number;
+  maxOutputTokens?: number;
+}
+
+export interface GeminiGenerateParams {
+  model: string;
+  contents: string | GeminiContent[] | { parts: GeminiPart[] };
+  config?: GeminiGenerationConfig;
+}
+
+export interface GeminiApiResponse {
+  candidates?: Array<{
+    content?: {
+      parts?: GeminiPart[];
+    };
+  }>;
+}
+
+export interface HelpQuestionRef {
+  q: string;
+  a: string;
+}
+
+export interface HelpTopicTranslation {
+  id: string;
+  icon: string;
+  questions: HelpQuestionRef[];
+}
+
+export interface HelpTranslationNamespace {
+  topics: HelpTopicTranslation[];
+  [key: string]: unknown;
 }

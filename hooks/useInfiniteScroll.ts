@@ -1,4 +1,3 @@
-
 import React, { useRef, useCallback } from 'react';
 
 interface UseInfiniteScrollOptions {
@@ -31,12 +30,12 @@ export const useInfiniteScroll = ({
             onLoadMore();
           }
         },
-        { root, rootMargin, threshold }
+        { root, rootMargin, threshold },
       );
 
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore, onLoadMore, root, rootMargin, threshold]
+    [isLoading, hasMore, onLoadMore, root, rootMargin, threshold],
   );
 
   return lastElementRef;

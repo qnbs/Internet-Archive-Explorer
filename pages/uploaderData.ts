@@ -7,7 +7,7 @@ export const UPLOADER_CATEGORIES: UploaderCategory[] = [
   'community',
   'software',
   'video',
-  'history'
+  'history',
 ];
 
 export const UPLOADER_DATA: Uploader[] = [
@@ -53,5 +53,5 @@ export const UPLOADER_DATA: Uploader[] = [
     searchUploader: 'librivox-api@archive.org',
     descriptionKey: 'uploaders:librivox.description',
     category: 'community',
-  }
+  },
 ];

@@ -96,7 +96,7 @@ export const useGeminiAuth = () => {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: body.toString(),
         },
-        20000
+        20000,
       );
 
       const data = (await response.json()) as TokenResponse;
@@ -111,7 +111,7 @@ export const useGeminiAuth = () => {
       sessionStorage.removeItem(OAUTH_STATE_KEY);
       scheduleAutoCleanup();
     },
-    [clientId, scheduleAutoCleanup]
+    [clientId, scheduleAutoCleanup],
   );
 
   const handleRedirect = useCallback(async () => {
@@ -143,7 +143,11 @@ export const useGeminiAuth = () => {
       clearStoredOAuthToken();
       setToken(null);
     } finally {
-      window.history.replaceState({}, document.title, `${window.location.pathname}${window.location.hash}`);
+      window.history.replaceState(
+        {},
+        document.title,
+        `${window.location.pathname}${window.location.hash}`,
+      );
       setIsLoading(false);
     }
   }, [exchangeCodeForToken]);
@@ -189,9 +193,10 @@ export const useGeminiAuth = () => {
         await fetchWithTimeout(
           `${GOOGLE_REVOKE_URL}?token=${encodeURIComponent(currentToken)}`,
           { method: 'POST' },
-          10000
+          10000,
         );
-      } catch {
+      } catch (revokeError) {
+        void revokeError;
       }
     }
   }, []);

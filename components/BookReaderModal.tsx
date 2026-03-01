@@ -15,7 +15,7 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ item, onClose 
   const [isMounted, setIsMounted] = useState(false);
   const { t } = useLanguage();
   const modalRef = useRef<HTMLDivElement>(null);
-  
+
   useModalFocusTrap({ modalRef, isOpen: isMounted, onClose });
 
   useEffect(() => {
@@ -33,7 +33,9 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ item, onClose 
       aria-labelledby="book-reader-title"
     >
       <header className="flex items-center justify-between pb-4 flex-shrink-0">
-        <h2 id="book-reader-title" className="text-xl font-bold text-white truncate pr-4">{item.title}</h2>
+        <h2 id="book-reader-title" className="text-xl font-bold text-white truncate pr-4">
+          {item.title}
+        </h2>
         <button
           onClick={onClose}
           className="text-gray-400 hover:text-white transition-colors rounded-full p-2 bg-gray-800/50 hover:bg-gray-700"
@@ -44,19 +46,19 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ item, onClose 
       </header>
       <div className="flex-grow bg-white dark:bg-gray-900 rounded-lg overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
         <div className="flex-grow w-full h-full bg-gray-800 relative">
-            {isLoading && (
-              <div className="absolute inset-0 flex flex-col justify-center items-center space-y-4">
-                <Spinner size="lg" />
-                <p className="text-gray-400">{t('common:loading')}</p>
-              </div>
-            )}
-            <iframe
-                src={embedUrl}
-                className={`w-full h-full border-0 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-                title={`Book reader for ${item.title}`}
-                onLoad={() => setIsLoading(false)}
-                allowFullScreen
-            ></iframe>
+          {isLoading && (
+            <div className="absolute inset-0 flex flex-col justify-center items-center space-y-4">
+              <Spinner size="lg" />
+              <p className="text-gray-400">{t('common:loading')}</p>
+            </div>
+          )}
+          <iframe
+            src={embedUrl}
+            className={`w-full h-full border-0 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            title={`Book reader for ${item.title}`}
+            onLoad={() => setIsLoading(false)}
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
     </div>
