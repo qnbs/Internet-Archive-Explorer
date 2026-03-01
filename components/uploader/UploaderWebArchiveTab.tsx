@@ -35,7 +35,7 @@ export const UploaderWebArchiveTab: React.FC<UploaderWebArchiveTabProps> = ({ pr
             pageNum === 1 ? data.response.docs : [...prev, ...data.response.docs],
           );
         }
-      } catch (err) {
+      } catch {
         setError(t('common:error'));
       } finally {
         setIsLoading(false);

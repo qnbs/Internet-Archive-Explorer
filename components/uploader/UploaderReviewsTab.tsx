@@ -44,7 +44,7 @@ export const UploaderReviewsTab: React.FC<UploaderReviewsTabProps> = ({ profile 
             pageNum === 1 ? data.response.docs : [...prev, ...data.response.docs],
           );
         }
-      } catch (err) {
+      } catch {
         setError(t('common:error'));
       } finally {
         setIsLoading(false);

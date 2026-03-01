@@ -12,17 +12,17 @@ export const OnThisDay: React.FC = () => {
   const searchAndGo = useSearchAndGo();
   const { t, language } = useLanguage();
 
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString(language, { day: 'numeric', month: 'long' });
+  const formattedDate = new Date().toLocaleDateString(language, { day: 'numeric', month: 'long' });
 
-  const buildOnThisDayQuery = (): string => {
+  const buildOnThisDayQuery = useCallback((): string => {
+    const today = new Date();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     const currentYear = today.getFullYear();
     const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
     const dateClauses = years.map((year) => `publicdate:${year}-${month}-${day}`);
     return `(${dateClauses.join(' OR ')})`;
-  };
+  }, []);
 
   const fetchOnThisDay = useCallback(async () => {
     setIsLoading(true);
@@ -42,7 +42,7 @@ export const OnThisDay: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [t]);
+  }, [buildOnThisDayQuery, t]);
 
   useEffect(() => {
     fetchOnThisDay();

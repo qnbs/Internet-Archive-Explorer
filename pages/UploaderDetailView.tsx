@@ -3,7 +3,6 @@ import { useAtomValue } from 'jotai';
 import { defaultUploaderDetailTabAtom } from '@/store/settings';
 import { profileSearchQueryAtom } from '@/store/search';
 import type { Profile, View, UploaderTab, MediaType } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useUploaderStats } from '@/hooks/useUploaderStats';
 import { useUploaderTabCounts } from '@/hooks/useUploaderTabCounts';
 import { useUploaderUploads } from '@/hooks/useUploaderUploads';

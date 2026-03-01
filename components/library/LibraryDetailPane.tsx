@@ -30,7 +30,7 @@ export const LibraryDetailPane: React.FC<{
   selectedItem: LibraryItem | null;
   onBack: () => void;
 }> = ({ selectedItem, onBack }) => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const setModal = useSetAtom(modalAtom);
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState<string[]>([]);

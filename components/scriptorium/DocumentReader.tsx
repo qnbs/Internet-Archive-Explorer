@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { WorksetDocument } from '@/types';
 import { getItemPlainText } from '@/services/archiveService';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -66,7 +66,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
     try {
       // User can input regex, so we handle potential errors
       regex = new RegExp(searchQuery, 'gi');
-    } catch (e) {
+    } catch {
       // Invalid regex, return original text without highlighting
       return textContent;
     }

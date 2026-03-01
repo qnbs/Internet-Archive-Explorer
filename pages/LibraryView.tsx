@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { libraryItemsAtom, userCollectionsAtom } from '@/store/favorites';
-import type { LibraryItem, LibraryFilter, MediaType } from '@/types';
+import type { LibraryItem, LibraryFilter } from '@/types';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LibrarySidebar } from '@/components/library/LibrarySidebar';
 import { LibraryDashboard } from '@/components/library/LibraryDashboard';

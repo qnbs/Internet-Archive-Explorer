@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
 import { autoArchiveAIAtom } from '@/store/settings';
-import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPersistenceService';
+import { archiveAIGeneration } from '@/services/aiPersistenceService';
 import { useLanguage } from '@/hooks/useLanguage';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { SparklesIcon } from './Icons';

@@ -6,7 +6,6 @@ import type {
   ExtractedEntities,
   ImageAnalysisResult,
   MagicOrganizeResult,
-  ArchiveItemSummary,
   GeminiApiResponse,
   GeminiContent,
   GeminiGenerateParams,

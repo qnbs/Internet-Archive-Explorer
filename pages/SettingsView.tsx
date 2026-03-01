@@ -1,10 +1,9 @@
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   settingsAtom,
   setSettingAtom,
   resetSettingsAtom,
-  themeAtom,
   languageAtom,
   clearSearchHistoryAtom,
   clearLibraryAtom,
@@ -16,7 +15,6 @@ import type { AppSettings, Language, AccentColor, View, ConfirmationOptions } fr
 import {
   DownloadIcon,
   UploadIcon,
-  SettingsIcon,
   SearchIcon,
   ImageIcon,
   SparklesIcon,
@@ -620,7 +618,7 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
             }
           },
         });
-      } catch (readError) {
+      } catch {
         addToast(t('settings:data.importErrorFile'), 'error');
       } finally {
         if (event.target) event.target.value = '';

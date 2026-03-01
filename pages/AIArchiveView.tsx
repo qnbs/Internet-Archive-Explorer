@@ -6,8 +6,8 @@ import {
   selectedAIEntryIdAtom,
   filteredAndSortedEntriesAtom,
 } from '@/store/aiArchive';
-import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '@/types';
-import { BrainIcon, FilterIcon } from '@/components/Icons';
+import type { AIArchiveFilter, AIArchiveSortOption } from '@/types';
+import { BrainIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { AIArchiveSidebar } from '@/components/ai-archive/AIArchiveSidebar';
 import { AIArchiveList } from '@/components/ai-archive/AIArchiveList';
@@ -25,7 +25,6 @@ const AIArchiveEmptyState: React.FC = () => {
 };
 
 const AIArchiveView: React.FC = () => {
-  const { t } = useLanguage();
   const allEntries = useAtomValue(aiArchiveAtom);
   const [searchQuery, setSearchQuery] = useAtom(aiArchiveSearchQueryAtom);
   const [selectedEntryId, setSelectedEntryId] = useAtom(selectedAIEntryIdAtom);

@@ -47,7 +47,7 @@ export const UploaderFavorites: React.FC<UploaderFavoritesProps> = ({ profile })
             pageNum === 1 ? data.response.docs : [...prev, ...data.response.docs],
           );
         }
-      } catch (err) {
+      } catch {
         setError(t('common:error'));
       } finally {
         setIsLoading(false);

@@ -11,7 +11,6 @@ import {
   SparklesIcon,
   TrashIcon,
   CloseIcon,
-  FilterIcon,
   SearchIcon,
 } from '@/components/Icons';
 
@@ -100,7 +99,7 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({
   filter,
   selectedItemId,
   onSelectItem,
-  onOpenFilters,
+  onOpenFilters: _onOpenFilters,
 }) => {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');

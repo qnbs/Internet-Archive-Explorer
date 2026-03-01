@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata, ArchiveFile } from '@/types';
+import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
 import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { useAtomValue } from 'jotai';
 import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '@/store/settings';

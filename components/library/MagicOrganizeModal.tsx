@@ -13,7 +13,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { CloseIcon, SparklesIcon } from '@/components/Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import type { UserCollection, MagicOrganizeResult } from '@/types';
+import type { MagicOrganizeResult } from '@/types';
 import { archiveAIGeneration } from '@/services/aiPersistenceService';
 import { addAIArchiveEntryAtom } from '@/store/aiArchive';
 import { AIGenerationType as AIGenEnum } from '@/types';

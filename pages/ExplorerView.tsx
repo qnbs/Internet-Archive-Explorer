@@ -40,7 +40,7 @@ const TrendingItems: React.FC = () => {
       const data = await searchArchive('', 1, ['-week']);
       const trendingItems = data.response?.docs.slice(0, 15) || [];
       setItems(trendingItems);
-    } catch (err) {
+    } catch {
       setError(t('common:error'));
     } finally {
       setIsLoading(false);

@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { userCollectionsAtom, addItemsToCollectionAtom } from '@/store/favorites';
 import { toastAtom } from '@/store/toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
-import { CloseIcon, CollectionIcon } from '@/components/Icons';
+import { CloseIcon } from '@/components/Icons';
 
 interface AddToCollectionModalProps {
   itemIds: string[];

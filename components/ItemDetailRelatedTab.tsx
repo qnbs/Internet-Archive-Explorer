@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
+import type { ArchiveMetadata } from '@/types';
 import { RelatedItems } from './RelatedItems';
 
 interface ItemDetailRelatedTabProps {

@@ -112,6 +112,22 @@ Deploy-Pipeline:
 - `predeploy` → `npm run build`
 - Upload von `dist/` via `gh-pages -d dist`
 
+### Automatisches Deploy via GitHub Actions
+
+Zusätzlich gibt es einen CI-Deploy-Workflow nach GitHub Pages:
+
+- `.github/workflows/deploy-pages.yml`
+- Trigger: Push auf `main` und manuell via `workflow_dispatch`
+- Build nutzt `VITE_GOOGLE_CLIENT_ID` aus GitHub Repository Secrets
+
+Einmalig im Repository setzen:
+
+1. **Settings → Secrets and variables → Actions**
+2. Neues Secret: `VITE_GOOGLE_CLIENT_ID`
+3. Wert: Deine Google OAuth Client-ID (`...apps.googleusercontent.com`)
+
+Ohne dieses Secret bricht der Deploy-Workflow bewusst mit einer klaren Fehlermeldung ab.
+
 ### Wichtige Deploy-Details
 
 - `.nojekyll` wird ausgeliefert (`public/.nojekyll`)

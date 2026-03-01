@@ -12,12 +12,11 @@ import {
   waitingWorkerAtom,
   playlistAtom,
 } from './store';
-import type { View, Profile, ConfirmationOptions, AppSettings } from './types';
+import type { View, ConfirmationOptions, AppSettings } from './types';
 import type { BeforeInstallPromptEvent } from './store/pwa';
 
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
-import { useLanguage } from './hooks/useLanguage';
 
 // Layout Components
 import { SideMenu } from './components/SideMenu';

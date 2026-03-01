@@ -11,7 +11,6 @@ import {
   MovieIcon,
   AudioIcon,
   ImageIcon,
-  UsersIcon,
   JoystickIcon,
   SettingsIcon,
   HelpIcon,
@@ -34,7 +33,7 @@ interface CommandActions {
 
 export const useCommands = (actions: CommandActions): Command[] => {
   const { t } = useLanguage();
-  const [theme, setTheme] = useAtom(themeAtom);
+  const [, setTheme] = useAtom(themeAtom);
   const [language, setLanguage] = useAtom(languageAtom);
   const resolvedTheme = useAtomValue(resolvedThemeAtom);
   const [deferredPrompt, setDeferredPrompt] = useAtom(deferredPromptAtom);

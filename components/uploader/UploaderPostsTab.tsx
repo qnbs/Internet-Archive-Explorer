@@ -35,7 +35,7 @@ export const UploaderPostsTab: React.FC<UploaderPostsTabProps> = ({ profile }) =
             pageNum === 1 ? data.response.docs : [...prev, ...data.response.docs],
           );
         }
-      } catch (err) {
+      } catch {
         setError(t('common:error'));
       } finally {
         setIsLoading(false);

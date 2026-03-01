@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Type } from '@google/genai';
 import { searchArchive } from '@/services/archiveService';
 import type { ArchiveItemSummary } from '@/types';
@@ -16,7 +16,7 @@ const getApiKey = (): string | undefined => {
 };
 
 const GameFinder: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<ArchiveItemSummary[]>([]);
   const [isLoading, setIsLoading] = useState(false);

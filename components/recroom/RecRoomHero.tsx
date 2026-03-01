@@ -3,7 +3,6 @@ import { useSetAtom } from 'jotai';
 import { selectItemAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
 import { searchArchive } from '@/services/archiveService';
-import { Spinner } from '../Spinner';
 import { useLanguage } from '@/hooks/useLanguage';
 
 export const RecRoomHero: React.FC = () => {

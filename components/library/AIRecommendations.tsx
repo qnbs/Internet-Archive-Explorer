@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
 import { SparklesIcon, BookIcon } from '@/components/Icons';
 
 const RecommendationCard: React.FC<{
@@ -27,8 +26,6 @@ const RecommendationCard: React.FC<{
 );
 
 export const AIRecommendations: React.FC = () => {
-  const { t } = useLanguage();
-
   const handleComingSoon = () => {
     alert('This AI feature is coming soon!');
   };

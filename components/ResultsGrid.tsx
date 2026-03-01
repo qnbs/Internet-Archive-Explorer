@@ -23,7 +23,6 @@ export const ResultsGrid: React.FC<ResultsGridProps> = ({
   isLoading,
   isLoadingMore,
   error,
-  hasMore,
   totalResults,
   lastElementRef,
   onRetry,

@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '@/types';
+import React, { useState, useEffect } from 'react';
 import { searchArchive, getItemCount } from '@/services/archiveService';
 import { useSearchAndGo } from '@/hooks/useSearchAndGo';
 import { useLanguage } from '@/hooks/useLanguage';
-import { SkeletonCard } from '@/components/SkeletonCard';
 import { ArtIcon, HistoryIcon, ScienceIcon } from '@/components/Icons';
 import { MediaType, AIGenerationType } from '@/types';
 import { useArchivalItems } from '@/hooks/useArchivalItems';

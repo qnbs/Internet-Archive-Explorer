@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useSetAtom } from 'jotai';
 import { deleteAIArchiveEntryAtom } from '@/store/aiArchive';
 import { modalAtom } from '@/store/app';

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { searchWaybackMachine } from '@/services/archiveService';
 import type { WaybackResponse } from '@/types';
 import { useLanguage } from '@/hooks/useLanguage';
-import { useDebounce } from '@/hooks/useDebounce';
 import { Spinner } from '@/components/Spinner';
 import { WebIcon, SearchIcon, HistoryIcon } from '@/components/Icons';
 import { useAtom } from 'jotai';
@@ -48,7 +47,7 @@ const WebArchiveView: React.FC = () => {
         // Add to history
         const fullUrl = trimmedUrl.startsWith('http') ? trimmedUrl : `https://${trimmedUrl}`;
         setHistory((prev) => [fullUrl, ...prev.filter((h) => h !== fullUrl)].slice(0, 10));
-      } catch (err) {
+      } catch {
         setError(t('webArchive:errorFetch'));
         setResults([]);
       } finally {

@@ -2,12 +2,10 @@ import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { libraryItemsAtom } from '@/store/favorites';
 import { ContentCarousel } from '../ContentCarousel';
-import { useLanguage } from '@/hooks/useLanguage';
 import { StarIcon } from '@/components/Icons';
 import type { LibraryItem } from '@/types';
 
 export const RecentlyAdded: React.FC = () => {
-  const { t } = useLanguage();
   const allItems = useAtomValue(libraryItemsAtom);
 
   const recentItems = useMemo(() => {

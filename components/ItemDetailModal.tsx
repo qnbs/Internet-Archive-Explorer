@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useId, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import type { ArchiveItemSummary } from '@/types';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-import { deferredPromptAtom, isAppInstalledAtom } from '@/store/pwa';
+import { useAtom } from 'jotai';
+import { deferredPromptAtom } from '@/store/pwa';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import {
@@ -18,10 +18,8 @@ export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   const [isMounted, setIsMounted] = useState(false);
 
   const [deferredPrompt, setDeferredPrompt] = useAtom(deferredPromptAtom);
-  const isAppInstalled = useAtomValue(isAppInstalledAtom);
 
   const isIOS = useMemo(() => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream, []);
-  const canInstall = (deferredPrompt || isIOS) && !isAppInstalled;
 
   useModalFocusTrap({ modalRef, isOpen: isMounted, onClose });
 

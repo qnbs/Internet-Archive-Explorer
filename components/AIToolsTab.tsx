@@ -10,7 +10,6 @@ import { AILoadingIndicator } from './AILoadingIndicator';
 import { Spinner } from './Spinner';
 import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
 import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-import { toastAtom } from '../store';
 
 interface AIToolsTabProps {
   item: ArchiveItemSummary;
@@ -42,7 +41,6 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({
   const autoArchive = useAtomValue(autoArchiveAIAtom);
   const aiArchive = useAtomValue(aiArchiveAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
-  const setToast = useSetAtom(toastAtom);
 
   const handleGenerateSummary = useCallback(async () => {
     if (!textContent) return;

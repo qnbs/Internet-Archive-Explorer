@@ -56,7 +56,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
     try {
       const data = await searchArchive(query, 1, ['-downloads'], undefined, 15);
       setItems(data.response?.docs || []);
-    } catch (err) {
+    } catch {
       setError(t('common:error'));
     } finally {
       setIsLoading(false);

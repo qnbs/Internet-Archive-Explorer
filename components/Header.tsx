@@ -1,12 +1,11 @@
 import React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { facetsAtom } from '@/store/search';
 import { MenuIcon, FilterIcon } from './Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { SearchPopover } from './SearchPopover';
 import { SearchBar } from './SearchBar';
-import { modalAtom } from '@/store/app';
 
 interface HeaderProps {
   onMenuClick: () => void;

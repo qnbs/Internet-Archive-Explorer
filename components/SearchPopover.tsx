@@ -34,7 +34,7 @@ const LANGUAGE_OPTIONS = [
   'Portuguese',
 ];
 
-export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose }) => {
+export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose: _onClose }) => {
   const [facets, setFacets] = useAtom(facetsAtom);
   const { t } = useLanguage();
 

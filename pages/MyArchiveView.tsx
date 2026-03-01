@@ -63,7 +63,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
         setSelectedId(name);
       }
       setStep('confirming');
-    } catch (err) {
+    } catch {
       setError(t('common:error'));
       setStep('failed');
     }

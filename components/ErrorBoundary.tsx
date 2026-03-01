@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
 import { ArchiveLogoIcon, RefreshIcon, TrashIcon } from './Icons';
 
 interface Props {

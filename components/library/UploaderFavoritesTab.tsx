@@ -7,7 +7,7 @@ import { UploaderProfileCard } from '../UploaderProfileCard';
 import { UsersIcon, SearchIcon } from '@/components/Icons';
 import { useNavigation } from '@/hooks/useNavigation';
 import { useDebounce } from '@/hooks/useDebounce';
-import type { Uploader, Profile } from '@/types';
+import type { Profile } from '@/types';
 
 export const UploaderFavoritesTab: React.FC = () => {
   const { t } = useLanguage();
