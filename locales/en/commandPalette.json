@@ -1,0 +1,32 @@
+
+{
+  "placeholder": "Type a command or search...",
+  "title": "Command Palette",
+  "sections": {
+    "navigation": "Navigation",
+    "actions": "Actions",
+    "uploaders": "Uploaders",
+    "app": "Application"
+  },
+  "nav": {
+    "exploreDesc": "Go to the main explorer page",
+    "libraryDesc": "View your saved items, collections, and notes",
+    "scriptoriumDesc": "Open your research workspace",
+    "videothekDesc": "Browse the movie collection",
+    "audiothekDesc": "Browse the audio collection",
+    "imagesDesc": "Browse the image collection",
+    "recroomDesc": "Play classic games and software",
+    "aiArchiveDesc": "View your saved AI generations",
+    "webArchiveDesc": "Open the Wayback Machine in a new tab",
+    "settingsDesc": "Change application settings",
+    "helpDesc": "View help and documentation"
+  },
+  "actions": {
+    "toggleTheme": "Toggle theme",
+    "toggleThemeDesc": "Switch between light and dark mode",
+    "toggleLanguage": "Switch language",
+    "toggleLanguageDesc": "Switch between English and German",
+    "installAppDesc": "Install this app to your device for offline access.",
+    "appInstalledDesc": "The application is already installed on your device."
+  }
+}

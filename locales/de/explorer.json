@@ -1,0 +1,29 @@
+
+{
+  "searchPlaceholder": "Das Archiv durchsuchen...",
+  "trending": "Aktuelle Trends",
+  "onThisDay": "An diesem Tag: {{date}}",
+  "quickSearch": "Schnellsuche",
+  "searches": {
+    "classicFilms": "Filmklassiker",
+    "cultFilms": "Kultfilme",
+    "tedTalks": "TED Talks",
+    "liveConcerts": "Live-Konzerte",
+    "nasaImages": "NASA-Bilder",
+    "msDosGames": "MS-DOS-Spiele",
+    "audiobooks": "Hörbücher"
+  },
+  "sortPopular": "Am beliebtesten",
+  "sortNewest": "Neueste zuerst",
+  "sortOldest": "Älteste zuerst",
+  "sortTitle": "Titel (A-Z)",
+  "aria": {
+    "sortBy": "Sortieren nach"
+  },
+  "dailyInsight": "Täglicher historischer Einblick",
+  "generatingInsight": "Einblick wird generiert...",
+  "noInsight": "Für die heutigen Trends ist kein historischer Einblick verfügbar.",
+  "errorInsight": "Einblick konnte im Moment nicht generiert werden.",
+  "generateInsightButton": "Einblick generieren",
+  "generateInsightPrompt": "Neugierig, wie die aktuellen Trend-Einträge zusammenhängen? Klicken Sie, um einen einzigartigen historischen Einblick zu generieren."
+}

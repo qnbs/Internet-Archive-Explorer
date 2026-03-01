@@ -1,0 +1,57 @@
+{
+  "added": "Zur Bibliothek hinzugefügt",
+  "removed": "Aus der Bibliothek entfernt",
+  "uploaderAdded": "Uploader gefolgt",
+  "uploaderRemoved": "Uploader nicht mehr gefolgt",
+  "noItemsTitle": "Ihre Bibliothek ist leer",
+  "noItemsDesc": "Klicken Sie auf das Sternsymbol bei einem beliebigen Eintrag, um ihn hier für später zu speichern.",
+  "sidebar": {
+    "items": "Einträge",
+    "uploaders": "Gefolgt",
+    "allItems": "Alle Einträge",
+    "untagged": "Ohne Tags",
+    "tags": "Tags",
+    "noTags": "Noch keine Tags."
+  },
+  "noFavUploaders": "Keinen Mitwirkenden gefolgt",
+  "noFavUploadersDesc": "Klicken Sie auf das Sternsymbol im Profil eines Mitwirkenden, um ihm zu folgen.",
+  "searchUploadersPlaceholder_one": "Suche in {{count}} Mitwirkendem...",
+  "searchUploadersPlaceholder_other": "Suche in {{count}} Mitwirkenden...",
+  "details": {
+    "selectItem": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
+    "tags": "Tags",
+    "addTagPlaceholder": "Tag hinzufügen & Enter drücken",
+    "notes": "Meine Notizen",
+    "notesPlaceholder": "Ihre persönlichen Notizen zu diesem Eintrag..."
+  },
+  "modals": {
+    "newCollectionTitle": "Neue Sammlung erstellen",
+    "newCollectionName": "Name der Sammlung",
+    "newCollectionPlaceholder": "z.B. 'Geschichte des Weltraumrennens'",
+    "create": "Erstellen",
+    "collectionCreated": "Sammlung '{{name}}' erstellt."
+  },
+  "bulkActions": {
+    "selected_one": "{{count}} Eintrag ausgewählt",
+    "selected_other": "{{count}} Einträge ausgewählt",
+    "addToCollection": "Zu Sammlung hinzufügen",
+    "addTags": "Tags hinzufügen",
+    "magicOrganize": "Magisch Organisieren",
+    "deleteTitle_one": "{{count}} Eintrag löschen?",
+    "deleteTitle_other": "{{count}} Einträge löschen?",
+    "deleteMessage": "Dies entfernt die ausgewählten Einträge endgültig aus Ihrer Bibliothek. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "selectCollection": "Sammlung auswählen",
+    "addedToCollection_one": "{{count}} Eintrag zu '{{collectionName}}' hinzugefügt.",
+    "addedToCollection_other": "{{count}} Einträge zu '{{collectionName}}' hinzugefügt.",
+    "addTagsPrompt": "Tags hinzufügen, getrennt durch Kommas",
+    "tagsAdded": "Tags wurden hinzugefügt."
+  },
+  "magicOrganize": {
+    "suggestedTags": "Vorgeschlagene Tags",
+    "suggestedCollections": "Vorgeschlagene Sammlungen",
+    "tagsApplied": "KI-vorgeschlagene Tags angewendet.",
+    "collectionCreated": "Einträge zur KI-vorgeschlagenen Sammlung '{{name}}' hinzugefügt."
+  },
+  "renameCollection": "Sammlung umbenennen",
+  "collectionRenamed": "Sammlung umbenannt."
+}

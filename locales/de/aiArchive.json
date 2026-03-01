@@ -1,0 +1,45 @@
+{
+  "empty": {
+    "title": "Ihr KI-Archiv ist leer",
+    "description": "Wenn Sie KI-Funktionen wie Zusammenfassungen oder Entitätenextraktion verwenden, werden Ihre Ergebnisse automatisch hier zur späteren Verwendung gespeichert."
+  },
+  "filters": {
+    "title": "Archiv filtern",
+    "all": "Alle Einträge",
+    "type": "Nach Typ",
+    "language": "Nach Sprache",
+    "sort": "Sortieren nach"
+  },
+  "sort": {
+    "newest": "Neueste zuerst",
+    "oldest": "Älteste zuerst",
+    "type": "Nach Typ"
+  },
+  "types": {
+    "summary": "Zusammenfassung",
+    "entities": "Entitäten",
+    "imageAnalysis": "Bildanalyse",
+    "dailyInsight": "Täglicher Einblick",
+    "story": "Geschichte",
+    "answer": "F&A",
+    "magicOrganize": "Organisationsvorschlag",
+    "moviesInsight": "Videothek-Einblick",
+    "audioInsight": "Audiothek-Einblick",
+    "imagesInsight": "Bilder-Hub-Einblick",
+    "recRoomInsight": "Rec-Room-Einblick"
+  },
+  "list": {
+    "title": "Generierungen"
+  },
+  "details": {
+    "select": "Wählen Sie einen Eintrag aus der Liste, um Details anzuzeigen.",
+    "deleteTitle": "Diesen Eintrag löschen?",
+    "deleteMessage": "Sind Sie sicher, dass Sie diesen KI-generierten Eintrag endgültig aus Ihrem Archiv löschen möchten?",
+    "source": "Quelle",
+    "sources": "Quellen",
+    "regenerate": "Neu generieren",
+    "regenerateConfirm": "Dies stellt eine neue Anfrage an die KI mit den ursprünglichen Quelldaten. Der aktuelle Eintrag wird überschrieben. Möchten Sie fortfahren?"
+  },
+  "searchPlaceholder": "Archiv durchsuchen...",
+  "insightGenerated": "Tageseinblick generiert und im KI-Archiv gespeichert!"
+}

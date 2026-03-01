@@ -1,0 +1,45 @@
+{
+  "empty": {
+    "title": "Your AI Archive is Empty",
+    "description": "As you use AI features like summarization or entity extraction, your results will be automatically saved here for future reference."
+  },
+  "filters": {
+    "title": "Filter Archive",
+    "all": "All Entries",
+    "type": "By Type",
+    "language": "By Language",
+    "sort": "Sort By"
+  },
+  "sort": {
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "type": "By Type"
+  },
+  "types": {
+    "summary": "Summary",
+    "entities": "Entities",
+    "imageAnalysis": "Image Analysis",
+    "dailyInsight": "Daily Insight",
+    "story": "Story",
+    "answer": "Q&A",
+    "magicOrganize": "Organization Suggestion",
+    "moviesInsight": "Videothek Insight",
+    "audioInsight": "Audiothek Insight",
+    "imagesInsight": "Images Hub Insight",
+    "recRoomInsight": "Rec Room Insight"
+  },
+  "list": {
+    "title": "Generations"
+  },
+  "details": {
+    "select": "Select an entry from the list to view its details.",
+    "deleteTitle": "Delete this Entry?",
+    "deleteMessage": "Are you sure you want to permanently delete this AI-generated entry from your archive?",
+    "source": "Source",
+    "sources": "Sources",
+    "regenerate": "Regenerate",
+    "regenerateConfirm": "This will make a new request to the AI using the original source data. The current entry will be overwritten. Do you want to continue?"
+  },
+  "searchPlaceholder": "Search archive...",
+  "insightGenerated": "Daily insight generated and saved to AI Archive!"
+}

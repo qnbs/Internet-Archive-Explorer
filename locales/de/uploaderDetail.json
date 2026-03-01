@@ -1,0 +1,46 @@
+{
+  "back": "Zurück",
+  "tabs": {
+    "ariaLabel": "Uploader-Profilbereiche",
+    "dashboard": "Dashboard",
+    "uploads": "Uploads",
+    "collections": "Sammlungen",
+    "favorites": "Favoriten",
+    "reviews": "Bewertungen",
+    "posts": "Beiträge",
+    "webArchive": "Web-Archive"
+  },
+  "stats": {
+    "total": "Einträge Gesamt",
+    "uploads": "Uploads",
+    "collections": "Sammlungen",
+    "reviews": "Bewertungen",
+    "favorites": "Favoriten",
+    "movies": "Filme",
+    "audio": "Audio",
+    "texts": "Texte",
+    "images": "Bilder",
+    "software": "Software",
+    "distribution": "Medienverteilung",
+    "noData": "Keine Beitragsdaten verfügbar."
+  },
+  "searchInUploads": "In diesen Uploads suchen...",
+  "sortBy": "Sortieren nach",
+  "toggleSort": "Sortierrichtung umschalten (aktuell: {{direction}})",
+  "ascending": "aufsteigend",
+  "descending": "absteigend",
+  "sortCriteria": {
+    "downloads": "Beliebtheit (Gesamt)",
+    "week": "Beliebtheit (diese Woche)",
+    "publicdate": "Veröffentlicht am",
+    "addeddate": "Hinzugefügt am",
+    "title": "Titel"
+  },
+  "filters": {
+    "title": "Filter",
+    "allTypes": "Alle Typen"
+  },
+  "aria": {
+    "profileSections": "Profilbereiche"
+  }
+}

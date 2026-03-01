@@ -1,0 +1,15 @@
+{
+  "mediaType": "Medientyp",
+  "yearRange": "Jahresbereich",
+  "from": "Von",
+  "to": "Bis",
+  "collection": "Sammlung",
+  "collectionPlaceholder": "z.B. prelinger",
+  "availability": "Verfügbarkeit",
+  "availabilities": {
+    "all": "Alle Einträge",
+    "free": "Frei verfügbar",
+    "borrowable": "Nur ausleihbar"
+  },
+  "language": "Sprache"
+}
