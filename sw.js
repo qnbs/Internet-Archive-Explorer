@@ -126,7 +126,7 @@ self.addEventListener('fetch', (event) => {
             return preloadResponse;
           }
           return await timeoutFetch(request);
-        } catch (error) {
+        } catch {
           const cachedResponse = await caches.match(BASE_PATH);
           return (
             cachedResponse ||
@@ -197,7 +197,7 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch((err) => {
+        .catch(() => {
           // Network failed, but we might have a cached response
         });
 
