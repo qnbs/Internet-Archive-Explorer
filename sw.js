@@ -1,5 +1,5 @@
 // A robust, production-ready service worker for the PWA.
-const CACHE_NAME = 'internet-archive-explorer-v3'; // Bump version for updates
+const CACHE_NAME = 'internet-archive-explorer-v4'; // Bump version for updates
 const API_HOSTNAME = 'archive.org';
 const IMAGE_HOSTNAMES = ['archive.org']; // Can add more if needed
 const NETWORK_TIMEOUT_MS = 15000;
@@ -7,7 +7,7 @@ const NETWORK_TIMEOUT_MS = 15000;
 const BASE_PATH = new URL(self.registration.scope).pathname;
 
 // App Shell: Critical assets that make the app run.
-const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`, `${BASE_PATH}manifest.json`];
+const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`];
 
 // Third-party assets that are critical for the app to function.
 const THIRD_PARTY_URLS = [

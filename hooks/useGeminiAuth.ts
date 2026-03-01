@@ -12,6 +12,7 @@ const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_REVOKE_URL = 'https://oauth2.googleapis.com/revoke';
 const REDIRECT_URI = 'https://qnbs.github.io/Internet-Archive-Explorer/';
 const SCOPE = 'openid email profile https://www.googleapis.com/auth/generative-language';
+const OAUTH_CLIENT_ID_STORAGE_KEY = 'google_oauth_client_id';
 
 const PKCE_VERIFIER_KEY = 'google_pkce_code_verifier';
 const OAUTH_STATE_KEY = 'google_oauth_state';
@@ -42,14 +43,37 @@ const createCodeChallenge = async (verifier: string): Promise<string> => {
 };
 
 export const useGeminiAuth = () => {
+  const envClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim() || '';
+  const getStoredClientId = (): string => {
+    const stored = localStorage.getItem(OAUTH_CLIENT_ID_STORAGE_KEY)?.trim();
+    return stored || '';
+  };
+
   const [token, setToken] = useState<string | null>(() => getValidAccessToken());
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('Nicht angemeldet');
   const [error, setError] = useState<string | null>(null);
+  const [runtimeClientId, setRuntimeClientId] = useState<string>(
+    () => envClientId || getStoredClientId(),
+  );
   const cleanupTimerRef = useRef<number | null>(null);
 
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const clientId = runtimeClientId;
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
+  const isConfigured = useMemo(() => Boolean(clientId), [clientId]);
+
+  const setOAuthClientId = useCallback((value: string) => {
+    const normalized = value.trim();
+    if (normalized) {
+      localStorage.setItem(OAUTH_CLIENT_ID_STORAGE_KEY, normalized);
+      setRuntimeClientId(normalized);
+      setError(null);
+      return;
+    }
+
+    localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
+    setRuntimeClientId(envClientId);
+  }, [envClientId]);
 
   const scheduleAutoCleanup = useCallback(() => {
     if (cleanupTimerRef.current !== null) {
@@ -214,5 +238,22 @@ export const useGeminiAuth = () => {
     };
   }, [scheduleAutoCleanup]);
 
-  return { token, isAuthenticated, isLoading, error, statusMessage, login, logout };
+  useEffect(() => {
+    if (envClientId && envClientId !== runtimeClientId) {
+      setRuntimeClientId(envClientId);
+    }
+  }, [envClientId, runtimeClientId]);
+
+  return {
+    token,
+    isAuthenticated,
+    isLoading,
+    error,
+    statusMessage,
+    login,
+    logout,
+    isConfigured,
+    clientId,
+    setOAuthClientId,
+  };
 };

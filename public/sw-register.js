@@ -14,7 +14,7 @@
     : '/';
 
   navigator.serviceWorker
-    .register(`${appBase}sw.js`, { scope: appBase })
+    .register(`${appBase}sw.js`, { scope: appBase, updateViaCache: 'none' })
     .then((reg) => {
       reg.addEventListener('updatefound', () => {
         const newWorker = reg.installing;
