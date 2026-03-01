@@ -3,6 +3,29 @@
     return;
   }
 
+  const { hostname } = window.location;
+  const isDevLikeHost =
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname.endsWith('.app.github.dev');
+
+  if (isDevLikeHost) {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) =>
+        Promise.all(
+          registrations
+            .filter((registration) => registration.scope.includes('/Internet-Archive-Explorer/'))
+            .map((registration) => registration.unregister()),
+        ),
+      )
+      .catch(() => {
+        // no-op in development-like environments
+      });
+    return;
+  }
+
   const currentScript = document.currentScript;
   if (!(currentScript instanceof HTMLScriptElement) || !currentScript.src) {
     return;
