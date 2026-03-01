@@ -1,7 +1,7 @@
 import React from 'react';
-import type { LibraryItem } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { InfoIcon } from '../Icons';
+import type { LibraryItem } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { InfoIcon } from '@/components/Icons';
 
 interface LibraryItemCardProps {
   item: LibraryItem;
@@ -38,7 +38,7 @@ export const LibraryItemCard: React.FC<LibraryItemCardProps> = React.memo(({ ite
         )}
       <img
         src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
-        alt=""
+        alt={item.title ? `Cover: ${item.title}` : 'Cover image'}
         className="w-12 h-16 object-cover rounded-sm flex-shrink-0 bg-gray-700"
         loading="lazy"
         onError={(e) => {

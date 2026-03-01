@@ -1,10 +1,10 @@
 import React from 'react';
-import type { ArchiveItemSummary } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
+import type { ArchiveItemSummary } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useSetAtom } from 'jotai';
-import { selectItemAtom } from '../store/app';
+import { selectItemAtom } from '@/store/app';
 import { InfoIcon } from './Icons';
-import { formatNumber } from '../utils/formatter';
+import { formatNumber } from '@/utils/formatter';
 
 export type AspectRatio = 'video' | 'square' | 'portrait';
 

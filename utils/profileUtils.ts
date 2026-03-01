@@ -1,4 +1,4 @@
-import type { Profile } from '../types';
+import type { Profile } from '@/types';
 
 /**
  * Constructs the correct API query string for a given profile.

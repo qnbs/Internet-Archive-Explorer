@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { deleteAIArchiveEntryAtom } from '../../store/aiArchive';
-import { modalAtom } from '../../store/app';
-import type { AIArchiveEntry, ExtractedEntities, ImageAnalysisResult, MagicOrganizeResult } from '../../types';
-import { AIGenerationType } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon, TrashIcon } from '../Icons';
+import { deleteAIArchiveEntryAtom } from '@/store/aiArchive';
+import { modalAtom } from '@/store/app';
+import type { AIArchiveEntry, ExtractedEntities, ImageAnalysisResult, MagicOrganizeResult } from '@/types';
+import { AIGenerationType } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon, TrashIcon } from '@/components/Icons';
 import { SourceItemCard } from './SourceItemCard';
 
 const ContentRenderer: React.FC<{ entry: AIArchiveEntry }> = ({ entry }) => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useHelpViewContext } from '../../contexts/HelpViewContext';
-import { SearchIcon } from '../Icons';
+import { useHelpViewContext } from '@/contexts/HelpViewContext';
+import { SearchIcon } from '@/components/Icons';
 
 export const HelpSearchBar: React.FC = () => {
     const { t, searchQuery, setSearchQuery } = useHelpViewContext();

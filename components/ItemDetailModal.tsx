@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useRef, useId, useEffect } from 'react';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary } from '@/types';
 import { StarIcon, CloseIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
-import { useToast } from '../contexts/ToastContext';
-import { useLanguage } from '../hooks/useLanguage';
-import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
-import { ItemDetailProvider, useItemDetailContext } from '../contexts/ItemDetailContext';
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '@/store/favorites';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
 import { ItemDetailLayout } from './ItemDetailLayout';
 
 interface ItemDetailModalProps {

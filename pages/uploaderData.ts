@@ -1,4 +1,4 @@
-import type { Uploader, UploaderCategory } from '../types';
+import type { Uploader, UploaderCategory } from '@/types';
 
 export const UPLOADER_CATEGORIES: UploaderCategory[] = [
   'archivist',

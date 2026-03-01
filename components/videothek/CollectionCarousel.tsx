@@ -1,10 +1,10 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../../types';
-import { searchArchive } from '../../services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
+import { searchArchive } from '@/services/archiveService';
 import { ContentCarousel } from '../ContentCarousel';
-import { useLanguage } from '../../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface CollectionCarouselProps {
   collection: {

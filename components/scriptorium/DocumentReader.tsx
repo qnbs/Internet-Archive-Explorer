@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import type { WorksetDocument } from '../../types';
-import { getItemPlainText } from '../../services/archiveService';
-import { useLanguage } from '../../hooks/useLanguage';
+import type { WorksetDocument } from '@/types';
+import { getItemPlainText } from '@/services/archiveService';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Spinner } from '../Spinner';
 import { AnalysisToolbar } from './AnalysisToolbar';
 import { DocumentSearchBar } from './DocumentSearchBar';
 import { ResizablePanel } from './ResizablePanel';
 import { RichTextEditor } from '../RichTextEditor';
-import { useWorksets } from '../../hooks/useWorksets';
-import { useDebounce } from '../../hooks/useDebounce';
-import { ArrowLeftIcon } from '../Icons';
+import { useWorksets } from '@/hooks/useWorksets';
+import { useDebounce } from '@/hooks/useDebounce';
+import { ArrowLeftIcon } from '@/components/Icons';
 
 interface DocumentReaderProps {
     document: WorksetDocument;
@@ -77,7 +77,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
         if (textContent) {
             return (
                 <div className="h-full flex flex-col">
-                    <div className="flex-grow p-4 overflow-y-auto prose prose-sm dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: highlightedText }} />
+                    <div className="flex-grow p-4 overflow-y-auto prose prose-sm dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: highlightedText ?? '' }} />
                     <DocumentSearchBar text={textContent} onSearch={setSearchQuery} />
                 </div>
             );

@@ -1,4 +1,4 @@
-import type { ArchiveMetadata } from '../types';
+import type { ArchiveMetadata } from '@/types';
 
 const DB_NAME = 'archive-explorer-cache';
 const STORE_NAME = 'metadata';

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
-import { type LibraryItem, type UserCollection, type ArchiveItemSummary, MediaType } from '../types';
+import { type LibraryItem, type UserCollection, type ArchiveItemSummary, MediaType } from '@/types';
 import { toastAtom } from './toast';
 import { v4 as uuidv4 } from 'uuid';
 

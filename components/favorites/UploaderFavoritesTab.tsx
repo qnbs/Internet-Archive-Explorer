@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { uploaderFavoritesAtom } from '../../store/favorites';
-import { useLanguage } from '../../hooks/useLanguage';
-import { UPLOADER_DATA } from '../../pages/uploaderData';
+import { uploaderFavoritesAtom } from '@/store/favorites';
+import { useLanguage } from '@/hooks/useLanguage';
+import { UPLOADER_DATA } from '@/pages/uploaderData';
 import { UploaderProfileCard } from '../UploaderProfileCard';
-import { UsersIcon, SearchIcon } from '../Icons';
-import { useNavigation } from '../../hooks/useNavigation';
-import { useDebounce } from '../../hooks/useDebounce';
-import type { Uploader, Profile } from '../../types';
+import { UsersIcon, SearchIcon } from '@/components/Icons';
+import { useNavigation } from '@/hooks/useNavigation';
+import { useDebounce } from '@/hooks/useDebounce';
+import type { Uploader, Profile } from '@/types';
 
 export const UploaderFavoritesTab: React.FC = () => {
     const { t } = useLanguage();

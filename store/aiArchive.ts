@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
-import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption, Language, AIGenerationType } from '../types';
+import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption, Language, AIGenerationType } from '@/types';
 
 // --- Base State Atom ---
 

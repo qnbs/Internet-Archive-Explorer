@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../../types';
-import { searchArchive } from '../../services/archiveService';
-import { useLanguage } from '../../hooks/useLanguage';
+import type { ArchiveItemSummary } from '@/types';
+import { searchArchive } from '@/services/archiveService';
+import { useLanguage } from '@/hooks/useLanguage';
 import { AudioCard } from './AudioCard';
 import { SkeletonCard } from '../SkeletonCard';
-import { ChevronLeftIcon, ChevronRightIcon } from '../Icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
 
 interface AudioCarouselProps {
     title: string;

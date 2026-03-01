@@ -1,7 +1,7 @@
 import React from 'react';
-import type { LibraryItem } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { InfoIcon } from '../Icons';
+import type { LibraryItem } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { InfoIcon } from '@/components/Icons';
 
 interface LibraryItemCardProps {
   item: LibraryItem;
@@ -16,6 +16,7 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
   
   const creatorName = Array.isArray(item.creator) ? item.creator.join(', ') : item.creator || t('itemCard:unknownCreator');
   const isRestricted = item['access-restricted-item'] === 'true';
+  const thumbnailUrl = item.thumbnail || `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
 
   return (
     <article
@@ -37,8 +38,8 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(({ it
             </div>
         )}
       <img
-        src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
-        alt=""
+        src={thumbnailUrl}
+        alt={item.title ? `Cover: ${item.title}` : 'Cover image'}
         className="w-12 h-16 object-cover rounded-sm flex-shrink-0 bg-gray-700"
         loading="lazy"
         onError={(e) => {

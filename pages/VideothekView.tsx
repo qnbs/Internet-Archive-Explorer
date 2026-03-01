@@ -1,11 +1,11 @@
 import React from 'react';
-import { HeroSection } from '../components/videothek/HeroSection';
-import { ArchivalCarousel } from '../components/ArchivalCarousel';
-import { useLanguage } from '../hooks/useLanguage';
-import { MediaType, AIGenerationType } from '../types';
-import { useArchivalItems } from '../hooks/useArchivalItems';
-import { generateFilmDoubleFeatureConcept } from '../services/geminiService';
-import { AIInsightPanel } from '../components/AIInsightPanel';
+import { HeroSection } from '@/components/videothek/HeroSection';
+import { ArchivalCarousel } from '@/components/ArchivalCarousel';
+import { useLanguage } from '@/hooks/useLanguage';
+import { MediaType, AIGenerationType } from '@/types';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { generateFilmDoubleFeatureConcept } from '@/services/geminiService';
+import { AIInsightPanel } from '@/components/AIInsightPanel';
 
 const getCollections = (t: (key: string) => string) => [
     { key: 'newly_added', title: t('videothek:collections.newly_added'), query: `mediatype:(${MediaType.Movies})` },

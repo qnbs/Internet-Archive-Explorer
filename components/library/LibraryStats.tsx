@@ -1,9 +1,9 @@
 import React from 'react';
 import { useAtomValue } from 'jotai';
-import { libraryCountsAtom } from '../../store/favorites';
-import { useLanguage } from '../../hooks/useLanguage';
-import type { LibraryFilter, MediaType } from '../../types';
-import { BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, CollectionIcon } from '../Icons';
+import { libraryCountsAtom } from '@/store/favorites';
+import { useLanguage } from '@/hooks/useLanguage';
+import type { LibraryFilter, MediaType } from '@/types';
+import { BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, CollectionIcon } from '@/components/Icons';
 
 interface LibraryStatsProps {
     setFilter: (filter: LibraryFilter) => void;

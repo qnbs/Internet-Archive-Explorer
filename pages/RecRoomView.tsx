@@ -1,12 +1,12 @@
 import React from 'react';
-import { AIGenerationType } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
-import { AIInsightPanel } from '../components/AIInsightPanel';
-import { generateRetroGamingNote } from '../services/geminiService';
-import { useArchivalItems } from '../hooks/useArchivalItems';
-import { RecRoomHero } from '../components/recroom/RecRoomHero';
-import { RecRoomCarousel } from '../components/recroom/RecRoomCarousel';
-import GameFinder from '../components/recroom/GameFinder';
+import { AIGenerationType } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { AIInsightPanel } from '@/components/AIInsightPanel';
+import { generateRetroGamingNote } from '@/services/geminiService';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { RecRoomHero } from '@/components/recroom/RecRoomHero';
+import { RecRoomCarousel } from '@/components/recroom/RecRoomCarousel';
+import GameFinder from '@/components/recroom/GameFinder';
 
 const getCollections = (t: (key: string) => string) => [
     { key: 'msdos_games', title: t('recRoom:collections.msdos'), query: 'collection:softwarelibrary_msdos_games' },

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import { facetsAtom } from '../store/search';
-import { useLanguage } from '../hooks/useLanguage';
-import { MediaType, Availability } from '../types';
+import { facetsAtom } from '@/store/search';
+import { useLanguage } from '@/hooks/useLanguage';
+import { MediaType, Availability } from '@/types';
 import { MovieIcon, AudioIcon, BookIcon, ImageIcon, JoystickIcon } from './Icons';
 
 interface SearchPopoverProps {

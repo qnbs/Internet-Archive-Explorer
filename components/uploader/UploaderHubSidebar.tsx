@@ -1,8 +1,8 @@
 import React from 'react';
-import { useLanguage } from '../../hooks/useLanguage';
-import { UPLOADER_CATEGORIES } from '../../pages/uploaderData';
-import type { UploaderCategory } from '../../types';
-import { SearchIcon, FilterIcon } from '../Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { UPLOADER_CATEGORIES } from '@/pages/uploaderData';
+import type { UploaderCategory } from '@/types';
+import { SearchIcon, FilterIcon } from '@/components/Icons';
 
 interface UploaderHubSidebarProps {
     query: string;

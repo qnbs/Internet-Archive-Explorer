@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useSearchAndGo } from '../../hooks/useSearchAndGo';
-import type { ArchiveItemSummary, MediaType } from '../../types';
-import { searchArchive } from '../../services/archiveService';
-import { useLanguage } from '../../hooks/useLanguage';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import type { ArchiveItemSummary, MediaType } from '@/types';
+import { searchArchive } from '@/services/archiveService';
+import { useLanguage } from '@/hooks/useLanguage';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { SkeletonCard } from '../SkeletonCard';
-import { ChevronLeftIcon, ChevronRightIcon } from '../Icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
 
 interface RecRoomCarouselProps {
     title: string;

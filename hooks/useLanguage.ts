@@ -1,8 +1,8 @@
 
 import { useAtom, useAtomValue } from 'jotai';
 import { useCallback, useEffect } from 'react';
-import { languageAtom, loadableTranslationsAtom } from '../store/i18n';
-import type { Language } from '../types';
+import { languageAtom, loadableTranslationsAtom } from '@/store/i18n';
+import type { Language } from '@/types';
 
 interface LanguageHook {
   language: Language;
@@ -11,8 +11,17 @@ interface LanguageHook {
   isLoading: boolean;
 }
 
-const getNestedTranslation = (obj: Record<string, any>, path: string): string | undefined => {
-  return path.split('.').reduce((o, key) => (o && o[key] !== undefined ? o[key] : undefined), obj);
+const getNestedTranslation = (obj: Record<string, unknown>, path: string): string | undefined => {
+  let current: unknown = obj;
+
+  for (const key of path.split('.')) {
+    if (typeof current !== 'object' || current === null || !(key in current)) {
+      return undefined;
+    }
+    current = (current as Record<string, unknown>)[key];
+  }
+
+  return typeof current === 'string' ? current : undefined;
 };
 
 export const useLanguage = (): LanguageHook => {

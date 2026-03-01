@@ -1,9 +1,9 @@
 import React from 'react';
-import type { UploaderTab } from '../../types';
+import type { UploaderTab } from '@/types';
 import { 
     UploadIcon, CollectionIcon, StarIcon, PencilAltIcon, WebIcon
-} from '../Icons';
-import { useLanguage } from '../../hooks/useLanguage';
+} from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 import { UploadsFilterControls } from './UploadsFilterControls';
 
 // All props for UploadsFilterControls are passed through UploaderHeaderProps

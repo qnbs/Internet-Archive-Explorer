@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { searchWaybackMachine } from '../services/archiveService';
-import type { WaybackResponse } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
-import { useDebounce } from '../hooks/useDebounce';
-import { Spinner } from '../components/Spinner';
-import { WebIcon, SearchIcon, HistoryIcon } from '../components/Icons';
+import { searchWaybackMachine } from '@/services/archiveService';
+import type { WaybackResponse } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useDebounce } from '@/hooks/useDebounce';
+import { Spinner } from '@/components/Spinner';
+import { WebIcon, SearchIcon, HistoryIcon } from '@/components/Icons';
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
-import type { Facets, MediaType } from '../types';
+import type { Facets, MediaType } from '@/types';
 
 export const STORAGE_KEYS = {
     searchHistory: 'app-search-history',

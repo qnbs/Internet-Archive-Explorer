@@ -1,12 +1,10 @@
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { addTagsToItemsAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/toast';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon } from '../Icons';
+import { toastAtom } from '@/store/toast';
+import { addTagsToItemsAtom } from '@/store/favorites';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon } from '@/components/Icons';
 
 interface AddTagsModalProps {
     itemIds: string[];
@@ -27,9 +25,13 @@ export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) 
         inputRef.current?.focus();
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean);
+        const tags = tagsInput
+            .split(',')
+            .map((tag: string) => tag.trim())
+            .filter(Boolean);
+
         if (tags.length > 0) {
             addTagsToItems({ itemIds, tags });
             setToast({ type: 'success', message: t('favorites:bulkActions.tagsAdded') });

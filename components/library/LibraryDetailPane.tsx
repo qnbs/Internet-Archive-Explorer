@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom } from '../../store/favorites';
-import type { LibraryItem } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useDebounce } from '../../hooks/useDebounce';
-import { StarIcon, ArrowLeftIcon, TagIcon, CloseIcon, BookIcon } from '../Icons';
-import { modalAtom } from '../../store/app';
+import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom } from '@/store/favorites';
+import type { LibraryItem } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useDebounce } from '@/hooks/useDebounce';
+import { StarIcon, ArrowLeftIcon, TagIcon, CloseIcon, BookIcon } from '@/components/Icons';
+import { modalAtom } from '@/store/app';
 import { RichTextEditor } from '../RichTextEditor';
 
 const Tag: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (

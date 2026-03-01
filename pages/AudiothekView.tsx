@@ -1,12 +1,12 @@
 import React from 'react';
-import { AudiothekHero } from '../components/audiothek/AudiothekHero';
-import { CategoryGrid } from '../components/audiothek/CategoryGrid';
-import { useLanguage } from '../hooks/useLanguage';
-import { AudioCarousel } from '../components/audiothek/AudioCarousel';
-import { AIInsightPanel } from '../components/AIInsightPanel';
-import { useArchivalItems } from '../hooks/useArchivalItems';
-import { generateRadioShowConcept } from '../services/geminiService';
-import { AIGenerationType } from '../types';
+import { AudiothekHero } from '@/components/audiothek/AudiothekHero';
+import { CategoryGrid } from '@/components/audiothek/CategoryGrid';
+import { useLanguage } from '@/hooks/useLanguage';
+import { AudioCarousel } from '@/components/audiothek/AudioCarousel';
+import { AIInsightPanel } from '@/components/AIInsightPanel';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { generateRadioShowConcept } from '@/services/geminiService';
+import { AIGenerationType } from '@/types';
 
 const getShelves = (t: (key: string) => string) => [
     { key: 'librivox', title: t('audiothek:shelves.librivox'), query: 'collection:librivoxaudio' },

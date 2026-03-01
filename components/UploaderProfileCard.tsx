@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Profile } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
+import type { Profile } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { uploaderFavoriteSetAtom, addUploaderFavoriteAtom, removeUploaderFavoriteAtom } from '../store/favorites';
-import { useToast } from '../contexts/ToastContext';
+import { uploaderFavoriteSetAtom, addUploaderFavoriteAtom, removeUploaderFavoriteAtom } from '@/store/favorites';
+import { useToast } from '@/contexts/ToastContext';
 import { StarIcon, UsersIcon } from './Icons';
 
 interface UploaderProfileCardProps {

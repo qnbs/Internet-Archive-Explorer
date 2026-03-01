@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { libraryItemsAtom } from '../../store/favorites';
+import { libraryItemsAtom } from '@/store/favorites';
 import { ContentCarousel } from '../ContentCarousel';
-import { useLanguage } from '../../hooks/useLanguage';
-import { StarIcon } from '../Icons';
-import type { LibraryItem } from '../../types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { StarIcon } from '@/components/Icons';
+import type { LibraryItem } from '@/types';
 
 export const RecentlyAdded: React.FC = () => {
     const { t } = useLanguage();

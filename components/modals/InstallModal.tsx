@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { deferredPromptAtom, isAppInstalledAtom } from '../../store/pwa';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon, ArchiveLogoIcon, CheckIcon, DownloadIcon, ShareIOSIcon, PlusSquareIcon } from '../Icons';
+import { deferredPromptAtom, isAppInstalledAtom } from '@/store/pwa';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon, ArchiveLogoIcon, CheckIcon, DownloadIcon, ShareIOSIcon, PlusSquareIcon } from '@/components/Icons';
 
 export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const { t } = useLanguage();
@@ -25,10 +25,7 @@ export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     const handleInstall = async () => {
         if (!deferredPrompt) return;
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            console.log('User accepted the PWA installation');
-        }
+        await deferredPrompt.userChoice;
         setDeferredPrompt(null);
         onClose();
     };

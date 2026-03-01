@@ -1,15 +1,15 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom, useAtomValue } from 'jotai';
-import { useLanguage } from '../../hooks/useLanguage';
-import { answerFromText } from '../../services/geminiService';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon, SparklesIcon } from '../Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { answerFromText } from '@/services/geminiService';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon, SparklesIcon } from '@/components/Icons';
 import { Spinner } from '../Spinner';
-import { archiveAIGeneration } from '../../services/aiPersistenceService';
-import { addAIArchiveEntryAtom } from '../../store/aiArchive';
-import { AIGenerationType, type WorksetDocument } from '../../types';
-import { autoArchiveAIAtom } from '../../store/settings';
+import { archiveAIGeneration } from '@/services/aiPersistenceService';
+import { addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { AIGenerationType, type WorksetDocument } from '@/types';
+import { autoArchiveAIAtom } from '@/store/settings';
 
 interface AskAIModalProps {
     textContent: string;

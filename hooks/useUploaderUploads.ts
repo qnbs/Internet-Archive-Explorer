@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
-import { profileSearchQueryAtom } from '../store/search';
-import { resultsPerPageAtom } from '../store/settings';
+import { profileSearchQueryAtom } from '@/store/search';
+import { resultsPerPageAtom } from '@/store/settings';
 import { useDebounce } from './useDebounce';
-import { searchArchive } from '../services/archiveService';
-import type { ArchiveItemSummary, Profile, MediaType, Facets } from '../types';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, Profile, MediaType, Facets } from '@/types';
 import { useInfiniteScroll } from './useInfiniteScroll';
-import { getProfileApiQuery } from '../utils/profileUtils';
-import { buildArchiveQuery } from '../utils/queryBuilder';
+import { getProfileApiQuery } from '@/utils/profileUtils';
+import { buildArchiveQuery } from '@/utils/queryBuilder';
 
 export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType | 'all') => {
     const resultsPerPage = useAtomValue(resultsPerPageAtom);

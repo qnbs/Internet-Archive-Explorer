@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
-import type { PlayableTrack, ArchiveItemSummary, ArchiveFile } from '../types';
-import { getItemMetadata } from '../services/archiveService';
-import { findPlayableAudioFile } from '../utils/audioUtils';
+import type { PlayableTrack, ArchiveItemSummary } from '@/types';
+import { getItemMetadata } from '@/services/archiveService';
+import { findPlayableAudioFile } from '@/utils/audioUtils';
 import { toastAtom } from './toast';
 
 // --- Base State Atoms ---
@@ -20,21 +20,19 @@ export const currentTrackAtom = atom<PlayableTrack | null>(get => {
 // --- Action Atoms (Write-only) ---
 
 const findAndPrepareTrack = async (item: ArchiveItemSummary): Promise<PlayableTrack | null> => {
-    try {
-        const metadata = await getItemMetadata(item.identifier);
-        const playableUrl = findPlayableAudioFile(metadata.files, item.identifier);
-        if (playableUrl) {
-            return {
-                ...item,
-                playableUrl,
-                duration: metadata.files.find(f => f.name.endsWith('.mp3'))?.length,
-            };
-        }
-        return null;
-    } catch (error) {
-        console.error("Error preparing track:", error);
-        return null;
+  try {
+    const metadata = await getItemMetadata(item.identifier);
+    const files = Array.isArray(metadata.files) ? metadata.files : [];
+    const playableUrl = findPlayableAudioFile(files, item.identifier);
+
+    if (!playableUrl) {
+      return null;
     }
+
+    return { ...item, playableUrl };
+  } catch {
+    return null;
+  }
 };
 
 export const playItemAtom = atom(
@@ -61,24 +59,24 @@ export const playItemAtom = atom(
 );
 
 export const addToQueueAtom = atom(
-    null,
-    async (get, set, item: ArchiveItemSummary) => {
-        const playlist = get(playlistAtom);
-        const isAlreadyInPlaylist = playlist.some(track => track.identifier === item.identifier);
+  null,
+  async (get, set, item: ArchiveItemSummary): Promise<void> => {
+    const playlist = get(playlistAtom);
+    const isAlreadyInPlaylist = playlist.some(track => track.identifier === item.identifier);
 
-        if (isAlreadyInPlaylist) {
-            set(toastAtom, { type: 'info', message: 'Item is already in the playlist.' });
-            return;
-        }
-
-        const newTrack = await findAndPrepareTrack(item);
-        if (newTrack) {
-            set(playlistAtom, [...playlist, newTrack]);
-            set(toastAtom, { type: 'success', message: 'Added to queue.' });
-        } else {
-            set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
-        }
+    if (isAlreadyInPlaylist) {
+      set(toastAtom, { type: 'info', message: 'Item is already in the playlist.' });
+      return;
     }
+
+    const newTrack = await findAndPrepareTrack(item);
+    if (newTrack) {
+      set(playlistAtom, [...playlist, newTrack]);
+      set(toastAtom, { type: 'success', message: 'Added to queue.' });
+    } else {
+      set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
+    }
+  }
 );
 
 export const togglePlayPauseAtom = atom(null, (get, set) => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary, Profile } from '../../types';
-import { getReviewsByUploader } from '../../services/archiveService';
-import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
-import { useLanguage } from '../../hooks/useLanguage';
+import type { ArchiveItemSummary, Profile } from '@/types';
+import { getReviewsByUploader } from '@/services/archiveService';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useLanguage } from '@/hooks/useLanguage';
 import { ReviewCard } from '../ReviewCard';
 import { Spinner } from '../Spinner';
 

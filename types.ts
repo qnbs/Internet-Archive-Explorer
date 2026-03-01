@@ -68,6 +68,7 @@ export enum MediaType {
 export interface ArchiveItemSummary {
   identifier: string;
   title: string;
+  thumbnail?: string;
   creator?: string | string[];
   publicdate: string;
   mediatype: MediaType;

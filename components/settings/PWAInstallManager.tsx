@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { isAppInstalledAtom, deferredPromptAtom } from '../../store/pwa';
-import { modalAtom } from '../../store/app';
-import { useLanguage } from '../../hooks/useLanguage';
-import { DownloadIcon, CheckIcon } from '../Icons';
+import { isAppInstalledAtom, deferredPromptAtom } from '@/store/pwa';
+import { modalAtom } from '@/store/app';
+import { useLanguage } from '@/hooks/useLanguage';
+import { DownloadIcon, CheckIcon } from '@/components/Icons';
 
 export const PWAInstallManager: React.FC = () => {
     const { t } = useLanguage();

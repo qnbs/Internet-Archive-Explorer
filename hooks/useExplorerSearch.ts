@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
-import { searchQueryAtom, facetsAtom } from '../store/search';
-import { useDebounce } from '../hooks/useDebounce';
-import { searchArchive } from '../services/archiveService';
-import type { ArchiveItemSummary } from '../types';
+import { searchQueryAtom, facetsAtom } from '@/store/search';
+import { useDebounce } from '@/hooks/useDebounce';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
 import { useInfiniteScroll } from './useInfiniteScroll';
-import { useLanguage } from '../hooks/useLanguage';
-import { buildArchiveQuery } from '../utils/queryBuilder';
+import { useLanguage } from '@/hooks/useLanguage';
+import { buildArchiveQuery } from '@/utils/queryBuilder';
 
 export const useExplorerSearch = () => {
   const [searchQuery] = useAtom(searchQueryAtom);

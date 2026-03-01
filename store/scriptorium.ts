@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
-import type { Workset, WorksetDocument, ArchiveItemSummary } from '../types';
+import type { Workset, WorksetDocument, ArchiveItemSummary } from '@/types';
 import { toastAtom } from './toast';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';
@@ -53,19 +53,18 @@ export const updateWorksetNameAtom = atom(
 
 export const addDocumentToWorksetAtom = atom(
     null,
-    (get, set, { worksetId, item }: { worksetId: string, item: ArchiveItemSummary }) => {
+    (get, set, { worksetId, item }: { worksetId: string; item: ArchiveItemSummary }): void => {
         const worksets = get(worksetsAtom);
         let documentExists = false;
-        const newWorksets = worksets.map(ws => {
-            if (ws.id === worksetId) {
-                if (ws.documents.some(doc => doc.identifier === item.identifier)) {
-                    documentExists = true;
-                    return ws;
-                }
-                const newDocument: WorksetDocument = { ...item, notes: '', worksetId };
-                return { ...ws, documents: [...ws.documents, newDocument] };
+
+        const newWorksets = worksets.map((ws): Workset => {
+            if (ws.id !== worksetId) return ws;
+            if (ws.documents.some(doc => doc.identifier === item.identifier)) {
+                documentExists = true;
+                return ws;
             }
-            return ws;
+            const newDocument: WorksetDocument = { ...item, notes: '', worksetId };
+            return { ...ws, documents: [...ws.documents, newDocument] };
         });
 
         if (documentExists) {
@@ -79,7 +78,7 @@ export const addDocumentToWorksetAtom = atom(
 
 export const removeDocumentFromWorksetAtom = atom(
     null,
-    (get, set, { worksetId, documentId }: { worksetId: string, documentId: string }) => {
+    (get, set, { worksetId, documentId }: { worksetId: string; documentId: string }) => {
         set(worksetsAtom, worksets =>
             worksets.map(ws => {
                 if (ws.id === worksetId) {
@@ -94,7 +93,7 @@ export const removeDocumentFromWorksetAtom = atom(
 
 export const updateDocumentNotesAtom = atom(
     null,
-    (get, set, { worksetId, documentId, notes }: { worksetId: string, documentId: string, notes: string }) => {
+    (get, set, { worksetId, documentId, notes }: { worksetId: string; documentId: string; notes: string }) => {
         set(worksetsAtom, worksets =>
             worksets.map(ws => {
                 if (ws.id === worksetId) {

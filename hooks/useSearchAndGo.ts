@@ -1,8 +1,8 @@
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { activeViewAtom } from '../store/app';
-import { addSearchHistoryAtom, facetsAtom, searchQueryAtom } from '../store/search';
-import type { Facets } from '../types';
+import { activeViewAtom } from '@/store/app';
+import { addSearchHistoryAtom, facetsAtom, searchQueryAtom } from '@/store/search';
+import type { Facets } from '@/types';
 
 export const useSearchAndGo = () => {
   const setSearchQuery = useSetAtom(searchQueryAtom);

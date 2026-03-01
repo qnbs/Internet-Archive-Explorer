@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary, Profile } from '../../types';
-import { searchArchive } from '../../services/archiveService';
-import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
+import type { ArchiveItemSummary, Profile } from '@/types';
+import { searchArchive } from '@/services/archiveService';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { ResultsGrid } from '../ResultsGrid';
-import { useLanguage } from '../../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface UploaderFavoritesProps {
     profile: Profile;

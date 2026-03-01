@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useLanguage } from '../../hooks/useLanguage';
-import type { BeforeInstallPromptEvent } from '../store/pwa';
+import { useLanguage } from '@/hooks/useLanguage';
+import type { BeforeInstallPromptEvent } from '@/store/pwa';
 import { DownloadIcon, CloseIcon } from './Icons';
 
 interface InstallBannerProps {

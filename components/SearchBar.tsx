@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { activeViewAtom } from '../store/app';
-import { searchQueryAtom, profileSearchQueryAtom, addSearchHistoryAtom } from '../store/search';
+import { activeViewAtom } from '@/store/app';
+import { searchQueryAtom, profileSearchQueryAtom, addSearchHistoryAtom } from '@/store/search';
 import { SearchIcon, CloseIcon } from './Icons';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const SearchBar: React.FC = () => {
     const [activeView, setActiveView] = useAtom(activeViewAtom);

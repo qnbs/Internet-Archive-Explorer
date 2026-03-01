@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useLanguage } from '../../hooks/useLanguage';
-import { SearchIcon, ChevronUpIcon, ChevronDownIcon, CloseIcon } from '../Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { SearchIcon, ChevronUpIcon, ChevronDownIcon, CloseIcon } from '@/components/Icons';
 
 interface DocumentSearchBarProps {
     text: string;

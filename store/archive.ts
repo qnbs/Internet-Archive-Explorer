@@ -1,5 +1,5 @@
 import { safeAtomWithStorage } from './safeStorage';
-import type { Profile } from '../types';
+import type { Profile } from '@/types';
 import { atom } from 'jotai';
 
 export const myArchiveProfileAtom = safeAtomWithStorage<Profile | null>('archive-user-profile-v1', null);

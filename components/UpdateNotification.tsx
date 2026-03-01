@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 import { SparklesIcon, CloseIcon } from './Icons';
 
 interface UpdateNotificationProps {

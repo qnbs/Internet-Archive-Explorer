@@ -2,16 +2,16 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom, libraryCountsAtom } from '../../store/favorites';
-import { modalAtom } from '../../store/app';
-import { toastAtom } from '../../store/toast';
-import type { LibraryFilter, UserCollection } from '../../types';
-import { MediaType } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
+import { userCollectionsAtom, allTagsAtom, deleteCollectionAtom, updateCollectionNameAtom, libraryCountsAtom } from '@/store/favorites';
+import { modalAtom } from '@/store/app';
+import { toastAtom } from '@/store/toast';
+import type { LibraryFilter, UserCollection } from '@/types';
+import { MediaType } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { 
     StarIcon, UsersIcon, CollectionIcon, TagIcon, PlusIcon, CloseIcon,
     PencilAltIcon, TrashIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, CompassIcon
-} from '../Icons';
+} from '@/components/Icons';
 
 interface LibrarySidebarProps {
     activeTab: 'items' | 'uploaders';

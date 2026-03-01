@@ -5,13 +5,13 @@ import {
     aiArchiveSearchQueryAtom, 
     selectedAIEntryIdAtom,
     filteredAndSortedEntriesAtom
-} from '../store/aiArchive';
-import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '../types';
-import { BrainIcon, FilterIcon } from '../components/Icons';
-import { useLanguage } from '../hooks/useLanguage';
-import { AIArchiveSidebar } from '../components/ai-archive/AIArchiveSidebar';
-import { AIArchiveList } from '../components/ai-archive/AIArchiveList';
-import { AIArchiveDetailPane } from '../components/ai-archive/AIArchiveDetailPane';
+} from '@/store/aiArchive';
+import type { AIArchiveEntry, AIArchiveFilter, AIArchiveSortOption } from '@/types';
+import { BrainIcon, FilterIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { AIArchiveSidebar } from '@/components/ai-archive/AIArchiveSidebar';
+import { AIArchiveList } from '@/components/ai-archive/AIArchiveList';
+import { AIArchiveDetailPane } from '@/components/ai-archive/AIArchiveDetailPane';
 
 const AIArchiveEmptyState: React.FC = () => {
     const { t } = useLanguage();

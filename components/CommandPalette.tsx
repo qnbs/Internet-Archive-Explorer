@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useCommands } from '../hooks/useCommands';
-import type { Command, View } from '../types';
+import { useCommands } from '@/hooks/useCommands';
+import type { Command, View } from '@/types';
 import { SearchIcon } from './Icons';
-import { useLanguage } from '../hooks/useLanguage';
-import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { useSetAtom } from 'jotai';
 import { activeViewAtom, searchQueryAtom } from '../store';
 

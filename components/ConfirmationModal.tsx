@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
-import { useLanguage } from '../hooks/useLanguage';
-import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 
 interface ConfirmationModalProps {
     title: string;

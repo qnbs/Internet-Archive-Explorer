@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLanguage } from '../../hooks/useLanguage';
-import { SparklesIcon, BookIcon } from '../Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { SparklesIcon, BookIcon } from '@/components/Icons';
 
 const RecommendationCard: React.FC<{ title: string; description: string; buttonLabel: string; icon: React.ReactNode; onClick: () => void; }> = 
 ({ title, description, buttonLabel, icon, onClick }) => (

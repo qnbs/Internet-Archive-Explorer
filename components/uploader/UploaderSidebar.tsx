@@ -1,12 +1,12 @@
 import React from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { uploaderFavoriteSetAtom, addUploaderFavoriteAtom, removeUploaderFavoriteAtom } from '../../store/favorites';
-import { useToast } from '../../contexts/ToastContext';
-import { useLanguage } from '../../hooks/useLanguage';
-import type { Profile, UploaderStats } from '../../types';
-import { getProfileApiQuery } from '../../utils/profileUtils';
+import { uploaderFavoriteSetAtom, addUploaderFavoriteAtom, removeUploaderFavoriteAtom } from '@/store/favorites';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
+import type { Profile, UploaderStats } from '@/types';
+import { getProfileApiQuery } from '@/utils/profileUtils';
 import { DonutChart } from '../DonutChart';
-import { StarIcon, ExternalLinkIcon, ArrowLeftIcon } from '../Icons';
+import { StarIcon, ExternalLinkIcon, ArrowLeftIcon } from '@/components/Icons';
 
 interface UploaderSidebarProps {
     profile: Profile;

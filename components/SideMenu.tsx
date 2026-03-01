@@ -1,6 +1,6 @@
 import React from 'react';
-import type { View } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
+import type { View } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, JoystickIcon, SettingsIcon, HelpIcon, CloseIcon, UsersIcon, WebIcon, BrainIcon, ArchiveLogoIcon } from './Icons';
 
 interface NavItem {

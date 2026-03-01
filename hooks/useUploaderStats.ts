@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { UploaderStats, Profile } from '../types';
-import { getItemCount } from '../services/archiveService';
-import { getProfileApiQuery } from '../utils/profileUtils';
+import type { UploaderStats, Profile } from '@/types';
+import { getItemCount } from '@/services/archiveService';
+import { getProfileApiQuery } from '@/utils/profileUtils';
 
 export const useUploaderStats = (profile: Profile) => {
     const [stats, setStats] = useState<UploaderStats | null>(null);

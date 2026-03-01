@@ -1,6 +1,6 @@
 import React from 'react';
-import type { LibraryFilter } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
+import type { LibraryFilter } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { LibraryStats } from './LibraryStats';
 import { RecentlyAdded } from './RecentlyAdded';
 import { AIRecommendations } from './AIRecommendations';

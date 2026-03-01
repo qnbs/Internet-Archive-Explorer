@@ -2,20 +2,20 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { searchQueryAtom, facetsAtom } from '../store/search';
-import { showExplorerHubAtom, autoArchiveAIAtom } from '../store/settings';
-import { AIGenerationType, type ArchiveItemSummary } from '../types';
-import { ResultsGrid } from '../components/ResultsGrid';
-import { useLanguage } from '../hooks/useLanguage';
-import { OnThisDay } from '../components/OnThisDay';
-import { TrendingIcon, SparklesIcon } from '../components/Icons';
-import { ContentCarousel } from '../components/ContentCarousel';
-import { useExplorerSearch } from '../hooks/useExplorerSearch';
-import { generateDailyHistoricalEvent } from '../services/geminiService';
-import { AILoadingIndicator } from '../components/AILoadingIndicator';
-import { findArchivedDailyInsight, archiveAIGeneration } from '../services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-import { searchArchive } from '../services/archiveService';
+import { searchQueryAtom, facetsAtom } from '@/store/search';
+import { showExplorerHubAtom, autoArchiveAIAtom } from '@/store/settings';
+import { AIGenerationType, type ArchiveItemSummary } from '@/types';
+import { ResultsGrid } from '@/components/ResultsGrid';
+import { useLanguage } from '@/hooks/useLanguage';
+import { OnThisDay } from '@/components/OnThisDay';
+import { TrendingIcon, SparklesIcon } from '@/components/Icons';
+import { ContentCarousel } from '@/components/ContentCarousel';
+import { useExplorerSearch } from '@/hooks/useExplorerSearch';
+import { generateDailyHistoricalEvent } from '@/services/geminiService';
+import { AILoadingIndicator } from '@/components/AILoadingIndicator';
+import { findArchivedDailyInsight, archiveAIGeneration } from '@/services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { searchArchive } from '@/services/archiveService';
 import { toastAtom } from '../store';
 
 const TrendingItems: React.FC = () => {

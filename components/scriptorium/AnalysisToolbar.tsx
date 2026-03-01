@@ -1,10 +1,10 @@
 
 
 import React, { useState, useCallback } from 'react';
-import { useLanguage } from '../../hooks/useLanguage';
-import { getSummary, extractEntities } from '../../services/geminiService';
-import type { ExtractedEntities, WorksetDocument } from '../../types';
-import { SparklesIcon, TagIcon } from '../Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { getSummary, extractEntities } from '@/services/geminiService';
+import type { ExtractedEntities, WorksetDocument } from '@/types';
+import { SparklesIcon, TagIcon } from '@/components/Icons';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
 import { useSetAtom } from 'jotai';

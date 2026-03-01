@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../types';
-import { searchArchive } from '../services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
+import { searchArchive } from '@/services/archiveService';
 
 /**
  * A reusable hook to fetch a list of archival items for carousels or other displays.

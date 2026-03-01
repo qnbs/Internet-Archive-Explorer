@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useHelpViewContext } from '../../contexts/HelpViewContext';
-import { sanitizeHtml } from '../../utils/sanitizer';
+import { useHelpViewContext } from '@/contexts/HelpViewContext';
+import { sanitizeHtml } from '@/utils/sanitizer';
 
 const AccordionItem: React.FC<{ title: string; children: React.ReactNode; searchQuery: string }> = ({ title, children, searchQuery }) => {
     const [isOpen, setIsOpen] = useState(false);

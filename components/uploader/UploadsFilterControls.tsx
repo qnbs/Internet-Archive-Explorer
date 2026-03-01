@@ -1,10 +1,10 @@
 
 import React, { useMemo } from 'react';
-import type { UploaderStats, MediaType } from '../../types';
+import type { UploaderStats, MediaType } from '@/types';
 import { 
     ChevronDownIcon, SortAscendingIcon, SortDescendingIcon, MovieIcon, AudioIcon, BookIcon, ImageIcon, JoystickIcon, CollectionIcon
-} from '../Icons';
-import { useLanguage } from '../../hooks/useLanguage';
+} from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface UploadsFilterControlsProps {
     stats: UploaderStats | null;

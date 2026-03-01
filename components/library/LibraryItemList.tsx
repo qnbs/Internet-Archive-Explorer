@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { removeLibraryItemsAtom } from '../../store/favorites';
-import { modalAtom } from '../../store/app';
-import type { LibraryItem, LibraryFilter } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
+import { removeLibraryItemsAtom } from '@/store/favorites';
+import { modalAtom } from '@/store/app';
+import type { LibraryItem, LibraryFilter } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { LibraryItemCard } from './LibraryItemCard';
-import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon, FilterIcon, SearchIcon } from '../Icons';
+import { CollectionIcon, TagIcon, SparklesIcon, TrashIcon, CloseIcon, FilterIcon, SearchIcon } from '@/components/Icons';
 
 interface LibraryItemListProps {
     items: LibraryItem[];

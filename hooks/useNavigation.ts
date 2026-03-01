@@ -1,8 +1,8 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '../store/app';
-import { UPLOADER_DATA } from '../pages/uploaderData';
-import type { View, Profile } from '../types';
+import { activeViewAtom, selectedProfileAtom, profileReturnViewAtom } from '@/store/app';
+import { UPLOADER_DATA } from '@/pages/uploaderData';
+import type { View, Profile } from '@/types';
 
 export const useNavigation = () => {
     const setActiveView = useSetAtom(activeViewAtom);

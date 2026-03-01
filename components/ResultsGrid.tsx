@@ -2,8 +2,8 @@ import React from 'react';
 import { ItemCard } from './ItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { Spinner } from './Spinner';
-import type { ArchiveItemSummary } from '../types';
-import { useLanguage } from '../hooks/useLanguage';
+import type { ArchiveItemSummary } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { SearchIcon } from './Icons';
 
 interface ResultsGridProps {

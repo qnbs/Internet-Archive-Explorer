@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '../types';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
-import { useLanguage } from '../hooks/useLanguage';
-import { searchArchive } from '../services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
 import { ContentCarousel } from './ContentCarousel';
 
 export const OnThisDay: React.FC = () => {
@@ -36,8 +36,7 @@ export const OnThisDay: React.FC = () => {
             } else {
                 setItems([]);
             }
-        } catch (err) {
-            console.error("Failed to fetch 'On This Day' items:", err);
+        } catch {
             setError(t('common:error'));
             setItems([]);
         } finally {

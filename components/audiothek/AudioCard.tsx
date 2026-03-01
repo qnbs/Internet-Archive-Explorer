@@ -1,10 +1,10 @@
 import React from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { currentTrackAtom, isPlayingAtom, playItemAtom, addToQueueAtom, togglePlayPauseAtom } from '../../store/audioPlayer';
-import { selectItemAtom } from '../../store/app';
-import type { ArchiveItemSummary } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { PlayIcon, PauseIcon, PlusIcon, InfoIcon } from '../Icons';
+import { currentTrackAtom, isPlayingAtom, playItemAtom, addToQueueAtom, togglePlayPauseAtom } from '@/store/audioPlayer';
+import { selectItemAtom } from '@/store/app';
+import type { ArchiveItemSummary } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { PlayIcon, PauseIcon, PlusIcon, InfoIcon } from '@/components/Icons';
 
 interface AudioCardProps {
   item: ArchiveItemSummary;

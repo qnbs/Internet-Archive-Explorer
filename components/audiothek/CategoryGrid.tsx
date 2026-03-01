@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSearchAndGo } from '../../hooks/useSearchAndGo';
-import { useLanguage } from '../../hooks/useLanguage';
-import { MediaType } from '../../types';
-import { MusicNoteIcon, BookIcon, RadioIcon, PodcastIcon } from '../Icons';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { useLanguage } from '@/hooks/useLanguage';
+import { MediaType } from '@/types';
+import { MusicNoteIcon, BookIcon, RadioIcon, PodcastIcon } from '@/components/Icons';
 
 export const CategoryGrid: React.FC = () => {
     const searchAndGo = useSearchAndGo();

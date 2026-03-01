@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata, ArchiveFile } from '../types';
-import { getItemMetadata, getItemPlainText } from '../services/archiveService';
+import type { ArchiveItemSummary, ArchiveMetadata, ArchiveFile } from '@/types';
+import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { useAtomValue }from 'jotai';
-import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '../store/settings';
-import { findPlayableFile } from '../utils/mediaUtils';
+import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '@/store/settings';
+import { findPlayableFile } from '@/utils/mediaUtils';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';
 

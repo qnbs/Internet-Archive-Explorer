@@ -1,8 +1,8 @@
 import React, { useId } from 'react';
-import { useItemDetailContext } from '../contexts/ItemDetailContext';
+import { useItemDetailContext } from '@/contexts/ItemDetailContext';
 import { useAtomValue } from 'jotai';
-import { enableAiFeaturesAtom } from '../store/settings';
-import { useLanguage } from '../hooks/useLanguage';
+import { enableAiFeaturesAtom } from '@/store/settings';
+import { useLanguage } from '@/hooks/useLanguage';
 
 import { Spinner } from './Spinner';
 import { ItemDetailSidebar } from './ItemDetailSidebar';
@@ -11,7 +11,7 @@ import { ItemDetailDescriptionTab } from './ItemDetailDescriptionTab';
 import { ItemDetailFilesTab } from './ItemDetailFilesTab';
 import { ItemDetailRelatedTab } from './ItemDetailRelatedTab';
 import { AIToolsTab } from './AIToolsTab';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary } from '@/types';
 
 interface ItemDetailLayoutProps {
     onCreatorSelect: (creator: string) => void;

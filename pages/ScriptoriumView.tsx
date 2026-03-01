@@ -1,12 +1,12 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { selectedWorksetIdAtom, selectedDocumentIdAtom } from '../store/scriptorium';
-import { useWorksets } from '../hooks/useWorksets';
-import { ScriptoriumHub } from '../components/scriptorium/ScriptoriumHub';
-import { WorkspacePanel } from '../components/scriptorium/WorkspacePanel';
-import { Spinner } from '../components/Spinner';
-import type { Workset, WorksetDocument, ConfirmationOptions } from '../types';
+import { selectedWorksetIdAtom, selectedDocumentIdAtom } from '@/store/scriptorium';
+import { useWorksets } from '@/hooks/useWorksets';
+import { ScriptoriumHub } from '@/components/scriptorium/ScriptoriumHub';
+import { WorkspacePanel } from '@/components/scriptorium/WorkspacePanel';
+import { Spinner } from '@/components/Spinner';
+import type { Workset, WorksetDocument, ConfirmationOptions } from '@/types';
 
 interface ScriptoriumViewProps {
   showConfirmation: (options: ConfirmationOptions) => void;

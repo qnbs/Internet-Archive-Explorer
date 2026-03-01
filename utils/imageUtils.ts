@@ -1,5 +1,6 @@
 
-import type { ArchiveFile } from '../types';
+import type { ArchiveFile } from '@/types';
+import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 /**
  * A list of preferred image formats for web display, ordered by preference.
@@ -65,7 +66,7 @@ export const findBestImageUrl = (files: ArchiveFile[], identifier: string): stri
 export const urlToBase64 = async (imageUrl: string): Promise<{ base64: string; mimeType: string }> => {
     // AI Studio provides a CORS proxy, which is necessary for fetching images from archive.org
     const proxyUrl = `/proxy?url=${encodeURIComponent(imageUrl)}`;
-    const response = await fetch(proxyUrl);
+  const response = await fetchWithTimeout(proxyUrl, {}, 15000);
     if (!response.ok) {
         throw new Error(`Failed to fetch image: ${response.statusText}`);
     }

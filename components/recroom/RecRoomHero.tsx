@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { selectItemAtom } from '../../store/app';
-import type { ArchiveItemSummary } from '../../types';
-import { searchArchive } from '../../services/archiveService';
+import { selectItemAtom } from '@/store/app';
+import type { ArchiveItemSummary } from '@/types';
+import { searchArchive } from '@/services/archiveService';
 import { Spinner } from '../Spinner';
-import { useLanguage } from '../../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const RecRoomHero: React.FC = () => {
     const [item, setItem] = useState<ArchiveItemSummary | null>(null);

@@ -1,4 +1,4 @@
-import type { Facets } from '../types';
+import type { Facets } from '@/types';
 
 interface QueryOptions {
     base?: string;

@@ -2,11 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { createCollectionAtom } from '../../store/favorites';
-import { toastAtom } from '../../store/toast';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon } from '../Icons';
+import { createCollectionAtom } from '@/store/favorites';
+import { toastAtom } from '@/store/toast';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon } from '@/components/Icons';
 
 interface NewCollectionModalProps {
     onClose: () => void;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHelpViewContext } from '../../contexts/HelpViewContext';
+import { useHelpViewContext } from '@/contexts/HelpViewContext';
 
 export const HelpSidebar: React.FC = () => {
     const { t, filteredSidebarTopics, activeTopic, selectTopic, iconMap } = useHelpViewContext();

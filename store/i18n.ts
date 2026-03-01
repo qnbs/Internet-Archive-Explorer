@@ -1,7 +1,8 @@
 import { atom } from 'jotai';
 import { loadable } from 'jotai/utils';
 import { safeAtomWithStorage } from './safeStorage';
-import type { Language } from '../types';
+import type { Language } from '@/types';
+import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 export const STORAGE_KEYS = {
     language: 'app-language',
@@ -19,6 +20,9 @@ const NAMESPACES = [
   'uploaderHub', 'aiArchive', 'updateNotification', 'installBanner', 'pwaModal'
 ];
 const translationsCache = new Map<Language, Record<string, any>>();
+const baseUrl = (import.meta as ImportMeta & { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/';
+
+const withBaseUrl = (path: string): string => `${baseUrl}${path}`;
 
 const languageTranslationsAtom = atom(async (get) => {
     const lang = get(languageAtom);
@@ -28,13 +32,13 @@ const languageTranslationsAtom = atom(async (get) => {
 
     const fetchNamespace = async (ns: string, language: Language): Promise<[string, any]> => {
         try {
-            const res = await fetch(`/locales/${language}/${ns}.json`);
+            const res = await fetchWithTimeout(withBaseUrl(`locales/${language}/${ns}.json`), {}, 10000);
             if (!res.ok) throw new Error(`Namespace fetch failed with status ${res.status}`);
             return [ns, await res.json()];
         } catch (error) {
             console.warn(`Could not load '${ns}' for '${language}', falling back to 'en'.`);
             if (language !== 'en') {
-                const fallbackRes = await fetch(`/locales/en/${ns}.json`);
+                const fallbackRes = await fetchWithTimeout(withBaseUrl(`locales/en/${ns}.json`), {}, 10000);
                 if (!fallbackRes.ok) throw new Error(`Fallback namespace '${ns}' for 'en' failed.`);
                 return [ns, await fallbackRes.json()];
             }

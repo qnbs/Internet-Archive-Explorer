@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { AIGenerationType, type AIArchiveEntry, type ExtractedEntities, type ImageAnalysisResult, type MagicOrganizeResult } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon, MovieIcon, AudioIcon, JoystickIcon } from '../Icons';
+import { AIGenerationType, type AIArchiveEntry, type ExtractedEntities, type ImageAnalysisResult, type MagicOrganizeResult } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { BookIcon, TagIcon, ImageIcon, StarIcon, SparklesIcon, MovieIcon, AudioIcon, JoystickIcon } from '@/components/Icons';
 
 interface AIArchiveItemCardProps {
   entry: AIArchiveEntry;

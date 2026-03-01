@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
-import { searchArchive } from '../../services/archiveService';
-import type { ArchiveItemSummary } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { Spinner } from '../Spinner';
-import { SparklesIcon } from '../Icons';
+import { SparklesIcon } from '@/components/Icons';
+
+const getApiKey = (): string | undefined => {
+    const viteKey = (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env?.VITE_API_KEY;
+    const legacyKey = (globalThis as typeof globalThis & { process?: { env?: { API_KEY?: string } } }).process?.env?.API_KEY;
+    return viteKey || legacyKey;
+};
 
 const GameFinder: React.FC = () => {
     const { t, language } = useLanguage();
@@ -40,7 +46,12 @@ const GameFinder: React.FC = () => {
         setSuggestions([]);
 
         try {
-            const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
+            const apiKey = getApiKey();
+            if (!apiKey) {
+                throw new Error('Missing Gemini API key');
+            }
+
+            const ai = new GoogleGenAI({ apiKey });
             
             const gameListString = gameListCache.current.map(g => `${g.identifier}: ${g.title}`).join('\n');
             
@@ -66,7 +77,12 @@ const GameFinder: React.FC = () => {
                 },
             });
 
-            const result = JSON.parse(response.text.trim());
+            const responseText = response.text ?? '';
+            if (!responseText.trim()) {
+                throw new Error('Empty Gemini response');
+            }
+
+            const result = JSON.parse(responseText.trim());
             const identifiers = result.recommendations as string[];
 
             if (identifiers && identifiers.length > 0) {
@@ -80,7 +96,11 @@ const GameFinder: React.FC = () => {
 
         } catch (err) {
             console.error(err);
-            setError(t('recRoom:gameFinder.error'));
+            if (err instanceof Error && err.message.includes('Missing Gemini API key')) {
+                setError(t('recRoom:gameFinder.error'));
+            } else {
+                setError(t('recRoom:gameFinder.error'));
+            }
         } finally {
             setIsLoading(false);
         }

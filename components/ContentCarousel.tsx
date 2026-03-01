@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useId } from 'react';
-import type { ArchiveItemSummary } from '../types';
+import type { ArchiveItemSummary } from '@/types';
 import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
 import { SkeletonCard } from './SkeletonCard';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ContentCarouselProps {
     title: string;

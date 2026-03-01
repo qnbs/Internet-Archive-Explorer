@@ -1,9 +1,9 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import { themeAtom } from '../../store/settings';
-import type { Theme } from '../../types';
-import { SunIcon, MoonIcon, SettingsIcon } from '../Icons';
-import { useLanguage } from '../../hooks/useLanguage';
+import { themeAtom } from '@/store/settings';
+import type { Theme } from '@/types';
+import { SunIcon, MoonIcon, SettingsIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ThemeOption {
     value: Theme;

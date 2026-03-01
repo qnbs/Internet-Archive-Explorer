@@ -1,12 +1,12 @@
 import React from 'react';
-import type { ArchiveItemSummary, MediaType } from '../types';
+import type { ArchiveItemSummary, MediaType } from '@/types';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
-import { selectItemAtom } from '../store/app';
-import { useToast } from '../contexts/ToastContext';
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '@/store/favorites';
+import { selectItemAtom } from '@/store/app';
+import { useToast } from '@/contexts/ToastContext';
 import { StarIcon, InfoIcon } from './Icons';
-import { useLanguage } from '../hooks/useLanguage';
-import { formatNumber } from '../utils/formatter';
+import { useLanguage } from '@/hooks/useLanguage';
+import { formatNumber } from '@/utils/formatter';
 
 interface ItemCardProps {
   item: ArchiveItemSummary;

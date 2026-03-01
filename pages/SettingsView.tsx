@@ -11,13 +11,14 @@ import {
     clearScriptoriumAtom,
     clearAIArchiveAtom,
 } from '../store';
-import { useLanguage } from '../hooks/useLanguage';
-import type { AppSettings, Language, AccentColor, View, ConfirmationOptions } from '../types';
-import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon, EyeIcon } from '../components/Icons';
-import { exportAllData, importData } from '../services/dataService';
-import { useToast } from '../contexts/ToastContext';
-import { ThemeSelector } from '../components/settings/ThemeSelector';
-import { PWAInstallManager } from '../components/settings/PWAInstallManager';
+import { useLanguage } from '@/hooks/useLanguage';
+import type { AppSettings, Language, AccentColor, View, ConfirmationOptions } from '@/types';
+import { DownloadIcon, UploadIcon, SettingsIcon, SearchIcon, ImageIcon, SparklesIcon, TrashIcon, BookIcon, EyeIcon } from '@/components/Icons';
+import { exportAllData, importData } from '@/services/dataService';
+import { useToast } from '@/contexts/ToastContext';
+import { ThemeSelector } from '@/components/settings/ThemeSelector';
+import { PWAInstallManager } from '@/components/settings/PWAInstallManager';
+import { GoogleLoginButton } from '@/components/GoogleLoginButton';
 
 type SettingsSectionId = 'ui' | 'accessibility' | 'search' | 'content' | 'ai' | 'data';
 
@@ -355,7 +356,7 @@ const AISettingsPanel: React.FC = () => {
                 description={t('settings:ai.autoRunEntityExtractionDesc')}
                 renderControl={(value, onChange, ariaProps) => <Toggle value={value} onChange={onChange} ariaProps={ariaProps} />}
             />
-             <SettingRow 
+            <SettingRow 
                 settingKey="summaryTone" 
                 label={t('settings:ai.summaryTone')} 
                 description={t('settings:ai.summaryToneDesc')}
@@ -365,6 +366,10 @@ const AISettingsPanel: React.FC = () => {
                     {value: 'academic', label: t('settings:ai.tones.academic')}
                 ]} ariaProps={ariaProps} />}
             />
+
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <GoogleLoginButton />
+            </div>
         </div>
     );
 };

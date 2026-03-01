@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { myArchiveProfileAtom } from '../store/archive';
-import { useLanguage } from '../hooks/useLanguage';
-import { UsersIcon, ArrowRightIcon } from '../components/Icons';
+import { myArchiveProfileAtom } from '@/store/archive';
+import { useLanguage } from '@/hooks/useLanguage';
+import { UsersIcon, ArrowRightIcon } from '@/components/Icons';
 import { UPLOADER_DATA } from './uploaderData';
-import type { Profile, ArchiveItemSummary } from '../types';
+import type { Profile, ArchiveItemSummary } from '@/types';
 import UploaderDetailView from './UploaderDetailView';
-import { searchArchive } from '../services/archiveService';
-import { Spinner } from '../components/Spinner';
-import { ContentCarousel } from '../components/ContentCarousel';
+import { searchArchive } from '@/services/archiveService';
+import { Spinner } from '@/components/Spinner';
+import { ContentCarousel } from '@/components/ContentCarousel';
 
 
 /**

@@ -3,18 +3,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '../../store/favorites';
+import { libraryItemsAtom, addItemsToCollectionAtom, createCollectionAtom, addTagsToItemsAtom, userCollectionsAtom } from '@/store/favorites';
 import { toastAtom } from '../../store';
-import { organizeLibraryItems } from '../../services/geminiService';
-import { useLanguage } from '../../hooks/useLanguage';
-import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
-import { CloseIcon, SparklesIcon } from '../Icons';
+import { organizeLibraryItems } from '@/services/geminiService';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { CloseIcon, SparklesIcon } from '@/components/Icons';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import type { UserCollection, MagicOrganizeResult } from '../../types';
-import { archiveAIGeneration } from '../../services/aiPersistenceService';
-import { addAIArchiveEntryAtom } from '../../store/aiArchive';
-import { AIGenerationType as AIGenEnum } from '../../types';
-import { autoArchiveAIAtom } from '../../store/settings';
+import type { UserCollection, MagicOrganizeResult } from '@/types';
+import { archiveAIGeneration } from '@/services/aiPersistenceService';
+import { addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { AIGenerationType as AIGenEnum } from '@/types';
+import { autoArchiveAIAtom } from '@/store/settings';
 
 
 interface MagicOrganizeModalProps {

@@ -7,7 +7,7 @@ import {
     addDocumentToWorksetAtom, 
     removeDocumentFromWorksetAtom, 
     updateDocumentNotesAtom 
-} from '../store/scriptorium';
+} from '@/store/scriptorium';
 import { useEffect, useState } from 'react';
 
 // This hook now serves as a convenient facade for interacting with the Scriptorium Jotai atoms.

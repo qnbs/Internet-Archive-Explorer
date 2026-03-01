@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { useToast } from '../contexts/ToastContext';
+import { useToast } from '@/contexts/ToastContext';
 import { CloseIcon } from './Icons';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const Toast: React.FC<{ message: string; type: string; onDismiss: () => void; duration?: number }> = ({ message, type, onDismiss, duration }) => {
   const { t } = useLanguage();

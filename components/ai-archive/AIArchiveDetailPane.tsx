@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { deleteAIArchiveEntryAtom, updateAIEntryTagsAtom, updateAIArchiveEntryAtom } from '../../store/aiArchive';
-import { modalAtom } from '../../store/app';
-import type { AIArchiveEntry, ExtractedEntities, ImageAnalysisResult, MagicOrganizeResult } from '../../types';
-import { AIGenerationType } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
-import { BrainIcon, ArrowLeftIcon, TrashIcon, TagIcon, CloseIcon } from '../Icons';
+import { deleteAIArchiveEntryAtom, updateAIEntryTagsAtom, updateAIArchiveEntryAtom } from '@/store/aiArchive';
+import { modalAtom } from '@/store/app';
+import type { AIArchiveEntry, ExtractedEntities, ImageAnalysisResult, MagicOrganizeResult } from '@/types';
+import { AIGenerationType } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
+import { BrainIcon, ArrowLeftIcon, TrashIcon, TagIcon, CloseIcon } from '@/components/Icons';
 import { SourceItemCard } from './SourceItemCard';
-import { useDebounce } from '../../hooks/useDebounce';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const Tag: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
     <div className="flex items-center gap-1.5 bg-cyan-500/80 text-white text-xs font-semibold pl-2 pr-1 py-1 rounded-full">

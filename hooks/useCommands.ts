@@ -2,16 +2,16 @@
 import React, { useMemo } from 'react';
 import { useLanguage } from './useLanguage';
 import { useAtom, useAtomValue } from 'jotai';
-import { themeAtom } from '../store/settings';
-import { languageAtom } from '../store/i18n';
-import type { Command, View } from '../types';
+import { themeAtom } from '@/store/settings';
+import { languageAtom } from '@/store/i18n';
+import type { Command, View } from '@/types';
 import {
   CompassIcon, StarIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon, UsersIcon,
   JoystickIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LanguageIcon, WebIcon, BrainIcon,
   DownloadIcon, CheckIcon
-} from '../components/Icons';
-import { resolvedThemeAtom } from '../store/settings';
-import { deferredPromptAtom, isAppInstalledAtom } from '../store/pwa';
+} from '@/components/Icons';
+import { resolvedThemeAtom } from '@/store/settings';
+import { deferredPromptAtom, isAppInstalledAtom } from '@/store/pwa';
 
 interface CommandActions {
   navigateTo: (view: View) => void;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Profile, UploaderTab } from '../types';
-import { getItemCount } from '../services/archiveService';
+import type { Profile, UploaderTab } from '@/types';
+import { getItemCount } from '@/services/archiveService';
 
 const getPostsQuery = (profile: Profile) => `creator:("${profile.searchIdentifier}") AND mediatype:(texts) AND collection:(archiveteam_newsposts)`;
 const getWebArchiveQuery = (profile: Profile) => `uploader:("${profile.searchIdentifier}") AND mediatype:(web)`;

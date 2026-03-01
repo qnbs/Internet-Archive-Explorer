@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { modalAtom } from '../store';
-import { useNavigation } from '../hooks/useNavigation';
+import { useNavigation } from '@/hooks/useNavigation';
 import { ItemDetailModal } from './ItemDetailModal';
 import { ImageDetailModal } from './ImageDetailModal';
 import { EmulatorModal } from './EmulatorModal';
@@ -12,7 +12,7 @@ import { NewCollectionModal } from './library/NewCollectionModal';
 import { AddToCollectionModal } from './library/AddToCollectionModal';
 import { AddTagsModal } from './library/AddTagsModal';
 import { MagicOrganizeModal } from './library/MagicOrganizeModal';
-import { ArchiveItemSummary } from '../types';
+import { ArchiveItemSummary } from '@/types';
 import { InstallModal } from './modals/InstallModal';
 
 export const ModalManager: React.FC = () => {

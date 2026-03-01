@@ -1,4 +1,4 @@
-import type { ArchiveFile } from '../types';
+import type { ArchiveFile } from '@/types';
 
 /**
  * Finds the best-quality, web-compatible media URL from a list of files.

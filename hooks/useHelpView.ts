@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
-import { loadableTranslationsAtom } from '../store/i18n';
+import { loadableTranslationsAtom } from '@/store/i18n';
 import { useLanguage } from './useLanguage';
 import {
     HelpIcon, UsersIcon, BookIcon, MovieIcon, AudioIcon, ImageIcon,
     JoystickIcon, WebIcon, StarIcon, SettingsIcon, InfoIcon, CompassIcon, CollectionIcon, SparklesIcon, UploadIcon
-} from '../components/Icons';
+} from '@/components/Icons';
 
 export interface HelpQuestion {
     q: string;

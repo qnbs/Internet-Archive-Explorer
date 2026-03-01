@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { ToastMessage, ToastType } from '../types';
+import type { ToastMessage, ToastType } from '@/types';
 
 interface ToastContextType {
   addToast: (message: string, type: ToastType, duration?: number) => void;

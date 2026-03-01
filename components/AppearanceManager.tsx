@@ -9,7 +9,7 @@ import {
     accentColorAtom,
     scrollbarColorAtom,
 } from '../store';
-import type { AccentColor } from '../types';
+import type { AccentColor } from '@/types';
 
 const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
   cyan: {

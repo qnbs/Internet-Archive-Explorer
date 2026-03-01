@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-import { libraryItemsAtom } from '../../store/favorites';
-import type { LibraryItem, LibraryFilter } from '../../types';
-import { useLanguage } from '../../hooks/useLanguage';
+import { libraryItemsAtom } from '@/store/favorites';
+import type { LibraryItem, LibraryFilter } from '@/types';
+import { useLanguage } from '@/hooks/useLanguage';
 import { LibraryItemList } from './LibraryItemList';
 import { LibraryDetailPane } from './LibraryDetailPane';
-import { StarIcon } from '../Icons';
+import { StarIcon } from '@/components/Icons';
 
 const LibraryEmptyState: React.FC = () => {
     const { t } = useLanguage();

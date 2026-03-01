@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useItemDetail, ItemDetailContextType } from '../hooks/useItemDetail';
-import type { ArchiveItemSummary } from '../types';
+import { useItemDetail, ItemDetailContextType } from '@/hooks/useItemDetail';
+import type { ArchiveItemSummary } from '@/types';
 
 const ItemDetailContext = createContext<ItemDetailContextType | null>(null);
 

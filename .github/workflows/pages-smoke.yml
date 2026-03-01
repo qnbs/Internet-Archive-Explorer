@@ -73,3 +73,12 @@ jobs:
 
           curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${js_path}"
           curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${manifest_path}"
+
+      - name: Basic a11y heuristics (no extra deps)
+        run: |
+          set -euo pipefail
+
+          grep -qi '<html' /tmp/index.html
+          grep -qi '<title>' /tmp/index.html
+          grep -qi 'lang=' /tmp/index.html
+          grep -qi 'name="viewport"' /tmp/index.html

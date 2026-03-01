@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
-import { autoArchiveAIAtom } from '../store/settings';
-import { archiveAIGeneration, findArchivedDailyInsight } from '../services/aiPersistenceService';
-import { useLanguage } from '../hooks/useLanguage';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { autoArchiveAIAtom } from '@/store/settings';
+import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPersistenceService';
+import { useLanguage } from '@/hooks/useLanguage';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { SparklesIcon } from './Icons';
-import type { ArchiveItemSummary, AIGenerationType } from '../types';
+import type { ArchiveItemSummary, AIGenerationType, Language } from '@/types';
 
 interface AIInsightPanelProps {
     title: string;
     description: string;
     buttonLabel: string;
     items: ArchiveItemSummary[];
-    generationFn: (titles: string[], language: string) => Promise<string>;
+    generationFn: (titles: string[], language: Language) => Promise<string>;
     generationType: AIGenerationType;
 }
 

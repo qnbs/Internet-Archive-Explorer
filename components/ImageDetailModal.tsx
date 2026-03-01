@@ -1,23 +1,23 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { AIGenerationType, type ArchiveItemSummary, type ImageAnalysisResult, MediaType } from '../../types';
+import { AIGenerationType, type ArchiveItemSummary, type ImageAnalysisResult, MediaType } from '@/types';
 import { Spinner } from './Spinner';
 import { StarIcon, CloseIcon, ZoomInIcon, ZoomOutIcon, RotateClockwiseIcon, RotateCounterClockwiseIcon, RefreshIcon, ExpandIcon, DownloadIcon, SparklesIcon, ChevronDownIcon, ChevronUpIcon } from './Icons';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '../store/favorites';
-import { autoArchiveAIAtom, enableAiFeaturesAtom } from '../store/settings';
-import { useToast } from '../contexts/ToastContext';
-import { useLanguage } from '../hooks/useLanguage';
-import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
+import { libraryItemIdentifiersAtom, addLibraryItemAtom, removeLibraryItemAtom } from '@/store/favorites';
+import { autoArchiveAIAtom, enableAiFeaturesAtom } from '@/store/settings';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 // FIX: Corrected import from useItemMetadata to useItemDetail, which is the correct hook.
-import { useImageViewer } from '../hooks/useImageViewer';
-import { findBestImageUrl, urlToBase64 } from '../utils/imageUtils';
-import { analyzeImage, askAboutImage } from '../services/geminiService';
+import { useImageViewer } from '@/hooks/useImageViewer';
+import { findBestImageUrl, urlToBase64 } from '@/utils/imageUtils';
+import { analyzeImage, askAboutImage } from '@/services/geminiService';
 import { ItemDetailSidebar } from './ItemDetailSidebar';
-import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
+import { findArchivedItemAnalysis, archiveAIGeneration } from '@/services/aiPersistenceService';
+import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
 import { AILoadingIndicator } from './AILoadingIndicator';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
-import { ItemDetailProvider, useItemDetailContext } from '../contexts/ItemDetailContext';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
 
 
 // --- Sub-components moved inside to manage complex state ---

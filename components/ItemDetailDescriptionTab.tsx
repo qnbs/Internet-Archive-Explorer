@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLanguage } from '../hooks/useLanguage';
-import { sanitizeHtml } from '../../utils/sanitizer';
+import { useLanguage } from '@/hooks/useLanguage';
+import { sanitizeHtml } from '@/utils/sanitizer';
 
 interface ItemDetailDescriptionTabProps {
     description: string | string[] | undefined;
