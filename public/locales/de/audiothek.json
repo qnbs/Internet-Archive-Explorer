@@ -1,0 +1,39 @@
+{
+  "title": "Die Audiothek",
+  "description": "Von Live-Konzerten und alten Radiosendungen bis hin zu Hörbüchern und Gedichtlesungen – tauchen Sie ein in die riesige Audiosammlung des Archivs.",
+  "heroButton": "Live-Musikarchiv erkunden",
+  "categories": {
+    "music": "Musik",
+    "audiobooks": "Hörbücher & Poesie",
+    "radio": "Altes Radio",
+    "podcasts": "Podcasts"
+  },
+  "shelves": {
+    "otr": "Old-Time-Radio",
+    "librivox": "LibriVox-Hörbücher",
+    "grateful_dead": "Grateful Dead",
+    "78rpm": "Das Great 78 Project"
+  },
+  "collections": {
+    "archiveOfContemporaryMusic": "Archiv für Zeitgenössische Musik",
+    "hipHopMixtapes": "Hip-Hop-Mixtapes",
+    "radioWithASR": "Radio mit ASR",
+    "blackieBeats": "Blackie-Beats-Archiv",
+    "vaporwave": "Vaporwave",
+    "airchecks": "Airchecks (Radioaufnahmen)"
+  },
+  "aiInsight": {
+    "title": "Feature des Radio-Archivars",
+    "description": "Lassen Sie unseren KI-DJ einen thematischen Faden durch die Audiosammlung ziehen und ein Konzept für eine fiktive Radiosendung entwickeln.",
+    "button": "Radiosendungs-Konzept erstellen"
+  },
+  "player": {
+    "nowPlaying": "Aktuelle Wiedergabe",
+    "playlist": "Wiedergabeliste",
+    "upNext": "Als Nächstes",
+    "emptyPlaylist": "Wiedergabeliste ist leer",
+    "addToQueue": "Zur Warteschlange hinzufügen",
+    "clearPlaylist": "Wiedergabeliste leeren",
+    "volume": "Lautstärke"
+  }
+}

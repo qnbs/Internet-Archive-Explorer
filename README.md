@@ -149,6 +149,14 @@ To use the AI-powered features, you must provide a Google Gemini API key.
 
 This key is expected as an environment variable in the execution context (e.g., AI Studio's secrets manager).
 
+### CI & Deployment Checks
+This repository includes GitHub Actions workflows to catch build and deployment regressions early:
+
+-   **`CI`** (`.github/workflows/ci.yml`): Runs on pushes/PRs to `main`, installs dependencies, builds the app, and verifies critical build artifacts (including `dist/locales/*` and `.nojekyll`).
+-   **`Pages Smoke Checks`** (`.github/workflows/pages-smoke.yml`): Runs on pushes to `gh-pages`, waits for Pages propagation, then verifies the live app URL, service worker, main JS bundle, manifest, and locale endpoints.
+
+Together, these checks help detect the exact class of GitHub Pages issues (base path, missing static assets, and i18n file delivery) before or immediately after deployment.
+
 ## Project Structure
 ```
 /

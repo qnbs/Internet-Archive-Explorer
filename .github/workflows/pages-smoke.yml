@@ -1,0 +1,75 @@
+name: Pages Smoke Checks
+
+on:
+  push:
+    branches: [gh-pages]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Smoke test live GitHub Pages URL
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Define app URL
+        run: |
+          echo "APP_URL=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> "$GITHUB_ENV"
+          echo "ORIGIN=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_ENV"
+
+      - name: Wait for Pages propagation
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..20}; do
+            http_code=$(curl -sS -o /tmp/index.html -w '%{http_code}' -H 'Cache-Control: no-cache' "$APP_URL")
+
+            if [[ "$http_code" == "200" ]] && grep -qi '<html' /tmp/index.html; then
+              echo "Pages is reachable (attempt: $attempt)"
+              break
+            fi
+
+            if [[ "$attempt" -eq 20 ]]; then
+              echo "Pages did not become ready in time (last code: $http_code)"
+              exit 1
+            fi
+
+            sleep 15
+          done
+
+      - name: Validate critical endpoints
+        run: |
+          set -euo pipefail
+
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}sw.js"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}locales/en/common.json"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}locales/de/common.json"
+
+      - name: Validate referenced assets from live HTML
+        run: |
+          set -euo pipefail
+
+          js_path=$(grep -oE '/[^" ]*assets/index-[^" ]+\.js' /tmp/index.html | head -n 1)
+          manifest_path=$(grep -oE '/[^" ]*assets/manifest-[^" ]+\.json' /tmp/index.html | head -n 1)
+
+          if [[ -z "$js_path" ]]; then
+            echo "Could not find main JS bundle path in live HTML"
+            exit 1
+          fi
+
+          if [[ -z "$manifest_path" ]]; then
+            echo "Could not find manifest path in live HTML"
+            exit 1
+          fi
+
+          grep -q 'serviceWorker.register' /tmp/index.html
+
+          curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${js_path}"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${manifest_path}"

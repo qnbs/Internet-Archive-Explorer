@@ -1,0 +1,29 @@
+
+{
+  "searchPlaceholder": "Search the archive...",
+  "trending": "Trending Now",
+  "onThisDay": "On This Day: {{date}}",
+  "quickSearch": "Quick Searches",
+  "searches": {
+    "classicFilms": "Classic Films",
+    "cultFilms": "Cult Films",
+    "tedTalks": "TED Talks",
+    "liveConcerts": "Live Concerts",
+    "nasaImages": "NASA Images",
+    "msDosGames": "MS-DOS Games",
+    "audiobooks": "Audiobooks"
+  },
+  "sortPopular": "Most Popular",
+  "sortNewest": "Newest First",
+  "sortOldest": "Oldest First",
+  "sortTitle": "Title (A-Z)",
+  "aria": {
+    "sortBy": "Sort by"
+  },
+  "dailyInsight": "Daily Historical Insight",
+  "generatingInsight": "Generating insight...",
+  "noInsight": "No historical insight available for today's trends.",
+  "errorInsight": "Failed to generate insight at this time.",
+  "generateInsightButton": "Generate Insight",
+  "generateInsightPrompt": "Curious how today's trending items connect? Click to generate a unique historical insight."
+}

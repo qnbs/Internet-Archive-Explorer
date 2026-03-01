@@ -1,0 +1,57 @@
+{
+  "added": "Added to My Library",
+  "removed": "Removed from My Library",
+  "uploaderAdded": "Uploader followed",
+  "uploaderRemoved": "Uploader unfollowed",
+  "noItemsTitle": "Your Library is Empty",
+  "noItemsDesc": "Click the star icon on any item to save it here for later.",
+  "sidebar": {
+    "items": "Items",
+    "uploaders": "Followed",
+    "allItems": "All Items",
+    "untagged": "Untagged",
+    "tags": "Tags",
+    "noTags": "No tags yet."
+  },
+  "noFavUploaders": "No Followed Contributors",
+  "noFavUploadersDesc": "Click the star icon on a contributor's profile to follow them.",
+  "searchUploadersPlaceholder_one": "Search {{count}} contributor...",
+  "searchUploadersPlaceholder_other": "Search {{count}} contributors...",
+  "details": {
+    "selectItem": "Select an item from the list to see its details.",
+    "tags": "Tags",
+    "addTagPlaceholder": "Add a tag and press Enter",
+    "notes": "My Notes",
+    "notesPlaceholder": "Your personal notes about this item..."
+  },
+  "modals": {
+    "newCollectionTitle": "Create New Collection",
+    "newCollectionName": "Collection Name",
+    "newCollectionPlaceholder": "e.g., 'Space Race History'",
+    "create": "Create",
+    "collectionCreated": "Collection '{{name}}' created."
+  },
+  "bulkActions": {
+    "selected_one": "{{count}} item selected",
+    "selected_other": "{{count}} items selected",
+    "addToCollection": "Add to Collection",
+    "addTags": "Add Tags",
+    "magicOrganize": "Magic Organize",
+    "deleteTitle_one": "Delete {{count}} Item?",
+    "deleteTitle_other": "Delete {{count}} Items?",
+    "deleteMessage": "This will permanently remove the selected item(s) from your library. This action cannot be undone.",
+    "selectCollection": "Select a collection",
+    "addedToCollection_one": "Added {{count}} item to '{{collectionName}}'.",
+    "addedToCollection_other": "Added {{count}} items to '{{collectionName}}'.",
+    "addTagsPrompt": "Add tags, separated by commas",
+    "tagsAdded": "Tags have been added."
+  },
+  "magicOrganize": {
+    "suggestedTags": "Suggested Tags",
+    "suggestedCollections": "Suggested Collections",
+    "tagsApplied": "AI suggested tags applied.",
+    "collectionCreated": "Added items to AI suggested collection '{{name}}'."
+  },
+  "renameCollection": "Rename collection",
+  "collectionRenamed": "Collection renamed."
+}

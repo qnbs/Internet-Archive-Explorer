@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and Artifact Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify expected build artifacts
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          test -f dist/sw.js
+          test -f dist/.nojekyll
+          test -f dist/locales/en/common.json
+          test -f dist/locales/de/common.json
+
+      - name: Verify GitHub Pages base paths in HTML
+        run: |
+          set -euo pipefail
+          grep -q '/Internet-Archive-Explorer/assets/' dist/index.html
+          grep -q 'serviceWorker.register' dist/index.html

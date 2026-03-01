@@ -1,0 +1,21 @@
+{
+  "title": "Der Bilder-Hub",
+  "description": "Entdecken Sie Millionen von historischen Fotografien, Kunstwerken, Karten und wissenschaftlichen Bildern.",
+  "searchPlaceholder": "Suche nach Bildern (z.B. Apollo 11, Van Gogh)",
+  "galleriesOfTheDay": "Galerien des Tages",
+  "collections": {
+    "met": "The Met Museum",
+    "metDesc": "Hochauflösende Bilder von gemeinfreien Werken aus dem Metropolitan Museum of Art.",
+    "nasa": "NASA-Bilderbibliothek",
+    "nasaDesc": "Bilder, Videos und Audio von den ikonischsten Weltraummissionen der NASA.",
+    "flickr": "Flickr Commons",
+    "flickrDesc": "Bilder aus den öffentlichen Fotoarchiven der Welt, ohne bekannte Urheberrechtsbeschränkungen.",
+    "brooklyn": "Brooklyn Museum",
+    "brooklynDesc": "Eine vielfältige Sammlung, die verschiedene Kulturen umfasst, von altägyptischer Kunst bis zu zeitgenössischen Werken."
+  },
+  "aiInsight": {
+    "title": "Museums-Spotlight",
+    "description": "Lassen Sie unseren KI-Kurator eine Mini-Ausstellung basierend auf Bildern aus der Sammlung entwerfen, komplett mit einem einzigartigen Thema und Titel.",
+    "button": "Ausstellung entwerfen"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Scriptorium",
+  "description": "Ihr persönlicher Forschungsbereich. Sammeln Sie Dokumente aus dem Archiv in Worksets zur Analyse und Notizen.",
+  "newWorksetPlaceholder": "Name des neuen Worksets...",
+  "create": "Erstellen",
+  "noWorksets": "Sie haben noch keine Worksets. Erstellen Sie eines, um zu beginnen!",
+  "renameWorkset": "Workset umbenennen",
+  "documentCount_one": "{{count}} Dokument",
+  "documentCount_other": "{{count}} Dokumente",
+  "backToHub": "Zurück zum Scriptorium-Hub",
+  "addDocument": "Dokument hinzufügen",
+  "addDocumentTo": "Dokument zu '{{worksetName}}' hinzufügen",
+  "noDocuments": "Dieses Workset ist leer. Fügen Sie ein Dokument hinzu, um zu beginnen.",
+  "selectDocument": "Wählen Sie ein Dokument aus der Liste zum Lesen und Analysieren aus.",
+  "searchPlaceholder": "Nach Texten zum Hinzufügen suchen...",
+  "startTyping": "Beginnen Sie zu tippen, um nach Dokumenten zu suchen.",
+  "reader": {
+    "notes": "Meine Notizen",
+    "notesPlaceholder": "Geben Sie hier Ihre Notizen ein...",
+    "tabReader": "Reader",
+    "tabNotes": "Notizen",
+    "entityAnalysis": "Entitätenanalyse",
+    "searchDocument": "Im Dokument suchen...",
+    "matchCount_one": "{{current}} von {{total}} Treffer",
+    "matchCount_other": "{{current}} von {{total}} Treffern",
+    "noMatches": "Keine Treffer"
+  },
+  "dashboard": {
+    "title": "Arbeitsbereich-Dashboard",
+    "documents": "Dokumente in diesem Workset"
+  },
+  "overview": {
+    "title": "Workset-Übersicht",
+    "description": "Erhalten Sie eine KI-generierte thematische Zusammenfassung aller Dokumente in diesem Workset.",
+    "button": "Zusammenfassung erstellen",
+    "generating": "Dokumente werden analysiert...",
+    "error": "Zusammenfassung konnte nicht erstellt werden."
+  },
+  "suggestions": {
+    "title": "KI-Vorschläge",
+    "description": "Entdecken Sie verwandte Dokumente aus dem Archiv, die für Ihr Workset relevant sein könnten.",
+    "generating": "Suche Vorschläge...",
+    "error": "Vorschläge konnten nicht gefunden werden.",
+    "add": "Zum Workset hinzufügen"
+  }
+}

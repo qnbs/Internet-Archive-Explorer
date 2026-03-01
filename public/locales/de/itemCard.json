@@ -1,0 +1,8 @@
+{
+  "unknownCreator": "Unbekannter Ersteller",
+  "viewDetails": "Details für {{title}} ansehen",
+  "addFavorite": "Zu meiner Bibliothek hinzufügen",
+  "removeFavorite": "Aus meiner Bibliothek entfernen",
+  "viewsTooltip_one": "{{count}} Aufruf diese Woche",
+  "viewsTooltip_other": "{{count}} Aufrufe diese Woche"
+}

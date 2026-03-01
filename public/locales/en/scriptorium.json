@@ -1,0 +1,46 @@
+{
+  "title": "Scriptorium",
+  "description": "Your personal research space. Collect documents from the archive into worksets for analysis and note-taking.",
+  "newWorksetPlaceholder": "New Workset Name...",
+  "create": "Create",
+  "noWorksets": "You don't have any worksets yet. Create one to get started!",
+  "renameWorkset": "Rename Workset",
+  "documentCount_one": "{{count}} document",
+  "documentCount_other": "{{count}} documents",
+  "backToHub": "Back to Scriptorium Hub",
+  "addDocument": "Add Document",
+  "addDocumentTo": "Add Document to '{{worksetName}}'",
+  "noDocuments": "This workset is empty. Add a document to begin.",
+  "selectDocument": "Select a document from the list to read and analyze.",
+  "searchPlaceholder": "Search for texts to add...",
+  "startTyping": "Start typing to search for documents.",
+  "reader": {
+    "notes": "My Notes",
+    "notesPlaceholder": "Type your notes here...",
+    "tabReader": "Reader",
+    "tabNotes": "Notes",
+    "entityAnalysis": "Entity Analysis",
+    "searchDocument": "Search in document...",
+    "matchCount_one": "{{current}} of {{total}} match",
+    "matchCount_other": "{{current}} of {{total}} matches",
+    "noMatches": "No matches"
+  },
+  "dashboard": {
+    "title": "Workspace Dashboard",
+    "documents": "Documents in this Workset"
+  },
+  "overview": {
+    "title": "Workset Overview",
+    "description": "Get an AI-generated thematic summary of all documents in this workset.",
+    "button": "Generate Summary",
+    "generating": "Analyzing documents...",
+    "error": "Could not generate summary."
+  },
+  "suggestions": {
+    "title": "AI Suggestions",
+    "description": "Discover related documents from the archive that might be relevant to your workset.",
+    "generating": "Finding suggestions...",
+    "error": "Could not find suggestions.",
+    "add": "Add to Workset"
+  }
+}

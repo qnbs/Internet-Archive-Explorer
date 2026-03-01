@@ -1,0 +1,17 @@
+{
+  "title": "Install Archive Explorer",
+  "description": "Install the app on your device for a better, faster, and more integrated experience.",
+  "benefits": {
+    "title": "Benefits of Installing:",
+    "item1": "App-like experience without browser tabs.",
+    "item2": "Faster launching directly from your home screen or desktop.",
+    "item3": "Offline access to previously viewed content and your library."
+  },
+  "installButton": "Install App",
+  "ios": {
+    "title": "How to Install on iOS",
+    "step1": "Tap the 'Share' button in your browser toolbar.",
+    "step2": "Scroll down and tap 'Add to Home Screen'."
+  },
+  "notAvailable": "Installation is not currently supported by your browser."
+}

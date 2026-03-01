@@ -1,0 +1,39 @@
+{
+  "title": "The Audiothek",
+  "description": "From live concerts and old-time radio shows to audiobooks and poetry readings, tune in to the vast audio collection of the archive.",
+  "heroButton": "Explore the Live Music Archive",
+  "categories": {
+    "music": "Music",
+    "audiobooks": "Audiobooks & Poetry",
+    "radio": "Old Time Radio",
+    "podcasts": "Podcasts"
+  },
+  "shelves": {
+    "otr": "Old-Time Radio",
+    "librivox": "LibriVox Audiobooks",
+    "grateful_dead": "Grateful Dead",
+    "78rpm": "The Great 78 Project"
+  },
+  "collections": {
+    "archiveOfContemporaryMusic": "Archive of Contemporary Music",
+    "hipHopMixtapes": "Hip Hop Mixtapes",
+    "radioWithASR": "Radio with ASR",
+    "blackieBeats": "Blackie Beats Archive",
+    "vaporwave": "Vaporwave",
+    "airchecks": "Airchecks (Recordings of Radio)"
+  },
+  "aiInsight": {
+    "title": "Radio Archivist's Feature",
+    "description": "Let our AI DJ find a thematic thread through the audio collection and spin up a concept for a fictional radio show.",
+    "button": "Create Radio Show Concept"
+  },
+  "player": {
+    "nowPlaying": "Now Playing",
+    "playlist": "Playlist",
+    "upNext": "Up Next",
+    "emptyPlaylist": "Playlist is empty",
+    "addToQueue": "Add to Queue",
+    "clearPlaylist": "Clear Playlist",
+    "volume": "Volume"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Uploader Hub",
+  "description": "Discover the people and institutions behind the archive. Browse featured contributors or filter by category to find new content.",
+  "featured": "Featured Contributors",
+  "allUploaders": "All Contributors",
+  "categoryTitle": "Contributors in: {{category}}",
+  "searchPlaceholder": "Search contributors...",
+  "filters": {
+    "title": "Find Contributors",
+    "categories": "Categories"
+  },
+  "categories": {
+    "all": "All Categories",
+    "archivist": "Archivists",
+    "institution": "Institutions",
+    "music": "Music",
+    "community": "Community",
+    "software": "Software",
+    "video": "Video",
+    "history": "History"
+  },
+  "comingSoon": {
+    "title": "Under Construction",
+    "description": "This section is currently being revamped to bring you an even better experience. Check back soon to discover the amazing contributors to the archive!"
+  }
+}
