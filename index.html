@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="de" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -129,7 +129,7 @@
         }
       }
     </script>
-    <script type="module" crossorigin src="/Internet-Archive-Explorer/assets/index-CxwpOSle.js"></script>
+    <script type="module" crossorigin src="/Internet-Archive-Explorer/assets/index-CTM6iZOf.js"></script>
   </head>
   <body class="bg-gray-100 dark:bg-gray-900">
     <div id="root">
@@ -140,31 +140,21 @@
         const appBase = '/Internet-Archive-Explorer/';
         navigator.serviceWorker.register(`${appBase}sw.js`, { scope: appBase })
           .then(reg => {
-            console.log('ServiceWorker registration successful with scope: ', reg.scope);
-            // Listen for updates
             reg.addEventListener('updatefound', () => {
               const newWorker = reg.installing;
               if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
                   if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // A new SW is installed and waiting, and there's a controller. This is an update.
                     window.waitingServiceWorker = newWorker;
-                    // Notify the React app that an update is ready.
-                    document.dispatchEvent(new CustomEvent('swUpdateReady'));
+                    window.dispatchEvent(new CustomEvent('swUpdateReady'));
                   }
                 });
               }
             });
           })
-          .catch(err => console.log('ServiceWorker registration failed: ', err));
-        
-        let refreshing;
-        // When the new worker takes control, refresh the page to apply the updates.
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (refreshing) return;
-          window.location.reload();
-          refreshing = true;
-        });
+          .catch(() => {
+            // no-op in production
+          });
       }
     </script>
   </body>
