@@ -36,8 +36,8 @@ export const ThemeSelector: React.FC<{ ariaProps: object }> = ({ ariaProps }) =>
           onClick={() => setTheme(opt.value)}
           className={`flex-1 flex items-center justify-center space-x-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
             theme === opt.value
-              ? 'bg-white dark:bg-gray-800 text-cyan-700 dark:text-cyan-300 shadow-sm'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-900/20'
+              ? 'bg-white dark:bg-gray-800 text-cyan-800 dark:text-cyan-200 shadow-sm'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-900/20'
           }`}
           aria-pressed={theme === opt.value}
         >

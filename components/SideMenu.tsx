@@ -66,7 +66,7 @@ const NavButton: React.FC<{ item: NavItem; isActive: boolean; onClick: (view: Vi
   return (
     <button
       onClick={() => item.view && onClick(item.view)}
-      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/20 dark:text-accent-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
+      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-600 text-white dark:bg-accent-500/40 dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
       aria-current={isActive ? 'page' : undefined}
     >
       <span className="mr-3">{item.icon}</span>

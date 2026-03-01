@@ -163,18 +163,18 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
                           onMouseMove={() => setActiveIndex(currentIndex)}
                           role="option"
                           aria-selected={isActive}
-                          className={`w-full text-left flex items-center space-x-3 p-2 rounded-md transition-colors cursor-pointer ${isActive ? 'bg-cyan-100 dark:bg-cyan-500/20' : 'hover:bg-gray-100 dark:hover:bg-gray-700/50'}`}
+                          className={`w-full text-left flex items-center space-x-3 p-2 rounded-md transition-colors cursor-pointer ${isActive ? 'bg-cyan-100 text-cyan-900 dark:bg-cyan-500/25 dark:text-cyan-100' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/50'}`}
                         >
                           {cmd.icon}
                           <div className="flex-grow">
                             <p
-                              className={`text-sm font-medium ${isActive ? 'text-cyan-800 dark:text-cyan-300' : 'text-gray-800 dark:text-gray-200'}`}
+                              className={`text-sm font-medium ${isActive ? 'text-cyan-900 dark:text-cyan-100' : 'text-gray-800 dark:text-gray-200'}`}
                             >
                               {cmd.label}
                             </p>
                             {cmd.description && (
                               <p
-                                className={`text-xs ${isActive ? 'text-cyan-600 dark:text-cyan-400' : 'text-gray-500 dark:text-gray-400'}`}
+                                className={`text-xs ${isActive ? 'text-cyan-700 dark:text-cyan-200' : 'text-gray-500 dark:text-gray-400'}`}
                               >
                                 {cmd.description}
                               </p>

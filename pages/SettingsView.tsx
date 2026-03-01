@@ -154,8 +154,8 @@ const RadioGroup = <T extends string>({
         onClick={() => onChange(opt.value)}
         className={`flex-1 flex items-center justify-center space-x-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
           value === opt.value
-            ? 'bg-white dark:bg-gray-800 text-accent-700 dark:text-accent-300 shadow-sm'
-            : 'text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-900/20'
+            ? 'bg-white dark:bg-gray-800 text-accent-800 dark:text-accent-200 shadow-sm'
+            : 'text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-900/20'
         }`}
         aria-pressed={value === opt.value}
       >
@@ -835,8 +835,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
                 onClick={() => setActiveSection(section.id as SettingsSectionId)}
                 className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
                   activeSection === section.id
-                    ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/20 dark:text-accent-300'
-                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+                    ? 'bg-accent-600 text-white dark:bg-accent-500/40 dark:text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                 }`}
               >
                 {section.icon}

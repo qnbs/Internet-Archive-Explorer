@@ -69,7 +69,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose: _onClose 
               <button
                 key={option.type}
                 onClick={() => handleMediaTypeToggle(option.type)}
-                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors border-2 ${facets.mediaType.has(option.type) ? 'bg-accent-50 dark:bg-accent-500/20 border-accent-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors border-2 ${facets.mediaType.has(option.type) ? 'bg-accent-50 text-accent-900 dark:bg-accent-500/25 dark:text-accent-100 border-accent-500' : 'bg-gray-100 text-gray-800 dark:bg-gray-700/50 dark:text-gray-200 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
                 aria-pressed={facets.mediaType.has(option.type)}
               >
                 {option.icon}
@@ -88,7 +88,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose: _onClose 
               <button
                 key={lang}
                 onClick={() => handleLanguageSelect(lang)}
-                className={`text-center p-2 rounded-lg transition-colors border-2 text-xs ${facets.language === lang ? 'bg-accent-50 dark:bg-accent-500/20 border-accent-500' : 'bg-gray-100 dark:bg-gray-700/50 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                className={`text-center p-2 rounded-lg transition-colors border-2 text-xs ${facets.language === lang ? 'bg-accent-50 text-accent-900 dark:bg-accent-500/25 dark:text-accent-100 border-accent-500' : 'bg-gray-100 text-gray-800 dark:bg-gray-700/50 dark:text-gray-200 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
                 aria-pressed={facets.language === lang}
               >
                 {lang}
@@ -109,7 +109,7 @@ export const SearchPopover: React.FC<SearchPopoverProps> = ({ onClose: _onClose 
               <button
                 key={option.key}
                 onClick={() => setFacets((f) => ({ ...f, availability: option.key }))}
-                className={`w-full text-left flex items-center space-x-3 cursor-pointer p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700/50 ${facets.availability === option.key ? 'bg-gray-100 dark:bg-gray-700/50' : ''}`}
+                className={`w-full text-left flex items-center space-x-3 cursor-pointer p-2 rounded-md transition-colors ${facets.availability === option.key ? 'bg-accent-50 text-accent-900 dark:bg-accent-500/25 dark:text-accent-100' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/50'}`}
                 role="radio"
                 aria-checked={facets.availability === option.key}
               >

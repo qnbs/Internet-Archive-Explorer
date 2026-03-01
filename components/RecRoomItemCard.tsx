@@ -10,6 +10,11 @@ interface RecRoomItemCardProps {
   index: number;
 }
 
+const toBooleanFlag = (value: string | undefined): boolean => {
+  if (!value) return false;
+  return ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
+};
+
 export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ item, index }) => {
   const { t } = useLanguage();
   const setModal = useSetAtom(modalAtom);
@@ -25,8 +30,14 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   const publicYear = new Date(item.publicdate).getFullYear();
   const isRestricted = item['access-restricted-item'] === 'true';
   const rating = item.avg_rating ? parseFloat(item.avg_rating).toFixed(1) : null;
+  const shouldAlwaysOpenOnArchive = toBooleanFlag(import.meta.env.VITE_RECROOM_OPEN_ON_ARCHIVE);
 
   const handleSelect = () => {
+    if (window.location.hostname.endsWith('github.io') || shouldAlwaysOpenOnArchive) {
+      window.open(`https://archive.org/details/${item.identifier}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
     setModal({ type: 'emulator', item });
   };
 

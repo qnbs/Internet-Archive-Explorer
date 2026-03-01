@@ -27,29 +27,28 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { ModalManager } from './components/ModalManager';
 import { Spinner } from './components/Spinner';
 import { AppearanceManager } from './components/AppearanceManager';
+import UpdateNotification from './components/UpdateNotification';
+import InstallBanner from './components/InstallBanner';
+import AudioPlayer from './components/audiothek/AudioPlayer';
 
 // Hooks
 import { useNavigation } from './hooks/useNavigation';
 
-// View/Page Components (Lazy Loaded)
-const ExplorerView = React.lazy(() => import('./pages/ExplorerView'));
-const LibraryView = React.lazy(() => import('./pages/LibraryView'));
-const ScriptoriumView = React.lazy(() => import('./pages/ScriptoriumView'));
-const RecRoomView = React.lazy(() => import('./pages/RecRoomView'));
-const VideothekView = React.lazy(() => import('./pages/VideothekView'));
-const AudiothekView = React.lazy(() => import('./pages/AudiothekView'));
-const ImagesHubView = React.lazy(() => import('./pages/ImagesHubView'));
-const UploaderHubView = React.lazy(() => import('./pages/UploaderHubView'));
-const UploaderDetailView = React.lazy(() => import('./pages/UploaderDetailView'));
-const SettingsView = React.lazy(() => import('./pages/SettingsView'));
-const HelpView = React.lazy(() => import('./pages/HelpView'));
-const StorytellerView = React.lazy(() => import('./pages/StorytellerView'));
-const MyArchiveView = React.lazy(() => import('./pages/MyArchiveView'));
-const AIArchiveView = React.lazy(() => import('./pages/AIArchiveView'));
-const WebArchiveView = React.lazy(() => import('./pages/WebArchiveView'));
-const UpdateNotification = React.lazy(() => import('./components/UpdateNotification'));
-const AudioPlayer = React.lazy(() => import('./components/audiothek/AudioPlayer'));
-const InstallBanner = React.lazy(() => import('./components/InstallBanner'));
+import ExplorerView from './pages/ExplorerView';
+import LibraryView from './pages/LibraryView';
+import ScriptoriumView from './pages/ScriptoriumView';
+import RecRoomView from './pages/RecRoomView';
+import VideothekView from './pages/VideothekView';
+import AudiothekView from './pages/AudiothekView';
+import ImagesHubView from './pages/ImagesHubView';
+import UploaderHubView from './pages/UploaderHubView';
+import UploaderDetailView from './pages/UploaderDetailView';
+import SettingsView from './pages/SettingsView';
+import HelpView from './pages/HelpView';
+import StorytellerView from './pages/StorytellerView';
+import MyArchiveView from './pages/MyArchiveView';
+import AIArchiveView from './pages/AIArchiveView';
+import WebArchiveView from './pages/WebArchiveView';
 
 const PageSpinner: React.FC = () => (
   <div className="flex justify-center items-center h-full pt-20">

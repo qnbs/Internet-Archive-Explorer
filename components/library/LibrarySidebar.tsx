@@ -48,8 +48,8 @@ const FilterButton: React.FC<{
     onClick={onClick}
     className={`w-full flex items-center justify-between text-left pr-2 pl-3 py-2 text-sm rounded-md group transition-colors ${
       isActive
-        ? 'bg-gray-700/80 text-white'
-        : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-200'
+        ? 'bg-accent-500/25 text-accent-100'
+        : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
     }`}
   >
     <div className="flex items-center space-x-2 truncate">
@@ -58,7 +58,7 @@ const FilterButton: React.FC<{
     </div>
     {typeof count === 'number' && (
       <span
-        className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-gray-600 text-gray-200' : 'bg-gray-700 text-gray-400 group-hover:bg-gray-600'}`}
+        className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-accent-500/35 text-accent-100' : 'bg-gray-700 text-gray-300 group-hover:bg-gray-600 group-hover:text-gray-200'}`}
       >
         {count}
       </span>
@@ -115,8 +115,8 @@ const CollectionListItem: React.FC<{
       onClick={onClick}
       className={`w-full flex items-center justify-between text-left pr-1 pl-3 py-2 text-sm rounded-md group transition-colors relative ${
         isActive
-          ? 'bg-gray-700/80 text-white'
-          : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-200'
+          ? 'bg-accent-500/25 text-accent-100'
+          : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
       }`}
     >
       <div className="flex items-center space-x-2 truncate">
@@ -230,13 +230,13 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
       <div className="flex-shrink-0 p-1 bg-gray-700/50 rounded-lg flex items-center mb-4">
         <button
           onClick={() => setActiveTab('items')}
-          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md ${activeTab === 'items' ? 'bg-gray-800 text-white shadow' : 'text-gray-300'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'items' ? 'bg-accent-600 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
         >
           <StarIcon className="w-4 h-4" /> {t('favorites:sidebar.items')}
         </button>
         <button
           onClick={() => setActiveTab('uploaders')}
-          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md ${activeTab === 'uploaders' ? 'bg-gray-800 text-white shadow' : 'text-gray-300'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'uploaders' ? 'bg-accent-600 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
         >
           <UsersIcon className="w-4 h-4" /> {t('favorites:sidebar.uploaders')}
         </button>

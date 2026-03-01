@@ -22,12 +22,12 @@ const getCollections = (t: (key: string) => string) => [
   {
     key: 'apple_ii',
     title: t('recRoom:collections.apple_ii'),
-    query: 'collection:softwarelibrary_apple_ii_library_games',
+    query: 'collection:softwarelibrary_apple2gs_games',
   },
   {
     key: 'console_living_room',
     title: t('recRoom:collections.console_living_room'),
-    query: 'collection:console_living_room',
+    query: 'collection:consolelivingroom',
   },
 ];
 

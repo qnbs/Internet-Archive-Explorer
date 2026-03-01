@@ -153,7 +153,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                       <button
                         key={tag}
                         onClick={() => setSelectedTags((s) => toggleSelection(s, tag))}
-                        className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedTags.has(tag) ? 'bg-cyan-500/20 border-cyan-500 text-white' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}
+                        className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedTags.has(tag) ? 'bg-cyan-500/30 border-cyan-500 text-cyan-100' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}
                       >
                         {tag}
                       </button>
@@ -169,7 +169,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
                       <button
                         key={coll}
                         onClick={() => setSelectedCollections((s) => toggleSelection(s, coll))}
-                        className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedCollections.has(coll) ? 'bg-cyan-500/20 border-cyan-500 text-white' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}
+                        className={`px-2 py-1 text-xs rounded-full border-2 transition-colors ${selectedCollections.has(coll) ? 'bg-cyan-500/30 border-cyan-500 text-cyan-100' : 'border-gray-600 text-gray-300 hover:border-gray-500'}`}
                       >
                         {coll}
                       </button>

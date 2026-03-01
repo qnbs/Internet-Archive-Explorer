@@ -31,7 +31,7 @@ const TabButton: React.FC<{
     aria-selected={activeTab === tab}
     aria-controls={`${uniqueId}-tabpanel-${tab}`}
     onClick={() => setActiveTab(tab)}
-    className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === tab ? 'bg-cyan-500 text-white shadow-md' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-700/50'}`}
+    className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === tab ? 'bg-cyan-600 dark:bg-cyan-500 text-white shadow-md' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
   >
     {ICONS[tab]}
     <span>{label}</span>

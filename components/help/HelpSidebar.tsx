@@ -16,7 +16,7 @@ export const HelpSidebar: React.FC = () => {
               onClick={() => selectTopic(topic.id)}
               className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
                 activeTopic?.id === topic.id
-                  ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/20 dark:text-accent-300'
+                  ? 'bg-accent-600 text-white dark:bg-accent-500/40 dark:text-white'
                   : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
               }`}
             >

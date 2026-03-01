@@ -44,8 +44,8 @@ const FilterButton: React.FC<{
     onClick={onClick}
     className={`w-full flex items-center justify-between text-left pr-2 pl-3 py-2 text-sm rounded-md group transition-colors ${
       isActive
-        ? 'bg-gray-700/80 text-white'
-        : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-200'
+        ? 'bg-accent-500/25 text-accent-100'
+        : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
     }`}
   >
     <div className="flex items-center space-x-2 truncate">
@@ -54,7 +54,7 @@ const FilterButton: React.FC<{
     </div>
     {typeof count === 'number' && (
       <span
-        className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-gray-600 text-gray-200' : 'bg-gray-700 text-gray-400 group-hover:bg-gray-600'}`}
+        className={`text-xs px-1.5 py-0.5 rounded-full transition-colors ${isActive ? 'bg-accent-500/35 text-accent-100' : 'bg-gray-700 text-gray-300 group-hover:bg-gray-600 group-hover:text-gray-200'}`}
       >
         {count}
       </span>
