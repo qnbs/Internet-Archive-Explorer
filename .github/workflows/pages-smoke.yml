@@ -1,8 +1,10 @@
 name: Pages Smoke Checks
 
 on:
-  push:
-    branches: [gh-pages]
+  workflow_run:
+    workflows: [Deploy to GitHub Pages]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -15,6 +17,7 @@ concurrency:
 jobs:
   smoke:
     name: Smoke test live GitHub Pages URL
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -69,7 +72,7 @@ jobs:
             exit 1
           fi
 
-          grep -q 'serviceWorker.register' /tmp/index.html
+          grep -q '/sw-register.js' /tmp/index.html
 
           curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${js_path}"
           curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${manifest_path}"
