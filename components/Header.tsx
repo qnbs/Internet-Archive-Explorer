@@ -6,6 +6,7 @@ import { MenuIcon, FilterIcon } from './Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { SearchPopover } from './SearchPopover';
 import { SearchBar } from './SearchBar';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -75,6 +76,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, onOpenCommandPalett
           <span className="text-lg leading-none">⌘</span>
           <kbd className="font-sans text-xs font-semibold leading-none">K</kbd>
         </button>
+
+        {/* Theme toggle — cycles light / dark / sepia / system */}
+        <ThemeToggle />
       </div>
     </header>
   );
