@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { profileSearchQueryAtom } from '@/store/search';
 import { resultsPerPageAtom } from '@/store/settings';
 import { useDebounce } from './useDebounce';
@@ -14,80 +15,53 @@ export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType 
   const searchQuery = useAtomValue(profileSearchQueryAtom);
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
-  const [results, setResults] = useState<ArchiveItemSummary[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const [sort, setSort] = useState('downloads');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   const toggleSortDirection = () => setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
 
-  const buildQuery = useCallback(() => {
-    const baseQuery = getProfileApiQuery(profile);
-    const facets: Partial<Facets> = {
-      mediaType: mediaTypeFilter === 'all' ? new Set() : new Set([mediaTypeFilter]),
-    };
-    return buildArchiveQuery({ base: baseQuery, text: debouncedSearchQuery, facets });
-  }, [profile, mediaTypeFilter, debouncedSearchQuery]);
+  const baseQuery = getProfileApiQuery(profile);
+  const facets: Partial<Facets> = {
+    mediaType: mediaTypeFilter === 'all' ? new Set() : new Set([mediaTypeFilter]),
+  };
+  const queryString = buildArchiveQuery({ base: baseQuery, text: debouncedSearchQuery, facets });
+  const sortParam = `${sortDirection === 'desc' ? '-' : ''}${sort}`;
 
-  const performSearch = useCallback(
-    async (
-      query: string,
-      searchPage: number,
-      currentSort: string,
-      currentSortDir: 'asc' | 'desc',
-    ) => {
-      if (searchPage === 1) setIsLoading(true);
-      else setIsLoadingMore(true);
-      setError(null);
-
-      const sortParam = `${currentSortDir === 'desc' ? '-' : ''}${currentSort}`;
-
-      try {
-        const data = await searchArchive(query, searchPage, [sortParam], undefined, resultsPerPage);
-        if (data?.response) {
-          setTotalResults(data.response.numFound);
-          setResults((prev) =>
-            searchPage === 1 ? data.response.docs : [...prev, ...data.response.docs],
-          );
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setIsLoading(false);
-        setIsLoadingMore(false);
-      }
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ['uploaderUploads', profile.searchIdentifier, queryString, sortParam],
+    queryFn: async ({ pageParam }) => {
+      return searchArchive(queryString, pageParam as number, [sortParam], undefined, resultsPerPage);
     },
-    [resultsPerPage],
-  );
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const total = lastPage?.response?.numFound ?? 0;
+      const loaded = allPages.reduce((acc, p) => acc + (p?.response?.docs?.length ?? 0), 0);
+      return loaded < total ? allPages.length + 1 : undefined;
+    },
+    staleTime: 1000 * 60 * 2,
+  });
 
-  // Reset and fetch on filter/sort/profile change
-  useEffect(() => {
-    setPage(1);
-    const query = buildQuery();
-    performSearch(query, 1, sort, sortDirection);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile, debouncedSearchQuery, mediaTypeFilter, sort, sortDirection, buildQuery]);
+  const results: ArchiveItemSummary[] = data?.pages.flatMap((p) => p?.response?.docs ?? []) ?? [];
+  const totalResults = data?.pages[0]?.response?.numFound ?? 0;
+  const hasMore = hasNextPage ?? false;
+  const isLoadingMore = isFetchingNextPage;
 
   const handleLoadMore = useCallback(() => {
-    if (isLoading || isLoadingMore) return;
-    const nextPage = page + 1;
-    setPage(nextPage);
-    performSearch(buildQuery(), nextPage, sort, sortDirection);
-  }, [isLoading, isLoadingMore, page, buildQuery, sort, sortDirection, performSearch]);
+    if (!isFetchingNextPage && hasNextPage) fetchNextPage();
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-  const handleRetry = useCallback(() => {
-    setPage(1);
-    performSearch(buildQuery(), 1, sort, sortDirection);
-  }, [buildQuery, sort, sortDirection, performSearch]);
+  const handleRetry = useCallback(() => refetch(), [refetch]);
 
-  const hasMore = !isLoading && results.length < totalResults;
   const lastElementRef = useInfiniteScroll({
-    isLoading: isLoadingMore,
+    isLoading: isFetchingNextPage,
     hasMore,
     onLoadMore: handleLoadMore,
     rootMargin: '400px',
@@ -97,7 +71,7 @@ export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType 
     results,
     isLoading,
     isLoadingMore,
-    error,
+    error: error instanceof Error ? error.message : error ? 'An error occurred' : null,
     totalResults,
     hasMore,
     lastElementRef,

@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
+import { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import type { ArchiveItemSummary } from '@/types';
 import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { useAtomValue } from 'jotai';
 import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '@/store/settings';
@@ -8,10 +9,6 @@ import { findPlayableFile } from '@/utils/mediaUtils';
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';
 
 export const useItemDetail = (item: ArchiveItemSummary) => {
-  const [metadata, setMetadata] = useState<ArchiveMetadata | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const defaultTab = useAtomValue(defaultDetailTabAllAtom);
   const enableAiFeatures = useAtomValue(enableAiFeaturesAtom);
   const autoplayMedia = useAtomValue(autoplayMediaAtom);
@@ -24,12 +21,6 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
       : 'description',
   );
 
-  // For text content
-  const [plainText, setPlainText] = useState<string | null>(null);
-  const [isLoadingText, setIsLoadingText] = useState(false);
-  const [textError, setTextError] = useState<string | null>(null);
-
-  // For media playback (audio & video)
   const [isPlaying, setIsPlaying] = useState(false);
   const [playableMedia, setPlayableMedia] = useState<{
     url: string;
@@ -37,45 +28,42 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
   } | null>(null);
   const mediaRef = useRef<HTMLMediaElement>(null);
 
-  const fetchMetadata = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await getItemMetadata(item.identifier);
-      setMetadata(data);
+  // Metadata query
+  const {
+    data: metadata,
+    isLoading,
+    error: metaError,
+    refetch: fetchMetadata,
+  } = useQuery({
+    queryKey: ['metadata', item.identifier],
+    queryFn: () => getItemMetadata(item.identifier),
+    staleTime: 1000 * 60 * 10,
+  });
 
-      if ((item.mediatype === 'audio' || item.mediatype === 'movies') && data.files) {
-        const type = item.mediatype === 'movies' ? 'video' : 'audio';
-        const url = findPlayableFile(data.files, item.identifier, type);
-        if (url) {
-          setPlayableMedia({ url, type });
-        }
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [item.identifier, item.mediatype]);
+  // Plain text query — lazy: only fetched when AI tab is active on a text item
+  const {
+    data: plainText,
+    isLoading: isLoadingText,
+    error: textQueryError,
+  } = useQuery({
+    queryKey: ['plaintext', item.identifier],
+    queryFn: () => getItemPlainText(item.identifier),
+    enabled: activeTab === 'ai' && item.mediatype === 'texts',
+    staleTime: 1000 * 60 * 10,
+  });
 
+  // Derive playable media URL when metadata arrives
   useEffect(() => {
-    fetchMetadata();
-  }, [fetchMetadata]);
-
-  useEffect(() => {
-    if (activeTab === 'ai' && item.mediatype === 'texts' && !plainText && !isLoadingText) {
-      setIsLoadingText(true);
-      setTextError(null);
-      getItemPlainText(item.identifier)
-        .then(setPlainText)
-        .catch((err) => {
-          setPlainText(null);
-          const message = err instanceof Error ? err.message : 'Failed to load text content.';
-          setTextError(message);
-        })
-        .finally(() => setIsLoadingText(false));
+    if (
+      metadata &&
+      (item.mediatype === 'audio' || item.mediatype === 'movies') &&
+      metadata.files
+    ) {
+      const type = item.mediatype === 'movies' ? 'video' : 'audio';
+      const url = findPlayableFile(metadata.files, item.identifier, type);
+      if (url) setPlayableMedia({ url, type });
     }
-  }, [activeTab, item.mediatype, item.identifier, plainText, isLoadingText]);
+  }, [metadata, item.mediatype, item.identifier]);
 
   const handlePlayPause = () => {
     if (mediaRef.current) {
@@ -95,7 +83,6 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
 
   useEffect(() => {
     if (mediaRef.current && autoplayMedia && playableMedia?.url && !isPlaying) {
-      // We need a small delay for the media element to be ready
       const timer = setTimeout(() => {
         handlePlayPause();
       }, 100);
@@ -104,15 +91,26 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playableMedia?.url, autoplayMedia]);
 
+  const error = metaError instanceof Error
+    ? metaError.message
+    : metaError
+      ? 'An unknown error occurred'
+      : null;
+
+  const textError = textQueryError instanceof Error
+    ? textQueryError.message
+    : textQueryError
+      ? 'Failed to load text content.'
+      : null;
+
   return {
-    // FIX: Added 'item' to the return value to make it available in the context.
     item,
-    metadata,
+    metadata: metadata ?? null,
     isLoading,
     error,
     activeTab,
     setActiveTab,
-    plainText,
+    plainText: plainText ?? null,
     isLoadingText,
     textError,
     isPlaying,
