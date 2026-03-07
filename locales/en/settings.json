@@ -40,6 +40,7 @@
     "themes": {
       "light": "Light",
       "dark": "Dark",
+      "sepia": "Sepia",
       "system": "System"
     },
     "language": "Language",

@@ -1,0 +1,25 @@
+{
+  "title": "For You",
+  "subtitle": "Personalized recommendations from the Internet Archive",
+  "basedOnLibrary": "Based on your library",
+  "continueExploring": "Continue exploring",
+  "trendingToday": "Trending today",
+  "onThisDay": "On this day",
+  "noLibraryItems": "Add items to your library to get personalized recommendations.",
+  "noSearchHistory": "Start searching to see history-based suggestions.",
+  "goToLibrary": "Go to library",
+  "exploreNow": "Explore now",
+  "viewAll": "View all",
+  "mediaTypes": {
+    "audio": "Audio recordings",
+    "movies": "Movies & video",
+    "texts": "Books & texts",
+    "image": "Images",
+    "software": "Software",
+    "data": "Datasets"
+  },
+  "emptyState": {
+    "title": "Welcome to the Internet Archive!",
+    "message": "Discover millions of historical books, movies, music tracks and more. Start exploring!"
+  }
+}

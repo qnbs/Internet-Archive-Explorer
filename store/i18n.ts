@@ -42,6 +42,8 @@ const NAMESPACES = [
   'updateNotification',
   'installBanner',
   'pwaModal',
+  'downloads',
+  'forYou',
 ];
 type TranslationMap = Record<string, unknown>;
 const translationsCache = new Map<Language, TranslationMap>();

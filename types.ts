@@ -10,6 +10,7 @@ declare global {
 // --- Core App State ---
 export type View =
   | 'explore'
+  | 'forYou'
   | 'library'
   | 'myArchive'
   | 'uploaderHub'
@@ -196,7 +197,7 @@ export interface Profile {
   curatedData?: Uploader;
 }
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'sepia' | 'system';
 export type Language = 'en' | 'de';
 
 export type AccentColor = 'cyan' | 'emerald' | 'rose' | 'violet';

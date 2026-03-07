@@ -16,6 +16,7 @@ import {
   WebIcon,
   BrainIcon,
   ArchiveLogoIcon,
+  SparklesIcon,
 } from './Icons';
 
 interface NavItem {
@@ -27,6 +28,7 @@ interface NavItem {
 
 const mainNavItems: NavItem[] = [
   { view: 'explore', labelKey: 'sideMenu:explore', icon: <CompassIcon /> },
+  { view: 'forYou', labelKey: 'sideMenu:forYou', icon: <SparklesIcon /> },
   { view: 'library', labelKey: 'sideMenu:library', icon: <StarIcon /> },
   { view: 'myArchive', labelKey: 'sideMenu:myArchive', icon: <UsersIcon /> },
   { view: 'uploaderHub', labelKey: 'sideMenu:uploaderHub', icon: <UsersIcon /> },

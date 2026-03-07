@@ -1,11 +1,24 @@
 {
   "placeholder": "Befehl eingeben oder suchen...",
   "title": "Befehlspalette",
+  "noResults": "Keine Ergebnisse gefunden.",
+  "navigate": "Navigieren",
+  "select": "Auswählen",
+  "close": "Schließen",
+  "aiInsight": "KI-Analyse",
+  "aiInsightDesc": "KI-Archiv für vertiefte Analyse öffnen",
+  "share": "Aktuelle Seite teilen",
+  "shareDesc": "Link in die Zwischenablage kopieren",
+  "shareCopied": "Link kopiert!",
+  "myLibrary": "Meine Bibliothek",
+  "myLibraryDesc": "Gespeicherte Einträge anzeigen",
+  "myLibraryItems": "gespeicherte Einträge",
   "sections": {
     "navigation": "Navigation",
     "actions": "Aktionen",
     "uploaders": "Uploader",
-    "app": "Anwendung"
+    "app": "Anwendung",
+    "ai": "KI"
   },
   "nav": {
     "exploreDesc": "Zur Hauptentdeckungsseite gehen",

@@ -127,3 +127,14 @@ export {
 } from './audioPlayer';
 
 export { deferredPromptAtom, isAppInstalledAtom, waitingWorkerAtom } from './pwa';
+
+export {
+  downloadQueueAtom,
+  downloadManagerOpenAtom,
+  activeDownloadCountAtom,
+  addDownloadAtom,
+  updateDownloadProgressAtom,
+  removeDownloadAtom,
+  clearCompletedDownloadsAtom,
+} from './downloads';
+export type { DownloadItem, DownloadStatus } from './downloads';

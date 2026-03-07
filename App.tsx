@@ -30,10 +30,12 @@ import { AppearanceManager } from './components/AppearanceManager';
 import UpdateNotification from './components/UpdateNotification';
 import InstallBanner from './components/InstallBanner';
 import AudioPlayer from './components/audiothek/AudioPlayer';
+import { DownloadManager } from './components/DownloadManager';
 
 // Hooks
 import { useNavigation } from './hooks/useNavigation';
 
+import ForYouView from './pages/ForYouView';
 import ExplorerView from './pages/ExplorerView';
 import LibraryView from './pages/LibraryView';
 import ScriptoriumView from './pages/ScriptoriumView';
@@ -186,6 +188,8 @@ const AppContent: React.FC = () => {
     switch (activeView) {
       case 'explore':
         return <ExplorerView />;
+      case 'forYou':
+        return <ForYouView />;
       case 'library':
         return <LibraryView />;
       case 'scriptorium':
@@ -258,6 +262,7 @@ const AppContent: React.FC = () => {
         <UpdateNotification waitingWorker={waitingWorker} onUpdate={handleUpdate} />
         {playlist.length > 0 && <AudioPlayer />}
       </Suspense>
+      <DownloadManager />
       <BottomNav activeView={activeView} setActiveView={navigateTo} />
       <ModalManager />
     </div>

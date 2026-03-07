@@ -108,7 +108,9 @@ systemThemeAtom.onMount = (setAtom) => {
   return () => systemThemeQuery.removeEventListener('change', listener);
 };
 
-export const resolvedThemeAtom = atom<'light' | 'dark'>((get) => {
+export const resolvedThemeAtom = atom<'light' | 'dark' | 'sepia'>((get) => {
   const theme = get(themeAtom);
-  return theme === 'system' ? get(systemThemeAtom) : theme;
+  if (theme === 'system') return get(systemThemeAtom);
+  if (theme === 'sepia') return 'sepia';
+  return theme;
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import type { ArchiveItemSummary, MediaType } from '@/types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -12,9 +13,12 @@ import { StarIcon, InfoIcon } from './Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { formatNumber } from '@/utils/formatter';
 
+export type CardVariant = 'classic' | 'polaroid' | 'vhs';
+
 interface ItemCardProps {
   item: ArchiveItemSummary;
   index: number;
+  variant?: CardVariant;
 }
 
 const getMediaTypeIconPath = (mediaType: MediaType): string => {
@@ -34,7 +38,16 @@ const getMediaTypeIconPath = (mediaType: MediaType): string => {
   }
 };
 
-export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) => {
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: Math.min(i * 0.04, 0.6), duration: 0.35, ease: 'easeOut' },
+  }),
+};
+
+export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index, variant = 'classic' }) => {
   const { addToast } = useToast();
   const { t } = useLanguage();
 
@@ -67,10 +80,34 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) =>
     }
   };
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+    if (target.src.includes('__ia_thumb.jpg')) {
+      target.onerror = null;
+      const iconPath = getMediaTypeIconPath(item.mediatype);
+      const placeholderSvg = `<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect fill="#374151" width="300" height="400"/><g transform="translate(114, 164) scale(3)"><path d="${iconPath}" stroke="#9CA3AF" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+      target.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(placeholderSvg)}`;
+    } else {
+      target.src = fallbackUrl;
+    }
+  };
+
+  const wrapperClass =
+    variant === 'polaroid'
+      ? 'card-polaroid cursor-pointer group relative'
+      : variant === 'vhs'
+        ? 'card-vhs cursor-pointer group relative overflow-hidden'
+        : 'card-classic cursor-pointer group relative overflow-hidden';
+
   return (
-    <article
-      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer group animate-fade-in relative border border-gray-200 dark:border-transparent"
-      style={{ animationDelay: `${Math.min((index % 24) * 30, 500)}ms`, opacity: 0 }}
+    <motion.article
+      className={wrapperClass}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      custom={index}
+      whileHover={{ y: variant === 'polaroid' ? -4 : -2, scale: 1.01 }}
       onClick={() => selectItem(item)}
       role="button"
       tabIndex={0}
@@ -94,32 +131,27 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) =>
         </div>
       )}
 
+      {/* VHS scanline overlay */}
+      {variant === 'vhs' && (
+        <div className="absolute inset-0 pointer-events-none z-20 opacity-10"
+          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)' }} />
+      )}
+
       <div className="relative aspect-w-3 aspect-h-4">
         <img
           src={thumbnailUrl}
           alt={`Thumbnail for ${item.title}`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className={`w-full h-full object-cover transition-transform duration-300 ${variant === 'vhs' ? 'group-hover:scale-100 saturate-50 sepia-[0.3]' : 'group-hover:scale-105'}`}
           loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
-
-            if (target.src.includes('__ia_thumb.jpg')) {
-              // The fallback also failed, switch to SVG placeholder
-              target.onerror = null;
-              const iconPath = getMediaTypeIconPath(item.mediatype);
-              const placeholderSvg = `<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect fill="#374151" width="300" height="400"/><g transform="translate(114, 164) scale(3)"><path d="${iconPath}" stroke="#9CA3AF" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
-              target.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(placeholderSvg)}`;
-            } else {
-              // The primary failed, switch to fallback
-              target.src = fallbackUrl;
-            }
-          }}
+          onError={handleImageError}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-4">
+        <div className={`absolute inset-0 flex flex-col justify-end p-4 ${variant === 'vhs' ? 'bg-gradient-to-t from-green-950/95 via-black/70 to-transparent' : 'bg-gradient-to-t from-black/90 via-black/60 to-transparent'}`}>
+          {variant === 'vhs' && (
+            <span className="text-green-400 text-xs font-mono tracking-widest mb-1 opacity-70">▶ PLAY</span>
+          )}
           <div>
             <h3
-              className="text-md font-semibold text-white group-hover:text-accent-400 transition-colors line-clamp-3"
+              className={`text-md font-semibold line-clamp-3 transition-colors ${variant === 'vhs' ? 'text-green-300 group-hover:text-green-200 font-mono' : 'text-white group-hover:text-accent-400'}`}
               title={item.title}
             >
               {item.title}
@@ -130,23 +162,9 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) =>
             <div className="flex justify-between items-center mt-2">
               <p className="text-xs text-gray-400">{publicYear || 'N/A'}</p>
               {typeof item.downloads === 'number' && item.downloads > 0 && (
-                <div
-                  className="flex items-center space-x-1 text-xs text-gray-400"
-                  title={`${item.downloads.toLocaleString()} downloads`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                    />
+                <div className="flex items-center space-x-1 text-xs text-gray-400" title={`${item.downloads.toLocaleString()} downloads`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                   <span>{formatNumber(item.downloads)}</span>
                 </div>
@@ -158,6 +176,14 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index }) =>
           </div>
         </div>
       </div>
-    </article>
+
+      {/* Polaroid caption */}
+      {variant === 'polaroid' && (
+        <p className="text-center text-xs text-gray-600 dark:text-gray-800 mt-1 px-1 truncate font-handwriting">
+          {item.title}
+        </p>
+      )}
+    </motion.article>
   );
 });
+

@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: 'Inter', sans-serif;
+
+    /* Default accent: cyan */
+    --color-accent-50: #ecfeff;
+    --color-accent-100: #cffafe;
+    --color-accent-200: #a5f3fd;
+    --color-accent-300: #67e8f9;
+    --color-accent-400: #22d3ee;
+    --color-accent-500: #06b6d4;
+    --color-accent-600: #0891b2;
+    --color-accent-700: #0e7490;
+    --color-accent-800: #155e75;
+    --color-accent-900: #164e63;
+    --color-accent-950: #083344;
+
+    /* Scrollbar */
+    --scrollbar-thumb-color: #06b6d4;
+    --scrollbar-thumb-hover-color: #0891b2;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Theme-transition helper */
+  .theme-transitioning,
+  .theme-transitioning * {
+    @apply transition-colors duration-300 !important;
+  }
+
+  /* Sepia theme base */
+  html.sepia {
+    --tw-prose-body: #5c3720;
+    color-scheme: light;
+  }
+
+  /* Pre-React Loading Spinner */
+  #app-loader {
+    @apply fixed inset-0 z-[100] flex items-center justify-center bg-gray-900;
+  }
+
+  /* Modern, theme-aware scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-900;
+  }
+  html.sepia ::-webkit-scrollbar-track {
+    background-color: #faf0dc;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color, #06b6d4);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color, #0891b2);
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism */
+  .glass {
+    @apply backdrop-blur-md bg-white/10 border border-white/20;
+  }
+  .glass-dark {
+    @apply backdrop-blur-md bg-black/20 border border-white/10;
+  }
+  .glass-sepia {
+    @apply backdrop-blur-md border;
+    background: rgba(253, 248, 240, 0.7);
+    border-color: rgba(157, 96, 36, 0.2);
+  }
+
+  /* Neon glow utilities */
+  .neon-cyan {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 40px rgba(6, 182, 212, 0.2);
+  }
+  .neon-orange {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4), 0 0 40px rgba(249, 115, 22, 0.2);
+  }
+
+  /* Card variants */
+  .card-classic {
+    @apply rounded-xl bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700;
+  }
+  .card-polaroid {
+    @apply rounded-sm bg-white dark:bg-gray-100 shadow-xl p-2 pb-8 border border-gray-200;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+  .card-vhs {
+    @apply rounded-none bg-gray-900 border-2 border-gray-600 shadow-lg;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Sepia theme card */
+  .sepia .card-classic {
+    @apply bg-sepia-50 border-sepia-200;
+  }
+
+  /* Animate utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  .animate-page-fade-in {
+    animation: pageFadeIn 0.4s ease-out forwards;
+  }
+  .animate-fade-in-left {
+    animation: fadeInLeft 0.4s ease-out forwards;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+}
+
+/* Custom animations (kept outside @layer for browser compat) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Spinner for pre-React loading */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #0e7490;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

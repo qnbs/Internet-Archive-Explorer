@@ -13,5 +13,7 @@
     "restrictedAccess": "Eingeschränkter Zugriff",
     "restrictedAccessDesc": "Dieser Artikel muss möglicherweise aus dem Internet Archive ausgeliehen werden, um ihn anzusehen.",
     "restrictedItemTooltip": "Dieser Artikel muss möglicherweise zum Anzeigen ausgeliehen werden."
-  }
+  },
+  "theaterModeOn": "Kino-Modus aktivieren",
+  "theaterModeOff": "Kino-Modus beenden"
 }

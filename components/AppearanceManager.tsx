@@ -89,7 +89,9 @@ export const AppearanceManager: React.FC = () => {
       root.classList.add('theme-transitioning');
     }
 
-    root.className = resolvedTheme; // Set theme class directly
+    // Apply theme class: 'dark', 'light', or 'sepia'
+    root.classList.remove('dark', 'light', 'sepia');
+    root.classList.add(resolvedTheme);
     previousThemeRef.current = resolvedTheme;
     const transitionTimeout = setTimeout(() => root.classList.remove('theme-transitioning'), 350);
 

@@ -1,54 +1,33 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import type { ArchiveItemSummary } from '@/types';
 import { searchArchive } from '@/services/archiveService';
-import { useToast } from '@/contexts/ToastContext';
-import { useLanguage } from '@/hooks/useLanguage';
 
 /**
- * A reusable hook to fetch a list of archival items for carousels or other displays.
- * @param query The search query for the Internet Archive API.
- * @param limit The number of items to fetch.
- * @returns An object containing the items, loading state, and error state.
+ * TanStack Query v5 hook: fetches a list of archival items for carousels / grids.
+ * Replaces the old useState/useEffect approach with proper caching + deduplication.
  */
 export const useArchivalItems = (query: string, limit: number = 15) => {
-  const [items, setItems] = useState<ArchiveItemSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { addToast } = useToast();
-  const { t } = useLanguage();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery<ArchiveItemSummary[], Error>({
+    queryKey: ['archivalItems', query, limit],
+    queryFn: async () => {
+      const result = await searchArchive(query, 1, ['-downloads'], undefined, limit);
+      return result.response?.docs ?? [];
+    },
+    enabled: Boolean(query),
+    staleTime: 1000 * 60 * 5,
+  });
 
-  const fetchItems = useCallback(async () => {
-    if (!query) {
-      setIsLoading(false);
-      return;
-    }
-    setIsLoading(true);
-    setError(null);
-    try {
-      // Fetch top `limit` most downloaded items matching the query
-      const data = await searchArchive(query, 1, ['-downloads'], undefined, limit);
-      setItems(data.response?.docs || []);
-    } catch (err) {
-      console.error(`Failed to fetch archival items for query: ${query}`, err);
-      const statusCode = (err as { statusCode?: number })?.statusCode;
-      let toastMsg: string;
-      if (statusCode === 429) {
-        toastMsg = t('common:apiRateLimit');
-      } else if (err instanceof TypeError || (err instanceof Error && err.message.includes('network'))) {
-        toastMsg = t('common:apiNetworkError');
-      } else {
-        toastMsg = t('common:error');
-      }
-      setError(toastMsg);
-      addToast(toastMsg, 'error', 5000);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [query, limit, addToast, t]);
-
-  useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
-
-  return { items, isLoading, error, refetch: fetchItems };
+  return {
+    items: data ?? [],
+    isLoading,
+    error: isError ? (error?.message ?? 'Error') : null,
+    refetch,
+  };
 };
+
