@@ -1,11 +1,24 @@
 {
   "placeholder": "Type a command or search...",
   "title": "Command Palette",
+  "noResults": "No results found.",
+  "navigate": "Navigate",
+  "select": "Select",
+  "close": "Close",
+  "aiInsight": "AI Insight",
+  "aiInsightDesc": "Open AI Archive for deep analysis",
+  "share": "Share current page",
+  "shareDesc": "Copy a link to this page to clipboard",
+  "shareCopied": "Link copied!",
+  "myLibrary": "My Library",
+  "myLibraryDesc": "View saved items",
+  "myLibraryItems": "saved items",
   "sections": {
     "navigation": "Navigation",
     "actions": "Actions",
     "uploaders": "Uploaders",
-    "app": "Application"
+    "app": "Application",
+    "ai": "AI"
   },
   "nav": {
     "exploreDesc": "Go to the main explorer page",

@@ -1,0 +1,25 @@
+{
+  "title": "Für dich",
+  "subtitle": "Personalisierte Empfehlungen aus dem Internet-Archiv",
+  "basedOnLibrary": "Basierend auf deiner Bibliothek",
+  "continueExploring": "Weiter erkunden",
+  "trendingToday": "Heute im Trend",
+  "onThisDay": "An diesem Tag",
+  "noLibraryItems": "Füge Einträge zu deiner Bibliothek hinzu, um Empfehlungen zu erhalten.",
+  "noSearchHistory": "Starte eine Suche, um die Verlauf-Empfehlungen zu sehen.",
+  "goToLibrary": "Zur Bibliothek",
+  "exploreNow": "Jetzt entdecken",
+  "viewAll": "Alle anzeigen",
+  "mediaTypes": {
+    "audio": "Audiodateien",
+    "movies": "Filme & Video",
+    "texts": "Bücher & Texte",
+    "image": "Bilder",
+    "software": "Software",
+    "data": "Datensätze"
+  },
+  "emptyState": {
+    "title": "Willkommen beim Internet-Archiv!",
+    "message": "Entdecke Millionen historischer Bücher, Filme, Musiktitel und mehr. Fange an zu erkunden!"
+  }
+}

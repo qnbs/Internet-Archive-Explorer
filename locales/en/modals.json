@@ -13,5 +13,7 @@
     "restrictedAccess": "Restricted Access",
     "restrictedAccessDesc": "This item may require borrowing from the Internet Archive to view.",
     "restrictedItemTooltip": "This item may require borrowing to view."
-  }
+  },
+  "theaterModeOn": "Theater Mode",
+  "theaterModeOff": "Exit Theater Mode"
 }
