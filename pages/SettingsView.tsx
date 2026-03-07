@@ -593,6 +593,46 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
   const clearScriptorium = useSetAtom(clearScriptoriumAtom);
   const clearAIArchive = useSetAtom(clearAIArchiveAtom);
 
+  const handleResetApp = () => {
+    showConfirmation({
+      title: t('settings:data.resetAppTitle'),
+      message: t('settings:data.resetAppConfirm'),
+      confirmLabel: t('settings:data.resetAppButton'),
+      confirmClass: 'bg-orange-600 hover:bg-orange-700 focus:ring-orange-500',
+      onConfirm: async () => {
+        try {
+          if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg) {
+              // Ask the active SW to clear caches and unregister itself
+              const sw = reg.active || reg.waiting || reg.installing;
+              if (sw) {
+                await new Promise<void>((resolve) => {
+                  const channel = new MessageChannel();
+                  channel.port1.onmessage = () => resolve();
+                  sw.postMessage({ type: 'RESET_APP' }, [channel.port2]);
+                  // Fallback: resolve after 2s even if no reply
+                  setTimeout(resolve, 2000);
+                });
+              } else {
+                await reg.unregister();
+              }
+            }
+          }
+          // Clear any remaining caches from this thread as well
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map((k) => caches.delete(k)));
+          }
+        } catch (err) {
+          console.error('[ResetApp]', err);
+        } finally {
+          window.location.reload();
+        }
+      },
+    });
+  };
+
   const handleExport = () => {
     try {
       const data = exportAllData();
@@ -745,6 +785,19 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
       </div>
 
       <PWAInstallManager />
+
+      <div className="p-4 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+        <h3 className="text-base font-semibold text-orange-400">
+          {t('settings:data.resetAppTitle')}
+        </h3>
+        <p className="text-sm text-orange-300/80 mt-1 mb-3">{t('settings:data.resetAppDesc')}</p>
+        <button
+          onClick={handleResetApp}
+          className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+        >
+          <span>{t('settings:data.resetAppButton')}</span>
+        </button>
+      </div>
 
       <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
         <h3 className="text-lg font-semibold text-red-400">{t('settings:data.dangerZone')}</h3>

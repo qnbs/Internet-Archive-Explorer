@@ -198,7 +198,7 @@ const ExplorerView: React.FC = () => {
   }
 
   return (
-    <div>
+    <div role="region" aria-label="Search Results">
       <ResultsGrid
         results={results}
         isLoading={isLoading}

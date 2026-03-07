@@ -131,6 +131,10 @@
     "installApp": "Install App",
     "installAppDesc": "Install the Internet Archive Explorer as a standalone application on your device for a better offline experience and easy access.",
     "installButton": "Install",
-    "installedButton": "App Installed"
+    "installedButton": "App Installed",
+    "resetAppTitle": "Reset App",
+    "resetAppDesc": "Clears the service worker cache and reloads the app from scratch. Use this to fix update or loading issues after a new version has been deployed.",
+    "resetAppButton": "Reset & Reload",
+    "resetAppConfirm": "This will unregister the service worker and clear all cached data. The page will reload immediately. Continue?"
   }
 }

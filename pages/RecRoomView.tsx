@@ -37,8 +37,7 @@ const RecRoomView: React.FC = () => {
   const { items: insightItems } = useArchivalItems(collections[0].query, 10);
 
   return (
-    <div className="space-y-12 animate-page-fade-in">
-      <RecRoomHero />
+    <div className="space-y-12 animate-page-fade-in" role="region" aria-label={t('sideMenu:recRoom')}>
 
       <GameFinder />
 

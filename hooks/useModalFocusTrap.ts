@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface UseModalFocusTrapProps {
   modalRef: React.RefObject<HTMLElement>;
@@ -7,6 +7,23 @@ interface UseModalFocusTrapProps {
 }
 
 export const useModalFocusTrap = ({ modalRef, isOpen, onClose }: UseModalFocusTrapProps) => {
+  // Remember which element had focus before the modal opened so we can restore it on close
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Capture the currently focused element
+      previousFocusRef.current = document.activeElement as HTMLElement;
+    } else {
+      // Restore focus to the element that was focused before the modal opened
+      if (previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
+        // Small delay so focus is restored after the modal finishes closing
+        const id = setTimeout(() => previousFocusRef.current?.focus(), 50);
+        return () => clearTimeout(id);
+      }
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (!isOpen) return;
 

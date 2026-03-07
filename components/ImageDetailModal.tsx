@@ -368,6 +368,15 @@ const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = (
       aria-modal="true"
       aria-labelledby="modal-title"
     >
+      {/* aria-live region for zoom/rotation announcements */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {viewer.announcement}
+      </div>
       <div
         ref={modalRef}
         className={`bg-gray-800 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col md:flex-row overflow-hidden transition-all duration-300 ${isMounted && !isClosing ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}

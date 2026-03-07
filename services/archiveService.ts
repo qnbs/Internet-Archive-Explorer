@@ -7,9 +7,11 @@ const SEARCH_PAGE_SIZE = 24;
 const REQUEST_TIMEOUT_MS = 20000;
 
 class ArchiveServiceError extends Error {
-  constructor(message: string) {
+  readonly statusCode?: number;
+  constructor(message: string, statusCode?: number) {
     super(message);
     this.name = 'ArchiveServiceError';
+    this.statusCode = statusCode;
   }
 }
 
@@ -71,6 +73,7 @@ async function apiFetch<T>(url: string, context: string): Promise<T> {
     if (!response.ok) {
       throw new ArchiveServiceError(
         `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`,
+        response.status,
       );
     }
 

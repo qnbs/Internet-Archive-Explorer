@@ -228,6 +228,13 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="md:pl-64">
+      {/* Skip-link for keyboard / screen-reader users (WCAG 2.2 AA) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-accent-600 focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
       <AppearanceManager />
       <SideMenu
         isOpen={isSideMenuOpen}
@@ -240,7 +247,7 @@ const AppContent: React.FC = () => {
         onOpenCommandPalette={openCommandPalette}
       />
 
-      <main className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
+      <main id="main-content" className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
         <ErrorBoundary>
           <Suspense fallback={<PageSpinner />}>{renderView()}</Suspense>
         </ErrorBoundary>

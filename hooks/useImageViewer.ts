@@ -9,6 +9,7 @@ interface UseImageViewerReturn {
   rotation: number;
   offset: { x: number; y: number };
   isDragging: boolean;
+  announcement: string;
   zoomIn: () => void;
   zoomOut: () => void;
   rotateCW: () => void;
@@ -26,19 +27,37 @@ export const useImageViewer = (): UseImageViewerReturn => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [announcement, setAnnouncement] = useState('');
 
   const clampZoom = (newZoom: number) => Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
 
-  const zoomIn = useCallback(() => setZoom((prev) => clampZoom(prev * 1.2)), []);
-  const zoomOut = useCallback(() => setZoom((prev) => clampZoom(prev / 1.2)), []);
+  const zoomIn = useCallback(() => setZoom((prev) => {
+    const next = clampZoom(prev * 1.2);
+    setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
+    return next;
+  }), []);
+  const zoomOut = useCallback(() => setZoom((prev) => {
+    const next = clampZoom(prev / 1.2);
+    setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
+    return next;
+  }), []);
 
-  const rotateCW = useCallback(() => setRotation((prev) => (prev + 90) % 360), []);
-  const rotateCCW = useCallback(() => setRotation((prev) => (prev - 90 + 360) % 360), []);
+  const rotateCW = useCallback(() => setRotation((prev) => {
+    const next = (prev + 90) % 360;
+    setAnnouncement(`Rotation ${next}°`);
+    return next;
+  }), []);
+  const rotateCCW = useCallback(() => setRotation((prev) => {
+    const next = (prev - 90 + 360) % 360;
+    setAnnouncement(`Rotation ${next}°`);
+    return next;
+  }), []);
 
   const reset = useCallback(() => {
     setZoom(1);
     setRotation(0);
     setOffset({ x: 0, y: 0 });
+    setAnnouncement('View reset');
   }, []);
 
   const handleMouseDown = useCallback(
@@ -96,6 +115,7 @@ export const useImageViewer = (): UseImageViewerReturn => {
     rotation,
     offset,
     isDragging,
+    announcement,
     zoomIn,
     zoomOut,
     rotateCW,

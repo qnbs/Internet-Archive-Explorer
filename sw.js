@@ -93,6 +93,10 @@ self.addEventListener('activate', (event) => {
       );
 
       await self.clients.claim();
+
+      // Notify all clients that a new SW version is now active
+      const clients = await self.clients.matchAll({ type: 'window' });
+      clients.forEach((client) => client.postMessage({ type: 'SW_ACTIVATED', version: CACHE_NAME }));
     })(),
   );
 });
@@ -206,9 +210,23 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Listen for a message from the client to skip waiting and activate the new SW
+// Listen for messages from clients
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+
+  // Full app reset: clear all caches, unregister SW, then reply so client can reload
+  if (event.data && event.data.type === 'RESET_APP') {
+    event.waitUntil(
+      caches
+        .keys()
+        .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+        .then(() => self.registration.unregister())
+        .then(() => {
+          if (event.source) event.source.postMessage({ type: 'RESET_APP_DONE' });
+        })
+        .catch((err) => console.error('[SW] RESET_APP failed:', err)),
+    );
   }
 });
