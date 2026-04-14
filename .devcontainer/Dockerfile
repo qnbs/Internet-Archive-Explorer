@@ -7,7 +7,7 @@ FROM node:22-bookworm-slim
 
 # ── Labels ────────────────────────────────────────────────────────────────────
 LABEL org.opencontainers.image.title="Internet Archive Explorer Dev Container"
-LABEL org.opencontainers.image.description="Node 22 + Playwright system deps"
+LABEL org.opencontainers.image.description="Node 22 + Playwright Chromium system deps"
 
 # ── System packages ───────────────────────────────────────────────────────────
 # Single RUN layer to minimise image layers and cache invalidation
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     procps \
     unzip \
     jq \
-    # Playwright / browser runtime system deps (Chromium, Firefox, WebKit)
+    # Playwright Chromium runtime system deps
     libnss3 \
     libnspr4 \
     libatk1.0-0 \
@@ -47,22 +47,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     libxi6 \
     libxtst6 \
-    # WebKit additional deps
-    libwoff1 \
-    libvpx7 \
-    libharfbuzz-icu0 \
-    libenchant-2-2 \
-    libsecret-1-0 \
-    libhyphen0 \
-    libflite1 \
-    libegl1 \
-    libgles2 \
-    libevdev2 \
-    libgstreamer1.0-0 \
-    libgstreamer-plugins-base1.0-0 \
-    gstreamer1.0-plugins-good \
-    libgstreamer-gl1.0-0 \
-    gstreamer1.0-plugins-bad \
   && rm -rf /var/lib/apt/lists/*
 
 # ── GitHub CLI is provided by the devcontainer feature github-cli:1 ──────────
