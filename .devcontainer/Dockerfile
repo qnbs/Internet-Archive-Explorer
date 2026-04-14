@@ -1,13 +1,13 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Internet Archive Explorer — Dev Container Image
 # Base: Node 22 LTS on Debian Bookworm Slim
-# Includes: git, gh CLI, curl, Playwright system deps, corepack
+# Includes: git, curl, Playwright system deps, corepack
 # ─────────────────────────────────────────────────────────────────────────────
 FROM node:22-bookworm-slim
 
 # ── Labels ────────────────────────────────────────────────────────────────────
 LABEL org.opencontainers.image.title="Internet Archive Explorer Dev Container"
-LABEL org.opencontainers.image.description="Node 22 + Playwright + GitHub CLI"
+LABEL org.opencontainers.image.description="Node 22 + Playwright system deps"
 
 # ── System packages ───────────────────────────────────────────────────────────
 # Single RUN layer to minimise image layers and cache invalidation
@@ -60,21 +60,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libevdev2 \
     libgstreamer1.0-0 \
     libgstreamer-plugins-base1.0-0 \
-    libgstreamer-plugins-good1.0-0 \
+    gstreamer1.0-plugins-good \
     libgstreamer-gl1.0-0 \
-    libgstreamer-plugins-bad1.0-0 \
+    gstreamer1.0-plugins-bad \
   && rm -rf /var/lib/apt/lists/*
 
-# ── GitHub CLI ────────────────────────────────────────────────────────────────
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-      | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] \
-             https://cli.github.com/packages stable main" \
-       | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-    && apt-get update \
-    && apt-get install -y gh \
-    && rm -rf /var/lib/apt/lists/*
+# ── GitHub CLI is provided by the devcontainer feature github-cli:1 ──────────
 
 # ── corepack (pnpm / yarn if ever needed) ─────────────────────────────────────
 RUN corepack enable

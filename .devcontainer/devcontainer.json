@@ -11,13 +11,10 @@
   },
 
   // ── Extra devcontainer features (on top of base image) ────────────────────
+  // git and Node 22 are already in the base image (node:22-bookworm-slim).
+  // Only GitHub CLI needs the feature layer.
   "features": {
-    "ghcr.io/devcontainers/features/git:1": { "ppa": false },
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "22",
-      "nodeGypDependencies": false
-    }
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
 
   // ── Port forwarding ────────────────────────────────────────────────────────
