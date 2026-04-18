@@ -25,6 +25,7 @@ export interface ButtonProps extends HTMLMotionProps<'button'> {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 // ── Style maps ────────────────────────────────────────────────────────────────

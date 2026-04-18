@@ -68,7 +68,7 @@ const NavButton: React.FC<{ item: NavItem; isActive: boolean; onClick: (view: Vi
   return (
     <button
       onClick={() => item.view && onClick(item.view)}
-      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-600 text-white dark:bg-accent-500/40 dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
+      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-700 text-white dark:bg-accent-700 dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
       aria-current={isActive ? 'page' : undefined}
     >
       <span className="mr-3">{item.icon}</span>
@@ -156,14 +156,14 @@ export const SideMenu: React.FC<SideMenuProps> = ({
               <div>{mainNavItems.map(renderNavItem)}</div>
               <hr className="my-4 border-gray-200 dark:border-gray-700/50" />
               <div>
-                <h3 className="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                <h3 className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                   {t('sideMenu:collections')}
                 </h3>
                 {collectionNavItems.map(renderNavItem)}
               </div>
               <hr className="my-4 border-gray-200 dark:border-gray-700/50" />
               <div>
-                <h3 className="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                <h3 className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                   {t('sideMenu:tools')}
                 </h3>
                 {toolNavItems.map(renderNavItem)}

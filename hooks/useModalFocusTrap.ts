@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 interface UseModalFocusTrapProps {
-  modalRef: React.RefObject<HTMLElement>;
+  modalRef: React.RefObject<HTMLElement | null>;
   isOpen: boolean;
   onClose: () => void;
 }

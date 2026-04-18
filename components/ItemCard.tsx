@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import type { ArchiveItemSummary, MediaType } from '@/types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -38,12 +39,12 @@ const getMediaTypeIconPath = (mediaType: MediaType): string => {
   }
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: Math.min(i * 0.04, 0.6), duration: 0.35, ease: 'easeOut' },
+    transition: { delay: Math.min(i * 0.04, 0.6), duration: 0.35, ease: 'easeOut' as const },
   }),
 };
 

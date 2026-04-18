@@ -9,9 +9,15 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const isAnalyzeMode = process.env.ANALYZE === 'true' || mode === 'analyze';
+  const normalizedBasePath = (() => {
+    const raw = process.env.VITE_BASE_PATH?.trim();
+    if (!raw) return '/Internet-Archive-Explorer/';
+    const withLeadingSlash = raw.startsWith('/') ? raw : `/${raw}`;
+    return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+  })();
 
   return {
-    base: '/Internet-Archive-Explorer/',
+    base: normalizedBasePath,
     plugins: [
       react(),
       analyzer({
