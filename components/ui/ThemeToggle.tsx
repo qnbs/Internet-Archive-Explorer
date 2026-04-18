@@ -13,29 +13,45 @@ import type { Theme } from '@/types';
 // ── Icons (inline to avoid bundle deps) ──────────────────────────────────────
 const SunIcon: React.FC = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10A5 5 0 0012 7z" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10A5 5 0 0012 7z"
+    />
   </svg>
 );
 
 const MoonIcon: React.FC = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
   </svg>
 );
 
 const SepiaIcon: React.FC = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+    />
   </svg>
 );
 
 const SystemIcon: React.FC = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"
+    />
   </svg>
 );
 
@@ -43,17 +59,22 @@ const SystemIcon: React.FC = () => (
 const CYCLE: Theme[] = ['light', 'dark', 'sepia', 'system'];
 
 const THEME_META: Record<Theme, { label: string; icon: React.ReactNode; ringColor: string }> = {
-  light:  { label: 'Light',  icon: <SunIcon />,    ringColor: 'ring-yellow-400' },
-  dark:   { label: 'Dark',   icon: <MoonIcon />,   ringColor: 'ring-indigo-400' },
-  sepia:  { label: 'Sepia',  icon: <SepiaIcon />,  ringColor: 'ring-sepia-500'  },
-  system: { label: 'System', icon: <SystemIcon />, ringColor: 'ring-gray-400'   },
+  light: { label: 'Light', icon: <SunIcon />, ringColor: 'ring-yellow-400' },
+  dark: { label: 'Dark', icon: <MoonIcon />, ringColor: 'ring-indigo-400' },
+  sepia: { label: 'Sepia', icon: <SepiaIcon />, ringColor: 'ring-sepia-500' },
+  system: { label: 'System', icon: <SystemIcon />, ringColor: 'ring-gray-400' },
 };
 
 // ── Icon transition ───────────────────────────────────────────────────────────
 const iconVariants = {
-  enter:  { opacity: 0, rotate: -30, scale: 0.6 },
-  center: { opacity: 1, rotate: 0,   scale: 1,   transition: { duration: 0.22, ease: 'easeOut' as const } },
-  exit:   { opacity: 0, rotate:  30, scale: 0.6, transition: { duration: 0.15 } },
+  enter: { opacity: 0, rotate: -30, scale: 0.6 },
+  center: {
+    opacity: 1,
+    rotate: 0,
+    scale: 1,
+    transition: { duration: 0.22, ease: 'easeOut' as const },
+  },
+  exit: { opacity: 0, rotate: 30, scale: 0.6, transition: { duration: 0.15 } },
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────

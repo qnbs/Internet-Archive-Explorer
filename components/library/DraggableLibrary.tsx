@@ -28,14 +28,9 @@ interface SortableLibraryItemProps {
 }
 
 const SortableLibraryItem: React.FC<SortableLibraryItemProps> = ({ item, onSelect }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.identifier });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.identifier,
+  });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -65,12 +60,18 @@ const SortableLibraryItem: React.FC<SortableLibraryItemProps> = ({ item, onSelec
         src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
         alt={item.title}
         className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+        onError={(e) => {
+          (e.target as HTMLImageElement).style.display = 'none';
+        }}
       />
 
       <button className="flex-1 text-left min-w-0" onClick={() => onSelect(item)}>
-        <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{item.title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{item.mediatype}</p>
+        <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
+          {item.title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">
+          {item.mediatype}
+        </p>
       </button>
     </div>
   );
@@ -113,8 +114,18 @@ export const DraggableLibrary: React.FC<DraggableLibraryProps> = ({ onSelectItem
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <svg className="w-12 h-12 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        <svg
+          className="w-12 h-12 mb-3 opacity-30"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+          />
         </svg>
         <p className="text-sm">{t('library:empty') || 'Your library is empty.'}</p>
       </div>
@@ -124,11 +135,7 @@ export const DraggableLibrary: React.FC<DraggableLibraryProps> = ({ onSelectItem
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={orderedIds} strategy={verticalListSortingStrategy}>
-        <motion.div
-          className="space-y-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
+        <motion.div className="space-y-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {items.map((item) => (
             <SortableLibraryItem key={item.identifier} item={item} onSelect={onSelectItem} />
           ))}
@@ -157,14 +164,9 @@ interface SortableLibraryItemProps {
 }
 
 const SortableLibraryItem: React.FC<SortableLibraryItemProps> = ({ item, onSelect }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.identifier });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.identifier,
+  });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -196,16 +198,19 @@ const SortableLibraryItem: React.FC<SortableLibraryItemProps> = ({ item, onSelec
         src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
         alt={item.title}
         className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+        onError={(e) => {
+          (e.target as HTMLImageElement).style.display = 'none';
+        }}
       />
 
       {/* Info */}
-      <button
-        className="flex-1 text-left min-w-0"
-        onClick={() => onSelect(item)}
-      >
-        <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{item.title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{item.mediatype}</p>
+      <button className="flex-1 text-left min-w-0" onClick={() => onSelect(item)}>
+        <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
+          {item.title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">
+          {item.mediatype}
+        </p>
       </button>
     </div>
   );
@@ -242,8 +247,18 @@ export const DraggableLibrary: React.FC<DraggableLibraryProps> = ({ onSelectItem
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <svg className="w-12 h-12 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        <svg
+          className="w-12 h-12 mb-3 opacity-30"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+          />
         </svg>
         <p className="text-sm">{t('library:empty') || 'Your library is empty.'}</p>
       </div>
@@ -252,7 +267,10 @@ export const DraggableLibrary: React.FC<DraggableLibraryProps> = ({ onSelectItem
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={items.map((i) => i.identifier)} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={items.map((i) => i.identifier)}
+        strategy={verticalListSortingStrategy}
+      >
         <motion.div
           className="space-y-2"
           initial={{ opacity: 0 }}
@@ -260,11 +278,7 @@ export const DraggableLibrary: React.FC<DraggableLibraryProps> = ({ onSelectItem
           transition={{ staggerChildren: 0.04 }}
         >
           {items.map((item) => (
-            <SortableLibraryItem
-              key={item.identifier}
-              item={item}
-              onSelect={onSelectItem}
-            />
+            <SortableLibraryItem key={item.identifier} item={item} onSelect={onSelectItem} />
           ))}
         </motion.div>
       </SortableContext>

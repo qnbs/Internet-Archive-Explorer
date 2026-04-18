@@ -1,5 +1,4 @@
 import React from 'react';
-import { HeroSection } from '@/components/videothek/HeroSection';
 import { ArchivalCarousel } from '@/components/ArchivalCarousel';
 import { useLanguage } from '@/hooks/useLanguage';
 import { MediaType, AIGenerationType } from '@/types';
@@ -38,8 +37,11 @@ const VideothekView: React.FC = () => {
   const { items: newlyAddedItems } = useArchivalItems(collections[0].query);
 
   return (
-    <div className="space-y-12 animate-page-fade-in" role="region" aria-label={t('sideMenu:videothek')}>
-
+    <div
+      className="space-y-12 animate-page-fade-in"
+      role="region"
+      aria-label={t('sideMenu:videothek')}
+    >
       <AIInsightPanel
         title={t('videothek:aiInsight.title')}
         description={t('videothek:aiInsight.description')}

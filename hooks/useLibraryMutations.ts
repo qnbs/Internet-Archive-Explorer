@@ -1,10 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetAtom, useAtomValue } from 'jotai';
-import {
-  libraryItemsAtom,
-  addLibraryItemAtom,
-  removeLibraryItemAtom,
-} from '@/store/favorites';
+import { libraryItemsAtom, addLibraryItemAtom, removeLibraryItemAtom } from '@/store/favorites';
 import type { ArchiveItemSummary } from '@/types';
 
 /**

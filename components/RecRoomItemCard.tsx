@@ -34,7 +34,11 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
 
   const handleSelect = () => {
     if (window.location.hostname.endsWith('github.io') || shouldAlwaysOpenOnArchive) {
-      window.open(`https://archive.org/details/${item.identifier}`, '_blank', 'noopener,noreferrer');
+      window.open(
+        `https://archive.org/details/${item.identifier}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
       return;
     }
 

@@ -4,7 +4,6 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
 import { generateRetroGamingNote } from '@/services/geminiService';
 import { useArchivalItems } from '@/hooks/useArchivalItems';
-import { RecRoomHero } from '@/components/recroom/RecRoomHero';
 import { RecRoomCarousel } from '@/components/recroom/RecRoomCarousel';
 import GameFinder from '@/components/recroom/GameFinder';
 
@@ -37,8 +36,11 @@ const RecRoomView: React.FC = () => {
   const { items: insightItems } = useArchivalItems(collections[0].query, 10);
 
   return (
-    <div className="space-y-12 animate-page-fade-in" role="region" aria-label={t('sideMenu:recRoom')}>
-
+    <div
+      className="space-y-12 animate-page-fade-in"
+      role="region"
+      aria-label={t('sideMenu:recRoom')}
+    >
       <GameFinder />
 
       <AIInsightPanel

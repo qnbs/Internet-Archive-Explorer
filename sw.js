@@ -1,23 +1,19 @@
 // A robust, production-ready service worker for the PWA.
-const CACHE_NAME = 'internet-archive-explorer-v4'; // Bump version for updates
+const CACHE_NAME = 'internet-archive-explorer-v5'; // ← Version gebumped
+
 const API_HOSTNAME = 'archive.org';
-const IMAGE_HOSTNAMES = ['archive.org']; // Can add more if needed
+const IMAGE_HOSTNAMES = ['archive.org'];
 const NETWORK_TIMEOUT_MS = 15000;
 
 const BASE_PATH = new URL(self.registration.scope).pathname;
 
-// App Shell: Critical assets that make the app run.
+// App Shell: Critical assets
 const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`];
 
-// Third-party assets that are critical for the app to function.
+// Third-party assets (nur wirklich benötigte)
 const THIRD_PARTY_URLS = [
   'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-  'https://aistudiocdn.com/@google/genai@^1.19.0',
-  'https://aistudiocdn.com/react@^19.1.1',
-  'https://aistudiocdn.com/jotai@^2.14.0',
-  'https://aistudiocdn.com/uuid@^13.0.0',
-  'https://aistudiocdn.com/react-dom@^19.1.1',
 ];
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
@@ -96,7 +92,9 @@ self.addEventListener('activate', (event) => {
 
       // Notify all clients that a new SW version is now active
       const clients = await self.clients.matchAll({ type: 'window' });
-      clients.forEach((client) => client.postMessage({ type: 'SW_ACTIVATED', version: CACHE_NAME }));
+      clients.forEach((client) =>
+        client.postMessage({ type: 'SW_ACTIVATED', version: CACHE_NAME }),
+      );
     })(),
   );
 });

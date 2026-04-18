@@ -47,143 +47,167 @@ const cardVariants = {
   }),
 };
 
-export const ItemCard: React.FC<ItemCardProps> = React.memo(({ item, index, variant = 'classic' }) => {
-  const { addToast } = useToast();
-  const { t } = useLanguage();
+export const ItemCard: React.FC<ItemCardProps> = React.memo(
+  ({ item, index, variant = 'classic' }) => {
+    const { addToast } = useToast();
+    const { t } = useLanguage();
 
-  const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
-  const addLibraryItem = useSetAtom(addLibraryItemAtom);
-  const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
-  const selectItem = useSetAtom(selectItemAtom);
+    const libraryItemIdentifiers = useAtomValue(libraryItemIdentifiersAtom);
+    const addLibraryItem = useSetAtom(addLibraryItemAtom);
+    const removeLibraryItem = useSetAtom(removeLibraryItemAtom);
+    const selectItem = useSetAtom(selectItemAtom);
 
-  const getCreator = (creator: string | string[] | undefined): string => {
-    if (!creator) return t('itemCard:unknownCreator');
-    if (Array.isArray(creator)) return creator.join(', ');
-    return creator;
-  };
+    const getCreator = (creator: string | string[] | undefined): string => {
+      if (!creator) return t('itemCard:unknownCreator');
+      if (Array.isArray(creator)) return creator.join(', ');
+      return creator;
+    };
 
-  const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
-  const creatorName = getCreator(item.creator);
-  const publicYear = new Date(item.publicdate).getFullYear();
+    const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+    const creatorName = getCreator(item.creator);
+    const publicYear = new Date(item.publicdate).getFullYear();
 
-  const isFavorite = libraryItemIdentifiers.has(item.identifier);
-  const isRestricted = item['access-restricted-item'] === 'true';
+    const isFavorite = libraryItemIdentifiers.has(item.identifier);
+    const isRestricted = item['access-restricted-item'] === 'true';
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isFavorite) {
-      removeLibraryItem(item.identifier);
-      addToast(t('favorites:removed'), 'info');
-    } else {
-      addLibraryItem(item);
-      addToast(t('favorites:added'), 'success');
-    }
-  };
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (isFavorite) {
+        removeLibraryItem(item.identifier);
+        addToast(t('favorites:removed'), 'info');
+      } else {
+        addLibraryItem(item);
+        addToast(t('favorites:added'), 'success');
+      }
+    };
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
-    if (target.src.includes('__ia_thumb.jpg')) {
-      target.onerror = null;
-      const iconPath = getMediaTypeIconPath(item.mediatype);
-      const placeholderSvg = `<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect fill="#374151" width="300" height="400"/><g transform="translate(114, 164) scale(3)"><path d="${iconPath}" stroke="#9CA3AF" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
-      target.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(placeholderSvg)}`;
-    } else {
-      target.src = fallbackUrl;
-    }
-  };
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const target = e.target as HTMLImageElement;
+      const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+      if (target.src.includes('__ia_thumb.jpg')) {
+        target.onerror = null;
+        const iconPath = getMediaTypeIconPath(item.mediatype);
+        const placeholderSvg = `<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect fill="#374151" width="300" height="400"/><g transform="translate(114, 164) scale(3)"><path d="${iconPath}" stroke="#9CA3AF" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+        target.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(placeholderSvg)}`;
+      } else {
+        target.src = fallbackUrl;
+      }
+    };
 
-  const wrapperClass =
-    variant === 'polaroid'
-      ? 'card-polaroid cursor-pointer group relative'
-      : variant === 'vhs'
-        ? 'card-vhs cursor-pointer group relative overflow-hidden'
-        : 'card-classic cursor-pointer group relative overflow-hidden';
+    const wrapperClass =
+      variant === 'polaroid'
+        ? 'card-polaroid cursor-pointer group relative'
+        : variant === 'vhs'
+          ? 'card-vhs cursor-pointer group relative overflow-hidden'
+          : 'card-classic cursor-pointer group relative overflow-hidden';
 
-  return (
-    <motion.article
-      className={wrapperClass}
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      custom={index}
-      whileHover={{ y: variant === 'polaroid' ? -4 : -2, scale: 1.01 }}
-      onClick={() => selectItem(item)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
-      aria-label={t('itemCard:viewDetails', { title: item.title })}
-    >
-      <button
-        onClick={handleFavoriteClick}
-        className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors"
-        aria-label={isFavorite ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
+    return (
+      <motion.article
+        className={wrapperClass}
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        custom={index}
+        whileHover={{ y: variant === 'polaroid' ? -4 : -2, scale: 1.01 }}
+        onClick={() => selectItem(item)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectItem(item)}
+        aria-label={t('itemCard:viewDetails', { title: item.title })}
       >
-        <StarIcon className="w-5 h-5" filled={isFavorite} />
-      </button>
-
-      {isRestricted && (
-        <div
-          className="absolute top-2 left-2 z-10 p-1.5 bg-black/60 rounded-full"
-          title={t('modals:details.restrictedItemTooltip')}
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors"
+          aria-label={isFavorite ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
         >
-          <InfoIcon className="w-4 h-4 text-yellow-400" />
-        </div>
-      )}
+          <StarIcon className="w-5 h-5" filled={isFavorite} />
+        </button>
 
-      {/* VHS scanline overlay */}
-      {variant === 'vhs' && (
-        <div className="absolute inset-0 pointer-events-none z-20 opacity-10"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)' }} />
-      )}
+        {isRestricted && (
+          <div
+            className="absolute top-2 left-2 z-10 p-1.5 bg-black/60 rounded-full"
+            title={t('modals:details.restrictedItemTooltip')}
+          >
+            <InfoIcon className="w-4 h-4 text-yellow-400" />
+          </div>
+        )}
 
-      <div className="relative aspect-w-3 aspect-h-4">
-        <img
-          src={thumbnailUrl}
-          alt={`Thumbnail for ${item.title}`}
-          className={`w-full h-full object-cover transition-transform duration-300 ${variant === 'vhs' ? 'group-hover:scale-100 saturate-50 sepia-[0.3]' : 'group-hover:scale-105'}`}
-          loading="lazy"
-          onError={handleImageError}
-        />
-        <div className={`absolute inset-0 flex flex-col justify-end p-4 ${variant === 'vhs' ? 'bg-gradient-to-t from-green-950/95 via-black/70 to-transparent' : 'bg-gradient-to-t from-black/90 via-black/60 to-transparent'}`}>
-          {variant === 'vhs' && (
-            <span className="text-green-400 text-xs font-mono tracking-widest mb-1 opacity-70">▶ PLAY</span>
-          )}
-          <div>
-            <h3
-              className={`text-md font-semibold line-clamp-3 transition-colors ${variant === 'vhs' ? 'text-green-300 group-hover:text-green-200 font-mono' : 'text-white group-hover:text-accent-400'}`}
-              title={item.title}
-            >
-              {item.title}
-            </h3>
-            <p className="text-sm text-gray-300 truncate mt-1" title={creatorName}>
-              {creatorName}
-            </p>
-            <div className="flex justify-between items-center mt-2">
-              <p className="text-xs text-gray-400">{publicYear || 'N/A'}</p>
-              {typeof item.downloads === 'number' && item.downloads > 0 && (
-                <div className="flex items-center space-x-1 text-xs text-gray-400" title={`${item.downloads.toLocaleString()} downloads`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                  <span>{formatNumber(item.downloads)}</span>
-                </div>
-              )}
-              <span className="text-xs capitalize bg-gray-700/80 text-accent-300 px-2 py-1 rounded-full">
-                {item.mediatype}
+        {/* VHS scanline overlay */}
+        {variant === 'vhs' && (
+          <div
+            className="absolute inset-0 pointer-events-none z-20 opacity-10"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)',
+            }}
+          />
+        )}
+
+        <div className="relative aspect-w-3 aspect-h-4">
+          <img
+            src={thumbnailUrl}
+            alt={`Thumbnail for ${item.title}`}
+            className={`w-full h-full object-cover transition-transform duration-300 ${variant === 'vhs' ? 'group-hover:scale-100 saturate-50 sepia-[0.3]' : 'group-hover:scale-105'}`}
+            loading="lazy"
+            onError={handleImageError}
+          />
+          <div
+            className={`absolute inset-0 flex flex-col justify-end p-4 ${variant === 'vhs' ? 'bg-gradient-to-t from-green-950/95 via-black/70 to-transparent' : 'bg-gradient-to-t from-black/90 via-black/60 to-transparent'}`}
+          >
+            {variant === 'vhs' && (
+              <span className="text-green-400 text-xs font-mono tracking-widest mb-1 opacity-70">
+                ▶ PLAY
               </span>
+            )}
+            <div>
+              <h3
+                className={`text-md font-semibold line-clamp-3 transition-colors ${variant === 'vhs' ? 'text-green-300 group-hover:text-green-200 font-mono' : 'text-white group-hover:text-accent-400'}`}
+                title={item.title}
+              >
+                {item.title}
+              </h3>
+              <p className="text-sm text-gray-300 truncate mt-1" title={creatorName}>
+                {creatorName}
+              </p>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-xs text-gray-400">{publicYear || 'N/A'}</p>
+                {typeof item.downloads === 'number' && item.downloads > 0 && (
+                  <div
+                    className="flex items-center space-x-1 text-xs text-gray-400"
+                    title={`${item.downloads.toLocaleString()} downloads`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      />
+                    </svg>
+                    <span>{formatNumber(item.downloads)}</span>
+                  </div>
+                )}
+                <span className="text-xs capitalize bg-gray-700/80 text-accent-300 px-2 py-1 rounded-full">
+                  {item.mediatype}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Polaroid caption */}
-      {variant === 'polaroid' && (
-        <p className="text-center text-xs text-gray-600 dark:text-gray-800 mt-1 px-1 truncate font-handwriting">
-          {item.title}
-        </p>
-      )}
-    </motion.article>
-  );
-});
-
+        {/* Polaroid caption */}
+        {variant === 'polaroid' && (
+          <p className="text-center text-xs text-gray-600 dark:text-gray-800 mt-1 px-1 truncate font-handwriting">
+            {item.title}
+          </p>
+        )}
+      </motion.article>
+    );
+  },
+);

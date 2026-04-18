@@ -190,7 +190,11 @@ const ImagesHubView: React.FC = () => {
   const { items: metItems } = useArchivalItems(collections[0].query);
 
   return (
-    <div className="space-y-12 animate-page-fade-in" role="region" aria-label={t('sideMenu:imagesHub')}>
+    <div
+      className="space-y-12 animate-page-fade-in"
+      role="region"
+      aria-label={t('sideMenu:imagesHub')}
+    >
       <header className="relative text-center rounded-xl min-h-[40vh] flex flex-col justify-center items-center text-white p-6 overflow-hidden">
         <HeroGallery />
         <div className="relative z-10">

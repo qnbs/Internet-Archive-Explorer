@@ -54,11 +54,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
 
   // Derive playable media URL when metadata arrives
   useEffect(() => {
-    if (
-      metadata &&
-      (item.mediatype === 'audio' || item.mediatype === 'movies') &&
-      metadata.files
-    ) {
+    if (metadata && (item.mediatype === 'audio' || item.mediatype === 'movies') && metadata.files) {
       const type = item.mediatype === 'movies' ? 'video' : 'audio';
       const url = findPlayableFile(metadata.files, item.identifier, type);
       if (url) setPlayableMedia({ url, type });
@@ -91,17 +87,15 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playableMedia?.url, autoplayMedia]);
 
-  const error = metaError instanceof Error
-    ? metaError.message
-    : metaError
-      ? 'An unknown error occurred'
-      : null;
+  const error =
+    metaError instanceof Error ? metaError.message : metaError ? 'An unknown error occurred' : null;
 
-  const textError = textQueryError instanceof Error
-    ? textQueryError.message
-    : textQueryError
-      ? 'Failed to load text content.'
-      : null;
+  const textError =
+    textQueryError instanceof Error
+      ? textQueryError.message
+      : textQueryError
+        ? 'Failed to load text content.'
+        : null;
 
   return {
     item,

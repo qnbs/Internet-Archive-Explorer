@@ -17,29 +17,22 @@ export const useExplorerSearch = () => {
 
   const queryString = buildArchiveQuery({ text: debouncedQuery, facets });
 
-  const {
-    data,
-    isLoading,
-    isFetchingNextPage,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-  } = useInfiniteQuery({
-    queryKey: ['explorerSearch', queryString],
-    queryFn: async ({ pageParam }) => {
-      const finalQuery = queryString || 'featured';
-      const sorts = queryString ? ['-publicdate'] : [];
-      return searchArchive(finalQuery, pageParam as number, sorts);
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const total = lastPage?.response?.numFound ?? 0;
-      const loaded = allPages.reduce((acc, p) => acc + (p?.response?.docs?.length ?? 0), 0);
-      return loaded < total ? allPages.length + 1 : undefined;
-    },
-    staleTime: 1000 * 60 * 2,
-  });
+  const { data, isLoading, isFetchingNextPage, error, fetchNextPage, hasNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ['explorerSearch', queryString],
+      queryFn: async ({ pageParam }) => {
+        const finalQuery = queryString || 'featured';
+        const sorts = queryString ? ['-publicdate'] : [];
+        return searchArchive(finalQuery, pageParam as number, sorts);
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) => {
+        const total = lastPage?.response?.numFound ?? 0;
+        const loaded = allPages.reduce((acc, p) => acc + (p?.response?.docs?.length ?? 0), 0);
+        return loaded < total ? allPages.length + 1 : undefined;
+      },
+      staleTime: 1000 * 60 * 2,
+    });
 
   const allDocs = data?.pages.flatMap((p) => p?.response?.docs ?? []) ?? [];
   const seen = new Set<string>();
