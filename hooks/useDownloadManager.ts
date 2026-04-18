@@ -29,13 +29,12 @@ export const useDownloadManager = () => {
         let received = 0;
 
         if (reader) {
-          // eslint-disable-next-line no-constant-condition
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            chunks.push(value);
-            received += value.length;
+          let result = await reader.read();
+          while (!result.done) {
+            chunks.push(result.value);
+            received += result.value.length;
             updateProgress({ id: item.id, downloadedBytes: received });
+            result = await reader.read();
           }
         }
 
