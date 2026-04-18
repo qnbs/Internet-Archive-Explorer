@@ -1,141 +1,27 @@
 {
-  // ── Internet Archive Explorer — Dev Container ──────────────────────────────
-  // Reproducible Node 22 environment for Codespaces and local Docker.
-  // ─────────────────────────────────────────────────────────────────────────────
-  "name": "Internet Archive Explorer",
-
-  // ── Build ──────────────────────────────────────────────────────────────────
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-
-  // ── Extra devcontainer features (on top of base image) ────────────────────
-  // git and Node 22 are already in the base image (node:22-bookworm-slim).
-  // Only GitHub CLI needs the feature layer.
-  "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
-
-  // ── Port forwarding ────────────────────────────────────────────────────────
-  "forwardPorts": [5173, 4173],
-  "portsAttributes": {
-    "5173": {
-      "label": "Vite Dev Server",
-      "onAutoForward": "openPreview",
-      "protocol": "http"
-    },
-    "4173": {
-      "label": "Vite Preview",
-      "onAutoForward": "notify",
-      "protocol": "http"
-    }
-  },
-
-  // ── VS Code customizations ─────────────────────────────────────────────────
+  "name": "Internet Archive Explorer - Light",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+  "postCreateCommand": "chmod +x .devcontainer/postCreate.sh && .devcontainer/postCreate.sh",
   "customizations": {
     "vscode": {
-      // ── Extensions ──────────────────────────────────────────────────────────
       "extensions": [
-        // Tailwind CSS
-        "bradlc.vscode-tailwindcss",
-        // Prettier
-        "esbenp.prettier-vscode",
-        // ESLint
         "dbaeumer.vscode-eslint",
-        // TypeScript
-        "ms-vscode.vscode-typescript-next",
-        // React / JSX helpers
-        "formulahendry.auto-rename-tag",
-        "christian-kohler.path-intellisense",
-        "dsznajder.es7-react-js-snippets",
-        // GitHub Copilot
-        "GitHub.copilot",
-        "GitHub.copilot-chat",
-        // Playwright
-        "ms-playwright.playwright",
-        // Git
-        "mhutchie.git-graph",
-        "eamodio.gitlens",
-        // Extras
-        "streetsidesoftware.code-spell-checker",
-        "usernamehw.errorlens"
-      ],
-
-      // ── Editor settings ─────────────────────────────────────────────────────
-      "settings": {
-        // ── Formatting ────────────────────────────────────────────────────────
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": false,
-        "editor.tabSize": 2,
-        "editor.insertSpaces": true,
-        "editor.rulers": [100],
-        "files.trimTrailingWhitespace": true,
-        "files.insertFinalNewline": true,
-
-        // ── ESLint ────────────────────────────────────────────────────────────
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
-        },
-        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-        "eslint.workingDirectories": [{ "mode": "auto" }],
-
-        // ── TypeScript ────────────────────────────────────────────────────────
-        "typescript.tsdk": "node_modules/typescript/lib",
-        "typescript.enablePromptUseWorkspaceTsdk": true,
-        "typescript.preferences.importModuleSpecifier": "shortest",
-        "typescript.suggest.autoImports": true,
-
-        // ── Tailwind CSS ──────────────────────────────────────────────────────
-        "tailwindCSS.experimental.classRegex": [
-          ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-          ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-          ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-        ],
-        "tailwindCSS.includeLanguages": {
-          "typescript": "html",
-          "typescriptreact": "html"
-        },
-        "css.validate": false,
-
-        // ── GitHub Copilot ────────────────────────────────────────────────────
-        "github.copilot.enable": {
-          "*": true,
-          "markdown": true,
-          "plaintext": false,
-          "scminput": false
-        },
-        "github.copilot.editor.enableAutoCompletions": true,
-        "github.copilot.chat.localeOverride": "auto",
-        "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-
-        // ── Workspace trust ───────────────────────────────────────────────────
-        "security.workspace.trust.enabled": false,
-        "security.workspace.trust.startupPrompt": "never",
-        "security.workspace.trust.banner": "never",
-        "security.workspace.trust.emptyWindow": true,
-
-        // ── Misc UX ───────────────────────────────────────────────────────────
-        "explorer.confirmDelete": false,
-        "editor.bracketPairColorization.enabled": true,
-        "editor.stickyScroll.enabled": true,
-        "editor.minimap.enabled": false,
-        "workbench.colorTheme": "Default Dark+",
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
     }
   },
-
-  // ── Lifecycle ──────────────────────────────────────────────────────────────
-  // chmod first to ensure the script is executable even after a fresh clone
-  "postCreateCommand": "chmod +x .devcontainer/postCreate.sh && .devcontainer/postCreate.sh",
-
-  // ── Container user ────────────────────────────────────────────────────────
-  "remoteUser": "node",
-
-  // ── Environment variables ─────────────────────────────────────────────────
   "remoteEnv": {
     "NODE_ENV": "development"
-  }
+  },
+  "forwardPorts": [5173],
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "3gb",
+    "storage": "8gb"
+  },
+  "runArgs": [
+    "--memory=3g",
+    "--cpus=2"
+  ]
 }

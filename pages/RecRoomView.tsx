@@ -4,7 +4,6 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
 import { generateRetroGamingNote } from '@/services/geminiService';
 import { useArchivalItems } from '@/hooks/useArchivalItems';
-import { RecRoomHero } from '@/components/recroom/RecRoomHero';
 import { RecRoomCarousel } from '@/components/recroom/RecRoomCarousel';
 import GameFinder from '@/components/recroom/GameFinder';
 

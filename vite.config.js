@@ -19,10 +19,25 @@ export default defineConfig(() => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'jotai', 'react-router-dom'],
-            ui: ['framer-motion', 'lucide-react', 'cmdk'],
-            query: ['@tanstack/react-query'],
+          manualChunks(id) {
+            if (!id.includes('node_modules')) {
+              return undefined;
+            }
+            if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('cmdk')) {
+              return 'ui';
+            }
+            if (id.includes('@tanstack/react-query')) {
+              return 'query';
+            }
+            if (
+              id.includes('react') ||
+              id.includes('react-dom') ||
+              id.includes('jotai') ||
+              id.includes('react-router-dom')
+            ) {
+              return 'vendor';
+            }
+            return undefined;
           },
         },
       },

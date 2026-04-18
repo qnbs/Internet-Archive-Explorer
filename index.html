@@ -56,9 +56,6 @@
       rel="stylesheet"
     />
 
-    <!-- Dependencies -->
-    <script type="importmap" src="./importmap.json"></script>
-
     <!-- App Styles (built by Vite + Tailwind PostCSS) -->
     <style>
       /* Pre-React Loading Spinner */
@@ -101,6 +98,6 @@
       <div id="app-loader"><div class="spinner"></div></div>
     </div>
     <script type="module" src="./index.tsx"></script>
-    <script src="./sw-register.js"></script>
+    <script type="module" src="/sw-register.js"></script>
   </body>
 </html>

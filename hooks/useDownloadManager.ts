@@ -32,9 +32,12 @@ export const useDownloadManager = () => {
       let received = 0;
 
       if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
+        let done = false;
+        while (!done) {
+          const result = await reader.read();
+          done = result.done;
           if (done) break;
+          const value = result.value;
           chunks.push(value);
           received += value.length;
           updateProgress({ id: item.id, downloadedBytes: received });

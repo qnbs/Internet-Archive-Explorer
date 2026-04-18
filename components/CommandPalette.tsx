@@ -6,7 +6,7 @@ import type { View } from '@/types';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useSetAtom, useAtomValue } from 'jotai';
 import { activeViewAtom, searchQueryAtom } from '../store';
-import { addLibraryItemAtom, libraryItemIdentifiersAtom } from '@/store/favorites';
+import { _addLibraryItemAtom, libraryItemIdentifiersAtom } from '@/store/favorites';
 import { useToast } from '@/contexts/ToastContext';
 
 interface CommandPaletteProps {

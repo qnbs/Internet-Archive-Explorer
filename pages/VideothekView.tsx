@@ -1,5 +1,4 @@
 import React from 'react';
-import { HeroSection } from '@/components/videothek/HeroSection';
 import { ArchivalCarousel } from '@/components/ArchivalCarousel';
 import { useLanguage } from '@/hooks/useLanguage';
 import { MediaType, AIGenerationType } from '@/types';

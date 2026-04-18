@@ -39,5 +39,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/display-name': 'off',
     'react/no-unescaped-entities': 'off',
+    'react-hooks/set-state-in-effect': 'off',
+    'react-hooks/immutability': 'off',
   },
 };
