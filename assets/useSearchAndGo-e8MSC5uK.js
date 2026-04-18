@@ -1,0 +1,1 @@
+import{r as i}from"./react-core-RjKJAPna.js";import{d as m,f as d,a as l,bt as n}from"./index-BH19bPG_.js";import{d as t}from"./state-core-Ch4cEaPK.js";const S=()=>{const e=t(m),a=t(d),s=t(l),o=t(n);return i.useCallback((r,c)=>{e(r),o(r),a({...{mediaType:new Set,availability:"all"},...c}),s("explore")},[e,o,a,s])};export{S as u};

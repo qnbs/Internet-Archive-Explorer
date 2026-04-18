@@ -1,0 +1,1 @@
+import{ad as e}from"./vendor-tPBSFKZD.js";const r={USE_PROFILES:{html:!0},FORBID_TAGS:["script","iframe","object","embed","style","link","meta"],FORBID_ATTR:["style"]},s=t=>typeof t!="string"?"":String(e.sanitize(t,r));export{s};
