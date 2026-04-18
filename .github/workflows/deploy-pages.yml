@@ -20,11 +20,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: npm
+          node-version: '24'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -32,14 +32,15 @@ jobs:
       - name: Build
         env:
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run build
-
-      - name: Configure Git author
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Deploy dist to gh-pages branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: 'npx gh-pages -d dist -b gh-pages -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" -m "deploy: ${{ github.sha }}"'
+        run: |
+          npx gh-pages -d dist \
+            -b gh-pages \
+            -u "github-actions <41898282+github-actions[bot]@users.noreply.github.com>" \
+            -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" \
+            -m "deploy: ${{ github.sha }}"
