@@ -31,7 +31,6 @@ export const useExplorerSearch = () => {
         const loaded = allPages.reduce((acc, p) => acc + (p?.response?.docs?.length ?? 0), 0);
         return loaded < total ? allPages.length + 1 : undefined;
       },
-      staleTime: 1000 * 60 * 2,
     });
 
   const allDocs = data?.pages.flatMap((p) => p?.response?.docs ?? []) ?? [];

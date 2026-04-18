@@ -1,19 +1,49 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useAtom } from 'jotai';
 import { modalAtom } from '../store';
 import { useNavigation } from '@/hooks/useNavigation';
-import { ItemDetailModal } from './ItemDetailModal';
-import { ImageDetailModal } from './ImageDetailModal';
-import { EmulatorModal } from './EmulatorModal';
-import { CommandPalette } from './CommandPalette';
 import { ConfirmationModal } from './ConfirmationModal';
-import { BookReaderModal } from './BookReaderModal';
-import { NewCollectionModal } from './library/NewCollectionModal';
-import { AddToCollectionModal } from './library/AddToCollectionModal';
-import { AddTagsModal } from './library/AddTagsModal';
-import { MagicOrganizeModal } from './library/MagicOrganizeModal';
-import { ArchiveItemSummary } from '@/types';
-import { InstallModal } from './modals/InstallModal';
+import type { ArchiveItemSummary } from '@/types';
+import { Spinner } from './Spinner';
+
+const ItemDetailModal = lazy(() =>
+  import('./ItemDetailModal').then((module) => ({ default: module.ItemDetailModal })),
+);
+const ImageDetailModal = lazy(() =>
+  import('./ImageDetailModal').then((module) => ({ default: module.ImageDetailModal })),
+);
+const EmulatorModal = lazy(() =>
+  import('./EmulatorModal').then((module) => ({ default: module.EmulatorModal })),
+);
+const CommandPalette = lazy(() =>
+  import('./CommandPalette').then((module) => ({ default: module.CommandPalette })),
+);
+const BookReaderModal = lazy(() =>
+  import('./BookReaderModal').then((module) => ({ default: module.BookReaderModal })),
+);
+const NewCollectionModal = lazy(() =>
+  import('./library/NewCollectionModal').then((module) => ({ default: module.NewCollectionModal })),
+);
+const AddToCollectionModal = lazy(() =>
+  import('./library/AddToCollectionModal').then((module) => ({
+    default: module.AddToCollectionModal,
+  })),
+);
+const AddTagsModal = lazy(() =>
+  import('./library/AddTagsModal').then((module) => ({ default: module.AddTagsModal })),
+);
+const MagicOrganizeModal = lazy(() =>
+  import('./library/MagicOrganizeModal').then((module) => ({ default: module.MagicOrganizeModal })),
+);
+const InstallModal = lazy(() =>
+  import('./modals/InstallModal').then((module) => ({ default: module.InstallModal })),
+);
+
+const ModalFallback: React.FC = () => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" aria-hidden="true">
+    <Spinner size="lg" />
+  </div>
+);
 
 export const ModalManager: React.FC = () => {
   const [modal, setModal] = useAtom(modalAtom);
@@ -38,31 +68,51 @@ export const ModalManager: React.FC = () => {
   switch (modal.type) {
     case 'itemDetail':
       return (
-        <ItemDetailModal
-          item={modal.item}
-          onClose={closeModal}
-          onCreatorSelect={handleCreatorSelect}
-          onUploaderSelect={handleUploaderSelect}
-          onEmulate={handleEmulate}
-        />
+        <Suspense fallback={<ModalFallback />}>
+          <ItemDetailModal
+            item={modal.item}
+            onClose={closeModal}
+            onCreatorSelect={handleCreatorSelect}
+            onUploaderSelect={handleUploaderSelect}
+            onEmulate={handleEmulate}
+          />
+        </Suspense>
       );
     case 'imageDetail':
       return (
-        <ImageDetailModal
-          item={modal.item}
-          onClose={closeModal}
-          onCreatorSelect={handleCreatorSelect}
-          onUploaderSelect={handleUploaderSelect}
-        />
+        <Suspense fallback={<ModalFallback />}>
+          <ImageDetailModal
+            item={modal.item}
+            onClose={closeModal}
+            onCreatorSelect={handleCreatorSelect}
+            onUploaderSelect={handleUploaderSelect}
+          />
+        </Suspense>
       );
     case 'emulator':
-      return <EmulatorModal item={modal.item} onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <EmulatorModal item={modal.item} onClose={closeModal} />
+        </Suspense>
+      );
     case 'bookReader':
-      return <BookReaderModal item={modal.item} onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <BookReaderModal item={modal.item} onClose={closeModal} />
+        </Suspense>
+      );
     case 'commandPalette':
-      return <CommandPalette onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <CommandPalette onClose={closeModal} />
+        </Suspense>
+      );
     case 'pwaInstall':
-      return <InstallModal onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <InstallModal onClose={closeModal} />
+        </Suspense>
+      );
     case 'confirmation':
       return (
         <ConfirmationModal
@@ -78,13 +128,29 @@ export const ModalManager: React.FC = () => {
         />
       );
     case 'newCollection':
-      return <NewCollectionModal onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <NewCollectionModal onClose={closeModal} />
+        </Suspense>
+      );
     case 'addToCollection':
-      return <AddToCollectionModal itemIds={modal.itemIds} onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <AddToCollectionModal itemIds={modal.itemIds} onClose={closeModal} />
+        </Suspense>
+      );
     case 'addTags':
-      return <AddTagsModal itemIds={modal.itemIds} onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <AddTagsModal itemIds={modal.itemIds} onClose={closeModal} />
+        </Suspense>
+      );
     case 'magicOrganize':
-      return <MagicOrganizeModal itemIds={modal.itemIds} onClose={closeModal} />;
+      return (
+        <Suspense fallback={<ModalFallback />}>
+          <MagicOrganizeModal itemIds={modal.itemIds} onClose={closeModal} />
+        </Suspense>
+      );
     case 'none':
     default:
       return null;

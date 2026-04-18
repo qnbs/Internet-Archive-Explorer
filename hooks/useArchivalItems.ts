@@ -14,7 +14,6 @@ export const useArchivalItems = (query: string, limit: number = 15) => {
       return result.response?.docs ?? [];
     },
     enabled: Boolean(query),
-    staleTime: 1000 * 60 * 5,
   });
 
   return {

@@ -34,7 +34,6 @@ export const useUploaderStats = (profile: Profile) => {
 
       return { total, movies, audio, texts, image, software, collections, favorites, reviews };
     },
-    staleTime: 1000 * 60 * 5,
   });
 
   return {

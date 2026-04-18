@@ -42,6 +42,5 @@ export const useInfiniteArchive = ({
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     enabled: Boolean(query),
-    staleTime: 1000 * 60 * 5,
   });
 };

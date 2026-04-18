@@ -37,7 +37,6 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
   } = useQuery({
     queryKey: ['metadata', item.identifier],
     queryFn: () => getItemMetadata(item.identifier),
-    staleTime: 1000 * 60 * 10,
   });
 
   // Plain text query — lazy: only fetched when AI tab is active on a text item
@@ -49,7 +48,6 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     queryKey: ['plaintext', item.identifier],
     queryFn: () => getItemPlainText(item.identifier),
     enabled: activeTab === 'ai' && item.mediatype === 'texts',
-    staleTime: 1000 * 60 * 10,
   });
 
   // Derive playable media URL when metadata arrives
