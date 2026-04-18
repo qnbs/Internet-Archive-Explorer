@@ -92,7 +92,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
           <p className="text-sm text-red-400 leading-relaxed">{error}</p>
           <button
             onClick={handleGenerate}
-            className="px-3 py-1.5 bg-accent-600 text-white text-sm font-semibold rounded-lg hover:bg-accent-500 transition-colors"
+            className="px-3 py-1.5 bg-accent-700 text-white text-sm font-semibold rounded-lg hover:bg-accent-800 transition-colors"
           >
             {t('common:retry')}
           </button>
@@ -105,7 +105,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
         <button
           onClick={handleGenerate}
           disabled={items.length === 0}
-          className="flex items-center justify-center mx-auto space-x-2 px-4 py-2 text-sm font-semibold bg-accent-600 hover:bg-accent-500 text-white rounded-lg transition-colors shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed"
+          className="flex items-center justify-center mx-auto space-x-2 px-4 py-2 text-sm font-semibold bg-accent-700 hover:bg-accent-800 text-white rounded-lg transition-colors shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed"
         >
           <SparklesIcon className="w-4 h-4" />
           <span>{buttonLabel}</span>

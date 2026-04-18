@@ -369,12 +369,7 @@ const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = (
       aria-labelledby="modal-title"
     >
       {/* aria-live region for zoom/rotation announcements */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {viewer.announcement}
       </div>
       <div

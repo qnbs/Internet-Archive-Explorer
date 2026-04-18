@@ -34,12 +34,7 @@ const sectionVariants = {
 const ForYouHero: React.FC = () => {
   const { t } = useLanguage();
   const hour = new Date().getHours();
-  const greeting =
-    hour < 12
-      ? '☀️'
-      : hour < 17
-        ? '🌤️'
-        : '🌙';
+  const greeting = hour < 12 ? '☀️' : hour < 17 ? '🌤️' : '🌙';
 
   return (
     <motion.div
@@ -55,7 +50,9 @@ const ForYouHero: React.FC = () => {
         className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full bg-white/10 blur-xl"
         aria-hidden="true"
       />
-      <p className="text-3xl mb-1" aria-hidden="true">{greeting}</p>
+      <p className="text-3xl mb-1" aria-hidden="true">
+        {greeting}
+      </p>
       <h1 className="text-2xl font-bold tracking-tight">{t('forYou:title')}</h1>
       <p className="mt-1 text-ia-100 text-sm">{t('forYou:subtitle')}</p>
     </motion.div>
@@ -111,10 +108,9 @@ const LibraryRecommendations: React.FC = () => {
     );
   }
 
-  const mediaTypeLabel =
-    dominantMediaType
-      ? t(`forYou:mediaTypes.${dominantMediaType}`, { defaultValue: dominantMediaType })
-      : '';
+  const mediaTypeLabel = dominantMediaType
+    ? t(`forYou:mediaTypes.${dominantMediaType}`, { defaultValue: dominantMediaType })
+    : '';
 
   return (
     <motion.div variants={sectionVariants} className="mb-6">

@@ -1,15 +1,34 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { analyzer } from 'vite-bundle-analyzer';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  const isAnalyzeMode = process.env.ANALYZE === 'true' || mode === 'analyze';
+  const normalizedBasePath = (() => {
+    const raw = process.env.VITE_BASE_PATH?.trim();
+    if (!raw) return '/Internet-Archive-Explorer/';
+    const withLeadingSlash = raw.startsWith('/') ? raw : `/${raw}`;
+    return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+  })();
+
   return {
-    base: '/Internet-Archive-Explorer/',
-    plugins: [react()],
+    base: normalizedBasePath,
+    plugins: [
+      react(),
+      analyzer({
+        enabled: isAnalyzeMode,
+        analyzerMode: 'json',
+        fileName: 'bundle-report',
+        reportTitle: 'Internet Archive Explorer Bundle Report',
+        openAnalyzer: false,
+        defaultSizes: 'brotli',
+      }),
+    ],
     envPrefix: 'VITE_',
     resolve: {
       alias: {
@@ -20,24 +39,46 @@ export default defineConfig(() => {
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (!id.includes('node_modules')) {
-              return undefined;
-            }
-            if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('cmdk')) {
-              return 'ui';
-            }
-            if (id.includes('@tanstack/react-query')) {
-              return 'query';
-            }
+            if (!id.includes('node_modules')) return;
+
             if (
-              id.includes('react') ||
-              id.includes('react-dom') ||
-              id.includes('jotai') ||
-              id.includes('react-router-dom')
+              id.includes('/react/') ||
+              id.includes('/react-dom/') ||
+              id.includes('/scheduler/') ||
+              id.includes('/react-router-dom/')
             ) {
-              return 'vendor';
+              return 'react-core';
             }
-            return undefined;
+
+            if (id.includes('/@tanstack/react-query/')) {
+              return 'query-core';
+            }
+
+            if (id.includes('/@google/genai/')) {
+              return 'ai-sdk';
+            }
+
+            if (
+              id.includes('/framer-motion/') ||
+              id.includes('/lucide-react/') ||
+              id.includes('/cmdk/')
+            ) {
+              return 'ui-kit';
+            }
+
+            if (
+              id.includes('/@dnd-kit/core/') ||
+              id.includes('/@dnd-kit/sortable/') ||
+              id.includes('/@dnd-kit/utilities/')
+            ) {
+              return 'dnd-kit';
+            }
+
+            if (id.includes('/jotai/')) {
+              return 'state-core';
+            }
+
+            return 'vendor';
           },
         },
       },

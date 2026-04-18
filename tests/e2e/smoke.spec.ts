@@ -30,9 +30,9 @@ test('API-Key kann gespeichert werden', async ({ page }) => {
   await page.getByRole('button', { name: labels.save }).click();
 
   await expect(page.getByText(labels.apiKeySaved)).toBeVisible();
-  await expect.poll(async () => page.evaluate(() => sessionStorage.getItem('gemini_api_key'))).toBe(
-    keyValue,
-  );
+  await expect
+    .poll(async () => page.evaluate(() => sessionStorage.getItem('gemini_api_key')))
+    .toBe(keyValue);
 
   await page.reload();
   await openSettings(page);

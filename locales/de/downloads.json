@@ -1,1 +1,7 @@
-{"title":"Downloads","toggle":"Download-Manager öffnen","empty":"Noch keine Downloads.","clearDone":"Erledigte löschen","failed":"Download fehlgeschlagen"}
+{
+  "title": "Downloads",
+  "toggle": "Download-Manager öffnen",
+  "empty": "Noch keine Downloads.",
+  "clearDone": "Erledigte löschen",
+  "failed": "Download fehlgeschlagen"
+}

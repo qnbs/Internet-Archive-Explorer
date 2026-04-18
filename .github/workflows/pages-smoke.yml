@@ -59,8 +59,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          js_path=$(grep -oE '/[^" ]*assets/index-[^" ]+\.js' /tmp/index.html | head -n 1)
-          manifest_path=$(grep -oE '/[^" ]*assets/manifest-[^" ]+\.json' /tmp/index.html | head -n 1)
+          js_path=$(grep -oE '(/[^" ]*assets/index-[^" ]+\.js|\\./assets/index-[^" ]+\.js)' /tmp/index.html | head -n 1)
+          manifest_path=$(grep -oE '(/[^" ]*assets/manifest-[^" ]+\.json|\\./assets/manifest-[^" ]+\.json)' /tmp/index.html | head -n 1)
 
           if [[ -z "$js_path" ]]; then
             echo "Could not find main JS bundle path in live HTML"
@@ -72,10 +72,22 @@ jobs:
             exit 1
           fi
 
-          grep -q '/sw-register.js' /tmp/index.html
+          grep -Eq '(\\./sw-register\\.js|/sw-register\\.js)' /tmp/index.html
 
-          curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${js_path}"
-          curl -fsSIL -H 'Cache-Control: no-cache' "${ORIGIN}${manifest_path}"
+          if [[ "$js_path" == ./* ]]; then
+            js_url="${APP_URL}${js_path#./}"
+          else
+            js_url="${ORIGIN}${js_path}"
+          fi
+
+          if [[ "$manifest_path" == ./* ]]; then
+            manifest_url="${APP_URL}${manifest_path#./}"
+          else
+            manifest_url="${ORIGIN}${manifest_path}"
+          fi
+
+          curl -fsSIL -H 'Cache-Control: no-cache' "${js_url}"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${manifest_url}"
 
       - name: Basic a11y heuristics (no extra deps)
         run: |

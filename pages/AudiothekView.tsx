@@ -51,7 +51,11 @@ const AudiothekView: React.FC = () => {
   const { items: librivoxItems } = useArchivalItems(shelves[0].query);
 
   return (
-    <div className="space-y-12 animate-page-fade-in" role="region" aria-label={t('sideMenu:audiothek')}>
+    <div
+      className="space-y-12 animate-page-fade-in"
+      role="region"
+      aria-label={t('sideMenu:audiothek')}
+    >
       <AudiothekHero />
       <CategoryGrid />
 

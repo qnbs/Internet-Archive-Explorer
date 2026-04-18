@@ -62,14 +62,10 @@ test('a11y: Modaler Fokus-Trap – Fokus kehrt nach Schließen zurück', async (
   await page.waitForSelector('#main-content');
 
   // Navigate to Settings via keyboard so the button retains focus reference
-  const settingsBtn = page
-    .getByRole('button', { name: /Einstellungen|Settings/i })
-    .first();
+  const settingsBtn = page.getByRole('button', { name: /Einstellungen|Settings/i }).first();
   await settingsBtn.focus();
   await settingsBtn.click();
 
   // Confirm Settings heading is visible (page switch, not modal – focus trap test is a unit concern)
-  await expect(
-    page.getByRole('heading', { name: /Einstellungen|Settings/i }),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Einstellungen|Settings/i })).toBeVisible();
 });

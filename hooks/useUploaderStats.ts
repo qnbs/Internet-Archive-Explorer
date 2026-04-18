@@ -4,7 +4,12 @@ import { getItemCount } from '@/services/archiveService';
 import { getProfileApiQuery } from '@/utils/profileUtils';
 
 export const useUploaderStats = (profile: Profile) => {
-  const { data: stats, isLoading, error, refetch } = useQuery<UploaderStats, Error>({
+  const {
+    data: stats,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<UploaderStats, Error>({
     queryKey: ['uploaderStats', profile.searchIdentifier],
     queryFn: async () => {
       const baseQuery = getProfileApiQuery(profile);
@@ -29,7 +34,6 @@ export const useUploaderStats = (profile: Profile) => {
 
       return { total, movies, audio, texts, image, software, collections, favorites, reviews };
     },
-    staleTime: 1000 * 60 * 5,
   });
 
   return {

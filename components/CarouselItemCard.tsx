@@ -95,11 +95,11 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(
             {item.title}
           </h3>
           <div className="flex justify-between items-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate" title={creatorName}>
+            <p className="text-xs text-gray-600 dark:text-gray-300 truncate" title={creatorName}>
               {publicYear || 'N/A'}
             </p>
             {typeof item.week === 'number' && item.week > 0 && (
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+              <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
                 {formatNumber(item.week)}
               </p>
             )}

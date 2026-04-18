@@ -62,18 +62,21 @@ export const useGeminiAuth = () => {
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
   const isConfigured = useMemo(() => Boolean(clientId), [clientId]);
 
-  const setOAuthClientId = useCallback((value: string) => {
-    const normalized = value.trim();
-    if (normalized) {
-      localStorage.setItem(OAUTH_CLIENT_ID_STORAGE_KEY, normalized);
-      setRuntimeClientId(normalized);
-      setError(null);
-      return;
-    }
+  const setOAuthClientId = useCallback(
+    (value: string) => {
+      const normalized = value.trim();
+      if (normalized) {
+        localStorage.setItem(OAUTH_CLIENT_ID_STORAGE_KEY, normalized);
+        setRuntimeClientId(normalized);
+        setError(null);
+        return;
+      }
 
-    localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
-    setRuntimeClientId(envClientId);
-  }, [envClientId]);
+      localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
+      setRuntimeClientId(envClientId);
+    },
+    [envClientId],
+  );
 
   const scheduleAutoCleanup = useCallback(() => {
     if (cleanupTimerRef.current !== null) {

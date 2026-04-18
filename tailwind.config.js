@@ -1,14 +1,9 @@
+/** @type {import('tailwindcss').Config} */
 import typography from '@tailwindcss/typography';
 
-/** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: [
-    './index.html',
-    './**/*.{ts,tsx}',
-    '!./node_modules/**',
-    '!./dist/**',
-  ],
+  content: ['./index.html', './**/*.{ts,tsx}', '!./node_modules/**', '!./dist/**'],
   theme: {
     extend: {
       colors: {
@@ -62,7 +57,7 @@ export default {
         't-lg': '0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 -4px 6px -4px rgb(0 0 0 / 0.1)',
         'neon-cyan': '0 0 20px rgba(6,182,212,0.4), 0 0 40px rgba(6,182,212,0.2)',
         'neon-orange': '0 0 20px rgba(249,115,22,0.4), 0 0 40px rgba(249,115,22,0.2)',
-        'glass': '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.1)',
+        glass: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.1)',
       },
       backdropBlur: {
         xs: '2px',
@@ -72,7 +67,7 @@ export default {
         'page-fade-in': 'pageFadeIn 0.4s ease-out forwards',
         'fade-in-left': 'fadeInLeft 0.4s ease-out forwards',
         'slide-up': 'slideUp 0.3s ease-out forwards',
-        'shimmer': 'shimmer 1.5s infinite',
+        shimmer: 'shimmer 1.5s infinite',
         'neon-pulse': 'neonPulse 2s ease-in-out infinite',
       },
       keyframes: {
@@ -103,7 +98,5 @@ export default {
       },
     },
   },
-  plugins: [
-    typography,
-  ],
+  plugins: [typography],
 };

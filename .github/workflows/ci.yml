@@ -35,6 +35,8 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run build
 
       - name: Verify expected build artifacts
@@ -49,11 +51,14 @@ jobs:
       - name: Verify GitHub Pages base paths in HTML
         run: |
           set -euo pipefail
-          grep -q '/Internet-Archive-Explorer/assets/' dist/index.html
-          grep -q '/Internet-Archive-Explorer/sw-register.js' dist/index.html
+          BASE_PATH="/${{ github.event.repository.name }}/"
+          grep -q "${BASE_PATH}assets/" dist/index.html
+          grep -q './sw-register.js' dist/index.html
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E smoke tests
+        env:
+          PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run test:e2e

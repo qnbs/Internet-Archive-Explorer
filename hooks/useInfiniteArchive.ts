@@ -29,7 +29,7 @@ export const useInfiniteArchive = ({
     queryKey: ['infiniteArchive', query, pageSize, sort, mediaType],
     queryFn: async ({ pageParam }) => {
       const page = typeof pageParam === 'number' ? pageParam : 1;
-      const result = await searchArchive(query, page, sort, mediaType, pageSize);
+      const result = await searchArchive(query, page, sort, undefined, pageSize);
       const docs = result.response?.docs ?? [];
       const totalFound = result.response?.numFound ?? 0;
       const hasMore = page * pageSize < totalFound;
@@ -42,6 +42,5 @@ export const useInfiniteArchive = ({
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     enabled: Boolean(query),
-    staleTime: 1000 * 60 * 5,
   });
 };

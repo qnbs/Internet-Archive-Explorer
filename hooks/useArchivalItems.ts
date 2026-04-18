@@ -7,20 +7,13 @@ import { searchArchive } from '@/services/archiveService';
  * Replaces the old useState/useEffect approach with proper caching + deduplication.
  */
 export const useArchivalItems = (query: string, limit: number = 15) => {
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useQuery<ArchiveItemSummary[], Error>({
+  const { data, isLoading, isError, error, refetch } = useQuery<ArchiveItemSummary[], Error>({
     queryKey: ['archivalItems', query, limit],
     queryFn: async () => {
       const result = await searchArchive(query, 1, ['-downloads'], undefined, limit);
       return result.response?.docs ?? [];
     },
     enabled: Boolean(query),
-    staleTime: 1000 * 60 * 5,
   });
 
   return {
@@ -30,4 +23,3 @@ export const useArchivalItems = (query: string, limit: number = 15) => {
     refetch,
   };
 };
-

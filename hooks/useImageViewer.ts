@@ -31,27 +31,43 @@ export const useImageViewer = (): UseImageViewerReturn => {
 
   const clampZoom = (newZoom: number) => Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
 
-  const zoomIn = useCallback(() => setZoom((prev) => {
-    const next = clampZoom(prev * 1.2);
-    setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
-    return next;
-  }), []);
-  const zoomOut = useCallback(() => setZoom((prev) => {
-    const next = clampZoom(prev / 1.2);
-    setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
-    return next;
-  }), []);
+  const zoomIn = useCallback(
+    () =>
+      setZoom((prev) => {
+        const next = clampZoom(prev * 1.2);
+        setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
+        return next;
+      }),
+    [],
+  );
+  const zoomOut = useCallback(
+    () =>
+      setZoom((prev) => {
+        const next = clampZoom(prev / 1.2);
+        setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
+        return next;
+      }),
+    [],
+  );
 
-  const rotateCW = useCallback(() => setRotation((prev) => {
-    const next = (prev + 90) % 360;
-    setAnnouncement(`Rotation ${next}°`);
-    return next;
-  }), []);
-  const rotateCCW = useCallback(() => setRotation((prev) => {
-    const next = (prev - 90 + 360) % 360;
-    setAnnouncement(`Rotation ${next}°`);
-    return next;
-  }), []);
+  const rotateCW = useCallback(
+    () =>
+      setRotation((prev) => {
+        const next = (prev + 90) % 360;
+        setAnnouncement(`Rotation ${next}°`);
+        return next;
+      }),
+    [],
+  );
+  const rotateCCW = useCallback(
+    () =>
+      setRotation((prev) => {
+        const next = (prev - 90 + 360) % 360;
+        setAnnouncement(`Rotation ${next}°`);
+        return next;
+      }),
+    [],
+  );
 
   const reset = useCallback(() => {
     setZoom(1);

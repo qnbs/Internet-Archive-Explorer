@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, useCallback } from 'react';
+import React, { useState, useEffect, Suspense, useCallback, lazy } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   activeViewAtom,
@@ -35,22 +35,22 @@ import { DownloadManager } from './components/DownloadManager';
 // Hooks
 import { useNavigation } from './hooks/useNavigation';
 
-import ForYouView from './pages/ForYouView';
-import ExplorerView from './pages/ExplorerView';
-import LibraryView from './pages/LibraryView';
-import ScriptoriumView from './pages/ScriptoriumView';
-import RecRoomView from './pages/RecRoomView';
-import VideothekView from './pages/VideothekView';
-import AudiothekView from './pages/AudiothekView';
-import ImagesHubView from './pages/ImagesHubView';
-import UploaderHubView from './pages/UploaderHubView';
-import UploaderDetailView from './pages/UploaderDetailView';
-import SettingsView from './pages/SettingsView';
-import HelpView from './pages/HelpView';
-import StorytellerView from './pages/StorytellerView';
-import MyArchiveView from './pages/MyArchiveView';
-import AIArchiveView from './pages/AIArchiveView';
-import WebArchiveView from './pages/WebArchiveView';
+const ForYouView = lazy(() => import('./pages/ForYouView'));
+const ExplorerView = lazy(() => import('./pages/ExplorerView'));
+const LibraryView = lazy(() => import('./pages/LibraryView'));
+const ScriptoriumView = lazy(() => import('./pages/ScriptoriumView'));
+const RecRoomView = lazy(() => import('./pages/RecRoomView'));
+const VideothekView = lazy(() => import('./pages/VideothekView'));
+const AudiothekView = lazy(() => import('./pages/AudiothekView'));
+const ImagesHubView = lazy(() => import('./pages/ImagesHubView'));
+const UploaderHubView = lazy(() => import('./pages/UploaderHubView'));
+const UploaderDetailView = lazy(() => import('./pages/UploaderDetailView'));
+const SettingsView = lazy(() => import('./pages/SettingsView'));
+const HelpView = lazy(() => import('./pages/HelpView'));
+const StorytellerView = lazy(() => import('./pages/StorytellerView'));
+const MyArchiveView = lazy(() => import('./pages/MyArchiveView'));
+const AIArchiveView = lazy(() => import('./pages/AIArchiveView'));
+const WebArchiveView = lazy(() => import('./pages/WebArchiveView'));
 
 const PageSpinner: React.FC = () => (
   <div className="flex justify-center items-center h-full pt-20">

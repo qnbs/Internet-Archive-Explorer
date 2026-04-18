@@ -80,7 +80,9 @@ export const ItemDetailLayout: React.FC<ItemDetailLayoutProps> = ({
         <div className="flex flex-col justify-center items-center h-full text-center">
           <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
           <button
-            onClick={fetchMetadata}
+            onClick={() => {
+              void fetchMetadata();
+            }}
             className="px-4 py-2 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-500 transition-colors"
           >
             {t('common:retry')}

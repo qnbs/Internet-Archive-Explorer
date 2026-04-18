@@ -1,5 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const normalizedBasePath = (() => {
+  const raw = process.env.PLAYWRIGHT_BASE_PATH ?? process.env.VITE_BASE_PATH ?? '/Internet-Archive-Explorer/';
+  const withLeadingSlash = raw.startsWith('/') ? raw : `/${raw}`;
+  return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+})();
+
+const baseURL = `http://127.0.0.1:4173${normalizedBasePath}`;
+
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 45_000,
@@ -11,7 +19,7 @@ export default defineConfig({
   workers: 1,
   reporter: [['list']],
   use: {
-    baseURL: 'http://127.0.0.1:4173/Internet-Archive-Explorer/',
+    baseURL,
     trace: 'on-first-retry',
     viewport: { width: 1280, height: 900 },
   },
@@ -23,7 +31,11 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev -- --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173/Internet-Archive-Explorer/',
+    url: baseURL,
+    env: {
+      ...process.env,
+      VITE_BASE_PATH: normalizedBasePath,
+    },
     reuseExistingServer: false,
     timeout: 120_000,
   },
