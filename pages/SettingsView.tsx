@@ -888,7 +888,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
                 onClick={() => setActiveSection(section.id as SettingsSectionId)}
                 className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
                   activeSection === section.id
-                    ? 'bg-accent-600 text-white dark:bg-accent-500/40 dark:text-white'
+                    ? 'bg-accent-700 text-white dark:bg-accent-600/40 dark:text-white'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                 }`}
               >

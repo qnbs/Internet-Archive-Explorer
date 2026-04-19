@@ -32,6 +32,8 @@
     "playlist": "Playlist",
     "upNext": "Up Next",
     "emptyPlaylist": "Playlist is empty",
+    "play": "Play",
+    "pause": "Pause",
     "addToQueue": "Add to Queue",
     "clearPlaylist": "Clear Playlist",
     "volume": "Volume"

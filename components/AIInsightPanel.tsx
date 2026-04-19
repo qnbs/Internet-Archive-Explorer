@@ -116,7 +116,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
 
   return (
     <section className="animate-fade-in">
-      <div className="p-4 sm:p-6 bg-gray-800/60 rounded-xl shadow-sm border border-gray-700/50">
+      <div className="p-4 sm:p-6 bg-gray-800 rounded-xl shadow-sm border border-gray-700/50">
         <h3 className="font-bold text-lg text-white flex items-center mb-3">
           <SparklesIcon className="w-5 h-5 mr-2 text-accent-500" />
           {title}

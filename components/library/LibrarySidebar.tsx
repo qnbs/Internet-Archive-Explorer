@@ -218,7 +218,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
   ];
 
   return (
-    <aside className="w-full md:w-64 flex-shrink-0 bg-gray-800/60 md:bg-transparent md:p-0 p-4 rounded-xl flex flex-col h-full">
+    <aside className="w-full md:w-64 flex-shrink-0 bg-gray-900 p-3 rounded-xl flex flex-col h-full">
       {onClose && (
         <div className="flex justify-between items-center mb-2 flex-shrink-0 md:hidden">
           <h2 className="text-xl font-bold text-white">{t('sideMenu:library')}</h2>
@@ -230,13 +230,13 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
       <div className="flex-shrink-0 p-1 bg-gray-700/50 rounded-lg flex items-center mb-4">
         <button
           onClick={() => setActiveTab('items')}
-          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'items' ? 'bg-accent-600 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'items' ? 'bg-accent-700 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
         >
           <StarIcon className="w-4 h-4" /> {t('favorites:sidebar.items')}
         </button>
         <button
           onClick={() => setActiveTab('uploaders')}
-          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'uploaders' ? 'bg-accent-600 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'uploaders' ? 'bg-accent-700 text-white shadow' : 'text-gray-200 hover:text-white hover:bg-gray-700/70'}`}
         >
           <UsersIcon className="w-4 h-4" /> {t('favorites:sidebar.uploaders')}
         </button>
@@ -296,6 +296,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
                 <button
                   onClick={() => setModal({ type: 'newCollection' })}
                   className="p-1 text-gray-400 hover:text-white"
+                  aria-label={t('library:newCollection')}
                 >
                   <PlusIcon className="w-4 h-4" />
                 </button>
