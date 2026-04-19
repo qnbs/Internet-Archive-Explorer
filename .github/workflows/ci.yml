@@ -14,6 +14,7 @@ jobs:
   build:
     name: Build and Artifact Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -37,9 +38,10 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      - name: Build
+      - name: Build (with bundle analysis)
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          ANALYZE: 'true'
         run: npm run build
 
       - name: Verify expected build artifacts
@@ -58,10 +60,14 @@ jobs:
           grep -q "${BASE_PATH}assets/" dist/index.html
           grep -q 'sw-register.js' dist/index.html
 
+      - name: Check bundle size budgets
+        run: node scripts/check-bundle-size.mjs
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E smoke tests
         env:
+          CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run test:e2e
