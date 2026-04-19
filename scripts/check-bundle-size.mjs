@@ -18,7 +18,6 @@ const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
 const { chunks: budgets, totalKB: totalBudget } = JSON.parse(fs.readFileSync(budgetsPath, 'utf8'));
 
 let failed = false;
-let totalBrotli = 0;
 
 const COL = { name: 18, actual: 12, budget: 12, status: 8 };
 const pad = (s, n) => String(s).padEnd(n);
@@ -35,7 +34,6 @@ for (const [chunkName, budgetKB] of Object.entries(budgets)) {
   }
 
   const actualKB = entry.brotliSize / 1024;
-  totalBrotli += entry.brotliSize;
   const ok = actualKB <= budgetKB;
   const status = ok ? '✓' : '✗ OVER';
   if (!ok) failed = true;
