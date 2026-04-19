@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import { useLanguage } from '@/hooks/useLanguage';
 import { MusicNoteIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
 import { MediaType } from '@/types';
 
 export const AudiothekHero: React.FC = () => {

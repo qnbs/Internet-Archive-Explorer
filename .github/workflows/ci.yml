@@ -35,6 +35,9 @@ jobs:
       - name: Check locale key completeness
         run: node scripts/sync-locales.mjs --check
 
+      - name: Lint
+        run: npm run lint
+
       - name: Typecheck
         run: npx tsc --noEmit
 

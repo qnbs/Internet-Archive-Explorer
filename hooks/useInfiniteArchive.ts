@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { ArchiveItemSummary } from '@/types';
 import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
 
 interface UseInfiniteArchiveOptions {
   query: string;

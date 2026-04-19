@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
-import { useAtomValue } from 'jotai';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
+import { useCallback, useState } from 'react';
+import { searchArchive } from '@/services/archiveService';
 import { profileSearchQueryAtom } from '@/store/search';
 import { resultsPerPageAtom } from '@/store/settings';
-import { useDebounce } from './useDebounce';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary, Profile, MediaType, Facets } from '@/types';
-import { useInfiniteScroll } from './useInfiniteScroll';
+import type { ArchiveItemSummary, Facets, MediaType, Profile } from '@/types';
 import { getProfileApiQuery } from '@/utils/profileUtils';
 import { buildArchiveQuery } from '@/utils/queryBuilder';
+import { useDebounce } from './useDebounce';
+import { useInfiniteScroll } from './useInfiniteScroll';
 
 export const useUploaderUploads = (profile: Profile, mediaTypeFilter: MediaType | 'all') => {
   const resultsPerPage = useAtomValue(resultsPerPageAtom);

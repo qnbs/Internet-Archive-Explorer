@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const normalizedBasePath = (() => {
-  const raw = process.env.PLAYWRIGHT_BASE_PATH ?? process.env.VITE_BASE_PATH ?? '/Internet-Archive-Explorer/';
+  const raw =
+    process.env.PLAYWRIGHT_BASE_PATH ?? process.env.VITE_BASE_PATH ?? '/Internet-Archive-Explorer/';
   const withLeadingSlash = raw.startsWith('/') ? raw : `/${raw}`;
   return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
 })();

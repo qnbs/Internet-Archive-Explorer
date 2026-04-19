@@ -14,9 +14,10 @@
  *     <p>Content here</p>
  *   </Modal>
  */
-import React, { useEffect, useRef, useCallback } from 'react';
+
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type ModalSize = 'sm' | 'md' | 'lg' | 'fullscreen';

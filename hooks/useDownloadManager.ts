@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { addDownloadAtom, updateDownloadProgressAtom, downloadQueueAtom } from '@/store/downloads';
 import type { DownloadItem } from '@/store/downloads';
+import { addDownloadAtom, downloadQueueAtom, updateDownloadProgressAtom } from '@/store/downloads';
 
 /**
  * Hook to programmatically start a download via the Fetch API + ReadableStream,

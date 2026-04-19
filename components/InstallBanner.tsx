@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import type { BeforeInstallPromptEvent } from '@/store/pwa';
-import { DownloadIcon, CloseIcon } from './Icons';
+import { CloseIcon, DownloadIcon } from './Icons';
 
 interface InstallBannerProps {
   deferredPrompt: BeforeInstallPromptEvent | null;

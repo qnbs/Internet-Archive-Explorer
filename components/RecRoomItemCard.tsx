@@ -1,9 +1,9 @@
-import React from 'react';
-import type { ArchiveItemSummary } from '@/types';
-import { JoystickIcon, InfoIcon, StarIcon } from './Icons';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useSetAtom } from 'jotai';
+import React from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
+import type { ArchiveItemSummary } from '@/types';
+import { InfoIcon, JoystickIcon, StarIcon } from './Icons';
 
 interface RecRoomItemCardProps {
   item: ArchiveItemSummary;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Spinner } from './Spinner';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Spinner } from './Spinner';
 
 interface AILoadingIndicatorProps {
   type: 'summary' | 'entities' | 'story';

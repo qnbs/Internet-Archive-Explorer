@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 import {
   clearStoredOAuthToken,
   getStoredOAuthTokenMeta,
   getValidAccessToken,
   setStoredOAuthToken,
 } from '@/services/geminiAuthStorage';
+import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';

@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import {
-  resolvedThemeAtom,
-  disableAnimationsAtom,
-  highContrastModeAtom,
-  underlineLinksAtom,
-  fontSizeAtom,
-  accentColorAtom,
-  scrollbarColorAtom,
-} from '../store';
+import React, { useEffect, useRef } from 'react';
 import type { AccentColor } from '@/types';
+import {
+  accentColorAtom,
+  disableAnimationsAtom,
+  fontSizeAtom,
+  highContrastModeAtom,
+  resolvedThemeAtom,
+  scrollbarColorAtom,
+  underlineLinksAtom,
+} from '../store';
 
 const ACCENT_COLORS: Record<AccentColor, Record<string, string>> = {
   cyan: {

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import type { Facets, MediaType } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 
 export const STORAGE_KEYS = {
   searchHistory: 'app-search-history',
@@ -30,6 +30,6 @@ export const addSearchHistoryAtom = atom(null, (get, set, query: string) => {
   set(searchHistoryAtom, newHistory);
 });
 
-export const clearSearchHistoryAtom = atom(null, (get, set) => {
+export const clearSearchHistoryAtom = atom(null, (_get, set) => {
   set(searchHistoryAtom, []);
 });

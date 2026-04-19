@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-import { defaultUploaderDetailTabAtom } from '@/store/settings';
-import { profileSearchQueryAtom } from '@/store/search';
-import type { Profile, View, UploaderTab, MediaType } from '@/types';
+import React, { useEffect, useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@/components/Icons';
+import { ResultsGrid } from '@/components/ResultsGrid';
+import { Spinner } from '@/components/Spinner';
+import { UploaderCollections } from '@/components/uploader/UploaderCollections';
+import { UploaderFavorites } from '@/components/uploader/UploaderFavorites';
+import { UploaderHeader } from '@/components/uploader/UploaderHeader';
+import { UploaderPostsTab } from '@/components/uploader/UploaderPostsTab';
+import { UploaderReviewsTab } from '@/components/uploader/UploaderReviewsTab';
+import { UploaderSidebar } from '@/components/uploader/UploaderSidebar';
+import { UploaderWebArchiveTab } from '@/components/uploader/UploaderWebArchiveTab';
 import { useUploaderStats } from '@/hooks/useUploaderStats';
 import { useUploaderTabCounts } from '@/hooks/useUploaderTabCounts';
 import { useUploaderUploads } from '@/hooks/useUploaderUploads';
-import { UploaderHeader } from '@/components/uploader/UploaderHeader';
-import { UploaderSidebar } from '@/components/uploader/UploaderSidebar';
-import { ResultsGrid } from '@/components/ResultsGrid';
-import { UploaderCollections } from '@/components/uploader/UploaderCollections';
-import { UploaderFavorites } from '@/components/uploader/UploaderFavorites';
-import { UploaderReviewsTab } from '@/components/uploader/UploaderReviewsTab';
-import { UploaderPostsTab } from '@/components/uploader/UploaderPostsTab';
-import { UploaderWebArchiveTab } from '@/components/uploader/UploaderWebArchiveTab';
-import { Spinner } from '@/components/Spinner';
-import { ChevronUpIcon, ChevronDownIcon } from '@/components/Icons';
+import { profileSearchQueryAtom } from '@/store/search';
+import { defaultUploaderDetailTabAtom } from '@/store/settings';
+import type { MediaType, Profile, UploaderTab, View } from '@/types';
 
 interface UploaderDetailViewProps {
   profile: Profile;

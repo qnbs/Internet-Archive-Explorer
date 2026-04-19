@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
 import { UsersIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const UploaderHubView: React.FC = () => {
   const { t } = useLanguage();

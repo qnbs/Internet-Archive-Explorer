@@ -1,9 +1,9 @@
-import React from 'react';
 import { useAtom } from 'jotai';
-import { facetsAtom } from '@/store/search';
+import React from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { MediaType, Availability } from '@/types';
-import { MovieIcon, AudioIcon, BookIcon, ImageIcon, JoystickIcon } from './Icons';
+import { facetsAtom } from '@/store/search';
+import { Availability, MediaType } from '@/types';
+import { AudioIcon, BookIcon, ImageIcon, JoystickIcon, MovieIcon } from './Icons';
 
 interface SearchPopoverProps {
   onClose: () => void;

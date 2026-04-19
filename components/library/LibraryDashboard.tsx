@@ -1,9 +1,9 @@
 import React from 'react';
-import type { LibraryFilter } from '@/types';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { LibraryFilter } from '@/types';
+import { AIRecommendations } from './AIRecommendations';
 import { LibraryStats } from './LibraryStats';
 import { RecentlyAdded } from './RecentlyAdded';
-import { AIRecommendations } from './AIRecommendations';
 
 interface LibraryDashboardProps {
   setFilter: (filter: LibraryFilter) => void;

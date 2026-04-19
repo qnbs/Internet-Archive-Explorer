@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { toastAtom } from '@/store/toast';
-import { addTagsToItemsAtom } from '@/store/favorites';
+import React, { useEffect, useRef, useState } from 'react';
+import { CloseIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
-import { CloseIcon } from '@/components/Icons';
+import { addTagsToItemsAtom } from '@/store/favorites';
+import { toastAtom } from '@/store/toast';
 
 interface AddTagsModalProps {
   itemIds: string[];

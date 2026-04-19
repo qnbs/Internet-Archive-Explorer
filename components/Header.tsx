@@ -1,11 +1,10 @@
-import React from 'react';
-import { useState, useRef, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
-import { facetsAtom } from '@/store/search';
-import { MenuIcon, FilterIcon } from './Icons';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { SearchPopover } from './SearchPopover';
+import { facetsAtom } from '@/store/search';
+import { FilterIcon, MenuIcon } from './Icons';
 import { SearchBar } from './SearchBar';
+import { SearchPopover } from './SearchPopover';
 import { ThemeToggle } from './ui/ThemeToggle';
 
 interface HeaderProps {

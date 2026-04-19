@@ -20,8 +20,5 @@
     "memory": "3gb",
     "storage": "8gb"
   },
-  "runArgs": [
-    "--memory=3g",
-    "--cpus=2"
-  ]
+  "runArgs": ["--memory=3g", "--cpus=2"]
 }

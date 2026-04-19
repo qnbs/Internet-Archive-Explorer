@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import type { ArchiveItemSummary } from '@/types';
-import { Spinner } from './Spinner';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { CloseIcon, RefreshIcon, ExpandIcon } from './Icons';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import type { ArchiveItemSummary } from '@/types';
+import { CloseIcon, ExpandIcon, RefreshIcon } from './Icons';
+import { Spinner } from './Spinner';
 
 interface EmulatorModalProps {
   item: ArchiveItemSummary;

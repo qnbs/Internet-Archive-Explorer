@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import type { Workset } from '@/types';
-import { TrashIcon, ArrowRightIcon, PencilAltIcon } from '@/components/Icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowRightIcon, PencilAltIcon, TrashIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { Workset } from '@/types';
 
 interface WorksetListItemProps {
   workset: Workset;

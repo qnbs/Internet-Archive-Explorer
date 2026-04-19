@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary, Profile } from '@/types';
-import { searchArchive } from '@/services/archiveService';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { ResultsGrid } from '../ResultsGrid';
 import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, Profile } from '@/types';
+import { ResultsGrid } from '../ResultsGrid';
 
 interface UploaderCollectionsProps {
   profile: Profile;

@@ -1,16 +1,16 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 import { clearStoredOAuthToken, getValidAccessToken } from '@/services/geminiAuthStorage';
 import type {
-  Language,
   ExtractedEntities,
-  ImageAnalysisResult,
-  MagicOrganizeResult,
   GeminiApiResponse,
   GeminiContent,
   GeminiGenerateParams,
   GeminiPart,
+  ImageAnalysisResult,
+  Language,
+  MagicOrganizeResult,
 } from '@/types';
+import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 const MODELS = {
   FAST: 'gemini-2.5-flash',

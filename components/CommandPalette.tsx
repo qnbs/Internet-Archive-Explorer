@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
 import { Command } from 'cmdk';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useCommands } from '@/hooks/useCommands';
-import type { View } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { useSetAtom, useAtomValue } from 'jotai';
-import { activeViewAtom, searchQueryAtom } from '../store';
-import { libraryItemIdentifiersAtom } from '@/store/favorites';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useAtomValue, useSetAtom } from 'jotai';
+import React, { useEffect } from 'react';
 import { useToast } from '@/contexts/ToastContext';
+import { useCommands } from '@/hooks/useCommands';
+import { useLanguage } from '@/hooks/useLanguage';
+import { libraryItemIdentifiersAtom } from '@/store/favorites';
+import type { View } from '@/types';
+import { activeViewAtom, searchQueryAtom } from '../store';
 
 interface CommandPaletteProps {
   onClose: () => void;

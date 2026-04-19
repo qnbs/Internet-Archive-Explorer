@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
-import { loadableTranslationsAtom } from '@/store/i18n';
-import { useLanguage } from './useLanguage';
-import type { HelpTranslationNamespace } from '@/types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  HelpIcon,
-  UsersIcon,
-  BookIcon,
-  MovieIcon,
   AudioIcon,
-  ImageIcon,
-  JoystickIcon,
-  WebIcon,
-  StarIcon,
-  SettingsIcon,
-  InfoIcon,
-  CompassIcon,
+  BookIcon,
   CollectionIcon,
+  CompassIcon,
+  HelpIcon,
+  ImageIcon,
+  InfoIcon,
+  JoystickIcon,
+  MovieIcon,
+  SettingsIcon,
   SparklesIcon,
+  StarIcon,
   UploadIcon,
+  UsersIcon,
+  WebIcon,
 } from '@/components/Icons';
+import { loadableTranslationsAtom } from '@/store/i18n';
+import type { HelpTranslationNamespace } from '@/types';
+import { useLanguage } from './useLanguage';
 
 export interface HelpQuestion {
   q: string;

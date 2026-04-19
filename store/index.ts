@@ -1,140 +1,130 @@
 // This file serves as a central hub for exporting all Jotai atoms.
 // This simplifies imports in components and avoids circular dependencies.
 
-// Atoms with no dependencies are exported first.
-export { toastAtom } from './toast';
+export {
+  addAIArchiveEntryAtom,
+  aiArchiveAtom,
+  aiArchiveCountsAtom,
+  aiArchiveFilterAtom,
+  aiArchiveSearchQueryAtom,
+  aiArchiveSortAtom,
+  allAIArchiveTagsAtom,
+  clearAIArchiveAtom,
+  deleteAIArchiveEntryAtom,
+  filteredAndSortedEntriesAtom,
+  selectedAIEntryAtom,
+  selectedAIEntryIdAtom,
+  updateAIArchiveEntryAtom,
+  updateAIEntryTagsAtom,
+} from './aiArchive';
 
 export type { ModalState } from './app';
 export {
   activeViewAtom,
-  modalAtom,
-  isModalOpenAtom,
   currentModalTypeAtom,
-  selectItemAtom,
-  selectedProfileAtom,
+  isModalOpenAtom,
+  modalAtom,
   profileReturnViewAtom,
+  selectedProfileAtom,
+  selectItemAtom,
 } from './app';
-
+export { disconnectMyArchiveAtom, myArchiveProfileAtom } from './archive';
 export {
-  defaultSettings,
-  settingsAtom,
-  setSettingAtom,
-  resetSettingsAtom,
-  resultsPerPageAtom,
-  showExplorerHubAtom,
-  defaultSortAtom,
-  rememberFiltersAtom,
-  rememberSortAtom,
-  layoutDensityAtom,
-  disableAnimationsAtom,
-  defaultUploaderDetailTabAtom,
-  defaultDetailTabAllAtom,
-  openLinksInNewTabAtom,
-  autoplayMediaAtom,
-  enableAiFeaturesAtom,
-  autoArchiveAIAtom,
-  defaultAiTabAtom,
-  autoRunEntityExtractionAtom,
-  summaryToneAtom,
-  highContrastModeAtom,
-  underlineLinksAtom,
-  fontSizeAtom,
-  themeAtom,
-  resolvedThemeAtom,
-  accentColorAtom,
-  scrollbarColorAtom,
-} from './settings';
-
-export {
-  searchQueryAtom,
-  profileSearchQueryAtom,
-  facetsAtom,
-  searchHistoryAtom,
-  addSearchHistoryAtom,
-  clearSearchHistoryAtom,
-} from './search';
-
-export { languageAtom, loadableTranslationsAtom } from './i18n';
-
-export { myArchiveProfileAtom, disconnectMyArchiveAtom } from './archive';
-
-export {
-  aiArchiveAtom,
-  allAIArchiveTagsAtom,
-  addAIArchiveEntryAtom,
-  deleteAIArchiveEntryAtom,
-  updateAIArchiveEntryAtom,
-  updateAIEntryTagsAtom,
-  selectedAIEntryIdAtom,
-  aiArchiveSearchQueryAtom,
-  aiArchiveFilterAtom,
-  aiArchiveSortAtom,
-  selectedAIEntryAtom,
-  aiArchiveCountsAtom,
-  filteredAndSortedEntriesAtom,
-  clearAIArchiveAtom,
-} from './aiArchive';
-
-// These atoms have dependencies on other store files
-export {
-  libraryItemsAtom,
-  libraryItemIdentifiersAtom,
-  addLibraryItemAtom,
-  removeLibraryItemAtom,
-  updateLibraryItemNotesAtom,
-  updateLibraryItemTagsAtom,
-  uploaderFavoritesAtom,
-  uploaderFavoriteSetAtom,
-  addUploaderFavoriteAtom,
-  removeUploaderFavoriteAtom,
-  userCollectionsAtom,
-  createCollectionAtom,
-  deleteCollectionAtom,
-  updateCollectionNameAtom,
-  addItemsToCollectionAtom,
-  allTagsAtom,
-  addTagsToItemsAtom,
-  removeLibraryItemsAtom,
-  libraryCountsAtom,
-  clearLibraryAtom,
-} from './favorites';
-
-export {
-  worksetsAtom,
-  selectedWorksetIdAtom,
-  selectedDocumentIdAtom,
-  createWorksetAtom,
-  deleteWorksetAtom,
-  updateWorksetNameAtom,
-  addDocumentToWorksetAtom,
-  removeDocumentFromWorksetAtom,
-  updateDocumentNotesAtom,
-  clearScriptoriumAtom,
-} from './scriptorium';
-
-export {
-  playlistAtom,
+  addToQueueAtom,
+  clearPlaylistAtom,
+  currentTrackAtom,
   currentTrackIndexAtom,
   isPlayingAtom,
-  currentTrackAtom,
-  playItemAtom,
-  addToQueueAtom,
-  togglePlayPauseAtom,
   nextTrackAtom,
+  playItemAtom,
+  playlistAtom,
   prevTrackAtom,
-  clearPlaylistAtom,
   removeFromPlaylistAtom,
+  togglePlayPauseAtom,
 } from './audioPlayer';
-
-export { deferredPromptAtom, isAppInstalledAtom, waitingWorkerAtom } from './pwa';
-
+export type { DownloadItem, DownloadStatus } from './downloads';
 export {
-  downloadQueueAtom,
-  downloadManagerOpenAtom,
   activeDownloadCountAtom,
   addDownloadAtom,
-  updateDownloadProgressAtom,
-  removeDownloadAtom,
   clearCompletedDownloadsAtom,
+  downloadManagerOpenAtom,
+  downloadQueueAtom,
+  removeDownloadAtom,
+  updateDownloadProgressAtom,
 } from './downloads';
-export type { DownloadItem, DownloadStatus } from './downloads';
+// These atoms have dependencies on other store files
+export {
+  addItemsToCollectionAtom,
+  addLibraryItemAtom,
+  addTagsToItemsAtom,
+  addUploaderFavoriteAtom,
+  allTagsAtom,
+  clearLibraryAtom,
+  createCollectionAtom,
+  deleteCollectionAtom,
+  libraryCountsAtom,
+  libraryItemIdentifiersAtom,
+  libraryItemsAtom,
+  removeLibraryItemAtom,
+  removeLibraryItemsAtom,
+  removeUploaderFavoriteAtom,
+  updateCollectionNameAtom,
+  updateLibraryItemNotesAtom,
+  updateLibraryItemTagsAtom,
+  uploaderFavoriteSetAtom,
+  uploaderFavoritesAtom,
+  userCollectionsAtom,
+} from './favorites';
+export { languageAtom, loadableTranslationsAtom } from './i18n';
+export { deferredPromptAtom, isAppInstalledAtom, waitingWorkerAtom } from './pwa';
+export {
+  addDocumentToWorksetAtom,
+  clearScriptoriumAtom,
+  createWorksetAtom,
+  deleteWorksetAtom,
+  removeDocumentFromWorksetAtom,
+  selectedDocumentIdAtom,
+  selectedWorksetIdAtom,
+  updateDocumentNotesAtom,
+  updateWorksetNameAtom,
+  worksetsAtom,
+} from './scriptorium';
+export {
+  addSearchHistoryAtom,
+  clearSearchHistoryAtom,
+  facetsAtom,
+  profileSearchQueryAtom,
+  searchHistoryAtom,
+  searchQueryAtom,
+} from './search';
+export {
+  accentColorAtom,
+  autoArchiveAIAtom,
+  autoplayMediaAtom,
+  autoRunEntityExtractionAtom,
+  defaultAiTabAtom,
+  defaultDetailTabAllAtom,
+  defaultSettings,
+  defaultSortAtom,
+  defaultUploaderDetailTabAtom,
+  disableAnimationsAtom,
+  enableAiFeaturesAtom,
+  fontSizeAtom,
+  highContrastModeAtom,
+  layoutDensityAtom,
+  openLinksInNewTabAtom,
+  rememberFiltersAtom,
+  rememberSortAtom,
+  resetSettingsAtom,
+  resolvedThemeAtom,
+  resultsPerPageAtom,
+  scrollbarColorAtom,
+  setSettingAtom,
+  settingsAtom,
+  showExplorerHubAtom,
+  summaryToneAtom,
+  themeAtom,
+  underlineLinksAtom,
+} from './settings';
+// Atoms with no dependencies are exported first.
+export { toastAtom } from './toast';

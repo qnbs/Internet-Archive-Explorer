@@ -1,7 +1,7 @@
-import React, { useRef, useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { BoldIcon, ItalicIcon, UnderlineIcon, ListUnorderedIcon, ListOrderedIcon } from './Icons';
 import { sanitizeHtml } from '@/utils/sanitizer';
+import { BoldIcon, ItalicIcon, ListOrderedIcon, ListUnorderedIcon, UnderlineIcon } from './Icons';
 
 interface RichTextEditorProps {
   value: string;

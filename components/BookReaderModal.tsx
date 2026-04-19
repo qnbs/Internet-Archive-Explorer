@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import type { ArchiveItemSummary } from '@/types';
-import { Spinner } from './Spinner';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { CloseIcon } from './Icons';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import type { ArchiveItemSummary } from '@/types';
+import { CloseIcon } from './Icons';
+import { Spinner } from './Spinner';
 
 interface BookReaderModalProps {
   item: ArchiveItemSummary;

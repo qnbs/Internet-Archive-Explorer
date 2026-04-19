@@ -1,39 +1,36 @@
-import React, { useState, useEffect, Suspense, useCallback, lazy } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { AppearanceManager } from './components/AppearanceManager';
+import AudioPlayer from './components/audiothek/AudioPlayer';
+import { BottomNav } from './components/BottomNav';
+import { DownloadManager } from './components/DownloadManager';
+import ErrorBoundary from './components/ErrorBoundary';
+import { Header } from './components/Header';
+import InstallBanner from './components/InstallBanner';
+import { ModalManager } from './components/ModalManager';
+// Layout Components
+import { SideMenu } from './components/SideMenu';
+import { Spinner } from './components/Spinner';
+import { ToastContainer } from './components/Toast';
+import UpdateNotification from './components/UpdateNotification';
+// Providers & Contexts
+import { ToastProvider, useToast } from './contexts/ToastContext';
+// Hooks
+import { useNavigation } from './hooks/useNavigation';
 import {
   activeViewAtom,
-  modalAtom,
   defaultSettings,
   deferredPromptAtom,
   isAppInstalledAtom,
-  toastAtom,
-  selectedProfileAtom,
-  profileReturnViewAtom,
-  waitingWorkerAtom,
+  modalAtom,
   playlistAtom,
+  profileReturnViewAtom,
+  selectedProfileAtom,
+  toastAtom,
+  waitingWorkerAtom,
 } from './store';
-import type { View, ConfirmationOptions, AppSettings } from './types';
 import type { BeforeInstallPromptEvent } from './store/pwa';
-
-// Providers & Contexts
-import { ToastProvider, useToast } from './contexts/ToastContext';
-
-// Layout Components
-import { SideMenu } from './components/SideMenu';
-import { Header } from './components/Header';
-import { BottomNav } from './components/BottomNav';
-import { ToastContainer } from './components/Toast';
-import ErrorBoundary from './components/ErrorBoundary';
-import { ModalManager } from './components/ModalManager';
-import { Spinner } from './components/Spinner';
-import { AppearanceManager } from './components/AppearanceManager';
-import UpdateNotification from './components/UpdateNotification';
-import InstallBanner from './components/InstallBanner';
-import AudioPlayer from './components/audiothek/AudioPlayer';
-import { DownloadManager } from './components/DownloadManager';
-
-// Hooks
-import { useNavigation } from './hooks/useNavigation';
+import type { AppSettings, ConfirmationOptions, View } from './types';
 
 const ForYouView = lazy(() => import('./pages/ForYouView'));
 const ExplorerView = lazy(() => import('./pages/ExplorerView'));

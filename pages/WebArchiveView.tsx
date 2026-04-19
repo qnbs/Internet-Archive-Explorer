@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { searchWaybackMachine } from '@/services/archiveService';
-import type { WaybackResponse } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { Spinner } from '@/components/Spinner';
-import { WebIcon, SearchIcon, HistoryIcon } from '@/components/Icons';
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { HistoryIcon, SearchIcon, WebIcon } from '@/components/Icons';
+import { Spinner } from '@/components/Spinner';
+import { useLanguage } from '@/hooks/useLanguage';
+import { searchWaybackMachine } from '@/services/archiveService';
+import type { WaybackResponse } from '@/types';
 
 const waybackHistoryAtom = atomWithStorage<string[]>('wayback-history', []);
 

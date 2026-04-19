@@ -22,14 +22,22 @@ let failed = false;
 const COL = { name: 18, actual: 12, budget: 12, status: 8 };
 const pad = (s, n) => String(s).padEnd(n);
 
-console.log('\n' + pad('Chunk', COL.name) + pad('Actual (KB)', COL.actual) + pad('Budget (KB)', COL.budget) + 'Status');
+console.log(
+  '\n' +
+    pad('Chunk', COL.name) +
+    pad('Actual (KB)', COL.actual) +
+    pad('Budget (KB)', COL.budget) +
+    'Status',
+);
 console.log('-'.repeat(COL.name + COL.actual + COL.budget + COL.status));
 
 for (const [chunkName, budgetKB] of Object.entries(budgets)) {
   const entry = report.find((x) => x.label.includes(`/${chunkName}-`));
 
   if (!entry) {
-    console.log(pad(chunkName, COL.name) + pad('(absent)', COL.actual) + pad(budgetKB, COL.budget) + '—');
+    console.log(
+      pad(chunkName, COL.name) + pad('(absent)', COL.actual) + pad(budgetKB, COL.budget) + '—',
+    );
     continue;
   }
 
@@ -38,7 +46,12 @@ for (const [chunkName, budgetKB] of Object.entries(budgets)) {
   const status = ok ? '✓' : '✗ OVER';
   if (!ok) failed = true;
 
-  console.log(pad(chunkName, COL.name) + pad(actualKB.toFixed(1), COL.actual) + pad(budgetKB, COL.budget) + status);
+  console.log(
+    pad(chunkName, COL.name) +
+      pad(actualKB.toFixed(1), COL.actual) +
+      pad(budgetKB, COL.budget) +
+      status,
+  );
 }
 
 // Total across all chunks (not just named ones)
@@ -48,11 +61,18 @@ const totalOk = totalKB <= totalBudget;
 if (!totalOk) failed = true;
 
 console.log('-'.repeat(COL.name + COL.actual + COL.budget + COL.status));
-console.log(pad('TOTAL', COL.name) + pad(totalKB.toFixed(1), COL.actual) + pad(totalBudget, COL.budget) + (totalOk ? '✓' : '✗ OVER'));
+console.log(
+  pad('TOTAL', COL.name) +
+    pad(totalKB.toFixed(1), COL.actual) +
+    pad(totalBudget, COL.budget) +
+    (totalOk ? '✓' : '✗ OVER'),
+);
 console.log();
 
 if (failed) {
-  console.error('[bundle-size] Budget exceeded. Update .github/bundle-budgets.json only for intentional growth.');
+  console.error(
+    '[bundle-size] Budget exceeded. Update .github/bundle-budgets.json only for intentional growth.',
+  );
   process.exit(1);
 } else {
   console.log('[bundle-size] All chunks within budget.');

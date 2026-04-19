@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary, ArchiveSearchResponse } from '@/types';
-import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
 import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, ArchiveSearchResponse } from '@/types';
 import { ContentCarousel } from './ContentCarousel';
 
 export const OnThisDay: React.FC = () => {

@@ -1,17 +1,17 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { ArchiveItemSummary } from '@/types';
-import { StarIcon, CloseIcon } from './Icons';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAtomValue, useSetAtom } from 'jotai';
-import {
-  libraryItemIdentifiersAtom,
-  addLibraryItemAtom,
-  removeLibraryItemAtom,
-} from '@/store/favorites';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
-import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
+import {
+  addLibraryItemAtom,
+  libraryItemIdentifiersAtom,
+  removeLibraryItemAtom,
+} from '@/store/favorites';
+import type { ArchiveItemSummary } from '@/types';
+import { CloseIcon, StarIcon } from './Icons';
 import { ItemDetailLayout } from './ItemDetailLayout';
 
 interface ItemDetailModalProps {

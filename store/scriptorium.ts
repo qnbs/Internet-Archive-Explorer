@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
-import type { Workset, WorksetDocument, ArchiveItemSummary } from '@/types';
+import type { ArchiveItemSummary, Workset, WorksetDocument } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 import { toastAtom } from './toast';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';
@@ -43,7 +43,7 @@ export const deleteWorksetAtom = atom(null, (get, set, id: string) => {
 
 export const updateWorksetNameAtom = atom(
   null,
-  (get, set, { id, newName }: { id: string; newName: string }) => {
+  (_get, set, { id, newName }: { id: string; newName: string }) => {
     set(worksetsAtom, (worksets) =>
       worksets.map((ws) => (ws.id === id ? { ...ws, name: newName } : ws)),
     );
@@ -77,7 +77,7 @@ export const addDocumentToWorksetAtom = atom(
 
 export const removeDocumentFromWorksetAtom = atom(
   null,
-  (get, set, { worksetId, documentId }: { worksetId: string; documentId: string }) => {
+  (_get, set, { worksetId, documentId }: { worksetId: string; documentId: string }) => {
     set(worksetsAtom, (worksets) =>
       worksets.map((ws) => {
         if (ws.id === worksetId) {
@@ -93,7 +93,7 @@ export const removeDocumentFromWorksetAtom = atom(
 export const updateDocumentNotesAtom = atom(
   null,
   (
-    get,
+    _get,
     set,
     { worksetId, documentId, notes }: { worksetId: string; documentId: string; notes: string },
   ) => {
@@ -113,6 +113,6 @@ export const updateDocumentNotesAtom = atom(
   },
 );
 
-export const clearScriptoriumAtom = atom(null, (get, set) => {
+export const clearScriptoriumAtom = atom(null, (_get, set) => {
   set(worksetsAtom, []);
 });

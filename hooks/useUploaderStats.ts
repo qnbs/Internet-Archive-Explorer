@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import type { UploaderStats, Profile } from '@/types';
 import { getItemCount } from '@/services/archiveService';
+import type { Profile, UploaderStats } from '@/types';
 import { getProfileApiQuery } from '@/utils/profileUtils';
 
 export const useUploaderStats = (profile: Profile) => {

@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { getSummary, extractEntities } from '../services/geminiService';
-import { AIGenerationType, type ExtractedEntities, type ArchiveItemSummary } from '../types';
-import { useSearchAndGo } from '../hooks/useSearchAndGo';
-import { useLanguage } from '../hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { autoRunEntityExtractionAtom, summaryToneAtom, autoArchiveAIAtom } from '../store/settings';
-import { SparklesIcon, TagIcon, InfoIcon } from './Icons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useLanguage } from '../hooks/useLanguage';
+import { useSearchAndGo } from '../hooks/useSearchAndGo';
+import { archiveAIGeneration, findArchivedItemAnalysis } from '../services/aiPersistenceService';
+import { extractEntities, getSummary } from '../services/geminiService';
+import { addAIArchiveEntryAtom, aiArchiveAtom } from '../store/aiArchive';
+import { autoArchiveAIAtom, autoRunEntityExtractionAtom, summaryToneAtom } from '../store/settings';
+import { AIGenerationType, type ArchiveItemSummary, type ExtractedEntities } from '../types';
 import { AILoadingIndicator } from './AILoadingIndicator';
+import { InfoIcon, SparklesIcon, TagIcon } from './Icons';
 import { Spinner } from './Spinner';
-import { findArchivedItemAnalysis, archiveAIGeneration } from '../services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '../store/aiArchive';
 
 interface AIToolsTabProps {
   item: ArchiveItemSummary;

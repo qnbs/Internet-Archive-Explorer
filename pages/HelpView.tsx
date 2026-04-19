@@ -1,9 +1,9 @@
 import React from 'react';
-import { HelpViewProvider } from '@/contexts/HelpViewContext';
+import { HelpContent } from '@/components/help/HelpContent';
 import { HelpHeader } from '@/components/help/HelpHeader';
 import { HelpSearchBar } from '@/components/help/HelpSearchBar';
 import { HelpSidebar } from '@/components/help/HelpSidebar';
-import { HelpContent } from '@/components/help/HelpContent';
+import { HelpViewProvider } from '@/contexts/HelpViewContext';
 
 const HelpViewLayout: React.FC = () => {
   return (

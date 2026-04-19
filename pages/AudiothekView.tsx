@@ -1,10 +1,10 @@
 import React from 'react';
+import { AIInsightPanel } from '@/components/AIInsightPanel';
+import { AudioCarousel } from '@/components/audiothek/AudioCarousel';
 import { AudiothekHero } from '@/components/audiothek/AudiothekHero';
 import { CategoryGrid } from '@/components/audiothek/CategoryGrid';
-import { useLanguage } from '@/hooks/useLanguage';
-import { AudioCarousel } from '@/components/audiothek/AudioCarousel';
-import { AIInsightPanel } from '@/components/AIInsightPanel';
 import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { useLanguage } from '@/hooks/useLanguage';
 import { generateRadioShowConcept } from '@/services/geminiService';
 import { AIGenerationType } from '@/types';
 

@@ -1,9 +1,9 @@
-import React, { Suspense, lazy } from 'react';
 import { useAtom } from 'jotai';
-import { modalAtom } from '../store';
+import React, { lazy, Suspense } from 'react';
 import { useNavigation } from '@/hooks/useNavigation';
-import { ConfirmationModal } from './ConfirmationModal';
 import type { ArchiveItemSummary } from '@/types';
+import { modalAtom } from '../store';
+import { ConfirmationModal } from './ConfirmationModal';
 import { Spinner } from './Spinner';
 
 const ItemDetailModal = lazy(() =>
@@ -40,7 +40,10 @@ const InstallModal = lazy(() =>
 );
 
 const ModalFallback: React.FC = () => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" aria-hidden="true">
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+    aria-hidden="true"
+  >
     <Spinner size="lg" />
   </div>
 );

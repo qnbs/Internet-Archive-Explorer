@@ -1,33 +1,33 @@
-import React, { useState, useId } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import {
-  settingsAtom,
-  setSettingAtom,
-  resetSettingsAtom,
-  languageAtom,
-  clearSearchHistoryAtom,
-  clearLibraryAtom,
-  clearScriptoriumAtom,
-  clearAIArchiveAtom,
-} from '../store';
-import { useLanguage } from '@/hooks/useLanguage';
-import type { AppSettings, Language, AccentColor, View, ConfirmationOptions } from '@/types';
-import {
-  DownloadIcon,
-  UploadIcon,
-  SearchIcon,
-  ImageIcon,
-  SparklesIcon,
-  TrashIcon,
-  BookIcon,
-  EyeIcon,
-} from '@/components/Icons';
-import { exportAllData, importData } from '@/services/dataService';
-import { useToast } from '@/contexts/ToastContext';
-import { ThemeSelector } from '@/components/settings/ThemeSelector';
-import { PWAInstallManager } from '@/components/settings/PWAInstallManager';
+import React, { useId, useState } from 'react';
 import { ApiKeyInput } from '@/components/ApiKeyInput';
 import { GoogleLoginButton } from '@/components/GoogleLoginButton';
+import {
+  BookIcon,
+  DownloadIcon,
+  EyeIcon,
+  ImageIcon,
+  SearchIcon,
+  SparklesIcon,
+  TrashIcon,
+  UploadIcon,
+} from '@/components/Icons';
+import { PWAInstallManager } from '@/components/settings/PWAInstallManager';
+import { ThemeSelector } from '@/components/settings/ThemeSelector';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
+import { exportAllData, importData } from '@/services/dataService';
+import type { AccentColor, AppSettings, ConfirmationOptions, Language, View } from '@/types';
+import {
+  clearAIArchiveAtom,
+  clearLibraryAtom,
+  clearScriptoriumAtom,
+  clearSearchHistoryAtom,
+  languageAtom,
+  resetSettingsAtom,
+  setSettingAtom,
+  settingsAtom,
+} from '../store';
 
 type SettingsSectionId = 'ui' | 'accessibility' | 'search' | 'content' | 'ai' | 'data';
 

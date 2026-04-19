@@ -9,7 +9,6 @@ playwright-report/
 .DS_Store
 Thumbs.db
 *.local
-.vscode/settings.json
 .idea/
 
 # Coverage / reports

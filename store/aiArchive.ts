@@ -1,12 +1,12 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import type {
   AIArchiveEntry,
   AIArchiveFilter,
   AIArchiveSortOption,
-  Language,
   AIGenerationType,
+  Language,
 } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 
 // --- Base State Atom ---
 
@@ -176,7 +176,7 @@ export const deleteAIArchiveEntryAtom = atom(null, (get, set, entryId: string) =
  * An action atom to update an existing entry in the archive.
  * This is useful for modifying user-provided data like notes.
  */
-export const updateAIArchiveEntryAtom = atom(null, (get, set, updatedEntry: AIArchiveEntry) => {
+export const updateAIArchiveEntryAtom = atom(null, (_get, set, updatedEntry: AIArchiveEntry) => {
   set(aiArchiveAtom, (archive) =>
     archive.map((entry) => (entry.id === updatedEntry.id ? updatedEntry : entry)),
   );
@@ -188,7 +188,7 @@ export const updateAIArchiveEntryAtom = atom(null, (get, set, updatedEntry: AIAr
  */
 export const updateAIEntryTagsAtom = atom(
   null,
-  (get, set, { id, tags }: { id: string; tags: string[] }) => {
+  (_get, set, { id, tags }: { id: string; tags: string[] }) => {
     set(aiArchiveAtom, (archive) =>
       archive.map((entry) =>
         entry.id === id ? { ...entry, tags: [...new Set(tags)].sort() } : entry,
@@ -200,6 +200,6 @@ export const updateAIEntryTagsAtom = atom(
 /**
  * An action atom to completely clear the AI archive.
  */
-export const clearAIArchiveAtom = atom(null, (get, set) => {
+export const clearAIArchiveAtom = atom(null, (_get, set) => {
   set(aiArchiveAtom, []);
 });

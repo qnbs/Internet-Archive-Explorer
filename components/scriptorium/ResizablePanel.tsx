@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BookIcon, PencilAltIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ResizablePanelProps {
   panelA: React.ReactNode; // Reader

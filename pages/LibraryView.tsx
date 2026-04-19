@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { libraryItemsAtom, userCollectionsAtom } from '@/store/favorites';
-import type { LibraryItem, LibraryFilter } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { LibrarySidebar } from '@/components/library/LibrarySidebar';
-import { LibraryDashboard } from '@/components/library/LibraryDashboard';
-import { LibraryCollectionView } from '@/components/library/LibraryCollectionView';
-import { UploaderFavoritesTab } from '@/components/library/UploaderFavoritesTab';
+import React, { useMemo, useState } from 'react';
 import { FilterIcon } from '@/components/Icons';
+import { LibraryCollectionView } from '@/components/library/LibraryCollectionView';
+import { LibraryDashboard } from '@/components/library/LibraryDashboard';
+import { LibrarySidebar } from '@/components/library/LibrarySidebar';
+import { UploaderFavoritesTab } from '@/components/library/UploaderFavoritesTab';
+import { useLanguage } from '@/hooks/useLanguage';
+import { libraryItemsAtom, userCollectionsAtom } from '@/store/favorites';
+import type { LibraryFilter, LibraryItem } from '@/types';
 
 const LibraryView: React.FC = () => {
   const { t } = useLanguage();

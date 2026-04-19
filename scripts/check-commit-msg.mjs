@@ -1,6 +1,18 @@
 import fs from 'node:fs';
 
-const TYPES = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'ci', 'perf', 'build', 'revert'];
+const TYPES = [
+  'feat',
+  'fix',
+  'docs',
+  'style',
+  'refactor',
+  'test',
+  'chore',
+  'ci',
+  'perf',
+  'build',
+  'revert',
+];
 const PATTERN = new RegExp(`^(${TYPES.join('|')})(\\([^)]+\\))?: .{1,72}[^.]$`);
 
 const msgFile = process.argv[2] ?? '.git/COMMIT_EDITMSG';
@@ -26,7 +38,9 @@ if (!subject) {
 
 if (!PATTERN.test(subject)) {
   console.error(`[commit-msg] Invalid commit message: "${subject}"`);
-  console.error('[commit-msg] Expected format: type(scope): description  (max 72 chars, no trailing period)');
+  console.error(
+    '[commit-msg] Expected format: type(scope): description  (max 72 chars, no trailing period)',
+  );
   console.error(`[commit-msg] Valid types: ${TYPES.join(', ')}`);
   console.error('[commit-msg] Examples:');
   console.error('  feat(search): add fuzzy filtering');

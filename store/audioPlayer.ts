@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
-import type { PlayableTrack, ArchiveItemSummary } from '@/types';
 import { getItemMetadata } from '@/services/archiveService';
+import type { ArchiveItemSummary, PlayableTrack } from '@/types';
 import { findPlayableAudioFile } from '@/utils/audioUtils';
+import { safeAtomWithStorage } from './safeStorage';
 import { toastAtom } from './toast';
 
 // --- Base State Atoms ---
@@ -119,7 +119,7 @@ export const removeFromPlaylistAtom = atom(null, (get, set, index: number) => {
   }
 });
 
-export const clearPlaylistAtom = atom(null, (get, set) => {
+export const clearPlaylistAtom = atom(null, (_get, set) => {
   set(playlistAtom, []);
   set(currentTrackIndexAtom, -1);
   set(isPlayingAtom, false);

@@ -1,9 +1,9 @@
 import React from 'react';
-import type { ExtractedEntities } from '@/types';
+import { CloseIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import type { ExtractedEntities } from '@/types';
 import { AILoadingIndicator } from '../AILoadingIndicator';
-import { CloseIcon } from '@/components/Icons';
 
 interface AnalysisPaneProps {
   analysis: { type: 'summary' | 'entities'; data: string | ExtractedEntities } | null;

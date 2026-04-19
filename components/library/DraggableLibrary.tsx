@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from '@dnd-kit/core';
 import {
+  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
   useSortable,
-  arrayMove,
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { motion } from 'framer-motion';
 import { useAtomValue } from 'jotai';
+import React, { useState } from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 import { libraryItemsAtom } from '@/store/favorites';
 import type { LibraryItem } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { motion } from 'framer-motion';
 
 interface SortableLibraryItemProps {
   item: LibraryItem;

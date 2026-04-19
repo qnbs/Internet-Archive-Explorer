@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { expect, test } from '@playwright/test';
 
 // Pages to audit – each entry is [label, URL-suffix]
 const PAGES: [string, string][] = [

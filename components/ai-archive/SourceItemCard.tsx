@@ -1,9 +1,9 @@
-import React from 'react';
 import { useSetAtom } from 'jotai';
+import React from 'react';
+import { ArrowRightIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { ArrowRightIcon } from '@/components/Icons';
 
 interface SourceItemCardProps {
   source: ArchiveItemSummary;

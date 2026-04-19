@@ -1,5 +1,5 @@
-import DOMPurify from 'dompurify';
 import type { Config } from 'dompurify';
+import DOMPurify from 'dompurify';
 
 const SANITIZE_OPTIONS: Config = {
   USE_PROFILES: { html: true },

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { useGeminiAuth } from '@/hooks/useGeminiAuth';
 import { Spinner } from '@/components/Spinner';
+import { useGeminiAuth } from '@/hooks/useGeminiAuth';
 
 export const GoogleLoginButton: React.FC = () => {
   const {

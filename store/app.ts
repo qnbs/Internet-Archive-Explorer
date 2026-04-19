@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { View, Profile, ArchiveItemSummary, ConfirmationOptions } from '@/types';
+import type { ArchiveItemSummary, ConfirmationOptions, Profile, View } from '@/types';
 
 /**
  * Defines the shape of all possible modal states in the application.
@@ -60,7 +60,7 @@ export const currentModalTypeAtom = atom((get) => get(modalAtom).type);
  */
 export const selectItemAtom = atom(
   null, // This is a write-only atom
-  (get, set, item: ArchiveItemSummary) => {
+  (_get, set, item: ArchiveItemSummary) => {
     switch (item.mediatype) {
       case 'image':
         set(modalAtom, { type: 'imageDetail', item });

@@ -1,26 +1,26 @@
-import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { allAIArchiveTagsAtom, aiArchiveAtom } from '@/store/aiArchive';
-import {
-  AIGenerationType,
-  type AIArchiveFilter,
-  type Language,
-  type AIArchiveSortOption,
-} from '@/types';
+import React, { useMemo } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { aiArchiveAtom, allAIArchiveTagsAtom } from '@/store/aiArchive';
 import {
+  type AIArchiveFilter,
+  type AIArchiveSortOption,
+  AIGenerationType,
+  type Language,
+} from '@/types';
+import {
+  AudioIcon,
+  BookIcon,
   BrainIcon,
+  CloseIcon,
+  ImageIcon,
+  JoystickIcon,
+  LanguageIcon,
+  MovieIcon,
+  SearchIcon,
+  SparklesIcon,
   StarIcon,
   TagIcon,
-  BookIcon,
-  ImageIcon,
-  SparklesIcon,
-  LanguageIcon,
-  SearchIcon,
-  CloseIcon,
-  MovieIcon,
-  AudioIcon,
-  JoystickIcon,
 } from './Icons';
 
 interface AIArchiveSidebarProps {

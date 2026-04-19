@@ -91,10 +91,7 @@
     {
       "id": "settings",
       "icon": "SettingsIcon",
-      "questions": [
-        { "q": "qSettings", "a": "aSettings" },
-        { "q": "qData", "a": "aData" }
-      ]
+      "questions": [{ "q": "qSettings", "a": "aSettings" }, { "q": "qData", "a": "aData" }]
     },
     {
       "id": "faq",

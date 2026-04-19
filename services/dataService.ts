@@ -1,8 +1,8 @@
-import type { AppSettings, LibraryItem, Workset } from '@/types';
-import { STORAGE_KEYS as SETTINGS_KEYS } from '@/store/settings';
 import { STORAGE_KEYS as FAVORITES_KEYS } from '@/store/favorites';
-import { STORAGE_KEYS as SEARCH_KEYS } from '@/store/search';
 import { STORAGE_KEY as SCRIPTORIUM_KEY } from '@/store/scriptorium';
+import { STORAGE_KEYS as SEARCH_KEYS } from '@/store/search';
+import { STORAGE_KEYS as SETTINGS_KEYS } from '@/store/settings';
+import type { AppSettings, LibraryItem, Workset } from '@/types';
 
 interface BackupData {
   version: number;

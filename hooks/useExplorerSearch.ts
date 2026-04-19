@@ -1,13 +1,13 @@
-import { useCallback } from 'react';
-import { useAtom } from 'jotai';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { searchQueryAtom, facetsAtom } from '@/store/search';
+import { useAtom } from 'jotai';
+import { useCallback } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary } from '@/types';
-import { useInfiniteScroll } from './useInfiniteScroll';
 import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import { facetsAtom, searchQueryAtom } from '@/store/search';
+import type { ArchiveItemSummary } from '@/types';
 import { buildArchiveQuery } from '@/utils/queryBuilder';
+import { useInfiniteScroll } from './useInfiniteScroll';
 
 export const useExplorerSearch = () => {
   const [searchQuery] = useAtom(searchQueryAtom);

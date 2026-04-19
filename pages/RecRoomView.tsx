@@ -1,11 +1,11 @@
 import React from 'react';
-import { AIGenerationType } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
-import { generateRetroGamingNote } from '@/services/geminiService';
-import { useArchivalItems } from '@/hooks/useArchivalItems';
-import { RecRoomCarousel } from '@/components/recroom/RecRoomCarousel';
 import GameFinder from '@/components/recroom/GameFinder';
+import { RecRoomCarousel } from '@/components/recroom/RecRoomCarousel';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { useLanguage } from '@/hooks/useLanguage';
+import { generateRetroGamingNote } from '@/services/geminiService';
+import { AIGenerationType } from '@/types';
 
 const getCollections = (t: (key: string) => string) => [
   {

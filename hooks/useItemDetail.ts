@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { ArchiveItemSummary } from '@/types';
-import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { useAtomValue } from 'jotai';
-import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '@/store/settings';
+import { useEffect, useRef, useState } from 'react';
+import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
+import { autoplayMediaAtom, defaultDetailTabAllAtom, enableAiFeaturesAtom } from '@/store/settings';
+import type { ArchiveItemSummary } from '@/types';
 import { findPlayableFile } from '@/utils/mediaUtils';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, MouseEvent as ReactMouseEvent } from 'react';
+import React, { MouseEvent as ReactMouseEvent, useCallback, useState } from 'react';
 
 const ZOOM_SENSITIVITY = 0.001;
 const MAX_ZOOM = 10;

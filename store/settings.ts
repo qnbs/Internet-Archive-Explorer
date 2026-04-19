@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { selectAtom } from 'jotai/utils';
-import { safeAtomWithStorage } from './safeStorage';
 import type { AppSettings, Theme } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 
 export const STORAGE_KEYS = {
   settings: 'app-settings-v2',
@@ -58,7 +58,7 @@ export const setSettingAtom = atom(
 );
 
 // Write-only atom to reset all settings
-export const resetSettingsAtom = atom(null, (get, set) => {
+export const resetSettingsAtom = atom(null, (_get, set) => {
   set(settingsAtom, defaultSettings);
 });
 

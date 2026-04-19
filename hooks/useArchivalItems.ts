@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ArchiveItemSummary } from '@/types';
 import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
 
 /**
  * TanStack Query v5 hook: fetches a list of archival items for carousels / grids.

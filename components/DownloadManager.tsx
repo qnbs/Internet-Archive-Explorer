@@ -1,15 +1,15 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import {
-  downloadQueueAtom,
-  downloadManagerOpenAtom,
-  removeDownloadAtom,
-  clearCompletedDownloadsAtom,
-  activeDownloadCountAtom,
-} from '@/store/downloads';
-import type { DownloadItem } from '@/store/downloads';
+import React from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { DownloadItem } from '@/store/downloads';
+import {
+  activeDownloadCountAtom,
+  clearCompletedDownloadsAtom,
+  downloadManagerOpenAtom,
+  downloadQueueAtom,
+  removeDownloadAtom,
+} from '@/store/downloads';
 
 const StatusIcon: React.FC<{ status: DownloadItem['status'] }> = ({ status }) => {
   if (status === 'done')

@@ -1,8 +1,8 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useHelpView, HelpViewContextType, HelpTopic, HelpQuestion } from '@/hooks/useHelpView';
+import React, { createContext, ReactNode, useContext } from 'react';
+import { HelpQuestion, HelpTopic, HelpViewContextType, useHelpView } from '@/hooks/useHelpView';
 
 // Re-export types for convenience
-export type { HelpTopic, HelpQuestion };
+export type { HelpQuestion, HelpTopic };
 
 const HelpViewContext = createContext<HelpViewContextType | null>(null);
 

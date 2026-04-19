@@ -1,10 +1,10 @@
 import React from 'react';
-import { ArchivalCarousel } from '@/components/ArchivalCarousel';
-import { useLanguage } from '@/hooks/useLanguage';
-import { MediaType, AIGenerationType } from '@/types';
-import { useArchivalItems } from '@/hooks/useArchivalItems';
-import { generateFilmDoubleFeatureConcept } from '@/services/geminiService';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
+import { ArchivalCarousel } from '@/components/ArchivalCarousel';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { useLanguage } from '@/hooks/useLanguage';
+import { generateFilmDoubleFeatureConcept } from '@/services/geminiService';
+import { AIGenerationType, MediaType } from '@/types';
 
 const getCollections = (t: (key: string) => string) => [
   {

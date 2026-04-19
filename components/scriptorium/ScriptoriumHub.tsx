@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { BookIcon, PlusIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 import type { Workset } from '@/types';
 import { WorksetListItem } from './WorksetListItem';
-import { useLanguage } from '@/hooks/useLanguage';
-import { PlusIcon, BookIcon } from '@/components/Icons';
 
 interface ScriptoriumHubProps {
   worksets: Workset[];
