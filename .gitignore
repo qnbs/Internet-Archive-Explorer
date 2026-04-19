@@ -4,3 +4,16 @@ dist/
 test-results/
 playwright-report/
 .env
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+*.local
+.vscode/settings.json
+.idea/
+
+# Coverage / reports
+coverage/
+
+# Playwright artifacts
+.playwright/
