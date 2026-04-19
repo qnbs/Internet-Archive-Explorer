@@ -1,0 +1,12 @@
+changelog:
+  exclude:
+    labels: [dependencies]
+  categories:
+    - title: "Breaking Changes"
+      labels: [breaking]
+    - title: "New Features"
+      labels: [enhancement]
+    - title: "Bug Fixes"
+      labels: [bug]
+    - title: "Maintenance"
+      labels: [chore, refactor, docs, ci]
