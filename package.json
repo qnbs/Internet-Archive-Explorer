@@ -18,6 +18,9 @@
     "audit:fix": "npm audit fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check:i18n": "node scripts/sync-locales.mjs --check",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "check:commit-msg": "node scripts/check-commit-msg.mjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
