@@ -30,13 +30,15 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 4173',
+    command: process.env.CI
+      ? 'npm run preview -- --host 127.0.0.1 --port 4173'
+      : 'npm run dev -- --host 127.0.0.1 --port 4173',
     url: baseURL,
     env: {
       ...process.env,
       VITE_BASE_PATH: normalizedBasePath,
     },
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
 });
