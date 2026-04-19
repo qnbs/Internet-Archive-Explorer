@@ -63,7 +63,9 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <button
             onClick={handlePlayPause}
-            aria-label={isCurrentTrack && isPlaying ? t('audiothek:player.pause') : t('audiothek:player.play')}
+            aria-label={
+              isCurrentTrack && isPlaying ? t('audiothek:player.pause') : t('audiothek:player.play')
+            }
             className="p-4 bg-black/50 rounded-full text-white hover:bg-cyan-500/80 hover:scale-110 transition-all"
           >
             {isCurrentTrack && isPlaying ? (
