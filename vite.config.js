@@ -18,6 +18,13 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: normalizedBasePath,
+    server: {
+      hmr: { overlay: false },
+      watch: { usePolling: false },
+    },
+    optimizeDeps: {
+      force: false,
+    },
     plugins: [
       react(),
       analyzer({

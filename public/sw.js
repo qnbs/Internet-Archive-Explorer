@@ -1,5 +1,5 @@
 // A robust, production-ready service worker for the PWA.
-const CACHE_NAME = 'internet-archive-explorer-v4'; // Bump version for updates
+const CACHE_NAME = 'internet-archive-explorer-v5';
 const API_HOSTNAME = 'archive.org';
 const IMAGE_HOSTNAMES = ['archive.org']; // Can add more if needed
 const NETWORK_TIMEOUT_MS = 15000;
@@ -9,15 +9,9 @@ const BASE_PATH = new URL(self.registration.scope).pathname;
 // App Shell: Critical assets that make the app run.
 const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`];
 
-// Third-party assets that are critical for the app to function.
+// Third-party assets pre-cached on install (Vite bundles all npm deps — only external CDN remains).
 const THIRD_PARTY_URLS = [
-  'https://cdn.tailwindcss.com?plugins=typography,aspect-ratio',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-  'https://aistudiocdn.com/@google/genai@^1.19.0',
-  'https://aistudiocdn.com/react@^19.1.1',
-  'https://aistudiocdn.com/jotai@^2.14.0',
-  'https://aistudiocdn.com/uuid@^13.0.0',
-  'https://aistudiocdn.com/react-dom@^19.1.1',
 ];
 
 const urlsToCache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
@@ -93,6 +87,12 @@ self.addEventListener('activate', (event) => {
       );
 
       await self.clients.claim();
+
+      // Notify all open windows that a new SW version is now active
+      const allClients = await self.clients.matchAll({ type: 'window' });
+      allClients.forEach((client) =>
+        client.postMessage({ type: 'SW_ACTIVATED', version: CACHE_NAME }),
+      );
     })(),
   );
 });
@@ -206,9 +206,26 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Listen for a message from the client to skip waiting and activate the new SW
+// Listen for messages from clients
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+
+  // Full app reset: clear all caches, unregister SW, then reply via MessageChannel port
+  if (event.data && event.data.type === 'RESET_APP') {
+    event.waitUntil(
+      caches
+        .keys()
+        .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+        .then(() => self.registration.unregister())
+        .then(() => {
+          // Reply on the transferred MessageChannel port (not event.source)
+          if (event.ports[0]) {
+            event.ports[0].postMessage({ type: 'RESET_APP_DONE' });
+          }
+        })
+        .catch((err) => console.error('[SW] RESET_APP failed:', err)),
+    );
   }
 });

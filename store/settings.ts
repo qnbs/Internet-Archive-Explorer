@@ -58,7 +58,7 @@ export const setSettingAtom = atom(
 );
 
 // Write-only atom to reset all settings
-export const resetSettingsAtom = atom(null, (get, set) => {
+export const resetSettingsAtom = atom(null, (_get, set) => {
   set(settingsAtom, defaultSettings);
 });
 

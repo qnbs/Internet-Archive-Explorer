@@ -14,6 +14,7 @@ jobs:
   build:
     name: Build and Artifact Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -51,14 +52,15 @@ jobs:
         run: pnpm run lint:ci
 
       - name: Check locale key completeness
-        run: node scripts/sync-locales.mjs --check
+        run: pnpm run check:i18n
 
       - name: Typecheck
-        run: npx tsc --noEmit
+        run: pnpm exec tsc --noEmit
 
-      - name: Build
+      - name: Build (with bundle analysis)
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          ANALYZE: 'true'
         run: pnpm run build
 
       - name: Verify expected build artifacts
@@ -75,12 +77,16 @@ jobs:
           set -euo pipefail
           BASE_PATH="/${{ github.event.repository.name }}/"
           grep -q "${BASE_PATH}assets/" dist/index.html
-          grep -q './sw-register.js' dist/index.html
+          grep -q 'sw-register.js' dist/index.html
+
+      - name: Check bundle size budgets
+        run: pnpm run check:bundle-size
 
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Run E2E smoke tests
         env:
+          CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm run test:e2e

@@ -89,7 +89,7 @@ export const SearchBar: React.FC = () => {
         value={inputValue}
         onChange={handleInputChange}
         placeholder={getPlaceholder()}
-        className="flex-grow bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none ml-2"
+        className="flex-grow min-w-0 bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none ml-2"
       />
 
       {inputValue && (

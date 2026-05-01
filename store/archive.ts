@@ -7,6 +7,6 @@ export const myArchiveProfileAtom = safeAtomWithStorage<Profile | null>(
   null,
 );
 
-export const disconnectMyArchiveAtom = atom(null, (get, set) => {
+export const disconnectMyArchiveAtom = atom(null, (_get, set) => {
   set(myArchiveProfileAtom, null);
 });

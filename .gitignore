@@ -4,3 +4,15 @@ dist/
 test-results/
 playwright-report/
 .env
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+*.local
+.idea/
+
+# Coverage / reports
+coverage/
+
+# Playwright artifacts
+.playwright/

@@ -110,7 +110,7 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({
   useEffect(() => {
     setSelectedIds(new Set());
     setSearchQuery('');
-  }, []);
+  }, [filter]);
 
   const searchedItems = useMemo(() => {
     if (!searchQuery) return items;

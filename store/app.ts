@@ -60,7 +60,7 @@ export const currentModalTypeAtom = atom((get) => get(modalAtom).type);
  */
 export const selectItemAtom = atom(
   null, // This is a write-only atom
-  (get, set, item: ArchiveItemSummary) => {
+  (_get, set, item: ArchiveItemSummary) => {
     switch (item.mediatype) {
       case 'image':
         set(modalAtom, { type: 'imageDetail', item });

@@ -119,7 +119,7 @@ export const removeFromPlaylistAtom = atom(null, (get, set, index: number) => {
   }
 });
 
-export const clearPlaylistAtom = atom(null, (get, set) => {
+export const clearPlaylistAtom = atom(null, (_get, set) => {
   set(playlistAtom, []);
   set(currentTrackIndexAtom, -1);
   set(isPlayingAtom, false);

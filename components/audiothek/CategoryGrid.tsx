@@ -41,7 +41,7 @@ export const CategoryGrid: React.FC = () => {
         <button
           key={cat.name}
           onClick={() => handleSearch(cat.query)}
-          className="bg-gray-800/60 p-6 rounded-xl text-center hover:bg-gray-700/80 hover:-translate-y-1 transition-all duration-300 group"
+          className="bg-gray-800 p-6 rounded-xl text-center hover:bg-gray-700 hover:-translate-y-1 transition-all duration-300 group"
         >
           <div className="text-cyan-400 mx-auto w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-cyan-500/20 transition-colors">
             {cat.icon}

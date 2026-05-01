@@ -33,7 +33,7 @@ export const addLibraryItemAtom = atom(null, (get, set, item: ArchiveItemSummary
   set(libraryItemsAtom, { ...currentItems, [item.identifier]: newItem });
 });
 
-export const removeLibraryItemAtom = atom(null, (get, set, identifier: string) => {
+export const removeLibraryItemAtom = atom(null, (_get, set, identifier: string) => {
   set(libraryItemsAtom, (items) => {
     const newItems = { ...items };
     delete newItems[identifier];
@@ -41,7 +41,7 @@ export const removeLibraryItemAtom = atom(null, (get, set, identifier: string) =
   });
 });
 
-export const removeLibraryItemsAtom = atom(null, (get, set, identifiers: string[]) => {
+export const removeLibraryItemsAtom = atom(null, (_get, set, identifiers: string[]) => {
   set(libraryItemsAtom, (items) => {
     const newItems = { ...items };
     for (const id of identifiers) {
@@ -53,7 +53,7 @@ export const removeLibraryItemsAtom = atom(null, (get, set, identifiers: string[
 
 export const updateLibraryItemNotesAtom = atom(
   null,
-  (get, set, { id, notes }: { id: string; notes: string }) => {
+  (_get, set, { id, notes }: { id: string; notes: string }) => {
     set(libraryItemsAtom, (items) => {
       if (items[id]) {
         return { ...items, [id]: { ...items[id], notes } };
@@ -65,7 +65,7 @@ export const updateLibraryItemNotesAtom = atom(
 
 export const updateLibraryItemTagsAtom = atom(
   null,
-  (get, set, { id, tags }: { id: string; tags: string[] }) => {
+  (_get, set, { id, tags }: { id: string; tags: string[] }) => {
     set(libraryItemsAtom, (items) => {
       if (items[id]) {
         return { ...items, [id]: { ...items[id], tags } };
@@ -89,7 +89,7 @@ export const addUploaderFavoriteAtom = atom(null, (get, set, identifier: string)
   set(uploaderFavoritesAtom, [identifier, ...current]);
 });
 
-export const removeUploaderFavoriteAtom = atom(null, (get, set, identifier: string) => {
+export const removeUploaderFavoriteAtom = atom(null, (_get, set, identifier: string) => {
   set(uploaderFavoritesAtom, (favs) => favs.filter((id) => id !== identifier));
 });
 
@@ -99,19 +99,19 @@ export const userCollectionsAtom = safeAtomWithStorage<UserCollection[]>(
   [],
 );
 
-export const createCollectionAtom = atom(null, (get, set, name: string): UserCollection => {
+export const createCollectionAtom = atom(null, (_get, set, name: string): UserCollection => {
   const newCollection: UserCollection = { id: uuidv4(), name, itemIdentifiers: [] };
   set(userCollectionsAtom, (collections) => [...collections, newCollection]);
   return newCollection;
 });
 
-export const deleteCollectionAtom = atom(null, (get, set, id: string) => {
+export const deleteCollectionAtom = atom(null, (_get, set, id: string) => {
   set(userCollectionsAtom, (collections) => collections.filter((c) => c.id !== id));
 });
 
 export const updateCollectionNameAtom = atom(
   null,
-  (get, set, { id, newName }: { id: string; newName: string }) => {
+  (_get, set, { id, newName }: { id: string; newName: string }) => {
     set(userCollectionsAtom, (collections) =>
       collections.map((c) => (c.id === id ? { ...c, name: newName } : c)),
     );
@@ -120,7 +120,7 @@ export const updateCollectionNameAtom = atom(
 
 export const addItemsToCollectionAtom = atom(
   null,
-  (get, set, { collectionId, itemIds }: { collectionId: string; itemIds: string[] }) => {
+  (_get, set, { collectionId, itemIds }: { collectionId: string; itemIds: string[] }) => {
     set(userCollectionsAtom, (collections) =>
       collections.map((c) => {
         if (c.id === collectionId) {
@@ -145,7 +145,7 @@ export const allTagsAtom = atom((get) => {
 
 export const addTagsToItemsAtom = atom(
   null,
-  (get, set, { itemIds, tags }: { itemIds: string[]; tags: string[] }) => {
+  (_get, set, { itemIds, tags }: { itemIds: string[]; tags: string[] }) => {
     const idSet = new Set(itemIds);
     set(libraryItemsAtom, (items) => {
       const newItems = { ...items };
@@ -196,7 +196,7 @@ export const libraryCountsAtom = atom((get) => {
 });
 
 // --- Global Library Actions ---
-export const clearLibraryAtom = atom(null, (get, set) => {
+export const clearLibraryAtom = atom(null, (_get, set) => {
   set(libraryItemsAtom, {});
   set(userCollectionsAtom, []);
   set(uploaderFavoritesAtom, []);

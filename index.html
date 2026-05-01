@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="de" class="dark">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://accounts.google.com; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://archive.org https://web.archive.org https://generativelanguage.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://aistudiocdn.com ws: wss:; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' https: blob:; upgrade-insecure-requests"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://archive.org; form-action 'self' https://accounts.google.com; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://archive.org https://web.archive.org https://generativelanguage.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://aistudiocdn.com ws: wss:; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' https: blob:; upgrade-insecure-requests"
     />
     <title>Internet Archive Explorer</title>
 
@@ -25,6 +25,7 @@
     />
     <meta property="og:url" content="." />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://qnbs.github.io/Internet-Archive-Explorer/" />
 
     <!-- PWA & Mobile -->
     <link
@@ -55,9 +56,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Dependencies -->
-    <script type="importmap" src="./importmap.json"></script>
 
     <!-- App Styles (built by Vite + Tailwind PostCSS) -->
     <style>
@@ -128,6 +126,6 @@
       <div id="app-loader"><div class="spinner"></div></div>
     </div>
     <script type="module" src="./index.tsx"></script>
-    <script src="./sw-register.js"></script>
+    <script type="module" src="/sw-register.js"></script>
   </body>
 </html>

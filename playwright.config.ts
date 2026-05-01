@@ -31,15 +31,16 @@ export default defineConfig({
     },
   ],
   webServer: {
-    // `vite` direkt: schneller und zuverlässiger als `pnpm run dev` im Playwright-Subprozess
-    command: 'pnpm exec vite --host 127.0.0.1 --port 4173',
+    command: process.env.CI
+      ? 'pnpm exec vite preview --host 127.0.0.1 --port 4173'
+      : 'pnpm exec vite --host 127.0.0.1 --port 4173',
     url: baseURL,
     env: {
       ...process.env,
       VITE_BASE_PATH: normalizedBasePath,
     },
-    /** Lokales Debugging: laufender Dev-Server → `PW_REUSE=1 pnpm run test:e2e` */
-    reuseExistingServer: process.env.PW_REUSE === '1',
+    /** CI: neuer Server. Lokal: bestehenden Dev-Server auf :4173 wiederverwenden (`PW_REUSE=0` erzwingt Neustart). */
+    reuseExistingServer: process.env.CI ? false : process.env.PW_REUSE !== '0',
     timeout: 120_000,
   },
 });

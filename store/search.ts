@@ -30,6 +30,6 @@ export const addSearchHistoryAtom = atom(null, (get, set, query: string) => {
   set(searchHistoryAtom, newHistory);
 });
 
-export const clearSearchHistoryAtom = atom(null, (get, set) => {
+export const clearSearchHistoryAtom = atom(null, (_get, set) => {
   set(searchHistoryAtom, []);
 });

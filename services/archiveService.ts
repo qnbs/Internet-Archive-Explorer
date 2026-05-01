@@ -163,7 +163,9 @@ export const searchArchive = async (
   }
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  return fetchValidated(url, 'search results', archiveSearchResponseSchema);
+  const data = await fetchValidated(url, 'search results', archiveSearchResponseSchema);
+  // Zod infers string unions for mediatype; runtime values match `MediaType` / `ArchiveItemSummary`.
+  return data as ArchiveSearchResponse;
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {

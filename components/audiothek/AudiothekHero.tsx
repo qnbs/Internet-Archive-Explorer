@@ -24,7 +24,7 @@ export const AudiothekHero: React.FC = () => {
         <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-300">{t('audiothek:description')}</p>
         <button
           onClick={handleExplore}
-          className="mt-6 px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-full shadow-lg transition-transform hover:scale-105"
+          className="mt-6 px-8 py-3 bg-cyan-700 hover:bg-cyan-600 text-white font-bold rounded-full shadow-lg transition-transform hover:scale-105"
         >
           {t('audiothek:heroButton')}
         </button>

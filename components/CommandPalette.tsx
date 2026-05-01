@@ -190,7 +190,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
                 />
               </svg>
               <Command.Input
-                autoFocus
+                autoFocus={window.matchMedia('(hover: hover) and (pointer: fine)').matches}
                 placeholder={t('commandPalette:placeholder')}
                 className="w-full bg-transparent text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none text-base"
               />

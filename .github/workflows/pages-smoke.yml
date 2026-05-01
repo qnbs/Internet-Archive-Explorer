@@ -31,15 +31,15 @@ jobs:
           set -euo pipefail
 
           for attempt in {1..20}; do
-            http_code=$(curl -sS -o /tmp/index.html -w '%{http_code}' -H 'Cache-Control: no-cache' "$APP_URL")
+            http_code=$(curl -sS --compressed -o /tmp/index.html -w '%{http_code}' -H 'Cache-Control: no-cache' "$APP_URL")
 
-            if [[ "$http_code" == "200" ]] && grep -qi '<html' /tmp/index.html; then
-              echo "Pages is reachable (attempt: $attempt)"
+            if [[ "$http_code" == "200" ]] && grep -qi '<html' /tmp/index.html && grep -q 'assets/index-' /tmp/index.html; then
+              echo "Pages is reachable with fresh content (attempt: $attempt)"
               break
             fi
 
             if [[ "$attempt" -eq 20 ]]; then
-              echo "Pages did not become ready in time (last code: $http_code)"
+              echo "Pages did not serve fresh content in time (last code: $http_code)"
               exit 1
             fi
 
@@ -59,11 +59,12 @@ jobs:
         run: |
           set -euo pipefail
 
-          js_path=$(grep -oE '(/[^" ]*assets/index-[^" ]+\.js|\\./assets/index-[^" ]+\.js)' /tmp/index.html | head -n 1)
-          manifest_path=$(grep -oE '(/[^" ]*assets/manifest-[^" ]+\.json|\\./assets/manifest-[^" ]+\.json)' /tmp/index.html | head -n 1)
+          js_path=$(grep -oE '(/[^" ]*assets/index-[^" ]+\.js|./assets/index-[^" ]+\.js)' /tmp/index.html | head -n 1 || true)
+          manifest_path=$(grep -oE '(/[^" ]*assets/manifest-[^" ]+\.json|./assets/manifest-[^" ]+\.json)' /tmp/index.html | head -n 1 || true)
 
           if [[ -z "$js_path" ]]; then
             echo "Could not find main JS bundle path in live HTML"
+            cat /tmp/index.html | head -20
             exit 1
           fi
 
@@ -72,7 +73,7 @@ jobs:
             exit 1
           fi
 
-          grep -Eq '(\\./sw-register\\.js|/sw-register\\.js)' /tmp/index.html
+          grep -q 'sw-register.js' /tmp/index.html
 
           if [[ "$js_path" == ./* ]]; then
             js_url="${APP_URL}${js_path#./}"

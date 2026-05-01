@@ -4,7 +4,7 @@ Thank you for helping improve this project. This document describes how we work 
 
 ## Prerequisites
 
-- **Node.js 20+** with **Corepack** enabled (`corepack enable`) so the pinned **pnpm** version from `package.json` (`packageManager`) is used.
+- **Node.js 22+** with **Corepack** enabled (`corepack enable`) so the pinned **pnpm** version from `package.json` (`packageManager`) is used.
 - Install dependencies:
 
 ```bash
@@ -69,7 +69,14 @@ pnpm run build
 pnpm run test:e2e
 ```
 
-E2E tests expect Playwright browsers; see `README.md` for smoke-test commands.
+E2E tests expect Playwright browsers; install with `pnpm exec playwright install --with-deps chromium` if needed.
+
+### Before every commit (full gate)
+
+```bash
+pnpm run check
+pnpm run check:i18n
+```
 
 ## Security
 
@@ -79,9 +86,44 @@ pnpm audit --audit-level=moderate
 
 CI runs the same audit level; moderate or higher issues fail the pipeline.
 
+## Commit format
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+type(scope): short description
+```
+
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`, `build`, `revert`
+
+Optional: install the commit-msg hook:
+
+```bash
+cp scripts/check-commit-msg.mjs .git/hooks/commit-msg
+chmod +x .git/hooks/commit-msg
+```
+
+## Bundle size
+
+```bash
+pnpm run build:analyze
+pnpm run check:bundle-size
+```
+
+If a budget is exceeded, update `.github/bundle-budgets.json` only after intentional additions (not regressions).
+
 ## Pull requests
 
 - Keep commits focused; match existing **Biome** formatting and **accessibility** patterns.
+- Branch off `main`, open a PR — CI must be green before merging.
 - Update docs if you change tooling or scripts.
+
+## Security issues
+
+See [SECURITY.md](.github/SECURITY.md) — please use GitHub's private advisory system, not public issues.
+
+## Branch protection
+
+See [docs/branch-protection.md](docs/branch-protection.md) for recommended GitHub settings.
 
 Thank you.
