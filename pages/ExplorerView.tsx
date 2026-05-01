@@ -117,7 +117,7 @@ const TrendingItems: React.FC = () => {
     }
     return (
       <div className="text-center space-y-3 pt-4">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-700 dark:text-gray-400">
           {t('explorer:generateInsightPrompt')}
         </p>
         <button
@@ -133,7 +133,12 @@ const TrendingItems: React.FC = () => {
   };
 
   return (
-    <section className="animate-fade-in" role="region" aria-label={t('explorer:trending')}>
+    <section
+      className="animate-fade-in"
+      role="region"
+      aria-label={t('explorer:trending')}
+      aria-busy={isLoading || isGeneratingInsight}
+    >
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
           <TrendingIcon className="mr-3 text-accent-600 dark:text-accent-400" />
@@ -152,7 +157,11 @@ const TrendingItems: React.FC = () => {
             hideTitle={true}
           />
         </div>
-        <div className="lg:col-span-1 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50">
+        <div
+          className="lg:col-span-1 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50"
+          aria-live="polite"
+          aria-busy={isGeneratingInsight}
+        >
           <h3 className="font-bold text-lg text-gray-900 dark:text-white flex items-center mb-3">
             <SparklesIcon className="w-5 h-5 mr-2 text-accent-500" />
             {t('explorer:dailyInsight')}
@@ -166,6 +175,7 @@ const TrendingItems: React.FC = () => {
 
 const ExplorerView: React.FC = () => {
   const [searchQuery] = useAtom(searchQueryAtom);
+  const { t } = useLanguage();
   const {
     results,
     isLoading,
@@ -198,19 +208,18 @@ const ExplorerView: React.FC = () => {
   }
 
   return (
-    <div role="region" aria-label="Search Results">
-      <ResultsGrid
-        results={results}
-        isLoading={isLoading}
-        isLoadingMore={isLoadingMore}
-        error={error}
-        hasMore={hasMore}
-        totalResults={totalResults}
-        lastElementRef={lastElementRef}
-        onRetry={handleRetry}
-        searchQuery={searchQuery}
-      />
-    </div>
+    <ResultsGrid
+      ariaLabel={t('common:searchResultsRegion')}
+      results={results}
+      isLoading={isLoading}
+      isLoadingMore={isLoadingMore}
+      error={error}
+      hasMore={hasMore}
+      totalResults={totalResults}
+      lastElementRef={lastElementRef}
+      onRetry={handleRetry}
+      searchQuery={searchQuery}
+    />
   );
 };
 

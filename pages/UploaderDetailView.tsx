@@ -10,6 +10,7 @@ import { UploaderPostsTab } from '@/components/uploader/UploaderPostsTab';
 import { UploaderReviewsTab } from '@/components/uploader/UploaderReviewsTab';
 import { UploaderSidebar } from '@/components/uploader/UploaderSidebar';
 import { UploaderWebArchiveTab } from '@/components/uploader/UploaderWebArchiveTab';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useUploaderStats } from '@/hooks/useUploaderStats';
 import { useUploaderTabCounts } from '@/hooks/useUploaderTabCounts';
 import { useUploaderUploads } from '@/hooks/useUploaderUploads';
@@ -30,6 +31,7 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({
   returnView,
   isMyArchiveView,
 }) => {
+  const { t } = useLanguage();
   const defaultTab = useAtomValue(defaultUploaderDetailTabAtom);
   const profileSearchQuery = useAtomValue(profileSearchQueryAtom);
   const { stats, isLoading: isLoadingStats } = useUploaderStats(profile);
@@ -82,6 +84,7 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({
         return (
           <div className={tabContentWrapperClass}>
             <ResultsGrid
+              ariaLabel={t('common:searchResultsRegion')}
               results={results}
               isLoading={isLoadingUploads}
               isLoadingMore={isLoadingMore}

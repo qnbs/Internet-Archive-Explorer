@@ -72,6 +72,7 @@ export const UploaderPostsTab: React.FC<UploaderPostsTabProps> = ({ profile }) =
   return (
     <div className="animate-fade-in">
       <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
         results={items}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}

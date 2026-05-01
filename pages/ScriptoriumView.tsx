@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/Spinner';
 import { ScriptoriumHub } from '@/components/scriptorium/ScriptoriumHub';
 import { WorkspacePanel } from '@/components/scriptorium/WorkspacePanel';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useWorksets } from '@/hooks/useWorksets';
 import { selectedDocumentIdAtom, selectedWorksetIdAtom } from '@/store/scriptorium';
 import type { ConfirmationOptions, Workset } from '@/types';
@@ -12,6 +13,7 @@ interface ScriptoriumViewProps {
 }
 
 const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) => {
+  const { t } = useLanguage();
   const { worksets, isLoading, ...worksetsApi } = useWorksets();
   const [selectedWorksetId, setSelectedWorksetId] = useAtom(selectedWorksetIdAtom);
   const [selectedDocumentId, setSelectedDocumentId] = useAtom(selectedDocumentIdAtom);
@@ -58,8 +60,14 @@ const ScriptoriumView: React.FC<ScriptoriumViewProps> = ({ showConfirmation }) =
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div
+        className="flex justify-center items-center h-full"
+        role="status"
+        aria-live="polite"
+        aria-busy="true"
+      >
         <Spinner size="lg" />
+        <span className="sr-only">{t('common:loading')}</span>
       </div>
     );
   }

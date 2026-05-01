@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 import { AppearanceManager } from './components/AppearanceManager';
 import AudioPlayer from './components/audiothek/AudioPlayer';
 import { BottomNav } from './components/BottomNav';
@@ -49,11 +50,20 @@ const MyArchiveView = lazy(() => import('./pages/MyArchiveView'));
 const AIArchiveView = lazy(() => import('./pages/AIArchiveView'));
 const WebArchiveView = lazy(() => import('./pages/WebArchiveView'));
 
-const PageSpinner: React.FC = () => (
-  <div className="flex justify-center items-center h-full pt-20">
-    <Spinner size="lg" />
-  </div>
-);
+const PageSpinner: React.FC = () => {
+  const { t } = useLanguage();
+  return (
+    <div
+      className="flex justify-center items-center h-full pt-20"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <span className="sr-only">{t('common:loading')}</span>
+      <Spinner size="lg" />
+    </div>
+  );
+};
 
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {

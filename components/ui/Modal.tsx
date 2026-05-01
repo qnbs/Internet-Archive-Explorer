@@ -199,13 +199,14 @@ export const Modal: React.FC<ModalProps> = ({
                 </div>
 
                 <motion.button
+                  type="button"
                   onClick={onClose}
                   className={[
-                    'shrink-0 mt-0.5 rounded-lg p-1.5',
+                    'shrink-0 mt-0.5 rounded-lg touch-target-min inline-flex items-center justify-center p-2',
                     'text-gray-400 hover:text-gray-900 dark:hover:text-white',
                     'hover:bg-white/20 dark:hover:bg-white/10',
                     'transition-colors duration-150',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ia-400',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ia-400 ia-focus-visible-enhanced',
                   ].join(' ')}
                   whileTap={{ scale: 0.9 }}
                   aria-label="Close modal"

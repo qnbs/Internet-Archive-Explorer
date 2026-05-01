@@ -199,7 +199,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
               </kbd>
             </div>
 
-            <Command.List className="max-h-[60vh] overflow-y-auto p-2 overscroll-contain">
+            <Command.List
+              className="max-h-[60vh] overflow-y-auto p-2 overscroll-contain"
+              aria-live="polite"
+            >
               <Command.Empty className="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
                 {t('commandPalette:noResults') || t('common:noResultsFound')}
               </Command.Empty>

@@ -1,6 +1,9 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+/** WCAG 2.0 / 2.1 / 2.2 — axe tags must all be listed (tags do not cascade across WCAG versions). */
+const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+
 // Pages to audit – each entry is [label, URL-suffix]
 const PAGES: [string, string][] = [
   ['Explore / Home', './'],
@@ -13,20 +16,16 @@ const PAGES: [string, string][] = [
 ];
 
 for (const [label, url] of PAGES) {
-  test(`a11y: ${label} – keine kritischen Verstöße (WCAG 2.1 AA)`, async ({ page }) => {
+  test(`a11y: ${label} – keine kritischen Verstöße (WCAG 2.2 AA / axe)`, async ({ page }) => {
     await page.goto(url);
-    // Wait for the main content to settle
     await page.waitForSelector('#main-content', { timeout: 15_000 });
-    // Brief pause for async renders / fonts
     await page.waitForTimeout(500);
 
     const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-      // Exclude third-party iframes (e.g. archive.org embeds) and known transient elements
+      .withTags(WCAG_AA_TAGS)
       .exclude(['iframe[src*="archive.org"]'])
       .analyze();
 
-    // Gather only serious & critical violations
     const critical = results.violations.filter((v) =>
       ['critical', 'serious'].includes(v.impact ?? ''),
     );
@@ -42,7 +41,6 @@ for (const [label, url] of PAGES) {
               .join('\n'),
         )
         .join('\n\n');
-      // Fail with readable output
       expect(critical, `Accessibility violations on "${label}":\n\n${details}`).toHaveLength(0);
     }
   });
@@ -50,7 +48,6 @@ for (const [label, url] of PAGES) {
 
 test('a11y: Skip-Link ist sichtbar bei Fokus', async ({ page }) => {
   await page.goto('./');
-  // Tab once to focus the skip-link
   await page.keyboard.press('Tab');
   const skipLink = page.locator('a[href="#main-content"]');
   await expect(skipLink).toBeVisible();
@@ -61,11 +58,63 @@ test('a11y: Modaler Fokus-Trap – Fokus kehrt nach Schließen zurück', async (
   await page.goto('./');
   await page.waitForSelector('#main-content');
 
-  // Navigate to Settings via keyboard so the button retains focus reference
   const settingsBtn = page.getByRole('button', { name: /Einstellungen|Settings/i }).first();
   await settingsBtn.focus();
   await settingsBtn.click();
 
-  // Confirm Settings heading is visible (page switch, not modal – focus trap test is a unit concern)
   await expect(page.getByRole('heading', { name: /Einstellungen|Settings/i })).toBeVisible();
+});
+
+test('a11y: forced-colors — keine kritischen axe-Verstöße (WCAG 2.2 Tags)', async ({ page }) => {
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.goto('./');
+  await page.waitForSelector('#main-content', { timeout: 15_000 });
+  await page.waitForTimeout(500);
+
+  const results = await new AxeBuilder({ page })
+    .withTags(WCAG_AA_TAGS)
+    .exclude(['iframe[src*="archive.org"]'])
+    .analyze();
+
+  const critical = results.violations.filter((v) =>
+    ['critical', 'serious'].includes(v.impact ?? ''),
+  );
+
+  expect(critical, JSON.stringify(critical, null, 2)).toHaveLength(0);
+});
+
+test('a11y: Mindest-Zielgröße 24×24 px für sichtbare Bedienelemente im Hauptbereich', async ({
+  page,
+}) => {
+  await page.goto('./');
+  await page.waitForSelector('#main-content', { timeout: 15_000 });
+  await page.waitForTimeout(300);
+
+  const undersized = await page.evaluate(() => {
+    const selectors =
+      '#main-content button, #main-content a[href], #main-content [role="button"]:not([aria-hidden="true"])';
+    const nodes = Array.from(document.querySelectorAll(selectors));
+    const bad: string[] = [];
+
+    for (const el of nodes) {
+      if (!(el instanceof HTMLElement)) continue;
+      if (el.closest('.sr-only')) continue;
+
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0')
+        continue;
+
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) continue;
+
+      if (r.width < 24 || r.height < 24) {
+        bad.push(
+          `${el.tagName}${el.className ? `.${String(el.className).split(/\s+/).slice(0, 3).join('.')}` : ''} ${Math.round(r.width)}×${Math.round(r.height)}`,
+        );
+      }
+    }
+    return bad;
+  });
+
+  expect(undersized, undersized.join('\n')).toEqual([]);
 });

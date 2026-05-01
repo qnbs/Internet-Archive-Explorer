@@ -102,9 +102,12 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(
           ? 'card-vhs cursor-pointer group relative overflow-hidden'
           : 'card-classic cursor-pointer group relative overflow-hidden';
 
+    const focusRingRadius =
+      variant === 'polaroid' ? 'rounded-sm' : variant === 'vhs' ? 'rounded-none' : 'rounded-xl';
+
     return (
       <motion.article
-        className={wrapperClass}
+        className={`${wrapperClass} ${focusRingRadius} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 sepia:focus-visible:ring-offset-sepia-50 ia-focus-visible-enhanced`}
         variants={cardVariants}
         initial="hidden"
         animate="visible"
@@ -117,8 +120,9 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(
         aria-label={t('itemCard:viewDetails', { title: item.title })}
       >
         <button
+          type="button"
           onClick={handleFavoriteClick}
-          className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors"
+          className="absolute top-2 right-2 z-10 touch-target-min inline-flex items-center justify-center p-2 bg-black/50 rounded-full text-white hover:text-yellow-400 transition-colors focus-visible:ring-2 focus-visible:ring-yellow-300 ia-focus-visible-enhanced"
           aria-label={isFavorite ? t('itemCard:removeFavorite') : t('itemCard:addFavorite')}
         >
           <StarIcon className="w-5 h-5" filled={isFavorite} />

@@ -15,6 +15,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ## Unreleased
 
+- ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - 🧹 Biome: Konfiguration erweitert (Ignores, Test-Override, CI `biome ci`), verbleibende Hook-Warnungen behoben
 - 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
@@ -62,16 +63,10 @@ No critical/blocking issues were identified. The application builds cleanly, has
   - `services/archiveService.ts` — retry/backoff logic
 - **Effort:** Medium (2-3 days for core coverage)
 
-#### H2: WCAG 2.2 AA Gap
+#### H2: WCAG 2.2 AA Gap — addressed
 
-- **Impact:** Accessibility tests check WCAG 2.1 AA. README targets 2.2 AA.
-- **Missing for 2.2:**
-  - `focus-visible` enhanced styling
-  - Minimum target size (24×24 CSS pixels) on interactive elements
-  - `aria-busy` on async-loading regions
-  - ARIA live regions for instant search results
-- **Files:** `tests/e2e/a11y.spec.ts`, various components
-- **Effort:** Medium (2-3 days)
+- **Was:** `index.css` (forced-colors, touch-target utilities, link focus-visible), design-system controls (`Button`, `Modal`, `ItemCard`, Karussell), Live-Region + `aria-busy` für Suche/Trending/Command Palette/Scriptorium/Lazy-Views; axe E2E mit `wcag22aa` + forced-colors + Zielgrößen-Stichprobe.
+- **Follow-up:** Manuelle Prüfung komplexer Pfade (alle Modals, jedes Hub-Template) bleibt empfehlenswert.
 
 #### H3: API Response Validation — addressed
 

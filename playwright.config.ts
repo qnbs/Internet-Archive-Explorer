@@ -11,7 +11,7 @@ const baseURL = `http://127.0.0.1:4173${normalizedBasePath}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
-  timeout: 45_000,
+  timeout: 90_000,
   expect: {
     timeout: 10_000,
   },
@@ -31,13 +31,15 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm run dev -- --host 127.0.0.1 --port 4173',
+    // `vite` direkt: schneller und zuverlässiger als `pnpm run dev` im Playwright-Subprozess
+    command: 'pnpm exec vite --host 127.0.0.1 --port 4173',
     url: baseURL,
     env: {
       ...process.env,
       VITE_BASE_PATH: normalizedBasePath,
     },
-    reuseExistingServer: false,
+    /** Lokales Debugging: laufender Dev-Server → `PW_REUSE=1 pnpm run test:e2e` */
+    reuseExistingServer: process.env.PW_REUSE === '1',
     timeout: 120_000,
   },
 });

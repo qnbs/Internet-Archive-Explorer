@@ -15,6 +15,7 @@ Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwart
 | **Security** | `postinstall`: `pnpm audit --audit-level=moderate \|\| true` (warnt lokal); CI: `pnpm audit --audit-level=moderate` + dedizierter **pnpm store**-Cache (`actions/cache`); moderate+ schlägt fehl — siehe CHANGELOG |
 | **Graphify** | Wenn `graphify-out/` vorhanden: vor Architekturfragen `GRAPH_REPORT.md` / Wiki lesen; nach Codeänderungen **`graphify update .`** (AST, ohne API-Kosten), sofern das Projekt graphify nutzt |
 | **Runtime-Validation** | **`types/archiveSchemas.ts`** — Zod für Internet-Archive- und Gemini-JSON; Services parsen mit `.safeParse()` / Retry (Archive); Fehler-Keys unter `common:serviceErrors.*` |
+| **Accessibility (WCAG 2.2 AA)** | **`index.css`** — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async Bereiche mit `aria-busy` / `aria-live`; **E2E** `tests/e2e/a11y.spec.ts` inkl. `wcag22aa` |
 
 ### Wichtige Befehle
 

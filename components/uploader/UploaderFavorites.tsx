@@ -84,6 +84,7 @@ export const UploaderFavorites: React.FC<UploaderFavoritesProps> = ({ profile })
   return (
     <div className="animate-fade-in">
       <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
         results={favorites}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}

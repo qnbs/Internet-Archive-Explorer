@@ -1,12 +1,12 @@
 # Graph Report - Internet-Archive-Explorer  (2026-05-01)
 
 ## Corpus Check
-- 197 files · ~77,210 words
+- 197 files · ~75,678 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 455 nodes · 396 edges · 15 communities detected
-- Extraction: 79% EXTRACTED · 21% INFERRED · 0% AMBIGUOUS · INFERRED: 84 edges (avg confidence: 0.8)
+- 456 nodes · 396 edges · 15 communities detected
+- Extraction: 79% EXTRACTED · 21% INFERRED · 0% AMBIGUOUS · INFERRED: 83 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -20,14 +20,14 @@
 - [[_COMMUNITY_Community 7|Community 7]]
 - [[_COMMUNITY_Community 8|Community 8]]
 - [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 32|Community 32]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `useLanguage()` - 23 edges
+1. `useLanguage()` - 25 edges
 2. `error()` - 12 edges
 3. `generateContentHelper()` - 11 edges
 4. `generateContent()` - 10 edges
@@ -53,8 +53,8 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.04
-Nodes (26): AILoadingIndicator(), getMessageKeys(), EntitySection(), ArchivalCarousel(), BookReaderModal(), CategoryGrid(), CollectionCarousel(), ConfirmationModal() (+18 more)
+Cohesion: 0.05
+Nodes (23): AILoadingIndicator(), getMessageKeys(), ArchivalCarousel(), BookReaderModal(), CollectionCarousel(), ConfirmationModal(), EmulatorModal(), BulkActionsToolbar() (+15 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.11
@@ -77,66 +77,64 @@ Cohesion: 0.12
 Nodes (9): handleError(), exportAllData(), importData(), componentDidCatch(), error(), fetchGameList(), getApiKey(), handleFindGames() (+1 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.14
-Nodes (7): AppContent(), ToastBridge(), handleFullscreen(), catch(), SettingRow(), useToast(), useNavigation()
+Cohesion: 0.2
+Nodes (4): EntitySection(), CategoryGrid(), OnThisDay(), useSearchAndGo()
 
 ### Community 7 - "Community 7"
+Cohesion: 0.25
+Nodes (4): handleFullscreen(), catch(), SettingRow(), useToast()
+
+### Community 8 - "Community 8"
 Cohesion: 0.57
 Nodes (7): clearStoredOAuthToken(), getLocalStorage(), getSessionStorage(), getStoredOAuthTokenMeta(), getValidAccessToken(), isValid(), setStoredOAuthToken()
 
-### Community 8 - "Community 8"
+### Community 10 - "Community 10"
 Cohesion: 0.47
 Nodes (3): closeModal(), handleCreatorSelect(), handleUploaderSelect()
 
-### Community 10 - "Community 10"
+### Community 12 - "Community 12"
 Cohesion: 0.5
 Nodes (2): base64UrlEncode(), createCodeChallenge()
 
-### Community 11 - "Community 11"
+### Community 13 - "Community 13"
 Cohesion: 0.5
 Nodes (2): getMediaTypeIconPath(), handleImageError()
 
-### Community 14 - "Community 14"
+### Community 15 - "Community 15"
 Cohesion: 0.67
 Nodes (2): isImageRequest(), timeoutFetch()
 
-### Community 16 - "Community 16"
-Cohesion: 0.5
-Nodes (2): ScriptoriumView(), useWorksets()
-
-### Community 17 - "Community 17"
+### Community 18 - "Community 18"
 Cohesion: 0.5
 Nodes (2): HelpSearchBar(), useHelpViewContext()
 
-### Community 31 - "Community 31"
+### Community 32 - "Community 32"
 Cohesion: 1.0
 Nodes (2): handleDismiss(), handleInstall()
 
 ## Knowledge Gaps
-- **Thin community `Community 10`** (5 nodes): `useGeminiAuth.ts`, `base64UrlEncode()`, `createCodeChallenge()`, `createCodeVerifier()`, `useGeminiAuth()`
+- **Thin community `Community 12`** (5 nodes): `useGeminiAuth.ts`, `base64UrlEncode()`, `createCodeChallenge()`, `createCodeVerifier()`, `useGeminiAuth()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 11`** (5 nodes): `ItemCard.tsx`, `getCreator()`, `getMediaTypeIconPath()`, `handleFavoriteClick()`, `handleImageError()`
+- **Thin community `Community 13`** (5 nodes): `ItemCard.tsx`, `getCreator()`, `getMediaTypeIconPath()`, `handleFavoriteClick()`, `handleImageError()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (4 nodes): `sw.js`, `isImageRequest()`, `sw.js`, `timeoutFetch()`
+- **Thin community `Community 15`** (4 nodes): `sw.js`, `isImageRequest()`, `sw.js`, `timeoutFetch()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 16`** (4 nodes): `useWorksets.ts`, `ScriptoriumView.tsx`, `ScriptoriumView()`, `useWorksets()`
+- **Thin community `Community 18`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 17`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (3 nodes): `InstallBanner.tsx`, `handleDismiss()`, `handleInstall()`
+- **Thin community `Community 32`** (3 nodes): `InstallBanner.tsx`, `handleDismiss()`, `handleInstall()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 6`?**
+- **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 6`, `Community 7`?**
   _High betweenness centrality (0.111) - this node is a cross-community bridge._
-- **Why does `error()` connect `Community 5` to `Community 1`, `Community 4`, `Community 6`?**
-  _High betweenness centrality (0.103) - this node is a cross-community bridge._
-- **Why does `SettingRow()` connect `Community 6` to `Community 0`?**
-  _High betweenness centrality (0.096) - this node is a cross-community bridge._
-- **Are the 22 inferred relationships involving `useLanguage()` (e.g. with `SettingRow()` and `useExplorerSearch()`) actually correct?**
-  _`useLanguage()` has 22 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `error()` connect `Community 5` to `Community 1`, `Community 4`, `Community 7`?**
+  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+- **Why does `SettingRow()` connect `Community 7` to `Community 0`?**
+  _High betweenness centrality (0.087) - this node is a cross-community bridge._
+- **Are the 24 inferred relationships involving `useLanguage()` (e.g. with `UploaderDetailView()` and `SettingRow()`) actually correct?**
+  _`useLanguage()` has 24 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 11 inferred relationships involving `error()` (e.g. with `fetchHeroImages()` and `fetchData()`) actually correct?**
   _`error()` has 11 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `generateContent()` (e.g. with `handleFindGames()` and `getValidAccessToken()`) actually correct?**

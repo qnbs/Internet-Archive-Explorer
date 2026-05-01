@@ -91,8 +91,9 @@ const LibraryView: React.FC = () => {
         <div className="flex justify-between items-center mb-4 md:hidden">
           <h1 className="text-2xl font-bold text-white">{t('sideMenu:library')}</h1>
           <button
+            type="button"
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 -mr-2 text-gray-300 bg-gray-800/60 rounded-lg hover:bg-gray-700"
+            className="touch-target-min inline-flex items-center justify-center p-2 -mr-2 text-gray-300 bg-gray-800/60 rounded-lg hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 ia-focus-visible-enhanced"
           >
             <FilterIcon className="w-5 h-5" />
           </button>

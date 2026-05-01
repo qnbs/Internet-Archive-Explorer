@@ -65,6 +65,22 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover-color, #0891b2);
   }
+
+  /*
+   * WCAG 2.2 AA — baseline focus-visible for links & disclosure widgets.
+   * Buttons / design-system controls keep Tailwind ring-* in components.
+   */
+  a:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-accent-500, #06b6d4);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a:focus:not(:focus-visible),
+  summary:focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 @layer utilities {
@@ -198,6 +214,21 @@
   .animate-slide-up {
     animation: slideUp 0.3s ease-out forwards;
   }
+
+  /** WCAG 2.2 AA — minimum pointer target 24×24 CSS px (apply to compact controls) */
+  .touch-target-min {
+    min-height: 24px;
+    min-width: 24px;
+    box-sizing: border-box;
+  }
+
+  /** WCAG 2.2 — enhanced focus ring for glass / retro surfaces */
+  .ia-focus-visible-enhanced:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-accent-400, #22d3ee),
+      0 0 0 5px color-mix(in srgb, var(--color-accent-400, #22d3ee) 35%, transparent);
+  }
 }
 
 /* Custom animations (kept outside @layer for browser compat) */
@@ -254,6 +285,38 @@
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+/*
+ * Windows High Contrast / forced-colors — keep glass readable without breaking layout intent.
+ */
+@media (forced-colors: active) {
+  .glass,
+  .glass-dark,
+  .glass-sepia,
+  .glass-xl {
+    background: Canvas !important;
+    color: CanvasText !important;
+    border: 1px solid CanvasText !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .neon-border-orange,
+  .neon-cyan,
+  .neon-orange {
+    box-shadow: none !important;
+    border: 2px solid CanvasText !important;
+  }
+
+  .card-classic,
+  .card-polaroid,
+  .card-vhs {
+    border: 2px solid CanvasText !important;
+    box-shadow: none !important;
+    filter: none !important;
   }
 }
 

@@ -72,6 +72,7 @@ export const UploaderWebArchiveTab: React.FC<UploaderWebArchiveTabProps> = ({ pr
   return (
     <div className="animate-fade-in">
       <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
         results={items}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}

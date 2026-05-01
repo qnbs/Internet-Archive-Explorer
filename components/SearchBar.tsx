@@ -96,9 +96,10 @@ export const SearchBar: React.FC = () => {
         <button
           type="button"
           onClick={handleClearSearch}
-          className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+          className="touch-target-min inline-flex items-center justify-center -mr-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 ia-focus-visible-enhanced"
+          aria-label={t('common:close')}
         >
-          <CloseIcon className="w-4 h-4" />
+          <CloseIcon className="w-4 h-4 shrink-0" aria-hidden />
         </button>
       )}
     </form>

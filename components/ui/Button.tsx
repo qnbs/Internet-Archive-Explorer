@@ -124,8 +124,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const classes = [
       // Base
       'inline-flex items-center justify-center font-medium',
+      'min-h-[24px] min-w-[24px] box-border',
       'transition-all duration-200 ease-out',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900',
+      'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-offset-[3px] dark:focus-visible:ring-offset-gray-900',
       'disabled:cursor-not-allowed',
       'select-none',
       // Variant + size

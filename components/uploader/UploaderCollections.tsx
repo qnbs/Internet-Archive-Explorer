@@ -78,6 +78,7 @@ export const UploaderCollections: React.FC<UploaderCollectionsProps> = ({ profil
   return (
     <div className="animate-fade-in">
       <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
         results={collections}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}

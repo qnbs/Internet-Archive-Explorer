@@ -84,11 +84,12 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
     if (error) {
       return (
         <div className="flex-grow flex flex-col items-center justify-center text-center p-4 bg-gray-50 dark:bg-gray-800/60 rounded-lg w-full">
-          <p className="text-red-400 mb-4">{error}</p>
+          <p className="text-red-700 dark:text-red-400 mb-4">{error}</p>
           {onRetry && (
             <button
+              type="button"
               onClick={onRetry}
-              className="px-4 py-2 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-500 transition-colors"
+              className="touch-target-min px-4 py-2 bg-accent-700 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors ia-focus-visible-enhanced"
             >
               {t('common:retry')}
             </button>
@@ -113,6 +114,8 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
       role="region"
       aria-roledescription="carousel"
       aria-label={title}
+      aria-busy={isLoading}
+      aria-live="polite"
     >
       {!hideTitle && (
         <div className="flex justify-between items-center mb-4">
@@ -124,8 +127,9 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
           </h2>
           {viewMoreAction && (
             <button
+              type="button"
               onClick={viewMoreAction}
-              className="text-sm font-semibold text-accent-700 dark:text-accent-300 hover:text-accent-800 dark:hover:text-accent-200 transition-colors"
+              className="text-sm font-semibold text-accent-900 dark:text-accent-300 hover:text-accent-950 dark:hover:text-accent-200 transition-colors underline underline-offset-2 decoration-accent-700/60 hover:decoration-accent-950"
             >
               {viewMoreLabel || t('common:viewMore')} &rarr;
             </button>
@@ -134,9 +138,10 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
       )}
       <div className="relative group">
         <button
+          type="button"
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft || !!error}
-          className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
+          className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 touch-target-min p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed ia-focus-visible-enhanced"
           aria-label="Scroll left"
           aria-controls={containerId}
         >
@@ -158,9 +163,10 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
         />
 
         <button
+          type="button"
           onClick={() => handleScroll('right')}
           disabled={!canScrollRight || !!error}
-          className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
+          className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 touch-target-min p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed ia-focus-visible-enhanced"
           aria-label="Scroll right"
           aria-controls={containerId}
         >
