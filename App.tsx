@@ -9,6 +9,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Header } from './components/Header';
 import InstallBanner from './components/InstallBanner';
 import { ModalManager } from './components/ModalManager';
+import { OfflineHubBanner } from './components/pwa/OfflineHubBanner';
+import { PwaWorkerBridge } from './components/pwa/PwaWorkerBridge';
 // Layout Components
 import { SideMenu } from './components/SideMenu';
 import { Spinner } from './components/Spinner';
@@ -81,6 +83,8 @@ const ToastBridge: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
+  const { addToast } = useToast();
+  const { t } = useLanguage();
   const [activeView, setActiveView] = useAtom(activeViewAtom);
   const setModal = useSetAtom(modalAtom);
   const selectedProfile = useAtomValue(selectedProfileAtom);
@@ -176,6 +180,7 @@ const AppContent: React.FC = () => {
 
   const handleUpdate = () => {
     if (waitingWorker) {
+      addToast(t('pwa:reloadToast'), 'info');
       waitingWorker.postMessage({ type: 'SKIP_WAITING' });
       // The 'controllerchange' listener in index.html will handle the reload
       setWaitingWorker(null);
@@ -259,6 +264,8 @@ const AppContent: React.FC = () => {
       />
 
       <main id="main-content" className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
+        <PwaWorkerBridge />
+        <OfflineHubBanner />
         <ErrorBoundary>
           <Suspense fallback={<PageSpinner />}>{renderView()}</Suspense>
         </ErrorBoundary>

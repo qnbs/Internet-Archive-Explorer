@@ -107,6 +107,7 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({
   const isSelectMode = selectedIds.size > 0;
 
   // Clear selection and search when filter changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run when `filter` changes
   useEffect(() => {
     setSelectedIds(new Set());
     setSearchQuery('');

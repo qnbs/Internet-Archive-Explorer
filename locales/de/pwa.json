@@ -1,0 +1,9 @@
+{
+  "reloadToast": "Neue Version wird geladen …",
+  "offline": {
+    "library": "Du bist offline. Deine Bibliothek bleibt auf diesem Gerät — gespeicherte Inhalte kannst du weiter öffnen. Neue Suchen brauchen eine Verbindung.",
+    "trendingHub": "Du bist offline. Wo möglich zeigen wir die zuletzt zwischengespeicherten Trending-Einträge; zum Aktualisieren bitte wieder online gehen.",
+    "generic": "Du bist offline. Öffne Inhalte aus der Bibliothek oder besuche zwischengespeicherte Seiten. Live-Suche und neue Listen brauchen eine Verbindung."
+  },
+  "librarySyncNotice": "Wieder online — Änderungen an der Bibliothek können im Hintergrund synchronisiert werden."
+}

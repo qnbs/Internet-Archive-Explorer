@@ -32,6 +32,8 @@
     "playlist": "Wiedergabeliste",
     "upNext": "Als Nächstes",
     "emptyPlaylist": "Wiedergabeliste ist leer",
+    "play": "Abspielen",
+    "pause": "Pause",
     "addToQueue": "Zur Warteschlange hinzufügen",
     "clearPlaylist": "Wiedergabeliste leeren",
     "volume": "Lautstärke"

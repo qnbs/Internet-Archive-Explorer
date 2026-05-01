@@ -1,6 +1,8 @@
 {
   "name": "Internet Archive Explorer",
   "short_name": "IA Explorer",
+  "lang": "en",
+  "dir": "ltr",
   "id": "/Internet-Archive-Explorer/",
   "start_url": "/Internet-Archive-Explorer/",
   "scope": "/Internet-Archive-Explorer/",

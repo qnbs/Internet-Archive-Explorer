@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ContentCarousel } from '@/components/ContentCarousel';
 import { CompassIcon, SparklesIcon, StarIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { searchArchive } from '@/services/archiveService';
 import { activeViewAtom } from '@/store';
 import { libraryItemsAtom } from '@/store/favorites';
 import { searchHistoryAtom } from '@/store/search';
 import type { ArchiveItemSummary, View } from '@/types';
+import { loadForYouTrending, persistForYouTrending } from '@/utils/offlineHubCache';
 
 // ─── Animation variants ───────────────────────────────────────────
 const containerVariants = {
@@ -181,6 +183,8 @@ const ContinueExploring: React.FC = () => {
 // ─── Trending Today ───────────────────────────────────────────────
 const TrendingSection: React.FC = () => {
   const { t } = useLanguage();
+  const online = useOnlineStatus();
+  const cachedTrending = useMemo(() => loadForYouTrending(), []);
 
   const { data, isLoading, error, refetch } = useQuery<ArchiveItemSummary[]>({
     queryKey: ['forYou', 'trending'],
@@ -188,9 +192,18 @@ const TrendingSection: React.FC = () => {
       const resp = await searchArchive('', 1, ['-week']);
       return resp.response?.docs.slice(0, 15) ?? [];
     },
+    enabled: online,
     staleTime: 15 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
+    initialData: cachedTrending?.items?.length ? cachedTrending.items : undefined,
+    placeholderData: cachedTrending?.items?.length ? cachedTrending.items : undefined,
   });
+
+  useEffect(() => {
+    if (online && data?.length) {
+      persistForYouTrending(data);
+    }
+  }, [online, data]);
 
   return (
     <motion.div variants={sectionVariants} className="mb-6">

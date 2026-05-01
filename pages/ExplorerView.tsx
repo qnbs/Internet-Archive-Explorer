@@ -7,6 +7,7 @@ import { OnThisDay } from '@/components/OnThisDay';
 import { ResultsGrid } from '@/components/ResultsGrid';
 import { useExplorerSearch } from '@/hooks/useExplorerSearch';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPersistenceService';
 import { searchArchive } from '@/services/archiveService';
 import { generateDailyHistoricalEvent } from '@/services/geminiService';
@@ -14,6 +15,7 @@ import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '@/types';
+import { loadExploreTrending, persistExploreTrending } from '@/utils/offlineHubCache';
 import { toastAtom } from '../store';
 
 const TrendingItems: React.FC = () => {
@@ -32,6 +34,7 @@ const TrendingItems: React.FC = () => {
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
   const setToast = useSetAtom(toastAtom);
   const autoArchive = useAtomValue(autoArchiveAIAtom);
+  const online = useOnlineStatus();
 
   const fetchTrendingItems = useCallback(async () => {
     setIsLoading(true);
@@ -40,12 +43,23 @@ const TrendingItems: React.FC = () => {
       const data = await searchArchive('', 1, ['-week']);
       const trendingItems = data.response?.docs.slice(0, 15) || [];
       setItems(trendingItems);
+      persistExploreTrending(trendingItems);
     } catch {
-      setError(t('common:error'));
+      if (!online) {
+        const cached = loadExploreTrending();
+        if (cached?.items?.length) {
+          setItems(cached.items);
+          setError(null);
+        } else {
+          setError(t('common:error'));
+        }
+      } else {
+        setError(t('common:error'));
+      }
     } finally {
       setIsLoading(false);
     }
-  }, [t]);
+  }, [t, online]);
 
   // Fetch trending items once on mount
   useEffect(() => {

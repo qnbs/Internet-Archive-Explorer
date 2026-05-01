@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
 - ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - Comprehensive project audit documentation (`AUDIT.md`)

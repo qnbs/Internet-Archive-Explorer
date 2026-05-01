@@ -1,0 +1,9 @@
+{
+  "reloadToast": "Loading new version…",
+  "offline": {
+    "library": "You’re offline. Your Library items stay on this device — play or open anything already saved. New searches need a connection.",
+    "trendingHub": "You’re offline. Showing the last cached trending items where available; reconnect to refresh from the Internet Archive.",
+    "generic": "You’re offline. Open content from your Library or revisit cached pages. Real-time search and new listings need a connection."
+  },
+  "librarySyncNotice": "Back online — library changes can sync in the background."
+}

@@ -15,6 +15,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ## Unreleased
 
+- 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
 - ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - 🧹 Biome: Konfiguration erweitert (Ignores, Test-Override, CI `biome ci`), verbleibende Hook-Warnungen behoben

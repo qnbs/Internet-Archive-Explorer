@@ -171,3 +171,9 @@ Use `ia-*` Tailwind tokens (not raw hex), `safeAtomWithStorage` for persisted at
 ### Verification-first for bugs
 
 Before fixing, identify which command exposes the bug: `pnpm exec tsc --noEmit`, `pnpm run lint:ci`, `pnpm run test:e2e`, or a build check. Name the failure first, then fix.
+
+---
+
+## Unreleased (highlights)
+
+- 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
