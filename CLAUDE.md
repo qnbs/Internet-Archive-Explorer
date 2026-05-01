@@ -14,6 +14,7 @@ Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwart
 | **Cursor Pro+ / VS Code** | Extension-Empfehlungen in **`.vscode/extensions.json`**: `biomejs.biome`; ESLint/Prettier als `unwantedRecommendations`. Workspace-**`.vscode/settings.json`**: `eslint.enable: false`, `eslint.validate: []`, Biome als Default-Formatter, Format on Save/Paste/Type |
 | **Security** | `postinstall`: `pnpm audit --audit-level=moderate \|\| true` (warnt lokal); CI: `pnpm audit --audit-level=moderate` + dedizierter **pnpm store**-Cache (`actions/cache`); moderate+ schlägt fehl — siehe CHANGELOG |
 | **Graphify** | Wenn `graphify-out/` vorhanden: vor Architekturfragen `GRAPH_REPORT.md` / Wiki lesen; nach Codeänderungen **`graphify update .`** (AST, ohne API-Kosten), sofern das Projekt graphify nutzt |
+| **Runtime-Validation** | **`types/archiveSchemas.ts`** — Zod für Internet-Archive- und Gemini-JSON; Services parsen mit `.safeParse()` / Retry (Archive); Fehler-Keys unter `common:serviceErrors.*` |
 
 ### Wichtige Befehle
 

@@ -69,5 +69,12 @@
     "link": "Link",
     "enterUrl": "URL eingeben",
     "save": "Speichern"
+  },
+  "serviceErrors": {
+    "archiveValidation": "Das Internet Archive hat Daten in einem unerwarteten Format geliefert.",
+    "archiveInvalidJson": "Die Antwort des Internet Archive konnte nicht gelesen werden.",
+    "geminiValidation": "Die KI hat Daten in einem unerwarteten Format geliefert.",
+    "geminiInvalidJson": "Die KI-Antwort konnte nicht als JSON gelesen werden.",
+    "geminiResponseShape": "Die Gemini-API hat eine unerwartete Antwortstruktur geliefert."
   }
 }

@@ -1,8 +1,8 @@
 import { GoogleGenAI, Type } from '@google/genai';
+import { z } from 'zod';
 import { clearStoredOAuthToken, getValidAccessToken } from '@/services/geminiAuthStorage';
 import type {
   ExtractedEntities,
-  GeminiApiResponse,
   GeminiContent,
   GeminiGenerateParams,
   GeminiPart,
@@ -10,6 +10,14 @@ import type {
   Language,
   MagicOrganizeResult,
 } from '@/types';
+import {
+  extractedEntitiesSchema,
+  geminiApiResponseSchema,
+  imageAnalysisResultSchema,
+  magicOrganizeResultSchema,
+  SERVICE_I18N,
+  type ValidatedGeminiApiResponse,
+} from '@/types/archiveSchemas';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 const MODELS = {
@@ -26,6 +34,34 @@ let aiClient: GoogleGenAI | null = null;
 let aiClientKey = '';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export class GeminiServiceError extends Error {
+  readonly i18nKey?: string;
+  constructor(message: string, i18nKey?: string) {
+    super(message);
+    this.name = 'GeminiServiceError';
+    this.i18nKey = i18nKey;
+  }
+}
+
+function parseAiJson<T>(
+  schema: z.ZodType<T>,
+  raw: string,
+  userMessage: string,
+  i18nKey: string,
+): T {
+  let data: unknown;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw new GeminiServiceError(userMessage, SERVICE_I18N.gemini.invalidJson);
+  }
+  const r = schema.safeParse(data);
+  if (!r.success) {
+    throw new GeminiServiceError(userMessage, i18nKey);
+  }
+  return r.data;
+}
 
 const extractJson = (text: string): string => {
   if (!text) return '{}';
@@ -78,7 +114,7 @@ const normalizeContents = (contents: GeminiGenerateParams['contents']): GeminiCo
   return [{ role: 'user', parts: [{ text: String(contents ?? '') }] }];
 };
 
-const parseGeminiText = (responseJson: GeminiApiResponse): string => {
+const parseGeminiText = (responseJson: ValidatedGeminiApiResponse): string => {
   const parts = responseJson?.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return '';
   return parts.map((part: GeminiPart) => part?.text ?? '').join('');
@@ -181,8 +217,15 @@ export async function generateContent(
         throw new Error('Gemini-Aufruf fehlgeschlagen.');
       }
 
-      const json = (await response.json()) as GeminiApiResponse;
-      const text = parseGeminiText(json);
+      const rawJson: unknown = await response.json();
+      const validated = geminiApiResponseSchema.safeParse(rawJson);
+      if (!validated.success) {
+        throw new GeminiServiceError(
+          'Gemini-Antwort hat ein unerwartetes Format.',
+          SERVICE_I18N.gemini.responseShape,
+        );
+      }
+      const text = parseGeminiText(validated.data);
       if (!text) {
         throw new Error('Leere Antwort von Gemini.');
       }
@@ -284,11 +327,12 @@ export const extractEntities = async (
     true,
   );
 
-  try {
-    return JSON.parse(jsonText);
-  } catch {
-    throw new Error('The AI returned an invalid format for entities.');
-  }
+  return parseAiJson(
+    extractedEntitiesSchema,
+    jsonText,
+    'The AI returned an invalid format for entities.',
+    SERVICE_I18N.gemini.validationFailed,
+  );
 };
 
 export const answerFromText = async (
@@ -410,11 +454,12 @@ export const analyzeImage = async (
     true,
   );
 
-  try {
-    return JSON.parse(jsonText);
-  } catch {
-    throw new Error('The AI returned an invalid format for the image analysis.');
-  }
+  return parseAiJson(
+    imageAnalysisResultSchema,
+    jsonText,
+    'The AI returned an invalid format for the image analysis.',
+    SERVICE_I18N.gemini.validationFailed,
+  );
 };
 
 export const askAboutImage = async (
@@ -475,9 +520,10 @@ export const organizeLibraryItems = async (
     true,
   );
 
-  try {
-    return JSON.parse(jsonText);
-  } catch {
-    throw new Error('The AI returned an invalid format for organization suggestions.');
-  }
+  return parseAiJson(
+    magicOrganizeResultSchema,
+    jsonText,
+    'The AI returned an invalid format for organization suggestions.',
+    SERVICE_I18N.gemini.validationFailed,
+  );
 };

@@ -69,5 +69,12 @@
     "link": "Link",
     "enterUrl": "Enter URL",
     "save": "Save"
+  },
+  "serviceErrors": {
+    "archiveValidation": "The Internet Archive returned data in an unexpected format.",
+    "archiveInvalidJson": "The Internet Archive response could not be read.",
+    "geminiValidation": "The AI returned data in an unexpected format.",
+    "geminiInvalidJson": "The AI response could not be read as JSON.",
+    "geminiResponseShape": "The Gemini API returned an unexpected response shape."
   }
 }

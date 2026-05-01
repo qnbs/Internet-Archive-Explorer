@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - Comprehensive project audit documentation (`AUDIT.md`)
 - This changelog file
 - Expanded Copilot instructions with architecture docs, patterns, and guidelines

@@ -15,6 +15,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ## Unreleased
 
+- 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - 🧹 Biome: Konfiguration erweitert (Ignores, Test-Override, CI `biome ci`), verbleibende Hook-Warnungen behoben
 - 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
 - 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
@@ -72,12 +73,10 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Files:** `tests/e2e/a11y.spec.ts`, various components
 - **Effort:** Medium (2-3 days)
 
-#### H3: API Response Validation
+#### H3: API Response Validation — addressed
 
-- **Impact:** `services/archiveService.ts` trusts Archive.org API shape without schema validation.
-- **Risk:** Unexpected API changes could cause silent failures or runtime errors.
-- **Recommendation:** Add Zod schemas for critical API response types (`ArchiveSearchResponse`, `ArchiveMetadata`).
-- **Effort:** Low-Medium (1-2 days)
+- **Was:** `archiveService` / `geminiService` validated responses with Zod (`types/archiveSchemas.ts`), retries on Archive validation failures, i18n-keyed service errors.
+- **Follow-up:** Extend schemas if new Archive fields become required in the UI.
 
 #### H4: Missing `forceConsistentCasingInFileNames` in tsconfig
 

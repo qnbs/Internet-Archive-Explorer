@@ -382,3 +382,15 @@ export interface HelpTranslationNamespace {
   topics: HelpTopicTranslation[];
   [key: string]: unknown;
 }
+
+/** Runtime-validated shapes (Zod) — use at boundaries from archive/gemini services */
+export type {
+  ValidatedArchiveFile,
+  ValidatedArchiveItemSummary,
+  ValidatedArchiveMetadata,
+  ValidatedArchiveSearchResponse,
+  ValidatedExtractedEntities,
+  ValidatedGeminiApiResponse,
+  ValidatedImageAnalysisResult,
+  ValidatedMagicOrganizeResult,
+} from './types/archiveSchemas';

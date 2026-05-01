@@ -1,17 +1,28 @@
+import { z } from 'zod';
 import { metadataCache } from '@/services/cacheService';
 import type { ArchiveMetadata, ArchiveSearchResponse, WaybackResponse } from '@/types';
+import {
+  archiveMetadataSchema,
+  archiveSearchResponseSchema,
+  SERVICE_I18N,
+  waybackCdxJsonSchema,
+} from '@/types/archiveSchemas';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
 const REQUEST_TIMEOUT_MS = 20000;
+const VALIDATION_MAX_ATTEMPTS = 3;
+const VALIDATION_BACKOFF_MS = 400;
 
-class ArchiveServiceError extends Error {
+export class ArchiveServiceError extends Error {
   readonly statusCode?: number;
-  constructor(message: string, statusCode?: number) {
+  readonly i18nKey?: string;
+  constructor(message: string, statusCode?: number, i18nKey?: string) {
     super(message);
     this.name = 'ArchiveServiceError';
     this.statusCode = statusCode;
+    this.i18nKey = i18nKey;
   }
 }
 
@@ -66,7 +77,7 @@ async function fetchWithRetry(
   }
 }
 
-async function apiFetch<T>(url: string, context: string): Promise<T> {
+async function fetchRawJson(url: string, context: string): Promise<unknown> {
   try {
     const response = await fetchWithRetry(url);
 
@@ -83,13 +94,40 @@ async function apiFetch<T>(url: string, context: string): Promise<T> {
     }
 
     try {
-      return JSON.parse(text) as T;
+      return JSON.parse(text) as unknown;
     } catch {
-      throw new ArchiveServiceError(`Invalid JSON response for ${context}.`);
+      throw new ArchiveServiceError(
+        `Invalid JSON response for ${context}.`,
+        undefined,
+        SERVICE_I18N.archive.invalidJson,
+      );
     }
   } catch (error) {
     return handleFetchError(error, context);
   }
+}
+
+async function fetchValidated<T>(url: string, context: string, schema: z.ZodType<T>): Promise<T> {
+  let lastZodError: z.ZodError | undefined;
+
+  for (let attempt = 0; attempt < VALIDATION_MAX_ATTEMPTS; attempt++) {
+    const raw = await fetchRawJson(url, context);
+    const parsed = schema.safeParse(raw);
+    if (parsed.success) {
+      return parsed.data;
+    }
+    lastZodError = parsed.error;
+    if (attempt < VALIDATION_MAX_ATTEMPTS - 1) {
+      await delay(VALIDATION_BACKOFF_MS * 2 ** attempt);
+    }
+  }
+
+  console.warn(`[archiveService] Zod validation failed for ${context}`, lastZodError?.flatten());
+  throw new ArchiveServiceError(
+    `The Internet Archive returned an unexpected shape for ${context}. Please try again.`,
+    undefined,
+    SERVICE_I18N.archive.validationFailed,
+  );
 }
 
 export const searchArchive = async (
@@ -125,19 +163,22 @@ export const searchArchive = async (
   }
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  return apiFetch<ArchiveSearchResponse>(url, 'search results');
+  return fetchValidated(url, 'search results', archiveSearchResponseSchema);
 };
 
 export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
   const cachedData = await metadataCache.get(identifier);
-  if (cachedData) {
-    return cachedData;
+  if (cachedData !== undefined) {
+    const cached = archiveMetadataSchema.safeParse(cachedData);
+    if (cached.success) {
+      return cached.data as ArchiveMetadata;
+    }
   }
 
   const url = `${API_BASE_URL}/metadata/${identifier}`;
-  const data = await apiFetch<ArchiveMetadata>(url, `metadata for ${identifier}`);
-  await metadataCache.set(identifier, data);
-  return data;
+  const data = await fetchValidated(url, `metadata for ${identifier}`, archiveMetadataSchema);
+  await metadataCache.set(identifier, data as ArchiveMetadata);
+  return data as ArchiveMetadata;
 };
 
 export const getItemPlainText = async (identifier: string): Promise<string> => {
@@ -169,9 +210,9 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
 
 export const searchWaybackMachine = async (url: string): Promise<WaybackResponse> => {
   const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&fl=timestamp,original&collapse=digest`;
-  const data = await apiFetch<unknown>(cdxUrl, 'Wayback Machine results');
+  const data = await fetchValidated(cdxUrl, 'Wayback Machine results', waybackCdxJsonSchema);
 
-  if (!Array.isArray(data)) {
+  if (!Array.isArray(data) || data.length === 0) {
     return [];
   }
 
@@ -197,7 +238,11 @@ export const getItemCount = async (query: string): Promise<number> => {
   });
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  const data = await apiFetch<ArchiveSearchResponse>(url, `item count for query "${query}"`);
+  const data = await fetchValidated(
+    url,
+    `item count for query "${query}"`,
+    archiveSearchResponseSchema,
+  );
 
   return data.response?.numFound ?? 0;
 };
