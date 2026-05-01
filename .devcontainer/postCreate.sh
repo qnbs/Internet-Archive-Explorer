@@ -9,10 +9,10 @@ echo "╔═══════════════════════�
 echo "║   Internet Archive Explorer — Dev Container Setup   ║"
 echo "╚══════════════════════════════════════════════════════╝"
 
-# ── 1. npm ci ──────────────────────────────────────────────
+# ── 1. pnpm install --frozen-lockfile ───────────────────────
 echo ""
-echo "▶ [1/4] Installing npm dependencies…"
-npm ci
+echo "▶ [1/4] Installing dependencies…"
+pnpm install --frozen-lockfile
 
 # ── 2. Playwright browsers ────────────────────────────────
 echo ""
@@ -22,7 +22,7 @@ npx playwright install --with-deps chromium
 # ── 3. Sync locales ───────────────────────────────────────
 echo ""
 echo "▶ [3/4] Syncing locale files…"
-npm run sync:locales
+pnpm run sync:locales
 
 # ── 4. Verify build tooling ───────────────────────────────
 echo ""
@@ -30,4 +30,4 @@ echo "▶ [4/4] Verifying build tooling (dry run)…"
 npx tsc --noEmit --skipLibCheck 2>/dev/null && echo "  ✓ TypeScript OK" || echo "  ⚠ TypeScript reported issues (non-fatal)"
 
 echo ""
-echo "✅  Setup complete. Run 'npm run dev' to start the dev server on :5173."
+echo "✅  Setup complete. Run 'pnpm run dev' to start the dev server on :5173."

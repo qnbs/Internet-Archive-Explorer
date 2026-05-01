@@ -19,14 +19,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Security audit
+        run: pnpm audit --audit-level=moderate
 
       - name: Check locale key completeness
         run: node scripts/sync-locales.mjs --check
@@ -37,7 +56,7 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
-        run: npm run build
+        run: pnpm run build
 
       - name: Verify expected build artifacts
         run: |
@@ -61,4 +80,4 @@ jobs:
       - name: Run E2E smoke tests
         env:
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
-        run: npm run test:e2e
+        run: pnpm run test:e2e

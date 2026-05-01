@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + pnpm cache in GitHub Actions
+- 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
 - Optimized Vite build with vendor/ui/query chunk splitting for better caching
 - Removed unused `loadEnv` call in vite.config.js
 - Fixed empty root locale files (`de.json`, `en.json`) to contain valid JSON
 - DevContainer: reduced Docker image by ~200MB (removed WebKit/Firefox/GStreamer deps)
-- DevContainer: `postCreate.sh` uses `npm ci` instead of `npm install` for reproducibility
+- DevContainer: `postCreate.sh` uses `pnpm install --frozen-lockfile` for reproducibility
 - DevContainer: only installs Playwright Chromium (the only browser used in tests)
 - Playwright config: added explicit `projects` block with chromium device
 

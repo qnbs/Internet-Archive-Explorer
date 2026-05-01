@@ -13,21 +13,26 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **Overall Health: ✅ Good** — Production-ready with improvement opportunities documented below.
 
+## Unreleased
+
+- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + pnpm cache in GitHub Actions
+- 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
+
 ---
 
 ## Issues Fixed in This Audit
 
-| #   | Issue                                                         | Severity | Resolution                                                  |
-| --- | ------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| 1   | Empty root locale files (`de.json`, `en.json`) — invalid JSON | Low      | Populated with `{}` (files are unused legacy artifacts)     |
-| 2   | No Vite chunk splitting (`manualChunks: undefined`)           | Medium   | Configured vendor/ui/query chunks for optimal caching       |
-| 3   | Unused `loadEnv()` import/call in `vite.config.js`            | Low      | Removed                                                     |
-| 4   | Missing CHANGELOG.md                                          | Medium   | Created with keepachangelog format                          |
-| 5   | Copilot instructions outdated (18 lines, stale "Add:" list)   | High     | Rewritten with full architecture docs, patterns, guidelines |
-| 6   | Dockerfile installs WebKit+Firefox deps (~200MB unused)       | Medium   | Removed WebKit/GStreamer deps, kept Chromium-only           |
-| 7   | postCreate.sh installs 3 browsers, only chromium needed       | Medium   | Changed to `npx playwright install --with-deps chromium`    |
-| 8   | postCreate.sh uses `npm install` instead of `npm ci`          | Low      | Changed to `npm ci` for reproducible installs               |
-| 9   | Playwright config missing explicit browser project            | Low      | Added `projects: [{ name: 'chromium' }]` block              |
+| #   | Issue                                                         | Severity | Resolution                                                      |
+| --- | ------------------------------------------------------------- | -------- | --------------------------------------------------------------- |
+| 1   | Empty root locale files (`de.json`, `en.json`) — invalid JSON | Low      | Populated with `{}` (files are unused legacy artifacts)         |
+| 2   | No Vite chunk splitting (`manualChunks: undefined`)           | Medium   | Configured vendor/ui/query chunks for optimal caching           |
+| 3   | Unused `loadEnv()` import/call in `vite.config.js`            | Low      | Removed                                                         |
+| 4   | Missing CHANGELOG.md                                          | Medium   | Created with keepachangelog format                              |
+| 5   | Copilot instructions outdated (18 lines, stale "Add:" list)   | High     | Rewritten with full architecture docs, patterns, guidelines     |
+| 6   | Dockerfile installs WebKit+Firefox deps (~200MB unused)       | Medium   | Removed WebKit/GStreamer deps, kept Chromium-only               |
+| 7   | postCreate.sh installs 3 browsers, only chromium needed       | Medium   | Changed to `npx playwright install --with-deps chromium`        |
+| 8   | postCreate.sh used npm instead of a frozen lockfile install   | Low      | Uses `pnpm install --frozen-lockfile` for reproducible installs |
+| 9   | Playwright config missing explicit browser project            | Low      | Added `projects: [{ name: 'chromium' }]` block                  |
 
 ---
 
@@ -160,9 +165,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - Add Lighthouse CI or `bundlesize` to track regressions.
 
-#### L2: No `npm audit` in CI Pipeline
+#### L2: ~~No `pnpm audit` in CI Pipeline~~ (addressed)
 
-- Add `npm audit --audit-level=moderate` step to `.github/workflows/ci.yml`.
+- CI runs `pnpm audit --audit-level=moderate` after install; moderate+ fails the job (see `.github/workflows/ci.yml`).
 
 #### L3: Console Logging in Production
 

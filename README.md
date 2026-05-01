@@ -62,14 +62,13 @@ Internet Archive Explorer is a React + TypeScript single-page app using Vite and
 
 Requirements:
 
-- Node.js 20+ (recommended)
-- npm 10+ (recommended)
+- Node.js 20+ with Corepack (pnpm enabled) (recommended)
 
 Install and run:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Default local URL:
@@ -99,20 +98,20 @@ Variable notes:
 Build production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Deploy to `gh-pages` branch:
 
 ```bash
-npm run deploy
+pnpm run deploy
 ```
 
 Deployment notes:
 
 - Vite base path is `/Internet-Archive-Explorer/`
 - `.nojekyll` is delivered from `public/.nojekyll`
-- Locales are synced during build via `npm run sync:locales`
+- Locales are synced during build via `pnpm run sync:locales`
 
 ### 8) CI and Smoke Checks
 
@@ -129,9 +128,9 @@ Configured workflows:
 Run smoke tests locally:
 
 ```bash
-npm ci
+pnpm install --frozen-lockfile
 npx playwright install --with-deps chromium
-npm run test:e2e
+pnpm run test:e2e
 ```
 
 ### 9) PWA and Service Worker Behavior
@@ -172,9 +171,9 @@ If you see i18n keys instead of text:
 Reproduce locally:
 
 ```bash
-npm ci
-npm run build
-npm run test:e2e
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm run test:e2e
 ```
 
 ### 12) Security Notes
@@ -244,14 +243,13 @@ Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und
 
 Voraussetzungen:
 
-- Node.js 20+ (empfohlen)
-- npm 10+ (empfohlen)
+- Node.js 20+ mit Corepack (pnpm aktiviert) (empfohlen)
 
 Installation und Start:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Standard-URL lokal:
@@ -281,20 +279,20 @@ Bedeutung:
 Produktions-Build:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Deploy auf `gh-pages`:
 
 ```bash
-npm run deploy
+pnpm run deploy
 ```
 
 Hinweise:
 
 - Vite-Base-Path ist `/Internet-Archive-Explorer/`
 - `.nojekyll` wird aus `public/.nojekyll` ausgeliefert
-- Locale-Dateien werden im Build via `npm run sync:locales` synchronisiert
+- Locale-Dateien werden im Build via `pnpm run sync:locales` synchronisiert
 
 ### 8) CI und Smoke-Checks
 
@@ -311,9 +309,9 @@ Konfigurierte Workflows:
 Smoke-Tests lokal ausführen:
 
 ```bash
-npm ci
+pnpm install --frozen-lockfile
 npx playwright install --with-deps chromium
-npm run test:e2e
+pnpm run test:e2e
 ```
 
 ### 9) PWA- und Service-Worker-Verhalten
@@ -354,9 +352,9 @@ Wenn i18n-Keys statt Texte erscheinen:
 Lokal reproduzieren mit:
 
 ```bash
-npm ci
-npm run build
-npm run test:e2e
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm run test:e2e
 ```
 
 ### 12) Sicherheits-Hinweise

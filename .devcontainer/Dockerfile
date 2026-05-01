@@ -71,8 +71,8 @@ WORKDIR /workspaces/Internet-Archive-Explorer
 # ── Pre-warm npm cache by installing deps in a throw-away layer ───────────────
 # This layer is invalidated only when package*.json changes, so subsequent
 # rebuilds (e.g. after adding a package) skip this expensive step.
-COPY --chown=node:node package*.json ./
-RUN npm ci --ignore-scripts 2>/dev/null || true
+COPY --chown=node:node package.json pnpm-lock.yaml ./
+RUN corepack prepare pnpm@10.6.1 --activate && pnpm install --frozen-lockfile --ignore-scripts 2>/dev/null || true
 
 EXPOSE 5173 4173
 

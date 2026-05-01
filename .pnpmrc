@@ -1,0 +1,4 @@
+strict-peer-dependencies=true
+shamefully-hoist=false
+auto-install-peers=true
+node-linker=hoisted # für beste Kompatibilität mit Vite + Playwright

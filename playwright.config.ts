@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const normalizedBasePath = (() => {
-  const raw = process.env.PLAYWRIGHT_BASE_PATH ?? process.env.VITE_BASE_PATH ?? '/Internet-Archive-Explorer/';
+  const raw =
+    process.env.PLAYWRIGHT_BASE_PATH ?? process.env.VITE_BASE_PATH ?? '/Internet-Archive-Explorer/';
   const withLeadingSlash = raw.startsWith('/') ? raw : `/${raw}`;
   return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
 })();
@@ -30,7 +31,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 4173',
+    command: 'pnpm run dev -- --host 127.0.0.1 --port 4173',
     url: baseURL,
     env: {
       ...process.env,
