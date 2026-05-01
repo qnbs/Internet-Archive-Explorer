@@ -1,11 +1,11 @@
 # Graph Report - Internet-Archive-Explorer  (2026-05-01)
 
 ## Corpus Check
-- 197 files · ~75,678 words
+- 198 files · ~76,852 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 456 nodes · 396 edges · 15 communities detected
+- 458 nodes · 395 edges · 14 communities detected
 - Extraction: 79% EXTRACTED · 21% INFERRED · 0% AMBIGUOUS · INFERRED: 83 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -22,8 +22,7 @@
 - [[_COMMUNITY_Community 10|Community 10]]
 - [[_COMMUNITY_Community 12|Community 12]]
 - [[_COMMUNITY_Community 13|Community 13]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 20|Community 20]]
 - [[_COMMUNITY_Community 32|Community 32]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -100,11 +99,7 @@ Nodes (2): base64UrlEncode(), createCodeChallenge()
 Cohesion: 0.5
 Nodes (2): getMediaTypeIconPath(), handleImageError()
 
-### Community 15 - "Community 15"
-Cohesion: 0.67
-Nodes (2): isImageRequest(), timeoutFetch()
-
-### Community 18 - "Community 18"
+### Community 20 - "Community 20"
 Cohesion: 0.5
 Nodes (2): HelpSearchBar(), useHelpViewContext()
 
@@ -117,9 +112,7 @@ Nodes (2): handleDismiss(), handleInstall()
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 13`** (5 nodes): `ItemCard.tsx`, `getCreator()`, `getMediaTypeIconPath()`, `handleFavoriteClick()`, `handleImageError()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (4 nodes): `sw.js`, `isImageRequest()`, `sw.js`, `timeoutFetch()`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
+- **Thin community `Community 20`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 32`** (3 nodes): `InstallBanner.tsx`, `handleDismiss()`, `handleInstall()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -128,11 +121,11 @@ Nodes (2): handleDismiss(), handleInstall()
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 6`, `Community 7`?**
-  _High betweenness centrality (0.111) - this node is a cross-community bridge._
+  _High betweenness centrality (0.110) - this node is a cross-community bridge._
 - **Why does `error()` connect `Community 5` to `Community 1`, `Community 4`, `Community 7`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+  _High betweenness centrality (0.098) - this node is a cross-community bridge._
 - **Why does `SettingRow()` connect `Community 7` to `Community 0`?**
-  _High betweenness centrality (0.087) - this node is a cross-community bridge._
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
 - **Are the 24 inferred relationships involving `useLanguage()` (e.g. with `UploaderDetailView()` and `SettingRow()`) actually correct?**
   _`useLanguage()` has 24 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 11 inferred relationships involving `error()` (e.g. with `fetchHeroImages()` and `fetchData()`) actually correct?**
