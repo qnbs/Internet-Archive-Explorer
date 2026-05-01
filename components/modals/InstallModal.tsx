@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useAtom } from 'jotai';
-import { deferredPromptAtom } from '@/store/pwa';
-import { useLanguage } from '@/hooks/useLanguage';
-import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  CloseIcon,
   ArchiveLogoIcon,
   CheckIcon,
+  CloseIcon,
   DownloadIcon,
-  ShareIOSIcon,
   PlusSquareIcon,
+  ShareIOSIcon,
 } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { deferredPromptAtom } from '@/store/pwa';
 
 export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useLanguage();

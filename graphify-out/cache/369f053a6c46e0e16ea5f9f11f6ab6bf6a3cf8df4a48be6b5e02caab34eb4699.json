@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "label": "audioPlayer.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "audioplayer_findandpreparetrack",
+      "label": "findAndPrepareTrack()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L22"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "home_pc_internet_archive_explorer_store_safestorage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "audioutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "home_pc_internet_archive_explorer_store_toast",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_store_audioplayer_ts",
+      "target": "audioplayer_findandpreparetrack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "audioplayer_findandpreparetrack",
+      "callee": "getItemMetadata",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "audioplayer_findandpreparetrack",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "audioplayer_findandpreparetrack",
+      "callee": "findPlayableAudioFile",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/audioPlayer.ts",
+      "source_location": "L26"
+    }
+  ]
+}

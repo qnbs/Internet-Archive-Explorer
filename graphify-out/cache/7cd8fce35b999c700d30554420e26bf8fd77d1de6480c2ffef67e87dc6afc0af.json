@@ -1,0 +1,216 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "label": "ImagesHubView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "imageshubview_fetchheroimages",
+      "label": "fetchHeroImages()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "imageshubview_fetchdata",
+      "label": "fetchData()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L82"
+    },
+    {
+      "id": "imageshubview_handlesearch",
+      "label": "handleSearch()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L107"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "usesearchandgo",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "usearchivalitems",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "aiinsightpanel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "geminiservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "imageshubview_fetchheroimages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "imageshubview_fetchdata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_imageshubview_tsx",
+      "target": "imageshubview_handlesearch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L107",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "imageshubview_fetchheroimages",
+      "callee": "searchArchive",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L20"
+    },
+    {
+      "caller_nid": "imageshubview_fetchheroimages",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "imageshubview_fetchheroimages",
+      "callee": "setImages",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L32"
+    },
+    {
+      "caller_nid": "imageshubview_fetchheroimages",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L35"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "setIsLoading",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L83"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "all",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L85"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "searchArchive",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "getItemCount",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L87"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "setData",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L92"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L99"
+    },
+    {
+      "caller_nid": "imageshubview_fetchdata",
+      "callee": "setIsLoading",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "imageshubview_handlesearch",
+      "callee": "searchAndGo",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ImagesHubView.tsx",
+      "source_location": "L108"
+    }
+  ]
+}

@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { searchQueryAtom, facetsAtom } from '@/store/search';
-import { showExplorerHubAtom, autoArchiveAIAtom } from '@/store/settings';
-import { AIGenerationType, type ArchiveItemSummary } from '@/types';
-import { ResultsGrid } from '@/components/ResultsGrid';
-import { useLanguage } from '@/hooks/useLanguage';
-import { OnThisDay } from '@/components/OnThisDay';
-import { TrendingIcon, SparklesIcon } from '@/components/Icons';
-import { ContentCarousel } from '@/components/ContentCarousel';
-import { useExplorerSearch } from '@/hooks/useExplorerSearch';
-import { generateDailyHistoricalEvent } from '@/services/geminiService';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AILoadingIndicator } from '@/components/AILoadingIndicator';
-import { findArchivedDailyInsight, archiveAIGeneration } from '@/services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { ContentCarousel } from '@/components/ContentCarousel';
+import { SparklesIcon, TrendingIcon } from '@/components/Icons';
+import { OnThisDay } from '@/components/OnThisDay';
+import { ResultsGrid } from '@/components/ResultsGrid';
+import { useExplorerSearch } from '@/hooks/useExplorerSearch';
+import { useLanguage } from '@/hooks/useLanguage';
+import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPersistenceService';
 import { searchArchive } from '@/services/archiveService';
+import { generateDailyHistoricalEvent } from '@/services/geminiService';
+import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import { facetsAtom, searchQueryAtom } from '@/store/search';
+import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
+import { AIGenerationType, type ArchiveItemSummary } from '@/types';
 import { toastAtom } from '../store';
 
 const TrendingItems: React.FC = () => {

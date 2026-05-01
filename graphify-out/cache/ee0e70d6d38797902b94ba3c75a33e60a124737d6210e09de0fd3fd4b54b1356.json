@@ -1,0 +1,157 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "label": "UploaderCollections.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "uploadercollections_uploadercollections",
+      "label": "UploaderCollections()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L14"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "useinfinitescroll",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "home_pc_internet_archive_explorer_components_resultsgrid",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_uploader_uploadercollections_tsx",
+      "target": "uploadercollections_uploadercollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useLanguage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L16"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L17"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L18"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L19"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L20"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L21"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L54"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L66"
+    },
+    {
+      "caller_nid": "uploadercollections_uploadercollections",
+      "callee": "useInfiniteScroll",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/uploader/UploaderCollections.tsx",
+      "source_location": "L72"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
 import { loadable } from 'jotai/utils';
-import { safeAtomWithStorage } from './safeStorage';
 import type { Language } from '@/types';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
+import { safeAtomWithStorage } from './safeStorage';
 
 export const STORAGE_KEYS = {
   language: 'app-language',

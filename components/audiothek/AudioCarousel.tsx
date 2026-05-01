@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary } from '@/types';
-import { searchArchive } from '@/services/archiveService';
-import { useLanguage } from '@/hooks/useLanguage';
-import { AudioCard } from './AudioCard';
-import { SkeletonCard } from '../SkeletonCard';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary } from '@/types';
+import { SkeletonCard } from '../SkeletonCard';
+import { AudioCard } from './AudioCard';
 
 interface AudioCarouselProps {
   title: string;
@@ -38,7 +38,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
       el?.removeEventListener('scroll', checkForScrollability);
       window.removeEventListener('resize', checkForScrollability);
     };
-  }, [items, isLoading, checkForScrollability]);
+  }, [checkForScrollability]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {

@@ -1,0 +1,23 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_uploaderdata_ts",
+      "label": "uploaderData.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/uploaderData.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdata_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/uploaderData.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

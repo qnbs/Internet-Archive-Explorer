@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
-import { searchArchive } from '@/services/archiveService';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
 import { ContentCarousel } from './ContentCarousel';
 
 interface RelatedItemsProps {

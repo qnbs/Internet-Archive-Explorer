@@ -1,0 +1,171 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "label": "RecRoomItemCard.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "recroomitemcard_tobooleanflag",
+      "label": "toBooleanFlag()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "recroomitemcard_getcreator",
+      "label": "getCreator()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "recroomitemcard_handleselect",
+      "label": "handleSelect()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L35"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "home_pc_internet_archive_explorer_components_icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "app",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "recroomitemcard_tobooleanflag",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "recroomitemcard_getcreator",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroomitemcard_tsx",
+      "target": "recroomitemcard_handleselect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L35",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "recroomitemcard_tobooleanflag",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "recroomitemcard_tobooleanflag",
+      "callee": "toLowerCase",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "recroomitemcard_tobooleanflag",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "recroomitemcard_getcreator",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "recroomitemcard_getcreator",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "recroomitemcard_getcreator",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "recroomitemcard_handleselect",
+      "callee": "endsWith",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "recroomitemcard_handleselect",
+      "callee": "open",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "recroomitemcard_handleselect",
+      "callee": "setModal",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/RecRoomItemCard.tsx",
+      "source_location": "L45"
+    }
+  ]
+}

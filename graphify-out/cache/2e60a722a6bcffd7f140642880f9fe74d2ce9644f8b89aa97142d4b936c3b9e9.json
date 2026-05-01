@@ -1,0 +1,195 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "label": "AIArchiveDetailPane.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "aiarchivedetailpane_tag",
+      "label": "Tag()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "aiarchivedetailpane_handletagadd",
+      "label": "handleTagAdd()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L153"
+    },
+    {
+      "id": "aiarchivedetailpane_handletagremove",
+      "label": "handleTagRemove()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L162"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "aiarchive",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "app",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "home_pc_internet_archive_explorer_components_ai_archive_sourceitemcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "usedebounce",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "aiarchivedetailpane_tag",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "aiarchivedetailpane_handletagadd",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ai_archive_aiarchivedetailpane_tsx",
+      "target": "aiarchivedetailpane_handletagremove",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L162",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "aiarchivedetailpane_handletagadd",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L154"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagadd",
+      "callee": "preventDefault",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L155"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagadd",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L156"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagadd",
+      "callee": "updateTags",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L157"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagadd",
+      "callee": "setTagInput",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L158"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagremove",
+      "callee": "filter",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L164"
+    },
+    {
+      "caller_nid": "aiarchivedetailpane_handletagremove",
+      "callee": "updateTags",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ai-archive/AIArchiveDetailPane.tsx",
+      "source_location": "L165"
+    }
+  ]
+}

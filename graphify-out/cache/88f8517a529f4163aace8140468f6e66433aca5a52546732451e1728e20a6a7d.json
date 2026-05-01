@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "label": "AIToolsTab.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "aitoolstab_handleentityclick",
+      "label": "handleEntityClick()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L132"
+    },
+    {
+      "id": "aitoolstab_entitysection",
+      "label": "EntitySection()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L137"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_services_geminiservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_hooks_usesearchandgo",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_hooks_uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_store_settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_components_icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_components_ailoadingindicator",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_components_spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_services_aipersistenceservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "home_pc_internet_archive_explorer_store_aiarchive",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "aitoolstab_handleentityclick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_aitoolstab_tsx",
+      "target": "aitoolstab_entitysection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L137",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "aitoolstab_handleentityclick",
+      "callee": "searchAndGo",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L133"
+    },
+    {
+      "caller_nid": "aitoolstab_handleentityclick",
+      "callee": "onClose",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L134"
+    },
+    {
+      "caller_nid": "aitoolstab_entitysection",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/AIToolsTab.tsx",
+      "source_location": "L143"
+    }
+  ]
+}

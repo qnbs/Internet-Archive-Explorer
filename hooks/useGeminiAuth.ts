@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 import {
   clearStoredOAuthToken,
   getStoredOAuthTokenMeta,
   getValidAccessToken,
   setStoredOAuthToken,
 } from '@/services/geminiAuthStorage';
+import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
@@ -62,21 +62,18 @@ export const useGeminiAuth = () => {
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
   const isConfigured = useMemo(() => Boolean(clientId), [clientId]);
 
-  const setOAuthClientId = useCallback(
-    (value: string) => {
-      const normalized = value.trim();
-      if (normalized) {
-        localStorage.setItem(OAUTH_CLIENT_ID_STORAGE_KEY, normalized);
-        setRuntimeClientId(normalized);
-        setError(null);
-        return;
-      }
+  const setOAuthClientId = useCallback((value: string) => {
+    const normalized = value.trim();
+    if (normalized) {
+      localStorage.setItem(OAUTH_CLIENT_ID_STORAGE_KEY, normalized);
+      setRuntimeClientId(normalized);
+      setError(null);
+      return;
+    }
 
-      localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
-      setRuntimeClientId(envClientId);
-    },
-    [envClientId],
-  );
+    localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
+    setRuntimeClientId(envClientId);
+  }, []);
 
   const scheduleAutoCleanup = useCallback(() => {
     if (cleanupTimerRef.current !== null) {
@@ -245,7 +242,7 @@ export const useGeminiAuth = () => {
     if (envClientId && envClientId !== runtimeClientId) {
       setRuntimeClientId(envClientId);
     }
-  }, [envClientId, runtimeClientId]);
+  }, [runtimeClientId]);
 
   return {
     token,

@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "label": "HelpView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "helpview_helpviewlayout",
+      "label": "HelpViewLayout()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "helpview_helpview",
+      "label": "HelpView()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L21"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpviewcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpheader",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpsearchbar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpsidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpcontent",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpview_helpviewlayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_helpview_tsx",
+      "target": "helpview_helpview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/HelpView.tsx",
+      "source_location": "L21",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

@@ -39,10 +39,8 @@
       "extensions": [
         // Tailwind CSS
         "bradlc.vscode-tailwindcss",
-        // Prettier
-        "esbenp.prettier-vscode",
-        // ESLint
-        "dbaeumer.vscode-eslint",
+        // Biome (lint + format — single tool for this repo)
+        "biomejs.biome",
         // TypeScript
         "ms-vscode.vscode-typescript-next",
         // React / JSX helpers
@@ -64,27 +62,41 @@
 
       // ── Editor settings ─────────────────────────────────────────────────────
       "settings": {
-        // ── Formatting ────────────────────────────────────────────────────────
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        // ── ESLint off (Biome only; matches repo .vscode/settings.json) ────────
+        "eslint.enable": false,
+        "eslint.validate": [],
+        // ── Biome ─────────────────────────────────────────────────────────────
+        "editor.defaultFormatter": "biomejs.biome",
+        "biome.enabled": true,
+        "biome.lsp.bin": "biome",
         "editor.formatOnSave": true,
-        "editor.formatOnPaste": false,
+        "editor.formatOnPaste": true,
+        "editor.formatOnType": true,
         "editor.tabSize": 2,
         "editor.insertSpaces": true,
         "editor.rulers": [100],
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": false,
+          "strings": true
+        },
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
-
-        // ── ESLint ────────────────────────────────────────────────────────────
         "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
+          "quickfix.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
         },
-        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-        "eslint.workingDirectories": [{ "mode": "auto" }],
 
         // ── TypeScript ────────────────────────────────────────────────────────
         "typescript.tsdk": "node_modules/typescript/lib",
         "typescript.enablePromptUseWorkspaceTsdk": true,
         "typescript.preferences.importModuleSpecifier": "shortest",
+        "typescript.preferences.importModuleSpecifierEnding": "minimal",
+        "typescript.inlayHints.parameterNames.enabled": "all",
+        "typescript.inlayHints.parameterTypes.enabled": true,
+        "typescript.inlayHints.variableTypes.enabled": true,
+        "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
         "typescript.suggest.autoImports": true,
 
         // ── Tailwind CSS ──────────────────────────────────────────────────────

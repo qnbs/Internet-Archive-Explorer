@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { useAtomValue, useSetAtom } from 'jotai';
+import React, { useMemo } from 'react';
+import { ContentCarousel } from '@/components/ContentCarousel';
+import { CompassIcon, SparklesIcon, StarIcon, TrendingIcon } from '@/components/Icons';
+import { OnThisDay } from '@/components/OnThisDay';
+import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import { activeViewAtom } from '@/store';
 import { libraryItemsAtom } from '@/store/favorites';
 import { searchHistoryAtom } from '@/store/search';
-import { activeViewAtom } from '@/store';
-import { searchArchive } from '@/services/archiveService';
-import { useLanguage } from '@/hooks/useLanguage';
-import { ContentCarousel } from '@/components/ContentCarousel';
-import { OnThisDay } from '@/components/OnThisDay';
-import { SparklesIcon, StarIcon, CompassIcon, TrendingIcon } from '@/components/Icons';
 import type { ArchiveItemSummary, View } from '@/types';
 
 // ─── Animation variants ───────────────────────────────────────────

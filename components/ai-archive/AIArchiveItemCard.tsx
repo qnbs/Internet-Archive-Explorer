@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  AIGenerationType,
+  AudioIcon,
+  BookIcon,
+  ImageIcon,
+  JoystickIcon,
+  MovieIcon,
+  SparklesIcon,
+  StarIcon,
+  TagIcon,
+} from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import {
   type AIArchiveEntry,
+  AIGenerationType,
   type ExtractedEntities,
   type ImageAnalysisResult,
   type MagicOrganizeResult,
 } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import {
-  BookIcon,
-  TagIcon,
-  ImageIcon,
-  StarIcon,
-  SparklesIcon,
-  MovieIcon,
-  AudioIcon,
-  JoystickIcon,
-} from '@/components/Icons';
 
 interface AIArchiveItemCardProps {
   entry: AIArchiveEntry;
@@ -71,7 +71,7 @@ export const AIArchiveItemCard: React.FC<AIArchiveItemCardProps> = React.memo(
 
     useEffect(() => {
       setImageError(false);
-    }, [entry.id]);
+    }, []);
 
     return (
       <article

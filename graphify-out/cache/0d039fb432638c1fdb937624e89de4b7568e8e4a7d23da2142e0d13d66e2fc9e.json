@@ -1,0 +1,152 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "label": "ThemeToggle.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "themetoggle_sunicon",
+      "label": "SunIcon()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "themetoggle_moonicon",
+      "label": "MoonIcon()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L25"
+    },
+    {
+      "id": "themetoggle_sepiaicon",
+      "label": "SepiaIcon()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L36"
+    },
+    {
+      "id": "themetoggle_systemicon",
+      "label": "SystemIcon()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L47"
+    },
+    {
+      "id": "themetoggle_advance",
+      "label": "advance()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L90"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "themetoggle_sunicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "themetoggle_moonicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "themetoggle_sepiaicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "themetoggle_systemicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_ui_themetoggle_tsx",
+      "target": "themetoggle_advance",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L90",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "themetoggle_advance",
+      "callee": "indexOf",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L91"
+    },
+    {
+      "caller_nid": "themetoggle_advance",
+      "callee": "setTheme",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/ThemeToggle.tsx",
+      "source_location": "L92"
+    }
+  ]
+}

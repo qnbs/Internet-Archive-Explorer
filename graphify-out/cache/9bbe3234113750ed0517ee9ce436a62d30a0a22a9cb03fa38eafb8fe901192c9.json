@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "label": "aiPersistenceService.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "aipersistenceservice_findarchiveddailyinsight",
+      "label": "findArchivedDailyInsight()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "aipersistenceservice_findarchiveditemanalysis",
+      "label": "findArchivedItemAnalysis()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L43"
+    },
+    {
+      "id": "aipersistenceservice_archiveaigeneration",
+      "label": "archiveAIGeneration()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L78"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "target": "uuid",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "target": "aipersistenceservice_findarchiveddailyinsight",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "target": "aipersistenceservice_findarchiveditemanalysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_aipersistenceservice_ts",
+      "target": "aipersistenceservice_archiveaigeneration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L78",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "aipersistenceservice_findarchiveddailyinsight",
+      "callee": "toDateString",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "aipersistenceservice_findarchiveddailyinsight",
+      "callee": "find",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "aipersistenceservice_findarchiveditemanalysis",
+      "callee": "find",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "uuidv4",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L87"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "now",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L94"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "slice",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L103"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "slice",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "aipersistenceservice_archiveaigeneration",
+      "callee": "addEntry",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/aiPersistenceService.ts",
+      "source_location": "L115"
+    }
+  ]
+}

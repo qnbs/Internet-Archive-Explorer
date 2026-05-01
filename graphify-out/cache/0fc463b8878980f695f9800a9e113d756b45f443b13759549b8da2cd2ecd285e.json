@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "label": "VideothekView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "videothekview_getcollections",
+      "label": "getCollections()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L9"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "archivalcarousel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "usearchivalitems",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "geminiservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "aiinsightpanel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_videothekview_tsx",
+      "target": "videothekview_getcollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L12"
+    },
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L16"
+    },
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L19"
+    },
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "videothekview_getcollections",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/VideothekView.tsx",
+      "source_location": "L29"
+    }
+  ]
+}

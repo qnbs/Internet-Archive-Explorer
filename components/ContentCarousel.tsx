@@ -1,9 +1,9 @@
-import React, { useRef, useState, useEffect, useId } from 'react';
-import type { ArchiveItemSummary } from '@/types';
-import { CarouselItemCard, AspectRatio } from './CarouselItemCard';
-import { SkeletonCard } from './SkeletonCard';
-import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { ArchiveItemSummary } from '@/types';
+import { AspectRatio, CarouselItemCard } from './CarouselItemCard';
+import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
+import { SkeletonCard } from './SkeletonCard';
 
 interface ContentCarouselProps {
   title: string;
@@ -36,13 +36,13 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
   const { t } = useLanguage();
   const containerId = useId();
 
-  const checkForScrollability = () => {
+  const checkForScrollability = useCallback(() => {
     const el = scrollContainerRef.current;
     if (el) {
       setCanScrollLeft(el.scrollLeft > 5); // Add a small buffer
       setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 5); // Add a small buffer
     }
-  };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(checkForScrollability, 100);
@@ -54,7 +54,13 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
       el?.removeEventListener('scroll', checkForScrollability);
       window.removeEventListener('resize', checkForScrollability);
     };
-  }, [items, isLoading]);
+  }, [checkForScrollability]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: scroll bounds depend on rendered carousel items / loading state (DOM), not on refs in the closure body
+  useEffect(() => {
+    const timer = setTimeout(checkForScrollability, 0);
+    return () => clearTimeout(timer);
+  }, [items, isLoading, checkForScrollability]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {

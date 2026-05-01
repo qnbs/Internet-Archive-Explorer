@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useToast } from '@/contexts/ToastContext';
-import { CloseIcon } from './Icons';
 import { useLanguage } from '@/hooks/useLanguage';
+import { CloseIcon } from './Icons';
 
 const Toast: React.FC<{
   message: string;

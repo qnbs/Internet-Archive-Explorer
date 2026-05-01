@@ -1,18 +1,18 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import type { ArchiveItemSummary, MediaType } from '@/types';
+import { motion } from 'framer-motion';
 import { useAtomValue, useSetAtom } from 'jotai';
+import React from 'react';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
+import { selectItemAtom } from '@/store/app';
 import {
-  libraryItemIdentifiersAtom,
   addLibraryItemAtom,
+  libraryItemIdentifiersAtom,
   removeLibraryItemAtom,
 } from '@/store/favorites';
-import { selectItemAtom } from '@/store/app';
-import { useToast } from '@/contexts/ToastContext';
-import { StarIcon, InfoIcon } from './Icons';
-import { useLanguage } from '@/hooks/useLanguage';
+import type { ArchiveItemSummary, MediaType } from '@/types';
 import { formatNumber } from '@/utils/formatter';
+import { InfoIcon, StarIcon } from './Icons';
 
 export type CardVariant = 'classic' | 'polaroid' | 'vhs';
 

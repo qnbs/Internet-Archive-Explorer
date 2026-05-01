@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_public_sw_register_js",
+      "label": "sw-register.js",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/public/sw-register.js",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [],
+  "raw_calls": []
+}

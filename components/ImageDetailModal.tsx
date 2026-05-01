@@ -1,45 +1,45 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
+import { useToast } from '@/contexts/ToastContext';
+// FIX: Corrected import from useItemMetadata to useItemDetail, which is the correct hook.
+import { useImageViewer } from '@/hooks/useImageViewer';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { archiveAIGeneration, findArchivedItemAnalysis } from '@/services/aiPersistenceService';
+import { analyzeImage, askAboutImage } from '@/services/geminiService';
+import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import {
+  addLibraryItemAtom,
+  libraryItemIdentifiersAtom,
+  removeLibraryItemAtom,
+} from '@/store/favorites';
+import { autoArchiveAIAtom, enableAiFeaturesAtom } from '@/store/settings';
 import {
   AIGenerationType,
   type ArchiveItemSummary,
   type ImageAnalysisResult,
   MediaType,
 } from '@/types';
-import { Spinner } from './Spinner';
+import { findBestImageUrl, urlToBase64 } from '@/utils/imageUtils';
+import { AILoadingIndicator } from './AILoadingIndicator';
 import {
-  StarIcon,
-  CloseIcon,
-  ZoomInIcon,
-  ZoomOutIcon,
-  RotateClockwiseIcon,
-  RotateCounterClockwiseIcon,
-  RefreshIcon,
-  ExpandIcon,
-  DownloadIcon,
-  SparklesIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  CloseIcon,
+  DownloadIcon,
+  ExpandIcon,
+  RefreshIcon,
+  RotateClockwiseIcon,
+  RotateCounterClockwiseIcon,
+  SparklesIcon,
+  StarIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
 } from './Icons';
-import { useAtomValue, useSetAtom } from 'jotai';
-import {
-  libraryItemIdentifiersAtom,
-  addLibraryItemAtom,
-  removeLibraryItemAtom,
-} from '@/store/favorites';
-import { autoArchiveAIAtom, enableAiFeaturesAtom } from '@/store/settings';
-import { useToast } from '@/contexts/ToastContext';
-import { useLanguage } from '@/hooks/useLanguage';
-import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
-// FIX: Corrected import from useItemMetadata to useItemDetail, which is the correct hook.
-import { useImageViewer } from '@/hooks/useImageViewer';
-import { findBestImageUrl, urlToBase64 } from '@/utils/imageUtils';
-import { analyzeImage, askAboutImage } from '@/services/geminiService';
 import { ItemDetailSidebar } from './ItemDetailSidebar';
-import { findArchivedItemAnalysis, archiveAIGeneration } from '@/services/aiPersistenceService';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
-import { AILoadingIndicator } from './AILoadingIndicator';
-import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import { ItemDetailProvider, useItemDetailContext } from '@/contexts/ItemDetailContext';
+import { Spinner } from './Spinner';
 
 // --- Sub-components moved inside to manage complex state ---
 
@@ -444,7 +444,9 @@ const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = (
             {metadata && (
               <>
                 <ItemDetailSidebar
-                  onEmulate={() => {}}
+                  onEmulate={() => {
+                    /* no emulator path for images */
+                  }}
                   onCreatorSelect={onCreatorSelect}
                   onUploaderSelect={onUploaderSelect}
                 />

@@ -1,7 +1,7 @@
 import React from 'react';
-import type { View } from '@/types';
 import { useLanguage } from '@/hooks/useLanguage';
-import { CompassIcon, MovieIcon, AudioIcon, ImageIcon, BookIcon } from './Icons';
+import type { View } from '@/types';
+import { AudioIcon, BookIcon, CompassIcon, ImageIcon, MovieIcon } from './Icons';
 
 interface NavItem {
   view: View;

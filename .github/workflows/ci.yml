@@ -47,6 +47,9 @@ jobs:
       - name: Security audit
         run: pnpm audit --audit-level=moderate
 
+      - name: Biome CI (lint + format + assist checks)
+        run: pnpm run lint:ci
+
       - name: Check locale key completeness
         run: node scripts/sync-locales.mjs --check
 

@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "label": "SideMenu.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sidemenu_handlenavigation",
+      "label": "handleNavigation()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L87"
+    },
+    {
+      "id": "sidemenu_rendernavitem",
+      "label": "renderNavItem()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L92"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "home_pc_internet_archive_explorer_components_icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "sidemenu_handlenavigation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_sidemenu_tsx",
+      "target": "sidemenu_rendernavitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L92",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "sidemenu_handlenavigation",
+      "callee": "setActiveView",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "sidemenu_handlenavigation",
+      "callee": "onClose",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/SideMenu.tsx",
+      "source_location": "L89"
+    }
+  ]
+}

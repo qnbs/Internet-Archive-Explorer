@@ -4,9 +4,10 @@
  *
  * Also works as a "theme pill" that shows current theme with animated icon swap.
  */
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
+import React from 'react';
 import { themeAtom } from '@/store/settings';
 import type { Theme } from '@/types';
 

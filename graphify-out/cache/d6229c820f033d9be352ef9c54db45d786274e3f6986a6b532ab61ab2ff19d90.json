@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_help_helpcontent_tsx",
+      "label": "HelpContent.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "helpcontent_highlight",
+      "label": "highlight()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L12"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_help_helpcontent_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_help_helpcontent_tsx",
+      "target": "helpviewcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_help_helpcontent_tsx",
+      "target": "sanitizer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_help_helpcontent_tsx",
+      "target": "helpcontent_highlight",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "helpcontent_highlight",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L13"
+    },
+    {
+      "caller_nid": "helpcontent_highlight",
+      "callee": "replace",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L14"
+    },
+    {
+      "caller_nid": "helpcontent_highlight",
+      "callee": "replace",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/help/HelpContent.tsx",
+      "source_location": "L15"
+    }
+  ]
+}

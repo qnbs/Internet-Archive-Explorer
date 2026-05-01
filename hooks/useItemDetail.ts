@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { ArchiveItemSummary } from '@/types';
-import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { useAtomValue } from 'jotai';
-import { defaultDetailTabAllAtom, enableAiFeaturesAtom, autoplayMediaAtom } from '@/store/settings';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
+import { autoplayMediaAtom, defaultDetailTabAllAtom, enableAiFeaturesAtom } from '@/store/settings';
+import type { ArchiveItemSummary } from '@/types';
 import { findPlayableFile } from '@/utils/mediaUtils';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';
@@ -59,7 +59,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     }
   }, [metadata, item.mediatype, item.identifier]);
 
-  const handlePlayPause = () => {
+  const handlePlayPause = useCallback(() => {
     if (mediaRef.current) {
       if (isPlaying) {
         mediaRef.current.pause();
@@ -67,7 +67,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
         mediaRef.current.play().catch((e) => console.error('Media play failed:', e));
       }
     }
-  };
+  }, [isPlaying]);
 
   const mediaEventListeners = {
     onPlay: () => setIsPlaying(true),
@@ -82,8 +82,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
       }, 100);
       return () => clearTimeout(timer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playableMedia?.url, autoplayMedia]);
+  }, [playableMedia?.url, autoplayMedia, isPlaying, handlePlayPause]);
 
   const error =
     metaError instanceof Error ? metaError.message : metaError ? 'An unknown error occurred' : null;

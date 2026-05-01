@@ -1,0 +1,530 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "label": "ImageDetailModal.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "imagedetailmodal_handletagclick",
+      "label": "handleTagClick()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L92"
+    },
+    {
+      "id": "imagedetailmodal_handleask",
+      "label": "handleAsk()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L127"
+    },
+    {
+      "id": "imagedetailmodal_handlekeydown",
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L243"
+    },
+    {
+      "id": "imagedetailmodal_handlefavoriteclick",
+      "label": "handleFavoriteClick()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L296"
+    },
+    {
+      "id": "imagedetailmodal_handlefullscreen",
+      "label": "handleFullscreen()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L306"
+    },
+    {
+      "id": "imagedetailmodal_handledownload",
+      "label": "handleDownload()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L308"
+    },
+    {
+      "id": "imagedetailmodal_handleanalyze",
+      "label": "handleAnalyze()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L310"
+    },
+    {
+      "id": "imagedetailmodal_handleaskfollowup",
+      "label": "handleAskFollowUp()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L338"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "home_pc_internet_archive_explorer_components_spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "home_pc_internet_archive_explorer_components_icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "favorites",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "toastcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "usemodalfocustrap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "useimageviewer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imageutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "geminiservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "home_pc_internet_archive_explorer_components_itemdetailsidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "aipersistenceservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "aiarchive",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "home_pc_internet_archive_explorer_components_ailoadingindicator",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "usesearchandgo",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "itemdetailcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handletagclick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handleask",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handlekeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handlefavoriteclick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handlefullscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L306",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handledownload",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L308",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handleanalyze",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_imagedetailmodal_tsx",
+      "target": "imagedetailmodal_handleaskfollowup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L338",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "imagedetailmodal_handletagclick",
+      "callee": "onCloseModal",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L93"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handletagclick",
+      "callee": "setTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L94"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "preventDefault",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L128"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L129"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "setIsAnswering",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L130"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "onAskFollowUp",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L131"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "setConversation",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L133"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "setQuestion",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L141"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleask",
+      "callee": "setIsAnswering",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L142"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlekeydown",
+      "callee": "zoomIn",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L248"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlekeydown",
+      "callee": "zoomOut",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L251"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlekeydown",
+      "callee": "rotateCCW",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L255"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlekeydown",
+      "callee": "rotateCW",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L257"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlekeydown",
+      "callee": "reset",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L261"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "removeLibraryItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L298"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "addToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L299"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L299"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "addLibraryItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L301"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "addToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L302"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefavoriteclick",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L302"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefullscreen",
+      "callee": "catch",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L307"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handlefullscreen",
+      "callee": "requestFullscreen",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L307"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handledownload",
+      "callee": "open",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L308"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "setIsAnalyzing",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L313"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "setAnalysisResult",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L314"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "urlToBase64",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L317"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "analyzeImage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L318"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "setAnalysisResult",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L319"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "archiveAIGeneration",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L320"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "addToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L331"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "setIsAiPanelOpen",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L332"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleanalyze",
+      "callee": "setIsAnalyzing",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L334"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleaskfollowup",
+      "callee": "urlToBase64",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L341"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleaskfollowup",
+      "callee": "askAboutImage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L342"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleaskfollowup",
+      "callee": "archiveAIGeneration",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L344"
+    },
+    {
+      "caller_nid": "imagedetailmodal_handleaskfollowup",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ImageDetailModal.tsx",
+      "source_location": "L358"
+    }
+  ]
+}

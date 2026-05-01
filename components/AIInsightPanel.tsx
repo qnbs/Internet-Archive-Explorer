@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { aiArchiveAtom, addAIArchiveEntryAtom } from '@/store/aiArchive';
-import { autoArchiveAIAtom } from '@/store/settings';
-import { archiveAIGeneration } from '@/services/aiPersistenceService';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { archiveAIGeneration } from '@/services/aiPersistenceService';
+import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import { autoArchiveAIAtom } from '@/store/settings';
+import type { AIGenerationType, ArchiveItemSummary, Language } from '@/types';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { SparklesIcon } from './Icons';
-import type { ArchiveItemSummary, AIGenerationType, Language } from '@/types';
 
 interface AIInsightPanelProps {
   title: string;

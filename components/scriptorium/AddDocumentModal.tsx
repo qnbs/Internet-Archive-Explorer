@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary, Workset } from '@/types';
+import React, { useEffect, useRef, useState } from 'react';
+import { CloseIcon, PlusIcon, SearchIcon } from '@/components/Icons';
 import { useDebounce } from '@/hooks/useDebounce';
-import { Spinner } from '../Spinner';
-import { CloseIcon, SearchIcon, PlusIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, Workset } from '@/types';
+import { Spinner } from '../Spinner';
 
 interface AddDocumentModalProps {
   workset: Workset;

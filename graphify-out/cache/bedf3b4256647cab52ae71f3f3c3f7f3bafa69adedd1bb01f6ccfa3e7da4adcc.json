@@ -1,0 +1,112 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "label": "ArchivalCarousel.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "archivalcarousel_archivalcarousel",
+      "label": "ArchivalCarousel()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L12"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "home_pc_internet_archive_explorer_components_contentcarousel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_archivalcarousel_tsx",
+      "target": "archivalcarousel_archivalcarousel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L13"
+    },
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L14"
+    },
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useLanguage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L16"
+    },
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L18"
+    },
+    {
+      "caller_nid": "archivalcarousel_archivalcarousel",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ArchivalCarousel.tsx",
+      "source_location": "L32"
+    }
+  ]
+}

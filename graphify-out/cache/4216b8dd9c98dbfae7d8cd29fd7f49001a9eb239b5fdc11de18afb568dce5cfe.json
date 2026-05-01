@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_sanitizer_ts",
+      "label": "sanitizer.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "sanitizer_sanitizehtml",
+      "label": "sanitizeHtml()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L10"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_sanitizer_ts",
+      "target": "dompurify",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_sanitizer_ts",
+      "target": "dompurify",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_sanitizer_ts",
+      "target": "sanitizer_sanitizehtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "sanitizer_sanitizehtml",
+      "callee": "String",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L12"
+    },
+    {
+      "caller_nid": "sanitizer_sanitizehtml",
+      "callee": "sanitize",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/sanitizer.ts",
+      "source_location": "L12"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 ### Core Stack
 
 - **React 19** with functional components only (no class components)
-- **TypeScript strict** mode — all types in `types.ts`, no `any` (eslint error)
+- **TypeScript strict** mode — all types in `types.ts`, no `any` (Biome / TS strict)
 - **Jotai 2** atoms only for state management (no Redux/Zustand/Context for state)
 - **Tailwind CSS 3** with custom IA color palette (`ia-*` tokens in `tailwind.config.js`)
 - **Framer Motion 12** for all animations and transitions

@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_hooks_useimageviewer_ts",
+      "label": "useImageViewer.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "useimageviewer_useimageviewer",
+      "label": "useImageViewer()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L24"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useimageviewer_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useimageviewer_ts",
+      "target": "useimageviewer_useimageviewer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L24",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L27"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L29"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L34"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L53"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L91"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L103"
+    },
+    {
+      "caller_nid": "useimageviewer_useimageviewer",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useImageViewer.ts",
+      "source_location": "L107"
+    }
+  ]
+}

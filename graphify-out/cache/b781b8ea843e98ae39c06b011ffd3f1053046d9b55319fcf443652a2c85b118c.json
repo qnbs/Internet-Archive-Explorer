@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_hooks_usearchivalitems_ts",
+      "label": "useArchivalItems.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "usearchivalitems_usearchivalitems",
+      "label": "useArchivalItems()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L9"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_usearchivalitems_ts",
+      "target": "react_query",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_usearchivalitems_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_usearchivalitems_ts",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_usearchivalitems_ts",
+      "target": "usearchivalitems_usearchivalitems",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "usearchivalitems_usearchivalitems",
+      "callee": "useQuery",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L10"
+    },
+    {
+      "caller_nid": "usearchivalitems_usearchivalitems",
+      "callee": "Boolean",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useArchivalItems.ts",
+      "source_location": "L16"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "label": "useUploaderStats.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "useuploaderstats_useuploaderstats",
+      "label": "useUploaderStats()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L6"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "target": "react_query",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "target": "profileutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useuploaderstats_ts",
+      "target": "useuploaderstats_useuploaderstats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "useuploaderstats_useuploaderstats",
+      "callee": "useQuery",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useUploaderStats.ts",
+      "source_location": "L12"
+    }
+  ]
+}

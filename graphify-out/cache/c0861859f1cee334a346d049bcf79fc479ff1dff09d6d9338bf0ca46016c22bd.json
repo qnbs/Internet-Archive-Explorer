@@ -1,0 +1,188 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "label": "AudioPlayer.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "audioplayer_handletimeupdate",
+      "label": "handleTimeUpdate()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "audioplayer_handledurationchange",
+      "label": "handleDurationChange()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L40"
+    },
+    {
+      "id": "audioplayer_handleended",
+      "label": "handleEnded()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L41"
+    },
+    {
+      "id": "audioplayer_handleerror",
+      "label": "handleError()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "audioplayer_handleprogresschange",
+      "label": "handleProgressChange()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L79"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer_handletimeupdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer_handledurationchange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer_handleended",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer_handleerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_audiothek_audioplayer_tsx",
+      "target": "audioplayer_handleprogresschange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L79",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "audioplayer_handletimeupdate",
+      "callee": "setCurrentTime",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L39"
+    },
+    {
+      "caller_nid": "audioplayer_handledurationchange",
+      "callee": "setDuration",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "audioplayer_handleended",
+      "callee": "next",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "audioplayer_handleerror",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "audioplayer_handleerror",
+      "callee": "setIsPlaying",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L44"
+    },
+    {
+      "caller_nid": "audioplayer_handleprogresschange",
+      "callee": "Number",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L81"
+    },
+    {
+      "caller_nid": "audioplayer_handleprogresschange",
+      "callee": "setCurrentTime",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "audioplayer_handleprogresschange",
+      "callee": "Number",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/audiothek/AudioPlayer.tsx",
+      "source_location": "L82"
+    }
+  ]
+}

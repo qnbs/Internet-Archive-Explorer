@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
 import {
-  userCollectionsAtom,
+  AudioIcon,
+  BookIcon,
+  CloseIcon,
+  CollectionIcon,
+  CompassIcon,
+  ImageIcon,
+  JoystickIcon,
+  MovieIcon,
+  PencilAltIcon,
+  PlusIcon,
+  StarIcon,
+  TagIcon,
+  TrashIcon,
+  UsersIcon,
+} from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { modalAtom } from '@/store/app';
+import {
   allTagsAtom,
   deleteCollectionAtom,
-  updateCollectionNameAtom,
   libraryCountsAtom,
+  updateCollectionNameAtom,
+  userCollectionsAtom,
 } from '@/store/favorites';
-import { modalAtom } from '@/store/app';
 import { toastAtom } from '@/store/toast';
 import type { LibraryFilter, UserCollection } from '@/types';
 import { MediaType } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import {
-  StarIcon,
-  UsersIcon,
-  CollectionIcon,
-  TagIcon,
-  PlusIcon,
-  CloseIcon,
-  PencilAltIcon,
-  TrashIcon,
-  BookIcon,
-  MovieIcon,
-  AudioIcon,
-  ImageIcon,
-  JoystickIcon,
-  CompassIcon,
-} from '@/components/Icons';
 
 interface LibrarySidebarProps {
   activeTab: 'items' | 'uploaders';

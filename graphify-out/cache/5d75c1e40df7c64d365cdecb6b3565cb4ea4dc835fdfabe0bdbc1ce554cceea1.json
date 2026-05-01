@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_vite_env_d_ts",
+      "label": "vite-env.d.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/vite-env.d.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [],
+  "raw_calls": []
+}

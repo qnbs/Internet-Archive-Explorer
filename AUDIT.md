@@ -15,7 +15,10 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ## Unreleased
 
-- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + pnpm cache in GitHub Actions
+- 🧹 Biome: Konfiguration erweitert (Ignores, Test-Override, CI `biome ci`), verbleibende Hook-Warnungen behoben
+- 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
+- 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
+- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + optimierter pnpm cache in GitHub Actions
 - 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
 
 ---

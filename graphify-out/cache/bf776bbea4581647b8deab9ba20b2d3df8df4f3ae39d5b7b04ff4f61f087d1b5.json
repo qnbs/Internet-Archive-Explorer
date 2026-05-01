@@ -1,0 +1,298 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "label": "geminiAuthStorage.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "geminiauthstorage_getsessionstorage",
+      "label": "getSessionStorage()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "geminiauthstorage_getlocalstorage",
+      "label": "getLocalStorage()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "geminiauthstorage_isvalid",
+      "label": "isValid()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "geminiauthstorage_setstoredoauthtoken",
+      "label": "setStoredOAuthToken()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L25"
+    },
+    {
+      "id": "geminiauthstorage_getstoredoauthtokenmeta",
+      "label": "getStoredOAuthTokenMeta()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L43"
+    },
+    {
+      "id": "geminiauthstorage_getvalidaccesstoken",
+      "label": "getValidAccessToken()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L72"
+    },
+    {
+      "id": "geminiauthstorage_clearstoredoauthtoken",
+      "label": "clearStoredOAuthToken()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L75"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_getsessionstorage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_getlocalstorage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_isvalid",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_setstoredoauthtoken",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_getstoredoauthtokenmeta",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_getvalidaccesstoken",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiauthstorage_ts",
+      "target": "geminiauthstorage_clearstoredoauthtoken",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_setstoredoauthtoken",
+      "target": "geminiauthstorage_getsessionstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_setstoredoauthtoken",
+      "target": "geminiauthstorage_getlocalstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_getstoredoauthtokenmeta",
+      "target": "geminiauthstorage_isvalid",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_getstoredoauthtokenmeta",
+      "target": "geminiauthstorage_getsessionstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_getstoredoauthtokenmeta",
+      "target": "geminiauthstorage_getlocalstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_getstoredoauthtokenmeta",
+      "target": "geminiauthstorage_clearstoredoauthtoken",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_getvalidaccesstoken",
+      "target": "geminiauthstorage_getstoredoauthtokenmeta",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_clearstoredoauthtoken",
+      "target": "geminiauthstorage_getsessionstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiauthstorage_clearstoredoauthtoken",
+      "target": "geminiauthstorage_getlocalstorage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L78",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "geminiauthstorage_isvalid",
+      "callee": "now",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "max",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "min",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "now",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L33"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "setItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L39"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "stringify",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L39"
+    },
+    {
+      "caller_nid": "geminiauthstorage_setstoredoauthtoken",
+      "callee": "removeItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "getItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L50"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "getItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "parse",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "setItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "stringify",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "geminiauthstorage_getstoredoauthtokenmeta",
+      "callee": "removeItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L63"
+    },
+    {
+      "caller_nid": "geminiauthstorage_clearstoredoauthtoken",
+      "callee": "removeItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "geminiauthstorage_clearstoredoauthtoken",
+      "callee": "removeItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiAuthStorage.ts",
+      "source_location": "L78"
+    }
+  ]
+}

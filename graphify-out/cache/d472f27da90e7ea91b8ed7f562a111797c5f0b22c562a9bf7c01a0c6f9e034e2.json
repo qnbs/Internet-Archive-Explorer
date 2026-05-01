@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_sw_js",
+      "label": "sw.js",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sw_timeoutfetch",
+      "label": "timeoutFetch()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L21"
+    },
+    {
+      "id": "sw_isimagerequest",
+      "label": "isImageRequest()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L102"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_sw_js",
+      "target": "sw_timeoutfetch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_sw_js",
+      "target": "sw_isimagerequest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L102",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "sw_timeoutfetch",
+      "callee": "setTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "sw_timeoutfetch",
+      "callee": "fetch",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "sw_timeoutfetch",
+      "callee": "clearTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L27"
+    },
+    {
+      "caller_nid": "sw_isimagerequest",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "sw_isimagerequest",
+      "callee": "startsWith",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L106"
+    },
+    {
+      "caller_nid": "sw_isimagerequest",
+      "callee": "startsWith",
+      "source_file": "/home/pc/Internet-Archive-Explorer/sw.js",
+      "source_location": "L107"
+    }
+  ]
+}

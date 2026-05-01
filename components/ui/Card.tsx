@@ -9,8 +9,9 @@
  *
  * All variants feature neon-orange glow on hover unless `noHover` is set.
  */
+
+import { type HTMLMotionProps, motion } from 'framer-motion';
 import React from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type CardVariant = 'glass' | 'solid' | 'retro' | 'sepia';

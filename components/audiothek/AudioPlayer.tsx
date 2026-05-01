@@ -1,19 +1,19 @@
-import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PauseIcon,
+  PlayIcon,
+  QueueListIcon,
+} from '@/components/Icons';
 import {
   currentTrackAtom,
   isPlayingAtom,
-  togglePlayPauseAtom,
   nextTrackAtom,
   prevTrackAtom,
+  togglePlayPauseAtom,
 } from '@/store/audioPlayer';
-import {
-  PlayIcon,
-  PauseIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  QueueListIcon,
-} from '@/components/Icons';
 import { formatTime } from '@/utils/audioUtils';
 
 const PlaylistPanel = lazy(() =>

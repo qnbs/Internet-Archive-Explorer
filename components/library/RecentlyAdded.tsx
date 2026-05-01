@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { libraryItemsAtom } from '@/store/favorites';
-import { ContentCarousel } from '../ContentCarousel';
+import React, { useMemo } from 'react';
 import { StarIcon } from '@/components/Icons';
+import { libraryItemsAtom } from '@/store/favorites';
 import type { LibraryItem } from '@/types';
+import { ContentCarousel } from '../ContentCarousel';
 
 export const RecentlyAdded: React.FC = () => {
   const allItems = useAtomValue(libraryItemsAtom);

@@ -1,0 +1,200 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "label": "ModalManager.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "modalmanager_modalfallback",
+      "label": "ModalFallback()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "modalmanager_closemodal",
+      "label": "closeModal()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L52"
+    },
+    {
+      "id": "modalmanager_handlecreatorselect",
+      "label": "handleCreatorSelect()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L54"
+    },
+    {
+      "id": "modalmanager_handleuploaderselect",
+      "label": "handleUploaderSelect()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L59"
+    },
+    {
+      "id": "modalmanager_handleemulate",
+      "label": "handleEmulate()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L64"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "home_pc_internet_archive_explorer_store",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "usenavigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "home_pc_internet_archive_explorer_components_confirmationmodal",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "home_pc_internet_archive_explorer_components_spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "modalmanager_modalfallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "modalmanager_closemodal",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "modalmanager_handlecreatorselect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "modalmanager_handleuploaderselect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_modalmanager_tsx",
+      "target": "modalmanager_handleemulate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "modalmanager_handlecreatorselect",
+      "target": "modalmanager_closemodal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "modalmanager_handleuploaderselect",
+      "target": "modalmanager_closemodal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L60",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "modalmanager_closemodal",
+      "callee": "setModal",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L52"
+    },
+    {
+      "caller_nid": "modalmanager_handlecreatorselect",
+      "callee": "navigateToCreator",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "modalmanager_handleuploaderselect",
+      "callee": "navigateToUploader",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "modalmanager_handleemulate",
+      "callee": "setModal",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ModalManager.tsx",
+      "source_location": "L65"
+    }
+  ]
+}

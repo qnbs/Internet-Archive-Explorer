@@ -1,5 +1,5 @@
 import React from 'react';
-import { SparklesIcon, BookIcon } from '@/components/Icons';
+import { BookIcon, SparklesIcon } from '@/components/Icons';
 
 const RecommendationCard: React.FC<{
   title: string;

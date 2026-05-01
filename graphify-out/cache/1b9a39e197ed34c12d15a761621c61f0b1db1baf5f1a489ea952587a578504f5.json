@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_itemdetailrelatedtab_tsx",
+      "label": "ItemDetailRelatedTab.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "itemdetailrelatedtab_itemdetailrelatedtab",
+      "label": "ItemDetailRelatedTab()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L10"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_itemdetailrelatedtab_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_itemdetailrelatedtab_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_itemdetailrelatedtab_tsx",
+      "target": "home_pc_internet_archive_explorer_components_relateditems",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_itemdetailrelatedtab_tsx",
+      "target": "itemdetailrelatedtab_itemdetailrelatedtab",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ItemDetailRelatedTab.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

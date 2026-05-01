@@ -1,0 +1,247 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "label": "UploaderDetailView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "uploaderdetailview_uploaderdetailview",
+      "label": "UploaderDetailView()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L27"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "search",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "useuploaderstats",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "useuploadertabcounts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "useuploaderuploads",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderheader",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploadersidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "resultsgrid",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploadercollections",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderfavorites",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderreviewstab",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderpoststab",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderwebarchivetab",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_uploaderdetailview_tsx",
+      "target": "uploaderdetailview_uploaderdetailview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L27",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L33"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L34"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useUploaderStats",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L35"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useUploaderTabCounts",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L38"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L39"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useUploaderUploads",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "uploaderdetailview_uploaderdetailview",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/UploaderDetailView.tsx",
+      "source_location": "L57"
+    }
+  ]
+}

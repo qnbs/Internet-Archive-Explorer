@@ -1,7 +1,7 @@
 import React from 'react';
-import type { WorksetDocument } from '@/types';
 import { CloseIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { WorksetDocument } from '@/types';
 
 interface DocumentListItemProps {
   document: WorksetDocument;

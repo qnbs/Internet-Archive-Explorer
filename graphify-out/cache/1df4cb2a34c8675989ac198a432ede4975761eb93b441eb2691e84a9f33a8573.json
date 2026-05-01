@@ -1,0 +1,306 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "label": "GameFinder.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "gamefinder_getapikey",
+      "label": "getApiKey()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "gamefinder_fetchgamelist",
+      "label": "fetchGameList()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L29"
+    },
+    {
+      "id": "gamefinder_handlefindgames",
+      "label": "handleFindGames()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L46"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "genai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "home_pc_internet_archive_explorer_components_recroomitemcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "home_pc_internet_archive_explorer_components_spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "gamefinder_getapikey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "gamefinder_fetchgamelist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_recroom_gamefinder_tsx",
+      "target": "gamefinder_handlefindgames",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "gamefinder_handlefindgames",
+      "target": "gamefinder_getapikey",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L55",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "gamefinder_fetchgamelist",
+      "callee": "searchArchive",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L31"
+    },
+    {
+      "caller_nid": "gamefinder_fetchgamelist",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "preventDefault",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L47"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setIsLoading",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L50"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setError",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setSuggestions",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L52"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "generateContent",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L70"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "parse",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L93"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L93"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L97"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "all",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "filter",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setSuggestions",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L102"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setError",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L107"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setError",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setError",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "gamefinder_handlefindgames",
+      "callee": "setIsLoading",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/recroom/GameFinder.tsx",
+      "source_location": "L114"
+    }
+  ]
+}

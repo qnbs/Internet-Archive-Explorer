@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_exploreview_tsx",
+      "label": "ExploreView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/ExploreView.tsx",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [],
+  "raw_calls": []
+}

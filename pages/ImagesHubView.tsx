@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { searchArchive, getItemCount } from '@/services/archiveService';
-import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import { useLanguage } from '@/hooks/useLanguage';
-import { ArtIcon, HistoryIcon, ScienceIcon } from '@/components/Icons';
-import { MediaType, AIGenerationType } from '@/types';
-import { useArchivalItems } from '@/hooks/useArchivalItems';
+import React, { useEffect, useState } from 'react';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
+import { ArtIcon, HistoryIcon, ScienceIcon } from '@/components/Icons';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { getItemCount, searchArchive } from '@/services/archiveService';
 import { generateMuseumExhibitConcept } from '@/services/geminiService';
+import { AIGenerationType, MediaType } from '@/types';
 
 // --- Sub-Components ---
 

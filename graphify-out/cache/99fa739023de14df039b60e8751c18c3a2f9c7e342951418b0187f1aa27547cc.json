@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_hooks_useinfinitearchive_ts",
+      "label": "useInfiniteArchive.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "useinfinitearchive_useinfinitearchive",
+      "label": "useInfiniteArchive()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L22"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useinfinitearchive_ts",
+      "target": "react_query",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useinfinitearchive_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useinfinitearchive_ts",
+      "target": "archiveservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_useinfinitearchive_ts",
+      "target": "useinfinitearchive_useinfinitearchive",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "useinfinitearchive_useinfinitearchive",
+      "callee": "useInfiniteQuery",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "useinfinitearchive_useinfinitearchive",
+      "callee": "Boolean",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useInfiniteArchive.ts",
+      "source_location": "L44"
+    }
+  ]
+}

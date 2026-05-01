@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { selectAtom } from 'jotai/utils';
-import { safeAtomWithStorage } from './safeStorage';
 import type { AppSettings, Theme } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 
 export const STORAGE_KEYS = {
   settings: 'app-settings-v2',

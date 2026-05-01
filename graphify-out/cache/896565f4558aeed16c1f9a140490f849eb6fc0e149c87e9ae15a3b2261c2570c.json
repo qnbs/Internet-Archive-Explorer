@@ -1,0 +1,104 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "label": "sync-locales.mjs",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L1"
+    },
+    {
+      "id": "sync_locales_collectkeys",
+      "label": "collectKeys()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L21"
+    },
+    {
+      "id": "sync_locales_setdeep",
+      "label": "setDeep()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L35"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "target": "node_fs",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "target": "node_path",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "target": "node_url",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "target": "sync_locales_collectkeys",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_scripts_sync_locales_mjs",
+      "target": "sync_locales_setdeep",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L35",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "sync_locales_collectkeys",
+      "callee": "entries",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "sync_locales_collectkeys",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "sync_locales_collectkeys",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "sync_locales_collectkeys",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "sync_locales_setdeep",
+      "callee": "split",
+      "source_file": "/home/pc/Internet-Archive-Explorer/scripts/sync-locales.mjs",
+      "source_location": "L36"
+    }
+  ]
+}

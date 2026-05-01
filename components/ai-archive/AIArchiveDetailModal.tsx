@@ -1,5 +1,8 @@
-import React, { useRef } from 'react';
 import { useSetAtom } from 'jotai';
+import React, { useRef } from 'react';
+import { CloseIcon, TrashIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { deleteAIArchiveEntryAtom } from '@/store/aiArchive';
 import { modalAtom } from '@/store/app';
 import type {
@@ -9,9 +12,6 @@ import type {
   MagicOrganizeResult,
 } from '@/types';
 import { AIGenerationType } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
-import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
-import { CloseIcon, TrashIcon } from '@/components/Icons';
 import { SourceItemCard } from './SourceItemCard';
 
 const ContentRenderer: React.FC<{ entry: AIArchiveEntry }> = ({ entry }) => {

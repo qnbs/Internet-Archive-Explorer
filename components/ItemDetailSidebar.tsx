@@ -1,19 +1,19 @@
+import { useSetAtom } from 'jotai';
 import React from 'react';
-import type { ArchiveItemSummary } from '@/types';
+import { useItemDetailContext } from '@/contexts/ItemDetailContext';
 import { useLanguage } from '@/hooks/useLanguage';
+import { modalAtom } from '@/store/app';
+import type { ArchiveItemSummary } from '@/types';
+import { formatIdentifierForDisplay } from '@/utils/formatter';
 import {
-  JoystickIcon,
-  PlayIcon,
-  PauseIcon,
-  MusicNoteIcon,
+  BookIcon,
   ExternalLinkIcon,
   InfoIcon,
-  BookIcon,
+  JoystickIcon,
+  MusicNoteIcon,
+  PauseIcon,
+  PlayIcon,
 } from './Icons';
-import { formatIdentifierForDisplay } from '@/utils/formatter';
-import { useSetAtom } from 'jotai';
-import { modalAtom } from '@/store/app';
-import { useItemDetailContext } from '@/contexts/ItemDetailContext';
 
 interface ItemDetailSidebarProps {
   onEmulate: (item: ArchiveItemSummary) => void;

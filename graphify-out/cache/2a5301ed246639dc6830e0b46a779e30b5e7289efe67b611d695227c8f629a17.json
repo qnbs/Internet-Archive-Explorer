@@ -1,0 +1,116 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_audioutils_ts",
+      "label": "audioUtils.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "audioutils_findplayableaudiofile",
+      "label": "findPlayableAudioFile()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "audioutils_formattime",
+      "label": "formatTime()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L36"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_audioutils_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_audioutils_ts",
+      "target": "audioutils_findplayableaudiofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_audioutils_ts",
+      "target": "audioutils_formattime",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L36",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "audioutils_findplayableaudiofile",
+      "callee": "find",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L20"
+    },
+    {
+      "caller_nid": "audioutils_findplayableaudiofile",
+      "callee": "find",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "audioutils_findplayableaudiofile",
+      "callee": "encodeURIComponent",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "isNaN",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "floor",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "floor",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "padStart",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "String",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "padStart",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "audioutils_formattime",
+      "callee": "String",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/audioUtils.ts",
+      "source_location": "L43"
+    }
+  ]
+}

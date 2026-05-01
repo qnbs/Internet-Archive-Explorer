@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Type } from '@google/genai';
+import React, { useEffect, useRef, useState } from 'react';
+import { SparklesIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import type { ArchiveItemSummary } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { Spinner } from '../Spinner';
-import { SparklesIcon } from '@/components/Icons';
 
 const getApiKey = (): string | undefined => {
   const viteKey = (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import type { Workset, WorksetDocument } from '@/types';
+import { ArrowLeftIcon, PlusIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useWorksets } from '@/hooks/useWorksets';
+import type { Workset, WorksetDocument } from '@/types';
+import { AddDocumentModal } from './AddDocumentModal';
 import { DocumentListItem } from './DocumentListItem';
 import { DocumentReader } from './DocumentReader';
-import { AddDocumentModal } from './AddDocumentModal';
-import { useLanguage } from '@/hooks/useLanguage';
-import { ArrowLeftIcon, PlusIcon } from '@/components/Icons';
 
 interface WorkspacePanelProps {
   workset: Workset;

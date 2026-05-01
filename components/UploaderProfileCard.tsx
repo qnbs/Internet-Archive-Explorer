@@ -1,13 +1,13 @@
-import React from 'react';
-import type { Profile } from '@/types';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useAtomValue, useSetAtom } from 'jotai';
+import React from 'react';
+import { useToast } from '@/contexts/ToastContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import {
-  uploaderFavoriteSetAtom,
   addUploaderFavoriteAtom,
   removeUploaderFavoriteAtom,
+  uploaderFavoriteSetAtom,
 } from '@/store/favorites';
-import { useToast } from '@/contexts/ToastContext';
+import type { Profile } from '@/types';
 import { StarIcon, UsersIcon } from './Icons';
 
 interface UploaderProfileCardProps {

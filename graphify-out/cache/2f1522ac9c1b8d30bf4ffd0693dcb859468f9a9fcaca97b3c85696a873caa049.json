@@ -1,0 +1,106 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_profileutils_ts",
+      "label": "profileUtils.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "profileutils_getprofileapiquery",
+      "label": "getProfileApiQuery()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L12"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_profileutils_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_profileutils_ts",
+      "target": "profileutils_getprofileapiquery",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "replace",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L13"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "replace",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L14"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "add",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L32"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "add",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "add",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L42"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "add",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L47"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "add",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L53"
+    },
+    {
+      "caller_nid": "profileutils_getprofileapiquery",
+      "callee": "from",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/profileUtils.ts",
+      "source_location": "L53"
+    }
+  ]
+}

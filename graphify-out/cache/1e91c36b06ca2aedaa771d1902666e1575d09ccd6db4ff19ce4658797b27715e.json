@@ -1,0 +1,23 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_store_pwa_ts",
+      "label": "pwa.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/pwa.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_store_pwa_ts",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/store/pwa.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

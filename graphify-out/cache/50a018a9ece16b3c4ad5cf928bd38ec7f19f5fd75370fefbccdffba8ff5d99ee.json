@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_confirmationmodal_tsx",
+      "label": "ConfirmationModal.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "confirmationmodal_confirmationmodal",
+      "label": "ConfirmationModal()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L14"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_confirmationmodal_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_confirmationmodal_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_confirmationmodal_tsx",
+      "target": "usemodalfocustrap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_confirmationmodal_tsx",
+      "target": "confirmationmodal_confirmationmodal",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L22"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useLanguage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useRef",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useRef",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useId",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useModalFocusTrap",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "confirmationmodal_confirmationmodal",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ConfirmationModal.tsx",
+      "source_location": "L30"
+    }
+  ]
+}

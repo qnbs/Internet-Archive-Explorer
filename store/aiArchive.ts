@@ -1,12 +1,12 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import type {
   AIArchiveEntry,
   AIArchiveFilter,
   AIArchiveSortOption,
-  Language,
   AIGenerationType,
+  Language,
 } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 
 // --- Base State Atom ---
 

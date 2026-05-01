@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import type { WorksetDocument } from '@/types';
-import { getItemPlainText } from '@/services/archiveService';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ArrowLeftIcon } from '@/components/Icons';
+import { useDebounce } from '@/hooks/useDebounce';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useWorksets } from '@/hooks/useWorksets';
+import { getItemPlainText } from '@/services/archiveService';
+import type { WorksetDocument } from '@/types';
+import { RichTextEditor } from '../RichTextEditor';
 import { Spinner } from '../Spinner';
 import { AnalysisToolbar } from './AnalysisToolbar';
 import { DocumentSearchBar } from './DocumentSearchBar';
 import { ResizablePanel } from './ResizablePanel';
-import { RichTextEditor } from '../RichTextEditor';
-import { useWorksets } from '@/hooks/useWorksets';
-import { useDebounce } from '@/hooks/useDebounce';
-import { ArrowLeftIcon } from '@/components/Icons';
 
 interface DocumentReaderProps {
   document: WorksetDocument;
@@ -41,7 +41,7 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
 
   useEffect(() => {
     setNotes(document.notes || '');
-  }, [document.identifier, document.notes]);
+  }, [document.notes]);
 
   useEffect(() => {
     if (debouncedNotes !== document.notes) {

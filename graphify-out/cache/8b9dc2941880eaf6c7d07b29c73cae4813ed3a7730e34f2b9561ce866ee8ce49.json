@@ -1,0 +1,348 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_app_tsx",
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_pagespinner",
+      "label": "PageSpinner()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L55"
+    },
+    {
+      "id": "app_toastbridge",
+      "label": "ToastBridge()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L62"
+    },
+    {
+      "id": "app_appcontent",
+      "label": "AppContent()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L76"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_store",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_store_pwa",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_contexts_toastcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_sidemenu",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_header",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_bottomnav",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_toast",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_errorboundary",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_modalmanager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_spinner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_appearancemanager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_updatenotification",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_installbanner",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_audiothek_audioplayer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_components_downloadmanager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "home_pc_internet_archive_explorer_hooks_usenavigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "app_pagespinner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "app_toastbridge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_app_tsx",
+      "target": "app_appcontent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L76",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "app_toastbridge",
+      "callee": "useToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L63"
+    },
+    {
+      "caller_nid": "app_toastbridge",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L64"
+    },
+    {
+      "caller_nid": "app_toastbridge",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L66"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useSetAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L78"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L81"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L83"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L84"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useNavigation",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useState",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L87"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L92"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L134"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L156"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L178"
+    },
+    {
+      "caller_nid": "app_appcontent",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/App.tsx",
+      "source_location": "L180"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "label": "useLanguage.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "uselanguage_getnestedtranslation",
+      "label": "getNestedTranslation()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "uselanguage_isrecord",
+      "label": "isRecord()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "uselanguage_uselanguage",
+      "label": "useLanguage()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L29"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "i18n",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "uselanguage_getnestedtranslation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "uselanguage_isrecord",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_hooks_uselanguage_ts",
+      "target": "uselanguage_uselanguage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L29",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "uselanguage_getnestedtranslation",
+      "callee": "split",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L16"
+    },
+    {
+      "caller_nid": "uselanguage_isrecord",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L27"
+    },
+    {
+      "caller_nid": "uselanguage_uselanguage",
+      "callee": "useAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "uselanguage_uselanguage",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L31"
+    },
+    {
+      "caller_nid": "uselanguage_uselanguage",
+      "callee": "useEffect",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L34"
+    },
+    {
+      "caller_nid": "uselanguage_uselanguage",
+      "callee": "useCallback",
+      "source_file": "/home/pc/Internet-Archive-Explorer/hooks/useLanguage.ts",
+      "source_location": "L38"
+    }
+  ]
+}

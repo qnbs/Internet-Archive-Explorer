@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import type { ArchiveItemSummary, MediaType } from '@/types';
-import { searchArchive } from '@/services/archiveService';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useSearchAndGo } from '@/hooks/useSearchAndGo';
+import { searchArchive } from '@/services/archiveService';
+import type { ArchiveItemSummary, MediaType } from '@/types';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { SkeletonCard } from '../SkeletonCard';
-import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
 
 interface RecRoomCarouselProps {
   title: string;
@@ -40,7 +40,7 @@ export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }
       el?.removeEventListener('scroll', checkForScrollability);
       window.removeEventListener('resize', checkForScrollability);
     };
-  }, [items, isLoading, checkForScrollability]);
+  }, [isLoading, checkForScrollability]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {

@@ -1,0 +1,142 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "label": "AddTagsModal.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "addtagsmodal_handlesubmit",
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L28"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "toast",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "favorites",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "usemodalfocustrap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_components_library_addtagsmodal_tsx",
+      "target": "addtagsmodal_handlesubmit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L28",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "preventDefault",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L29"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "filter",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "split",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L30"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "addTagsToItems",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "setToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "addtagsmodal_handlesubmit",
+      "callee": "onClose",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/library/AddTagsModal.tsx",
+      "source_location": "L38"
+    }
+  ]
+}

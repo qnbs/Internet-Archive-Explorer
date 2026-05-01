@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { myArchiveProfileAtom } from '@/store/archive';
-import { useLanguage } from '@/hooks/useLanguage';
-import { UsersIcon, ArrowRightIcon } from '@/components/Icons';
-import { UPLOADER_DATA } from './uploaderData';
-import type { Profile, ArchiveItemSummary } from '@/types';
-import UploaderDetailView from './UploaderDetailView';
-import { searchArchive } from '@/services/archiveService';
-import { Spinner } from '@/components/Spinner';
+import React, { useState } from 'react';
 import { ContentCarousel } from '@/components/ContentCarousel';
+import { ArrowRightIcon, UsersIcon } from '@/components/Icons';
+import { Spinner } from '@/components/Spinner';
+import { useLanguage } from '@/hooks/useLanguage';
+import { searchArchive } from '@/services/archiveService';
+import { myArchiveProfileAtom } from '@/store/archive';
+import type { ArchiveItemSummary, Profile } from '@/types';
+import UploaderDetailView from './UploaderDetailView';
+import { UPLOADER_DATA } from './uploaderData';
 
 /**
  * A self-contained component for the user to connect their public

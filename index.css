@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
 
     /* Default accent: cyan */
     --color-accent-50: #ecfeff;
@@ -108,7 +108,7 @@
     overflow: hidden;
   }
   .retro-scanlines::after {
-    content: '';
+    content: "";
     pointer-events: none;
     position: absolute;
     inset: 0;
@@ -177,7 +177,7 @@
   }
   .card-vhs {
     @apply rounded-none bg-gray-900 border-2 border-gray-600 shadow-lg;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Sepia theme card */

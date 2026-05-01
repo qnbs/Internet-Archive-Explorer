@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { View, Profile, ArchiveItemSummary, ConfirmationOptions } from '@/types';
+import type { ArchiveItemSummary, ConfirmationOptions, Profile, View } from '@/types';
 
 /**
  * Defines the shape of all possible modal states in the application.

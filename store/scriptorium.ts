@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
-import { safeAtomWithStorage } from './safeStorage';
 import { v4 as uuidv4 } from 'uuid';
-import type { Workset, WorksetDocument, ArchiveItemSummary } from '@/types';
+import type { ArchiveItemSummary, Workset, WorksetDocument } from '@/types';
+import { safeAtomWithStorage } from './safeStorage';
 import { toastAtom } from './toast';
 
 export const STORAGE_KEY = 'scriptorium-worksets-v2';

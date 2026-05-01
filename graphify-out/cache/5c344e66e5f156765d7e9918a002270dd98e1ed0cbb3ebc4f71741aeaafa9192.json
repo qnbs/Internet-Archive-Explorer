@@ -1,0 +1,247 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "label": "SettingsView.tsx",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "settingsview_settingrow",
+      "label": "SettingRow()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L48"
+    },
+    {
+      "id": "settingsview_toggle",
+      "label": "Toggle()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L90"
+    },
+    {
+      "id": "settingsview_handlechange",
+      "label": "handleChange()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L192"
+    },
+    {
+      "id": "settingsview_catch",
+      "label": "catch()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L649"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "jotai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "home_pc_internet_archive_explorer_store",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "uselanguage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "icons",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "dataservice",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "toastcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "themeselector",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "pwainstallmanager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "apikeyinput",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "googleloginbutton",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "settingsview_settingrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "settingsview_toggle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "settingsview_handlechange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_pages_settingsview_tsx",
+      "target": "settingsview_catch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L649",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "settingsview_settingrow",
+      "callee": "useId",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L54"
+    },
+    {
+      "caller_nid": "settingsview_settingrow",
+      "callee": "useAtomValue",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L58"
+    },
+    {
+      "caller_nid": "settingsview_settingrow",
+      "callee": "useSetAtom",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "settingsview_settingrow",
+      "callee": "useToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "settingsview_settingrow",
+      "callee": "useLanguage",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "settingsview_handlechange",
+      "callee": "setLang",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L193"
+    },
+    {
+      "caller_nid": "settingsview_handlechange",
+      "callee": "addToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L194"
+    },
+    {
+      "caller_nid": "settingsview_catch",
+      "callee": "error",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L650"
+    },
+    {
+      "caller_nid": "settingsview_catch",
+      "callee": "addToast",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L651"
+    },
+    {
+      "caller_nid": "settingsview_catch",
+      "callee": "t",
+      "source_file": "/home/pc/Internet-Archive-Explorer/pages/SettingsView.tsx",
+      "source_location": "L651"
+    }
+  ]
+}

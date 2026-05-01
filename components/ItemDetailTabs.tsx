@@ -1,8 +1,8 @@
 import React from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
 // FIX: Corrected import path to useItemDetail where the type is defined.
 import type { ItemDetailTab } from '@/hooks/useItemDetail';
-import { SparklesIcon, FileIcon, CollectionIcon, BookIcon } from './Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { BookIcon, CollectionIcon, FileIcon, SparklesIcon } from './Icons';
 
 interface ItemDetailTabsProps {
   activeTab: ItemDetailTab;

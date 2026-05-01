@@ -1,14 +1,14 @@
+import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useState } from 'react';
-import { useSetAtom, useAtomValue } from 'jotai';
+import { AILoadingIndicator } from '@/components/AILoadingIndicator';
 import { SparklesIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
-import { generateStory } from '@/services/geminiService';
-import { AILoadingIndicator } from '@/components/AILoadingIndicator';
-import { sanitizeHtml } from '@/utils/sanitizer';
 import { archiveAIGeneration } from '@/services/aiPersistenceService';
+import { generateStory } from '@/services/geminiService';
 import { addAIArchiveEntryAtom } from '@/store/aiArchive';
 import { autoArchiveAIAtom } from '@/store/settings';
 import { AIGenerationType } from '@/types';
+import { sanitizeHtml } from '@/utils/sanitizer';
 
 const StorytellerView: React.FC = () => {
   const { t, language } = useLanguage();

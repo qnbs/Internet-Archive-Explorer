@@ -1,12 +1,12 @@
-import React, { useState, useCallback } from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
-import { getSummary, extractEntities } from '@/services/geminiService';
-import type { ExtractedEntities, WorksetDocument } from '@/types';
+import { useSetAtom } from 'jotai';
+import React, { useCallback, useState } from 'react';
 import { SparklesIcon, TagIcon } from '@/components/Icons';
+import { useLanguage } from '@/hooks/useLanguage';
+import { extractEntities, getSummary } from '@/services/geminiService';
+import type { ExtractedEntities, WorksetDocument } from '@/types';
+import { toastAtom } from '../../store';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
-import { useSetAtom } from 'jotai';
-import { toastAtom } from '../../store';
 
 interface AnalysisToolbarProps {
   document: WorksetDocument;

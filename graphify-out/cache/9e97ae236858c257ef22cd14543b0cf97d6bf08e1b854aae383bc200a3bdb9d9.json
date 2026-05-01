@@ -1,0 +1,49 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_fetchwithtimeout_ts",
+      "label": "fetchWithTimeout.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "fetchwithtimeout_fetchwithtimeout",
+      "label": "fetchWithTimeout()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_fetchwithtimeout_ts",
+      "target": "fetchwithtimeout_fetchwithtimeout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "fetchwithtimeout_fetchwithtimeout",
+      "callee": "setTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L7"
+    },
+    {
+      "caller_nid": "fetchwithtimeout_fetchwithtimeout",
+      "callee": "fetch",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L10"
+    },
+    {
+      "caller_nid": "fetchwithtimeout_fetchwithtimeout",
+      "callee": "clearTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/fetchWithTimeout.ts",
+      "source_location": "L12"
+    }
+  ]
+}

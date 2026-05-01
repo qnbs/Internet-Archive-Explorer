@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_components_ui_index_ts",
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/components/ui/index.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [],
+  "raw_calls": []
+}

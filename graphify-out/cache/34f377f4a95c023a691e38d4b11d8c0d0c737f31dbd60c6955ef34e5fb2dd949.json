@@ -1,0 +1,783 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "label": "geminiService.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "geminiservice_sleep",
+      "label": "sleep()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "geminiservice_extractjson",
+      "label": "extractJson()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "geminiservice_normalizecontents",
+      "label": "normalizeContents()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L65"
+    },
+    {
+      "id": "geminiservice_parsegeminitext",
+      "label": "parseGeminiText()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L81"
+    },
+    {
+      "id": "geminiservice_getapikey",
+      "label": "getApiKey()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L87"
+    },
+    {
+      "id": "geminiservice_getaiclient",
+      "label": "getAiClient()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L100"
+    },
+    {
+      "id": "geminiservice_generatecontent",
+      "label": "generateContent()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L116"
+    },
+    {
+      "id": "geminiservice_generatecontenthelper",
+      "label": "generateContentHelper()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L205"
+    },
+    {
+      "id": "geminiservice_getsummary",
+      "label": "getSummary()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L221"
+    },
+    {
+      "id": "geminiservice_extractentities",
+      "label": "extractEntities()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L241"
+    },
+    {
+      "id": "geminiservice_answerfromtext",
+      "label": "answerFromText()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L294"
+    },
+    {
+      "id": "geminiservice_generatestory",
+      "label": "generateStory()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L309"
+    },
+    {
+      "id": "geminiservice_generateinsightfromtitles",
+      "label": "generateInsightFromTitles()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L319"
+    },
+    {
+      "id": "geminiservice_generatedailyhistoricalevent",
+      "label": "generateDailyHistoricalEvent()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L335"
+    },
+    {
+      "id": "geminiservice_generateretrogamingnote",
+      "label": "generateRetroGamingNote()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L343"
+    },
+    {
+      "id": "geminiservice_generatemuseumexhibitconcept",
+      "label": "generateMuseumExhibitConcept()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L351"
+    },
+    {
+      "id": "geminiservice_generatefilmdoublefeatureconcept",
+      "label": "generateFilmDoubleFeatureConcept()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L359"
+    },
+    {
+      "id": "geminiservice_generateradioshowconcept",
+      "label": "generateRadioShowConcept()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L367"
+    },
+    {
+      "id": "geminiservice_analyzeimage",
+      "label": "analyzeImage()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L375"
+    },
+    {
+      "id": "geminiservice_askaboutimage",
+      "label": "askAboutImage()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L420"
+    },
+    {
+      "id": "geminiservice_organizelibraryitems",
+      "label": "organizeLibraryItems()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L437"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "genai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "fetchwithtimeout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiauthstorage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_sleep",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_extractjson",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_normalizecontents",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_parsegeminitext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_getapikey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_getaiclient",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatecontent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_getsummary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_extractentities",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_answerfromtext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatestory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L309",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatedailyhistoricalevent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L335",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generateretrogamingnote",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatemuseumexhibitconcept",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L351",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generatefilmdoublefeatureconcept",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L359",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_generateradioshowconcept",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L367",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_analyzeimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L375",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_askaboutimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L420",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_geminiservice_ts",
+      "target": "geminiservice_organizelibraryitems",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L437",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_getaiclient",
+      "target": "geminiservice_getapikey",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontent",
+      "target": "geminiservice_sleep",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontent",
+      "target": "geminiservice_normalizecontents",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontent",
+      "target": "geminiservice_parsegeminitext",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontent",
+      "target": "geminiservice_getaiclient",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontenthelper",
+      "target": "geminiservice_generatecontent",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatecontenthelper",
+      "target": "geminiservice_extractjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_getsummary",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L234",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_extractentities",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L274",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_answerfromtext",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L302",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatestory",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L312",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generateinsightfromtitles",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L328",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatedailyhistoricalevent",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L336",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generateretrogamingnote",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L344",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatemuseumexhibitconcept",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generatefilmdoublefeatureconcept",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L360",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_generateradioshowconcept",
+      "target": "geminiservice_generateinsightfromtitles",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_analyzeimage",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L400",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_askaboutimage",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L430",
+      "weight": 1.0
+    },
+    {
+      "source": "geminiservice_organizelibraryitems",
+      "target": "geminiservice_generatecontenthelper",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L465",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "match",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L33"
+    },
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "indexOf",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L38"
+    },
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "indexOf",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L39"
+    },
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "lastIndexOf",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L40"
+    },
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "lastIndexOf",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "geminiservice_extractjson",
+      "callee": "substring",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "geminiservice_normalizecontents",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L70"
+    },
+    {
+      "caller_nid": "geminiservice_normalizecontents",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L74"
+    },
+    {
+      "caller_nid": "geminiservice_normalizecontents",
+      "callee": "String",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L78"
+    },
+    {
+      "caller_nid": "geminiservice_parsegeminitext",
+      "callee": "isArray",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L83"
+    },
+    {
+      "caller_nid": "geminiservice_parsegeminitext",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L84"
+    },
+    {
+      "caller_nid": "geminiservice_parsegeminitext",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L84"
+    },
+    {
+      "caller_nid": "geminiservice_getapikey",
+      "callee": "getItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "geminiservice_getapikey",
+      "callee": "getItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L90"
+    },
+    {
+      "caller_nid": "geminiservice_getapikey",
+      "callee": "setItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L92"
+    },
+    {
+      "caller_nid": "geminiservice_getapikey",
+      "callee": "removeItem",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L93"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "now",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L120"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "getValidAccessToken",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L125"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "encodeURIComponent",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L128"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "now",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L154"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "fetchWithTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L156"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "stringify",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L164"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "clearStoredOAuthToken",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L170"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "Number",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L175"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "get",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L175"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "min",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L176"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "max",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L176"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "json",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L184"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontent",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L202"
+    },
+    {
+      "caller_nid": "geminiservice_generatecontenthelper",
+      "callee": "includes",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L211"
+    },
+    {
+      "caller_nid": "geminiservice_extractentities",
+      "callee": "parse",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L288"
+    },
+    {
+      "caller_nid": "geminiservice_generateinsightfromtitles",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L326"
+    },
+    {
+      "caller_nid": "geminiservice_analyzeimage",
+      "callee": "parse",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L414"
+    },
+    {
+      "caller_nid": "geminiservice_organizelibraryitems",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L443"
+    },
+    {
+      "caller_nid": "geminiservice_organizelibraryitems",
+      "callee": "map",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L443"
+    },
+    {
+      "caller_nid": "geminiservice_organizelibraryitems",
+      "callee": "parse",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/geminiService.ts",
+      "source_location": "L479"
+    }
+  ]
+}

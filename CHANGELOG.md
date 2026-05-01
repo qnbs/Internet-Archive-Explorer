@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + pnpm cache in GitHub Actions
+- 🧹 Biome: Konfiguration erweitert (Ignores für Artefakte, Test-Override, `lint:ci`/`check`-Scripts), Hook-Warnungen bereinigt, CI nutzt `biome ci`
+- 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
+- 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
+- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + optimierter pnpm cache in GitHub Actions
 - 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
 - Optimized Vite build with vendor/ui/query chunk splitting for better caching
 - Removed unused `loadEnv` call in vite.config.js

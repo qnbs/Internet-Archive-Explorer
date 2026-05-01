@@ -1,0 +1,55 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_services_cacheservice_ts",
+      "label": "cacheService.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "cacheservice_getdb",
+      "label": "getDb()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "cacheservice_createindexeddbcache",
+      "label": "createIndexedDBCache()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L24"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_services_cacheservice_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_cacheservice_ts",
+      "target": "cacheservice_getdb",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_services_cacheservice_ts",
+      "target": "cacheservice_createindexeddbcache",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/services/cacheService.ts",
+      "source_location": "L24",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

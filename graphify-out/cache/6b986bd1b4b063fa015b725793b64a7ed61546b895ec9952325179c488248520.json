@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_imageutils_ts",
+      "label": "imageUtils.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "imageutils_findbestimageurl",
+      "label": "findBestImageUrl()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "imageutils_urltobase64",
+      "label": "urlToBase64()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L67"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_imageutils_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_imageutils_ts",
+      "target": "fetchwithtimeout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_imageutils_ts",
+      "target": "imageutils_findbestimageurl",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_imageutils_ts",
+      "target": "imageutils_urltobase64",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L67",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "imageutils_findbestimageurl",
+      "callee": "find",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "imageutils_findbestimageurl",
+      "callee": "sort",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "imageutils_findbestimageurl",
+      "callee": "filter",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "imageutils_findbestimageurl",
+      "callee": "some",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "imageutils_findbestimageurl",
+      "callee": "encodeURIComponent",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "imageutils_urltobase64",
+      "callee": "encodeURIComponent",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L71"
+    },
+    {
+      "caller_nid": "imageutils_urltobase64",
+      "callee": "fetchWithTimeout",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "imageutils_urltobase64",
+      "callee": "blob",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/imageUtils.ts",
+      "source_location": "L76"
+    }
+  ]
+}

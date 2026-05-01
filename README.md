@@ -31,7 +31,9 @@ Internet Archive Explorer is a React + TypeScript single-page app using Vite and
 - Vite 7
 - Jotai (state management)
 - Tailwind CSS
+- Biome — lint and format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; single tool instead of ESLint + Prettier)
 - Playwright (E2E smoke tests)
+- Tooling: **pnpm** for packages; **Cursor Pro+** / VS Code with workspace `.vscode/settings.json` (see `CONTRIBUTING.md`)
 
 ### 4) Project Structure
 
@@ -74,6 +76,8 @@ pnpm run dev
 Default local URL:
 
 - http://localhost:5173
+
+**Editor:** For format-on-save and fast checks without global ESLint clashes, open the repo in **Cursor Pro+** or VS Code, install the **Biome** extension, and rely on the committed `.vscode` settings (ESLint is turned off in this workspace). See `CONTRIBUTING.md` → *Cursor Pro+ Setup*.
 
 ### 6) Environment Variables
 
@@ -212,7 +216,9 @@ Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und
 - Vite 7
 - Jotai (State Management)
 - Tailwind CSS
+- Biome — Lint und Format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; ein Tool statt ESLint + Prettier)
 - Playwright (E2E-Smoke-Tests)
+- Tooling: **pnpm**; **Cursor Pro+** / VS Code mit `.vscode/settings.json` (siehe `CONTRIBUTING.md`)
 
 ### 4) Projektstruktur
 
@@ -255,6 +261,8 @@ pnpm run dev
 Standard-URL lokal:
 
 - http://localhost:5173
+
+**Editor:** Für Format beim Speichern und ohne Konflikte mit einer globalen ESLint-Konfiguration: Repo in **Cursor Pro+** oder VS Code öffnen, **Biome**-Extension installieren, die committeten `.vscode`-Einstellungen nutzen (ESLint ist im Workspace deaktiviert). Siehe `CONTRIBUTING.md` → *Cursor Pro+ Setup*.
 
 ### 6) Umgebungsvariablen
 

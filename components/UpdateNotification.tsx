@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
-import { SparklesIcon, CloseIcon } from './Icons';
+import { CloseIcon, SparklesIcon } from './Icons';
 
 interface UpdateNotificationProps {
   waitingWorker: ServiceWorker | null;

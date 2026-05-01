@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "id": "home_pc_internet_archive_explorer_utils_querybuilder_ts",
+      "label": "queryBuilder.ts",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "querybuilder_buildarchivequery",
+      "label": "buildArchiveQuery()",
+      "file_type": "code",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L14"
+    }
+  ],
+  "edges": [
+    {
+      "source": "home_pc_internet_archive_explorer_utils_querybuilder_ts",
+      "target": "types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "home_pc_internet_archive_explorer_utils_querybuilder_ts",
+      "target": "querybuilder_buildarchivequery",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L19"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L22"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "trim",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "from",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L29"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L33"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L35"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L45"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L47"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "push",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "querybuilder_buildarchivequery",
+      "callee": "join",
+      "source_file": "/home/pc/Internet-Archive-Explorer/utils/queryBuilder.ts",
+      "source_location": "L55"
+    }
+  ]
+}

@@ -1,8 +1,12 @@
-import React, { useState, useCallback, MouseEvent as ReactMouseEvent } from 'react';
+import React, { MouseEvent as ReactMouseEvent, useCallback, useState } from 'react';
 
 const ZOOM_SENSITIVITY = 0.001;
 const MAX_ZOOM = 10;
 const MIN_ZOOM = 0.5;
+
+function clampZoomValue(newZoom: number): number {
+  return Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
+}
 
 interface UseImageViewerReturn {
   zoom: number;
@@ -29,12 +33,10 @@ export const useImageViewer = (): UseImageViewerReturn => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [announcement, setAnnouncement] = useState('');
 
-  const clampZoom = (newZoom: number) => Math.min(Math.max(newZoom, MIN_ZOOM), MAX_ZOOM);
-
   const zoomIn = useCallback(
     () =>
       setZoom((prev) => {
-        const next = clampZoom(prev * 1.2);
+        const next = clampZoomValue(prev * 1.2);
         setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
         return next;
       }),
@@ -43,7 +45,7 @@ export const useImageViewer = (): UseImageViewerReturn => {
   const zoomOut = useCallback(
     () =>
       setZoom((prev) => {
-        const next = clampZoom(prev / 1.2);
+        const next = clampZoomValue(prev / 1.2);
         setAnnouncement(`Zoom ${Math.round(next * 100)}%`);
         return next;
       }),
@@ -110,7 +112,7 @@ export const useImageViewer = (): UseImageViewerReturn => {
       const { clientX, clientY, deltaY } = e;
       const rect = e.currentTarget.getBoundingClientRect();
 
-      const newZoom = clampZoom(zoom - deltaY * ZOOM_SENSITIVITY * zoom);
+      const newZoom = clampZoomValue(zoom - deltaY * ZOOM_SENSITIVITY * zoom);
 
       // Calculate the mouse position relative to the image container
       const x = clientX - rect.left;
