@@ -246,7 +246,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
         {activeTab === 'items' && (
           <div className="space-y-4">
             <div className="space-y-1">
-              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Overview
               </h3>
               <FilterButton
@@ -270,7 +270,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
               />
             </div>
             <div>
-              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Media Types
               </h3>
               <div className="space-y-1">
@@ -290,7 +290,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
             </div>
             <div>
               <div className="flex justify-between items-center px-3 pt-3 pb-1">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
                   {t('sideMenu:collections')}
                 </h3>
                 <button
@@ -313,7 +313,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
               </div>
             </div>
             <div>
-              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <h3 className="px-3 pt-3 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 {t('favorites:sidebar.tags')}
               </h3>
               <div className="space-y-1">
@@ -327,7 +327,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
                   />
                 ))}
                 {tags.length === 0 && (
-                  <p className="px-3 text-sm text-gray-500">{t('favorites:sidebar.noTags')}</p>
+                  <p className="px-3 text-sm text-gray-400">{t('favorites:sidebar.noTags')}</p>
                 )}
               </div>
             </div>

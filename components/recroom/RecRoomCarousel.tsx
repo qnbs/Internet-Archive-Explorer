@@ -75,11 +75,12 @@ export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }
 
   return (
     <section className="animate-fade-in">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-white">{title}</h2>
+      <div className="flex justify-between items-center gap-3 mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
         <button
+          type="button"
           onClick={handleViewAll}
-          className="text-sm font-semibold text-accent-400 hover:text-accent-300 transition-colors"
+          className="touch-target-min inline-flex items-center justify-center text-sm font-semibold text-cyan-800 dark:text-accent-400 hover:text-cyan-900 dark:hover:text-accent-300 transition-colors shrink-0"
         >
           {t('recRoom:viewAll')} &rarr;
         </button>

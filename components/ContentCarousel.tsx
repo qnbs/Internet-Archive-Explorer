@@ -129,7 +129,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
             <button
               type="button"
               onClick={viewMoreAction}
-              className="text-sm font-semibold text-accent-900 dark:text-accent-300 hover:text-accent-950 dark:hover:text-accent-200 transition-colors underline underline-offset-2 decoration-accent-700/60 hover:decoration-accent-950"
+              className="touch-target-min inline-flex items-center justify-center px-1 text-sm font-semibold text-accent-900 dark:text-accent-300 hover:text-accent-950 dark:hover:text-accent-200 transition-colors underline underline-offset-2 decoration-accent-700/60 hover:decoration-accent-950"
             >
               {viewMoreLabel || t('common:viewMore')} &rarr;
             </button>

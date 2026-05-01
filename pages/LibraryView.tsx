@@ -89,7 +89,9 @@ const LibraryView: React.FC = () => {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex justify-between items-center mb-4 md:hidden">
-          <h1 className="text-2xl font-bold text-white">{t('sideMenu:library')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {t('sideMenu:library')}
+          </h1>
           <button
             type="button"
             onClick={() => setIsSidebarOpen(true)}

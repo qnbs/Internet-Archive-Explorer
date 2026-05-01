@@ -1,11 +1,11 @@
 # Graph Report - Internet-Archive-Explorer  (2026-05-01)
 
 ## Corpus Check
-- 203 files · ~77,958 words
+- 203 files · ~78,549 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 482 nodes · 429 edges · 15 communities detected
+- 484 nodes · 431 edges · 15 communities detected
 - Extraction: 79% EXTRACTED · 21% INFERRED · 0% AMBIGUOUS · INFERRED: 90 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -23,8 +23,8 @@
 - [[_COMMUNITY_Community 12|Community 12]]
 - [[_COMMUNITY_Community 13|Community 13]]
 - [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 21|Community 21]]
+- [[_COMMUNITY_Community 33|Community 33]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useLanguage()` - 26 edges
@@ -41,10 +41,10 @@
 ## Surprising Connections (you probably didn't know these)
 - `fetchWithTimeout()` --calls--> `fetchWithRetry()`  [INFERRED]
   utils/fetchWithTimeout.ts → services/archiveService.ts
-- `parseAiJson()` --calls--> `safeParse()`  [INFERRED]
-  services/geminiService.ts → utils/offlineHubCache.ts
-- `generateContent()` --calls--> `safeParse()`  [INFERRED]
-  services/geminiService.ts → utils/offlineHubCache.ts
+- `safeParse()` --calls--> `parseAiJson()`  [INFERRED]
+  utils/offlineHubCache.ts → services/geminiService.ts
+- `safeParse()` --calls--> `generateContent()`  [INFERRED]
+  utils/offlineHubCache.ts → services/geminiService.ts
 - `error()` --calls--> `handleAskFollowUp()`  [INFERRED]
   pages/ForYouView.tsx → components/ImageDetailModal.tsx
 - `error()` --calls--> `componentDidCatch()`  [INFERRED]
@@ -104,11 +104,11 @@ Nodes (2): base64UrlEncode(), createCodeChallenge()
 Cohesion: 0.5
 Nodes (2): getMediaTypeIconPath(), handleImageError()
 
-### Community 18 - "Community 18"
+### Community 21 - "Community 21"
 Cohesion: 0.5
 Nodes (2): HelpSearchBar(), useHelpViewContext()
 
-### Community 32 - "Community 32"
+### Community 33 - "Community 33"
 Cohesion: 1.0
 Nodes (2): handleDismiss(), handleInstall()
 
@@ -119,20 +119,20 @@ Nodes (2): handleDismiss(), handleInstall()
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 14`** (5 nodes): `ItemCard.tsx`, `getCreator()`, `getMediaTypeIconPath()`, `handleFavoriteClick()`, `handleImageError()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
+- **Thin community `Community 21`** (4 nodes): `HelpSearchBar.tsx`, `HelpViewContext.tsx`, `HelpSearchBar()`, `useHelpViewContext()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (3 nodes): `InstallBanner.tsx`, `handleDismiss()`, `handleInstall()`
+- **Thin community `Community 33`** (3 nodes): `InstallBanner.tsx`, `handleDismiss()`, `handleInstall()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 5`, `Community 7`?**
-  _High betweenness centrality (0.108) - this node is a cross-community bridge._
+  _High betweenness centrality (0.107) - this node is a cross-community bridge._
 - **Why does `error()` connect `Community 4` to `Community 1`, `Community 2`, `Community 5`?**
-  _High betweenness centrality (0.095) - this node is a cross-community bridge._
+  _High betweenness centrality (0.094) - this node is a cross-community bridge._
 - **Why does `catch()` connect `Community 5` to `Community 4`?**
-  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+  _High betweenness centrality (0.085) - this node is a cross-community bridge._
 - **Are the 25 inferred relationships involving `useLanguage()` (e.g. with `UploaderDetailView()` and `SettingRow()`) actually correct?**
   _`useLanguage()` has 25 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 11 inferred relationships involving `error()` (e.g. with `fetchHeroImages()` and `fetchData()`) actually correct?**

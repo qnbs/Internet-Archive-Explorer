@@ -8,7 +8,7 @@ const RecommendationCard: React.FC<{
   icon: React.ReactNode;
   onClick: () => void;
 }> = ({ title, description, buttonLabel, icon, onClick }) => (
-  <div className="bg-gray-800/60 p-5 rounded-xl flex flex-col items-start gap-4">
+  <div className="bg-gray-900 border border-gray-700/60 p-5 rounded-xl flex flex-col items-start gap-4 shadow-sm">
     <div className="flex items-center gap-3">
       <div className="w-10 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-cyan-400">
         {icon}
@@ -32,7 +32,7 @@ export const AIRecommendations: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <SparklesIcon /> AI Librarian
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -116,11 +116,11 @@ const GameFinder: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg border border-accent-500/20">
-      <h2 className="text-2xl font-bold text-accent-400 flex items-center gap-2">
+    <div className="p-6 bg-gray-900 border border-gray-700/50 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-accent-300 flex items-center gap-2">
         <SparklesIcon /> {t('recRoom:gameFinder.title')}
       </h2>
-      <p className="mt-1 text-gray-300">{t('recRoom:gameFinder.description')}</p>
+      <p className="mt-1 text-gray-200">{t('recRoom:gameFinder.description')}</p>
 
       <form onSubmit={handleFindGames} className="mt-4 flex flex-col sm:flex-row gap-3">
         <input

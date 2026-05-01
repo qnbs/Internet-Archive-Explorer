@@ -25,7 +25,7 @@ const StatCard: React.FC<{
 }> = ({ label, value, icon, color, onClick }) => (
   <button
     onClick={onClick}
-    className="bg-gray-800/60 p-4 rounded-xl text-left hover:bg-gray-700/80 transition-all duration-300 group flex items-start gap-4"
+    className="bg-gray-900 border border-gray-700/50 p-4 rounded-xl text-left hover:bg-gray-800 transition-all duration-300 group flex items-start gap-4 shadow-sm"
   >
     <div className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg ${color}`}>
       {icon}

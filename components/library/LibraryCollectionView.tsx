@@ -10,9 +10,11 @@ import { LibraryItemList } from './LibraryItemList';
 const LibraryEmptyState: React.FC = () => {
   const { t } = useLanguage();
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-full">
-      <StarIcon className="w-16 h-16 text-gray-700 mb-4" />
-      <h2 className="text-xl font-bold text-white">{t('favorites:noItemsTitle')}</h2>
+    <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 dark:text-gray-400 p-8 col-span-full">
+      <StarIcon className="w-16 h-16 text-gray-500 dark:text-gray-600 mb-4" />
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+        {t('favorites:noItemsTitle')}
+      </h2>
       <p className="mt-2 max-w-sm">{t('favorites:noItemsDesc')}</p>
     </div>
   );

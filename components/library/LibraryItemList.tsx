@@ -142,7 +142,7 @@ export const LibraryItemList: React.FC<LibraryItemListProps> = ({
   };
 
   return (
-    <div className="bg-gray-800/60 rounded-xl h-full flex flex-col p-4">
+    <div className="bg-gray-900 border border-gray-700/50 rounded-xl h-full flex flex-col p-4 shadow-sm">
       <div className="flex-shrink-0 flex flex-col gap-3">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold text-white">{t('favorites:sidebar.items')}</h2>

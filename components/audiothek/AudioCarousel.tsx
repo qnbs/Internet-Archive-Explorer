@@ -69,7 +69,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
 
   return (
     <section className="animate-fade-in">
-      <h2 className="text-2xl font-bold text-white mb-4">{title}</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
       <div className="relative group">
         <button
           onClick={() => handleScroll('left')}

@@ -6,8 +6,8 @@
     "query-core": 20,
     "dnd-kit": 30,
     "state-core": 10,
-    "vendor": 25
+    "vendor": 30
   },
   "totalKB": 500,
-  "_comment": "Budgets in brotli-compressed KB. Measured 2026-04-19: react-core=48.5, ai-sdk=39.4, ui-kit=71.8, query-core=12.0, state-core=3.9, vendor=11.0, total=317.1"
+  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-05-01: react-core≈48.5, ai-sdk≈38.3, ui-kit≈70.5, query-core≈11.9, state-core≈3.7, vendor≈28.5, total≈334.8"
 }

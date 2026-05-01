@@ -124,7 +124,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
   return (
     <button
       onClick={handleSearch}
-      className="bg-gray-800/60 p-4 rounded-xl text-left hover:bg-gray-700/80 transition-all duration-300 group flex flex-col h-full"
+      className="bg-gray-900 border border-gray-700/50 p-4 rounded-xl text-left hover:bg-gray-800 transition-all duration-300 group flex flex-col h-full shadow-sm"
     >
       <div className="flex-shrink-0">
         <div className="text-accent-400 w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-accent-500/20 transition-colors">
@@ -197,11 +197,12 @@ const ImagesHubView: React.FC = () => {
     >
       <header className="relative text-center rounded-xl min-h-[40vh] flex flex-col justify-center items-center text-white p-6 overflow-hidden">
         <HeroGallery />
+        <div className="absolute inset-0 z-0 bg-gray-900/55 pointer-events-none" aria-hidden />
         <div className="relative z-10">
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-shadow-lg">
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-shadow-lg text-white">
             {t('imagesHub:title')}
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 text-shadow">
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-100 text-shadow">
             {t('imagesHub:description')}
           </p>
         </div>
