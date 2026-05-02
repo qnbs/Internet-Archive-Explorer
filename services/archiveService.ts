@@ -12,18 +12,28 @@ import { logger } from '@/utils/logger';
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
-const REQUEST_TIMEOUT_MS = 20000;
+/** Slightly above service worker `API_NETWORK_TIMEOUT_MS` so the client does not abort first */
+const REQUEST_TIMEOUT_MS = 32000;
 const VALIDATION_MAX_ATTEMPTS = 3;
 const VALIDATION_BACKOFF_MS = 400;
+
+/** HTTP statuses worth retrying at the fetch layer (TanStack uses {@link ArchiveServiceError.retryable}). */
+export function httpStatusAllowsRetry(status: number): boolean {
+  if (status === 408 || status === 429) return true;
+  return status >= 500;
+}
 
 export class ArchiveServiceError extends Error {
   readonly statusCode?: number;
   readonly i18nKey?: string;
-  constructor(message: string, statusCode?: number, i18nKey?: string) {
+  /** When false, TanStack Query should not re-run the query (validation/4xx). */
+  readonly retryable: boolean;
+  constructor(message: string, statusCode?: number, i18nKey?: string, retryable = true) {
     super(message);
     this.name = 'ArchiveServiceError';
     this.statusCode = statusCode;
     this.i18nKey = i18nKey;
+    this.retryable = retryable;
   }
 }
 
@@ -55,6 +65,8 @@ async function fetchRawJson(url: string, context: string): Promise<unknown> {
       throw new ArchiveServiceError(
         `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`,
         response.status,
+        undefined,
+        httpStatusAllowsRetry(response.status),
       );
     }
 
@@ -70,6 +82,7 @@ async function fetchRawJson(url: string, context: string): Promise<unknown> {
         `Invalid JSON response for ${context}.`,
         undefined,
         SERVICE_I18N.archive.invalidJson,
+        false,
       );
     }
   } catch (error) {
@@ -97,6 +110,7 @@ async function fetchValidated<T>(url: string, context: string, schema: z.ZodType
     `The Internet Archive returned an unexpected shape for ${context}. Please try again.`,
     undefined,
     SERVICE_I18N.archive.validationFailed,
+    false,
   );
 }
 
@@ -174,6 +188,9 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
 
       throw new ArchiveServiceError(
         `Failed to fetch plain text for ${identifier}. Status: ${response.status}`,
+        response.status,
+        undefined,
+        httpStatusAllowsRetry(response.status),
       );
     }
 

@@ -1,0 +1,25 @@
+---
+description: Internet Archive Explorer — Stack, Architektur, Cursor-Workflow
+globs: "**/*.{ts,tsx,js,mjs,css,json,md}"
+alwaysApply: true
+---
+
+# Internet Archive Explorer (Cursor)
+
+## Pflichtlektüre
+
+- Repo-Root **`CLAUDE.md`**: pnpm, Biome-only, Layer (services → hooks → components), TanStack Query vs Jotai, `safeAtomWithStorage`, i18n-Namespace-Checkliste.
+- **`CONTRIBUTING.md`**: lokales Gate (`lint:ci`, `check:i18n`, `test:unit`, **`ANALYZE=true` Build**, `check:bundle-size`, **`CI=true` E2E**).
+
+## Tooling in Cursor
+
+- **Lint/Format:** nur Biome (`pnpm run lint:fix`). Keine ESLint-/Prettier-Regeln hinzufügen.
+- **Tests:** Unit unter **`tests/unit/`** (Vitest, serial); E2E unter **`tests/e2e/`** (Playwright; CI = `vite preview` nach Build).
+- **PWA-Manifest:** **`public/manifest.json`** (wird nach `dist/` kopiert); nicht im Repo-Root belassen.
+
+## Agent-Verhalten
+
+- Vor größeren Features **CLAUDE.md** „Adding a New Feature“-Checkliste abarbeiten.
+- Keine API-Daten in Atoms cachen (TanStack Query).
+- User-facing Strings nur über **`useLanguage()`** und **`locales/en` + `locales/de`** (+ `pnpm run check:i18n`).
+- Nach umfangreichen Codeänderungen optional **`graphify update .`** (wenn graphify-out genutzt wird).

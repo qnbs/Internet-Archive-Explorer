@@ -39,6 +39,8 @@ pnpm run format
 
 If CI fails on Biome, reproduce with `pnpm run lint:ci` (or `pnpm run check` for types too).
 
+**Lighthouse CI** (wie GitHub Actions, nach Production-Build): `npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json` (startet intern `vite preview` auf Port 4173 — URL-Pfad entspricht dem Repo-Namen in der Config).
+
 ## Cursor Pro+ Setup
 
 Many developers use a **global** ESLint setup in Cursor that works great on other projects. In **this** repo, global ESLint would **fight** Biome (duplicate fixes, noisy diagnostics, wrong formatter).

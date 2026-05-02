@@ -14,7 +14,7 @@ jobs:
   build:
     name: Build and Artifact Checks
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 22
 
     steps:
       - name: Checkout
@@ -74,6 +74,7 @@ jobs:
           test -f dist/.nojekyll
           test -f dist/locales/en/common.json
           test -f dist/locales/de/common.json
+          test -f dist/manifest.json
 
       - name: Verify GitHub Pages base paths in HTML
         run: |
@@ -93,3 +94,9 @@ jobs:
           CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm run test:e2e
+
+      - name: Lighthouse CI (desktop / a11y gates)
+        run: |
+          REPO="${{ github.event.repository.name }}"
+          sed "s/Internet-Archive-Explorer/${REPO}/g" lighthouserc.json > lighthouserc.run.json
+          npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.run.json

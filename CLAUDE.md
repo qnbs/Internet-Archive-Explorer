@@ -15,7 +15,10 @@ Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwart
 | **Security** | `postinstall`: `pnpm audit --audit-level=moderate \|\| true` (warnt lokal); CI: `pnpm audit --audit-level=moderate` + dedizierter **pnpm store**-Cache (`actions/cache`); moderate+ schlägt fehl — siehe CHANGELOG |
 | **Graphify** | Wenn `graphify-out/` vorhanden: vor Architekturfragen `GRAPH_REPORT.md` / Wiki lesen; nach Codeänderungen **`graphify update .`** (AST, ohne API-Kosten), sofern das Projekt graphify nutzt |
 | **Runtime-Validation** | **`types/archiveSchemas.ts`** — Zod für Internet-Archive- und Gemini-JSON; Services parsen mit `.safeParse()` / Retry (Archive); Fehler-Keys unter `common:serviceErrors.*` |
-| **Accessibility (WCAG 2.2 AA)** | **`index.css`** — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async Bereiche mit `aria-busy` / `aria-live`; **E2E** `tests/e2e/a11y.spec.ts` inkl. `wcag22aa` |
+| **Accessibility (WCAG 2.2 AA)** | **`index.css`** — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async Bereiche mit `aria-busy` / `aria-live`; **E2E** `tests/e2e/a11y.spec.ts` inkl. `wcag22aa` (mehrere Hubs inkl. Uploader) |
+| **CI Extras** | **Lighthouse CI** (`lighthouserc.json`, `@lhci/cli` via `npx`) nach E2E; **PWA-Manifest** nur **`public/manifest.json`** → `dist/manifest.json` |
+| **Cursor** | Projektregeln **`.cursor/rules/internet-archive-explorer.mdc`** (`alwaysApply`) ergänzen **CLAUDE.md** / **CONTRIBUTING.md** |
+| **Downloads** | Persistente Queue mit Deckel **`DOWNLOAD_QUEUE_MAX_ITEMS`** (`store/downloads.ts`, älteste `done`/`error`/`queued` wird verworfen) |
 
 ### Wichtige Befehle
 
@@ -30,7 +33,8 @@ pnpm run lint:fix                # biome check --write .
 pnpm run format                  # biome format --write .
 pnpm run format:check            # biome format .
 pnpm run test:unit               # Vitest (serial / single worker)
-pnpm run test:e2e                # Playwright
+pnpm run test:e2e                # Playwright (lokal: vorher Build für CI=true / vite preview)
+# Lighthouse (wie CI, nach Build): npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
 pnpm audit --audit-level=moderate
 pnpm run audit        # gleicher Audit-Level wie CI
 pnpm run audit:fix    # pnpm audit fix --audit-level=moderate
@@ -95,7 +99,7 @@ Namespace-based runtime loading. Translations live in `locales/{en,de}/{namespac
 
 ### PWA / Service Worker
 
-`public/sw.js` multi-strategy caching (network-first navigation, SWR for API/static where configured). Bump cache names when cached resources change significantly. `public/sw-register.js` is loaded from `index.html` with base path.
+`public/sw.js` multi-strategy caching (network-first navigation, SWR for API/static where configured). **IA JSON/API** uses a **longer network timeout** than images (see `API_NETWORK_TIMEOUT_MS` in `sw.js`) so slow `advancedsearch`/`metadata` responses are not cut off at 15s. Keep `archiveService` `REQUEST_TIMEOUT_MS` slightly above that value. Bump `CACHE_VERSION` when cache behavior changes. `public/sw-register.js` is loaded from `index.html` with base path.
 
 ### Vite Config and Base Path
 

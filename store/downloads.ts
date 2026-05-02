@@ -16,6 +16,24 @@ export interface DownloadItem {
   addedAt: number;
 }
 
+/** Max persisted queue size (evicts finished / queued before rejecting new adds) */
+export const DOWNLOAD_QUEUE_MAX_ITEMS = 120;
+
+/** Drop oldest removable rows until length is below `cap` (never removes `downloading`). */
+export function trimDownloadQueue(queue: DownloadItem[], cap: number): DownloadItem[] {
+  if (queue.length < cap) return queue;
+  let next = [...queue];
+  const removable = (d: DownloadItem) =>
+    d.status === 'done' || d.status === 'error' || d.status === 'queued';
+  while (next.length > cap) {
+    const candidates = next.filter(removable).sort((a, b) => a.addedAt - b.addedAt);
+    if (candidates.length === 0) break;
+    const id = candidates[0].id;
+    next = next.filter((d) => d.id !== id);
+  }
+  return next;
+}
+
 /** Persisted download history */
 export const downloadQueueAtom = safeAtomWithStorage<DownloadItem[]>('download-queue-v1', []);
 
@@ -30,9 +48,13 @@ export const activeDownloadCountAtom = atom(
 export const addDownloadAtom = atom(
   null,
   (get, set, item: Omit<DownloadItem, 'downloadedBytes' | 'status' | 'addedAt'>) => {
-    const queue = get(downloadQueueAtom);
+    let queue = get(downloadQueueAtom);
     const already = queue.find((d) => d.id === item.id);
     if (already) return;
+    queue = trimDownloadQueue(queue, DOWNLOAD_QUEUE_MAX_ITEMS);
+    if (queue.length >= DOWNLOAD_QUEUE_MAX_ITEMS) {
+      return;
+    }
     set(downloadQueueAtom, [
       ...queue,
       { ...item, downloadedBytes: 0, status: 'queued', addedAt: Date.now() },

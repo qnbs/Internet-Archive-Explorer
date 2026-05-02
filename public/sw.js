@@ -3,14 +3,17 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v7';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
 const CACHE_STATIC = `ia-explorer-static-${CACHE_VERSION}`;
 const API_HOSTNAME = 'archive.org';
 const IMAGE_HOSTNAMES = ['archive.org'];
+/** Default for navigation, images, static assets */
 const NETWORK_TIMEOUT_MS = 15000;
+/** IA advancedsearch/metadata/CDX can exceed 15s under load; must exceed shell timeout so SW does not return 503 before the origin responds */
+const API_NETWORK_TIMEOUT_MS = 30000;
 
 const MAX_PER_CACHE_BYTES = 50 * 1024 * 1024;
 const MAX_TOTAL_BYTES = 200 * 1024 * 1024;
@@ -161,7 +164,7 @@ function handleApiStaleWhileRevalidate(event, request) {
       const cache = await caches.open(CACHE_API);
       const cached = await cache.match(request);
 
-      const networkPromise = timeoutFetch(request)
+      const networkPromise = timeoutFetch(request, API_NETWORK_TIMEOUT_MS)
         .then(async (networkResponse) => {
           if (networkResponse && networkResponse.ok) {
             await putInCache(CACHE_API, request, networkResponse);

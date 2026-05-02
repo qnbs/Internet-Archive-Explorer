@@ -41,6 +41,27 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Item Detail View"
+    },
+    {
+      "src": "https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Library"
+    },
+    {
+      "src": "https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Videothek"
+    },
+    {
+      "src": "https://storage.googleapis.com/aistudio-hosting/public/images/pwa_screenshots/ia_explorer_ss1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Scriptorium"
     }
   ],
   "share_target": {

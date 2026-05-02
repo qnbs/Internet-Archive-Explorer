@@ -97,6 +97,7 @@ describe('archiveService', () => {
     await expect(searchArchive('q', 0)).rejects.toMatchObject({
       name: 'ArchiveServiceError',
       i18nKey: SERVICE_I18N.archive.validationFailed,
+      retryable: false,
     });
     expect(fetch).toHaveBeenCalled();
   });

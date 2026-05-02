@@ -13,7 +13,7 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 - **Framer Motion 12** for all animations and transitions
 - **TanStack Query v5** for all server data fetching (infinite scroll, caching, refetch)
 - **React Router DOM 7** — currently single-page with Jotai view atoms, not file-based routing
-- **Vite 7** with chunk splitting (vendor/ui/query) and `@/` path alias
+- **Vite 8** with chunk splitting (vendor/ui/query/react-core/ai-sdk) and `@/` path alias
 
 ### Quality Standards
 
@@ -80,8 +80,12 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 │   └── de/                 # 34 German namespace JSON files
 ├── scripts/
 │   └── sync-locales.mjs    # Copies locales → public/locales, validates key completeness
-├── tests/e2e/              # Playwright E2E: smoke.spec.ts, a11y.spec.ts
-└── public/                 # Static assets, PWA icons, sw-register.js
+├── tests/
+│   ├── unit/               # Vitest (utilities, hooks, services, downloads trim)
+│   └── e2e/                # Playwright: smoke.spec.ts, a11y.spec.ts
+├── public/                 # Static assets, manifest.json, sw-register.js
+├── lighthouserc.json       # Lighthouse CI assertions (GitHub Actions)
+└── .cursor/rules/          # Cursor Agent rules (*.mdc)
 ```
 
 ### State Management Patterns
@@ -104,10 +108,10 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 ### Service Worker Strategy (`sw.js`)
 
 - **Navigation**: Network-First with 15s timeout, offline fallback HTML
-- **Archive API** (`archive.org`): Cache-First with network fallback
-- **Images**: Cache-First
+- **Archive API** (`archive.org` / `web.archive.org` non-image): Stale-while-revalidate with **~30s** network timeout for JSON (not 15s — slow `advancedsearch`/`metadata` must not be aborted early)
+- **Images** (`archive.org` thumbnails): Cache-First with background refresh
 - **Static assets**: Stale-While-Revalidate
-- Cache versioning via `CACHE_NAME`; old caches cleaned on activate
+- Cache versioning via `CACHE_VERSION` / per-cache names; old caches cleaned on activate
 
 ---
 
@@ -134,9 +138,9 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 ### Testing
 
 - **E2E**: Playwright with chromium — `tests/e2e/smoke.spec.ts`, `a11y.spec.ts`
-- **Accessibility**: `@axe-core/playwright` for WCAG 2.1 AA compliance checks
-- **CI**: GitHub Actions runs build verification + E2E on every push/PR
-- Future: Vitest for unit tests on hooks, utils, and services
+- **Accessibility**: `@axe-core/playwright` for WCAG 2.2 AA–tagged axe checks (`tests/e2e/a11y.spec.ts`)
+- **CI**: GitHub Actions — audit, Biome, i18n, tsc, Vitest, `ANALYZE` build, bundle budgets, Playwright E2E, Lighthouse CI
+- **Unit**: Vitest under `tests/unit/` (serial / low-RAM friendly `vitest.config.ts`)
 
 ### Performance Targets
 
@@ -158,15 +162,16 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 ## Current Tech Stack (installed — do NOT re-add)
 
 - React 19, React DOM 19, React Router DOM 7
-- Vite 7, @vitejs/plugin-react
+- Vite 8, @vitejs/plugin-react
 - Jotai 2 (state), @tanstack/react-query 5 (server state)
 - Tailwind CSS 3, PostCSS, Autoprefixer, @tailwindcss/typography
 - Framer Motion 12 (animations)
 - lucide-react (icons), cmdk (command palette)
 - DOMPurify (XSS), @dnd-kit/\* (drag-and-drop)
 - @google/genai (Gemini AI)
-- Playwright, @axe-core/playwright (testing)
-- TypeScript 5, ESLint 8, Prettier 3
+- Playwright, @axe-core/playwright, Vitest, Testing Library
+- **Biome 2.4** — sole linter/formatter (no ESLint/Prettier in this repo)
+- TypeScript 6, Zod 4
 
 ## Goal
 

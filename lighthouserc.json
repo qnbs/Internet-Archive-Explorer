@@ -1,0 +1,22 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm exec vite preview --host 127.0.0.1 --port 4173",
+      "startServerReadyPattern": "4173",
+      "url": ["http://127.0.0.1:4173/Internet-Archive-Explorer/"],
+      "numberOfRuns": 1,
+      "settings": {
+        "preset": "desktop",
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", { "minScore": 0.88 }],
+        "categories:best-practices": ["warn", { "minScore": 0.85 }],
+        "categories:performance": "off",
+        "categories:seo": ["warn", { "minScore": 0.85 }]
+      }
+    }
+  }
+}

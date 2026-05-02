@@ -45,6 +45,10 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **GitHub Pages:** Live-Site muss das **Vite-Build** aus Actions ausliefern. Unter **Settings → Pages** die Quelle **GitHub Actions** wählen; bei „Deploy from a branch“ liefert Pages oft die unbearbeitete `index.html` ( `./index.tsx` ) — dann schlägt `.github/workflows/pages-smoke.yml` fehl (Absicherung mit klarem Log-Hinweis).
 
+**Dependabot:** Konfiguration liegt unter **`.github/dependabot.yml`** (nicht unter `workflows/`, um Pseudo-Workflow-Läufe zu vermeiden).
+
+**Lighthouse CI:** `.github/workflows/ci.yml` — nach E2E `npx @lhci/cli autorun` mit `lighthouserc.json` (Desktop; Accessibility minScore 0.88).
+
 ---
 
 ## Issues Fixed in This Audit
@@ -109,12 +113,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - **File:** `public/sw.js` — byte limits + **LRU eviction** pro Cache und global.
 
-#### M9: Download Manager Queue Unbounded
+#### M9: ~~Download Manager Queue Unbounded~~ — **addressed**
 
-- **Impact:** Potential memory issue with very large download queues.
-- **File:** `store/downloads.ts`
-- **Fix:** Add max queue size constant and enforce it.
-- **Effort:** Low
+- **File:** `store/downloads.ts` — `DOWNLOAD_QUEUE_MAX_ITEMS`, `trimDownloadQueue()`, eviction before `addDownloadAtom`.
 
 #### M10: `noUnusedLocals` / `noUnusedParameters` — **enabled** in `tsconfig.json` (Cleanup bei neuen Warnungen in eigener PR).
 
@@ -216,7 +217,7 @@ Key files for follow-up work:
 | `index.html`                        | M4, M5, M6 |
 | `index.css`                         | M1, M2, M3 |
 | `sw.js`                             | M7         |
-| `store/downloads.ts`                | M9         |
+| `store/downloads.ts`                | —          |
 | `services/archiveService.ts`        | H3         |
 | `tests/e2e/a11y.spec.ts`            | H2         |
 | `.github/workflows/ci.yml`          | L1, L2     |

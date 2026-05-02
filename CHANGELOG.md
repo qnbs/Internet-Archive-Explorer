@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Dependabot:** Konfiguration unter **`.github/dependabot.yml`** (frühere `.github/workflows/dependabot.yml` verursachte unnötige Workflow-Fehler ohne Jobs)
+- **Uploader Hub:** **nested-interactive** (Profilkarte: keine `article role="button"` mit Kind-Buttons) und **Kontrast** (Sidebar-Überschriften/Chips hell/dunkel lesbar)
+- **Live-Demo / IA-Fetches:** Service Worker (`public/sw.js`) nutzte für JSON/API nur **15 s** Netzwerk-Timeout — langsamer als typische `advancedsearch`/`metadata`-Antworten → künstliche Abbrüche und 503-Offline-JSON; **API-Timeout 30 s**, Cache `v7`; `archiveService` **32 s** Client-Timeout; `fetchWithRetry` mit **408**-Retry und **`Retry-After`** bei **429**; TanStack **kein Retry** bei `ArchiveServiceError` mit `retryable: false` (Validierung/4xx)
+- **Download-Trim:** Schleifenbedingung `length > cap` statt `>=` (kein Über-Trimmen bei voller Queue)
 - Help Center: Platzhalter-Text „Thema wählen“ nutzt **`text-gray-600 dark:text-gray-300`** statt `text-gray-400` — **WCAG-2.2-Kontrast** (axe `color-contrast` bei `CI=true` / `vite preview`)
 - Deep-Link `?view=` blieb unter **React Strict Mode** nicht erhalten: Nach `replaceState` (Query entfernt) setzte der zweite Effect-Lauf die Ansicht wieder auf die gespeicherte Standard-View — **`activeViewAtom`** nutzt jetzt **`getInitialActiveView()`** (URL vor `localStorage`), der URL-Effekt in **`App.tsx`** räumt nur noch die Adresszeile auf; Smoke-Test „Uploader-Hub zeigt Beitragende“ stabil
 
@@ -33,6 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Download-Queue-Limit** (`DOWNLOAD_QUEUE_MAX_ITEMS`, Standard 120) mit Trim vor neuen Einträgen; Unit-Tests `tests/unit/downloads.test.ts`
+- **PWA:** `public/manifest.json` mit zusätzlichen **`screenshots`** (Wide); Build prüft `dist/manifest.json` in CI
+- **Lighthouse CI:** `lighthouserc.json` + Schritt in `.github/workflows/ci.yml` (`@lhci/cli` nach E2E)
+- ♿ **E2E `a11y.spec.ts`:** weitere Hub-Routen (Uploader, For You, Scriptorium, Web Archive, AI Archive, My Archive)
+- **Cursor:** `.cursor/rules/internet-archive-explorer.mdc` (`alwaysApply`) für Repo-weite Agent-Hinweise
 - 🙈 `.gitignore`: `graphify-out/cache/` (nur CLI-Cache; keine großen JSON-Blobs committen)
 - 🧪 Vitest-Suite in `tests/unit/`: `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeJotaiSyncStorage`, `archiveService` (Fetch-Mock, Zod-Retries, Metadata-Cache), `useLanguage` (Jotai-Store + Übersetzungs-Mock)
 - 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)

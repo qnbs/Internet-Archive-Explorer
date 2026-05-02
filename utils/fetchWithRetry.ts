@@ -6,8 +6,19 @@ export function delay(ms: number): Promise<void> {
 
 const DEFAULT_TIMEOUT_MS = 20000;
 
+/** Parse Retry-After as delta-seconds (Archive/CDN); falls back to exponential backoff. */
+function retryAfterMs(response: Response, fallbackMs: number): number {
+  const raw = response.headers.get('Retry-After');
+  if (!raw) return fallbackMs;
+  const sec = Number.parseInt(raw, 10);
+  if (!Number.isNaN(sec) && sec >= 0) {
+    return Math.min(120_000, Math.max(500, sec * 1000));
+  }
+  return fallbackMs;
+}
+
 /**
- * HTTP GET with exponential backoff on 429/5xx and transient network failures.
+ * HTTP GET with exponential backoff on 408/429/5xx and transient network failures.
  * Used by Internet Archive requests.
  */
 export async function fetchWithRetry(
@@ -24,7 +35,12 @@ export async function fetchWithRetry(
       return response;
     }
 
-    if ((response.status === 429 || response.status >= 500) && retries > 0) {
+    if (response.status === 429 && retries > 0) {
+      await delay(retryAfterMs(response, backoffMs));
+      return fetchWithRetry(url, options, retries - 1, backoffMs * 2, timeoutMs);
+    }
+
+    if ((response.status === 408 || response.status >= 500) && retries > 0) {
       await delay(backoffMs);
       return fetchWithRetry(url, options, retries - 1, backoffMs * 2, timeoutMs);
     }

@@ -49,9 +49,11 @@ export {
   activeDownloadCountAtom,
   addDownloadAtom,
   clearCompletedDownloadsAtom,
+  DOWNLOAD_QUEUE_MAX_ITEMS,
   downloadManagerOpenAtom,
   downloadQueueAtom,
   removeDownloadAtom,
+  trimDownloadQueue,
   updateDownloadProgressAtom,
 } from './downloads';
 // These atoms have dependencies on other store files

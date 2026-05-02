@@ -130,7 +130,9 @@ Configured workflows:
 - `.github/workflows/ci.yml`
   - Biome, TypeScript, **Vitest unit tests**, production build with bundle analysis
   - bundle size budgets (`pnpm run check:bundle-size`)
-  - Playwright E2E smoke tests
+  - Playwright E2E smoke tests (incl. axe on multiple hubs when `CI=true`)
+  - **`dist/manifest.json`** presence check; **Lighthouse CI** (`lighthouserc.json`, accessibility threshold)
+- **Dependabot:** `.github/dependabot.yml` (not under `workflows/`)
 - `.github/workflows/deploy-pages.yml`
   - deploys GitHub Pages (on `main` and manual dispatch)
 - `.github/workflows/pages-smoke.yml`
@@ -178,6 +180,11 @@ If you see i18n keys instead of text:
 
 - verify locales are present in `dist/locales/...`
 - verify `/Internet-Archive-Explorer/locales/...` endpoints respond with `200`
+
+#### Slow or failed Internet Archive loads (live site)
+
+- The **service worker** may still be on an old cache line: hard-refresh, or **clear site data** and reload so `sw.js` updates (current API timeout for `archive.org` JSON is **30s**; older builds used **15s** and could surface false “offline” / failed fetches when Archive.org is slow).
+- **Rate limits** (429): the app retries with optional **`Retry-After`**; if errors persist, wait and retry or reduce parallel scrolling.
 
 #### CI failures
 
@@ -333,7 +340,9 @@ Konfigurierte Workflows:
 - `.github/workflows/ci.yml`
   - Biome, TypeScript, Vitest-Unit-Tests, Produktionsbuild inkl. Bundle-Analyse
   - Bundle-Größen-Budgets (`pnpm run check:bundle-size`)
-  - Playwright-E2E-Smoke-Tests
+  - Playwright-E2E-Smoke-Tests (inkl. axe auf mehreren Hubs bei `CI=true`)
+  - Prüfung **`dist/manifest.json`**; **Lighthouse CI** (`lighthouserc.json`, Accessibility-Schwelle)
+- **Dependabot:** `.github/dependabot.yml` (nicht unter `workflows/`)
 - `.github/workflows/deploy-pages.yml`
   - GitHub-Pages-Deploy (bei `main` und manuell)
 - `.github/workflows/pages-smoke.yml`
@@ -351,6 +360,7 @@ CI=true pnpm run test:e2e
 
 ### 9) PWA- und Service-Worker-Verhalten
 
+- **Web-App-Manifest:** Quelle `public/manifest.json` (landet in `dist/`); enthält **Screenshots** (wide) für unterstützte Install-Oberflächen.
 - In Produktion/statischem Hosting wird der Service Worker registriert.
 - Auf Entwicklungs-ähnlichen Hosts (`localhost`, `127.0.0.1`, `0.0.0.0`, `*.app.github.dev`) wird die Registrierung deaktiviert; veraltete Registrierungen werden bereinigt, um Dynamic-Import-Probleme zu vermeiden.
 - In Preview-Hosts wird im UI ein Debug-Hinweis angezeigt, falls eine ältere App-SW-Registrierung erkannt wird.
@@ -381,6 +391,11 @@ Wenn i18n-Keys statt Texte erscheinen:
 
 - prüfen, ob `dist/locales/...` vorhanden ist
 - prüfen, ob `/Internet-Archive-Explorer/locales/...` mit `200` antwortet
+
+#### Langsame oder fehlschlagende Internet-Archive-Ladevorgänge (Live)
+
+- Ggf. **veralteter Service Worker**: Hard-Reload oder **Seitendaten löschen** und neu laden, damit `sw.js` aktuell ist (API-Timeout für `archive.org`-JSON **30s**; ältere Builds mit **15s** konnten bei langsamer API vorzeitig abbrechen).
+- **Rate Limits** (429): die App wertet optional **`Retry-After`** aus; bei anhaltenden Fehlern kurz warten und erneut versuchen bzw. weniger parallel scrollen.
 
 #### CI-Fehler
 

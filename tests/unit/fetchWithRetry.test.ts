@@ -44,4 +44,32 @@ describe('fetchWithRetry', () => {
     expect(res.ok).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+
+  it('waits Retry-After on 429 before retrying', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '1' } }))
+      .mockResolvedValueOnce(new Response('ok', { status: 200 }));
+
+    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000);
+    await vi.advanceTimersByTimeAsync(1000);
+    const res = await p;
+
+    expect(res.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
+  it('retries once on HTTP 408 then succeeds', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('timeout', { status: 408 }))
+      .mockResolvedValueOnce(new Response('ok', { status: 200 }));
+
+    const res = await fetchWithRetry('https://example.com', {}, 2, 10, 30_000);
+
+    expect(res.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
 });
