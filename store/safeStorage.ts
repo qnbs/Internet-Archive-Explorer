@@ -1,4 +1,5 @@
 import { atomWithStorage } from 'jotai/utils';
+import { logger } from '@/utils/logger';
 
 // Define the SyncStorage interface to ensure our custom storage is correctly typed.
 // This tells Jotai that our storage is synchronous and won't return Promises.
@@ -9,12 +10,10 @@ interface SyncStorage<Value> {
 }
 
 /**
- * A custom storage object for jotai's atomWithStorage that gracefully handles
- * JSON parsing errors. If it encounters corrupted data in localStorage, it
- * logs a warning, removes the invalid entry, and returns the initial value,
- * preventing the application from crashing.
+ * Jotai synchronous storage with JSON parse/write guards.
+ * Exported for unit tests only — app code should use `safeAtomWithStorage`.
  */
-const safeStorage = {
+export const safeJotaiSyncStorage = {
   getItem: (key: string, initialValue: unknown): unknown => {
     try {
       const storedValue = localStorage.getItem(key);
@@ -22,10 +21,7 @@ const safeStorage = {
         return JSON.parse(storedValue);
       }
     } catch (e) {
-      console.warn(
-        `[Jotai] Could not parse localStorage key "${key}". Removing corrupted data.`,
-        e,
-      );
+      logger.warn(`[Jotai] Could not parse localStorage key "${key}". Removing corrupted data.`, e);
       localStorage.removeItem(key);
     }
     return initialValue;
@@ -34,7 +30,7 @@ const safeStorage = {
     try {
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (e) {
-      console.error(`[Jotai] Could not write to localStorage for key "${key}".`, e);
+      logger.error(`[Jotai] Could not write to localStorage for key "${key}".`, e);
     }
   },
   removeItem: (key: string): void => {
@@ -54,5 +50,5 @@ const safeStorage = {
 export function safeAtomWithStorage<Value>(key: string, initialValue: Value) {
   // By explicitly providing the typed storage object, we ensure jotai treats
   // this as a synchronous storage, giving us correct types for our atoms.
-  return atomWithStorage(key, initialValue, safeStorage as SyncStorage<Value>);
+  return atomWithStorage(key, initialValue, safeJotaiSyncStorage as SyncStorage<Value>);
 }

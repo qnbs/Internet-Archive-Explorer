@@ -57,6 +57,9 @@ jobs:
       - name: Typecheck
         run: pnpm exec tsc --noEmit
 
+      - name: Unit tests (Vitest)
+        run: pnpm run test:unit
+
       - name: Build (with bundle analysis)
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/

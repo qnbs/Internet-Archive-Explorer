@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getItemMetadata, getItemPlainText } from '@/services/archiveService';
 import { autoplayMediaAtom, defaultDetailTabAllAtom, enableAiFeaturesAtom } from '@/store/settings';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { findPlayableFile } from '@/utils/mediaUtils';
 
 export type ItemDetailTab = 'description' | 'ai' | 'files' | 'related';
@@ -64,7 +65,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
       if (isPlaying) {
         mediaRef.current.pause();
       } else {
-        mediaRef.current.play().catch((e) => console.error('Media play failed:', e));
+        mediaRef.current.play().catch((e) => logger.error('Media play failed:', e));
       }
     }
   }, [isPlaying]);

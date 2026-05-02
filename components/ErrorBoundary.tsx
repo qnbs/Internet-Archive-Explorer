@@ -1,4 +1,5 @@
 import React, { ErrorInfo, ReactNode } from 'react';
+import { logger } from '@/utils/logger';
 import { ArchiveLogoIcon, RefreshIcon, TrashIcon } from './Icons';
 
 interface Props {
@@ -21,11 +22,12 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('========================================');
-    console.error('Uncaught error in ErrorBoundary:');
-    console.error(error);
-    console.error('Component Stack:', errorInfo.componentStack);
-    console.error('========================================');
+    logger.error(
+      'Uncaught error in ErrorBoundary',
+      error,
+      'Component stack:',
+      errorInfo.componentStack,
+    );
   }
 
   private handleReload = () => {

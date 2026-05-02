@@ -25,10 +25,11 @@ pnpm run dev                     # Vite Dev Server
 pnpm run build                   # Produktionssbuild (sync:locales via prebuild)
 pnpm run lint                    # biome check .
 pnpm run lint:ci                 # biome ci (wie CI)
-pnpm run check                   # biome ci + tsc
+pnpm run check                   # biome ci + tsc + vitest run
 pnpm run lint:fix                # biome check --write .
 pnpm run format                  # biome format --write .
 pnpm run format:check            # biome format .
+pnpm run test:unit               # Vitest (serial / single worker)
 pnpm run test:e2e                # Playwright
 pnpm audit --audit-level=moderate
 pnpm run audit        # gleicher Audit-Level wie CI

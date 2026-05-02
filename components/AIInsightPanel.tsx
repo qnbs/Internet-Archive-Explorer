@@ -5,6 +5,7 @@ import { archiveAIGeneration } from '@/services/aiPersistenceService';
 import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
 import { autoArchiveAIAtom } from '@/store/settings';
 import type { AIGenerationType, ArchiveItemSummary, Language } from '@/types';
+import { logger } from '@/utils/logger';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { SparklesIcon } from './Icons';
 
@@ -72,7 +73,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
         autoArchive,
       );
     } catch (aiError) {
-      console.error('AI insight generation failed:', aiError);
+      logger.error('AI insight generation failed:', aiError);
       setError(t('explorer:errorInsight'));
     } finally {
       setIsLoading(false);

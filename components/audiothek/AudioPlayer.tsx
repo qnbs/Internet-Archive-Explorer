@@ -15,6 +15,7 @@ import {
   togglePlayPauseAtom,
 } from '@/store/audioPlayer';
 import { formatTime } from '@/utils/audioUtils';
+import { logger } from '@/utils/logger';
 
 const PlaylistPanel = lazy(() =>
   import('./PlaylistPanel').then((module) => ({ default: module.PlaylistPanel })),
@@ -40,7 +41,7 @@ export const AudioPlayer: React.FC = () => {
     const handleDurationChange = () => setDuration(audio.duration);
     const handleEnded = () => next();
     const handleError = () => {
-      console.error('Audio playback error.');
+      logger.error('Audio playback error.');
       setIsPlaying(false);
       // Optionally, you could try to play the next track:
       // next();
@@ -67,7 +68,7 @@ export const AudioPlayer: React.FC = () => {
       }
       if (isPlaying) {
         audioRef.current.play().catch((e) => {
-          console.error('Audio play failed:', e);
+          logger.error('Audio play failed:', e);
           setIsPlaying(false);
         });
       } else {

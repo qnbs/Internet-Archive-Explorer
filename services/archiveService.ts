@@ -7,7 +7,8 @@ import {
   SERVICE_I18N,
   waybackCdxJsonSchema,
 } from '@/types/archiveSchemas';
-import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
+import { delay, fetchWithRetry } from '@/utils/fetchWithRetry';
+import { logger } from '@/utils/logger';
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
@@ -25,8 +26,6 @@ export class ArchiveServiceError extends Error {
     this.i18nKey = i18nKey;
   }
 }
-
-const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 const handleFetchError = (error: unknown, context: string): never => {
   if (error instanceof ArchiveServiceError) {
@@ -48,38 +47,9 @@ const handleFetchError = (error: unknown, context: string): never => {
   );
 };
 
-async function fetchWithRetry(
-  url: string,
-  options: RequestInit = {},
-  retries = 2,
-  backoffMs = 400,
-): Promise<Response> {
-  try {
-    const response = await fetchWithTimeout(url, options, REQUEST_TIMEOUT_MS);
-
-    if (response.ok) {
-      return response;
-    }
-
-    if ((response.status === 429 || response.status >= 500) && retries > 0) {
-      await delay(backoffMs);
-      return fetchWithRetry(url, options, retries - 1, backoffMs * 2);
-    }
-
-    return response;
-  } catch (error) {
-    if (retries > 0) {
-      await delay(backoffMs);
-      return fetchWithRetry(url, options, retries - 1, backoffMs * 2);
-    }
-
-    throw error;
-  }
-}
-
 async function fetchRawJson(url: string, context: string): Promise<unknown> {
   try {
-    const response = await fetchWithRetry(url);
+    const response = await fetchWithRetry(url, {}, 2, 400, REQUEST_TIMEOUT_MS);
 
     if (!response.ok) {
       throw new ArchiveServiceError(
@@ -122,7 +92,7 @@ async function fetchValidated<T>(url: string, context: string, schema: z.ZodType
     }
   }
 
-  console.warn(`[archiveService] Zod validation failed for ${context}`, lastZodError?.flatten());
+  logger.warn(`[archiveService] Zod validation failed for ${context}`, lastZodError?.flatten());
   throw new ArchiveServiceError(
     `The Internet Archive returned an unexpected shape for ${context}. Please try again.`,
     undefined,
@@ -187,11 +157,15 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
   const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
 
   try {
-    const response = await fetchWithRetry(txtUrl);
+    const response = await fetchWithRetry(txtUrl, {}, 2, 400, REQUEST_TIMEOUT_MS);
     if (!response.ok) {
       if (response.status === 404) {
         const fallbackResponse = await fetchWithRetry(
           `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`,
+          {},
+          2,
+          400,
+          REQUEST_TIMEOUT_MS,
         );
         if (fallbackResponse.ok) {
           return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();

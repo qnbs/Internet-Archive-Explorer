@@ -4,6 +4,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import { selectItemAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { Spinner } from '../Spinner';
 
 export const HeroSection: React.FC = () => {
@@ -28,7 +29,7 @@ export const HeroSection: React.FC = () => {
           setItem(data.response.docs[0]);
         }
       } catch (error) {
-        console.error('Failed to fetch featured film', error);
+        logger.error('Failed to fetch featured film', error);
       } finally {
         setIsLoading(false);
       }

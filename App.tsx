@@ -22,7 +22,6 @@ import { ToastProvider, useToast } from './contexts/ToastContext';
 import { useNavigation } from './hooks/useNavigation';
 import {
   activeViewAtom,
-  defaultSettings,
   deferredPromptAtom,
   isAppInstalledAtom,
   modalAtom,
@@ -33,7 +32,7 @@ import {
   waitingWorkerAtom,
 } from './store';
 import type { BeforeInstallPromptEvent } from './store/pwa';
-import type { AppSettings, ConfirmationOptions, View } from './types';
+import type { ConfirmationOptions } from './types';
 
 const ForYouView = lazy(() => import('./pages/ForYouView'));
 const ExplorerView = lazy(() => import('./pages/ExplorerView'));
@@ -85,7 +84,7 @@ const ToastBridge: React.FC = () => {
 const AppContent: React.FC = () => {
   const { addToast } = useToast();
   const { t } = useLanguage();
-  const [activeView, setActiveView] = useAtom(activeViewAtom);
+  const [activeView] = useAtom(activeViewAtom);
   const setModal = useSetAtom(modalAtom);
   const selectedProfile = useAtomValue(selectedProfileAtom);
   const profileReturnView = useAtomValue(profileReturnViewAtom);
@@ -111,35 +110,25 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const viewFromUrl = urlParams.get('view') as View;
+    const viewParam = urlParams.get('view');
 
-    if (viewFromUrl) {
+    if (viewParam) {
       // Special handling for Web Share Target API
-      if (viewFromUrl === 'webArchive' && urlParams.has('url')) {
+      if (viewParam === 'webArchive' && urlParams.has('url')) {
         const sharedUrl = urlParams.get('url');
         if (sharedUrl) {
           sessionStorage.setItem('sharedUrl', sharedUrl);
         }
       }
-      setActiveView(viewFromUrl);
+      // View already applied via activeViewAtom init (getInitialActiveView); only clean the URL bar.
       window.history.replaceState({}, document.title, window.location.pathname);
-    } else {
-      const storedSettings = localStorage.getItem('app-settings-v2');
-      let initialView: View;
-      if (!storedSettings) {
-        initialView = defaultSettings.defaultView;
-      } else {
-        const settings: Partial<AppSettings> = JSON.parse(storedSettings);
-        initialView = settings.defaultView || defaultSettings.defaultView;
-      }
-      setActiveView(initialView);
     }
 
     // Check initial PWA installation state
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsAppInstalled(isStandalone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsAppInstalled, setActiveView]);
+  }, [setIsAppInstalled]);
 
   // Effect for PWA installation management
   useEffect(() => {

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import type { ArchiveItemSummary, ArchiveMetadata } from '@/types';
+import { logger } from '@/utils/logger';
 import { ContentCarousel } from './ContentCarousel';
 
 interface RelatedItemsProps {
@@ -48,7 +49,7 @@ export const RelatedItems: React.FC<RelatedItemsProps> = ({ metadata, currentIte
         setRelated([]);
       }
     } catch (err) {
-      console.error('Failed to fetch related items:', err);
+      logger.error('Failed to fetch related items:', err);
       setError(t('common:error'));
     } finally {
       setIsLoading(false);

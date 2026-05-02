@@ -4,6 +4,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import { selectItemAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 
 export const RecRoomHero: React.FC = () => {
   const [item, setItem] = useState<ArchiveItemSummary | null>(null);
@@ -39,7 +40,7 @@ export const RecRoomHero: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error('Failed to fetch featured game', error);
+        logger.error('Failed to fetch featured game', error);
       } finally {
         setIsLoading(false);
       }

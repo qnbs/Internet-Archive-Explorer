@@ -1,6 +1,6 @@
 # Internet Archive Explorer
 
-[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Vite](https://img.shields.io/badge/Vite-7.x-blue?logo=vite)](https://vitejs.dev/) [![PWA](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Vite](https://img.shields.io/badge/Vite-8.x-blue?logo=vite)](https://vitejs.dev/) [![PWA](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
 
 Modern web app for discovering and exploring Internet Archive content with curated hubs, personal library workflows, and optional AI features.
 
@@ -27,12 +27,13 @@ Internet Archive Explorer is a React + TypeScript single-page app using Vite and
 ### 3) Tech Stack
 
 - React 19
-- TypeScript 5
-- Vite 7
+- TypeScript 6
+- Vite 8
 - Jotai (state management)
 - Tailwind CSS
 - Biome — lint and format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; single tool instead of ESLint + Prettier)
-- Playwright (E2E smoke tests)
+- Vitest + Testing Library (unit tests under `tests/unit/`)
+- Playwright (E2E: smoke + accessibility checks; CI uses `vite preview` + `ANALYZE` build)
 - Tooling: **pnpm** for packages; **Cursor Pro+** / VS Code with workspace `.vscode/settings.json` (see `CONTRIBUTING.md`)
 
 ### 4) Project Structure
@@ -55,6 +56,7 @@ Internet Archive Explorer is a React + TypeScript single-page app using Vite and
 │   ├── sw-register.js
 │   └── .nojekyll
 ├── tests/
+│   ├── unit/
 │   └── e2e/
 └── scripts/
     └── sync-locales.mjs
@@ -122,8 +124,9 @@ Deployment notes:
 Configured workflows:
 
 - `.github/workflows/ci.yml`
-  - runs build + checks expected output artifacts
-  - runs Playwright E2E smoke tests
+  - Biome, TypeScript, **Vitest unit tests**, production build with bundle analysis
+  - bundle size budgets (`pnpm run check:bundle-size`)
+  - Playwright E2E smoke tests
 - `.github/workflows/deploy-pages.yml`
   - deploys GitHub Pages (on `main` and manual dispatch)
 - `.github/workflows/pages-smoke.yml`
@@ -133,7 +136,8 @@ Run smoke tests locally:
 
 ```bash
 pnpm install --frozen-lockfile
-npx playwright install --with-deps chromium
+pnpm exec playwright install --with-deps chromium
+pnpm run test:unit
 pnpm run test:e2e
 ```
 
@@ -176,6 +180,7 @@ Reproduce locally:
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm run check          # lint + types + unit tests
 pnpm run build
 pnpm run test:e2e
 ```
@@ -183,11 +188,19 @@ pnpm run test:e2e
 ### 12) Security Notes
 
 - No OAuth client secret in frontend
-- OAuth uses Authorization Code + PKCE
-- API keys are browser-side; handle with care
+- OAuth uses Authorization Code + PKCE (tokens in `sessionStorage`; suitable for a public SPA only if you accept browser-exposed tokens — use restricted OAuth scopes and separate API projects where possible)
+- **Gemini (`VITE_API_KEY`) is embedded in the client bundle** like any `VITE_*` variable: anyone can extract it from devtools or the shipped JS. Treat keys as **revocable, quota-limited, and non-production-secret**; prefer Google AI Studio project restrictions and monitoring.
+- Optional verbose client logging in prod: set `VITE_DEBUG_LOGS=true` (see `.env.example`); default logs only `logger.error` noise-free output for end users.
 - CSP is configured in `index.html` for static deployment constraints
 
-### 13) License
+### 13) Roadmap / limits (honest scope)
+
+- **AI:** Extensible via `services/geminiService.ts`; browser-only keys remain a trade-off vs. a backend proxy.
+- **Offline:** PWA + caches cover shell and configured assets; deep offline for every Archive route is not guaranteed.
+- **Sharing / community:** No dedicated social layer; sharing uses normal Web Share / URLs where implemented.
+- **Low-end devices:** Prefer reduced motion (already supported); Vitest runs serially by default to stay gentle on weak dev machines.
+
+### 14) License
 
 MIT
 
@@ -212,12 +225,13 @@ Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und
 ### 3) Technologie-Stack
 
 - React 19
-- TypeScript 5
-- Vite 7
+- TypeScript 6
+- Vite 8
 - Jotai (State Management)
 - Tailwind CSS
 - Biome — Lint und Format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; ein Tool statt ESLint + Prettier)
-- Playwright (E2E-Smoke-Tests)
+- Vitest + Testing Library (Unit-Tests unter `tests/unit/`)
+- Playwright (E2E: Smoke + Barrierefreiheit; CI mit `vite preview` und `ANALYZE`-Build)
 - Tooling: **pnpm**; **Cursor Pro+** / VS Code mit `.vscode/settings.json` (siehe `CONTRIBUTING.md`)
 
 ### 4) Projektstruktur
@@ -240,6 +254,7 @@ Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und
 │   ├── sw-register.js
 │   └── .nojekyll
 ├── tests/
+│   ├── unit/
 │   └── e2e/
 └── scripts/
     └── sync-locales.mjs
@@ -307,7 +322,8 @@ Hinweise:
 Konfigurierte Workflows:
 
 - `.github/workflows/ci.yml`
-  - Build + Artefakt-Prüfungen
+  - Biome, TypeScript, Vitest-Unit-Tests, Produktionsbuild inkl. Bundle-Analyse
+  - Bundle-Größen-Budgets (`pnpm run check:bundle-size`)
   - Playwright-E2E-Smoke-Tests
 - `.github/workflows/deploy-pages.yml`
   - GitHub-Pages-Deploy (bei `main` und manuell)
@@ -318,7 +334,8 @@ Smoke-Tests lokal ausführen:
 
 ```bash
 pnpm install --frozen-lockfile
-npx playwright install --with-deps chromium
+pnpm exec playwright install --with-deps chromium
+pnpm run test:unit
 pnpm run test:e2e
 ```
 
@@ -361,17 +378,26 @@ Lokal reproduzieren mit:
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm run check
 pnpm run build
 pnpm run test:e2e
 ```
 
 ### 12) Sicherheits-Hinweise
 
-- Kein OAuth Client-Secret im Frontend
-- OAuth via Authorization Code + PKCE
-- API-Keys sind browserseitig; entsprechend vorsichtig behandeln
+- Kein OAuth-Client-Secret im Frontend
+- OAuth mit Authorization Code + PKCE (Tokens in `sessionStorage`; für öffentliche SPAs nur mit bewusster Risikoakzeptanz — eingeschränkte Scopes, separates OAuth-Projekt)
+- **`VITE_API_KEY` (Gemini) liegt im Client-Bundle** wie jede `VITE_*`-Variable und ist auslesbar. Keys nur als **widerrufbar / quota-begrenzt** behandeln; AI-Studio-Projektrestriktionen und Monitoring nutzen.
+- Optionale ausführliche Client-Logs in Produktion: `VITE_DEBUG_LOGS=true` (siehe `.env.example`); Standard bleibt nur `logger.error` für Endnutzer:innen.
 - CSP ist in `index.html` auf statisches Hosting abgestimmt
 
-### 13) Lizenz
+### 13) Roadmap / Grenzen
+
+- **KI:** Erweiterbar über `services/geminiService.ts`; Browser-Keys vs. Backend-Proxy bleiben ein Trade-off.
+- **Offline:** PWA + Caches für Shell und konfigurierte Assets; kein Voll-Offline für alle Archive-Routen garantiert.
+- **Community/Sharing:** Kein eigenes Social-Layer; Teilen über Web Share / URLs wo vorhanden.
+- **Schwache Geräte:** Reduced Motion unterstützt; Vitest läuft standardmäßig seriell (schonende Dev-Hardware).
+
+### 14) Lizenz
 
 MIT

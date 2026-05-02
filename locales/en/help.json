@@ -3,6 +3,7 @@
   "subtitle": "Everything you need to know about using the Archive Explorer.",
   "searchPlaceholder": "Search help topics...",
   "selectTopic": "Select a topic from the sidebar to get started.",
+  "contentRegion": "Help answers and articles",
   "topics": [
     {
       "id": "getting-started",

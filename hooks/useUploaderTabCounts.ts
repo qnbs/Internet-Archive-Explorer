@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getItemCount } from '@/services/archiveService';
 import type { Profile, UploaderTab } from '@/types';
+import { logger } from '@/utils/logger';
 
 const getPostsQuery = (profile: Profile) =>
   `creator:("${profile.searchIdentifier}") AND mediatype:(texts) AND collection:(archiveteam_newsposts)`;
@@ -35,7 +36,7 @@ export const useUploaderTabCounts = (profile: Profile) => {
 
       setVisibleTabs([...baseTabs, ...dynamicTabs]);
     } catch (error) {
-      console.error('Failed to fetch uploader tab counts', error);
+      logger.error('Failed to fetch uploader tab counts', error);
       setVisibleTabs(baseTabs); // Fallback to base tabs on error
     } finally {
       setIsLoading(false);

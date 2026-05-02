@@ -4,6 +4,7 @@ import { SparklesIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { Spinner } from '../Spinner';
 
@@ -37,7 +38,7 @@ const GameFinder: React.FC = () => {
         );
         gameListCache.current = data.response?.docs || [];
       } catch (e) {
-        console.error('Failed to fetch game list for AI context', e);
+        logger.error('Failed to fetch game list for AI context', e);
       }
     };
     fetchGameList();
@@ -104,7 +105,7 @@ const GameFinder: React.FC = () => {
         setError(t('recRoom:gameFinder.error'));
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       if (err instanceof Error && err.message.includes('Missing Gemini API key')) {
         setError(t('recRoom:gameFinder.error'));
       } else {

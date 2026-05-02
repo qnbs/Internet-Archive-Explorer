@@ -2,6 +2,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import type { DownloadItem } from '@/store/downloads';
 import { addDownloadAtom, downloadQueueAtom, updateDownloadProgressAtom } from '@/store/downloads';
+import { logger } from '@/utils/logger';
 
 /**
  * Hook to programmatically start a download via the Fetch API + ReadableStream,
@@ -51,7 +52,7 @@ export const useDownloadManager = () => {
         updateProgress({ id: item.id, downloadedBytes: total || received, status: 'done' });
       } catch (err) {
         updateProgress({ id: item.id, status: 'error' });
-        console.error('Download failed:', err);
+        logger.error('Download failed:', err);
       }
     },
     [addDownload, updateProgress],

@@ -19,6 +19,7 @@ import {
 } from '@/components/Icons';
 import { loadableTranslationsAtom } from '@/store/i18n';
 import type { HelpTranslationNamespace } from '@/types';
+import { logger } from '@/utils/logger';
 import { useLanguage } from './useLanguage';
 
 export interface HelpQuestion {
@@ -48,7 +49,7 @@ export const useHelpView = () => {
       const topicData = helpData?.topics;
 
       if (!Array.isArray(topicData)) {
-        console.error('Help topics data is not an array:', topicData);
+        logger.error('Help topics data is not an array:', topicData);
         return;
       }
 

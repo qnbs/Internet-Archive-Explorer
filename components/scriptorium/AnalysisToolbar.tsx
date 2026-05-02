@@ -4,6 +4,7 @@ import { SparklesIcon, TagIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { extractEntities, getSummary } from '@/services/geminiService';
 import type { ExtractedEntities, WorksetDocument } from '@/types';
+import { logger } from '@/utils/logger';
 import { toastAtom } from '../../store';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
@@ -36,7 +37,7 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
           setAnalysis({ type: 'entities', data: result });
         }
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         const message =
           error instanceof Error ? error.message : 'An unknown error occurred during analysis.';
         setToast({ type: 'error', message });

@@ -2,6 +2,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useCallback, useEffect } from 'react';
 import { languageAtom, loadableTranslationsAtom } from '@/store/i18n';
 import type { Language } from '@/types';
+import { logger } from '@/utils/logger';
 
 interface LanguageHook {
   language: Language;
@@ -39,7 +40,7 @@ export const useLanguage = (): LanguageHook => {
     (key: string, replacements?: Record<string, string | number>): string => {
       if (loadableTranslations.state === 'loading') return '';
       if (loadableTranslations.state === 'hasError') {
-        console.error('Translation loading failed:', loadableTranslations.error);
+        logger.error('Translation loading failed:', loadableTranslations.error);
         return key;
       }
 
@@ -48,13 +49,13 @@ export const useLanguage = (): LanguageHook => {
       const path = pathParts.join('.');
 
       if (!namespace || !path) {
-        console.warn(`Invalid translation key format: ${key}`);
+        logger.warn(`Invalid translation key format: ${key}`);
         return key;
       }
 
       const namespaceTranslations = translations[namespace];
       if (!isRecord(namespaceTranslations)) {
-        console.warn(`Translation namespace not found: ${namespace}`);
+        logger.warn(`Translation namespace not found: ${namespace}`);
         return path.split('.').pop() || key;
       }
 
@@ -71,7 +72,7 @@ export const useLanguage = (): LanguageHook => {
       }
 
       if (template === undefined) {
-        console.warn(`Translation key not found: ${key}`);
+        logger.warn(`Translation key not found: ${key}`);
         return path.split('.').pop() || key;
       }
 

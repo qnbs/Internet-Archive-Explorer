@@ -15,6 +15,7 @@ import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { loadExploreTrending, persistExploreTrending } from '@/utils/offlineHubCache';
 import { toastAtom } from '../store';
 
@@ -98,7 +99,7 @@ const TrendingItems: React.FC = () => {
         setToast({ type: 'success', message: t('aiArchive:insightGenerated') });
       }
     } catch (aiError) {
-      console.error('AI summary generation failed:', aiError);
+      logger.error('AI summary generation failed:', aiError);
       setSummaryError(t('explorer:errorInsight'));
     } finally {
       setIsGeneratingInsight(false);

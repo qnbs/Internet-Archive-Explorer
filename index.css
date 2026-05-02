@@ -324,6 +324,15 @@
     box-shadow: none !important;
     filter: none !important;
   }
+
+  .retro-scanlines::after {
+    display: none !important;
+  }
+
+  .ia-focus-visible-enhanced:focus-visible {
+    outline: 3px solid Highlight !important;
+    box-shadow: none !important;
+  }
 }
 
 /* Spinner for pre-React loading */
@@ -343,5 +352,60 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Print: readable, low-ink layout (SPA: main content; chrome is mostly handled by user agent) */
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html {
+    font-size: 11pt;
+    print-color-adjust: economy;
+    -webkit-print-color-adjust: economy;
+  }
+
+  body {
+    margin: 0;
+    padding: 12mm;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  #app-loader {
+    display: none !important;
+  }
+
+  .glass,
+  .glass-dark,
+  .glass-sepia,
+  .glass-xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #fff !important;
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+    color: #000 !important;
+  }
+
+  .neon-border-orange,
+  .neon-cyan,
+  .neon-orange {
+    box-shadow: none !important;
+    border: 1px solid #333 !important;
+  }
+
+  .retro-scanlines::after {
+    display: none !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline;
   }
 }

@@ -1,5 +1,59 @@
 import { atom } from 'jotai';
-import type { ArchiveItemSummary, ConfirmationOptions, Profile, View } from '@/types';
+import type { AppSettings, ArchiveItemSummary, ConfirmationOptions, Profile, View } from '@/types';
+import { defaultSettings } from './settings';
+
+const KNOWN_VIEWS = new Set<View>([
+  'explore',
+  'forYou',
+  'library',
+  'myArchive',
+  'uploaderHub',
+  'uploaderDetail',
+  'scriptorium',
+  'movies',
+  'audio',
+  'image',
+  'recroom',
+  'settings',
+  'help',
+  'storyteller',
+  'aiArchive',
+  'webArchive',
+]);
+
+export function isValidView(value: string): value is View {
+  return KNOWN_VIEWS.has(value as View);
+}
+
+/**
+ * Initial route before React effects run. URL `?view=` wins over persisted defaultView.
+ * Required so React Strict Mode does not overwrite deep-links after replaceState strips the query.
+ */
+export function getInitialActiveView(): View {
+  if (typeof window === 'undefined') {
+    return defaultSettings.defaultView;
+  }
+
+  const raw = new URLSearchParams(window.location.search).get('view');
+  if (raw && isValidView(raw)) {
+    return raw;
+  }
+
+  try {
+    const storedSettings = localStorage.getItem('app-settings-v2');
+    if (!storedSettings) {
+      return defaultSettings.defaultView;
+    }
+    const settings = JSON.parse(storedSettings) as Partial<AppSettings>;
+    const dv = settings.defaultView;
+    if (dv && isValidView(dv)) {
+      return dv;
+    }
+    return defaultSettings.defaultView;
+  } catch {
+    return defaultSettings.defaultView;
+  }
+}
 
 /**
  * Defines the shape of all possible modal states in the application.
@@ -24,7 +78,7 @@ export type ModalState =
  * Represents the currently active main view/page of the application.
  * e.g., 'explore', 'library', 'settings'.
  */
-export const activeViewAtom = atom<View>('explore');
+export const activeViewAtom = atom<View>(getInitialActiveView());
 
 /**
  * The central atom for controlling the application's modal state.

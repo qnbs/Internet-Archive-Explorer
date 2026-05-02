@@ -24,7 +24,8 @@ This repository uses **[Biome](https://biomejs.dev/)** as the **only** linter an
 | ------------------- | ------------------------------------------------- |
 | `pnpm run lint`     | Run Biome check (lint + format verification)      |
 | `pnpm run lint:ci`  | **`biome ci`** — same gates as GitHub Actions      |
-| `pnpm run check`    | `biome ci` + `tsc --noEmit` (local full gate)      |
+| `pnpm run check`    | `biome ci` + `tsc --noEmit` + unit tests (Vitest)   |
+| `pnpm run test:unit`| Vitest (single worker / serial — weak hardware OK)|
 | `pnpm run lint:fix` | Apply safe fixes + format (`biome check --write`) |
 | `pnpm run format`   | Format with Biome (`biome format --write`)       |
 | `pnpm run format:check` | Verify formatting only (`biome format .`)     |
@@ -65,9 +66,14 @@ Your global User settings **do not** override these workspace keys for ESLint en
 ## Tests and checks
 
 ```bash
-pnpm run build
-pnpm run test:e2e
+pnpm run test:unit   # Vitest — nur tests/unit/ (siehe vitest.config.ts; serial / wenig RAM)
+ANALYZE=true pnpm run build   # wie CI: Bundle-Report für Budget-Check
+pnpm run test:e2e             # mit CI=true nutzt Playwright vite preview → frischer Build nötig
 ```
+
+Zum **kompletten Gate wie GitHub Actions**: `pnpm install --frozen-lockfile`, dann `pnpm audit`, `pnpm run lint:ci`, `pnpm run check:i18n`, `pnpm exec tsc --noEmit`, `pnpm run test:unit`, `ANALYZE=true pnpm run build`, `pnpm run check:bundle-size`, `CI=true pnpm run test:e2e`.
+
+Unit-Tests liegen ausschließlich unter **`tests/unit/**/*.test.{ts,tsx}`** (nicht mehr co-located neben Source).
 
 E2E tests expect Playwright browsers; install with `pnpm exec playwright install --with-deps chromium` if needed.
 
@@ -105,9 +111,17 @@ chmod +x .git/hooks/commit-msg
 
 ## Bundle size
 
+CI runs **`ANALYZE=true pnpm run build`** before **`pnpm run check:bundle-size`** (writes `dist/bundle-report.json`). Locally:
+
+```bash
+ANALYZE=true pnpm run build
+pnpm run check:bundle-size
+```
+
+Alternative analysis only:
+
 ```bash
 pnpm run build:analyze
-pnpm run check:bundle-size
 ```
 
 If a budget is exceeded, update `.github/bundle-budgets.json` only after intentional additions (not regressions).

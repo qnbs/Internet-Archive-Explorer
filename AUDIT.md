@@ -1,20 +1,24 @@
 # Audit Report — Internet Archive Explorer
 
-**Date:** 2026-04-14
+**Date:** 2026-04-14 · **Last reviewed:** 2026-05-02
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
 **App Version:** 1.0.0
-**Stack:** React 19 · TypeScript 5 · Vite 7 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5
+**Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
 
 ---
 
 ## Executive Summary
 
-The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently. No critical runtime errors or security vulnerabilities were found. The primary gaps are in test coverage, build optimization, and documentation.
+The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently. No critical runtime errors or security vulnerabilities were found. Unit coverage focuses on core utilities/services/hooks; E2E covers smoke + selected axe routes under CI (`vite preview`).
 
 **Overall Health: ✅ Good** — Production-ready with improvement opportunities documented below.
 
 ## Unreleased
 
+- 🧪 Vitest (serial / `maxWorkers: 1`): alle Unit-Tests unter `tests/unit/` (`sanitizer`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeStorage`, `archiveService`, `useLanguage`)
+- 🪵 `utils/logger.ts` — `warn`/`debug` nur in DEV oder bei `VITE_DEBUG_LOGS=true`; Fehler weiterhin per `console.error`
+- 🖨️ `@media print` + Forced-Colors-Feinschliff (`retro-scanlines`, Fokus-Ring) in `index.html` / `index.css`
+- 🔍 Canonical, `og:url`, JSON-LD (`WebApplication`) in `index.html`
 - 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
 - ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
@@ -23,6 +27,21 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 - 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
 - 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + optimierter pnpm cache in GitHub Actions
 - 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
+
+---
+
+## Post-Unreleased — Abschluss Sprint Mai 2026 (CI-grün)
+
+| Bereich | Umsetzung |
+| ------- | --------- |
+| **Routing / Deep-Link** | `activeViewAtom` initialisiert synchron mit **`getInitialActiveView()`** (`store/app.ts`): gültiges `?view=` vor persisted `defaultView`. Verhindert, dass React Strict Mode nach `replaceState` die Ansicht wieder auf „Explore“ setzt. Smoke: „Uploader-Hub zeigt Beitragende“. |
+| **1.1 Unit-Tests** | `tests/unit/` + `vitest.config.ts` (fork pool, `maxWorkers: 1`); u. a. `archiveService`, `useLanguage`, `fetchWithRetry`, `safeStorage`. |
+| **a11y E2E** | `a11y.spec.ts`: stabile Hub-Liste (Explore, Settings, Library, Audiothek, Videothek, Images Hub, Rec Room, Storyteller, Help) + Skip-Link, Settings-Fokus, **forced-colors**, Zielgröße 24×24. **Help:** Platzhalter-Kontrast (`text-gray-600` auf hellem Grund). |
+| **CI-Parität** | Lokales Gate wie Actions: `pnpm audit`, `lint:ci`, `check:i18n`, `tsc`, `test:unit`, **`ANALYZE=true pnpm run build`**, `check:bundle-size`, `CI=true pnpm run test:e2e`. Bundle-Budget nutzt **brotli-KB** aus `bundle-report.json`. |
+| **PWA / SW** | `public/sw.js`: LRU-Eviction, **MAX_PER_CACHE_BYTES** / **MAX_TOTAL_BYTES** (siehe Kopfkommentar). |
+| **Doku / Repo** | `CONTRIBUTING.md`, `README.md`, `CHANGELOG.md`, `.gitignore` (`graphify-out/cache/`). |
+
+**Noch sinnvoll (Backlog, nicht blockierend):** Lighthouse CI als eigener Workflow; weitere Hubs in axe aufnehmen (For You, Scriptorium, Web/AI Archive, My Archive, Uploader Hub) nach Behebung von u. a. **nested-interactive** auf Profilkarten / Kontrast-Pills; AI-Export PDF/Markdown; Saved Searches; Storyteller Web Speech; CSP verschärfen; Manifest-PNGs + zusätzliche Screenshots.
 
 ---
 
@@ -46,23 +65,16 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ### 🔴 Critical — None Found
 
-No critical/blocking issues were identified. The application builds cleanly, has zero TypeScript compilation errors, and all existing E2E tests pass.
+No critical/blocking issues were identified. The application builds cleanly, has zero TypeScript compilation errors, Vitest passes, and E2E (Playwright, CI profile with fresh `ANALYZE` build) passes.
 
 ---
 
 ### 🟠 High Priority (Next Sprint)
 
-#### H1: No Unit Test Coverage
+#### H1: Unit test coverage — **partially addressed**
 
-- **Impact:** Only 2 Playwright E2E test files exist (~30 scenarios). Hooks, utilities, services, and atom logic are untested.
-- **Recommendation:** Add Vitest with React Testing Library. Priority targets:
-  - `utils/sanitizer.ts` — XSS protection validation
-  - `utils/fetchWithTimeout.ts` — timeout/abort behavior
-  - `hooks/useDebounce.ts` — timing behavior
-  - `hooks/useLanguage.ts` — translation key resolution
-  - `store/safeStorage.ts` — graceful degradation
-  - `services/archiveService.ts` — retry/backoff logic
-- **Effort:** Medium (2-3 days for core coverage)
+- **Was:** Vitest + RTL; Tests für `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry` (extrahiert nach `utils/fetchWithRetry.ts`), `useDebounce`, `safeJotaiSyncStorage`.
+- **Follow-up:** Breitere Hook-/Komponenten-Abdeckung; `useLanguage` ist bereits abgedeckt — Schwerpunkt auf weiteren Hooks und UI-Kritikalität.
 
 #### H2: WCAG 2.2 AA Gap — addressed
 
@@ -74,58 +86,15 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Was:** `archiveService` / `geminiService` validated responses with Zod (`types/archiveSchemas.ts`), retries on Archive validation failures, i18n-keyed service errors.
 - **Follow-up:** Extend schemas if new Archive fields become required in the UI.
 
-#### H4: Missing `forceConsistentCasingInFileNames` in tsconfig
-
-- **Impact:** Cross-platform file casing issues possible.
-- **File:** `tsconfig.json`
-- **Fix:** Add `"forceConsistentCasingInFileNames": true`
-- **Effort:** Trivial
+#### H4: `forceConsistentCasingInFileNames` — **addressed** (`tsconfig.json`)
 
 ---
 
 ### 🟡 Medium Priority (Planned)
 
-#### M1: No Print Styles
+#### M1 / M2 / M3 / M4 / M5 / M6 — **addressed**
 
-- **Impact:** Printing any page produces unstyled/broken output.
-- **File:** `index.css`
-- **Fix:** Add `@media print` rules for content pages.
-- **Effort:** Low
-
-#### M2: Missing Forced-Colors Support
-
-- **Impact:** High-contrast mode (Windows) renders glass effects incorrectly.
-- **File:** `index.css`
-- **Fix:** Add `@media (forced-colors: active)` overrides for `.glass` elements.
-- **Effort:** Low
-
-#### M3: Firefox Scrollbar Styling
-
-- **Impact:** Custom scrollbar only applies to WebKit browsers.
-- **File:** `index.css`
-- **Fix:** Add `scrollbar-color` and `scrollbar-width` CSS properties.
-- **Effort:** Trivial
-
-#### M4: Missing `<link rel="canonical">` for SEO
-
-- **Impact:** No canonical URL for search engines.
-- **File:** `index.html`
-- **Fix:** Add `<link rel="canonical" href="https://qnbs.github.io/Internet-Archive-Explorer/" />`
-- **Effort:** Trivial
-
-#### M5: Missing JSON-LD Structured Data
-
-- **Impact:** No rich snippets in search results.
-- **File:** `index.html`
-- **Fix:** Add `<script type="application/ld+json">` with WebApplication schema.
-- **Effort:** Trivial
-
-#### M6: `index.html` `lang` Attribute Hardcoded to `"de"`
-
-- **Impact:** Default language meta doesn't match default app language (`en`).
-- **File:** `index.html` (line 2)
-- **Fix:** Change to `lang="en"` or make dynamic.
-- **Effort:** Trivial
+- Print-Styles, Forced-Colors (inkl. Feinschliff), Firefox-Scrollbar, canonical, JSON-LD, `lang="en"` — siehe `index.css` / `index.html`.
 
 #### M7: Service Worker THIRD_PARTY_URLS May Be Stale
 
@@ -134,12 +103,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Fix:** Audit and update the list of third-party URLs.
 - **Effort:** Low
 
-#### M8: Service Worker No Cache Size Limits
+#### M8: ~~Service Worker No Cache Size Limits~~ — **addressed**
 
-- **Impact:** Unbounded cache growth on devices with limited storage.
-- **File:** `sw.js`
-- **Fix:** Implement cache eviction strategy (LRU or max-entries).
-- **Effort:** Low-Medium
+- **File:** `public/sw.js` — byte limits + **LRU eviction** pro Cache und global.
 
 #### M9: Download Manager Queue Unbounded
 
@@ -148,28 +114,23 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Fix:** Add max queue size constant and enforce it.
 - **Effort:** Low
 
-#### M10: `noUnusedLocals` / `noUnusedParameters` Disabled
-
-- **Impact:** Dead code can accumulate silently.
-- **File:** `tsconfig.json`
-- **Note:** Enabling these may produce 50+ warnings. Do in a dedicated PR.
-- **Effort:** Medium (requires cleanup pass)
+#### M10: `noUnusedLocals` / `noUnusedParameters` — **enabled** in `tsconfig.json` (Cleanup bei neuen Warnungen in eigener PR).
 
 ---
 
 ### 🟢 Low Priority (Nice-to-Have)
 
-#### L1: No Bundle Size Budget in CI
+#### L1: Bundle size budget — **addressed**
 
-- Add Lighthouse CI or `bundlesize` to track regressions.
+- CI: `ANALYZE=true` Build + `pnpm run check:bundle-size` (`.github/bundle-budgets.json`).
 
 #### L2: ~~No `pnpm audit` in CI Pipeline~~ (addressed)
 
 - CI runs `pnpm audit --audit-level=moderate` after install; moderate+ fails the job (see `.github/workflows/ci.yml`).
 
-#### L3: Console Logging in Production
+#### L3: Console logging — **partially addressed**
 
-- ~54 `console.error/warn/log` statements exist. All are contextual error logging (acceptable) but could be gated behind a debug flag.
+- App-Code nutzt `utils/logger.ts`; ausführliche Warnungen nur in DEV oder `VITE_DEBUG_LOGS=true`. Service Worker / Node-Skripte weiterhin mit `console`.
 
 #### L4: PWA Manifest Only Has SVG/Base64 Icons
 
@@ -179,9 +140,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - Only 2 screenshots. Add 2-3 more showing Videothek, Audiothek, Library.
 
-#### L6: No CONTRIBUTING.md
-
-- Create contributing guidelines for external contributors.
+#### L6: ~~No CONTRIBUTING.md~~ — **addressed** (`CONTRIBUTING.md` inkl. pnpm, Biome, Tests, Bundle, Commit-Format)
 
 #### L7: RecRoom GameFinder Component Complexity
 
@@ -191,13 +150,11 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - `store/aiArchive.ts` has expensive `aiArchiveCountsAtom` — consider splitting into smaller derived atoms.
 
-#### L9: `@types/react` Version Mismatch
+#### L9: ~~`@types/react` Version Mismatch~~ — **addressed** (`@types/react` / `@types/react-dom` ^19)
 
-- `@types/react: ^18.3.3` while using React 19. Update when `@types/react@19` is stable.
+#### L10: Linting strategy — **Biome only**
 
-#### L10: Missing ESLint Rules
-
-- Consider adding: `@typescript-eslint/no-floating-promises`, `react/hook-use-state`.
+- Kein ESLint/Prettier im Repo; Qualitätsregeln über **`biome ci`** — keine parallele ESLint-Regelpalette.
 
 ---
 
@@ -230,7 +187,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 | Token Storage    | ✅ Secure     | sessionStorage with expiration validation                        |
 | API Keys         | ⚠️ Acceptable | Browser-side by design, documented in README                     |
 | Dependencies     | ✅ Current    | All major deps on latest stable versions                         |
-| Input Validation | ⚠️ Partial    | No schema validation on API responses (see H3)                   |
+| Input Validation | ✅ Strong     | Zod + `.safeParse()` in Archive-/Gemini-Services (`types/archiveSchemas.ts`) |
 
 ---
 
@@ -242,8 +199,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 | Image Lazy Loading   | ✅ Implemented | —               | Skeleton placeholders present     |
 | Infinite Scroll      | ✅ Implemented | —               | TanStack Query `useInfiniteQuery` |
 | Reduced Motion       | ✅ Implemented | —               | `motion-reduce:` Tailwind classes |
-| Service Worker Cache | ✅ Implemented | —               | Multi-strategy caching            |
-| Bundle Size Budget   | ❌ Missing     | < 300KB gzipped | Add CI check (see L1)             |
+| Service Worker Cache | ✅ Implemented | LRU + byte caps | `public/sw.js`                    |
+| Bundle Size Budget   | ✅ CI (`check:bundle-size`) | brotli KB budgets | `.github/bundle-budgets.json`    |
 
 ---
 
@@ -256,7 +213,7 @@ Key files for follow-up work:
 | `tsconfig.json`                     | H4, M10    |
 | `index.html`                        | M4, M5, M6 |
 | `index.css`                         | M1, M2, M3 |
-| `sw.js`                             | M7, M8     |
+| `sw.js`                             | M7         |
 | `store/downloads.ts`                | M9         |
 | `services/archiveService.ts`        | H3         |
 | `tests/e2e/a11y.spec.ts`            | H2         |

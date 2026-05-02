@@ -23,6 +23,7 @@ import {
   MediaType,
 } from '@/types';
 import { findBestImageUrl, urlToBase64 } from '@/utils/imageUtils';
+import { logger } from '@/utils/logger';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import {
   ChevronDownIcon,
@@ -304,7 +305,7 @@ const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = (
   };
 
   const handleFullscreen = () =>
-    imageContainerRef.current?.requestFullscreen().catch((err) => console.error(err));
+    imageContainerRef.current?.requestFullscreen().catch((err) => logger.error(err));
   const handleDownload = () => imageUrl && window.open(imageUrl, '_blank');
 
   const handleAnalyze = async () => {
@@ -355,7 +356,7 @@ const ImageDetailModalContent: React.FC<Omit<ImageDetailModalProps, 'item'>> = (
 
       return answer;
     } catch (err) {
-      console.error('Follow-up question failed:', err);
+      logger.error('Follow-up question failed:', err);
       return null;
     }
   };

@@ -1,4 +1,5 @@
 import type { ArchiveMetadata } from '@/types';
+import { logger } from '@/utils/logger';
 
 const DB_NAME = 'archive-explorer-cache';
 const STORE_NAME = 'metadata';
@@ -49,7 +50,7 @@ const createIndexedDBCache = <T>() => {
           request.onerror = () => reject(request.error);
         });
       } catch (error) {
-        console.error('IndexedDB set error:', error);
+        logger.error('IndexedDB set error:', error);
       }
     },
   };

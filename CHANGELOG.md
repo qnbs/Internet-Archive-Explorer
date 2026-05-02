@@ -7,8 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Help Center: Platzhalter-Text „Thema wählen“ nutzt **`text-gray-600 dark:text-gray-300`** statt `text-gray-400` — **WCAG-2.2-Kontrast** (axe `color-contrast` bei `CI=true` / `vite preview`)
+- Deep-Link `?view=` blieb unter **React Strict Mode** nicht erhalten: Nach `replaceState` (Query entfernt) setzte der zweite Effect-Lauf die Ansicht wieder auf die gespeicherte Standard-View — **`activeViewAtom`** nutzt jetzt **`getInitialActiveView()`** (URL vor `localStorage`), der URL-Effekt in **`App.tsx`** räumt nur noch die Adresszeile auf; Smoke-Test „Uploader-Hub zeigt Beitragende“ stabil
+
 ### Changed
 
+- 📚 **AUDIT.md**, **README.md**, **CONTRIBUTING.md**: Stack (Vite 8, TypeScript 6), CI-Parität (`ANALYZE=true` vor Bundle-Check und E2E), Backlog vs. erledigt (SW-LRU, Deep-Link, CONTRIBUTING)
+- ♿ E2E `a11y.spec.ts`: zusätzlich **Storyteller** + **Help** (nach Landmark-Fix); verschachteltes `<main>` in `HelpContent` → `section role="region"` + i18n `help:contentRegion`
+- 🧪 Unit-Tests konsolidiert unter `tests/unit/` (Vitest nur noch dieses Verzeichnis); `tsconfig` schließt `vitest.config.ts` vom `tsc`-Check aus (Vite-8-/Vitest-Plugin-Typkonflikt)
 - 🧹 Biome: Konfiguration erweitert (Ignores für Artefakte, Test-Override, `lint:ci`/`check`-Scripts), Hook-Warnungen bereinigt, CI nutzt `biome ci`
 - 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
 - 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
@@ -24,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- 🙈 `.gitignore`: `graphify-out/cache/` (nur CLI-Cache; keine großen JSON-Blobs committen)
+- 🧪 Vitest-Suite in `tests/unit/`: `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeJotaiSyncStorage`, `archiveService` (Fetch-Mock, Zod-Retries, Metadata-Cache), `useLanguage` (Jotai-Store + Übersetzungs-Mock)
 - 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
 - ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)

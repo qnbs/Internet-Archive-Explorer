@@ -22,7 +22,9 @@ export type { ModalState } from './app';
 export {
   activeViewAtom,
   currentModalTypeAtom,
+  getInitialActiveView,
   isModalOpenAtom,
+  isValidView,
   modalAtom,
   profileReturnViewAtom,
   selectedProfileAtom,

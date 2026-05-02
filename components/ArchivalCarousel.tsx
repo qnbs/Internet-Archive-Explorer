@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { ContentCarousel } from './ContentCarousel';
 
 interface ArchivalCarouselProps {
@@ -22,7 +23,7 @@ export const ArchivalCarousel: React.FC<ArchivalCarouselProps> = ({ title, query
       const data = await searchArchive(query, 1, ['-downloads'], undefined, 15);
       setItems(data.response?.docs || []);
     } catch (err) {
-      console.error(`Failed to fetch ${title}`, err);
+      logger.error(`Failed to fetch ${title}`, err);
       setError(t('common:error'));
     } finally {
       setIsLoading(false);

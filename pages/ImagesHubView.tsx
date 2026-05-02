@@ -7,6 +7,7 @@ import { useSearchAndGo } from '@/hooks/useSearchAndGo';
 import { getItemCount, searchArchive } from '@/services/archiveService';
 import { generateMuseumExhibitConcept } from '@/services/geminiService';
 import { AIGenerationType, MediaType } from '@/types';
+import { logger } from '@/utils/logger';
 
 // --- Sub-Components ---
 
@@ -32,7 +33,7 @@ const HeroGallery: React.FC = () => {
           setImages(urls);
         }
       } catch (error) {
-        console.error('Failed to fetch hero images', error);
+        logger.error('Failed to fetch hero images', error);
       }
     };
     fetchHeroImages();
@@ -96,7 +97,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
           });
         }
       } catch (error) {
-        console.error(`Failed to fetch data for ${collection.title}`, error);
+        logger.error(`Failed to fetch data for ${collection.title}`, error);
       } finally {
         setIsLoading(false);
       }

@@ -13,9 +13,10 @@
 
 ## Checklist
 
-- [ ] `npx tsc --noEmit` passes
-- [ ] `npm run lint` passes
-- [ ] `npm run check:i18n` passes (no missing translation keys)
-- [ ] E2E tests pass locally (`npm run test:e2e`)
+- [ ] `pnpm exec tsc --noEmit` passes
+- [ ] `pnpm run lint:ci` passes
+- [ ] `pnpm run check:i18n` passes (no missing translation keys)
+- [ ] Unit tests pass (`pnpm run test:unit`)
+- [ ] E2E tests pass locally (`pnpm run test:e2e`)
 - [ ] WCAG 2.2 AA not regressed (a11y E2E tests green)
-- [ ] Bundle size budgets not exceeded (`npm run check:bundle-size`)
+- [ ] Bundle size budgets not exceeded (`pnpm run check:bundle-size` after `ANALYZE=true pnpm run build`)

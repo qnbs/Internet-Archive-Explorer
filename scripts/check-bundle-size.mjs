@@ -10,7 +10,7 @@ const budgetsPath = path.join(root, '.github', 'bundle-budgets.json');
 
 if (!fs.existsSync(reportPath)) {
   console.error('[bundle-size] dist/bundle-report.json not found.');
-  console.error('[bundle-size] Run: ANALYZE=true npm run build');
+  console.error('[bundle-size] Run: ANALYZE=true pnpm run build');
   process.exit(1);
 }
 

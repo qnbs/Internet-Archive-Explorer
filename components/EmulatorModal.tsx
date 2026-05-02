@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import type { ArchiveItemSummary } from '@/types';
+import { logger } from '@/utils/logger';
 import { CloseIcon, ExpandIcon, RefreshIcon } from './Icons';
 import { Spinner } from './Spinner';
 
@@ -32,7 +33,7 @@ export const EmulatorModal: React.FC<EmulatorModalProps> = ({ item, onClose }) =
 
   const handleFullscreen = () => {
     modalRef.current?.requestFullscreen().catch((err) => {
-      console.error('Fullscreen request failed: ', err);
+      logger.error('Fullscreen request failed: ', err);
       // Fallback for browsers that don't support it well
       window.open(embedUrl, '_blank');
     });

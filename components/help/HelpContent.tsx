@@ -63,7 +63,11 @@ export const HelpContent: React.FC = () => {
   }, [activeTopic, searchQuery]);
 
   return (
-    <main className="flex-1 p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50 min-h-[50vh]">
+    <section
+      className="flex-1 p-6 bg-white dark:bg-gray-800/60 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50 min-h-[50vh]"
+      role="region"
+      aria-label={t('help:contentRegion')}
+    >
       {activeTopic ? (
         <div>
           <h2 className="text-2xl font-bold text-white mb-4">{activeTopic.title}</h2>
@@ -77,11 +81,11 @@ export const HelpContent: React.FC = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center h-full">
-          <p className="text-gray-400">
+          <p className="text-gray-600 dark:text-gray-300">
             {searchQuery ? t('common:noResultsFound') : t('help:selectTopic')}
           </p>
         </div>
       )}
-    </main>
+    </section>
   );
 };

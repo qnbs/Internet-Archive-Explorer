@@ -3,6 +3,7 @@ import { STORAGE_KEY as SCRIPTORIUM_KEY } from '@/store/scriptorium';
 import { STORAGE_KEYS as SEARCH_KEYS } from '@/store/search';
 import { STORAGE_KEYS as SETTINGS_KEYS } from '@/store/settings';
 import type { AppSettings, LibraryItem, Workset } from '@/types';
+import { logger } from '@/utils/logger';
 
 interface BackupData {
   version: number;
@@ -39,7 +40,7 @@ export const exportAllData = (): string => {
 
     return JSON.stringify(data, null, 2);
   } catch (error) {
-    console.error('Error exporting data:', error);
+    logger.error('Error exporting data:', error);
     throw new Error('Failed to export data. Check console for details.');
   }
 };
@@ -89,7 +90,7 @@ export const importData = (jsonString: string): void => {
     if (error instanceof SyntaxError) {
       throw new Error('Import failed: The file is not a valid JSON file.');
     }
-    console.error('Error importing data:', error);
+    logger.error('Error importing data:', error);
     throw error instanceof Error ? error : new Error('An unknown error occurred during import.');
   }
 };

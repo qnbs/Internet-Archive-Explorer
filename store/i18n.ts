@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import { loadable } from 'jotai/utils';
 import type { Language } from '@/types';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
+import { logger } from '@/utils/logger';
 import { safeAtomWithStorage } from './safeStorage';
 
 export const STORAGE_KEYS = {
@@ -72,7 +73,7 @@ const languageTranslationsAtom = atom(async (get) => {
       if (!isRecord(data)) throw new Error(`Namespace '${ns}' is not a JSON object.`);
       return [ns, data];
     } catch (error) {
-      console.warn(`Could not load '${ns}' for '${language}', falling back to 'en'.`);
+      logger.warn(`Could not load '${ns}' for '${language}', falling back to 'en'.`);
       if (language !== 'en') {
         const fallbackRes = await fetchWithTimeout(withBaseUrl(`locales/en/${ns}.json`), {}, 10000);
         if (!fallbackRes.ok) throw new Error(`Fallback namespace '${ns}' for 'en' failed.`);

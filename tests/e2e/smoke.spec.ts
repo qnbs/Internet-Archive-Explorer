@@ -74,8 +74,13 @@ test('Grundnavigation über SideMenu funktioniert', async ({ page }) => {
 
 test('Uploader-Hub zeigt Beitragende', async ({ page }) => {
   await page.goto('./?view=uploaderHub');
+  await page.waitForSelector('#main-content', { timeout: 15_000 });
+
+  // i18n: solange loadableTranslations lädt, liefert t() '' — einzelnes Namespace-Response reicht nicht.
+  const hubH1 = page.locator('#main-content').getByRole('heading', { level: 1 });
+  await expect(hubH1).toHaveText(/Uploader Hub|Uploader-Hub/, { timeout: 45_000 });
+
   await expect(
-    page.getByRole('heading', { name: /Uploader Hub|Uploader-Hub/i, level: 1 }),
+    page.getByRole('heading', { name: /Featured|Vorgestellte/i, level: 2 }),
   ).toBeVisible();
-  await expect(page.getByRole('heading', { name: /Featured|Vorgestellte/i })).toBeVisible();
 });

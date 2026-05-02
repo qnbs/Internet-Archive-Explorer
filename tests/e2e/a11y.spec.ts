@@ -5,6 +5,7 @@ import { expect, test } from '@playwright/test';
 const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 // Pages to audit – each entry is [label, URL-suffix]
+/** Stable routes for CI (axe critical/serious = 0). Additional hubs: fix landmarks/contrast then add here — see AUDIT.md */
 const PAGES: [string, string][] = [
   ['Explore / Home', './'],
   ['Settings', './?view=settings'],
@@ -13,6 +14,8 @@ const PAGES: [string, string][] = [
   ['Videothek', './?view=movies'],
   ['Images Hub', './?view=image'],
   ['Rec Room', './?view=recroom'],
+  ['Storyteller', './?view=storyteller'],
+  ['Help', './?view=help'],
 ];
 
 for (const [label, url] of PAGES) {

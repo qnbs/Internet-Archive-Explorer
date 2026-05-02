@@ -18,6 +18,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { exportAllData, importData } from '@/services/dataService';
 import type { AccentColor, AppSettings, ConfirmationOptions, Language, View } from '@/types';
+import { logger } from '@/utils/logger';
 import {
   clearAIArchiveAtom,
   clearLibraryAtom,
@@ -625,7 +626,7 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
             await Promise.all(keys.map((k) => caches.delete(k)));
           }
         } catch (err) {
-          console.error('[ResetApp]', err);
+          logger.error('[ResetApp]', err);
         } finally {
           window.location.reload();
         }
@@ -647,7 +648,7 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
       URL.revokeObjectURL(url);
       addToast(t('settings:data.exportSuccess'), 'success');
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       addToast(t('settings:data.exportError'), 'error');
     }
   };
