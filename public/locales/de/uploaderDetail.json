@@ -1,5 +1,6 @@
 {
   "back": "Zurück",
+  "sidebarMobileToggle": "Profil & Statistik",
   "tabs": {
     "ariaLabel": "Uploader-Profilbereiche",
     "dashboard": "Dashboard",

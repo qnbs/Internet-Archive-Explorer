@@ -8,7 +8,7 @@
     "confirmTitle": "Sind Sie das?",
     "confirmDescription": "Wir haben öffentliche Uploads gefunden, die mit diesem Namen verknüpft sind. Bitte wählen Sie unten Ihre spezifische Uploader-Kennung aus, um Ihr Konto zu bestätigen.",
     "selectIdentifier": "Wählen Sie Ihre Uploader-Kennung",
-    "noIdentifierFound": "Es konnte keine Uploader-ID automatisch ermittelt werden. Sie können trotzdem fortfahren, wenn die gezeigten Artikel Ihre sind.",
+    "noIdentifierFound": "Aus den Ergebnissen konnte keine Uploader-Kennung eindeutig abgeleitet werden. Sie können trotzdem fortfahren, wenn die gezeigten Medien Ihre sind.",
     "confirmButton": "Bestätigen & Dashboard laden",
     "errorTitle": "Konto nicht gefunden",
     "errorNotFound": "Entschuldigung, wir konnten keine öffentlichen Uploads zu diesem Namen finden. Bitte überprüfen Sie die Schreibweise und versuchen Sie es erneut.",

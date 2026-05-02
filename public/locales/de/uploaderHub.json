@@ -2,9 +2,14 @@
   "title": "Uploader-Hub",
   "description": "Entdecken Sie die Personen und Institutionen hinter dem Archiv. Durchsuchen Sie vorgestellte Beitragende oder filtern Sie nach Kategorien, um neue Inhalte zu finden.",
   "featured": "Vorgestellte Beitragende",
+  "moreContributors": "Weitere Mitwirkende",
   "allUploaders": "Alle Beitragende",
   "categoryTitle": "Beitragende in: {{category}}",
   "searchPlaceholder": "Beitragende suchen...",
+  "noResults": {
+    "title": "Keine Treffer für diese Filter",
+    "hint": "Versuchen Sie einen anderen Suchbegriff oder setzen Sie die Kategorie zurück."
+  },
   "filters": {
     "title": "Beitragende finden",
     "categories": "Kategorien"

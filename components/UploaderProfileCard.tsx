@@ -53,7 +53,7 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = React.mem
         role="button"
         tabIndex={0}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(profile)}
-        aria-label={`View profile for ${profile.name}`}
+        aria-label={t('uploaderProfileCard:viewProfile', { name: profile.name })}
       >
         <button
           onClick={handleFavoriteClick}

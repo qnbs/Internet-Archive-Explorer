@@ -1,6 +1,7 @@
 {
   "favorite": "Follow Uploader",
   "unfavorite": "Unfollow Uploader",
+  "viewProfile": "Open profile for {{name}}",
   "viewOnArchive": "View on Archive.org",
   "genericDescription": "An uploader of content to the Internet Archive.",
   "genericCreatorDescription": "A creator whose works are available on the Internet Archive."

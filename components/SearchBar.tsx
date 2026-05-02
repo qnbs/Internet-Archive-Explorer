@@ -2,7 +2,12 @@ import { useAtom, useSetAtom } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { activeViewAtom } from '@/store/app';
-import { addSearchHistoryAtom, profileSearchQueryAtom, searchQueryAtom } from '@/store/search';
+import {
+  addSearchHistoryAtom,
+  profileSearchQueryAtom,
+  searchQueryAtom,
+  uploaderHubSearchQueryAtom,
+} from '@/store/search';
 import { CloseIcon, SearchIcon } from './Icons';
 
 export const SearchBar: React.FC = () => {
@@ -11,6 +16,7 @@ export const SearchBar: React.FC = () => {
 
   const [globalSearch, setGlobalSearch] = useAtom(searchQueryAtom);
   const [profileSearch, setProfileSearch] = useAtom(profileSearchQueryAtom);
+  const [hubSearch, setHubSearch] = useAtom(uploaderHubSearchQueryAtom);
   const addSearchHistory = useSetAtom(addSearchHistoryAtom);
 
   const [inputValue, setInputValue] = useState('');
@@ -21,11 +27,14 @@ export const SearchBar: React.FC = () => {
       case 'myArchive':
         setInputValue(profileSearch);
         break;
+      case 'uploaderHub':
+        setInputValue(hubSearch);
+        break;
       default:
         setInputValue(globalSearch);
         break;
     }
-  }, [activeView, globalSearch, profileSearch]);
+  }, [activeView, globalSearch, hubSearch, profileSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -34,6 +43,9 @@ export const SearchBar: React.FC = () => {
       case 'uploaderDetail':
       case 'myArchive':
         setProfileSearch(newValue);
+        break;
+      case 'uploaderHub':
+        setHubSearch(newValue);
         break;
       default:
         setGlobalSearch(newValue);
@@ -48,6 +60,9 @@ export const SearchBar: React.FC = () => {
       case 'myArchive':
         setProfileSearch('');
         break;
+      case 'uploaderHub':
+        setHubSearch('');
+        break;
       default:
         setGlobalSearch('');
         break;
@@ -57,7 +72,12 @@ export const SearchBar: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addSearchHistory(inputValue);
-    if (activeView !== 'explore' && activeView !== 'uploaderDetail' && activeView !== 'myArchive') {
+    if (
+      activeView !== 'explore' &&
+      activeView !== 'uploaderDetail' &&
+      activeView !== 'myArchive' &&
+      activeView !== 'uploaderHub'
+    ) {
       setActiveView('explore');
     }
   };
@@ -68,6 +88,8 @@ export const SearchBar: React.FC = () => {
         return t('uploaderDetail:searchInUploads');
       case 'myArchive':
         return t('myArchive:searchMyUploads');
+      case 'uploaderHub':
+        return t('uploaderHub:searchPlaceholder');
       default:
         return t('explorer:searchPlaceholder');
     }

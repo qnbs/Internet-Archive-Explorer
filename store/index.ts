@@ -96,6 +96,7 @@ export {
   profileSearchQueryAtom,
   searchHistoryAtom,
   searchQueryAtom,
+  uploaderHubSearchQueryAtom,
 } from './search';
 export {
   accentColorAtom,

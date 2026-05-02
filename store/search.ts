@@ -9,6 +9,8 @@ export const STORAGE_KEYS = {
 // --- View-Specific Search State Atoms ---
 export const searchQueryAtom = atom('');
 export const profileSearchQueryAtom = atom('');
+/** Filters contributors on Uploader Hub (header bar + sidebar stay in sync). */
+export const uploaderHubSearchQueryAtom = atom('');
 
 // --- Facets for Explorer Search ---
 export const facetsAtom = atom<Facets>({

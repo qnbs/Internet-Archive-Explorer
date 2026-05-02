@@ -95,29 +95,38 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
     setVerificationData(null);
   };
 
+  const privacyId = 'my-archive-connect-privacy';
+
   // Renders the main input form
   const renderInputStep = () => (
     <>
       <h1 className="text-3xl font-bold text-white">{t('myArchive:connect.title')}</h1>
       <p className="mt-2 text-gray-300">{t('myArchive:connect.description')}</p>
-      <form onSubmit={handleInitialSubmit} className="mt-8 flex flex-col sm:flex-row gap-3">
+      <form
+        onSubmit={handleInitialSubmit}
+        className="mt-8 flex flex-col gap-3 sm:flex-row"
+        aria-describedby={privacyId}
+      >
         <input
           value={screenName}
           onChange={(e) => setScreenName(e.target.value)}
           placeholder={t('myArchive:connect.placeholder')}
-          className="flex-grow bg-gray-700 border-2 border-gray-600 rounded-lg py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="flex-grow rounded-lg border-2 border-gray-600 bg-gray-700 px-4 py-3 text-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-500 motion-reduce:transition-none"
           aria-label={t('myArchive:connect.placeholder')}
+          autoComplete="username"
         />
         <button
           type="submit"
           disabled={!screenName.trim()}
-          className="flex-shrink-0 flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-3 px-6 text-lg rounded-lg transition-transform hover:scale-105 duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:scale-100"
+          className="flex flex-shrink-0 items-center justify-center rounded-lg bg-accent-600 px-6 py-3 text-lg font-semibold text-white transition-transform duration-300 hover:scale-105 hover:bg-accent-500 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-gray-500 motion-reduce:transition-none motion-reduce:hover:scale-100"
         >
           <span>{t('myArchive:connect.button')}</span>
-          <ArrowRightIcon className="w-5 h-5 ml-2" />
+          <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden />
         </button>
       </form>
-      <p className="text-xs text-gray-500 mt-4">{t('myArchive:connect.privacy')}</p>
+      <p id={privacyId} className="mt-4 text-xs text-gray-500">
+        {t('myArchive:connect.privacy')}
+      </p>
     </>
   );
 
@@ -151,7 +160,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
               value={id}
               checked={selectedId === id}
               onChange={() => setSelectedId(id)}
-              className="w-5 h-5 text-cyan-600 bg-gray-600 border-gray-500 focus:ring-cyan-500"
+              className="h-5 w-5 border-gray-500 bg-gray-600 text-accent-600 focus:ring-accent-500"
             />
             <span className="font-mono text-sm text-white">{id}</span>
           </label>
@@ -165,15 +174,17 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
 
       <div className="flex justify-center gap-4 mt-8">
         <button
+          type="button"
           onClick={handleReset}
-          className="px-6 py-2 text-sm font-semibold text-gray-200 bg-gray-700 hover:bg-gray-600 rounded-lg"
+          className="rounded-lg bg-gray-700 px-6 py-2 text-sm font-semibold text-gray-200 hover:bg-gray-600"
         >
           {t('myArchive:connect.tryAgain')}
         </button>
         <button
+          type="button"
           onClick={handleConfirmation}
           disabled={!selectedId}
-          className="px-8 py-2 text-sm font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg disabled:bg-gray-500"
+          className="rounded-lg bg-accent-600 px-8 py-2 text-sm font-semibold text-white hover:bg-accent-500 disabled:bg-gray-500"
         >
           {t('myArchive:connect.confirmButton')}
         </button>
@@ -184,10 +195,13 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   const renderFailedStep = () => (
     <>
       <h1 className="text-2xl font-bold text-red-400">{t('myArchive:connect.errorTitle')}</h1>
-      <p className="mt-2 text-gray-300">{error}</p>
+      <p className="mt-2 text-gray-300" role="alert">
+        {error}
+      </p>
       <button
+        type="button"
         onClick={handleReset}
-        className="mt-8 px-6 py-2 text-sm font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg"
+        className="mt-8 rounded-lg bg-accent-600 px-6 py-2 text-sm font-semibold text-white hover:bg-accent-500"
       >
         {t('myArchive:connect.tryAgain')}
       </button>
@@ -195,10 +209,20 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   );
 
   return (
-    <div className="text-center max-w-4xl mx-auto p-6 bg-gray-800/60 rounded-xl animate-fade-in">
-      <UsersIcon className="w-16 h-16 mx-auto text-cyan-400 mb-4" />
+    <div className="mx-auto max-w-4xl animate-fade-in rounded-xl bg-gray-800/60 p-6 text-center motion-reduce:animate-none">
+      <UsersIcon className="mx-auto mb-4 h-16 w-16 text-accent-400" aria-hidden />
       {step === 'input' && renderInputStep()}
-      {step === 'verifying' && <Spinner size="lg" />}
+      {step === 'verifying' && (
+        <div
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          className="flex flex-col items-center gap-3 py-8"
+        >
+          <span className="sr-only">{t('common:loading')}</span>
+          <Spinner size="lg" />
+        </div>
+      )}
       {step === 'confirming' && renderConfirmStep()}
       {step === 'failed' && renderFailedStep()}
     </div>

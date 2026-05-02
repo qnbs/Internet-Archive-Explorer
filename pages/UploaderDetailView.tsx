@@ -140,7 +140,7 @@ const UploaderDetailView: React.FC<UploaderDetailViewProps> = ({
             onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
             className="w-full flex justify-between items-center p-3"
           >
-            <h3 className="font-semibold text-white">Profile & Stats</h3>
+            <h3 className="font-semibold text-white">{t('uploaderDetail:sidebarMobileToggle')}</h3>
             {isSidebarExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
           </button>
         </div>

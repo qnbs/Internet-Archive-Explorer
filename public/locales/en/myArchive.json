@@ -8,7 +8,7 @@
     "confirmTitle": "Is This You?",
     "confirmDescription": "We found some public uploads associated with this name. Please select your specific uploader identifier below to confirm your account.",
     "selectIdentifier": "Select Your Uploader Identifier",
-    "noIdentifierFound": "Could not automatically determine an uploader ID. You can still proceed if the items shown are yours.",
+    "noIdentifierFound": "Could not automatically determine your uploader identifier from the results. You can still proceed if the items shown are yours.",
     "confirmButton": "Confirm & Load Dashboard",
     "errorTitle": "Account Not Found",
     "errorNotFound": "Sorry, we could not find any public uploads associated with that name. Please check the spelling and try again.",

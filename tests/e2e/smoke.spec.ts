@@ -69,3 +69,11 @@ test('Grundnavigation über SideMenu funktioniert', async ({ page }) => {
   await expect(scriptoriumButton).not.toHaveAttribute('aria-current', 'page');
   await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
 });
+
+test('Uploader-Hub zeigt Beitragende', async ({ page }) => {
+  await page.goto('./?view=uploaderHub');
+  await expect(
+    page.getByRole('heading', { name: /Uploader Hub|Uploader-Hub/i, level: 1 }),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Featured|Vorgestellte/i })).toBeVisible();
+});
