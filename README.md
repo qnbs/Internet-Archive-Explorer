@@ -101,13 +101,17 @@ Variable notes:
 
 ### 7) Build and Deploy (GitHub Pages)
 
-Build production:
+**Primary (CI):** Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE_PATH=/<repo>/` and publishes the **`dist/`** artifact to GitHub Pages.
+
+**Repository setting (required once):** In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch” / `/(root)`). If the source is a branch, the live site can incorrectly serve the raw `index.html` with `./index.tsx` (no bundled JS), and **Pages Smoke Checks** will fail.
+
+Local production build:
 
 ```bash
 pnpm run build
 ```
 
-Deploy to `gh-pages` branch:
+Optional legacy deploy to `gh-pages` branch (manual):
 
 ```bash
 pnpm run deploy
@@ -132,13 +136,14 @@ Configured workflows:
 - `.github/workflows/pages-smoke.yml`
   - validates deployed Pages endpoint behavior
 
-Run smoke tests locally:
+Run checks locally (closest to CI):
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm exec playwright install --with-deps chromium
-pnpm run test:unit
-pnpm run test:e2e
+pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
+ANALYZE=true pnpm run build && pnpm run check:bundle-size
+CI=true pnpm run test:e2e
 ```
 
 ### 9) PWA and Service Worker Behavior
@@ -299,13 +304,17 @@ Bedeutung:
 
 ### 7) Build und Deploy (GitHub Pages)
 
-Produktions-Build:
+**Standard (CI):** Push auf `main` startet `.github/workflows/deploy-pages.yml`; das Artefakt aus **`dist/`** wird auf GitHub Pages veröffentlicht.
+
+**Repo-Einstellung (einmal nötig):** Unter **Settings → Pages → Build and deployment** die **Quelle** auf **GitHub Actions** stellen (nicht „Deploy from a branch“ / Stammverzeichnis). Sonst kann die Live-Seite fälschlich die unbearbeitete `index.html` mit `./index.tsx` ausliefern (ohne gebündeltes JS), und **Pages Smoke Checks** schlagen fehl.
+
+Lokaler Produktions-Build:
 
 ```bash
 pnpm run build
 ```
 
-Deploy auf `gh-pages`:
+Optional manuell auf Branch `gh-pages` (Legacy):
 
 ```bash
 pnpm run deploy
@@ -330,13 +339,14 @@ Konfigurierte Workflows:
 - `.github/workflows/pages-smoke.yml`
   - Prüfungen gegen die live deployte Seite
 
-Smoke-Tests lokal ausführen:
+Lokal CI-nah:
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm exec playwright install --with-deps chromium
-pnpm run test:unit
-pnpm run test:e2e
+pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
+ANALYZE=true pnpm run build && pnpm run check:bundle-size
+CI=true pnpm run test:e2e
 ```
 
 ### 9) PWA- und Service-Worker-Verhalten

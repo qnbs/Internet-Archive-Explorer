@@ -43,6 +43,8 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **Noch sinnvoll (Backlog, nicht blockierend):** Lighthouse CI als eigener Workflow; weitere Hubs in axe aufnehmen (For You, Scriptorium, Web/AI Archive, My Archive, Uploader Hub) nach Behebung von u. a. **nested-interactive** auf Profilkarten / Kontrast-Pills; AI-Export PDF/Markdown; Saved Searches; Storyteller Web Speech; CSP verschärfen; Manifest-PNGs + zusätzliche Screenshots.
 
+**GitHub Pages:** Live-Site muss das **Vite-Build** aus Actions ausliefern. Unter **Settings → Pages** die Quelle **GitHub Actions** wählen; bei „Deploy from a branch“ liefert Pages oft die unbearbeitete `index.html` ( `./index.tsx` ) — dann schlägt `.github/workflows/pages-smoke.yml` fehl (Absicherung mit klarem Log-Hinweis).
+
 ---
 
 ## Issues Fixed in This Audit

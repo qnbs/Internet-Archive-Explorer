@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- 📄 **README**: GitHub Pages **Source = GitHub Actions** dokumentiert; lokales CI-Gate; `.github/workflows/pages-smoke.yml` mit Diagnose, wenn Live-HTML `./index.tsx` enthält
 - 📚 **AUDIT.md**, **README.md**, **CONTRIBUTING.md**: Stack (Vite 8, TypeScript 6), CI-Parität (`ANALYZE=true` vor Bundle-Check und E2E), Backlog vs. erledigt (SW-LRU, Deep-Link, CONTRIBUTING)
 - ♿ E2E `a11y.spec.ts`: zusätzlich **Storyteller** + **Help** (nach Landmark-Fix); verschachteltes `<main>` in `HelpContent` → `section role="region"` + i18n `help:contentRegion`
 - 🧪 Unit-Tests konsolidiert unter `tests/unit/` (Vitest nur noch dieses Verzeichnis); `tsconfig` schließt `vitest.config.ts` vom `tsc`-Check aus (Vite-8-/Vitest-Plugin-Typkonflikt)

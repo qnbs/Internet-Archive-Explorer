@@ -40,6 +40,13 @@ jobs:
 
             if [[ "$attempt" -eq 20 ]]; then
               echo "Pages did not serve fresh content in time (last code: $http_code)"
+              if grep -q 'index.tsx' /tmp/index.html 2>/dev/null; then
+                echo "::error::Live HTML references ./index.tsx — GitHub Pages is serving the repository root, not the Vite build from Actions. In the repo: Settings → Pages → Build and deployment, set Source to **GitHub Actions** (not “Deploy from a branch”). See README § Build and Deploy."
+              elif ! grep -q 'assets/index-' /tmp/index.html 2>/dev/null; then
+                echo "First <script src=…> lines for debugging:"
+                grep -E '<script' /tmp/index.html | head -n 5 || true
+                echo "::error::Expected built bundle path (assets/index-*.js) not found in index.html. CDN delay is possible: re-run this workflow, or confirm Pages source is GitHub Actions."
+              fi
               exit 1
             fi
 
