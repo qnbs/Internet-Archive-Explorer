@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CI / axe E2E:** Kontrast u. a. auf For You, Scriptorium-Hub, Web Archive, AI Archive (Leerzustand), My Archive (Connect), SideMenu-Navigation und Command Palette — verhindert **serious color-contrast** bei allen in `a11y.spec.ts` auditierten Hubs unter Production-`vite preview`
 - **Dependabot:** Konfiguration unter **`.github/dependabot.yml`** (frühere `.github/workflows/dependabot.yml` verursachte unnötige Workflow-Fehler ohne Jobs)
 - **Uploader Hub:** **nested-interactive** (Profilkarte: keine `article role="button"` mit Kind-Buttons) und **Kontrast** (Sidebar-Überschriften/Chips hell/dunkel lesbar)
 - **Live-Demo / IA-Fetches:** Service Worker (`public/sw.js`) nutzte für JSON/API nur **15 s** Netzwerk-Timeout — langsamer als typische `advancedsearch`/`metadata`-Antworten → künstliche Abbrüche und 503-Offline-JSON; **API-Timeout 30 s**, Cache `v7`; `archiveService` **32 s** Client-Timeout; `fetchWithRetry` mit **408**-Retry und **`Retry-After`** bei **429**; TanStack **kein Retry** bei `ArchiveServiceError` mit `retryable: false` (Validierung/4xx)

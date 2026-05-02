@@ -101,7 +101,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   const renderInputStep = () => (
     <>
       <h1 className="text-3xl font-bold text-white">{t('myArchive:connect.title')}</h1>
-      <p className="mt-2 text-gray-300">{t('myArchive:connect.description')}</p>
+      <p className="mt-2 text-gray-100">{t('myArchive:connect.description')}</p>
       <form
         onSubmit={handleInitialSubmit}
         className="mt-8 flex flex-col gap-3 sm:flex-row"
@@ -124,7 +124,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
           <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden />
         </button>
       </form>
-      <p id={privacyId} className="mt-4 text-xs text-gray-500">
+      <p id={privacyId} className="mt-4 text-xs text-gray-300">
         {t('myArchive:connect.privacy')}
       </p>
     </>
@@ -134,7 +134,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   const renderConfirmStep = () => (
     <>
       <h1 className="text-2xl font-bold text-white">{t('myArchive:connect.confirmTitle')}</h1>
-      <p className="mt-2 text-gray-300">{t('myArchive:connect.confirmDescription')}</p>
+      <p className="mt-2 text-gray-100">{t('myArchive:connect.confirmDescription')}</p>
 
       <div className="my-6">
         <ContentCarousel
@@ -195,7 +195,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   const renderFailedStep = () => (
     <>
       <h1 className="text-2xl font-bold text-red-400">{t('myArchive:connect.errorTitle')}</h1>
-      <p className="mt-2 text-gray-300" role="alert">
+      <p className="mt-2 text-gray-100" role="alert">
         {error}
       </p>
       <button
@@ -209,7 +209,7 @@ const ConnectView: React.FC<{ onConnect: (profile: Profile) => void }> = ({ onCo
   );
 
   return (
-    <div className="mx-auto max-w-4xl animate-fade-in rounded-xl bg-gray-800/60 p-6 text-center motion-reduce:animate-none">
+    <div className="mx-auto max-w-4xl animate-fade-in rounded-xl bg-gray-900 p-6 text-center border border-gray-700/60 motion-reduce:animate-none">
       <UsersIcon className="mx-auto mb-4 h-16 w-16 text-accent-400" aria-hidden />
       {step === 'input' && renderInputStep()}
       {step === 'verifying' && (

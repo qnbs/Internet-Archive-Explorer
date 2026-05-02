@@ -32,13 +32,13 @@ export const ScriptoriumHub: React.FC<ScriptoriumHubProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <header className="p-6 bg-gray-800/60 rounded-xl shadow-lg text-center">
-        <BookIcon className="w-12 h-12 mx-auto text-cyan-400 mb-4" />
-        <h1 className="text-3xl font-bold text-cyan-400">{t('scriptorium:title')}</h1>
-        <p className="mt-2 text-gray-300">{t('scriptorium:description')}</p>
+      <header className="p-6 bg-gray-900 rounded-xl shadow-lg text-center border border-gray-700/60">
+        <BookIcon className="w-12 h-12 mx-auto text-cyan-200 mb-4" aria-hidden />
+        <h1 className="text-3xl font-bold text-white">{t('scriptorium:title')}</h1>
+        <p className="mt-2 text-gray-200">{t('scriptorium:description')}</p>
       </header>
 
-      <div className="p-6 bg-gray-800/60 rounded-xl shadow-lg">
+      <div className="p-6 bg-gray-900 rounded-xl shadow-lg border border-gray-700/60">
         <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-4">
           <input
             value={newWorksetName}
@@ -48,7 +48,7 @@ export const ScriptoriumHub: React.FC<ScriptoriumHubProps> = ({
           />
           <button
             type="submit"
-            className="flex-shrink-0 flex items-center justify-center bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300 shadow-lg"
+            className="flex-shrink-0 flex items-center justify-center bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300 shadow-lg"
           >
             <PlusIcon className="w-5 h-5 mr-2" />
             {t('scriptorium:create')}
@@ -70,8 +70,8 @@ export const ScriptoriumHub: React.FC<ScriptoriumHubProps> = ({
             ))}
           </div>
         ) : (
-          <div className="text-center py-10 bg-gray-800/60 rounded-lg">
-            <p className="text-gray-400">{t('scriptorium:noWorksets')}</p>
+          <div className="text-center py-10 bg-gray-900 rounded-lg border border-gray-700/60">
+            <p className="text-gray-200">{t('scriptorium:noWorksets')}</p>
           </div>
         )}
       </div>

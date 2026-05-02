@@ -68,7 +68,7 @@ const NavButton: React.FC<{ item: NavItem; isActive: boolean; onClick: (view: Vi
   return (
     <button
       onClick={() => item.view && onClick(item.view)}
-      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-700 text-white dark:bg-accent-700 dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
+      className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${isActive ? 'bg-accent-700 text-white dark:bg-accent-700 dark:text-white' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-100/70 dark:hover:bg-gray-700/50'}`}
       aria-current={isActive ? 'page' : undefined}
     >
       <span className="mr-3">{item.icon}</span>
@@ -97,7 +97,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({
           href={item.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center w-full p-3 my-1 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50 transition-colors"
+          className="flex items-center w-full p-3 my-1 rounded-lg text-gray-800 dark:text-gray-200 hover:bg-gray-100/70 dark:hover:bg-gray-700/50 transition-colors"
         >
           <span className="mr-3">{item.icon}</span>
           <span className="font-medium">{t(item.labelKey)}</span>

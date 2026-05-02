@@ -223,11 +223,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ onClose }) => {
                       key={cmd.id}
                       value={`${cmd.label} ${(cmd as { keywords?: string }).keywords ?? ''} ${cmd.description ?? ''}`}
                       onSelect={() => cmd.action()}
-                      className="flex items-center space-x-3 p-2.5 rounded-lg cursor-pointer transition-colors text-gray-800 dark:text-gray-200 data-[selected=true]:bg-accent-500/15 data-[selected=true]:text-accent-700 dark:data-[selected=true]:text-accent-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 outline-none"
+                      className="flex items-center space-x-3 p-2.5 rounded-lg cursor-pointer transition-colors text-gray-900 dark:text-gray-100 data-[selected=true]:bg-accent-500/15 data-[selected=true]:text-accent-800 dark:data-[selected=true]:text-accent-200 hover:bg-gray-100 dark:hover:bg-gray-700/50 outline-none"
                     >
-                      <span className="text-gray-500 dark:text-gray-400 shrink-0">{cmd.icon}</span>
+                      <span className="text-gray-600 dark:text-gray-400 shrink-0">{cmd.icon}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{cmd.label}</p>
+                        <p className="text-sm font-medium truncate text-gray-900 dark:text-gray-100">
+                          {cmd.label}
+                        </p>
                         {cmd.description && (
                           <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                             {cmd.description}

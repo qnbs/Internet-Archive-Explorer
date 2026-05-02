@@ -16,10 +16,14 @@ import type { AIArchiveFilter, AIArchiveSortOption } from '@/types';
 const AIArchiveEmptyState: React.FC = () => {
   const { t } = useLanguage();
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 p-8 col-span-full">
-      <BrainIcon className="w-16 h-16 text-gray-700 mb-4" />
-      <h2 className="text-xl font-bold text-white">{t('aiArchive:empty.title')}</h2>
-      <p className="mt-2 max-w-sm">{t('aiArchive:empty.description')}</p>
+    <div className="flex flex-col items-center justify-center h-full text-center p-8 col-span-full">
+      <BrainIcon className="w-16 h-16 text-gray-600 dark:text-gray-400 mb-4" />
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+        {t('aiArchive:empty.title')}
+      </h2>
+      <p className="mt-2 max-w-sm text-gray-800 dark:text-gray-300">
+        {t('aiArchive:empty.description')}
+      </p>
     </div>
   );
 };

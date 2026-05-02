@@ -102,7 +102,7 @@ const LibraryRecommendations: React.FC = () => {
         <p className="text-gray-600 dark:text-gray-300 text-sm">{t('forYou:noLibraryItems')}</p>
         <button
           onClick={() => setActiveView('library' as View)}
-          className="text-sm font-medium text-ia-600 dark:text-ia-300 hover:underline"
+          className="text-sm font-medium text-ia-900 dark:text-ia-200 hover:underline"
         >
           {t('forYou:goToLibrary')}
         </button>
@@ -157,7 +157,7 @@ const ContinueExploring: React.FC = () => {
         <p className="text-gray-600 dark:text-gray-300 text-sm">{t('forYou:noSearchHistory')}</p>
         <button
           onClick={() => setActiveView('explore' as View)}
-          className="text-sm font-medium text-ia-600 dark:text-ia-300 hover:underline"
+          className="text-sm font-medium text-ia-900 dark:text-ia-200 hover:underline"
         >
           {t('forYou:exploreNow')}
         </button>

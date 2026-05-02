@@ -70,10 +70,10 @@ Your global User settings **do not** override these workspace keys for ESLint en
 ```bash
 pnpm run test:unit   # Vitest — nur tests/unit/ (siehe vitest.config.ts; serial / wenig RAM)
 ANALYZE=true pnpm run build   # wie CI: Bundle-Report für Budget-Check
-pnpm run test:e2e             # mit CI=true nutzt Playwright vite preview → frischer Build nötig
+pnpm run test:e2e             # Standard: Vite dev server. Mit CI=true: vite preview → vorher build!
 ```
 
-Zum **kompletten Gate wie GitHub Actions**: `pnpm install --frozen-lockfile`, dann `pnpm audit`, `pnpm run lint:ci`, `pnpm run check:i18n`, `pnpm exec tsc --noEmit`, `pnpm run test:unit`, `ANALYZE=true pnpm run build`, `pnpm run check:bundle-size`, `CI=true pnpm run test:e2e`.
+Zum **kompletten Gate wie GitHub Actions**: `pnpm install --frozen-lockfile`, dann `pnpm audit`, `pnpm run lint:ci`, `pnpm run check:i18n`, `pnpm exec tsc --noEmit`, `pnpm run test:unit`, `ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build` (Pfad wie Repo), `pnpm run check:bundle-size`, `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e`. **Ohne vorherigen Build schlagen die E2E unter `CI=true` fehl oder testen veraltetes `dist/`.**
 
 Unit-Tests liegen ausschließlich unter **`tests/unit/**/*.test.{ts,tsx}`** (nicht mehr co-located neben Source).
 

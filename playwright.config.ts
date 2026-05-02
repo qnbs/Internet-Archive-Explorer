@@ -31,6 +31,7 @@ export default defineConfig({
     },
   ],
   webServer: {
+    /** CI uses production `dist/` from the workflow build step; run `pnpm run build` before `CI=true pnpm run test:e2e` locally. */
     command: process.env.CI
       ? 'pnpm exec vite preview --host 127.0.0.1 --port 4173'
       : 'pnpm exec vite --host 127.0.0.1 --port 4173',

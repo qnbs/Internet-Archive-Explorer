@@ -36,12 +36,14 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 | ------- | --------- |
 | **Routing / Deep-Link** | `activeViewAtom` initialisiert synchron mit **`getInitialActiveView()`** (`store/app.ts`): gültiges `?view=` vor persisted `defaultView`. Verhindert, dass React Strict Mode nach `replaceState` die Ansicht wieder auf „Explore“ setzt. Smoke: „Uploader-Hub zeigt Beitragende“. |
 | **1.1 Unit-Tests** | `tests/unit/` + `vitest.config.ts` (fork pool, `maxWorkers: 1`); u. a. `archiveService`, `useLanguage`, `fetchWithRetry`, `safeStorage`. |
-| **a11y E2E** | `a11y.spec.ts`: stabile Hub-Liste (Explore, Settings, Library, Audiothek, Videothek, Images Hub, Rec Room, Storyteller, Help) + Skip-Link, Settings-Fokus, **forced-colors**, Zielgröße 24×24. **Help:** Platzhalter-Kontrast (`text-gray-600` auf hellem Grund). |
+| **a11y E2E** | `a11y.spec.ts`: dokumentierte Hub-Routen (inkl. For You, Scriptorium, Web Archive, AI Archive, My Archive, Uploader Hub) gegen **`vite preview`** + frischem **`dist/`** — axe **critical/serious = 0**. Kontrast u. a.: SideMenu inaktiv **`text-gray-900` / `dark:text-gray-100`**, For-You-Glass-CTAs **`text-ia-900`**, Scriptorium/Web-Archive-Header **`bg-gray-900`**, AI-Archive-Leerzustand, My-Archive-Connect **`bg-gray-900`**, Command-Palette-Zeilen. |
 | **CI-Parität** | Lokales Gate wie Actions: `pnpm audit`, `lint:ci`, `check:i18n`, `tsc`, `test:unit`, **`ANALYZE=true pnpm run build`**, `check:bundle-size`, `CI=true pnpm run test:e2e`. Bundle-Budget nutzt **brotli-KB** aus `bundle-report.json`. |
 | **PWA / SW** | `public/sw.js`: LRU-Eviction, **MAX_PER_CACHE_BYTES** / **MAX_TOTAL_BYTES** (siehe Kopfkommentar). |
 | **Doku / Repo** | `CONTRIBUTING.md`, `README.md`, `CHANGELOG.md`, `.gitignore` (`graphify-out/cache/`). |
 
-**Noch sinnvoll (Backlog, nicht blockierend):** Lighthouse CI als eigener Workflow; weitere Hubs in axe aufnehmen (For You, Scriptorium, Web/AI Archive, My Archive, Uploader Hub) nach Behebung von u. a. **nested-interactive** auf Profilkarten / Kontrast-Pills; AI-Export PDF/Markdown; Saved Searches; Storyteller Web Speech; CSP verschärfen; Manifest-PNGs + zusätzliche Screenshots.
+**Noch sinnvoll (Backlog, nicht blockierend):** AI-Export PDF/Markdown; Saved Searches; Storyteller Web Speech; CSP weiter verschärfen; Manifest-PNGs statt Remote-Screenshot-URLs wo möglich; manuelle Screenreader-Passes auf allen Modals.
+
+**Hinweis E2E/LHCI:** `CI=true pnpm run test:e2e` und Lighthouse `@lhci/cli` nutzen **`vite preview`** und damit **`dist/`** — lokal immer **`VITE_BASE_PATH=/…/ pnpm run build`** vor dem Lauf (GitHub Actions baut im Workflow davor). `@lhci/cli` kann eine **Warnung** ausgeben, dass das Ready-Pattern für Port 4173 nicht erkannt wurde (Vite 8 schreibt wenig nach stdout); der Lauf setzt danach trotzdem fort.
 
 **GitHub Pages:** Live-Site muss das **Vite-Build** aus Actions ausliefern. Unter **Settings → Pages** die Quelle **GitHub Actions** wählen; bei „Deploy from a branch“ liefert Pages oft die unbearbeitete `index.html` ( `./index.tsx` ) — dann schlägt `.github/workflows/pages-smoke.yml` fehl (Absicherung mit klarem Log-Hinweis).
 

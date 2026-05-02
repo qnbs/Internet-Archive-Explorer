@@ -139,7 +139,7 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 
 - **E2E**: Playwright with chromium — `tests/e2e/smoke.spec.ts`, `a11y.spec.ts`
 - **Accessibility**: `@axe-core/playwright` for WCAG 2.2 AA–tagged axe checks (`tests/e2e/a11y.spec.ts`)
-- **CI**: GitHub Actions — audit, Biome, i18n, tsc, Vitest, `ANALYZE` build, bundle budgets, Playwright E2E, Lighthouse CI
+- **CI**: GitHub Actions — audit, Biome, i18n, tsc, Vitest, `ANALYZE` build, bundle budgets, Playwright E2E ( **`CI=true` = `vite preview` → frisches `dist/` nötig** ), Lighthouse CI
 - **Unit**: Vitest under `tests/unit/` (serial / low-RAM friendly `vitest.config.ts`)
 
 ### Performance Targets

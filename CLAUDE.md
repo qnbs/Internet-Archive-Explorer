@@ -33,7 +33,7 @@ pnpm run lint:fix                # biome check --write .
 pnpm run format                  # biome format --write .
 pnpm run format:check            # biome format .
 pnpm run test:unit               # Vitest (serial / single worker)
-pnpm run test:e2e                # Playwright (lokal: vorher Build für CI=true / vite preview)
+pnpm run test:e2e                # Playwright — mit CI=true: vite preview → vorher `pnpm run build` + passendes VITE_BASE_PATH
 # Lighthouse (wie CI, nach Build): npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
 pnpm audit --audit-level=moderate
 pnpm run audit        # gleicher Audit-Level wie CI
@@ -159,7 +159,7 @@ These are already in `package.json`. Don't suggest installing duplicates:
 
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
-| `ci.yml` | push/PR to main | security audit, Biome CI, typecheck, build, bundle budgets, Playwright E2E |
+| `ci.yml` | push/PR to main | security audit, Biome CI, typecheck, build, bundle budgets, Playwright E2E, Lighthouse CI |
 | `deploy-pages.yml` | push to main | `pnpm run build` → `actions/deploy-pages@v4` |
 | `pages-smoke.yml` | after deploy | live URL smoke check with CDN propagation guard |
 

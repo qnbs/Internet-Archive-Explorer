@@ -144,9 +144,11 @@ Run checks locally (closest to CI):
 pnpm install --frozen-lockfile
 pnpm exec playwright install --with-deps chromium
 pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
-ANALYZE=true pnpm run build && pnpm run check:bundle-size
-CI=true pnpm run test:e2e
+ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm run check:bundle-size
+CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
 ```
+
+Use your repo name in `VITE_BASE_PATH` / `PLAYWRIGHT_BASE_PATH` if it differs. **`CI=true` E2E serves `dist/`** — the build step above is required.
 
 ### 9) PWA and Service Worker Behavior
 
@@ -354,9 +356,11 @@ Lokal CI-nah:
 pnpm install --frozen-lockfile
 pnpm exec playwright install --with-deps chromium
 pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
-ANALYZE=true pnpm run build && pnpm run check:bundle-size
-CI=true pnpm run test:e2e
+ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm run check:bundle-size
+CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
 ```
+
+Repo-Namen in den Pfaden anpassen falls abweichend. **`CI=true`-E2E nutzt `dist/`** — ohne vorherigen Build sind die Tests nicht aussagekräftig.
 
 ### 9) PWA- und Service-Worker-Verhalten
 

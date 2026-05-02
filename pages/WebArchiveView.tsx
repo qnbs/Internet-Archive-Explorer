@@ -74,10 +74,10 @@ const WebArchiveView: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-page-fade-in">
-      <header className="text-center p-6 bg-gray-800/60 rounded-xl">
-        <WebIcon className="w-12 h-12 mx-auto text-accent-400 mb-4" />
-        <h1 className="text-3xl font-bold text-accent-400">{t('webArchive:title')}</h1>
-        <p className="mt-2 text-gray-300">{t('webArchive:description')}</p>
+      <header className="text-center p-6 bg-gray-900 rounded-xl border border-gray-700/60">
+        <WebIcon className="w-12 h-12 mx-auto text-cyan-200 mb-4" aria-hidden />
+        <h1 className="text-3xl font-bold text-white">{t('webArchive:title')}</h1>
+        <p className="mt-2 text-gray-200">{t('webArchive:description')}</p>
       </header>
 
       <form onSubmit={handleSubmit} className="flex gap-4">
@@ -157,8 +157,8 @@ const WebArchiveView: React.FC = () => {
           )}
         </div>
         <div className="space-y-3">
-          <h3 className="font-semibold text-white flex items-center gap-2">
-            <HistoryIcon className="w-5 h-5" /> {t('webArchive:searchHistory')}
+          <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <HistoryIcon className="w-5 h-5" aria-hidden /> {t('webArchive:searchHistory')}
           </h3>
           <div className="space-y-2">
             {history.map((h) => (
