@@ -45,12 +45,9 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
 
   return (
     <div
-      className="flex-shrink-0 w-48 group scroll-snap-align-start"
+      className="flex-shrink-0 w-48 group scroll-snap-align-start animate-fade-in"
       style={{
         animationDelay: `${Math.min((index % 24) * 30, 500)}ms`,
-        opacity: 0,
-        animationName: 'fadeIn',
-        animationFillMode: 'forwards',
       }}
     >
       <div className="relative aspect-square bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500/30 transition-shadow duration-300">

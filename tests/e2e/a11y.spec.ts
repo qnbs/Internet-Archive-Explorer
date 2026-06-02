@@ -26,9 +26,10 @@ const PAGES: [string, string][] = [
 
 for (const [label, url] of PAGES) {
   test(`a11y: ${label} – keine kritischen Verstöße (WCAG 2.2 AA / axe)`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(url);
     await page.waitForSelector('#main-content', { timeout: 15_000 });
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(800);
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -78,7 +79,7 @@ test('a11y: forced-colors — keine kritischen axe-Verstöße (WCAG 2.2 Tags)', 
   await page.emulateMedia({ forcedColors: 'active' });
   await page.goto('./');
   await page.waitForSelector('#main-content', { timeout: 15_000 });
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(800);
 
   const results = await new AxeBuilder({ page })
     .withTags(WCAG_AA_TAGS)

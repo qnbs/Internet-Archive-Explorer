@@ -48,7 +48,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   return (
     <div
       className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-accent-500/30 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group focus-within:ring-2 focus-within:ring-accent-400 animate-fade-in w-64 sm:w-72 flex-shrink-0 scroll-snap-align-start"
-      style={{ animationDelay: `${Math.min((index % 24) * 30, 500)}ms`, opacity: 0 }}
+      style={{ animationDelay: `${Math.min((index % 24) * 30, 500)}ms` }}
       onClick={handleSelect}
       role="button"
       tabIndex={0}

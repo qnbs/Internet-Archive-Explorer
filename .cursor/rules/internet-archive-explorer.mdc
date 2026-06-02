@@ -15,7 +15,7 @@ alwaysApply: true
 
 - **Lint/Format:** nur Biome (`pnpm run lint:fix`). Keine ESLint-/Prettier-Regeln hinzufügen.
 - **Tests:** Unit unter **`tests/unit/`** (Vitest, serial); E2E unter **`tests/e2e/`** (Playwright; CI = `vite preview` nach Build).
-- **PWA-Manifest:** **`public/manifest.json`** (wird nach `dist/` kopiert); nicht im Repo-Root belassen.
+- **PWA-Manifest:** **`public/manifest.json`** (wird nach `dist/` kopiert); lokale Assets unter **`public/icons/`** und **`public/screenshots/`** (`pnpm run generate:pwa-assets`).
 
 ## Agent-Verhalten
 

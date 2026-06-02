@@ -151,7 +151,7 @@ const WebArchiveView: React.FC = () => {
               </table>
             </div>
           ) : (
-            <div className="flex justify-center items-center h-full text-center text-gray-500 px-4">
+            <div className="flex justify-center items-center h-full text-center text-gray-700 dark:text-gray-300 px-4">
               <p>{t('webArchive:searchPrompt')}</p>
             </div>
           )}

@@ -237,6 +237,17 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-page-fade-in,
+  .animate-fade-in-left,
+  .animate-slide-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Custom animations (kept outside @layer for browser compat) */
 @keyframes fadeIn {
   from {
