@@ -23,7 +23,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 | **PWA Manifest** | ✅ | Lokale **`public/icons/*.png`** + **`public/screenshots/*.png`**; `scripts/generate-pwa-assets.mjs` + `pnpm run generate:pwa-assets` |
 | **SEO** | ✅ | `index.html`: `og:*` mit lokalem Icon, JSON-LD `WebApplication` + `hasPart` / `featureList` |
 | **Lighthouse CI** | ✅ | Accessibility-Schwelle **0.95** in `lighthouserc.json` |
-| **CI-Gate** | ✅ | `lint:ci`, `check:i18n`, `tsc`, `test:unit` (40 Tests), `ANALYZE=true build`, `check:bundle-size`, `CI=true test:e2e` (23/23) |
+| **CI-Gate** | ✅ | `lint:ci`, `check:i18n`, `tsc`, `test:unit` (**42** Tests), `test:unit:coverage`, `ANALYZE=true build`, `check:bundle-size`, `CI=true test:e2e` (23/23), **Pages Smoke** grün |
 | **a11y E2E** | ✅ | Kontrast Uploader Hub / For You / Web Archive; `prefers-reduced-motion` in axe-Tests; keine inline `opacity: 0` auf Karten |
 
 **Verbleibend (nicht blockierend):** Echte Marketing-Screenshots statt generierter Platzhalter; Toast-Dual-System konsolidieren; `types.ts`-Split; manuelle Screenreader-Pässe auf allen Modals.
@@ -41,6 +41,18 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 | **SW / Vercel preview** | ✅ | `sw-register.js`: alle Registrierungen auf Preview-Hosts; `*.vercel.app` ausgenommen |
 | **Agent rules** | ✅ | Strikte Gates + PR-Bot-Kommentare in `.cursor/rules/` |
 | **Tests** | ✅ | `tests/unit/logger.test.ts`; `pnpm run test:unit:coverage` |
+
+---
+
+## Final Housekeeping June 2026 — Main stable
+
+| Bereich | Status | Details |
+| ------- | ------ | ------- |
+| **PRs #4–#6** | ✅ | Perfection Sprint, Deploy Housekeeping, Pages-Smoke-Fix auf `main` |
+| **Pages Smoke** | ✅ | PWA `./manifest.json` + Icons; CI-Lauf **success** |
+| **Vercel Actions** | ✅ | Step-Output-Gate (kein `secrets` in `if`); skip wenn Secrets fehlen |
+| **AGENTS.md** | ✅ | Konsolidiert aus Draft-PRs #1/#3 |
+| **Branch cleanup** | ✅ | Gemergte `cursor/*`-Branches entfernt |
 
 ---
 

@@ -9,6 +9,8 @@ alwaysApply: true
 ## Pflichtlektüre
 
 - Repo-Root **`CLAUDE.md`**: pnpm, Biome-only, Layer (services → hooks → components), TanStack Query vs Jotai, `safeAtomWithStorage`, i18n-Namespace-Checkliste.
+- **`AGENTS.md`**: Cursor Cloud VM — Dev-URLs, esbuild, CI-Parität, Smoke.
+- **`docs/DEPLOYMENT.md`**: GitHub Pages + Vercel.
 - **`CONTRIBUTING.md`**: lokales Gate (`lint:ci`, `check:i18n`, `test:unit`, **`ANALYZE=true` Build**, `check:bundle-size`, **`CI=true` E2E**).
 
 ## Tooling in Cursor

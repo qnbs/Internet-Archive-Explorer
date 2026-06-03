@@ -9,13 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Vercel workflow (main):** Secrets-Gate über Step-Output statt `if: secrets.*` (Actions-Validierungsfehler)
 - **Pages Smoke:** Prüft PWA `./manifest.json` statt nicht existierendem Vite-`assets/manifest-*.json`
-- **Vercel workflow:** Secrets-Check auf Step-Ebene (Job-`if` mit `secrets` ist in Actions ungültig)
 - **PWA cache:** Service Worker `CACHE_VERSION` **v8** nach Deploy-Housekeeping
 
 ### Added
 
-- **Deployment:** `docs/DEPLOYMENT.md`, `vercel.json`, optional `.github/workflows/vercel-deploy.yml` (skipped without Vercel secrets)
+- **AGENTS.md:** Konsolidierte Cursor-Cloud-Agent-Anleitung (Dev-Server, CI-Gate, esbuild, Smoke)
 - **Coverage:** `@vitest/coverage-v8`, `pnpm run test:unit:coverage`, thresholds in `vitest.config.ts`
 - **Tests:** `tests/unit/logger.test.ts`
 
