@@ -75,6 +75,10 @@ jobs:
           test -f dist/locales/en/common.json
           test -f dist/locales/de/common.json
           test -f dist/manifest.json
+          test -f dist/icons/icon-192.png
+          test -f dist/icons/icon-512.png
+          grep -q 'icons/icon-192.png' dist/manifest.json
+          grep -q 'screenshots/' dist/manifest.json
 
       - name: Verify GitHub Pages base paths in HTML
         run: |

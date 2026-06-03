@@ -59,6 +59,9 @@ jobs:
 
           curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}"
           curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}sw.js"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}manifest.json"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}icons/icon-192.png"
+          curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}icons/icon-512.png"
           curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}locales/en/common.json"
           curl -fsSIL -H 'Cache-Control: no-cache' "${APP_URL}locales/de/common.json"
 
