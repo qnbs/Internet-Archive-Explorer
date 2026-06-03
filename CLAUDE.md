@@ -40,7 +40,7 @@ pnpm run audit        # gleicher Audit-Level wie CI
 pnpm run audit:fix    # pnpm audit fix --audit-level=moderate
 ```
 
-Ausführliche Editor-Anleitung (globale ESLint-Konfig vs. Workspace): **`CONTRIBUTING.md`** → Abschnitt *Cursor Pro+ Setup*.
+Ausführliche Editor-Anleitung (globale ESLint-Konfig vs. Workspace): **`CONTRIBUTING.md`** → Abschnitt *Cursor Pro+ Setup*. Cloud Agents: **`AGENTS.md`**.
 
 ---
 
