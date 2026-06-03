@@ -1,6 +1,6 @@
 # Audit Report — Internet Archive Explorer
 
-**Date:** 2026-04-14 · **Last reviewed:** 2026-05-02
+**Date:** 2026-04-14 · **Last reviewed:** 2026-06-02
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
 **App Version:** 1.0.0
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
@@ -13,9 +13,26 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **Overall Health: ✅ Good** — Production-ready with improvement opportunities documented below.
 
+## Perfection Sprint June 2026 — Completion
+
+| Bereich | Status | Details |
+| ------- | ------ | ------- |
+| **Dependencies** | ✅ | `jotai`, `@google/genai` und **`uuid`** in **production** `dependencies` (nicht `devDependencies`) |
+| **Security audit** | ✅ | `pnpm audit --audit-level=moderate` grün: Vitest **≥4.1**, `pnpm.overrides` für `protobufjs` **≥7.5.8** und `ws` **≥8.20.1** |
+| **Zod / Services** | ✅ | `types/archiveSchemas.ts` + Unit-Tests `tests/unit/archiveSchemas.test.ts`; Archive/Gemini-Services unverändert validiert |
+| **PWA Manifest** | ✅ | Lokale **`public/icons/*.png`** + **`public/screenshots/*.png`**; `scripts/generate-pwa-assets.mjs` + `pnpm run generate:pwa-assets` |
+| **SEO** | ✅ | `index.html`: `og:*` mit lokalem Icon, JSON-LD `WebApplication` + `hasPart` / `featureList` |
+| **Lighthouse CI** | ✅ | Accessibility-Schwelle **0.95** in `lighthouserc.json` |
+| **CI-Gate** | ✅ | `lint:ci`, `check:i18n`, `tsc`, `test:unit` (40 Tests), `ANALYZE=true build`, `check:bundle-size`, `CI=true test:e2e` (23/23) |
+| **a11y E2E** | ✅ | Kontrast Uploader Hub / For You / Web Archive; `prefers-reduced-motion` in axe-Tests; keine inline `opacity: 0` auf Karten |
+
+**Verbleibend (nicht blockierend):** Echte Marketing-Screenshots statt generierter Platzhalter; Toast-Dual-System konsolidieren; `types.ts`-Split; manuelle Screenreader-Pässe auf allen Modals.
+
+---
+
 ## Unreleased
 
-- 🧪 Vitest (serial / `maxWorkers: 1`): alle Unit-Tests unter `tests/unit/` (`sanitizer`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeStorage`, `archiveService`, `useLanguage`)
+- 🧪 Vitest (serial / `maxWorkers: 1`): alle Unit-Tests unter `tests/unit/` (`sanitizer`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeStorage`, `archiveService`, `archiveSchemas`, `useLanguage`)
 - 🪵 `utils/logger.ts` — `warn`/`debug` nur in DEV oder bei `VITE_DEBUG_LOGS=true`; Fehler weiterhin per `console.error`
 - 🖨️ `@media print` + Forced-Colors-Feinschliff (`retro-scanlines`, Fokus-Ring) in `index.html` / `index.css`
 - 🔍 Canonical, `og:url`, JSON-LD (`WebApplication`) in `index.html`
@@ -49,7 +66,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **Dependabot:** Konfiguration liegt unter **`.github/dependabot.yml`** (nicht unter `workflows/`, um Pseudo-Workflow-Läufe zu vermeiden).
 
-**Lighthouse CI:** `.github/workflows/ci.yml` — nach E2E `npx @lhci/cli autorun` mit `lighthouserc.json` (Desktop; Accessibility minScore 0.88).
+**Lighthouse CI:** `.github/workflows/ci.yml` — nach E2E `npx @lhci/cli autorun` mit `lighthouserc.json` (Desktop; Accessibility minScore **0.95**).
 
 ---
 

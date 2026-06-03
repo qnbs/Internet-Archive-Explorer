@@ -48,7 +48,7 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = React.mem
     return (
       <article
         className="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-md hover:shadow-lg dark:hover:shadow-accent-500/20 transition-all duration-300 transform hover:-translate-y-1 group animate-fade-in relative border border-gray-200 dark:border-transparent"
-        style={{ animationDelay: `${Math.min((index % 24) * 30, 500)}ms`, opacity: 0 }}
+        style={{ animationDelay: `${Math.min((index % 24) * 30, 500)}ms` }}
       >
         <div className="flex gap-2 items-stretch">
           <button
@@ -66,12 +66,12 @@ export const UploaderProfileCard: React.FC<UploaderProfileCardProps> = React.mem
                   {profile.name}
                 </h3>
                 <p
-                  className="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400"
+                  className="mt-1 line-clamp-2 text-sm text-gray-800 dark:text-gray-300"
                   title={t(descriptionKey)}
                 >
                   {t(descriptionKey)}
                 </p>
-                <span className="mt-3 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold capitalize text-gray-900 dark:bg-gray-700 dark:text-gray-100">
+                <span className="mt-3 inline-block rounded-full bg-gray-300 px-2 py-1 text-xs font-semibold capitalize text-gray-900 dark:bg-gray-600 dark:text-gray-100">
                   {t(`uploaderHub:categories.${category}`)}
                 </span>
               </div>

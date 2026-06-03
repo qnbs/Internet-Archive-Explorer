@@ -9,8 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **CI / axe E2E:** Kontrast u. a. auf For You, Scriptorium-Hub, Web Archive, AI Archive (Leerzustand), My Archive (Connect), SideMenu-Navigation und Command Palette — verhindert **serious color-contrast** bei allen in `a11y.spec.ts` auditierten Hubs unter Production-`vite preview`
+- **Security / CI audit:** `pnpm audit --audit-level=moderate` grün — Vitest **4.1+**, `pnpm.overrides` für gepatchtes `protobufjs` und `ws`
+- **Dependencies:** `jotai`, `@google/genai` und **`uuid`** in **production** `dependencies` (Runtime-PWA-Bundle korrekt klassifiziert)
+- **a11y / axe E2E (Juni 2026):** Kontrast Uploader Hub, For You, Web Archive, ContentCarousel; `prefers-reduced-motion` in axe-Tests; keine inline `opacity: 0` auf animierten Karten
+- **CI / axe E2E:** Kontrast u. a. auf Scriptorium-Hub, AI Archive (Leerzustand), My Archive (Connect), SideMenu-Navigation und Command Palette — verhindert **serious color-contrast** bei allen in `a11y.spec.ts` auditierten Hubs unter Production-`vite preview`
 - **Dependabot:** Konfiguration unter **`.github/dependabot.yml`** (frühere `.github/workflows/dependabot.yml` verursachte unnötige Workflow-Fehler ohne Jobs)
+
+### Added
+
+- **PWA assets:** Lokale PNG-Icons und Screenshots unter `public/icons/` und `public/screenshots/`; Generator `scripts/generate-pwa-assets.mjs` (`pnpm run generate:pwa-assets`)
+- **Tests:** `tests/unit/archiveSchemas.test.ts` — Zod-Schema-Regressionen für Archive-, Wayback- und Gemini-Payloads
+- **SEO:** JSON-LD `featureList` / `hasPart`; Open Graph mit lokalem `icon-512.png`
+
+### Changed
+
+- **Lighthouse CI:** Accessibility-Mindestscore **0.95** (`lighthouserc.json`)
+- **Manifest:** Primär lokale PNG-Icons/Screenshots statt Remote-URLs
+
 - **Uploader Hub:** **nested-interactive** (Profilkarte: keine `article role="button"` mit Kind-Buttons) und **Kontrast** (Sidebar-Überschriften/Chips hell/dunkel lesbar)
 - **Live-Demo / IA-Fetches:** Service Worker (`public/sw.js`) nutzte für JSON/API nur **15 s** Netzwerk-Timeout — langsamer als typische `advancedsearch`/`metadata`-Antworten → künstliche Abbrüche und 503-Offline-JSON; **API-Timeout 30 s**, Cache `v7`; `archiveService` **32 s** Client-Timeout; `fetchWithRetry` mit **408**-Retry und **`Retry-After`** bei **429**; TanStack **kein Retry** bei `ArchiveServiceError` mit `retryable: false` (Validierung/4xx)
 - **Download-Trim:** Schleifenbedingung `length > cap` statt `>=` (kein Über-Trimmen bei voller Queue)
@@ -46,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🙈 `.gitignore`: `graphify-out/cache/` (nur CLI-Cache; keine großen JSON-Blobs committen)
 - 🧪 Vitest-Suite in `tests/unit/`: `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeJotaiSyncStorage`, `archiveService` (Fetch-Mock, Zod-Retries, Metadata-Cache), `useLanguage` (Jotai-Store + Übersetzungs-Mock)
 - 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
-- ♿ WCAG 2.2 AA Compliance vollständig umgesetzt (focus-visible, target-size 24×24, aria-live/busy, forced-colors)
+- ♿ E2E `a11y.spec.ts`: `prefers-reduced-motion` + stabilere Kontrast-Fixes (Uploader Hub, For You, Web Archive, ContentCarousel)
 - 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
 - Comprehensive project audit documentation (`AUDIT.md`)
 - This changelog file

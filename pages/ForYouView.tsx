@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect, useMemo } from 'react';
 import { ContentCarousel } from '@/components/ContentCarousel';
@@ -96,13 +96,13 @@ const LibraryRecommendations: React.FC = () => {
     return (
       <motion.div
         variants={sectionVariants}
-        className="glass rounded-xl p-5 flex flex-col items-center text-center gap-3 mb-6"
+        className="rounded-xl border border-gray-200 bg-white p-5 flex flex-col items-center text-center gap-3 mb-6 dark:border-gray-700/50 dark:bg-gray-800/80"
       >
         <StarIcon className="w-10 h-10 text-ia-400" />
-        <p className="text-gray-600 dark:text-gray-300 text-sm">{t('forYou:noLibraryItems')}</p>
+        <p className="text-gray-800 dark:text-gray-200 text-sm">{t('forYou:noLibraryItems')}</p>
         <button
           onClick={() => setActiveView('library' as View)}
-          className="text-sm font-medium text-ia-900 dark:text-ia-200 hover:underline"
+          className="text-sm font-semibold text-cyan-800 dark:text-cyan-300 hover:underline"
         >
           {t('forYou:goToLibrary')}
         </button>
@@ -151,13 +151,13 @@ const ContinueExploring: React.FC = () => {
     return (
       <motion.div
         variants={sectionVariants}
-        className="glass rounded-xl p-5 flex flex-col items-center text-center gap-3 mb-6"
+        className="rounded-xl border border-gray-200 bg-white p-5 flex flex-col items-center text-center gap-3 mb-6 dark:border-gray-700/50 dark:bg-gray-800/80"
       >
         <CompassIcon className="w-10 h-10 text-ia-400" />
-        <p className="text-gray-600 dark:text-gray-300 text-sm">{t('forYou:noSearchHistory')}</p>
+        <p className="text-gray-800 dark:text-gray-200 text-sm">{t('forYou:noSearchHistory')}</p>
         <button
           onClick={() => setActiveView('explore' as View)}
-          className="text-sm font-medium text-ia-900 dark:text-ia-200 hover:underline"
+          className="text-sm font-semibold text-cyan-800 dark:text-cyan-300 hover:underline"
         >
           {t('forYou:exploreNow')}
         </button>
@@ -227,7 +227,7 @@ const OnThisDaySection: React.FC = () => {
     <motion.div variants={sectionVariants} className="mb-6">
       <div className="flex items-center gap-2 mb-2 px-1">
         <SparklesIcon className="w-4 h-4 text-ia-500" />
-        <span className="font-semibold text-gray-800 dark:text-gray-100 text-sm">
+        <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
           {t('forYou:onThisDay')}
         </span>
       </div>
@@ -238,10 +238,11 @@ const OnThisDaySection: React.FC = () => {
 
 // ─── Main export ──────────────────────────────────────────────────
 const ForYouView: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   return (
     <motion.div
       variants={containerVariants}
-      initial="hidden"
+      initial={reducedMotion ? false : 'hidden'}
       animate="visible"
       className="max-w-5xl mx-auto px-4 py-6"
     >
