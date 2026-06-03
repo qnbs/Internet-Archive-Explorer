@@ -4,7 +4,7 @@ Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwart
 
 ---
 
-## Aktueller Entwicklungszustand (Mai 2026)
+## Aktueller Entwicklungszustand (Juni 2026)
 
 | Thema | Stand |
 | ----- | ----- |
@@ -16,7 +16,7 @@ Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwart
 | **Graphify** | Wenn `graphify-out/` vorhanden: vor Architekturfragen `GRAPH_REPORT.md` / Wiki lesen; nach Codeänderungen **`graphify update .`** (AST, ohne API-Kosten), sofern das Projekt graphify nutzt |
 | **Runtime-Validation** | **`types/archiveSchemas.ts`** — Zod für Internet-Archive- und Gemini-JSON; Services parsen mit `.safeParse()` / Retry (Archive); Fehler-Keys unter `common:serviceErrors.*` |
 | **Accessibility (WCAG 2.2 AA)** | **`index.css`** — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async Bereiche mit `aria-busy` / `aria-live`; **E2E** `tests/e2e/a11y.spec.ts` inkl. `wcag22aa` (mehrere Hubs inkl. Uploader) |
-| **CI Extras** | **Lighthouse CI** (`lighthouserc.json`, `@lhci/cli` via `npx`) nach E2E; **PWA-Manifest** nur **`public/manifest.json`** → `dist/manifest.json` |
+| **CI Extras** | **Lighthouse CI** (`lighthouserc.json`, `@lhci/cli` via `npx`) nach E2E — Accessibility **≥0.95**; **PWA-Manifest** **`public/manifest.json`** → `dist/manifest.json`; lokale Icons/Screenshots unter **`public/icons/`**, **`public/screenshots/`** (`pnpm run generate:pwa-assets`) |
 | **Cursor** | Projektregeln **`.cursor/rules/internet-archive-explorer.mdc`** (`alwaysApply`) ergänzen **CLAUDE.md** / **CONTRIBUTING.md** |
 | **Downloads** | Persistente Queue mit Deckel **`DOWNLOAD_QUEUE_MAX_ITEMS`** (`store/downloads.ts`, älteste `done`/`error`/`queued` wird verworfen) |
 

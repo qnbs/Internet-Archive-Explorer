@@ -17,7 +17,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 | Bereich | Status | Details |
 | ------- | ------ | ------- |
-| **Dependencies** | ✅ | `jotai` + `@google/genai` in **production** `dependencies` (nicht `devDependencies`) |
+| **Dependencies** | ✅ | `jotai`, `@google/genai` und **`uuid`** in **production** `dependencies` (nicht `devDependencies`) |
 | **Security audit** | ✅ | `pnpm audit --audit-level=moderate` grün: Vitest **≥4.1**, `pnpm.overrides` für `protobufjs` **≥7.5.8** und `ws` **≥8.20.1** |
 | **Zod / Services** | ✅ | `types/archiveSchemas.ts` + Unit-Tests `tests/unit/archiveSchemas.test.ts`; Archive/Gemini-Services unverändert validiert |
 | **PWA Manifest** | ✅ | Lokale **`public/icons/*.png`** + **`public/screenshots/*.png`**; `scripts/generate-pwa-assets.mjs` + `pnpm run generate:pwa-assets` |
@@ -66,7 +66,7 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 **Dependabot:** Konfiguration liegt unter **`.github/dependabot.yml`** (nicht unter `workflows/`, um Pseudo-Workflow-Läufe zu vermeiden).
 
-**Lighthouse CI:** `.github/workflows/ci.yml` — nach E2E `npx @lhci/cli autorun` mit `lighthouserc.json` (Desktop; Accessibility minScore 0.88).
+**Lighthouse CI:** `.github/workflows/ci.yml` — nach E2E `npx @lhci/cli autorun` mit `lighthouserc.json` (Desktop; Accessibility minScore **0.95**).
 
 ---
 

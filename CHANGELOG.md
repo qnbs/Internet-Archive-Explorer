@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Security / CI audit:** `pnpm audit --audit-level=moderate` grün — Vitest **4.1+**, `pnpm.overrides` für gepatchtes `protobufjs` und `ws`
-- **Dependencies:** `jotai` und `@google/genai` in **production** `dependencies` (Runtime-PWA-Bundle korrekt klassifiziert)
+- **Dependencies:** `jotai`, `@google/genai` und **`uuid`** in **production** `dependencies` (Runtime-PWA-Bundle korrekt klassifiziert)
 - **a11y / axe E2E (Juni 2026):** Kontrast Uploader Hub, For You, Web Archive, ContentCarousel; `prefers-reduced-motion` in axe-Tests; keine inline `opacity: 0` auf animierten Karten
 - **CI / axe E2E:** Kontrast u. a. auf Scriptorium-Hub, AI Archive (Leerzustand), My Archive (Connect), SideMenu-Navigation und Command Palette — verhindert **serious color-contrast** bei allen in `a11y.spec.ts` auditierten Hubs unter Production-`vite preview`
 - **Dependabot:** Konfiguration unter **`.github/dependabot.yml`** (frühere `.github/workflows/dependabot.yml` verursachte unnötige Workflow-Fehler ohne Jobs)
