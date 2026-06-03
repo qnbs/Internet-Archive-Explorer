@@ -70,7 +70,7 @@ jobs:
           set -euo pipefail
 
           js_path=$(grep -oE '(/[^" ]*assets/index-[^" ]+\.js|./assets/index-[^" ]+\.js)' /tmp/index.html | head -n 1 || true)
-          manifest_path=$(grep -oE '(/[^" ]*assets/manifest-[^" ]+\.json|./assets/manifest-[^" ]+\.json)' /tmp/index.html | head -n 1 || true)
+          pwa_manifest_path=$(grep -oE 'href="(\./manifest\.json|/[^"]*manifest\.json)"' /tmp/index.html | head -n 1 | sed -E 's/href="([^"]+)"/\1/' || true)
 
           if [[ -z "$js_path" ]]; then
             echo "Could not find main JS bundle path in live HTML"
@@ -78,8 +78,9 @@ jobs:
             exit 1
           fi
 
-          if [[ -z "$manifest_path" ]]; then
-            echo "Could not find manifest path in live HTML"
+          if [[ -z "$pwa_manifest_path" ]]; then
+            echo "Could not find PWA manifest link in live HTML"
+            grep -i manifest /tmp/index.html || true
             exit 1
           fi
 
@@ -91,10 +92,12 @@ jobs:
             js_url="${ORIGIN}${js_path}"
           fi
 
-          if [[ "$manifest_path" == ./* ]]; then
-            manifest_url="${APP_URL}${manifest_path#./}"
+          if [[ "$pwa_manifest_path" == ./* ]]; then
+            manifest_url="${APP_URL}${pwa_manifest_path#./}"
+          elif [[ "$pwa_manifest_path" == /* ]]; then
+            manifest_url="${ORIGIN}${pwa_manifest_path}"
           else
-            manifest_url="${ORIGIN}${manifest_path}"
+            manifest_url="${APP_URL}${pwa_manifest_path}"
           fi
 
           curl -fsSIL -H 'Cache-Control: no-cache' "${js_url}"

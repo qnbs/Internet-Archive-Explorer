@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Pages Smoke:** Prüft PWA `./manifest.json` statt nicht existierendem Vite-`assets/manifest-*.json`
+- **Vercel workflow:** Secrets-Check auf Step-Ebene (Job-`if` mit `secrets` ist in Actions ungültig)
+- **PWA cache:** Service Worker `CACHE_VERSION` **v8** nach Deploy-Housekeeping
+
 ### Added
 
 - **Deployment:** `docs/DEPLOYMENT.md`, `vercel.json`, optional `.github/workflows/vercel-deploy.yml` (skipped without Vercel secrets)
