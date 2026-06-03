@@ -99,11 +99,13 @@ Variable notes:
 - `VITE_GOOGLE_CLIENT_ID`: optional OAuth client id
 - `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: always open game pages directly on `archive.org/details/...` instead of emulator modal
 
-### 7) Build and Deploy (GitHub Pages)
+### 7) Build and Deploy (GitHub Pages + Vercel)
 
-**Primary (CI):** Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE_PATH=/<repo>/` and publishes the **`dist/`** artifact to GitHub Pages.
+**Primary (GitHub Pages):** Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE_PATH=/<repo>/` and publishes the **`dist/`** artifact to GitHub Pages.
 
-**Repository setting (required once):** In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch” / `/(root)`). If the source is a branch, the live site can incorrectly serve the raw `index.html` with `./index.tsx` (no bundled JS), and **Pages Smoke Checks** will fail.
+**Optional (Vercel):** Root-path mirror / PR previews via `vercel.json` and `.github/workflows/vercel-deploy.yml` (requires Vercel secrets). Set `VITE_BASE_PATH=/` on Vercel. Full guide: **`docs/DEPLOYMENT.md`**.
+
+**Repository setting (required once for Pages):** In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch” / `/(root)`). If the source is a branch, the live site can incorrectly serve the raw `index.html` with `./index.tsx` (no bundled JS), and **Pages Smoke Checks** will fail.
 
 Local production build:
 
@@ -135,8 +137,10 @@ Configured workflows:
 - **Dependabot:** `.github/dependabot.yml` (not under `workflows/`)
 - `.github/workflows/deploy-pages.yml`
   - deploys GitHub Pages (on `main` and manual dispatch)
+- `.github/workflows/vercel-deploy.yml`
+  - optional Vercel deploy when `VERCEL_*` secrets are configured (skipped otherwise)
 - `.github/workflows/pages-smoke.yml`
-  - validates deployed Pages endpoint behavior
+  - validates deployed Pages endpoint behavior (manifest, icons, SW, locales)
 
 Run checks locally (closest to CI):
 
@@ -311,11 +315,13 @@ Bedeutung:
 - `VITE_GOOGLE_CLIENT_ID`: optionale OAuth-Client-ID
 - `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: öffnet Spiele immer direkt via `archive.org/details/...` statt Emulator-Modal
 
-### 7) Build und Deploy (GitHub Pages)
+### 7) Build und Deploy (GitHub Pages + Vercel)
 
-**Standard (CI):** Push auf `main` startet `.github/workflows/deploy-pages.yml`; das Artefakt aus **`dist/`** wird auf GitHub Pages veröffentlicht.
+**Standard (GitHub Pages):** Push auf `main` startet `.github/workflows/deploy-pages.yml`; das Artefakt aus **`dist/`** wird auf GitHub Pages veröffentlicht.
 
-**Repo-Einstellung (einmal nötig):** Unter **Settings → Pages → Build and deployment** die **Quelle** auf **GitHub Actions** stellen (nicht „Deploy from a branch“ / Stammverzeichnis). Sonst kann die Live-Seite fälschlich die unbearbeitete `index.html` mit `./index.tsx` ausliefern (ohne gebündeltes JS), und **Pages Smoke Checks** schlagen fehl.
+**Optional (Vercel):** Root-Pfad-Spiegel / PR-Previews über `vercel.json` und `.github/workflows/vercel-deploy.yml` (Vercel-Secrets nötig). `VITE_BASE_PATH=/` auf Vercel. Ausführlich: **`docs/DEPLOYMENT.md`**.
+
+**Repo-Einstellung (einmal nötig für Pages):** Unter **Settings → Pages → Build and deployment** die **Quelle** auf **GitHub Actions** stellen (nicht „Deploy from a branch“ / Stammverzeichnis). Sonst kann die Live-Seite fälschlich die unbearbeitete `index.html` mit `./index.tsx` ausliefern (ohne gebündeltes JS), und **Pages Smoke Checks** schlagen fehl.
 
 Lokaler Produktions-Build:
 

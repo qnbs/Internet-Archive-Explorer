@@ -47,9 +47,11 @@ Ausführliche Editor-Anleitung (globale ESLint-Konfig vs. Workspace): **`CONTRIB
 ## Kurzfassung für Agents
 
 1. **pnpm only** — keine npm-/yarn-Befehle in Skripten oder Doku.
-2. **Biome only** — Lint/Format über Biome-CLI und die **biomejs.biome**-Extension; keine neuen ESLint-/Prettier-Regeln hinzufügen.
-3. **Workspace überschreibt global** — `.vscode/settings.json` bewusst ESLint stumm für dieses Repo.
-4. **`graphify-out/`** ist generiert — in `biome.json` vom Lint ausgeschlossen; nicht manuell „pflegen“.
+2. **Biome only** — Lint/Format über Biome-CLI; **`noExplicitAny`** und **`useExhaustiveDependencies`** sind **errors**; `pnpm run lint:ci` darf keine Warnungen ausgeben.
+3. **PR-Bots** — CodeAnt/Socket/Review-Kommentare in derselben PR abarbeiten.
+4. **Workspace überschreibt global** — `.vscode/settings.json` bewusst ESLint stumm für dieses Repo.
+5. **`graphify-out/`** ist generiert — in `biome.json` vom Lint ausgeschlossen; nicht manuell „pflegen“.
+6. **Deployment** — GitHub Pages primär; Vercel optional — siehe **`docs/DEPLOYMENT.md`**.
 
 ---
 
