@@ -30,6 +30,20 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 
 ---
 
+## Housekeeping Sprint June 2026 — Deployment & Toolchain
+
+| Bereich | Status | Details |
+| ------- | ------ | ------- |
+| **Merge PR #4** | ✅ | Perfection Sprint auf `main` (358b93a) |
+| **Vercel** | ✅ | `vercel.json`, optional `vercel-deploy.yml`, `docs/DEPLOYMENT.md` |
+| **GitHub Pages** | ✅ | Smoke erweitert (manifest, icons); CI prüft PWA-Assets in `dist/` |
+| **Quality gates** | ✅ | Biome `useExhaustiveDependencies` → **error**; Coverage via `@vitest/coverage-v8` |
+| **SW / Vercel preview** | ✅ | `sw-register.js`: alle Registrierungen auf Preview-Hosts; `*.vercel.app` ausgenommen |
+| **Agent rules** | ✅ | Strikte Gates + PR-Bot-Kommentare in `.cursor/rules/` |
+| **Tests** | ✅ | `tests/unit/logger.test.ts`; `pnpm run test:unit:coverage` |
+
+---
+
 ## Unreleased
 
 - 🧪 Vitest (serial / `maxWorkers: 1`): alle Unit-Tests unter `tests/unit/` (`sanitizer`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeStorage`, `archiveService`, `archiveSchemas`, `useLanguage`)

@@ -8,17 +8,14 @@
     hostname === 'localhost' ||
     hostname === '127.0.0.1' ||
     hostname === '0.0.0.0' ||
-    hostname.endsWith('.app.github.dev');
+    hostname.endsWith('.app.github.dev') ||
+    hostname.endsWith('.vercel.app');
 
   if (isDevLikeHost) {
     navigator.serviceWorker
       .getRegistrations()
       .then((registrations) =>
-        Promise.all(
-          registrations
-            .filter((registration) => registration.scope.includes('/Internet-Archive-Explorer/'))
-            .map((registration) => registration.unregister()),
-        ),
+        Promise.all(registrations.map((registration) => registration.unregister())),
       )
       .catch(() => {
         // no-op in development-like environments

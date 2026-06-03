@@ -35,9 +35,16 @@ Run these before opening a PR:
 ```bash
 pnpm run lint:fix
 pnpm run format
+pnpm run test:unit:coverage   # optional: coverage thresholds in vitest.config.ts
 ```
 
 If CI fails on Biome, reproduce with `pnpm run lint:ci` (or `pnpm run check` for types too).
+
+**Strict gates:** Biome `noExplicitAny` and `useExhaustiveDependencies` are **errors** (not warnings). TypeScript runs with `strict`, `noUnusedLocals`, `noUnusedParameters`. Security audit fails on **moderate+** vulnerabilities.
+
+**PR bot comments:** Address **CodeAnt AI**, **Socket**, and inline review threads in the same PR — do not merge with unresolved actionable feedback.
+
+**Deployment:** See **`docs/DEPLOYMENT.md`** for GitHub Pages vs Vercel setup.
 
 **Lighthouse CI** (wie GitHub Actions, nach Production-Build): `npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json` (startet intern `vite preview` auf Port 4173 — URL-Pfad entspricht dem Repo-Namen in der Config).
 

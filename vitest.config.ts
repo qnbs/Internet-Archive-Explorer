@@ -24,5 +24,41 @@ export default defineConfig({
     hookTimeout: 10_000,
     teardownTimeout: 5000,
     isolate: true,
+    coverage: {
+      provider: 'v8',
+      include: ['services/**/*.ts', 'utils/**/*.ts', 'store/**/*.ts', 'hooks/**/*.ts'],
+      exclude: ['**/*.test.{ts,tsx}', '**/types/**'],
+      reporter: ['text', 'json-summary'],
+      thresholds: {
+        lines: 0,
+        functions: 0,
+        statements: 0,
+        branches: 0,
+        'services/archiveService.ts': {
+          lines: 60,
+          functions: 45,
+          branches: 35,
+          statements: 60,
+        },
+        'utils/fetchWithRetry.ts': {
+          lines: 85,
+          functions: 85,
+          branches: 80,
+          statements: 85,
+        },
+        'store/safeStorage.ts': {
+          lines: 85,
+          functions: 85,
+          branches: 85,
+          statements: 85,
+        },
+        'store/downloads.ts': {
+          lines: 50,
+          functions: 25,
+          branches: 25,
+          statements: 50,
+        },
+      },
+    },
   },
 });

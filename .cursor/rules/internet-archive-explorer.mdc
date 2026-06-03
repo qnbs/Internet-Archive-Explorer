@@ -23,3 +23,16 @@ alwaysApply: true
 - Keine API-Daten in Atoms cachen (TanStack Query).
 - User-facing Strings nur über **`useLanguage()`** und **`locales/en` + `locales/de`** (+ `pnpm run check:i18n`).
 - Nach umfangreichen Codeänderungen optional **`graphify update .`** (wenn graphify-out genutzt wird).
+
+## Qualitäts-Gates (strikt)
+
+- **Biome:** `pnpm run lint:ci` muss ohne Warnungen/Fehler grün sein — **`noExplicitAny`: error**, **`useExhaustiveDependencies`: error** (Tests ausgenommen).
+- **TypeScript:** `strict`, `noImplicitAny`, `noUnusedLocals`, `noUnusedParameters` — `pnpm exec tsc --noEmit` ohne Fehler.
+- **Security:** `pnpm audit --audit-level=moderate` — moderate+ blockiert CI.
+- **PR-Reviews:** Inline-Kommentare von **CodeAnt AI**, **Socket**, **GitGuardian** und menschlichen Reviewern **proaktiv** prüfen und in derselben PR beheben (kein separates Follow-up ohne Grund).
+- **Tests:** Jede Service-/Util-Änderung mit Unit-Test oder Schema-Test absichern; `pnpm run test:unit:coverage` vor größeren Refactors.
+
+## Deployment
+
+- **GitHub Pages:** primär via `deploy-pages.yml` — siehe **`docs/DEPLOYMENT.md`**.
+- **Vercel:** optional via `vercel.json` + `vercel-deploy.yml` (Secrets erforderlich); `VITE_BASE_PATH=/` auf Vercel.

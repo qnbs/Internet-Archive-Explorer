@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Deployment:** `docs/DEPLOYMENT.md`, `vercel.json`, optional `.github/workflows/vercel-deploy.yml` (skipped without Vercel secrets)
+- **Coverage:** `@vitest/coverage-v8`, `pnpm run test:unit:coverage`, thresholds in `vitest.config.ts`
+- **Tests:** `tests/unit/logger.test.ts`
+
+### Changed
+
+- **Biome:** `useExhaustiveDependencies` upgraded from warn to **error** (tests still exempt)
+- **CI / Pages smoke:** Verify `dist/icons/*`, manifest PNG references; live smoke for manifest + icons
+- **PWA:** `sw-register.js` unregisters all SW on dev/preview hosts; disables on `*.vercel.app`
+- **Docs:** README/CONTRIBUTING deployment sections; agent quality gates in `.cursor/rules/`
+
 ### Fixed
 
 - **Security / CI audit:** `pnpm audit --audit-level=moderate` grün — Vitest **4.1+**, `pnpm.overrides` für gepatchtes `protobufjs` und `ws`
