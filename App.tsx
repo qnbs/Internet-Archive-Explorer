@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
+import { resolveToastMessage } from '@/utils/resolveToastMessage';
 import { AppearanceManager } from './components/AppearanceManager';
 import AudioPlayer from './components/audiothek/AudioPlayer';
 import { BottomNav } from './components/BottomNav';
@@ -69,14 +70,18 @@ const PageSpinner: React.FC = () => {
 // This component bridges the Jotai toastAtom to the ToastContext
 const ToastBridge: React.FC = () => {
   const { addToast } = useToast();
+  const { t } = useLanguage();
   const [toast, setToast] = useAtom(toastAtom);
 
   useEffect(() => {
     if (toast) {
-      addToast(toast.message, toast.type);
+      const message = resolveToastMessage(toast, t);
+      if (message) {
+        addToast(message, toast.type, toast.duration);
+      }
       setToast(null);
     }
-  }, [toast, addToast, setToast]);
+  }, [toast, addToast, setToast, t]);
 
   return null;
 };
@@ -238,7 +243,7 @@ const AppContent: React.FC = () => {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-accent-600 focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none"
       >
-        Skip to main content
+        {t('common:skipToMain')}
       </a>
       <AppearanceManager />
       <SideMenu

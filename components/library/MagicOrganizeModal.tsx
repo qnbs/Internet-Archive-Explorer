@@ -2,6 +2,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
 import { GeminiKeyPrompt } from '@/components/GeminiKeyPrompt';
 import { CloseIcon, SparklesIcon } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { archiveAIGeneration } from '@/services/aiPersistenceService';
@@ -19,7 +20,6 @@ import { autoArchiveAIAtom } from '@/store/settings';
 import type { MagicOrganizeResult } from '@/types';
 import { AIGenerationType as AIGenEnum } from '@/types';
 import { formatGeminiError } from '@/utils/geminiErrorMessage';
-import { toastAtom } from '../../store';
 import { AILoadingIndicator } from '../AILoadingIndicator';
 
 interface MagicOrganizeModalProps {
@@ -34,7 +34,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
   const addTagsToItems = useSetAtom(addTagsToItemsAtom);
   const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
   const createCollection = useSetAtom(createCollectionAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
   const autoArchive = useAtomValue(autoArchiveAIAtom);
   const hasGeminiKey = useAtomValue(hasGeminiApiKeyAtom);
@@ -102,7 +102,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
     // Apply Tags
     if (selectedTags.size > 0) {
       addTagsToItems({ itemIds, tags: Array.from(selectedTags) });
-      setToast({ type: 'success', message: t('favorites:magicOrganize.tagsApplied') });
+      addToast(t('favorites:magicOrganize.tagsApplied'), 'success');
     }
 
     // Apply Collections
@@ -115,10 +115,10 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
           collection = createCollection(collectionName);
         }
         addItemsToCollection({ collectionId: collection.id, itemIds });
-        setToast({
-          type: 'success',
-          message: t('favorites:magicOrganize.collectionCreated', { name: collection.name }),
-        });
+        addToast(
+          t('favorites:magicOrganize.collectionCreated', { name: collection.name }),
+          'success',
+        );
       });
     }
 

@@ -50,7 +50,7 @@ export const playItemAtom = atom(null, async (get, set, item: ArchiveItemSummary
       set(currentTrackIndexAtom, newPlaylist.length - 1);
       set(isPlayingAtom, true);
     } else {
-      set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
+      set(toastAtom, { type: 'error', i18nKey: 'audiothek:toast.noPlayableAudio' });
     }
   }
 });
@@ -62,16 +62,16 @@ export const addToQueueAtom = atom(
     const isAlreadyInPlaylist = playlist.some((track) => track.identifier === item.identifier);
 
     if (isAlreadyInPlaylist) {
-      set(toastAtom, { type: 'info', message: 'Item is already in the playlist.' });
+      set(toastAtom, { type: 'info', i18nKey: 'audiothek:toast.alreadyInPlaylist' });
       return;
     }
 
     const newTrack = await findAndPrepareTrack(item);
     if (newTrack) {
       set(playlistAtom, [...playlist, newTrack]);
-      set(toastAtom, { type: 'success', message: 'Added to queue.' });
+      set(toastAtom, { type: 'success', i18nKey: 'audiothek:toast.addedToQueue' });
     } else {
-      set(toastAtom, { type: 'error', message: 'No playable audio found for this item.' });
+      set(toastAtom, { type: 'error', i18nKey: 'audiothek:toast.noPlayableAudio' });
     }
   },
 );

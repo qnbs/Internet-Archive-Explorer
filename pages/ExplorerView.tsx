@@ -5,6 +5,7 @@ import { ContentCarousel } from '@/components/ContentCarousel';
 import { SparklesIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
 import { ResultsGrid } from '@/components/ResultsGrid';
+import { useToast } from '@/contexts/ToastContext';
 import { useExplorerSearch } from '@/hooks/useExplorerSearch';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -17,7 +18,6 @@ import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '@/types';
 import { logger } from '@/utils/logger';
 import { loadExploreTrending, persistExploreTrending } from '@/utils/offlineHubCache';
-import { toastAtom } from '../store';
 
 const TrendingItems: React.FC = () => {
   // States for the carousel
@@ -33,7 +33,7 @@ const TrendingItems: React.FC = () => {
   const { t, language } = useLanguage();
   const aiArchive = useAtomValue(aiArchiveAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
   const autoArchive = useAtomValue(autoArchiveAIAtom);
   const online = useOnlineStatus();
 
@@ -96,7 +96,7 @@ const TrendingItems: React.FC = () => {
           addAIEntry,
           autoArchive,
         );
-        setToast({ type: 'success', message: t('aiArchive:insightGenerated') });
+        addToast(t('aiArchive:insightGenerated'), 'success');
       }
     } catch (aiError) {
       logger.error('AI summary generation failed:', aiError);
@@ -104,7 +104,7 @@ const TrendingItems: React.FC = () => {
     } finally {
       setIsGeneratingInsight(false);
     }
-  }, [items, isGeneratingInsight, language, t, addAIEntry, setToast, autoArchive]);
+  }, [items, isGeneratingInsight, language, t, addAIEntry, addToast, autoArchive]);
 
   const renderInsightContent = () => {
     if (historicalSummary) {

@@ -2,6 +2,7 @@
   "title": "Settings",
   "subtitle": "Customize your Archive Explorer experience.",
   "saved": "Setting saved!",
+  "languageUpdated": "Language updated",
   "sections": {
     "ui": "Appearance",
     "accessibility": "Accessibility",

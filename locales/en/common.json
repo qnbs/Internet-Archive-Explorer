@@ -6,6 +6,7 @@
   "itemsFound_one": "{{formattedCount}} item found",
   "itemsFound_other": "{{formattedCount}} items found",
   "loading": "Loading...",
+  "skipToMain": "Skip to main content",
   "searchResultsRegion": "Search results",
   "close": "Close",
   "viewFullCollection": "View Full Collection",

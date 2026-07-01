@@ -37,5 +37,10 @@
     "addToQueue": "Add to Queue",
     "clearPlaylist": "Clear Playlist",
     "volume": "Volume"
+  },
+  "toast": {
+    "noPlayableAudio": "No playable audio found for this item.",
+    "alreadyInPlaylist": "Item is already in the playlist.",
+    "addedToQueue": "Added to queue."
   }
 }

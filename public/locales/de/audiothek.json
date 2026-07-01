@@ -37,5 +37,10 @@
     "addToQueue": "Zur Warteschlange hinzufügen",
     "clearPlaylist": "Wiedergabeliste leeren",
     "volume": "Lautstärke"
+  },
+  "toast": {
+    "noPlayableAudio": "Für diesen Eintrag wurde keine abspielbare Audiodatei gefunden.",
+    "alreadyInPlaylist": "Eintrag ist bereits in der Wiedergabeliste.",
+    "addedToQueue": "Zur Warteschlange hinzugefügt."
   }
 }

@@ -42,5 +42,13 @@
     "generating": "Suche Vorschläge...",
     "error": "Vorschläge konnten nicht gefunden werden.",
     "add": "Zum Workset hinzufügen"
+  },
+  "toast": {
+    "worksetCreated": "Workset „{{name}}“ erstellt!",
+    "worksetDeleted": "Workset „{{name}}“ gelöscht.",
+    "documentAlreadyInWorkset": "Dokument ist bereits in diesem Workset.",
+    "documentAdded": "Dokument zum Workset hinzugefügt.",
+    "documentRemoved": "Dokument aus dem Workset entfernt.",
+    "analysisError": "Bei der Analyse ist ein Fehler aufgetreten."
   }
 }
