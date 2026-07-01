@@ -62,9 +62,10 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 | ------- | ------ | ------- |
 | **PR #9 BYOK** | ✅ | `geminiApiKeyStorage.ts`, Settings-UI, kein Prod-Key im Bundle; Security-Deps gepatcht |
 | **PR #10 Resilience** | ✅ | `HubErrorBoundary`, i18n `ErrorBoundaryFallback`, `GeminiKeyPrompt`, `formatGeminiError()` |
+| **PR #11 Phase 3b** | ✅ | `settingsFocusSectionAtom`, per-view `HubErrorBoundary`, Gemini error mapping |
 | **CI cloud-first** | ✅ | Coverage + Playwright/Lighthouse/Bundle-Artifacts; `concurrency` cancel-in-progress |
-| **Deploy** | ✅ | GitHub Pages + **Pages Smoke** grün nach #9/#10 |
-| **Unit tests** | ✅ | **54+** inkl. `geminiApiKeyStorage`, `geminiErrorMessage`, `settingsNavigation` |
+| **Deploy** | ✅ | GitHub Pages + **Pages Smoke** grün nach #9–#11 |
+| **Unit tests** | ✅ | **57** inkl. `geminiApiKeyStorage`, `geminiErrorMessage`, `settingsNavigation` |
 | **E2E** | ✅ | **23/23** inkl. axe (GeminiKeyPrompt Kontrast auf dunklen Hub-Karten) |
 | **Offene PRs** | ⚠️ | **#1, #3, #8** manuell schließen (Bot ohne Close-Rechte; Inhalt in main) |
 
