@@ -79,6 +79,7 @@ export {
   uploaderFavoritesAtom,
   userCollectionsAtom,
 } from './favorites';
+export { geminiApiKeyAtom, hasGeminiApiKeyAtom } from './geminiApiKey';
 export { languageAtom, loadableTranslationsAtom } from './i18n';
 export { deferredPromptAtom, isAppInstalledAtom, waitingWorkerAtom } from './pwa';
 export {

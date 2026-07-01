@@ -93,6 +93,26 @@
       "academic": "Academic"
     }
   },
+  "apiKey": {
+    "title": "Gemini API Key (Bring Your Own Key)",
+    "description": "Add your personal Gemini API key to unlock AI summaries, entity extraction, and other optional features.",
+    "label": "Gemini API Key",
+    "placeholder": "AIza...",
+    "save": "Validate & Save",
+    "clear": "Clear Key",
+    "saved": "Key saved — AI features enabled",
+    "notSaved": "No key saved — add yours to unlock AI features",
+    "privacy": "Your key is stored only in your browser (sessionStorage). It never leaves your device and is never sent to our servers.",
+    "getKey": "Get your free Gemini API key",
+    "showKey": "Show key",
+    "hideKey": "Hide key",
+    "paste": "Paste from clipboard",
+    "pasteFailed": "Could not read clipboard",
+    "clearConfirm": "Remove your saved Gemini API key?",
+    "invalidFormat": "This does not look like a valid Gemini API key (expected format: AIza...).",
+    "noKeyConfigured": "Add your Gemini API key in Settings → AI Features to use this feature.",
+    "storageNote": "Stored under session key \"{{key}}\" for this browser tab."
+  },
   "data": {
     "dataAndPrivacyTitle": "Data & Privacy",
     "backupAndRestore": "Backup & Restore",

@@ -74,15 +74,25 @@ Your global User settings **do not** override these workspace keys for ESLint en
 
 ## Tests and checks
 
+**Cloud-first policy:** Full coverage runs, complete E2E, Lighthouse, and bundle reports are designed for **GitHub Actions**. Locally, prefer `pnpm run check` + `pnpm run test:unit` for daily work.
+
 ```bash
-pnpm run test:unit   # Vitest — nur tests/unit/ (siehe vitest.config.ts; serial / wenig RAM)
-ANALYZE=true pnpm run build   # wie CI: Bundle-Report für Budget-Check
-pnpm run test:e2e             # Standard: Vite dev server. Mit CI=true: vite preview → vorher build!
+pnpm run test:unit        # Vitest — tests/unit/ only (serial / low RAM)
+pnpm run test:unit:coverage   # like CI; thresholds in vitest.config.ts
+ANALYZE=true pnpm run build   # like CI: bundle report for budget check
+pnpm run test:e2e             # default: Vite dev server. With CI=true: vite preview — build first!
 ```
 
-Zum **kompletten Gate wie GitHub Actions**: `pnpm install --frozen-lockfile`, dann `pnpm audit`, `pnpm run lint:ci`, `pnpm run check:i18n`, `pnpm exec tsc --noEmit`, `pnpm run test:unit`, `ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build` (Pfad wie Repo), `pnpm run check:bundle-size`, `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e`. **Ohne vorherigen Build schlagen die E2E unter `CI=true` fehl oder testen veraltetes `dist/`.**
+**Light local gate (before PR):**
 
-Unit-Tests liegen ausschließlich unter **`tests/unit/**/*.test.{ts,tsx}`** (nicht mehr co-located neben Source).
+```bash
+pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
+ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm run check:bundle-size
+```
+
+**Full CI parity (resource-heavy):** add `pnpm run test:unit:coverage` and `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` after build, or push to a branch and let GitHub Actions run.
+
+Unit tests live under **`tests/unit/**/*.test.{ts,tsx}`** only.
 
 E2E tests expect Playwright browsers; install with `pnpm exec playwright install --with-deps chromium` if needed.
 

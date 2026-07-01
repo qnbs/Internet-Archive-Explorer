@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -14,7 +18,7 @@ jobs:
   build:
     name: Build and Artifact Checks
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -57,8 +61,16 @@ jobs:
       - name: Typecheck
         run: pnpm exec tsc --noEmit
 
-      - name: Unit tests (Vitest)
-        run: pnpm run test:unit
+      - name: Unit tests with coverage (Vitest)
+        run: pnpm run test:unit:coverage
+
+      - name: Upload unit test coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
 
       - name: Build (with bundle analysis)
         env:
@@ -93,14 +105,48 @@ jobs:
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run E2E smoke tests
+      - name: Run E2E tests
         env:
           CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload Playwright test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          retention-days: 7
 
       - name: Lighthouse CI (desktop / a11y gates)
         run: |
           REPO="${{ github.event.repository.name }}"
           sed "s/Internet-Archive-Explorer/${REPO}/g" lighthouserc.json > lighthouserc.run.json
           npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.run.json
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload bundle analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: dist/bundle-report.json
+          retention-days: 14
+          if-no-files-found: ignore

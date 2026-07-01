@@ -3,18 +3,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SparklesIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
+import { resolveGeminiApiKey } from '@/services/geminiApiKeyStorage';
+import { GeminiServiceError } from '@/services/geminiService';
 import type { ArchiveItemSummary } from '@/types';
 import { logger } from '@/utils/logger';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { Spinner } from '../Spinner';
-
-const getApiKey = (): string | undefined => {
-  const viteKey = (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env
-    ?.VITE_API_KEY;
-  const legacyKey = (globalThis as typeof globalThis & { process?: { env?: { API_KEY?: string } } })
-    .process?.env?.API_KEY;
-  return viteKey || legacyKey;
-};
 
 const GameFinder: React.FC = () => {
   const { t } = useLanguage();
@@ -53,9 +47,13 @@ const GameFinder: React.FC = () => {
     setSuggestions([]);
 
     try {
-      const apiKey = getApiKey();
+      const apiKey = resolveGeminiApiKey();
       if (!apiKey) {
-        throw new Error('Missing Gemini API key');
+        throw new GeminiServiceError(
+          'No Gemini API key',
+          'NO_API_KEY',
+          'settings:apiKey.noKeyConfigured',
+        );
       }
 
       const ai = new GoogleGenAI({ apiKey });
@@ -106,8 +104,8 @@ const GameFinder: React.FC = () => {
       }
     } catch (err) {
       logger.error(err);
-      if (err instanceof Error && err.message.includes('Missing Gemini API key')) {
-        setError(t('recRoom:gameFinder.error'));
+      if (err instanceof GeminiServiceError && err.code === 'NO_API_KEY') {
+        setError(t('settings:apiKey.noKeyConfigured'));
       } else {
         setError(t('recRoom:gameFinder.error'));
       }
