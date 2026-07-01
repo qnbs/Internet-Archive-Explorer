@@ -255,7 +255,7 @@ const AppContent: React.FC = () => {
       <main id="main-content" className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
         <PwaWorkerBridge />
         <OfflineHubBanner />
-        <HubErrorBoundary>
+        <HubErrorBoundary key={activeView}>
           <Suspense fallback={<PageSpinner />}>{renderView()}</Suspense>
         </HubErrorBoundary>
       </main>

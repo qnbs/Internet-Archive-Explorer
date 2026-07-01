@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Phase 3b navigation:** `settingsFocusSectionAtom` — one-shot Settings focus (e.g. GeminiKeyPrompt → AI section)
+- **Tests:** `tests/unit/settingsNavigation.test.ts`
 - **Phase 3 resilience:** `HubErrorBoundary` for inline hub recovery; i18n `ErrorBoundaryFallback`; `GeminiKeyPrompt` CTA across AI surfaces
 - **Utils:** `formatGeminiError()` for consistent Gemini error messages in UI
 - **BYOK (Gemini):** `services/geminiApiKeyStorage.ts`, Jotai `geminiApiKeyAtom`, accessible Settings UI with i18n (EN/DE), legacy localStorage migration
@@ -17,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **App:** Per-view `HubErrorBoundary` (`key={activeView}`) — hub errors no longer block other views
+- **GeminiKeyPrompt:** Opens Settings with AI section pre-selected via focus atom
+- **Gemini service:** `generateContentHelper` preserves `GeminiServiceError`; maps rate limit, quota, network to i18n keys
 - **ErrorBoundary:** Retry without full reload; bilingual fallback copy (EN/DE)
 - **AI components:** AIToolsTab, AIInsightPanel, MagicOrganizeModal, AskAIModal show BYOK prompt when no key
 - **Gemini:** Production AI flows use runtime BYOK only; `VITE_API_KEY` relegated to optional dev fallback (`VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`)

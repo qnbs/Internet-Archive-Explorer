@@ -132,5 +132,7 @@ export {
   themeAtom,
   underlineLinksAtom,
 } from './settings';
+export type { SettingsFocusSection } from './settingsNavigation';
+export { settingsFocusSectionAtom } from './settingsNavigation';
 // Atoms with no dependencies are exported first.
 export { toastAtom } from './toast';
