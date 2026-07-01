@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **BYOK (Gemini):** `services/geminiApiKeyStorage.ts`, Jotai `geminiApiKeyAtom`, accessible Settings UI with i18n (EN/DE), legacy localStorage migration
+- **Tests:** `tests/unit/geminiApiKeyStorage.test.ts`
+- **CI artifacts:** Coverage HTML, Playwright report, Lighthouse, bundle report uploads; `concurrency` cancel-in-progress
+
+### Changed
+
+- **Gemini:** Production AI flows use runtime BYOK only; `VITE_API_KEY` relegated to optional dev fallback (`VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`)
+- **CI:** Unit tests run with coverage thresholds; Playwright HTML/JSON reporters; cloud-first policy documented in README/AGENTS/CONTRIBUTING
+- **Docs:** README, `.env.example`, DEPLOYMENT — BYOK-first security model
+
 ### Fixed
 
 - **Vercel workflow (main):** Secrets-Gate über Step-Output statt `if: secrets.*` (Actions-Validierungsfehler)

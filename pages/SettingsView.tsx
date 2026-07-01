@@ -501,9 +501,11 @@ const AISettingsPanel: React.FC = () => {
   return (
     <div className="space-y-2">
       <div className="py-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-200">Gemini API-Key</h3>
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-200">
+          {t('settings:apiKey.title')}
+        </h3>
         <p className="mt-1 mb-3 text-sm text-gray-500 dark:text-gray-400">
-          Standardweg: Nutzer hinterlegen ihren eigenen Gemini API-Key lokal im Browser.
+          {t('settings:apiKey.description')}
         </p>
         <ApiKeyInput />
       </div>

@@ -5,8 +5,8 @@ const labels = {
   explore: /Entdecken|Explore/i,
   scriptorium: /Scriptorium/i,
   aiSection: /KI-Funktionen|AI Features/i,
-  save: /Speichern|Save/i,
-  apiKeySaved: /Key gespeichert|Key saved/i,
+  save: /Validieren & Speichern|Validate & Save/i,
+  apiKeySaved: /Schlüssel gespeichert|Key saved/i,
   oauthOptional: /Optional:\s*Google OAuth/i,
   oauthLogin: /Mit Google anmelden|Sign in with Google/i,
 };

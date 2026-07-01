@@ -44,15 +44,17 @@ Lang laufende Prozesse in **tmux** (Cloud-VM), z. B. Session `vite-dev-server`
 
 ### Standard-Checks (CI-Parität)
 
+**Cloud-first:** Volle Coverage, E2E, Lighthouse und Bundle-Reports primär in GitHub Actions. Lokal: leichte Checks.
+
 ```bash
 pnpm run lint:ci
 pnpm run check:i18n
 pnpm exec tsc --noEmit
-pnpm run test:unit
-pnpm run test:unit:coverage   # optional; Per-File-Schwellen in vitest.config.ts
+pnpm run test:unit              # täglich / vor PR
+pnpm run test:unit:coverage     # wie CI (Schwellen in vitest.config.ts)
 ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build
 pnpm run check:bundle-size
-CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
+CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e   # nach Build; ressourcenintensiv
 pnpm audit --audit-level=moderate
 ```
 
@@ -64,9 +66,14 @@ E2E: einmalig `pnpm exec playwright install --with-deps chromium`. Mit **`CI=tru
 - PR-Bot-Kommentare (**CodeAnt**, **Socket**, Reviews) in derselben PR abarbeiten.
 - Keine API-Daten in Jotai-Atoms cachen (TanStack Query).
 
+### Gemini BYOK
+
+- API-Schlüssel: **Einstellungen → KI-Funktionen** (`services/geminiApiKeyStorage.ts`, `store/geminiApiKey.ts`).
+- Kein `VITE_API_KEY` in Produktions-Builds für AI-Aufrufe. Optionaler Dev-Fallback nur mit `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`.
+
 ### Optionale Secrets
 
-`.env.local` (Vorlage `.env.example`): `VITE_API_KEY`, `VITE_GOOGLE_CLIENT_ID` — nicht für Smoke/E2E nötig.
+`.env.local` (Vorlage `.env.example`): `VITE_GOOGLE_CLIENT_ID` für OAuth — nicht für Smoke/E2E nötig. Gemini-Key über UI, nicht `.env`.
 
 ### Hello-World-Smoke
 

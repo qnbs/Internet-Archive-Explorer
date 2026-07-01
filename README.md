@@ -21,7 +21,7 @@ Internet Archive Explorer is a React + TypeScript single-page app using Vite and
 - Personal library: favorites, tags, collections, notes, bulk actions
 - Scriptorium workspace with document flows and AI helpers
 - AI Archive history for generated insights/summaries
-- Optional Gemini integration (API key and optional Google OAuth)
+- Optional Gemini integration (**Bring Your Own Key** in Settings → AI Features; optional Google OAuth)
 - Installable PWA with update notification flow
 
 ### 3) Tech Stack
@@ -83,21 +83,22 @@ Default local URL:
 
 ### 6) Environment Variables
 
-Create `.env.local` (do not commit):
+Create `.env.local` only if you need optional OAuth or dev flags (do not commit):
 
 ```env
-VITE_API_KEY=your-gemini-api-key
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 VITE_RECROOM_OPEN_ON_ARCHIVE=false
 ```
 
-Template is available in `.env.example`.
+Template: `.env.example`
+
+**Gemini AI (recommended):** Add your personal API key in the app under **Settings → AI Features → Gemini API Key**. The key is stored only in your browser (`sessionStorage`) and is never bundled into the build.
 
 Variable notes:
 
-- `VITE_API_KEY`: Gemini key for AI features
-- `VITE_GOOGLE_CLIENT_ID`: optional OAuth client id
+- `VITE_GOOGLE_CLIENT_ID`: optional OAuth client id (Google sign-in for Gemini)
 - `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: always open game pages directly on `archive.org/details/...` instead of emulator modal
+- `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY`: **dev-only** fallback for local demos — not used in production builds
 
 ### 7) Build and Deploy (GitHub Pages + Vercel)
 
@@ -127,12 +128,20 @@ Deployment notes:
 
 ### 8) CI and Smoke Checks
 
+**Cloud-first policy:** Full unit test coverage, complete E2E suite, Lighthouse audits, and bundle analysis with reports run in **GitHub Actions** (`ubuntu-latest`). This keeps local VS Code / low-end dev machines fast.
+
+**Recommended local workflow:**
+
+- Daily: `pnpm run check` (lint + types + unit tests) + `pnpm run dev`
+- Before PR: `pnpm run lint:ci && pnpm exec tsc --noEmit && pnpm run test:unit`
+- Full heavy validation: push to a branch and let CI run (or use `act` on capable hardware)
+
 Configured workflows:
 
 - `.github/workflows/ci.yml`
-  - Biome, TypeScript, **Vitest unit tests**, production build with bundle analysis
+  - Biome, TypeScript, **Vitest with coverage** (thresholds in `vitest.config.ts`), production build with bundle analysis
   - bundle size budgets (`pnpm run check:bundle-size`)
-  - Playwright E2E smoke tests (incl. axe on multiple hubs when `CI=true`)
+  - Playwright E2E tests (incl. axe on multiple hubs when `CI=true`); HTML report uploaded as artifact
   - **`dist/manifest.json`** presence check; **Lighthouse CI** (`lighthouserc.json`, accessibility threshold)
 - **Dependabot:** `.github/dependabot.yml` (not under `workflows/`)
 - `.github/workflows/deploy-pages.yml`
@@ -194,26 +203,27 @@ If you see i18n keys instead of text:
 
 #### CI failures
 
-Reproduce locally:
+Reproduce locally (light checks):
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm run check          # lint + types + unit tests
 pnpm run build
-pnpm run test:e2e
 ```
+
+Full E2E + Lighthouse: push to CI or run `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` after build (resource-heavy).
 
 ### 12) Security Notes
 
 - No OAuth client secret in frontend
 - OAuth uses Authorization Code + PKCE (tokens in `sessionStorage`; suitable for a public SPA only if you accept browser-exposed tokens — use restricted OAuth scopes and separate API projects where possible)
-- **Gemini (`VITE_API_KEY`) is embedded in the client bundle** like any `VITE_*` variable: anyone can extract it from devtools or the shipped JS. Treat keys as **revocable, quota-limited, and non-production-secret**; prefer Google AI Studio project restrictions and monitoring.
+- **Gemini BYOK:** API keys are entered in Settings and stored only in the browser (`sessionStorage`). They are **not** embedded in the shipped bundle. Treat keys as revocable and quota-limited; use Google AI Studio project restrictions.
 - Optional verbose client logging in prod: set `VITE_DEBUG_LOGS=true` (see `.env.example`); default logs only `logger.error` noise-free output for end users.
 - CSP is configured in `index.html` for static deployment constraints
 
 ### 13) Roadmap / limits (honest scope)
 
-- **AI:** Extensible via `services/geminiService.ts`; browser-only keys remain a trade-off vs. a backend proxy.
+- **AI:** BYOK via `services/geminiApiKeyStorage.ts` + `geminiService.ts`; browser-only keys remain a trade-off vs. a backend proxy.
 - **Offline:** PWA + caches cover shell and configured assets; deep offline for every Archive route is not guaranteed.
 - **Sharing / community:** No dedicated social layer; sharing uses normal Web Share / URLs where implemented.
 - **Low-end devices:** Prefer reduced motion (already supported); Vitest runs serially by default to stay gentle on weak dev machines.
@@ -237,7 +247,7 @@ Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und
 - Persönliche Bibliothek: Favoriten, Tags, Sammlungen, Notizen, Bulk-Aktionen
 - Scriptorium-Workspace mit Dokument-Workflows und AI-Hilfen
 - AI-Archive-Verlauf für erzeugte Inhalte
-- Optionale Gemini-Integration (API-Key und optional Google OAuth)
+- Optionale Gemini-Integration (**Bring Your Own Key** unter Einstellungen → KI-Funktionen; optional Google OAuth)
 - Installierbare PWA mit Update-Hinweis
 
 ### 3) Technologie-Stack
@@ -299,21 +309,22 @@ Standard-URL lokal:
 
 ### 6) Umgebungsvariablen
 
-Datei `.env.local` anlegen (nicht committen):
+Datei `.env.local` nur bei optionalem OAuth oder Dev-Flags anlegen (nicht committen):
 
 ```env
-VITE_API_KEY=your-gemini-api-key
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 VITE_RECROOM_OPEN_ON_ARCHIVE=false
 ```
 
 Vorlage: `.env.example`
 
+**Gemini-KI (empfohlen):** Persönlichen API-Schlüssel in der App unter **Einstellungen → KI-Funktionen → Gemini-API-Schlüssel** hinterlegen. Der Schlüssel wird nur im Browser (`sessionStorage`) gespeichert und nicht in den Build eingebettet.
+
 Bedeutung:
 
-- `VITE_API_KEY`: Gemini-Key für AI-Funktionen
-- `VITE_GOOGLE_CLIENT_ID`: optionale OAuth-Client-ID
+- `VITE_GOOGLE_CLIENT_ID`: optionale OAuth-Client-ID (Google-Anmeldung für Gemini)
 - `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: öffnet Spiele immer direkt via `archive.org/details/...` statt Emulator-Modal
+- `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY`: **nur Dev** — Fallback für lokale Demos, nicht in Produktions-Builds
 
 ### 7) Build und Deploy (GitHub Pages + Vercel)
 
@@ -409,26 +420,27 @@ Wenn i18n-Keys statt Texte erscheinen:
 
 #### CI-Fehler
 
-Lokal reproduzieren mit:
+Lokal (leichte Checks):
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm run check
 pnpm run build
-pnpm run test:e2e
 ```
+
+Volles E2E + Lighthouse: Push in CI oder nach Build `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` (ressourcenintensiv).
 
 ### 12) Sicherheits-Hinweise
 
 - Kein OAuth-Client-Secret im Frontend
 - OAuth mit Authorization Code + PKCE (Tokens in `sessionStorage`; für öffentliche SPAs nur mit bewusster Risikoakzeptanz — eingeschränkte Scopes, separates OAuth-Projekt)
-- **`VITE_API_KEY` (Gemini) liegt im Client-Bundle** wie jede `VITE_*`-Variable und ist auslesbar. Keys nur als **widerrufbar / quota-begrenzt** behandeln; AI-Studio-Projektrestriktionen und Monitoring nutzen.
+- **Gemini BYOK:** API-Schlüssel werden in den Einstellungen eingegeben und nur im Browser (`sessionStorage`) gespeichert. Sie werden **nicht** ins ausgelieferte Bundle eingebettet. Keys als widerrufbar und quota-begrenzt behandeln; AI-Studio-Projektrestriktionen nutzen.
 - Optionale ausführliche Client-Logs in Produktion: `VITE_DEBUG_LOGS=true` (siehe `.env.example`); Standard bleibt nur `logger.error` für Endnutzer:innen.
 - CSP ist in `index.html` auf statisches Hosting abgestimmt
 
 ### 13) Roadmap / Grenzen
 
-- **KI:** Erweiterbar über `services/geminiService.ts`; Browser-Keys vs. Backend-Proxy bleiben ein Trade-off.
+- **KI:** BYOK über `services/geminiApiKeyStorage.ts` + `geminiService.ts`; Browser-Keys vs. Backend-Proxy bleiben ein Trade-off.
 - **Offline:** PWA + Caches für Shell und konfigurierte Assets; kein Voll-Offline für alle Archive-Routen garantiert.
 - **Community/Sharing:** Kein eigenes Social-Layer; Teilen über Web Share / URLs wo vorhanden.
 - **Schwache Geräte:** Reduced Motion unterstützt; Vitest läuft standardmäßig seriell (schonende Dev-Hardware).

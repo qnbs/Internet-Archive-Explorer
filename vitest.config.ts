@@ -28,7 +28,7 @@ export default defineConfig({
       provider: 'v8',
       include: ['services/**/*.ts', 'utils/**/*.ts', 'store/**/*.ts', 'hooks/**/*.ts'],
       exclude: ['**/*.test.{ts,tsx}', '**/types/**'],
-      reporter: ['text', 'json-summary'],
+      reporter: ['text', 'json-summary', 'html'],
       thresholds: {
         lines: 0,
         functions: 0,
@@ -57,6 +57,12 @@ export default defineConfig({
           functions: 25,
           branches: 25,
           statements: 50,
+        },
+        'services/geminiApiKeyStorage.ts': {
+          lines: 80,
+          functions: 80,
+          branches: 70,
+          statements: 80,
         },
       },
     },

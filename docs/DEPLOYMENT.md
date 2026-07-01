@@ -70,7 +70,6 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 | Variable | Production | Preview |
 | -------- | ---------- | ------- |
 | `VITE_BASE_PATH` | `/` | `/` |
-| `VITE_API_KEY` | (optional) Gemini key | same or empty |
 | `VITE_GOOGLE_CLIENT_ID` | (optional) OAuth | same |
 
 4. Build command: `pnpm run build` (from `vercel.json`)
@@ -118,15 +117,17 @@ pnpm run generate:pwa-assets
 
 ## Environment variables
 
-See `.env.example`. All `VITE_*` variables are embedded in the client bundle.
+See `.env.example`. `VITE_*` variables used at build time are embedded in the client bundle.
+
+**Gemini AI:** Users add their API key in the app (Settings → AI Features). Do not set `VITE_API_KEY` on production deploys.
 
 | Variable | Required | Notes |
 | -------- | -------- | ----- |
 | `VITE_BASE_PATH` | Yes (CI) | Trailing slash required; defaults to `/Internet-Archive-Explorer/` in Vite config |
-| `VITE_API_KEY` | No | Gemini; browser-exposed |
 | `VITE_GOOGLE_CLIENT_ID` | No | OAuth PKCE |
 | `VITE_DEBUG_LOGS` | No | Verbose client logging in production |
 | `VITE_RECROOM_OPEN_ON_ARCHIVE` | No | Open games on archive.org directly |
+| `VITE_ALLOW_BUILD_TIME_GEMINI_KEY` | No | Dev-only; with `VITE_API_KEY` for local demos |
 
 ---
 

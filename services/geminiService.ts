@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { z } from 'zod';
+import { onGeminiApiKeyChange, resolveGeminiApiKey } from '@/services/geminiApiKeyStorage';
 import { clearStoredOAuthToken, getValidAccessToken } from '@/services/geminiAuthStorage';
 import type {
   ExtractedEntities,
@@ -35,11 +36,23 @@ let aiClientKey = '';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export type GeminiErrorCode =
+  | 'NO_API_KEY'
+  | 'INVALID_KEY'
+  | 'RATE_LIMIT'
+  | 'QUOTA'
+  | 'NETWORK'
+  | 'VALIDATION'
+  | 'AUTH'
+  | 'UNKNOWN';
+
 export class GeminiServiceError extends Error {
+  readonly code: GeminiErrorCode;
   readonly i18nKey?: string;
-  constructor(message: string, i18nKey?: string) {
+  constructor(message: string, code: GeminiErrorCode = 'UNKNOWN', i18nKey?: string) {
     super(message);
     this.name = 'GeminiServiceError';
+    this.code = code;
     this.i18nKey = i18nKey;
   }
 }
@@ -54,11 +67,11 @@ function parseAiJson<T>(
   try {
     data = JSON.parse(raw);
   } catch {
-    throw new GeminiServiceError(userMessage, SERVICE_I18N.gemini.invalidJson);
+    throw new GeminiServiceError(userMessage, 'VALIDATION', SERVICE_I18N.gemini.invalidJson);
   }
   const r = schema.safeParse(data);
   if (!r.success) {
-    throw new GeminiServiceError(userMessage, i18nKey);
+    throw new GeminiServiceError(userMessage, 'VALIDATION', i18nKey);
   }
   return r.data;
 }
@@ -121,23 +134,34 @@ const parseGeminiText = (responseJson: ValidatedGeminiApiResponse): string => {
 };
 
 const getApiKey = (): string => {
-  if (typeof window === 'undefined') return '';
-  const sessionKey = sessionStorage.getItem('gemini_api_key') || '';
-  const legacyLocalKey = localStorage.getItem('gemini_api_key') || '';
-  if (!sessionKey && legacyLocalKey) {
-    sessionStorage.setItem('gemini_api_key', legacyLocalKey);
-    localStorage.removeItem('gemini_api_key');
-  }
-  const envKey =
-    (import.meta as ImportMeta & { env?: { VITE_API_KEY?: string } }).env?.VITE_API_KEY || '';
-  return sessionKey || legacyLocalKey || envKey;
+  const key = resolveGeminiApiKey();
+  return key ?? '';
 };
+
+export const resetGeminiClient = (): void => {
+  aiClient = null;
+  aiClientKey = '';
+};
+
+onGeminiApiKeyChange(resetGeminiClient);
 
 const getAiClient = (): GoogleGenAI => {
   const apiKey = getApiKey();
 
   if (!apiKey) {
-    throw new Error('Bitte API-Key eingeben oder mit Google anmelden');
+    throw new GeminiServiceError(
+      'No Gemini API key configured',
+      'NO_API_KEY',
+      'settings:apiKey.noKeyConfigured',
+    );
+  }
+
+  if (!/^AIza[\w-]{10,}$/.test(apiKey)) {
+    throw new GeminiServiceError(
+      'Invalid Gemini API key format',
+      'INVALID_KEY',
+      'settings:apiKey.invalidFormat',
+    );
   }
 
   if (aiClient && aiClientKey === apiKey) {
@@ -222,6 +246,7 @@ export async function generateContent(
       if (!validated.success) {
         throw new GeminiServiceError(
           'Gemini-Antwort hat ein unerwartetes Format.',
+          'VALIDATION',
           SERVICE_I18N.gemini.responseShape,
         );
       }

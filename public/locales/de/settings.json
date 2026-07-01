@@ -93,6 +93,26 @@
       "academic": "Akademisch"
     }
   },
+  "apiKey": {
+    "title": "Gemini-API-Schlüssel (Bring Your Own Key)",
+    "description": "Fügen Sie Ihren persönlichen Gemini-API-Schlüssel hinzu, um KI-Zusammenfassungen, Entitätenextraktion und andere optionale Funktionen freizuschalten.",
+    "label": "Gemini-API-Schlüssel",
+    "placeholder": "AIza...",
+    "save": "Validieren & Speichern",
+    "clear": "Schlüssel löschen",
+    "saved": "Schlüssel gespeichert — KI-Funktionen aktiviert",
+    "notSaved": "Kein Schlüssel gespeichert — fügen Sie Ihren hinzu, um KI-Funktionen freizuschalten",
+    "privacy": "Ihr Schlüssel wird nur in Ihrem Browser (sessionStorage) gespeichert. Er verlässt Ihr Gerät nie und wird nie an unsere Server gesendet.",
+    "getKey": "Kostenlosen Gemini-API-Schlüssel holen",
+    "showKey": "Schlüssel anzeigen",
+    "hideKey": "Schlüssel verbergen",
+    "paste": "Aus Zwischenablage einfügen",
+    "pasteFailed": "Zwischenablage konnte nicht gelesen werden",
+    "clearConfirm": "Gespeicherten Gemini-API-Schlüssel entfernen?",
+    "invalidFormat": "Das sieht nicht wie ein gültiger Gemini-API-Schlüssel aus (erwartetes Format: AIza...).",
+    "noKeyConfigured": "Fügen Sie Ihren Gemini-API-Schlüssel unter Einstellungen → KI-Funktionen hinzu, um diese Funktion zu nutzen.",
+    "storageNote": "Gespeichert unter Session-Schlüssel „{{key}}“ für diesen Browser-Tab."
+  },
   "data": {
     "dataAndPrivacyTitle": "Daten & Datenschutz",
     "backupAndRestore": "Sicherung & Wiederherstellung",
