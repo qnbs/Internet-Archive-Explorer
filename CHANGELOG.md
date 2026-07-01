@@ -9,12 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Phase 3 resilience:** `HubErrorBoundary` for inline hub recovery; i18n `ErrorBoundaryFallback`; `GeminiKeyPrompt` CTA across AI surfaces
+- **Utils:** `formatGeminiError()` for consistent Gemini error messages in UI
 - **BYOK (Gemini):** `services/geminiApiKeyStorage.ts`, Jotai `geminiApiKeyAtom`, accessible Settings UI with i18n (EN/DE), legacy localStorage migration
 - **Tests:** `tests/unit/geminiApiKeyStorage.test.ts`
 - **CI artifacts:** Coverage HTML, Playwright report, Lighthouse, bundle report uploads; `concurrency` cancel-in-progress
 
 ### Changed
 
+- **ErrorBoundary:** Retry without full reload; bilingual fallback copy (EN/DE)
+- **AI components:** AIToolsTab, AIInsightPanel, MagicOrganizeModal, AskAIModal show BYOK prompt when no key
 - **Gemini:** Production AI flows use runtime BYOK only; `VITE_API_KEY` relegated to optional dev fallback (`VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`)
 - **CI:** Unit tests run with coverage thresholds; Playwright HTML/JSON reporters; cloud-first policy documented in README/AGENTS/CONTRIBUTING
 - **Docs:** README, `.env.example`, DEPLOYMENT — BYOK-first security model

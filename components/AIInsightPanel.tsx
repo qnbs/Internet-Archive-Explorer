@@ -1,10 +1,13 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useCallback, useEffect, useState } from 'react';
+import { GeminiKeyPrompt } from '@/components/GeminiKeyPrompt';
 import { useLanguage } from '@/hooks/useLanguage';
 import { archiveAIGeneration } from '@/services/aiPersistenceService';
 import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import { hasGeminiApiKeyAtom } from '@/store/geminiApiKey';
 import { autoArchiveAIAtom } from '@/store/settings';
 import type { AIGenerationType, ArchiveItemSummary, Language } from '@/types';
+import { formatGeminiError } from '@/utils/geminiErrorMessage';
 import { logger } from '@/utils/logger';
 import { AILoadingIndicator } from './AILoadingIndicator';
 import { SparklesIcon } from './Icons';
@@ -34,6 +37,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
   const aiArchive = useAtomValue(aiArchiveAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
   const autoArchive = useAtomValue(autoArchiveAIAtom);
+  const hasGeminiKey = useAtomValue(hasGeminiApiKeyAtom);
 
   // Check for a cached insight when language, archive, or items change
   useEffect(() => {
@@ -74,7 +78,7 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
       );
     } catch (aiError) {
       logger.error('AI insight generation failed:', aiError);
-      setError(t('explorer:errorInsight'));
+      setError(formatGeminiError(aiError, t));
     } finally {
       setIsLoading(false);
     }
@@ -92,13 +96,17 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
         <div className="text-center space-y-3">
           <p className="text-sm text-red-400 leading-relaxed">{error}</p>
           <button
+            type="button"
             onClick={handleGenerate}
-            className="px-3 py-1.5 bg-accent-700 text-white text-sm font-semibold rounded-lg hover:bg-accent-800 transition-colors"
+            className="px-3 py-1.5 bg-accent-700 text-white text-sm font-semibold rounded-lg hover:bg-accent-800 transition-colors touch-target-min"
           >
             {t('common:retry')}
           </button>
         </div>
       );
+    }
+    if (!hasGeminiKey) {
+      return <GeminiKeyPrompt />;
     }
     return (
       <div className="text-center space-y-3 pt-4">

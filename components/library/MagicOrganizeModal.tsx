@@ -1,5 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
+import { GeminiKeyPrompt } from '@/components/GeminiKeyPrompt';
 import { CloseIcon, SparklesIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
@@ -13,9 +14,11 @@ import {
   libraryItemsAtom,
   userCollectionsAtom,
 } from '@/store/favorites';
+import { hasGeminiApiKeyAtom } from '@/store/geminiApiKey';
 import { autoArchiveAIAtom } from '@/store/settings';
 import type { MagicOrganizeResult } from '@/types';
 import { AIGenerationType as AIGenEnum } from '@/types';
+import { formatGeminiError } from '@/utils/geminiErrorMessage';
 import { toastAtom } from '../../store';
 import { AILoadingIndicator } from '../AILoadingIndicator';
 
@@ -34,6 +37,7 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
   const setToast = useSetAtom(toastAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
   const autoArchive = useAtomValue(autoArchiveAIAtom);
+  const hasGeminiKey = useAtomValue(hasGeminiApiKeyAtom);
 
   const [suggestions, setSuggestions] = useState<MagicOrganizeResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,6 +53,11 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
 
     if (itemsToOrganize.length === 0) {
       setError('No items selected for organization.');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!hasGeminiKey) {
       setIsLoading(false);
       return;
     }
@@ -75,9 +84,9 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
           autoArchive,
         );
       })
-      .catch((err) => setError(err instanceof Error ? err.message : t('common:error')))
+      .catch((err) => setError(formatGeminiError(err, t)))
       .finally(() => setIsLoading(false));
-  }, [itemIds, allLibraryItems, language, t, addAIEntry, autoArchive]);
+  }, [itemIds, allLibraryItems, language, t, addAIEntry, autoArchive, hasGeminiKey]);
 
   const toggleSelection = (set: Set<string>, item: string) => {
     const newSet = new Set(set);
@@ -137,7 +146,9 @@ export const MagicOrganizeModal: React.FC<MagicOrganizeModalProps> = ({ itemIds,
         </header>
 
         <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
-          {isLoading ? (
+          {!hasGeminiKey ? (
+            <GeminiKeyPrompt />
+          ) : isLoading ? (
             <AILoadingIndicator type="summary" />
           ) : error ? (
             <p className="text-red-400 text-center">{error}</p>

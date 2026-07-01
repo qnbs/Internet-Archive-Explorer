@@ -1,5 +1,8 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useCallback, useEffect, useState } from 'react';
+import { GeminiKeyPrompt } from '@/components/GeminiKeyPrompt';
+import { hasGeminiApiKeyAtom } from '@/store/geminiApiKey';
+import { formatGeminiError } from '@/utils/geminiErrorMessage';
 import { useLanguage } from '../hooks/useLanguage';
 import { useSearchAndGo } from '../hooks/useSearchAndGo';
 import { archiveAIGeneration, findArchivedItemAnalysis } from '../services/aiPersistenceService';
@@ -41,6 +44,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({
   const autoArchive = useAtomValue(autoArchiveAIAtom);
   const aiArchive = useAtomValue(aiArchiveAtom);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
+  const hasGeminiKey = useAtomValue(hasGeminiApiKeyAtom);
 
   const handleGenerateSummary = useCallback(async () => {
     if (!textContent) return;
@@ -81,7 +85,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({
         autoArchive,
       );
     } catch (err) {
-      setSummaryError(err instanceof Error ? err.message : t('aiTools:summaryErrorApi'));
+      setSummaryError(formatGeminiError(err, t));
     } finally {
       setIsSummarizing(false);
     }
@@ -117,7 +121,7 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({
         autoArchive,
       );
     } catch (err) {
-      setEntityError(err instanceof Error ? err.message : t('aiTools:entityErrorApi'));
+      setEntityError(formatGeminiError(err, t));
     } finally {
       setIsExtracting(false);
     }
@@ -153,6 +157,10 @@ export const AIToolsTab: React.FC<AIToolsTabProps> = ({
       </div>
     );
   };
+
+  if (!hasGeminiKey) {
+    return <GeminiKeyPrompt className="my-4" />;
+  }
 
   if (isLoadingText) {
     return (
