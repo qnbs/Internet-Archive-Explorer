@@ -5,8 +5,8 @@ import { AppearanceManager } from './components/AppearanceManager';
 import AudioPlayer from './components/audiothek/AudioPlayer';
 import { BottomNav } from './components/BottomNav';
 import { DownloadManager } from './components/DownloadManager';
-import ErrorBoundary from './components/ErrorBoundary';
 import { Header } from './components/Header';
+import HubErrorBoundary from './components/HubErrorBoundary';
 import InstallBanner from './components/InstallBanner';
 import { ModalManager } from './components/ModalManager';
 import { OfflineHubBanner } from './components/pwa/OfflineHubBanner';
@@ -255,9 +255,9 @@ const AppContent: React.FC = () => {
       <main id="main-content" className={`p-4 sm:p-6 pt-20 ${mainContentPadding}`}>
         <PwaWorkerBridge />
         <OfflineHubBanner />
-        <ErrorBoundary>
+        <HubErrorBoundary>
           <Suspense fallback={<PageSpinner />}>{renderView()}</Suspense>
-        </ErrorBoundary>
+        </HubErrorBoundary>
       </main>
 
       <Suspense fallback={null}>

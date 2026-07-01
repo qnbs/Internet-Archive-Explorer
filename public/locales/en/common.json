@@ -76,6 +76,26 @@
     "archiveInvalidJson": "The Internet Archive response could not be read.",
     "geminiValidation": "The AI returned data in an unexpected format.",
     "geminiInvalidJson": "The AI response could not be read as JSON.",
-    "geminiResponseShape": "The Gemini API returned an unexpected response shape."
+    "geminiResponseShape": "The Gemini API returned an unexpected response shape.",
+    "geminiRateLimit": "Gemini rate limit reached. Please wait a moment and try again.",
+    "geminiQuota": "Gemini quota exceeded. Check your API key limits in Google AI Studio.",
+    "geminiNetwork": "Could not reach Gemini. Check your connection and try again.",
+    "geminiAuth": "Gemini authentication failed. Verify your API key in Settings."
+  },
+  "errorBoundary": {
+    "title": "System Encountered an Error",
+    "description": "Something went wrong in this view. Try again, reload, or reset local data if the issue persists.",
+    "retry": "Try Again",
+    "reset": "Reset Data & Reload",
+    "resetConfirm": "This resets local settings, library data, and caches, then reloads the app. Continue?",
+    "details": "Error Details"
+  },
+  "hubError": {
+    "title": "This view could not be loaded",
+    "description": "An unexpected error occurred while rendering this section. Your other data is unaffected.",
+    "retry": "Try Again"
+  },
+  "geminiKeyPrompt": {
+    "openSettings": "Open AI Settings"
   }
 }

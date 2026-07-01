@@ -1,13 +1,16 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
+import { GeminiKeyPrompt } from '@/components/GeminiKeyPrompt';
 import { CloseIcon, SparklesIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { archiveAIGeneration } from '@/services/aiPersistenceService';
 import { answerFromText } from '@/services/geminiService';
 import { addAIArchiveEntryAtom } from '@/store/aiArchive';
+import { hasGeminiApiKeyAtom } from '@/store/geminiApiKey';
 import { autoArchiveAIAtom } from '@/store/settings';
 import { AIGenerationType, type WorksetDocument } from '@/types';
+import { formatGeminiError } from '@/utils/geminiErrorMessage';
 import { Spinner } from '../Spinner';
 
 interface AskAIModalProps {
@@ -25,6 +28,7 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ textContent, document, o
   const inputRef = useRef<HTMLInputElement>(null);
   const addAIEntry = useSetAtom(addAIArchiveEntryAtom);
   const autoArchive = useAtomValue(autoArchiveAIAtom);
+  const hasGeminiKey = useAtomValue(hasGeminiApiKeyAtom);
 
   useModalFocusTrap({ modalRef, isOpen: true, onClose });
 
@@ -52,7 +56,7 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ textContent, document, o
         autoArchive,
       );
     } catch (err) {
-      setAnswer(err instanceof Error ? err.message : 'An error occurred.');
+      setAnswer(formatGeminiError(err, t));
     } finally {
       setIsLoading(false);
     }
@@ -75,32 +79,38 @@ export const AskAIModal: React.FC<AskAIModalProps> = ({ textContent, document, o
           </button>
         </header>
         <div className="p-6 space-y-4">
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <input
-              ref={inputRef}
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder={t('aiTools:askPlaceholder')}
-              className="flex-grow bg-gray-700 border-2 border-gray-600 rounded-lg py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              disabled={isLoading}
-            />
-            <button
-              type="submit"
-              disabled={isLoading || !question.trim()}
-              className="px-4 py-2 bg-cyan-600 text-white rounded-lg flex items-center gap-2 disabled:bg-gray-500"
-            >
-              <SparklesIcon className="w-4 h-4" />
-              <span>{isLoading ? t('common:loading') : t('aiTools:ask')}</span>
-            </button>
-          </form>
-          <div className="min-h-[100px] bg-gray-900/50 p-4 rounded-lg">
-            {isLoading && (
-              <div className="flex justify-center">
-                <Spinner />
+          {!hasGeminiKey ? (
+            <GeminiKeyPrompt />
+          ) : (
+            <>
+              <form onSubmit={handleSubmit} className="flex gap-2">
+                <input
+                  ref={inputRef}
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  placeholder={t('aiTools:askPlaceholder')}
+                  className="flex-grow bg-gray-700 border-2 border-gray-600 rounded-lg py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  disabled={isLoading}
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading || !question.trim()}
+                  className="px-4 py-2 bg-cyan-600 text-white rounded-lg flex items-center gap-2 disabled:bg-gray-500"
+                >
+                  <SparklesIcon className="w-4 h-4" />
+                  <span>{isLoading ? t('common:loading') : t('aiTools:ask')}</span>
+                </button>
+              </form>
+              <div className="min-h-[100px] bg-gray-900/50 p-4 rounded-lg">
+                {isLoading && (
+                  <div className="flex justify-center">
+                    <Spinner />
+                  </div>
+                )}
+                {answer && <p className="text-gray-300 whitespace-pre-wrap">{answer}</p>}
               </div>
-            )}
-            {answer && <p className="text-gray-300 whitespace-pre-wrap">{answer}</p>}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>
