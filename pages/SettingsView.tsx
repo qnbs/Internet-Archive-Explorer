@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { ApiKeyInput } from '@/components/ApiKeyInput';
 import { GoogleLoginButton } from '@/components/GoogleLoginButton';
 import {
@@ -28,6 +28,7 @@ import {
   resetSettingsAtom,
   setSettingAtom,
   settingsAtom,
+  settingsFocusSectionAtom,
 } from '../store';
 
 type SettingsSectionId = 'ui' | 'accessibility' | 'search' | 'content' | 'ai' | 'data';
@@ -853,7 +854,15 @@ interface SettingsViewProps {
 const SettingsView: React.FC<SettingsViewProps> = ({ showConfirmation }) => {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('ui');
+  const [focusSection, setFocusSection] = useAtom(settingsFocusSectionAtom);
   const sections = getSections(t);
+
+  useEffect(() => {
+    if (focusSection) {
+      setActiveSection(focusSection);
+      setFocusSection(null);
+    }
+  }, [focusSection, setFocusSection]);
 
   const renderSectionContent = () => {
     switch (activeSection) {

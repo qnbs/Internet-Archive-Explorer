@@ -275,14 +275,31 @@ const generateContentHelper = async (params: GeminiGenerateParams, isJson: boole
     const text = await generateContent(params);
     return isJson ? extractJson(text) : text;
   } catch (e) {
+    if (e instanceof GeminiServiceError) {
+      throw e;
+    }
     if (e instanceof Error) {
-      if (e.message.includes('429')) {
-        throw new Error('API request limit reached. Please try again later.');
+      const msg = e.message.toLowerCase();
+      if (msg.includes('429') || msg.includes('rate limit') || msg.includes('rate-limit')) {
+        throw new GeminiServiceError(
+          e.message,
+          'RATE_LIMIT',
+          'common:serviceErrors.geminiRateLimit',
+        );
+      }
+      if (msg.includes('quota') || msg.includes('resource exhausted')) {
+        throw new GeminiServiceError(e.message, 'QUOTA', 'common:serviceErrors.geminiQuota');
+      }
+      if (msg.includes('network') || msg.includes('fetch') || msg.includes('timeout')) {
+        throw new GeminiServiceError(e.message, 'NETWORK', 'common:serviceErrors.geminiNetwork');
       }
       throw e;
     }
 
-    throw new Error('An unexpected error occurred while contacting the AI service.');
+    throw new GeminiServiceError(
+      'An unexpected error occurred while contacting the AI service.',
+      'UNKNOWN',
+    );
   }
 };
 

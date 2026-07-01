@@ -1,9 +1,10 @@
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { KeyRound, Settings } from 'lucide-react';
 import React from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useNavigation } from '@/hooks/useNavigation';
 import { hasGeminiApiKeyAtom } from '@/store/geminiApiKey';
+import { settingsFocusSectionAtom } from '@/store/settingsNavigation';
 
 interface GeminiKeyPromptProps {
   /** When true, always render the prompt (e.g. before an action). Default: show only when no key. */
@@ -18,6 +19,7 @@ export const GeminiKeyPrompt: React.FC<GeminiKeyPromptProps> = ({
   const { t } = useLanguage();
   const { navigateTo } = useNavigation();
   const hasKey = useAtomValue(hasGeminiApiKeyAtom);
+  const setFocusSection = useSetAtom(settingsFocusSectionAtom);
 
   if (hasKey && !forceShow) return null;
 
@@ -33,7 +35,10 @@ export const GeminiKeyPrompt: React.FC<GeminiKeyPromptProps> = ({
           <p className="text-sm text-gray-300">{t('settings:apiKey.description')}</p>
           <button
             type="button"
-            onClick={() => navigateTo('settings')}
+            onClick={() => {
+              setFocusSection('ai');
+              navigateTo('settings');
+            }}
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-cyan-700 text-white rounded-lg hover:bg-cyan-600 transition-colors touch-target-min ia-focus-visible-enhanced"
           >
             <Settings size={16} aria-hidden />
