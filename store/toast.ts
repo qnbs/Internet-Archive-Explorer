@@ -2,18 +2,21 @@ import { atom } from 'jotai';
 import type { ToastType } from '@/types';
 
 /**
- * Payload for the bridge atom (without generated id).
+ * Payload for the Jotai toast bridge (without generated id).
+ * Use `i18nKey` from store actions; use `message` only when text is already resolved.
  */
 export interface ToastBridgeMessage {
-  message: string;
   type: ToastType;
   duration?: number;
+  /** Pre-resolved display text (components with `useToast`). */
+  message?: string;
+  /** Namespace key for store-layer toasts, e.g. `scriptorium:toast.worksetCreated`. */
+  i18nKey?: string;
+  i18nParams?: Record<string, string | number>;
 }
 
 /**
- * An atom to hold a single toast message object.
- * Components can write to this atom to trigger a toast.
- * The ToastBridge component listens for changes and uses the ToastContext to display it.
- * It's set to null after being displayed to be ready for the next message.
+ * Store-layer toast trigger. `ToastBridge` in App.tsx forwards to ToastContext.
+ * Components should prefer `useToast()` from `@/contexts/ToastContext` directly.
  */
 export const toastAtom = atom<ToastBridgeMessage | null>(null);

@@ -1,10 +1,10 @@
 import { useSetAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
 import { CloseIcon } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { createCollectionAtom } from '@/store/favorites';
-import { toastAtom } from '@/store/toast';
 
 interface NewCollectionModalProps {
   onClose: () => void;
@@ -13,7 +13,7 @@ interface NewCollectionModalProps {
 export const NewCollectionModal: React.FC<NewCollectionModalProps> = ({ onClose }) => {
   const { t } = useLanguage();
   const createCollection = useSetAtom(createCollectionAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
   const [name, setName] = useState('');
   const modalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,10 +29,7 @@ export const NewCollectionModal: React.FC<NewCollectionModalProps> = ({ onClose 
     const trimmedName = name.trim();
     if (trimmedName) {
       createCollection(trimmedName);
-      setToast({
-        type: 'success',
-        message: t('favorites:modals.collectionCreated', { name: trimmedName }),
-      });
+      addToast(t('favorites:modals.collectionCreated', { name: trimmedName }), 'success');
       onClose();
     }
   };

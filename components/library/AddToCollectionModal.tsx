@@ -1,10 +1,10 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useRef, useState } from 'react';
 import { CloseIcon } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { addItemsToCollectionAtom, userCollectionsAtom } from '@/store/favorites';
-import { toastAtom } from '@/store/toast';
 
 interface AddToCollectionModalProps {
   itemIds: string[];
@@ -15,7 +15,7 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({ item
   const { t } = useLanguage();
   const collections = useAtomValue(userCollectionsAtom);
   const addItemsToCollection = useSetAtom(addItemsToCollectionAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
   const [selectedCollectionId, setSelectedCollectionId] = useState<string>('');
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -25,13 +25,13 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({ item
     if (!selectedCollectionId) return;
     addItemsToCollection({ collectionId: selectedCollectionId, itemIds });
     const collectionName = collections.find((c) => c.id === selectedCollectionId)?.name || '';
-    setToast({
-      type: 'success',
-      message: t('favorites:bulkActions.addedToCollection', {
+    addToast(
+      t('favorites:bulkActions.addedToCollection', {
         count: itemIds.length,
         collectionName,
       }),
-    });
+      'success',
+    );
     onClose();
   };
 

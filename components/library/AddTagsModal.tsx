@@ -1,10 +1,10 @@
 import { useSetAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
 import { CloseIcon } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useModalFocusTrap } from '@/hooks/useModalFocusTrap';
 import { addTagsToItemsAtom } from '@/store/favorites';
-import { toastAtom } from '@/store/toast';
 
 interface AddTagsModalProps {
   itemIds: string[];
@@ -14,7 +14,7 @@ interface AddTagsModalProps {
 export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) => {
   const { t } = useLanguage();
   const addTagsToItems = useSetAtom(addTagsToItemsAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
   const [tagsInput, setTagsInput] = useState('');
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,7 @@ export const AddTagsModal: React.FC<AddTagsModalProps> = ({ itemIds, onClose }) 
 
     if (tags.length > 0) {
       addTagsToItems({ itemIds, tags });
-      setToast({ type: 'success', message: t('favorites:bulkActions.tagsAdded') });
+      addToast(t('favorites:bulkActions.tagsAdded'), 'success');
       onClose();
     }
   };

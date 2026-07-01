@@ -16,6 +16,7 @@ import {
   TrashIcon,
   UsersIcon,
 } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
 import {
@@ -25,7 +26,6 @@ import {
   updateCollectionNameAtom,
   userCollectionsAtom,
 } from '@/store/favorites';
-import { toastAtom } from '@/store/toast';
 import type { LibraryFilter, UserCollection } from '@/types';
 import { MediaType } from '@/types';
 
@@ -75,7 +75,7 @@ const CollectionListItem: React.FC<{
   const setModal = useSetAtom(modalAtom);
   const deleteCollection = useSetAtom(deleteCollectionAtom);
   const updateCollectionName = useSetAtom(updateCollectionNameAtom);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(collection.name);
@@ -91,7 +91,7 @@ const CollectionListItem: React.FC<{
   const handleRename = () => {
     if (name.trim() && name.trim() !== collection.name) {
       updateCollectionName({ id: collection.id, newName: name.trim() });
-      setToast({ type: 'success', message: t('favorites:collectionRenamed') });
+      addToast(t('favorites:collectionRenamed'), 'success');
     } else {
       setName(collection.name); // Revert if empty or unchanged
     }

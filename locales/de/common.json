@@ -6,6 +6,7 @@
   "itemsFound_one": "{{formattedCount}} Eintrag gefunden",
   "itemsFound_other": "{{formattedCount}} Einträge gefunden",
   "loading": "Wird geladen...",
+  "skipToMain": "Zum Hauptinhalt springen",
   "searchResultsRegion": "Suchergebnisse",
   "close": "Schließen",
   "viewFullCollection": "Ganze Sammlung ansehen",

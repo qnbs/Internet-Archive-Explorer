@@ -29,7 +29,11 @@ export const createWorksetAtom = atom(null, (get, set, name: string): Workset =>
   };
   const currentWorksets = get(worksetsAtom);
   set(worksetsAtom, [...currentWorksets, newWorkset]);
-  set(toastAtom, { type: 'success', message: `Workset '${name}' created!` });
+  set(toastAtom, {
+    type: 'success',
+    i18nKey: 'scriptorium:toast.worksetCreated',
+    i18nParams: { name },
+  });
   return newWorkset;
 });
 
@@ -38,7 +42,11 @@ export const deleteWorksetAtom = atom(null, (get, set, id: string) => {
   const worksetName = worksets.find((ws) => ws.id === id)?.name || '';
   const newWorksets = worksets.filter((ws) => ws.id !== id);
   set(worksetsAtom, newWorksets);
-  set(toastAtom, { type: 'info', message: `Workset '${worksetName}' deleted.` });
+  set(toastAtom, {
+    type: 'info',
+    i18nKey: 'scriptorium:toast.worksetDeleted',
+    i18nParams: { name: worksetName },
+  });
 });
 
 export const updateWorksetNameAtom = atom(
@@ -67,10 +75,10 @@ export const addDocumentToWorksetAtom = atom(
     });
 
     if (documentExists) {
-      set(toastAtom, { type: 'info', message: 'Document is already in this workset.' });
+      set(toastAtom, { type: 'info', i18nKey: 'scriptorium:toast.documentAlreadyInWorkset' });
     } else {
       set(worksetsAtom, newWorksets);
-      set(toastAtom, { type: 'success', message: 'Document added to workset.' });
+      set(toastAtom, { type: 'success', i18nKey: 'scriptorium:toast.documentAdded' });
     }
   },
 );
@@ -86,7 +94,7 @@ export const removeDocumentFromWorksetAtom = atom(
         return ws;
       }),
     );
-    set(toastAtom, { type: 'info', message: 'Document removed from workset.' });
+    set(toastAtom, { type: 'info', i18nKey: 'scriptorium:toast.documentRemoved' });
   },
 );
 

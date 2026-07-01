@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Toast bridge:** `resolveToastMessage()`; `toastAtom` supports `i18nKey` for store-layer toasts
+- **i18n:** `common:skipToMain`; Scriptorium/Audiothek toast keys; `settings:languageUpdated`
+- **Tests:** `tests/unit/resolveToastMessage.test.ts`
 - **Phase 3b navigation:** `settingsFocusSectionAtom` — one-shot Settings focus (e.g. GeminiKeyPrompt → AI section)
 - **Tests:** `tests/unit/settingsNavigation.test.ts`
 - **Phase 3 resilience:** `HubErrorBoundary` for inline hub recovery; i18n `ErrorBoundaryFallback`; `GeminiKeyPrompt` CTA across AI surfaces
@@ -19,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Toast:** Library/Explorer/Scriptorium components use `useToast()` directly; Jotai stores use i18n keys via `toastAtom`
+- **Skip-link:** Localized via `common:skipToMain` (EN/DE)
 - **App:** Per-view `HubErrorBoundary` (`key={activeView}`) — hub errors no longer block other views
 - **GeminiKeyPrompt:** Opens Settings with AI section pre-selected via focus atom
 - **Gemini service:** `generateContentHelper` preserves `GeminiServiceError`; maps rate limit, quota, network to i18n keys

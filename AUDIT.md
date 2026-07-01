@@ -67,9 +67,19 @@ The Internet Archive Explorer is a well-architected, feature-rich PWA with 17 vi
 | **Deploy** | ✅ | GitHub Pages + **Pages Smoke** grün nach #9–#11 |
 | **Unit tests** | ✅ | **57** inkl. `geminiApiKeyStorage`, `geminiErrorMessage`, `settingsNavigation` |
 | **E2E** | ✅ | **23/23** inkl. axe (GeminiKeyPrompt Kontrast auf dunklen Hub-Karten) |
-| **Offene PRs** | ⚠️ | **#1, #3, #8** manuell schließen (Bot ohne Close-Rechte; Inhalt in main) |
+| **Offene PRs** | ✅ | **#1, #3, #8** vom Maintainer geschlossen |
 
-**Verbleibend (nicht blockierend):** Toast-Dual-System; `types.ts`-Split; echte Marketing-Screenshots; Backend-Proxy für Gemini optional.
+**Verbleibend (nicht blockierend):** `types.ts`-Split; echte Marketing-Screenshots; Backend-Proxy für Gemini optional.
+
+---
+
+## August 2026 Backlog — i18n & Toast
+
+| Bereich | Status | Details |
+| ------- | ------ | ------- |
+| **Skip-Link i18n** | ✅ | `common:skipToMain` (EN/DE) in `App.tsx` |
+| **Toast-Konsolidierung** | ✅ | Komponenten → `useToast()`; Stores → `toastAtom` mit `i18nKey`; `resolveToastMessage()` |
+| **Store-Toasts i18n** | ✅ | Scriptorium + Audiothek Toast-Keys; Settings `languageUpdated` |
 
 ---
 

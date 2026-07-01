@@ -1,11 +1,11 @@
-import { useSetAtom } from 'jotai';
 import React, { useCallback, useState } from 'react';
 import { SparklesIcon, TagIcon } from '@/components/Icons';
+import { useToast } from '@/contexts/ToastContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { extractEntities, getSummary } from '@/services/geminiService';
 import type { ExtractedEntities, WorksetDocument } from '@/types';
+import { formatGeminiError } from '@/utils/geminiErrorMessage';
 import { logger } from '@/utils/logger';
-import { toastAtom } from '../../store';
 import { AnalysisPane } from './AnalysisPane';
 import { AskAIModal } from './AskAIModal';
 
@@ -22,7 +22,7 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
     data: string | ExtractedEntities;
   } | null>(null);
   const [isAskModalOpen, setIsAskModalOpen] = useState(false);
-  const setToast = useSetAtom(toastAtom);
+  const { addToast } = useToast();
 
   const handleAnalyze = useCallback(
     async (type: 'summary' | 'entities') => {
@@ -38,14 +38,17 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({ document, text
         }
       } catch (error) {
         logger.error(error);
-        const message =
-          error instanceof Error ? error.message : 'An unknown error occurred during analysis.';
-        setToast({ type: 'error', message });
+        addToast(
+          error instanceof Error
+            ? formatGeminiError(error, t)
+            : t('scriptorium:toast.analysisError'),
+          'error',
+        );
       } finally {
         setIsAnalyzing(false);
       }
     },
-    [textContent, language, setToast],
+    [textContent, language, addToast, t],
   );
 
   return (

@@ -190,10 +190,11 @@ const NumberInput = ({
 const LanguageSelector: React.FC<{ ariaProps: object }> = ({ ariaProps }) => {
   const [lang, setLang] = useAtom(languageAtom);
   const { addToast } = useToast();
+  const { t } = useLanguage();
 
   const handleChange = (newLang: Language) => {
     setLang(newLang);
-    addToast('Language updated', 'success', 2000);
+    addToast(t('settings:languageUpdated'), 'success', 2000);
   };
 
   return (
