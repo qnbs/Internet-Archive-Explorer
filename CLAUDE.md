@@ -1,67 +1,62 @@
-# Internet Archive Explorer — Hinweise für KI-Assistenten & Cursor
+# Internet Archive Explorer — Notes for AI Assistants & Cursor
 
-Diese Datei liegt **im Repository-Root** (`CLAUDE.md`) und beschreibt den erwarteten Tooling-Stand. Bei Diskrepanzen zwischen Chat-Kontext und Dateisystem gilt der **aktuelle Checkout** als maßgeblich.
+This file lives in the **repository root** (`CLAUDE.md`) and describes the expected tooling state. If there is ever a conflict between chat context and the checked-out filesystem, the **current checkout** is authoritative.
 
 ---
 
-## Aktueller Entwicklungszustand (Juni 2026)
+## Current Development State (July 2026)
 
-| Thema | Stand |
-| ----- | ----- |
-| **Package Manager** | **pnpm@10.6.1** (Corepack; Feld `packageManager` in `package.json`) |
-| **Lockfile** | `pnpm-lock.yaml` — Installation mit `pnpm install --frozen-lockfile` |
-| **Linter / Formatter** | **ausschließlich Biome** (`biome.json`) — **kein** ESLint, **kein** Prettier im Projekt |
-| **Cursor Pro+ / VS Code** | Extension-Empfehlungen in **`.vscode/extensions.json`**: `biomejs.biome`; ESLint/Prettier als `unwantedRecommendations`. Workspace-**`.vscode/settings.json`**: `eslint.enable: false`, `eslint.validate: []`, Biome als Default-Formatter, Format on Save/Paste/Type |
-| **Security** | `postinstall`: `pnpm audit --audit-level=moderate \|\| true` (warnt lokal); CI: `pnpm audit --audit-level=moderate` + dedizierter **pnpm store**-Cache (`actions/cache`); moderate+ schlägt fehl — siehe CHANGELOG |
-| **Graphify** | Wenn `graphify-out/` vorhanden: vor Architekturfragen `GRAPH_REPORT.md` / Wiki lesen; nach Codeänderungen **`graphify update .`** (AST, ohne API-Kosten), sofern das Projekt graphify nutzt |
-| **Runtime-Validation** | **`types/archiveSchemas.ts`** — Zod für Internet-Archive- und Gemini-JSON; Services parsen mit `.safeParse()` / Retry (Archive); Fehler-Keys unter `common:serviceErrors.*` |
-| **Accessibility (WCAG 2.2 AA)** | **`index.css`** — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async Bereiche mit `aria-busy` / `aria-live`; **E2E** `tests/e2e/a11y.spec.ts` inkl. `wcag22aa` (mehrere Hubs inkl. Uploader) |
-| **CI Extras** | **Lighthouse CI** (`lighthouserc.json`, `@lhci/cli` via `npx`) nach E2E — Accessibility **≥0.95**; **PWA-Manifest** **`public/manifest.json`** → `dist/manifest.json`; lokale Icons/Screenshots unter **`public/icons/`**, **`public/screenshots/`** (`pnpm run generate:pwa-assets`) |
-| **Cursor** | Projektregeln **`.cursor/rules/internet-archive-explorer.mdc`** (`alwaysApply`) ergänzen **CLAUDE.md** / **CONTRIBUTING.md** |
-| **Downloads** | Persistente Queue mit Deckel **`DOWNLOAD_QUEUE_MAX_ITEMS`** (`store/downloads.ts`, älteste `done`/`error`/`queued` wird verworfen) |
+| Topic | Status |
+|-------|--------|
+| **Package Manager** | **pnpm@10.6.1** (Corepack; `packageManager` field in `package.json`) |
+| **Lockfile** | `pnpm-lock.yaml` — install with `pnpm install --frozen-lockfile` |
+| **Linter / Formatter** | **Biome only** (`biome.json`) — no ESLint, no Prettier in this project |
+| **Cursor Pro+ / VS Code** | Extension recommendations in `.vscode/extensions.json`: `biomejs.biome`; ESLint/Prettier listed as `unwantedRecommendations`. Workspace `.vscode/settings.json`: `eslint.enable: false`, `eslint.validate: []`, Biome as default formatter, format on save/paste/type |
+| **Security** | `postinstall`: `pnpm audit --audit-level=moderate \|\| true` (warns locally); CI: `pnpm audit --audit-level=moderate` + dedicated pnpm store cache (`actions/cache`); moderate+ fails CI |
+| **Runtime Validation** | `types/archiveSchemas.ts` — Zod for Internet Archive and Gemini JSON; services parse with `.safeParse()` / retry (Archive); error keys under `common:serviceErrors.*` |
+| **Accessibility (WCAG 2.2 AA)** | `index.css` — `forced-colors`, `.touch-target-min`, `.ia-focus-visible-enhanced`; async regions with `aria-busy` / `aria-live`; E2E `tests/e2e/a11y.spec.ts` including `wcag22aa` across multiple hubs |
+| **CI Extras** | **Lighthouse CI** (`lighthouserc.json`, `@lhci/cli` via `npx`) after E2E — Accessibility ≥ 0.95; **PWA manifest** `public/manifest.json` → `dist/manifest.json`; local icons/screenshots under `public/icons/`, `public/screenshots/` (`pnpm run generate:pwa-assets`) |
+| **Cursor** | Project rules `.cursor/rules/internet-archive-explorer.mdc` (`alwaysApply`) complement **CLAUDE.md** / **CONTRIBUTING.md** |
+| **Downloads** | Persistent queue with cap `DOWNLOAD_QUEUE_MAX_ITEMS` (`store/downloads.ts`); oldest `done`/`error`/`queued` entries are evicted |
+| **Fetching Resilience** | `utils/fetchWithRetry.ts` with exponential backoff + jitter; `utils/requestQueue.ts` caps archive.org concurrency; IA TanStack Query defaults use `retry: 0` because the service layer already retries |
 
-### Wichtige Befehle
+### Important Commands
 
 ```bash
-pnpm install --frozen-lockfile   # reproduzierbar
-pnpm run dev                     # Vite Dev Server
-pnpm run build                   # Produktionssbuild (sync:locales via prebuild)
+pnpm install --frozen-lockfile   # reproducible
+pnpm run dev                     # Vite dev server
+pnpm run build                   # production build (sync:locales via prebuild)
 pnpm run lint                    # biome check .
-pnpm run lint:ci                 # biome ci (wie CI)
+pnpm run lint:ci                 # biome ci (same as CI)
 pnpm run check                   # biome ci + tsc + vitest run
 pnpm run lint:fix                # biome check --write .
 pnpm run format                  # biome format --write .
 pnpm run format:check            # biome format .
 pnpm run test:unit               # Vitest (serial / single worker)
-pnpm run test:e2e                # Playwright — mit CI=true: vite preview → vorher `pnpm run build` + passendes VITE_BASE_PATH
-# Lighthouse (wie CI, nach Build): npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
+pnpm run test:e2e                # Playwright — with CI=true: vite preview → run `pnpm run build` + matching VITE_BASE_PATH first
 pnpm audit --audit-level=moderate
-pnpm run audit        # gleicher Audit-Level wie CI
+pnpm run audit        # same audit level as CI
 pnpm run audit:fix    # pnpm audit fix --audit-level=moderate
 ```
 
-Ausführliche Editor-Anleitung (globale ESLint-Konfig vs. Workspace): **`CONTRIBUTING.md`** → Abschnitt *Cursor Pro+ Setup*. Cloud Agents: **`AGENTS.md`**.
+Detailed editor guide (global ESLint config vs. workspace): **CONTRIBUTING.md** → *Cursor Pro+ Setup*. Cloud agent guide: **AGENTS.md**.
+
+### Short Reference for Agents
+
+1. **pnpm only** — no npm/yarn commands in scripts or docs.
+2. **Biome only** — lint/format via Biome CLI; **`noExplicitAny`** and **`useExhaustiveDependencies`** are **errors**; `pnpm run lint:ci` must produce no warnings.
+3. **PR bots** — address CodeAnt/Socket/review comments in the same PR.
+4. **Workspace overrides global** — `.vscode/settings.json` intentionally silences ESLint for this repo.
+5. **`graphify-out/`** is generated — excluded from lint in `biome.json`; do not manually maintain.
+6. **Deployment** — GitHub Pages primary; Vercel optional — see **docs/DEPLOYMENT.md**.
+
+### Parent / Host CLAUDE.md
+
+If a **parent** `CLAUDE.md` exists elsewhere on the machine (for example `/home/pc/CLAUDE.md`), it may contain workspace-crossing rules (e.g. global graphify settings). This **repo-level `CLAUDE.md`** takes precedence for this project's version and tooling details.
 
 ---
 
-## Kurzfassung für Agents
-
-1. **pnpm only** — keine npm-/yarn-Befehle in Skripten oder Doku.
-2. **Biome only** — Lint/Format über Biome-CLI; **`noExplicitAny`** und **`useExhaustiveDependencies`** sind **errors**; `pnpm run lint:ci` darf keine Warnungen ausgeben.
-3. **PR-Bots** — CodeAnt/Socket/Review-Kommentare in derselben PR abarbeiten.
-4. **Workspace überschreibt global** — `.vscode/settings.json` bewusst ESLint stumm für dieses Repo.
-5. **`graphify-out/`** ist generiert — in `biome.json` vom Lint ausgeschlossen; nicht manuell „pflegen“.
-6. **Deployment** — GitHub Pages primär; Vercel optional — siehe **`docs/DEPLOYMENT.md`**.
-
----
-
-## Parent / Host `CLAUDE.md`
-
-Wenn auf der Maschine zusätzlich eine **übergeordnete** `CLAUDE.md` (z. B. unter `/home/pc/CLAUDE.md`) existiert, können dort **workspace-übergreifende** Regeln stehen (z. B. graphify global). Diese **Repo-`CLAUDE.md`** hat für **dieses Projekt** Vorrang bei Versions- und Tooling-Details.
-
----
-
-## Architecture (English reference)
+## Architecture
 
 ### Routing and Views
 
@@ -69,7 +64,7 @@ Wenn auf der Maschine zusätzlich eine **übergeordnete** `CLAUDE.md` (z. B. unt
 
 ### State Management
 
-Four distinct layers — don't mix them:
+Four distinct layers — do not mix them:
 
 | Layer | Tool | Use for |
 |-------|------|---------|
@@ -85,9 +80,16 @@ Key rules:
 - **Derived state**: use `selectAtom` or read-only derived atoms (not effects) to avoid unnecessary re-renders.
 - **Token storage**: OAuth tokens → `sessionStorage` (not persisted across tabs); user preferences → `localStorage` via `safeAtomWithStorage`.
 
+### Data Fetching Resilience
+
+- `services/archiveService.ts` is the single place for Internet Archive API calls.
+- `utils/fetchWithRetry.ts` provides per-request retries with exponential backoff + jitter and `Retry-After` awareness for 429s.
+- `utils/requestQueue.ts` caps concurrent archive.org requests to reduce rate-limit pressure.
+- TanStack Query IA defaults set `retry: 0` so the service layer remains the source of retry truth and request multiplication is avoided.
+
 ### i18n System
 
-Namespace-based runtime loading. Translations live in `locales/{en,de}/{namespace}.json`. The `prebuild` hook via `scripts/sync-locales.mjs` copies them to `public/locales/` and validates that DE has all keys from EN (fills missing with placeholder).
+Namespace-based runtime loading. Translations live in `locales/{en,de}/{namespace}.json`. The `prebuild` hook via `scripts/sync-locales.mjs` copies them to `public/locales/` and validates that DE has all keys from EN (fills missing keys with placeholders).
 
 - Access via `useLanguage()` hook → `t('namespace:key.subkey')`
 - Register new namespaces in the `NAMESPACES` array in `store/i18n.ts`
@@ -95,13 +97,13 @@ Namespace-based runtime loading. Translations live in `locales/{en,de}/{namespac
 
 ### Services
 
-`services/archiveService.ts` — **all** Internet Archive API calls (retry + exponential backoff). Always consume via TanStack Query hooks in `hooks/`, never call directly from components.
+`services/archiveService.ts` — **all** Internet Archive API calls (retry, exponential backoff, concurrency cap, validation). Always consume via TanStack Query hooks in `hooks/`, never call directly from components.
 
 `services/geminiService.ts` — Gemini AI with request throttling. OAuth is PKCE-based via `geminiAuthStorage.ts`; no client secret in frontend.
 
 ### PWA / Service Worker
 
-`public/sw.js` multi-strategy caching (network-first navigation, SWR for API/static where configured). **IA JSON/API** uses a **longer network timeout** than images (see `API_NETWORK_TIMEOUT_MS` in `sw.js`) so slow `advancedsearch`/`metadata` responses are not cut off at 15s. Keep `archiveService` `REQUEST_TIMEOUT_MS` slightly above that value. Bump `CACHE_VERSION` when cache behavior changes. `public/sw-register.js` is loaded from `index.html` with base path.
+`public/sw.js` multi-strategy caching (network-first navigation, SWR for API/static where configured). **IA JSON/API** uses a longer network timeout than images so slow `advancedsearch`/`metadata` responses are not cut off at 15s. Keep `archiveService` `REQUEST_TIMEOUT_MS` slightly above that value. Bump `CACHE_VERSION` when cache behavior changes. `public/sw-register.js` is loaded from `index.html` with the base path.
 
 ### Vite Config and Base Path
 
@@ -117,21 +119,21 @@ Every new feature requires all of:
 4. `hooks/useNewFeature.ts`
 5. `locales/en/newFeature.json` + `locales/de/newFeature.json` (both required)
 6. Register namespace in `store/i18n.ts` → `NAMESPACES`
-7. Nav entry in `components/SideMenu.tsx` / `components/BottomNav.tsx`
+7. Navigation in `components/SideMenu.tsx` / `components/BottomNav.tsx`
 8. View case in `App.tsx`
 9. Test stub in `tests/e2e/`
 
 Every view must have: proper loading skeletons, error states with user-facing toast feedback, and reduced-motion variants for animations.
 
-**Never break existing hubs**: Videothek, Audiothek, Rec Room, Images Hub, Scriptorium, Library, Web Archive, AI Archive, Storyteller.
+**Never break existing hubs:** Videothek, Audiothek, Rec Room, Images Hub, Scriptorium, Library, Web Archive, AI Archive, Storyteller.
 
 ### TypeScript
 
-Interfaces and types live in `types.ts`. **`noExplicitAny`** is enforced by Biome. Path aliases are resolved by Vite.
+Interfaces and types live in `types.ts`. **`noExplicitAny`** is enforced by Biome. Path aliases are resolved by Vite. If you add more than ~20 lines to `types.ts`, consider splitting by domain.
 
 ## Key Conventions
 
-- **Icons**: `lucide-react` for all UI icons; custom SVGs in `components/Icons.tsx`
+- **Icons**: `lucide-react` for all UI icons; custom SVGs only in `components/Icons.tsx`
 - **XSS**: all HTML content → `DOMPurify` via `utils/sanitizer.ts`
 - **Animations**: Framer Motion 12; always pair with `motion-reduce:` Tailwind variant
 - **Tailwind**: use `ia-*` color tokens from `tailwind.config.js`, not raw hex/RGB values
@@ -181,6 +183,4 @@ Before fixing, identify which command exposes the bug: `pnpm exec tsc --noEmit`,
 
 ---
 
-## Unreleased (highlights)
-
-- 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
+*Last updated: July 2026 — always treat the current checkout of this file, `CONTRIBUTING.md`, and `docs/DEPLOYMENT.md` as authoritative.*

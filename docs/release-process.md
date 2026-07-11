@@ -4,7 +4,7 @@ Internet Archive Explorer is deployed automatically to GitHub Pages on every pus
 
 ## Steps
 
-1. **Ensure `main` is green** — all CI checks pass
+1. **Ensure `main` is green** — all CI checks pass.
 
 2. **Update CHANGELOG.md**
    ```bash
@@ -43,7 +43,27 @@ Follow [Semantic Versioning](https://semver.org/):
 ## Hotfixes
 
 For critical bugs discovered after a release:
+
 1. Branch off the affected tag: `git checkout -b hotfix/vX.Y.Z+1 vX.Y.Z`
-2. Apply minimal fix, commit, push branch
-3. Open PR → merge to `main` after CI passes
+2. Apply a minimal fix, commit, and push the branch
+3. Open a PR → merge to `main` after CI passes
 4. Tag the new patch version from `main`
+
+## Pre-release Checks
+
+Before tagging, confirm locally or in CI:
+
+```bash
+pnpm run lint:ci
+pnpm run check:i18n
+pnpm exec tsc --noEmit
+pnpm run test:unit:coverage
+ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build
+pnpm run check:bundle-size
+```
+
+## Related
+
+- `CHANGELOG.md` — release notes source
+- `.github/release.yml` — release note categories
+- `docs/DEPLOYMENT.md` — GitHub Pages and Vercel deployment details

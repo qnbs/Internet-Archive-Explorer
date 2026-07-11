@@ -9,108 +9,115 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Toast bridge:** `resolveToastMessage()`; `toastAtom` supports `i18nKey` for store-layer toasts
-- **i18n:** `common:skipToMain`; Scriptorium/Audiothek toast keys; `settings:languageUpdated`
-- **Tests:** `tests/unit/resolveToastMessage.test.ts`
-- **Phase 3b navigation:** `settingsFocusSectionAtom` — one-shot Settings focus (e.g. GeminiKeyPrompt → AI section)
-- **Tests:** `tests/unit/settingsNavigation.test.ts`
-- **Phase 3 resilience:** `HubErrorBoundary` for inline hub recovery; i18n `ErrorBoundaryFallback`; `GeminiKeyPrompt` CTA across AI surfaces
-- **Utils:** `formatGeminiError()` for consistent Gemini error messages in UI
-- **BYOK (Gemini):** `services/geminiApiKeyStorage.ts`, Jotai `geminiApiKeyAtom`, accessible Settings UI with i18n (EN/DE), legacy localStorage migration
-- **Tests:** `tests/unit/geminiApiKeyStorage.test.ts`
-- **CI artifacts:** Coverage HTML, Playwright report, Lighthouse, bundle report uploads; `concurrency` cancel-in-progress
+- **Fetching resilience:** `utils/fetchWithRetry.ts` now uses exponential backoff with jitter, higher default backoff (1s), and a 60s cap for `Retry-After` handling.
+- **Concurrency cap:** `utils/requestQueue.ts` limits in-flight archive.org requests; `hooks/useUploaderStats.ts` batches count queries.
+- **TanStack Query resilience:** IA query defaults now use `retry: 0` because the service layer already retries.
+- **Toast bridge:** `resolveToastMessage()`; `toastAtom` supports `i18nKey` for store-layer toasts.
+- **i18n:** `common:skipToMain`; Scriptorium/Audiothek toast keys; `settings:languageUpdated`.
+- **Tests:** `tests/unit/resolveToastMessage.test.ts`.
+- **Phase 3b navigation:** `settingsFocusSectionAtom` — one-shot Settings focus (e.g. GeminiKeyPrompt → AI section).
+- **Tests:** `tests/unit/settingsNavigation.test.ts`.
+- **Phase 3 resilience:** `HubErrorBoundary` for inline hub recovery; i18n `ErrorBoundaryFallback`; `GeminiKeyPrompt` CTA across AI surfaces.
+- **Utils:** `formatGeminiError()` for consistent Gemini error messages in UI.
+- **BYOK (Gemini):** `services/geminiApiKeyStorage.ts`, Jotai `geminiApiKeyAtom`, accessible Settings UI with i18n (EN/DE), legacy localStorage migration.
+- **Tests:** `tests/unit/geminiApiKeyStorage.test.ts`.
+- **CI artifacts:** Coverage HTML, Playwright report, Lighthouse, bundle report uploads; `concurrency` cancel-in-progress.
 
 ### Changed
 
-- **Toast:** Library/Explorer/Scriptorium components use `useToast()` directly; Jotai stores use i18n keys via `toastAtom`
-- **Skip-link:** Localized via `common:skipToMain` (EN/DE)
-- **App:** Per-view `HubErrorBoundary` (`key={activeView}`) — hub errors no longer block other views
-- **GeminiKeyPrompt:** Opens Settings with AI section pre-selected via focus atom
-- **Gemini service:** `generateContentHelper` preserves `GeminiServiceError`; maps rate limit, quota, network to i18n keys
-- **ErrorBoundary:** Retry without full reload; bilingual fallback copy (EN/DE)
-- **AI components:** AIToolsTab, AIInsightPanel, MagicOrganizeModal, AskAIModal show BYOK prompt when no key
-- **Gemini:** Production AI flows use runtime BYOK only; `VITE_API_KEY` relegated to optional dev fallback (`VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`)
-- **CI:** Unit tests run with coverage thresholds; Playwright HTML/JSON reporters; cloud-first policy documented in README/AGENTS/CONTRIBUTING
-- **Docs:** README, `.env.example`, DEPLOYMENT — BYOK-first security model
+- **Toast:** Library/Explorer/Scriptorium components use `useToast()` directly; Jotai stores use i18n keys via `toastAtom`.
+- **Skip-link:** Localized via `common:skipToMain` (EN/DE).
+- **App:** Per-view `HubErrorBoundary` (`key={activeView}`) — hub errors no longer block other views.
+- **GeminiKeyPrompt:** Opens Settings with AI section pre-selected via focus atom.
+- **Gemini service:** `generateContentHelper` preserves `GeminiServiceError`; maps rate limit, quota, network to i18n keys.
+- **ErrorBoundary:** Retry without full reload; bilingual fallback copy (EN/DE).
+- **AI components:** AIToolsTab, AIInsightPanel, MagicOrganizeModal, AskAIModal show BYOK prompt when no key.
+- **Gemini:** Production AI flows use runtime BYOK only; `VITE_API_KEY` relegated to optional dev fallback (`VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true`).
+- **CI:** Unit tests run with coverage thresholds; Playwright HTML/JSON reporters; cloud-first policy documented in README/AGENTS/CONTRIBUTING.
+- **Docs:** README, `.env.example`, DEPLOYMENT — BYOK-first security model.
 
 ### Fixed
 
-- **Vercel workflow (main):** Secrets-Gate über Step-Output statt `if: secrets.*` (Actions-Validierungsfehler)
-- **Pages Smoke:** Prüft PWA `./manifest.json` statt nicht existierendem Vite-`assets/manifest-*.json`
-- **PWA cache:** Service Worker `CACHE_VERSION` **v8** nach Deploy-Housekeeping
+- **Vercel workflow (main):** Secrets gate via step output instead of `if: secrets.*` (Actions validation error).
+- **Pages Smoke:** Checks PWA `./manifest.json` instead of the non-existent Vite `assets/manifest-*.json`.
+- **PWA cache:** Service Worker `CACHE_VERSION` **v8** after deploy housekeeping.
+
+## [1.1.0] - 2026-07-12
 
 ### Added
 
-- **AGENTS.md:** Konsolidierte Cursor-Cloud-Agent-Anleitung (Dev-Server, CI-Gate, esbuild, Smoke)
-- **Coverage:** `@vitest/coverage-v8`, `pnpm run test:unit:coverage`, thresholds in `vitest.config.ts`
-- **Tests:** `tests/unit/logger.test.ts`
+- **AGENTS.md:** Consolidated Cursor Cloud agent guide (dev server, CI gate, esbuild, smoke).
+- **Coverage:** `@vitest/coverage-v8`, `pnpm run test:unit:coverage`, thresholds in `vitest.config.ts`.
+- **Tests:** `tests/unit/logger.test.ts`.
 
 ### Changed
 
-- **Biome:** `useExhaustiveDependencies` upgraded from warn to **error** (tests still exempt)
-- **CI / Pages smoke:** Verify `dist/icons/*`, manifest PNG references; live smoke for manifest + icons
-- **PWA:** `sw-register.js` unregisters all SW on dev/preview hosts; disables on `*.vercel.app`
-- **Docs:** README/CONTRIBUTING deployment sections; agent quality gates in `.cursor/rules/`
+- **Biome:** `useExhaustiveDependencies` upgraded from warn to **error** (tests still exempt).
+- **CI / Pages smoke:** Verify `dist/icons/*`, manifest PNG references; live smoke for manifest + icons.
+- **PWA:** `sw-register.js` unregisters all SW on dev/preview hosts; disables on `*.vercel.app`.
+- **Docs:** README/CONTRIBUTING deployment sections; agent quality gates in `.cursor/rules/`.
 
 ### Fixed
 
-- **Security / CI audit:** `pnpm audit --audit-level=moderate` grün — Vitest **4.1+**, `pnpm.overrides` für gepatchtes `protobufjs` und `ws`
-- **Dependencies:** `jotai`, `@google/genai` und **`uuid`** in **production** `dependencies` (Runtime-PWA-Bundle korrekt klassifiziert)
-- **a11y / axe E2E (Juni 2026):** Kontrast Uploader Hub, For You, Web Archive, ContentCarousel; `prefers-reduced-motion` in axe-Tests; keine inline `opacity: 0` auf animierten Karten
-- **CI / axe E2E:** Kontrast u. a. auf Scriptorium-Hub, AI Archive (Leerzustand), My Archive (Connect), SideMenu-Navigation und Command Palette — verhindert **serious color-contrast** bei allen in `a11y.spec.ts` auditierten Hubs unter Production-`vite preview`
-- **Dependabot:** Konfiguration unter **`.github/dependabot.yml`** (frühere `.github/workflows/dependabot.yml` verursachte unnötige Workflow-Fehler ohne Jobs)
+- **Security / CI audit:** `pnpm audit --audit-level=moderate` green — Vitest **≥4.1**, `pnpm.overrides` for patched `protobufjs` **≥7.5.8** and `ws` **≥8.20.1**.
+- **Dependencies:** `jotai`, `@google/genai`, and **`uuid`** moved to **production** `dependencies` (runtime PWA bundle correctly classified).
+- **a11y / axe E2E (June 2026):** Contrast on Uploader Hub, For You, Web Archive, ContentCarousel; `prefers-reduced-motion` in axe tests; no inline `opacity: 0` on animated cards.
+- **CI / axe E2E:** Contrast fixes on Scriptorium Hub, AI Archive (empty state), My Archive (Connect), SideMenu navigation, and Command Palette rows — prevents **serious color-contrast** issues on all hubs audited in `a11y.spec.ts` under production `vite preview`.
+- **Dependabot:** Configuration moved to **`.github/dependabot.yml`** (previously `.github/workflows/dependabot.yml`, which caused unnecessary workflow failures).
+
+## [1.0.2] - 2026-06-15
 
 ### Added
 
-- **PWA assets:** Lokale PNG-Icons und Screenshots unter `public/icons/` und `public/screenshots/`; Generator `scripts/generate-pwa-assets.mjs` (`pnpm run generate:pwa-assets`)
-- **Tests:** `tests/unit/archiveSchemas.test.ts` — Zod-Schema-Regressionen für Archive-, Wayback- und Gemini-Payloads
-- **SEO:** JSON-LD `featureList` / `hasPart`; Open Graph mit lokalem `icon-512.png`
+- **PWA assets:** Local PNG icons and screenshots under `public/icons/` and `public/screenshots/`; generator `scripts/generate-pwa-assets.mjs` (`pnpm run generate:pwa-assets`).
+- **Tests:** `tests/unit/archiveSchemas.test.ts` — Zod schema regression tests for Archive, Wayback, and Gemini payloads.
+- **SEO:** JSON-LD `featureList` / `hasPart`; Open Graph with local `icon-512.png`.
 
 ### Changed
 
-- **Lighthouse CI:** Accessibility-Mindestscore **0.95** (`lighthouserc.json`)
-- **Manifest:** Primär lokale PNG-Icons/Screenshots statt Remote-URLs
+- **Lighthouse CI:** Accessibility minimum score **0.95** (`lighthouserc.json`).
+- **Manifest:** Primary local PNG icons/screenshots instead of remote URLs.
+- **Uploader Hub:** Fixed **nested-interactive** (profile card: no `article role="button"` with child buttons) and **contrast** (sidebar headings/chips readable in light/dark).
+- **Live demo / IA fetches:** Service Worker (`public/sw.js`) previously used only **15s** network timeout for JSON/API — slower than typical `advancedsearch`/`metadata` responses → artificial aborts and 503 offline JSON. Now **API timeout 30s**, cache `v7`; `archiveService` **32s** client timeout; `fetchWithRetry` with **408** retry and **`Retry-After`** on **429**; TanStack **no retry** for `ArchiveServiceError` with `retryable: false` (validation / 4xx).
+- **Download trim:** Loop condition changed to `length > cap` instead of `>=` (no over-trimming when queue is full).
+- **Help Center:** Placeholder text "Thema wählen" now uses **`text-gray-600 dark:text-gray-300`** instead of `text-gray-400` — **WCAG 2.2 contrast** (axe `color-contrast` with `CI=true` / `vite preview`).
+- **Deep-link `?view=`:** Under React Strict Mode, the query parameter was not preserved: after `replaceState` (query removed), the second effect run reset the view to the stored default. Now **`activeViewAtom`** uses **`getInitialActiveView()`** (URL before `localStorage`), and the URL effect in **`App.tsx`** only cleans the address bar. Smoke test "Uploader Hub shows contributors" is stable.
 
-- **Uploader Hub:** **nested-interactive** (Profilkarte: keine `article role="button"` mit Kind-Buttons) und **Kontrast** (Sidebar-Überschriften/Chips hell/dunkel lesbar)
-- **Live-Demo / IA-Fetches:** Service Worker (`public/sw.js`) nutzte für JSON/API nur **15 s** Netzwerk-Timeout — langsamer als typische `advancedsearch`/`metadata`-Antworten → künstliche Abbrüche und 503-Offline-JSON; **API-Timeout 30 s**, Cache `v7`; `archiveService` **32 s** Client-Timeout; `fetchWithRetry` mit **408**-Retry und **`Retry-After`** bei **429**; TanStack **kein Retry** bei `ArchiveServiceError` mit `retryable: false` (Validierung/4xx)
-- **Download-Trim:** Schleifenbedingung `length > cap` statt `>=` (kein Über-Trimmen bei voller Queue)
-- Help Center: Platzhalter-Text „Thema wählen“ nutzt **`text-gray-600 dark:text-gray-300`** statt `text-gray-400` — **WCAG-2.2-Kontrast** (axe `color-contrast` bei `CI=true` / `vite preview`)
-- Deep-Link `?view=` blieb unter **React Strict Mode** nicht erhalten: Nach `replaceState` (Query entfernt) setzte der zweite Effect-Lauf die Ansicht wieder auf die gespeicherte Standard-View — **`activeViewAtom`** nutzt jetzt **`getInitialActiveView()`** (URL vor `localStorage`), der URL-Effekt in **`App.tsx`** räumt nur noch die Adresszeile auf; Smoke-Test „Uploader-Hub zeigt Beitragende“ stabil
+## [1.0.1] - 2026-05-24
 
 ### Changed
 
-- 📄 **README**: GitHub Pages **Source = GitHub Actions** dokumentiert; lokales CI-Gate; `.github/workflows/pages-smoke.yml` mit Diagnose, wenn Live-HTML `./index.tsx` enthält
-- 📚 **AUDIT.md**, **README.md**, **CONTRIBUTING.md**: Stack (Vite 8, TypeScript 6), CI-Parität (`ANALYZE=true` vor Bundle-Check und E2E), Backlog vs. erledigt (SW-LRU, Deep-Link, CONTRIBUTING)
-- ♿ E2E `a11y.spec.ts`: zusätzlich **Storyteller** + **Help** (nach Landmark-Fix); verschachteltes `<main>` in `HelpContent` → `section role="region"` + i18n `help:contentRegion`
-- 🧪 Unit-Tests konsolidiert unter `tests/unit/` (Vitest nur noch dieses Verzeichnis); `tsconfig` schließt `vitest.config.ts` vom `tsc`-Check aus (Vite-8-/Vitest-Plugin-Typkonflikt)
-- 🧹 Biome: Konfiguration erweitert (Ignores für Artefakte, Test-Override, `lint:ci`/`check`-Scripts), Hook-Warnungen bereinigt, CI nutzt `biome ci`
-- 🛠️ Fixed Cursor Pro+ index issue: CLAUDE.md wieder sichtbar + auf aktuellem pnpm/Cursor-Stand gebracht
-- 🧩 Cursor Pro+ Integration: .vscode/settings.json optimiert, ESLint-Konflikte eliminiert, Biome als perfekter Drop-in-Ersatz für bisherige ESLint-Experience
-- 🔒 Security-Hardening: pnpm audit fix + CI fails on moderate+ vulnerabilities + optimierter pnpm cache in GitHub Actions
-- 🔄 Migriert von npm zu pnpm (schnellere Installs, bessere CI, weniger Disk Usage)
-- Optimized Vite build with vendor/ui/query chunk splitting for better caching
-- Removed unused `loadEnv` call in vite.config.js
-- Fixed empty root locale files (`de.json`, `en.json`) to contain valid JSON
-- DevContainer: reduced Docker image by ~200MB (removed WebKit/Firefox/GStreamer deps)
-- DevContainer: `postCreate.sh` uses `pnpm install --frozen-lockfile` for reproducibility
-- DevContainer: only installs Playwright Chromium (the only browser used in tests)
-- Playwright config: added explicit `projects` block with chromium device
+- **README:** Documented GitHub Pages **Source = GitHub Actions**; local CI gate; `.github/workflows/pages-smoke.yml` with diagnostics when live HTML contains `./index.tsx`.
+- **AUDIT.md, README.md, CONTRIBUTING.md:** Updated stack (Vite 8, TypeScript 6), CI parity (`ANALYZE=true` before bundle check and E2E), backlog vs. completed (SW LRU, Deep-Link, CONTRIBUTING).
+- **E2E `a11y.spec.ts`:** Added **Storyteller** + **Help** (after landmark fix); nested `<main>` in `HelpContent` → `section role="region"` + i18n `help:contentRegion`.
+- **Unit tests:** Consolidated under `tests/unit/` (Vitest only this directory); `tsconfig` excludes `vitest.config.ts` from `tsc` check (Vite 8 / Vitest plugin type conflict).
+- **Biome:** Extended configuration (artifact ignores, test override, `lint:ci`/`check` scripts), cleaned up hook warnings, CI uses `biome ci`.
+- **Cursor Pro+ index issue:** CLAUDE.md visible again + updated to current pnpm/Cursor state.
+- **Cursor Pro+ integration:** `.vscode/settings.json` optimized, ESLint conflicts eliminated, Biome as a drop-in replacement for the previous ESLint experience.
+- **Security hardening:** `pnpm audit fix` + CI fails on moderate+ vulnerabilities + optimized pnpm cache in GitHub Actions.
+- **Package manager:** Migrated from npm to pnpm (faster installs, better CI, less disk usage).
+- **Build:** Optimized Vite build with vendor/ui/query chunk splitting for better caching.
+- **Cleanup:** Removed unused `loadEnv` call in `vite.config.js`.
+- **Locales:** Fixed empty root locale files (`de.json`, `en.json`) to contain valid JSON.
+- **DevContainer:** Reduced Docker image by ~200MB (removed WebKit/Firefox/GStreamer deps).
+- **DevContainer:** `postCreate.sh` uses `pnpm install --frozen-lockfile` for reproducibility.
+- **DevContainer:** Only installs Playwright Chromium (the only browser used in tests).
+- **Playwright config:** Added explicit `projects` block with chromium device.
 
 ### Added
 
-- **Download-Queue-Limit** (`DOWNLOAD_QUEUE_MAX_ITEMS`, Standard 120) mit Trim vor neuen Einträgen; Unit-Tests `tests/unit/downloads.test.ts`
-- **PWA:** `public/manifest.json` mit zusätzlichen **`screenshots`** (Wide); Build prüft `dist/manifest.json` in CI
-- **Lighthouse CI:** `lighthouserc.json` + Schritt in `.github/workflows/ci.yml` (`@lhci/cli` nach E2E)
-- ♿ **E2E `a11y.spec.ts`:** weitere Hub-Routen (Uploader, For You, Scriptorium, Web Archive, AI Archive, My Archive)
-- **Cursor:** `.cursor/rules/internet-archive-explorer.mdc` (`alwaysApply`) für Repo-weite Agent-Hinweise
-- 🙈 `.gitignore`: `graphify-out/cache/` (nur CLI-Cache; keine großen JSON-Blobs committen)
-- 🧪 Vitest-Suite in `tests/unit/`: `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeJotaiSyncStorage`, `archiveService` (Fetch-Mock, Zod-Retries, Metadata-Cache), `useLanguage` (Jotai-Store + Übersetzungs-Mock)
-- 📱 PWA perfektioniert (Cache-Limits, Offline-First, verbesserter Update-Flow)
-- ♿ E2E `a11y.spec.ts`: `prefers-reduced-motion` + stabilere Kontrast-Fixes (Uploader Hub, For You, Web Archive, ContentCarousel)
-- 🛡️ Zod-Schemas hinzugefügt für archiveService + geminiService (Runtime-Validation, Type-Safety, Error-Handling)
-- Comprehensive project audit documentation (`AUDIT.md`)
-- This changelog file
-- Expanded Copilot instructions with architecture docs, patterns, and guidelines
+- **Download queue limit** (`DOWNLOAD_QUEUE_MAX_ITEMS`, default 120) with trim before new entries; unit tests `tests/unit/downloads.test.ts`.
+- **PWA:** `public/manifest.json` with additional **`screenshots`** (wide); build checks `dist/manifest.json` in CI.
+- **Lighthouse CI:** `lighthouserc.json` + step in `.github/workflows/ci.yml` (`@lhci/cli` after E2E).
+- **Cursor:** `.cursor/rules/internet-archive-explorer.mdc` (`alwaysApply`) for repo-wide agent hints.
+- **Gitignore:** `graphify-out/cache/` (only CLI cache; no large JSON blobs committed).
+- **Vitest suite in `tests/unit/`:** `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `useDebounce`, `safeJotaiSyncStorage`, `archiveService` (fetch mock, Zod retries, metadata cache), `useLanguage` (Jotai store + translation mock).
+- **PWA perfected:** Cache limits, offline-first behavior, improved update flow.
+- **WCAG 2.2 AA compliance:** Focus-visible, target size 24×24, aria-live/busy, forced colors.
+- **Zod schemas:** Added for archiveService + geminiService (runtime validation, type safety, error handling).
+- **Comprehensive project audit documentation (`AUDIT.md`).**
+- **This changelog file.**
+- **Expanded Copilot instructions** with architecture docs, patterns, and guidelines.
 
 ## [1.0.0] - 2026-04-14
 
@@ -155,5 +162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Session-scoped token storage with expiration validation
 - No hardcoded secrets in source code
 
-[Unreleased]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.2...v1.1.0
+[1.0.2]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/qnbs/Internet-Archive-Explorer/releases/tag/v1.0.0

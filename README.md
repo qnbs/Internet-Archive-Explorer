@@ -1,89 +1,148 @@
 # Internet Archive Explorer
 
-[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Vite](https://img.shields.io/badge/Vite-8.x-blue?logo=vite)](https://vitejs.dev/) [![PWA](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue?logo=typescript)](https://www.typescript.org/) [![Jotai](https://img.shields.io/badge/Jotai-2.x-blue)](https://jotai.org/) [![Vite](https://img.shields.io/badge/Vite-8.x-blue?logo=vite)](https://vitejs.dev/) [![PWA](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
 
-Modern web app for discovering and exploring Internet Archive content with curated hubs, personal library workflows, and optional AI features.
+A modern, installable web app for discovering, exploring, and curating content from the [Internet Archive](https://archive.org). It combines global search, curated content hubs, a personal library, a research workspace, and optional AI-assisted discovery — all running as a client-side Progressive Web App (PWA) with English and German interfaces.
 
-Live app: https://qnbs.github.io/Internet-Archive-Explorer/
+**Live app:** https://qnbs.github.io/Internet-Archive-Explorer/
 
 ---
 
-## English
+## Table of Contents
 
-### 1) Overview
+- [Overview](#overview)
+- [Main Features](#main-features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Local Development](#local-development)
+- [Environment Variables](#environment-variables)
+- [Build and Deploy](#build-and-deploy)
+- [CI and Smoke Checks](#ci-and-smoke-checks)
+- [PWA and Service Worker](#pwa-and-service-worker)
+- [Accessibility](#accessibility)
+- [Troubleshooting](#troubleshooting)
+- [Security](#security)
+- [Roadmap and Known Limits](#roadmap-and-known-limits)
+- [License](#license)
 
-Internet Archive Explorer is a React + TypeScript single-page app using Vite and Jotai. It runs as a Progressive Web App (PWA), supports English and German, and is deployed to GitHub Pages under the base path `/Internet-Archive-Explorer/`.
+---
 
-### 2) Main Features
+## Overview
 
-- Global search with filters and detail modals
-- Content hubs: Videothek, Audiothek, Images Hub, Rec Room, Web Archive, Storyteller
-- Personal library: favorites, tags, collections, notes, bulk actions
-- Scriptorium workspace with document flows and AI helpers
-- AI Archive history for generated insights/summaries
-- Optional Gemini integration (**Bring Your Own Key** in Settings → AI Features; optional Google OAuth)
-- Installable PWA with update notification flow
+Internet Archive Explorer is a React + TypeScript single-page application built with Vite. State is managed with Jotai for client state and TanStack Query for server state. The app is deployed primarily to GitHub Pages under the base path `/Internet-Archive-Explorer/`, with an optional Vercel mirror served from root (`/`).
 
-### 3) Tech Stack
+It is intentionally **backend-free**: all content comes directly from public archive.org APIs. Optional Google Gemini features use a Bring Your Own Key (BYOK) model; keys are stored only in the browser and never embedded in the shipped bundle.
 
-- React 19
-- TypeScript 6
-- Vite 8
-- Jotai (state management)
-- Tailwind CSS
-- Biome — lint and format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; single tool instead of ESLint + Prettier)
-- Vitest + Testing Library (unit tests under `tests/unit/`)
-- Playwright (E2E: smoke + accessibility checks; CI uses `vite preview` + `ANALYZE` build)
-- Tooling: **pnpm** for packages; **Cursor Pro+** / VS Code with workspace `.vscode/settings.json` (see `CONTRIBUTING.md`)
+---
 
-### 4) Project Structure
+## Main Features
+
+- **Global search** with filters, sorting, and detail modals against archive.org
+- **Content hubs:** Videothek, Audiothek, Images Hub, Rec Room, Web Archive, Storyteller
+- **Personal library:** favorites, tags, collections, notes, drag-to-reorder, and bulk actions
+- **Scriptorium workspace:** document worksets with notes and optional AI helpers
+- **AI Archive:** history of AI-generated summaries, insights, and stories
+- **Optional Gemini integration:** BYOK in Settings → AI Features; optional Google OAuth
+- **Installable PWA** with offline shell, multi-cache service worker, and update notifications
+- **Bilingual UI:** English and German with namespace-based i18n
+
+---
+
+## Technology Stack
+
+| Area | Choice | Configuration |
+|------|--------|---------------|
+| Runtime | Node.js 22+ | Recommended with Corepack |
+| Package Manager | pnpm 10.6.1 | `packageManager` in `package.json` |
+| Framework | React 19.1.1 | JSX transform `react-jsx` |
+| Language | TypeScript 6.0.2 | `strict`, `noUnusedLocals`, `noUnusedParameters` |
+| Build Tool | Vite 8.1.2 | Base path via `VITE_BASE_PATH` |
+| State (client) | Jotai 2.14.0 | `store/` with `safeAtomWithStorage` |
+| State (server) | TanStack Query 5.90.21 | `useQuery` / `useInfiniteQuery` |
+| Styling | Tailwind CSS 3.4.19 | Custom `ia-*`, `accent-*`, `sepia-*` tokens |
+| Animation | Framer Motion 12.35.1 | With `motion-reduce:` variants |
+| Icons | lucide-react 1.8.0 | Custom SVGs in `components/Icons.tsx` |
+| Lint / Format | Biome 2.4.13 | `biome.json`; no ESLint or Prettier |
+| Unit Tests | Vitest 4.1.0 | `vitest.config.ts`, serial, coverage thresholds |
+| E2E Tests | Playwright 1.52.0 | `playwright.config.ts`, axe-core accessibility |
+| Validation | Zod 4.4.1 | `types/archiveSchemas.ts` |
+
+---
+
+## Project Structure
 
 ```text
 /
-├── App.tsx
-├── index.tsx
-├── index.html
-├── package.json
-├── vite.config.js
-├── components/
-├── hooks/
-├── pages/
-├── services/
-├── store/
-├── locales/
-├── public/
-│   ├── locales/
-│   ├── sw-register.js
-│   └── .nojekyll
-├── tests/
-│   ├── unit/
-│   └── e2e/
-└── scripts/
-    └── sync-locales.mjs
+├── App.tsx                 # Root: view switch, layout, PWA logic
+├── index.tsx               # React root, QueryClient setup
+├── index.html              # HTML template, CSP, SEO, PWA links
+├── types.ts                # Central TypeScript types
+├── types/archiveSchemas.ts # Zod schemas for Archive.org / Gemini JSON
+├── package.json            # Scripts and dependencies
+├── vite.config.js          # Vite, bundle analyzer, base path, manual chunks
+├── vitest.config.ts        # Unit test config (jsdom, serial, coverage)
+├── playwright.config.ts    # E2E config (Chromium, baseURL on port 4173)
+├── biome.json              # Linter / formatter rules
+├── tailwind.config.js      # Theme tokens
+├── postcss.config.js       # Tailwind + autoprefixer
+├── lighthouserc.json       # Lighthouse CI accessibility gate
+├── vercel.json             # SPA rewrites, cache headers (optional)
+│
+├── components/             # React components grouped by feature
+├── contexts/               # React contexts (Toast, HelpView, ItemDetail)
+├── hooks/                  # Reusable hooks
+├── pages/                  # 17 view components, lazy-loaded in App.tsx
+├── services/               # API and storage services
+├── store/                  # Jotai atoms (per feature)
+├── utils/                  # Helpers (fetch, sanitizer, logger, formatter)
+├── locales/                # i18n namespaces (en/, de/)
+├── public/                 # Static assets, PWA manifest, service worker
+├── scripts/                # Build / sync / check scripts
+├── tests/                  # Unit and E2E tests
+├── docs/                   # Deployment, branch protection, release process
+└── .github/workflows/      # CI, Pages deploy, Pages smoke, Vercel deploy
 ```
 
-### 5) Local Development
+---
 
-Requirements:
+## Local Development
 
-- Node.js 20+ with Corepack (pnpm enabled) (recommended)
+### Requirements
 
-Install and run:
+- Node.js 22+ with Corepack enabled (`corepack enable`)
+- pnpm 10.6.1 (Corepack will use the version pinned in `package.json`)
+
+### Install and run
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run dev
 ```
 
-Default local URL:
+Default local URL: http://localhost:5173
 
-- http://localhost:5173
+For GitHub Pages parity locally:
 
-**Editor:** For format-on-save and fast checks without global ESLint clashes, open the repo in **Cursor Pro+** or VS Code, install the **Biome** extension, and rely on the committed `.vscode` settings (ESLint is turned off in this workspace). See `CONTRIBUTING.md` → *Cursor Pro+ Setup*.
+```bash
+pnpm run dev --host 127.0.0.1 --port 5173
+# http://127.0.0.1:5173/Internet-Archive-Explorer/
+```
 
-### 6) Environment Variables
+For root-path hosting parity (Vercel-like):
 
-Create `.env.local` only if you need optional OAuth or dev flags (do not commit):
+```bash
+VITE_BASE_PATH=/ pnpm run dev --host 127.0.0.1 --port 5173
+```
+
+### Editor setup
+
+Open the repo in Cursor Pro+ or VS Code and install the **Biome** extension (`biomejs.biome`). The committed `.vscode/settings.json` disables ESLint for this workspace and sets Biome as the default formatter. See `CONTRIBUTING.md` for details.
+
+---
+
+## Environment Variables
+
+Create `.env.local` only for optional OAuth or dev flags. Do not commit it.
 
 ```env
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
@@ -92,21 +151,24 @@ VITE_RECROOM_OPEN_ON_ARCHIVE=false
 
 Template: `.env.example`
 
-**Gemini AI (recommended):** Add your personal API key in the app under **Settings → AI Features → Gemini API Key**. The key is stored only in your browser (`sessionStorage`) and is never bundled into the build.
+**Gemini AI (recommended):** Add your personal API key inside the app under **Settings → AI Features → Gemini API Key**. The key is stored only in browser `sessionStorage` and is never bundled into the build.
 
-Variable notes:
+| Variable | Purpose |
+|----------|---------|
+| `VITE_GOOGLE_CLIENT_ID` | Optional OAuth client id for Google sign-in |
+| `VITE_RECROOM_OPEN_ON_ARCHIVE=true` | Always open game pages on `archive.org/details/...` instead of the emulator modal |
+| `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY` | **Dev-only** fallback for local demos — never use in production builds |
+| `VITE_DEBUG_LOGS=true` | Verbose client logging in production builds (default: off) |
 
-- `VITE_GOOGLE_CLIENT_ID`: optional OAuth client id (Google sign-in for Gemini)
-- `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: always open game pages directly on `archive.org/details/...` instead of emulator modal
-- `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY`: **dev-only** fallback for local demos — not used in production builds
+---
 
-### 7) Build and Deploy (GitHub Pages + Vercel)
+## Build and Deploy
 
-**Primary (GitHub Pages):** Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE_PATH=/<repo>/` and publishes the **`dist/`** artifact to GitHub Pages.
+### GitHub Pages (primary)
 
-**Optional (Vercel):** Root-path mirror / PR previews via `vercel.json` and `.github/workflows/vercel-deploy.yml` (requires Vercel secrets). Set `VITE_BASE_PATH=/` on Vercel. Full guide: **`docs/DEPLOYMENT.md`**.
+Pushing to `main` triggers `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE_PATH=/<repo>/` and publishes `dist/` to GitHub Pages.
 
-**Repository setting (required once for Pages):** In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch” / `/(root)`). If the source is a branch, the live site can incorrectly serve the raw `index.html` with `./index.tsx` (no bundled JS), and **Pages Smoke Checks** will fail.
+**Required repository setting:** In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”). If Source is a branch, the live site may serve raw `index.html` with `./index.tsx` (no bundled JS), and Pages Smoke Checks will fail.
 
 Local production build:
 
@@ -114,44 +176,40 @@ Local production build:
 pnpm run build
 ```
 
-Optional legacy deploy to `gh-pages` branch (manual):
+Legacy manual deploy to `gh-pages` branch:
 
 ```bash
-pnpm run deploy
+pnpm run deploy   # prefer GitHub Actions
 ```
 
-Deployment notes:
+### Vercel (optional)
 
-- Vite base path is `/Internet-Archive-Explorer/`
-- `.nojekyll` is delivered from `public/.nojekyll`
-- Locales are synced during build via `pnpm run sync:locales`
+A root-path mirror / PR previews are available via `vercel.json` and `.github/workflows/vercel-deploy.yml` (requires `VERCEL_*` secrets; skipped otherwise). Set `VITE_BASE_PATH=/` on Vercel.
 
-### 8) CI and Smoke Checks
+Full guide: `docs/DEPLOYMENT.md`
 
-**Cloud-first policy:** Full unit test coverage, complete E2E suite, Lighthouse audits, and bundle analysis with reports run in **GitHub Actions** (`ubuntu-latest`). This keeps local VS Code / low-end dev machines fast.
+---
+
+## CI and Smoke Checks
+
+**Cloud-first policy:** Full unit test coverage, the complete E2E suite, Lighthouse audits, and bundle analysis run in GitHub Actions (`ubuntu-latest`). This keeps local development fast on low-end machines.
 
 **Recommended local workflow:**
 
-- Daily: `pnpm run check` (lint + types + unit tests) + `pnpm run dev`
+- Daily: `pnpm run check` (lint + types + unit tests) and `pnpm run dev`
 - Before PR: `pnpm run lint:ci && pnpm exec tsc --noEmit && pnpm run test:unit`
-- Full heavy validation: push to a branch and let CI run (or use `act` on capable hardware)
+- Full heavy validation: push to a branch and let CI run
 
 Configured workflows:
 
-- `.github/workflows/ci.yml`
-  - Biome, TypeScript, **Vitest with coverage** (thresholds in `vitest.config.ts`), production build with bundle analysis
-  - bundle size budgets (`pnpm run check:bundle-size`)
-  - Playwright E2E tests (incl. axe on multiple hubs when `CI=true`); HTML report uploaded as artifact
-  - **`dist/manifest.json`** presence check; **Lighthouse CI** (`lighthouserc.json`, accessibility threshold)
-- **Dependabot:** `.github/dependabot.yml` (not under `workflows/`)
-- `.github/workflows/deploy-pages.yml`
-  - deploys GitHub Pages (on `main` and manual dispatch)
-- `.github/workflows/vercel-deploy.yml`
-  - optional Vercel deploy when `VERCEL_*` secrets are configured (skipped otherwise)
-- `.github/workflows/pages-smoke.yml`
-  - validates deployed Pages endpoint behavior (manifest, icons, SW, locales)
+| Workflow | Trigger | What it does |
+|----------|---------|--------------|
+| `ci.yml` | push/PR to `main` | Biome, TypeScript, Vitest with coverage, production build with bundle analysis, Playwright E2E, Lighthouse CI |
+| `deploy-pages.yml` | push to `main` | Build and publish to GitHub Pages |
+| `pages-smoke.yml` | after deploy | Live URL smoke checks (manifest, icons, SW, locales) |
+| `vercel-deploy.yml` | push to `main` | Optional Vercel deploy (skipped if secrets missing) |
 
-Run checks locally (closest to CI):
+Run checks locally closest to CI:
 
 ```bash
 pnpm install --frozen-lockfile
@@ -161,290 +219,90 @@ ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm r
 CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
 ```
 
-Use your repo name in `VITE_BASE_PATH` / `PLAYWRIGHT_BASE_PATH` if it differs. **`CI=true` E2E serves `dist/`** — the build step above is required.
+`CI=true` E2E serves `dist/` — the build step above is required first.
 
-### 9) PWA and Service Worker Behavior
+---
 
-- Service worker is registered for production/static hosting.
-- On development-like hosts (`localhost`, `127.0.0.1`, `0.0.0.0`, `*.app.github.dev`), service worker registration is disabled and stale registrations are cleaned up to avoid dynamic import issues.
-- Preview-host debug hint appears in UI if an older app service worker registration is detected.
+## PWA and Service Worker
 
-### 10) Accessibility
+- The service worker is registered for production / static hosting.
+- On development hosts (`localhost`, `127.0.0.1`, `*.app.github.dev`) registration is disabled and stale registrations are cleaned up to avoid dynamic-import issues.
+- The SW uses multiple caches with LRU eviction (see `public/sw.js`).
+- IA JSON/API requests use stale-while-revalidate with a 30-second network timeout.
+- Images use cache-first plus background refresh.
+- A preview-host debug hint appears in the UI if an older app service worker registration is detected.
 
-Target and status:
+---
 
-- Target: WCAG 2.2 AA
-- Current status: major core flows are continuously improved toward AA
+## Accessibility
 
-Implemented fundamentals include visible focus, keyboard operability, semantic labels, and reduced-motion support.
+**Target:** WCAG 2.2 AA
 
-### 11) Troubleshooting
+Implemented fundamentals include visible focus indicators, keyboard operability, semantic labels, skip links, `aria-live` / `aria-busy` regions, reduced-motion support, and a minimum 24×24 px touch target size. E2E accessibility scans run with `@axe-core/playwright` across 15+ views.
 
-#### Dynamic import fails (e.g. `Failed to fetch dynamically imported module`)
+---
 
-1. Open browser devtools
-2. Remove site data/cache for the app origin
+## Troubleshooting
+
+### Dynamic import fails (`Failed to fetch dynamically imported module`)
+
+1. Open browser DevTools
+2. Remove site data / cache for the app origin
 3. Unregister service workers for that origin
-4. Reload with hard refresh
+4. Hard-reload the page
 
 This is especially relevant on preview hosts after branch/app updates.
 
-#### Missing translations
+### Missing translations
 
 If you see i18n keys instead of text:
 
-- verify locales are present in `dist/locales/...`
-- verify `/Internet-Archive-Explorer/locales/...` endpoints respond with `200`
+- Verify locales are present in `dist/locales/...`
+- Verify `/Internet-Archive-Explorer/locales/...` endpoints respond with `200`
 
-#### Slow or failed Internet Archive loads (live site)
+### Slow or failed Internet Archive loads (live site)
 
-- The **service worker** may still be on an old cache line: hard-refresh, or **clear site data** and reload so `sw.js` updates (current API timeout for `archive.org` JSON is **30s**; older builds used **15s** and could surface false “offline” / failed fetches when Archive.org is slow).
-- **Rate limits** (429): the app retries with optional **`Retry-After`**; if errors persist, wait and retry or reduce parallel scrolling.
+- The service worker may still be on an old cache line: hard-refresh, or clear site data and reload so `sw.js` updates. The current API timeout for `archive.org` JSON is **30s**.
+- **Rate limits (429):** the app retries with optional `Retry-After`; if errors persist, wait and retry or reduce parallel scrolling.
 
-#### CI failures
+### CI failures
 
 Reproduce locally (light checks):
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm run check          # lint + types + unit tests
+pnpm run check        # lint + types + unit tests
 pnpm run build
 ```
 
-Full E2E + Lighthouse: push to CI or run `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` after build (resource-heavy).
-
-### 12) Security Notes
-
-- No OAuth client secret in frontend
-- OAuth uses Authorization Code + PKCE (tokens in `sessionStorage`; suitable for a public SPA only if you accept browser-exposed tokens — use restricted OAuth scopes and separate API projects where possible)
-- **Gemini BYOK:** API keys are entered in Settings and stored only in the browser (`sessionStorage`). They are **not** embedded in the shipped bundle. Treat keys as revocable and quota-limited; use Google AI Studio project restrictions.
-- Optional verbose client logging in prod: set `VITE_DEBUG_LOGS=true` (see `.env.example`); default logs only `logger.error` noise-free output for end users.
-- CSP is configured in `index.html` for static deployment constraints
-
-### 13) Roadmap / limits (honest scope)
-
-- **AI:** BYOK via `services/geminiApiKeyStorage.ts` + `geminiService.ts`; browser-only keys remain a trade-off vs. a backend proxy.
-- **Offline:** PWA + caches cover shell and configured assets; deep offline for every Archive route is not guaranteed.
-- **Sharing / community:** No dedicated social layer; sharing uses normal Web Share / URLs where implemented.
-- **Low-end devices:** Prefer reduced motion (already supported); Vitest runs serially by default to stay gentle on weak dev machines.
-
-### 14) License
-
-MIT
+Full E2E + Lighthouse: push to CI, or run `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` after a build.
 
 ---
 
-## Deutsch
+## Security
 
-### 1) Überblick
+- No OAuth client secret in the frontend
+- OAuth uses Authorization Code + PKCE; tokens live in `sessionStorage`
+- **Gemini BYOK:** API keys are entered in Settings and stored only in browser `sessionStorage`. They are **not** embedded in the shipped bundle. Treat keys as revocable and quota-limited; use Google AI Studio project restrictions.
+- Optional verbose client logging in production: set `VITE_DEBUG_LOGS=true` (see `.env.example`)
+- CSP is configured as a `<meta http-equiv="Content-Security-Policy">` tag in `index.html` for static hosting constraints
+- All HTML from external sources is sanitized with DOMPurify (`utils/sanitizer.ts`)
 
-Internet Archive Explorer ist eine React+TypeScript-Single-Page-App mit Vite und Jotai. Die Anwendung läuft als Progressive Web App (PWA), unterstützt Deutsch und Englisch und wird auf GitHub Pages unter dem Base-Pfad `/Internet-Archive-Explorer/` bereitgestellt.
+For security issues, see `.github/SECURITY.md`.
 
-### 2) Hauptfunktionen
+---
 
-- Globale Suche mit Filtern und Detail-Modals
-- Content-Hubs: Videothek, Audiothek, Images Hub, Rec Room, Web Archive, Storyteller
-- Persönliche Bibliothek: Favoriten, Tags, Sammlungen, Notizen, Bulk-Aktionen
-- Scriptorium-Workspace mit Dokument-Workflows und AI-Hilfen
-- AI-Archive-Verlauf für erzeugte Inhalte
-- Optionale Gemini-Integration (**Bring Your Own Key** unter Einstellungen → KI-Funktionen; optional Google OAuth)
-- Installierbare PWA mit Update-Hinweis
+## Roadmap and Known Limits
 
-### 3) Technologie-Stack
+- **AI:** BYOK via `services/geminiApiKeyStorage.ts` + `geminiService.ts`. Browser-only keys remain a trade-off vs. a backend proxy.
+- **Offline:** PWA + caches cover the shell and configured assets; deep offline for every Archive route is not guaranteed.
+- **Sharing / community:** No dedicated social layer; sharing uses Web Share / URLs where implemented.
+- **Low-end devices:** Reduced motion is supported; Vitest runs serially by default to stay gentle on weak dev machines.
 
-- React 19
-- TypeScript 6
-- Vite 8
-- Jotai (State Management)
-- Tailwind CSS
-- Biome — Lint und Format (CLI + [biomejs.biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) in Cursor/VS Code; ein Tool statt ESLint + Prettier)
-- Vitest + Testing Library (Unit-Tests unter `tests/unit/`)
-- Playwright (E2E: Smoke + Barrierefreiheit; CI mit `vite preview` und `ANALYZE`-Build)
-- Tooling: **pnpm**; **Cursor Pro+** / VS Code mit `.vscode/settings.json` (siehe `CONTRIBUTING.md`)
+See `docs/release-process.md` for versioning and release notes.
 
-### 4) Projektstruktur
+---
 
-```text
-/
-├── App.tsx
-├── index.tsx
-├── index.html
-├── package.json
-├── vite.config.js
-├── components/
-├── hooks/
-├── pages/
-├── services/
-├── store/
-├── locales/
-├── public/
-│   ├── locales/
-│   ├── sw-register.js
-│   └── .nojekyll
-├── tests/
-│   ├── unit/
-│   └── e2e/
-└── scripts/
-    └── sync-locales.mjs
-```
-
-### 5) Lokale Entwicklung
-
-Voraussetzungen:
-
-- Node.js 20+ mit Corepack (pnpm aktiviert) (empfohlen)
-
-Installation und Start:
-
-```bash
-pnpm install
-pnpm run dev
-```
-
-Standard-URL lokal:
-
-- http://localhost:5173
-
-**Editor:** Für Format beim Speichern und ohne Konflikte mit einer globalen ESLint-Konfiguration: Repo in **Cursor Pro+** oder VS Code öffnen, **Biome**-Extension installieren, die committeten `.vscode`-Einstellungen nutzen (ESLint ist im Workspace deaktiviert). Siehe `CONTRIBUTING.md` → *Cursor Pro+ Setup*.
-
-### 6) Umgebungsvariablen
-
-Datei `.env.local` nur bei optionalem OAuth oder Dev-Flags anlegen (nicht committen):
-
-```env
-VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-VITE_RECROOM_OPEN_ON_ARCHIVE=false
-```
-
-Vorlage: `.env.example`
-
-**Gemini-KI (empfohlen):** Persönlichen API-Schlüssel in der App unter **Einstellungen → KI-Funktionen → Gemini-API-Schlüssel** hinterlegen. Der Schlüssel wird nur im Browser (`sessionStorage`) gespeichert und nicht in den Build eingebettet.
-
-Bedeutung:
-
-- `VITE_GOOGLE_CLIENT_ID`: optionale OAuth-Client-ID (Google-Anmeldung für Gemini)
-- `VITE_RECROOM_OPEN_ON_ARCHIVE=true`: öffnet Spiele immer direkt via `archive.org/details/...` statt Emulator-Modal
-- `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY`: **nur Dev** — Fallback für lokale Demos, nicht in Produktions-Builds
-
-### 7) Build und Deploy (GitHub Pages + Vercel)
-
-**Standard (GitHub Pages):** Push auf `main` startet `.github/workflows/deploy-pages.yml`; das Artefakt aus **`dist/`** wird auf GitHub Pages veröffentlicht.
-
-**Optional (Vercel):** Root-Pfad-Spiegel / PR-Previews über `vercel.json` und `.github/workflows/vercel-deploy.yml` (Vercel-Secrets nötig). `VITE_BASE_PATH=/` auf Vercel. Ausführlich: **`docs/DEPLOYMENT.md`**.
-
-**Repo-Einstellung (einmal nötig für Pages):** Unter **Settings → Pages → Build and deployment** die **Quelle** auf **GitHub Actions** stellen (nicht „Deploy from a branch“ / Stammverzeichnis). Sonst kann die Live-Seite fälschlich die unbearbeitete `index.html` mit `./index.tsx` ausliefern (ohne gebündeltes JS), und **Pages Smoke Checks** schlagen fehl.
-
-Lokaler Produktions-Build:
-
-```bash
-pnpm run build
-```
-
-Optional manuell auf Branch `gh-pages` (Legacy):
-
-```bash
-pnpm run deploy
-```
-
-Hinweise:
-
-- Vite-Base-Path ist `/Internet-Archive-Explorer/`
-- `.nojekyll` wird aus `public/.nojekyll` ausgeliefert
-- Locale-Dateien werden im Build via `pnpm run sync:locales` synchronisiert
-
-### 8) CI und Smoke-Checks
-
-Konfigurierte Workflows:
-
-- `.github/workflows/ci.yml`
-  - Biome, TypeScript, Vitest-Unit-Tests, Produktionsbuild inkl. Bundle-Analyse
-  - Bundle-Größen-Budgets (`pnpm run check:bundle-size`)
-  - Playwright-E2E-Smoke-Tests (inkl. axe auf mehreren Hubs bei `CI=true`)
-  - Prüfung **`dist/manifest.json`**; **Lighthouse CI** (`lighthouserc.json`, Accessibility-Schwelle)
-- **Dependabot:** `.github/dependabot.yml` (nicht unter `workflows/`)
-- `.github/workflows/deploy-pages.yml`
-  - GitHub-Pages-Deploy (bei `main` und manuell)
-- `.github/workflows/pages-smoke.yml`
-  - Prüfungen gegen die live deployte Seite
-
-Lokal CI-nah:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm exec playwright install --with-deps chromium
-pnpm run lint:ci && pnpm run check:i18n && pnpm exec tsc --noEmit && pnpm run test:unit
-ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm run check:bundle-size
-CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
-```
-
-Repo-Namen in den Pfaden anpassen falls abweichend. **`CI=true`-E2E nutzt `dist/`** — ohne vorherigen Build sind die Tests nicht aussagekräftig.
-
-### 9) PWA- und Service-Worker-Verhalten
-
-- **Web-App-Manifest:** Quelle `public/manifest.json` (landet in `dist/`); enthält **Screenshots** (wide) für unterstützte Install-Oberflächen.
-- In Produktion/statischem Hosting wird der Service Worker registriert.
-- Auf Entwicklungs-ähnlichen Hosts (`localhost`, `127.0.0.1`, `0.0.0.0`, `*.app.github.dev`) wird die Registrierung deaktiviert; veraltete Registrierungen werden bereinigt, um Dynamic-Import-Probleme zu vermeiden.
-- In Preview-Hosts wird im UI ein Debug-Hinweis angezeigt, falls eine ältere App-SW-Registrierung erkannt wird.
-
-### 10) Accessibility
-
-Ziel und Stand:
-
-- Ziel: WCAG 2.2 AA
-- Stand: zentrale Kern-Flows werden fortlaufend in Richtung AA optimiert
-
-Umgesetzte Grundlagen: sichtbarer Fokus, Tastaturbedienbarkeit, semantische Labels, Reduced-Motion-Unterstützung.
-
-### 11) Troubleshooting
-
-#### Dynamic Import Fehler (z. B. `Failed to fetch dynamically imported module`)
-
-1. Browser-DevTools öffnen
-2. Site-Daten/Cache für die Origin löschen
-3. Service Worker für die Origin deregistrieren
-4. Hard Reload durchführen
-
-Besonders relevant auf Preview-Hosts nach Updates.
-
-#### Fehlende Übersetzungen
-
-Wenn i18n-Keys statt Texte erscheinen:
-
-- prüfen, ob `dist/locales/...` vorhanden ist
-- prüfen, ob `/Internet-Archive-Explorer/locales/...` mit `200` antwortet
-
-#### Langsame oder fehlschlagende Internet-Archive-Ladevorgänge (Live)
-
-- Ggf. **veralteter Service Worker**: Hard-Reload oder **Seitendaten löschen** und neu laden, damit `sw.js` aktuell ist (API-Timeout für `archive.org`-JSON **30s**; ältere Builds mit **15s** konnten bei langsamer API vorzeitig abbrechen).
-- **Rate Limits** (429): die App wertet optional **`Retry-After`** aus; bei anhaltenden Fehlern kurz warten und erneut versuchen bzw. weniger parallel scrollen.
-
-#### CI-Fehler
-
-Lokal (leichte Checks):
-
-```bash
-pnpm install --frozen-lockfile
-pnpm run check
-pnpm run build
-```
-
-Volles E2E + Lighthouse: Push in CI oder nach Build `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` (ressourcenintensiv).
-
-### 12) Sicherheits-Hinweise
-
-- Kein OAuth-Client-Secret im Frontend
-- OAuth mit Authorization Code + PKCE (Tokens in `sessionStorage`; für öffentliche SPAs nur mit bewusster Risikoakzeptanz — eingeschränkte Scopes, separates OAuth-Projekt)
-- **Gemini BYOK:** API-Schlüssel werden in den Einstellungen eingegeben und nur im Browser (`sessionStorage`) gespeichert. Sie werden **nicht** ins ausgelieferte Bundle eingebettet. Keys als widerrufbar und quota-begrenzt behandeln; AI-Studio-Projektrestriktionen nutzen.
-- Optionale ausführliche Client-Logs in Produktion: `VITE_DEBUG_LOGS=true` (siehe `.env.example`); Standard bleibt nur `logger.error` für Endnutzer:innen.
-- CSP ist in `index.html` auf statisches Hosting abgestimmt
-
-### 13) Roadmap / Grenzen
-
-- **KI:** BYOK über `services/geminiApiKeyStorage.ts` + `geminiService.ts`; Browser-Keys vs. Backend-Proxy bleiben ein Trade-off.
-- **Offline:** PWA + Caches für Shell und konfigurierte Assets; kein Voll-Offline für alle Archive-Routen garantiert.
-- **Community/Sharing:** Kein eigenes Social-Layer; Teilen über Web Share / URLs wo vorhanden.
-- **Schwache Geräte:** Reduced Motion unterstützt; Vitest läuft standardmäßig seriell (schonende Dev-Hardware).
-
-### 14) Lizenz
+## License
 
 MIT

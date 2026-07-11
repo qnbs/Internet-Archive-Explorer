@@ -1,40 +1,40 @@
 ---
-description: Internet Archive Explorer — Stack, Architektur, Cursor-Workflow
+description: Internet Archive Explorer — Stack, Architecture, Cursor Workflow
 globs: "**/*.{ts,tsx,js,mjs,css,json,md}"
 alwaysApply: true
 ---
 
 # Internet Archive Explorer (Cursor)
 
-## Pflichtlektüre
+## Required Reading
 
-- Repo-Root **`CLAUDE.md`**: pnpm, Biome-only, Layer (services → hooks → components), TanStack Query vs Jotai, `safeAtomWithStorage`, i18n-Namespace-Checkliste.
-- **`AGENTS.md`**: Cursor Cloud VM — Dev-URLs, esbuild, CI-Parität, Smoke.
+- Repo root **`CLAUDE.md`**: pnpm, Biome-only, layer ordering (services → hooks → components), TanStack Query vs Jotai, `safeAtomWithStorage`, i18n namespace checklist.
+- **`AGENTS.md`**: Cursor Cloud VM — dev server URLs, esbuild, CI parity, smoke checks.
 - **`docs/DEPLOYMENT.md`**: GitHub Pages + Vercel.
-- **`CONTRIBUTING.md`**: lokales Gate (`lint:ci`, `check:i18n`, `test:unit`, **`ANALYZE=true` Build**, `check:bundle-size`, **`CI=true` E2E**).
+- **`CONTRIBUTING.md`**: local gate (`lint:ci`, `check:i18n`, `test:unit`, **`ANALYZE=true` build**, `check:bundle-size`, **`CI=true` E2E**).
 
 ## Tooling in Cursor
 
-- **Lint/Format:** nur Biome (`pnpm run lint:fix`). Keine ESLint-/Prettier-Regeln hinzufügen.
-- **Tests:** Unit unter **`tests/unit/`** (Vitest, serial); E2E unter **`tests/e2e/`** (Playwright; CI = `vite preview` nach Build).
-- **PWA-Manifest:** **`public/manifest.json`** (wird nach `dist/` kopiert); lokale Assets unter **`public/icons/`** und **`public/screenshots/`** (`pnpm run generate:pwa-assets`).
+- **Lint / Format:** Biome only (`pnpm run lint:fix`). Do not add ESLint or Prettier rules.
+- **Tests:** Unit tests under **`tests/unit/`** (Vitest, serial); E2E under **`tests/e2e/`** (Playwright; CI uses `vite preview` after a build).
+- **PWA Manifest:** **`public/manifest.json`** (copied to `dist/`); local assets under **`public/icons/`** and **`public/screenshots/`** (`pnpm run generate:pwa-assets`).
 
-## Agent-Verhalten
+## Agent Behavior
 
-- Vor größeren Features **CLAUDE.md** „Adding a New Feature“-Checkliste abarbeiten.
-- Keine API-Daten in Atoms cachen (TanStack Query).
-- User-facing Strings nur über **`useLanguage()`** und **`locales/en` + `locales/de`** (+ `pnpm run check:i18n`).
-- Nach umfangreichen Codeänderungen optional **`graphify update .`** (wenn graphify-out genutzt wird).
+- Before larger features, work through the **CLAUDE.md** "Adding a New Feature" checklist.
+- Do not cache API data in atoms (use TanStack Query).
+- User-facing strings only via **`useLanguage()`** and **`locales/en` + `locales/de`** (+ `pnpm run check:i18n`).
+- After large code changes, optionally run **`graphify update .`** (if `graphify-out/` is used).
 
-## Qualitäts-Gates (strikt)
+## Quality Gates (strict)
 
-- **Biome:** `pnpm run lint:ci` muss ohne Warnungen/Fehler grün sein — **`noExplicitAny`: error**, **`useExhaustiveDependencies`: error** (Tests ausgenommen).
-- **TypeScript:** `strict`, `noImplicitAny`, `noUnusedLocals`, `noUnusedParameters` — `pnpm exec tsc --noEmit` ohne Fehler.
-- **Security:** `pnpm audit --audit-level=moderate` — moderate+ blockiert CI.
-- **PR-Reviews:** Inline-Kommentare von **CodeAnt AI**, **Socket**, **GitGuardian** und menschlichen Reviewern **proaktiv** prüfen und in derselben PR beheben (kein separates Follow-up ohne Grund).
-- **Tests:** Jede Service-/Util-Änderung mit Unit-Test oder Schema-Test absichern; `pnpm run test:unit:coverage` vor größeren Refactors.
+- **Biome:** `pnpm run lint:ci` must be green with no warnings/errors — **`noExplicitAny`: error**, **`useExhaustiveDependencies`: error** (tests exempt).
+- **TypeScript:** `strict`, `noImplicitAny`, `noUnusedLocals`, `noUnusedParameters` — `pnpm exec tsc --noEmit` must pass.
+- **Security:** `pnpm audit --audit-level=moderate` — moderate+ blocks CI.
+- **PR reviews:** Proactively address inline comments from **CodeAnt AI**, **Socket**, **GitGuardian**, and human reviewers in the same PR (no separate follow-up without reason).
+- **Tests:** Secure every service/util change with a unit or schema test; run `pnpm run test:unit:coverage` before large refactors.
 
 ## Deployment
 
-- **GitHub Pages:** primär via `deploy-pages.yml` — siehe **`docs/DEPLOYMENT.md`**.
-- **Vercel:** optional via `vercel.json` + `vercel-deploy.yml` (Secrets erforderlich); `VITE_BASE_PATH=/` auf Vercel.
+- **GitHub Pages:** primary via `deploy-pages.yml` — see **`docs/DEPLOYMENT.md`**.
+- **Vercel:** optional via `vercel.json` + `vercel-deploy.yml` (secrets required); `VITE_BASE_PATH=/` on Vercel.
