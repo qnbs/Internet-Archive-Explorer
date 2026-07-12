@@ -9,6 +9,7 @@ import {
   playlistAtom,
   removeFromPlaylistAtom,
 } from '@/store/audioPlayer';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface PlaylistPanelProps {
   onClose: () => void;
@@ -59,9 +60,15 @@ export const PlaylistPanel: React.FC<PlaylistPanelProps> = ({ onClose }) => {
               className={`flex items-center gap-3 p-2 rounded-md group ${index === currentIndex ? 'bg-cyan-500/20' : 'hover:bg-gray-700/50'}`}
             >
               <img
-                src={`https://archive.org/services/get-item-image.php?identifier=${track.identifier}`}
+                src={getArchiveThumbnailUrl(track.identifier)}
                 alt=""
                 className="w-10 h-10 rounded-md flex-shrink-0"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.includes('get-item-image.php')) {
+                    target.src = `https://archive.org/services/get-item-image.php?identifier=${track.identifier}`;
+                  }
+                }}
               />
               <div className="flex-grow min-w-0">
                 <p

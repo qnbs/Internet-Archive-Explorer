@@ -5,6 +5,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
 import { formatIdentifierForDisplay } from '@/utils/formatter';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 import {
   BookIcon,
   ExternalLinkIcon,
@@ -59,7 +60,7 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
 
   if (!metadata) return null; // Should be handled by parent layout
 
-  const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+  const thumbnailUrl = getArchiveThumbnailUrl(item.identifier);
 
   const creators = Array.isArray(metadata.metadata.creator)
     ? metadata.metadata.creator
@@ -97,9 +98,9 @@ export const ItemDetailSidebar: React.FC<ItemDetailSidebarProps> = ({
           className={`w-full h-full object-cover transition-opacity duration-300 ${isPlaying && playableMedia?.type === 'video' ? 'opacity-0' : 'opacity-100'}`}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const fallbackUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
             const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
-            if (target.src.includes('__ia_thumb.jpg')) {
+            if (target.src.includes('get-item-image.php')) {
               target.onerror = null;
               target.src = placeholderUrl;
             } else {

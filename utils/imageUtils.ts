@@ -60,6 +60,17 @@ export const findBestImageUrl = (files: ArchiveFile[], identifier: string): stri
 };
 
 /**
+ * Returns a thumbnail URL for an Internet Archive item.
+ *
+ * Uses the stable `__ia_thumb.jpg` file as the primary source because
+ * `archive.org/services/get-item-image.php` can be blocked by the browser's
+ * Opaque Response Blocking (ORB) for some cross-origin items. The service
+ * endpoint is kept as a fallback for items that may not have a thumb file.
+ */
+export const getArchiveThumbnailUrl = (identifier: string): string =>
+  `https://archive.org/download/${encodeURIComponent(identifier)}/__ia_thumb.jpg`;
+
+/**
  * Fetches an image from a URL and converts it to a base64 string.
  * @param imageUrl The URL of the image to fetch.
  * @returns A promise that resolves to an object containing the base64 string and MIME type.

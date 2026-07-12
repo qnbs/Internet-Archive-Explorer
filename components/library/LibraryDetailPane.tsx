@@ -6,6 +6,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
 import { updateLibraryItemNotesAtom, updateLibraryItemTagsAtom } from '@/store/favorites';
 import type { LibraryItem } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 import { RichTextEditor } from '../RichTextEditor';
 
 const Tag: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
@@ -105,9 +106,15 @@ export const LibraryDetailPane: React.FC<{
           <ArrowLeftIcon className="w-5 h-5" />
         </button>
         <img
-          src={`https://archive.org/services/get-item-image.php?identifier=${selectedItem.identifier}`}
+          src={getArchiveThumbnailUrl(selectedItem.identifier)}
           alt=""
           className="w-10 h-10 object-cover rounded-md flex-shrink-0"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('get-item-image.php')) {
+              target.src = `https://archive.org/services/get-item-image.php?identifier=${selectedItem.identifier}`;
+            }
+          }}
         />
         <div className="min-w-0">
           <h2 className="text-md font-bold text-white truncate">{selectedItem.title}</h2>

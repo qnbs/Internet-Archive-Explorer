@@ -17,6 +17,7 @@ import {
   type ImageAnalysisResult,
   type MagicOrganizeResult,
 } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface AIArchiveItemCardProps {
   entry: AIArchiveEntry;
@@ -65,9 +66,7 @@ export const AIArchiveItemCard: React.FC<AIArchiveItemCardProps> = React.memo(
       day: 'numeric',
       year: 'numeric',
     });
-    const thumbnailUrl = entry.source
-      ? `https://archive.org/services/get-item-image.php?identifier=${entry.source.identifier}`
-      : null;
+    const thumbnailUrl = entry.source ? getArchiveThumbnailUrl(entry.source.identifier) : null;
 
     useEffect(() => {
       setImageError(false);

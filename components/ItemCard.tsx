@@ -12,6 +12,7 @@ import {
 } from '@/store/favorites';
 import type { ArchiveItemSummary, MediaType } from '@/types';
 import { formatNumber } from '@/utils/formatter';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 import { InfoIcon, StarIcon } from './Icons';
 
 export type CardVariant = 'classic' | 'polaroid' | 'vhs';
@@ -64,7 +65,7 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(
       return creator;
     };
 
-    const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+    const thumbnailUrl = getArchiveThumbnailUrl(item.identifier);
     const creatorName = getCreator(item.creator);
     const publicYear = new Date(item.publicdate).getFullYear();
 
@@ -84,8 +85,8 @@ export const ItemCard: React.FC<ItemCardProps> = React.memo(
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
       const target = e.target as HTMLImageElement;
-      const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
-      if (target.src.includes('__ia_thumb.jpg')) {
+      const fallbackUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+      if (target.src.includes('get-item-image.php')) {
         target.onerror = null;
         const iconPath = getMediaTypeIconPath(item.mediatype);
         const placeholderSvg = `<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect fill="#374151" width="300" height="400"/><g transform="translate(114, 164) scale(3)"><path d="${iconPath}" stroke="#9CA3AF" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;

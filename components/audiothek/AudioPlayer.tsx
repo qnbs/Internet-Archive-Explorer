@@ -15,6 +15,7 @@ import {
   togglePlayPauseAtom,
 } from '@/store/audioPlayer';
 import { formatTime } from '@/utils/audioUtils';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 import { logger } from '@/utils/logger';
 
 const PlaylistPanel = lazy(() =>
@@ -90,9 +91,15 @@ export const AudioPlayer: React.FC = () => {
     <div className="fixed bottom-16 md:bottom-0 left-0 md:left-64 right-0 z-30 animate-fade-in">
       <div className="bg-gray-800/80 backdrop-blur-md border-t border-gray-700/50 p-3 shadow-t-lg flex items-center gap-4">
         <img
-          src={`https://archive.org/services/get-item-image.php?identifier=${currentTrack.identifier}`}
+          src={getArchiveThumbnailUrl(currentTrack.identifier)}
           alt=""
           className="w-12 h-12 rounded-md flex-shrink-0"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('get-item-image.php')) {
+              target.src = `https://archive.org/services/get-item-image.php?identifier=${currentTrack.identifier}`;
+            }
+          }}
         />
         <div className="flex-grow min-w-0">
           <p className="font-bold text-white truncate">{currentTrack.title}</p>

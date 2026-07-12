@@ -4,6 +4,7 @@ import { ArrowRightIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import { modalAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface SourceItemCardProps {
   source: ArchiveItemSummary;
@@ -12,7 +13,7 @@ interface SourceItemCardProps {
 export const SourceItemCard: React.FC<SourceItemCardProps> = ({ source }) => {
   const { t } = useLanguage();
   const setModal = useSetAtom(modalAtom);
-  const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${source.identifier}`;
+  const thumbnailUrl = getArchiveThumbnailUrl(source.identifier);
   const creator = Array.isArray(source.creator) ? source.creator.join(', ') : source.creator;
 
   const handleClick = () => {
@@ -31,6 +32,12 @@ export const SourceItemCard: React.FC<SourceItemCardProps> = ({ source }) => {
           alt=""
           className="w-12 h-16 object-cover rounded-md flex-shrink-0 bg-gray-700"
           loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('get-item-image.php')) {
+              target.src = `https://archive.org/services/get-item-image.php?identifier=${source.identifier}`;
+            }
+          }}
         />
         <div className="flex-grow min-w-0">
           <h5 className="font-semibold text-white group-hover:text-cyan-400 transition-colors truncate">

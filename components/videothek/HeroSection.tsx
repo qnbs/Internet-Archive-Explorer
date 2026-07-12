@@ -59,6 +59,12 @@ export const HeroSection: React.FC = () => {
         src={thumbnailUrl}
         alt={item.title}
         className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          if (!target.src.includes('__ia_thumb.jpg')) {
+            target.src = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+          }
+        }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
       <div className="relative z-10">

@@ -21,6 +21,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { libraryItemsAtom } from '@/store/favorites';
 import type { LibraryItem } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface SortableLibraryItemProps {
   item: LibraryItem;
@@ -57,11 +58,16 @@ const SortableLibraryItem: React.FC<SortableLibraryItemProps> = ({ item, onSelec
       </button>
 
       <img
-        src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
+        src={getArchiveThumbnailUrl(item.identifier)}
         alt={item.title}
         className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
         onError={(e) => {
-          (e.target as HTMLImageElement).style.display = 'none';
+          const target = e.target as HTMLImageElement;
+          if (!target.src.includes('get-item-image.php')) {
+            target.src = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+          } else {
+            target.style.display = 'none';
+          }
         }}
       />
 

@@ -4,6 +4,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { selectItemAtom } from '@/store/app';
 import type { ArchiveItemSummary } from '@/types';
 import { formatNumber } from '@/utils/formatter';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 import { InfoIcon } from './Icons';
 
 export type AspectRatio = 'video' | 'square' | 'portrait';
@@ -18,7 +19,7 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(
   ({ item, aspectRatio, index }) => {
     const { t } = useLanguage();
     const selectItem = useSetAtom(selectItemAtom);
-    const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+    const thumbnailUrl = getArchiveThumbnailUrl(item.identifier);
     const publicYear = new Date(item.publicdate).getFullYear();
     const isRestricted = item['access-restricted-item'] === 'true';
 
@@ -60,10 +61,10 @@ export const CarouselItemCard: React.FC<CarouselItemCardProps> = React.memo(
             loading="lazy"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+              const fallbackUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
               const placeholderUrl = 'https://picsum.photos/400/400?grayscale';
 
-              if (target.src.includes('__ia_thumb.jpg')) {
+              if (target.src.includes('get-item-image.php')) {
                 target.onerror = null;
                 target.src = placeholderUrl;
               } else {

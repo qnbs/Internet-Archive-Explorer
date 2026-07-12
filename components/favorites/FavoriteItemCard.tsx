@@ -2,6 +2,7 @@ import React from 'react';
 import { InfoIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import type { LibraryItem } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface LibraryItemCardProps {
   item: LibraryItem;
@@ -19,9 +20,7 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(
       ? item.creator.join(', ')
       : item.creator || t('itemCard:unknownCreator');
     const isRestricted = item['access-restricted-item'] === 'true';
-    const thumbnailUrl =
-      item.thumbnail ||
-      `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+    const thumbnailUrl = item.thumbnail || getArchiveThumbnailUrl(item.identifier);
 
     return (
       <article
@@ -57,9 +56,9 @@ export const FavoriteItemCard: React.FC<LibraryItemCardProps> = React.memo(
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const fallbackUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
             const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
-            if (target.src.includes('__ia_thumb.jpg')) {
+            if (target.src.includes('get-item-image.php')) {
               target.onerror = null;
               target.src = placeholderUrl;
             } else {

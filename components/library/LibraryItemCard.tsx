@@ -2,6 +2,7 @@ import React from 'react';
 import { InfoIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
 import type { LibraryItem } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface LibraryItemCardProps {
   item: LibraryItem;
@@ -48,15 +49,15 @@ export const LibraryItemCard: React.FC<LibraryItemCardProps> = React.memo(
           </div>
         )}
         <img
-          src={`https://archive.org/services/get-item-image.php?identifier=${item.identifier}`}
+          src={getArchiveThumbnailUrl(item.identifier)}
           alt={item.title ? `Cover: ${item.title}` : 'Cover image'}
           className="w-12 h-16 object-cover rounded-sm flex-shrink-0 bg-gray-700"
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
+            const fallbackUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
             const placeholderUrl = 'https://picsum.photos/300/400?grayscale';
-            if (target.src.includes('__ia_thumb.jpg')) {
+            if (target.src.includes('get-item-image.php')) {
               target.onerror = null;
               target.src = placeholderUrl;
             } else {

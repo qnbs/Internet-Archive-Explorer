@@ -11,6 +11,7 @@ import {
   togglePlayPauseAtom,
 } from '@/store/audioPlayer';
 import type { ArchiveItemSummary } from '@/types';
+import { getArchiveThumbnailUrl } from '@/utils/imageUtils';
 
 interface AudioCardProps {
   item: ArchiveItemSummary;
@@ -26,7 +27,7 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
   const togglePlay = useSetAtom(togglePlayPauseAtom);
   const selectItem = useSetAtom(selectItemAtom);
 
-  const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+  const thumbnailUrl = getArchiveThumbnailUrl(item.identifier);
   const isCurrentTrack = currentTrack?.identifier === item.identifier;
 
   const handlePlayPause = (e: React.MouseEvent) => {
@@ -56,6 +57,12 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
           alt={`Cover for ${item.title}`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('get-item-image.php')) {
+              target.src = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <button
