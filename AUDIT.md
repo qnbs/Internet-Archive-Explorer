@@ -17,6 +17,24 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 
 ---
 
+## July 12 2026 Deep Audit & Phase 0 Fixes (v1.4.0 prep)
+
+| Area | Status | Details |
+|------|--------|---------|
+| **Dynamic PWA manifest** | ✅ | `public/manifest.json` generated from `public/manifest.template.json` using `VITE_BASE_PATH`; scope/start_url/id/shortcuts/share_target are portable between GitHub Pages and Vercel |
+| **Tailwind/PostCSS cleanup** | ✅ | Removed unused `@tailwindcss/postcss` v4 package; build remains on Tailwind CSS v3 with no warnings |
+| **Asset generation script** | ✅ | Fixed `createDeflateSync` → `deflateSync` for Node.js 24+ compatibility |
+| **Full verification suite** | ✅ | `lint:ci`, `check`, `sync:locales`, builds for both base paths passed; E2E pending final run |
+
+**Remaining backlog (Phase 1+):**
+- IndexedDB-backed search/hub list caching
+- Explicit offline UI state and feedback
+- SW cache-age transparency in UI
+- Expanded unit test coverage for hooks/components
+- Manual screen-reader / keyboard audit
+
+---
+
 ## July 2026 Deep Audit — Fetching Resilience
 
 | Area | Status | Details |

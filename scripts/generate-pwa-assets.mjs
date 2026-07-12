@@ -3,10 +3,10 @@
  * Run: node scripts/generate-pwa-assets.mjs
  */
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createDeflateSync } from 'node:zlib';
+import { deflateSync } from 'node:zlib';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -52,7 +52,7 @@ function png(w, h) {
       raw[i + 3] = 255;
     }
   }
-  const idat = createDeflateSync({ level: 9 }).update(raw).end();
+  const idat = deflateSync(raw, { level: 9 });
   return Buffer.concat([
     sig,
     chunk('IHDR', ihdr),
@@ -74,4 +74,24 @@ writeFileSync(join(shotsDir, 'wide-library.png'), png(1280, 720));
 writeFileSync(join(shotsDir, 'wide-videothek.png'), png(1280, 720));
 writeFileSync(join(shotsDir, 'wide-scriptorium.png'), png(1280, 720));
 
+// Generate manifest.json from template, substituting VITE_BASE_PATH so the
+// PWA scope/start_url/shortcuts/share_target work on both GitHub Pages
+// (/Internet-Archive-Explorer/) and Vercel (/).
+const manifestTemplatePath = join(root, 'public/manifest.template.json');
+const manifestOutputPath = join(root, 'public/manifest.json');
+
+function normalizeBasePath(raw) {
+  const value = (raw ?? '').trim();
+  if (!value) return '/Internet-Archive-Explorer/';
+  const withLeadingSlash = value.startsWith('/') ? value : `/${value}`;
+  return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+}
+
+const basePath = normalizeBasePath(process.env.VITE_BASE_PATH);
+const template = readFileSync(manifestTemplatePath, 'utf-8');
+const manifest = template.replaceAll('__BASE_PATH__', basePath);
+
+writeFileSync(manifestOutputPath, manifest);
+
 console.log('[generate-pwa-assets] Wrote icons and screenshots under public/');
+console.log(`[generate-pwa-assets] Wrote manifest.json with base path "${basePath}"`);

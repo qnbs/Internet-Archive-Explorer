@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-*No unreleased changes.*
+### Added
+
+- **Dynamic PWA manifest:** `public/manifest.json` is now generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`. This makes the PWA scope, `start_url`, `id`, `share_target`, and shortcuts correct on both GitHub Pages (`/Internet-Archive-Explorer/`) and Vercel (`/`).
+- **Build-time manifest script:** `scripts/generate-pwa-assets.mjs` now also generates the manifest and normalizes the base path (leading slash, trailing slash).
+
+### Changed
+
+- **Dependency cleanup:** Removed unused `@tailwindcss/postcss` v4 package; the project remains on Tailwind CSS v3 with the existing custom theme configuration.
+
+### Fixed
+
+- **PWA manifest base path:** Eliminated hardcoded `/Internet-Archive-Explorer/` paths from the manifest source so the Vercel root deploy is no longer scoped incorrectly.
+- **Asset generation script:** Replaced non-existent `createDeflateSync` import with `deflateSync` in `scripts/generate-pwa-assets.mjs`, fixing local PNG generation on Node.js 24+.
 
 ## [1.3.0] - 2026-07-12
 

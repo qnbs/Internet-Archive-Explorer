@@ -187,6 +187,8 @@ pnpm run deploy   # prefer GitHub Actions
 
 A root-path mirror / PR previews are deployed via `vercel.json` and `.github/workflows/vercel-deploy.yml`. The workflow runs automatically on every push to `main` (production deploy) and on pull requests (preview deploy). Set `VITE_BASE_PATH=/` on Vercel.
 
+The PWA manifest (`public/manifest.json`) is generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`, so `scope`, `start_url`, shortcuts, and `share_target` are correct for both GitHub Pages and Vercel.
+
 Full guide: `docs/DEPLOYMENT.md`
 
 ---

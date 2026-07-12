@@ -9,7 +9,7 @@ This document covers **GitHub Pages** (primary) and **Vercel** (mirror / preview
 | **GitHub Pages** | `/<repo-name>/` | Push to `main` → `deploy-pages.yml` | `https://<user>.github.io/Internet-Archive-Explorer/` |
 | **Vercel** | `/` (root) | Push to `main` / PR → `vercel-deploy.yml` | `https://<project>.vercel.app/` or custom domain |
 
-Both targets use the same Vite build (`pnpm run build`) with different `VITE_BASE_PATH` values.
+Both targets use the same Vite build (`pnpm run build`) with different `VITE_BASE_PATH` values. `public/manifest.json` is generated at build time from `public/manifest.template.json` so the PWA scope, start URL, shortcuts, and share target match the current base path.
 
 ---
 
@@ -70,6 +70,7 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 - Root-path hosting (`/` instead of `/Internet-Archive-Explorer/`)
 - PR preview URLs
 - Edge headers for `sw.js` / `manifest.json` (see `vercel.json`)
+- Build-time manifest generation ensures correct PWA scope on root-path hosting
 
 ### GitHub Actions (`vercel-deploy.yml`)
 
