@@ -44,7 +44,7 @@ export const archiveItemSummarySchema = z
     'access-restricted-item': z.enum(['true', 'false']).optional(),
     downloads: z.coerce.number().optional(),
     week: z.coerce.number().optional(),
-    avg_rating: z.string().optional(),
+    avg_rating: z.coerce.number().optional(),
     reviewdate: z.string().optional(),
     reviewtitle: z.string().optional(),
     reviewbody: z.string().optional(),

@@ -78,7 +78,7 @@ export interface ArchiveItemSummary {
   'access-restricted-item'?: 'true' | 'false';
   downloads?: number;
   week?: number;
-  avg_rating?: string;
+  avg_rating?: number;
   // FIX: Add optional properties for review data.
   reviewdate?: string;
   reviewtitle?: string;

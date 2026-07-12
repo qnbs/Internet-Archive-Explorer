@@ -29,7 +29,7 @@ export const RecRoomItemCard: React.FC<RecRoomItemCardProps> = React.memo(({ ite
   const creatorName = getCreator(item.creator);
   const publicYear = new Date(item.publicdate).getFullYear();
   const isRestricted = item['access-restricted-item'] === 'true';
-  const rating = item.avg_rating ? parseFloat(item.avg_rating).toFixed(1) : null;
+  const rating = item.avg_rating ? item.avg_rating.toFixed(1) : null;
   const shouldAlwaysOpenOnArchive = toBooleanFlag(import.meta.env.VITE_RECROOM_OPEN_ON_ARCHIVE);
 
   const handleSelect = () => {
