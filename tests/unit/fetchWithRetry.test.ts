@@ -16,7 +16,7 @@ describe('fetchWithRetry', () => {
 
   it('returns immediately on 200', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('ok', { status: 200 }));
-    const res = await fetchWithRetry('https://example.com', {}, 2, 10, 30_000);
+    const res = await fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0);
     expect(res.ok).toBe(true);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
@@ -27,7 +27,7 @@ describe('fetchWithRetry', () => {
       .mockResolvedValueOnce(new Response('fail', { status: 500 }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const res = await fetchWithRetry('https://example.com', {}, 2, 20, 30_000);
+    const res = await fetchWithRetry('https://example.com', {}, 2, 20, 30_000, 0);
 
     expect(res.ok).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -39,7 +39,7 @@ describe('fetchWithRetry', () => {
       .mockRejectedValueOnce(new TypeError('network'))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const res = await fetchWithRetry('https://example.com', {}, 2, 20, 30_000);
+    const res = await fetchWithRetry('https://example.com', {}, 2, 20, 30_000, 0);
 
     expect(res.ok).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -52,7 +52,7 @@ describe('fetchWithRetry', () => {
       .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '1' } }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000);
+    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0);
     await vi.advanceTimersByTimeAsync(1000);
     const res = await p;
 
@@ -67,9 +67,37 @@ describe('fetchWithRetry', () => {
       .mockResolvedValueOnce(new Response('timeout', { status: 408 }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const res = await fetchWithRetry('https://example.com', {}, 2, 10, 30_000);
+    const res = await fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0);
 
     expect(res.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('clamps Retry-After to configured maximum', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '300' } }))
+      .mockResolvedValueOnce(new Response('ok', { status: 200 }));
+
+    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0);
+    await vi.advanceTimersByTimeAsync(60_000);
+    const res = await p;
+
+    expect(res.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
+  it('gives up after exhausting retries', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('fail', { status: 500 }));
+
+    const res = await fetchWithRetry('https://example.com', {}, 1, 10, 30_000, 0);
+
+    expect(res.ok).toBe(false);
+    expect(res.status).toBe(500);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

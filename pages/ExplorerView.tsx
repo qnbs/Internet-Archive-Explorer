@@ -5,6 +5,7 @@ import { ContentCarousel } from '@/components/ContentCarousel';
 import { SparklesIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
 import { ResultsGrid } from '@/components/ResultsGrid';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
 import { useToast } from '@/contexts/ToastContext';
 import { useExplorerSearch } from '@/hooks/useExplorerSearch';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -216,6 +217,9 @@ const ExplorerView: React.FC = () => {
   if (showHub && !hasActiveSearch) {
     return (
       <div className="space-y-12">
+        <div className="flex justify-end">
+          <CacheAgeIndicator />
+        </div>
         <TrendingItems />
         <OnThisDay />
       </div>
@@ -223,18 +227,23 @@ const ExplorerView: React.FC = () => {
   }
 
   return (
-    <ResultsGrid
-      ariaLabel={t('common:searchResultsRegion')}
-      results={results}
-      isLoading={isLoading}
-      isLoadingMore={isLoadingMore}
-      error={error}
-      hasMore={hasMore}
-      totalResults={totalResults}
-      lastElementRef={lastElementRef}
-      onRetry={handleRetry}
-      searchQuery={searchQuery}
-    />
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <CacheAgeIndicator />
+      </div>
+      <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
+        results={results}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        error={error}
+        hasMore={hasMore}
+        totalResults={totalResults}
+        lastElementRef={lastElementRef}
+        onRetry={handleRetry}
+        searchQuery={searchQuery}
+      />
+    </div>
   );
 };
 

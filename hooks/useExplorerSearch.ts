@@ -4,6 +4,11 @@ import { useCallback } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
+import {
+  buildSearchCacheKey,
+  getCachedSearchResult,
+  setCachedSearchResult,
+} from '@/services/searchCache';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import type { ArchiveItemSummary } from '@/types';
 import { buildArchiveQuery } from '@/utils/queryBuilder';
@@ -23,7 +28,21 @@ export const useExplorerSearch = () => {
       queryFn: async ({ pageParam }) => {
         const finalQuery = queryString || 'featured';
         const sorts = queryString ? ['-publicdate'] : [];
-        return searchArchive(finalQuery, pageParam as number, sorts);
+        const page = pageParam as number;
+        const cacheKey = buildSearchCacheKey('explorerSearch', finalQuery, page, sorts);
+
+        const cached = await getCachedSearchResult(cacheKey);
+        if (cached) {
+          // Refresh in the background so stale cached data is eventually replaced.
+          searchArchive(finalQuery, page, sorts)
+            .then((fresh) => setCachedSearchResult(cacheKey, fresh))
+            .catch(() => undefined);
+          return cached;
+        }
+
+        const result = await searchArchive(finalQuery, page, sorts);
+        await setCachedSearchResult(cacheKey, result);
+        return result;
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {

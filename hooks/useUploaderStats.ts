@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getItemCount } from '@/services/archiveService';
 import type { Profile, UploaderStats } from '@/types';
 import { getProfileApiQuery } from '@/utils/profileUtils';
+import { promiseAllWithConcurrency } from '@/utils/requestQueue';
 
 export const useUploaderStats = (profile: Profile) => {
   const {
@@ -20,15 +21,15 @@ export const useUploaderStats = (profile: Profile) => {
         'movies' | 'audio' | 'texts' | 'image' | 'software'
       >)[] = ['movies', 'audio', 'texts', 'image', 'software'];
 
-      const promises: Promise<number>[] = [
-        getItemCount(baseQuery),
-        ...mediaTypes.map((type) => getItemCount(`${baseQuery} AND mediatype:${type}`)),
-        getItemCount(`uploader:("${profile.searchIdentifier}") AND mediatype:collection`),
-        getItemCount(`collection:(fav-${username})`),
-        getItemCount(`reviewer:("${profile.searchIdentifier}")`),
+      const tasks: Array<() => Promise<number>> = [
+        () => getItemCount(baseQuery),
+        ...mediaTypes.map((type) => () => getItemCount(`${baseQuery} AND mediatype:${type}`)),
+        () => getItemCount(`uploader:("${profile.searchIdentifier}") AND mediatype:collection`),
+        () => getItemCount(`collection:(fav-${username})`),
+        () => getItemCount(`reviewer:("${profile.searchIdentifier}")`),
       ];
 
-      const results = await Promise.all(promises);
+      const results = await promiseAllWithConcurrency(tasks, 3);
       const [total, movies, audio, texts, image, software, collections, favorites, reviews] =
         results;
 

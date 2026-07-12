@@ -176,7 +176,13 @@ function handleApiStaleWhileRevalidate(event, request) {
       if (cached) {
         touch(request.url);
         event.waitUntil(networkPromise.then(() => undefined));
-        return cached;
+        const headers = new Headers(cached.headers);
+        headers.set('X-SW-Cache-Time', String(Date.now()));
+        return new Response(cached.body, {
+          status: cached.status,
+          statusText: cached.statusText,
+          headers,
+        });
       }
 
       const fresh = await networkPromise;

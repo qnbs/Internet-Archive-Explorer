@@ -27,6 +27,7 @@ const queryClient = new QueryClient({
 const iaQueryDefaults = {
   staleTime: 1000 * 60 * 30, // IA content changes slowly; favor cache reuse
   gcTime: 1000 * 60 * 60 * 12, // preserve browsing context for long sessions
+  retry: 0, // service layer (fetchWithRetry) already handles retries; avoid request multiplication
 } as const;
 
 queryClient.setQueryDefaults(['archivalItems'], iaQueryDefaults);
