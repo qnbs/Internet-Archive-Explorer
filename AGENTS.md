@@ -198,7 +198,7 @@ pnpm exec playwright install --with-deps chromium
 pnpm run lint:ci
 pnpm run check:i18n
 pnpm exec tsc --noEmit
-pnpm run test:unit
+pnpm run test:unit:coverage
 ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build
 pnpm run check:bundle-size
 CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
@@ -233,7 +233,7 @@ CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
 
 - `services/archiveService.ts` is the single place for Internet-Archive API calls (retry + exponential backoff + concurrency cap + Zod validation).
 - Services are consumed only through TanStack Query hooks in `hooks/`, never directly from components.
-- Standard timeouts: Service Worker `API_NETWORK_TIMEOUT_MS` > `archiveService` `REQUEST_TIMEOUT_MS` (32s).
+- Standard timeouts: `archiveService.REQUEST_TIMEOUT_MS` (32s) > Service Worker `API_NETWORK_TIMEOUT_MS` (30s) so the service layer never outlives the SW fallback window.
 
 ### UI/UX
 
@@ -244,7 +244,7 @@ CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
 - Target size for controls: 24×24 px (E2E check).
 - HTML content always passes through `utils/sanitizer.ts` (`DOMPurify`).
 
-### i18n
+### i18n Conventions
 
 - Every new namespace must be registered in `store/i18n.ts` (`NAMESPACES`).
 - Both languages (`locales/en/*.json` and `locales/de/*.json`) must exist.

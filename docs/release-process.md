@@ -44,7 +44,7 @@ Follow [Semantic Versioning](https://semver.org/):
 
 For critical bugs discovered after a release:
 
-1. Branch off the affected tag: `git checkout -b hotfix/vX.Y.Z+1 vX.Y.Z`
+1. Branch off the affected tag: `git checkout -b hotfix/vX.Y.(Z+1) vX.Y.Z`
 2. Apply a minimal fix, commit, and push the branch
 3. Open a PR → merge to `main` after CI passes
 4. Tag the new patch version from `main`
@@ -54,13 +54,18 @@ For critical bugs discovered after a release:
 Before tagging, confirm locally or in CI:
 
 ```bash
+pnpm audit --audit-level=moderate
 pnpm run lint:ci
 pnpm run check:i18n
 pnpm exec tsc --noEmit
 pnpm run test:unit:coverage
 ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build
 pnpm run check:bundle-size
+CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e
+npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
 ```
+
+These gates mirror `.github/workflows/ci.yml`. If any step fails, do not tag the release.
 
 ## Related
 

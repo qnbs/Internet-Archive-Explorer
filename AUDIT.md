@@ -90,7 +90,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 
 ---
 
-## August 2026 Backlog — i18n & Toast
+## Backlog — i18n & Toast
 
 | Area | Status | Details |
 |------|--------|---------|
@@ -201,7 +201,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 #### M7: Service Worker third-party URLs may be stale
 
 - **Impact:** `sw.js` caches URLs for CDN resources that may no longer be used.
-- **File:** `sw.js` (lines 13-20)
+- **File:** `public/sw.js` (lines 13-20)
 - **Fix:** Audit and update the list of third-party URLs.
 - **Effort:** Low
 

@@ -156,7 +156,7 @@ Template: `.env.example`
 | Variable | Purpose |
 |----------|---------|
 | `VITE_GOOGLE_CLIENT_ID` | Optional OAuth client id for Google sign-in |
-| `VITE_RECROOM_OPEN_ON_ARCHIVE=true` | Always open game pages on `archive.org/details/...` instead of the emulator modal |
+| `VITE_RECROOM_OPEN_ON_ARCHIVE` | When set to `true`, always open game pages on `archive.org/details/...` instead of the emulator modal |
 | `VITE_ALLOW_BUILD_TIME_GEMINI_KEY=true` + `VITE_API_KEY` | **Dev-only** fallback for local demos — never use in production builds |
 | `VITE_DEBUG_LOGS=true` | Verbose client logging in production builds (default: off) |
 
