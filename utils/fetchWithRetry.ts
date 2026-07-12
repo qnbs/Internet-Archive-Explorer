@@ -18,14 +18,13 @@ function applyJitter(baseMs: number, jitterFactor: number): number {
 /** Parse Retry-After as delta-seconds (Archive/CDN); falls back to exponential backoff. */
 function retryAfterMs(response: Response, fallbackMs: number, jitterFactor: number): number {
   const raw = response.headers.get('Retry-After');
-  let base = fallbackMs;
   if (raw) {
     const sec = Number.parseInt(raw, 10);
     if (!Number.isNaN(sec) && sec >= 0) {
-      base = Math.min(MAX_RETRY_AFTER_MS, Math.max(MIN_RETRY_AFTER_MS, sec * 1000));
+      return Math.min(MAX_RETRY_AFTER_MS, Math.max(MIN_RETRY_AFTER_MS, sec * 1000));
     }
   }
-  return applyJitter(base, jitterFactor);
+  return applyJitter(fallbackMs, jitterFactor);
 }
 
 /**

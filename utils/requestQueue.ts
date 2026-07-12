@@ -32,8 +32,8 @@ class HostRequestQueue {
     if (!item) return;
 
     this.running += 1;
-    item
-      .task()
+    Promise.resolve()
+      .then(() => item.task())
       .then(item.resolve)
       .catch(item.reject)
       .finally(() => {
@@ -63,8 +63,8 @@ export async function promiseAllWithConcurrency<T>(
   tasks: Array<() => Promise<T>>,
   concurrency: number,
 ): Promise<T[]> {
-  if (concurrency <= 0) {
-    throw new Error('concurrency must be greater than 0');
+  if (!Number.isInteger(concurrency) || concurrency <= 0) {
+    throw new Error('concurrency must be a positive integer');
   }
 
   const results: T[] = new Array(tasks.length);

@@ -15,6 +15,8 @@ export const useUploaderStats = (profile: Profile) => {
     queryFn: async () => {
       const baseQuery = getProfileApiQuery(profile);
       const username = profile.searchIdentifier.split('@')[0];
+      const escapedSearchId = profile.searchIdentifier.replace(/"/g, '\\"');
+      const escapedUsername = username.replace(/"/g, '\\"');
 
       const mediaTypes: (keyof Pick<
         UploaderStats,
@@ -24,9 +26,9 @@ export const useUploaderStats = (profile: Profile) => {
       const tasks: Array<() => Promise<number>> = [
         () => getItemCount(baseQuery),
         ...mediaTypes.map((type) => () => getItemCount(`${baseQuery} AND mediatype:${type}`)),
-        () => getItemCount(`uploader:("${profile.searchIdentifier}") AND mediatype:collection`),
-        () => getItemCount(`collection:(fav-${username})`),
-        () => getItemCount(`reviewer:("${profile.searchIdentifier}")`),
+        () => getItemCount(`uploader:("${escapedSearchId}") AND mediatype:collection`),
+        () => getItemCount(`collection:(fav-${escapedUsername})`),
+        () => getItemCount(`reviewer:("${escapedSearchId}")`),
       ];
 
       const results = await promiseAllWithConcurrency(tasks, 3);

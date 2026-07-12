@@ -24,9 +24,7 @@ const VALIDATION_BACKOFF_MS = 400;
 
 function recordCacheAge(response: Response): void {
   const cacheTime = response.headers.get('X-SW-Cache-Time');
-  if (cacheTime) {
-    jotaiStore.set(lastCacheAgeAtom, Number(cacheTime));
-  }
+  jotaiStore.set(lastCacheAgeAtom, cacheTime ? Number(cacheTime) : null);
 }
 
 /** HTTP statuses worth retrying at the fetch layer (TanStack uses {@link ArchiveServiceError.retryable}). */
@@ -199,6 +197,7 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
             REQUEST_TIMEOUT_MS,
           );
           if (fallbackResponse.ok) {
+            recordCacheAge(fallbackResponse);
             return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();
           }
 

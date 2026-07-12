@@ -14,6 +14,7 @@ import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPers
 import { searchArchive } from '@/services/archiveService';
 import { generateDailyHistoricalEvent } from '@/services/geminiService';
 import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import { lastCacheAgeAtom } from '@/store/cacheAge';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '@/types';
@@ -204,6 +205,7 @@ const ExplorerView: React.FC = () => {
   } = useExplorerSearch();
   const showHub = useAtomValue(showExplorerHubAtom);
   const [facets] = useAtom(facetsAtom);
+  const lastCacheTime = useAtomValue(lastCacheAgeAtom);
 
   const hasActiveSearch =
     searchQuery.trim().length > 0 ||
@@ -217,9 +219,11 @@ const ExplorerView: React.FC = () => {
   if (showHub && !hasActiveSearch) {
     return (
       <div className="space-y-12">
-        <div className="flex justify-end">
-          <CacheAgeIndicator />
-        </div>
+        {lastCacheTime ? (
+          <div className="flex justify-end">
+            <CacheAgeIndicator />
+          </div>
+        ) : null}
         <TrendingItems />
         <OnThisDay />
       </div>
@@ -228,9 +232,11 @@ const ExplorerView: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <CacheAgeIndicator />
-      </div>
+      {lastCacheTime ? (
+        <div className="flex justify-end">
+          <CacheAgeIndicator />
+        </div>
+      ) : null}
       <ResultsGrid
         ariaLabel={t('common:searchResultsRegion')}
         results={results}

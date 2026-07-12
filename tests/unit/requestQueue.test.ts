@@ -66,7 +66,9 @@ describe('promiseAllWithConcurrency', () => {
     await expect(promiseAllWithConcurrency(tasks, 2)).rejects.toThrow('failed');
   });
 
-  it('throws on non-positive concurrency', async () => {
+  it('throws on invalid concurrency', async () => {
     await expect(promiseAllWithConcurrency([], 0)).rejects.toThrow('concurrency must be');
+    await expect(promiseAllWithConcurrency([], -1)).rejects.toThrow('concurrency must be');
+    await expect(promiseAllWithConcurrency([], 1.5)).rejects.toThrow('concurrency must be');
   });
 });
