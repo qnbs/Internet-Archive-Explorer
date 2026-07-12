@@ -74,6 +74,22 @@ const createIndexedDBCache = <T>(storeName: string) => {
         logger.error(`IndexedDB delete error (${storeName}):`, error);
       }
     },
+
+    async keys(): Promise<string[]> {
+      try {
+        const db = await getDb();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const request = store.getAllKeys();
+          request.onsuccess = () => resolve(request.result as string[]);
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        logger.warn(`IndexedDB keys error (${storeName}):`, error);
+        return [];
+      }
+    },
   };
 };
 

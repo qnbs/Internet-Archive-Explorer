@@ -9,7 +9,7 @@ const DEFAULT_BACKOFF_MS = 1000;
 const MAX_RETRY_AFTER_MS = 60_000;
 const MIN_RETRY_AFTER_MS = 500;
 
-function applyJitter(baseMs: number, jitterFactor: number): number {
+export function applyJitter(baseMs: number, jitterFactor: number): number {
   if (jitterFactor <= 0) return baseMs;
   const delta = baseMs * jitterFactor;
   return Math.max(0, Math.floor(baseMs + (Math.random() * 2 - 1) * delta));
@@ -48,13 +48,13 @@ export async function fetchWithRetry(
 
     if (response.status === 429 && retries > 0) {
       await delay(retryAfterMs(response, backoffMs, jitterFactor));
-      const nextBackoff = applyJitter(backoffMs * 2, jitterFactor);
+      const nextBackoff = backoffMs * 2;
       return fetchWithRetry(url, options, retries - 1, nextBackoff, timeoutMs, jitterFactor);
     }
 
     if ((response.status === 408 || response.status >= 500) && retries > 0) {
       await delay(applyJitter(backoffMs, jitterFactor));
-      const nextBackoff = applyJitter(backoffMs * 2, jitterFactor);
+      const nextBackoff = backoffMs * 2;
       return fetchWithRetry(url, options, retries - 1, nextBackoff, timeoutMs, jitterFactor);
     }
 
@@ -62,7 +62,7 @@ export async function fetchWithRetry(
   } catch (error) {
     if (retries > 0) {
       await delay(applyJitter(backoffMs, jitterFactor));
-      const nextBackoff = applyJitter(backoffMs * 2, jitterFactor);
+      const nextBackoff = backoffMs * 2;
       return fetchWithRetry(url, options, retries - 1, nextBackoff, timeoutMs, jitterFactor);
     }
 

@@ -1,15 +1,27 @@
-import { describe, expect, it } from 'vitest';
-import { promiseAllWithConcurrency, withArchiveOrgConcurrency } from '@/utils/requestQueue';
+import { afterEach, describe, expect, it } from 'vitest';
+import {
+  promiseAllWithConcurrency,
+  resetArchiveOrgQueueForTests,
+  withArchiveOrgConcurrency,
+} from '@/utils/requestQueue';
 
 describe('withArchiveOrgConcurrency', () => {
+  afterEach(() => {
+    resetArchiveOrgQueueForTests();
+  });
+
   it('returns results in submission order and respects the concurrency limit', async () => {
     let running = 0;
     let maxRunning = 0;
+    const startTimes: Record<number, number> = {};
+    const endTimes: Record<number, number> = {};
 
     const createTask = (id: number, ms: number) => async () => {
       running += 1;
       maxRunning = Math.max(maxRunning, running);
+      startTimes[id] = Date.now();
       await new Promise((resolve) => setTimeout(resolve, ms));
+      endTimes[id] = Date.now();
       running -= 1;
       return id;
     };
@@ -23,6 +35,7 @@ describe('withArchiveOrgConcurrency', () => {
 
     expect(results).toEqual([1, 2, 3, 4]);
     expect(maxRunning).toBeLessThanOrEqual(3);
+    expect(startTimes[4]).toBeGreaterThanOrEqual(endTimes[2] ?? 0);
   });
 
   it('propagates task errors', async () => {
