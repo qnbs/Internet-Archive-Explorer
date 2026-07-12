@@ -19,6 +19,8 @@ This file lives in the **repository root** (`CLAUDE.md`) and describes the expec
 | **Cursor** | Project rules `.cursor/rules/internet-archive-explorer.mdc` (`alwaysApply`) complement **CLAUDE.md** / **CONTRIBUTING.md** |
 | **Downloads** | Persistent queue with cap `DOWNLOAD_QUEUE_MAX_ITEMS` (`store/downloads.ts`); oldest `done`/`error`/`queued` entries are evicted |
 | **Fetching Resilience** | `utils/fetchWithRetry.ts` with exponential backoff + jitter; `utils/requestQueue.ts` caps archive.org concurrency; IA TanStack Query defaults use `retry: 0` because the service layer already retries |
+| **Thumbnail Strategy** | `utils/imageUtils.ts` `getArchiveThumbnailUrl()` prefers `__ia_thumb.jpg` to avoid ORB failures; falls back to `get-item-image.php` |
+| **pnpm Overrides** | All dependency overrides live in `pnpm-workspace.yaml`; pnpm v10+ ignores the `pnpm` field in `package.json` |
 
 ### Important Commands
 
@@ -183,4 +185,4 @@ Before fixing, identify which command exposes the bug: `pnpm exec tsc --noEmit`,
 
 ---
 
-*Last updated: July 2026 — always treat the current checkout of this file, `CONTRIBUTING.md`, and `docs/DEPLOYMENT.md` as authoritative.*
+*Last updated: 2026-07-12 — always treat the current checkout of this file, `CONTRIBUTING.md`, and `docs/DEPLOYMENT.md` as authoritative.*

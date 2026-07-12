@@ -24,7 +24,7 @@ This repository uses **[Biome](https://biomejs.dev/)** as the **only** linter an
 |--------|--------------|
 | `pnpm run lint` | Run Biome check (lint + format verification) |
 | `pnpm run lint:ci` | `biome ci` — same gates as GitHub Actions |
-| `pnpm run check` | `biome ci` + `tsc --noEmit` + unit tests (Vitest) |
+| `pnpm run check` | `biome ci` + `tsc --noEmit` + unit tests (Vitest). Cloud-first: full coverage/E2E runs in GitHub Actions |
 | `pnpm run test:unit` | Vitest (single worker / serial — weak hardware OK) |
 | `pnpm run lint:fix` | Apply safe fixes + format (`biome check --write`) |
 | `pnpm run format` | Format with Biome (`biome format --write`) |
@@ -44,7 +44,9 @@ If CI fails on Biome, reproduce with `pnpm run lint:ci` (or `pnpm run check` for
 
 **PR bot comments:** Address **CodeAnt AI**, **Socket**, and inline review threads in the same PR — do not merge with unresolved actionable feedback.
 
-**Deployment:** See **docs/DEPLOYMENT.md** for GitHub Pages vs Vercel setup.
+**Deployment:** See **docs/DEPLOYMENT.md** for GitHub Pages vs Vercel setup. Automatic deployment pruning keeps only the last 3 GitHub deployments.
+
+**pnpm overrides:** All dependency overrides are in `pnpm-workspace.yaml` because pnpm v10+ ignores the `pnpm` field in `package.json`.
 
 **Lighthouse CI** (same as GitHub Actions, after a production build):
 

@@ -26,8 +26,9 @@ Both targets use the same Vite build (`pnpm run build`) with different `VITE_BAS
 | Workflow | Trigger | Purpose |
 | -------- | ------- | ------- |
 | `ci.yml` | Push/PR to `main` | Lint, types, unit tests, build, bundle budgets, E2E, Lighthouse |
-| `deploy-pages.yml` | Push to `main` | Build + publish `dist/` to GitHub Pages |
+| `deploy-pages.yml` | Push to `main` | Build + publish `dist/` to GitHub Pages; prunes old deployments to last 3 |
 | `pages-smoke.yml` | After deploy succeeds | Live URL smoke (HTML bundle, SW, locales, PWA assets) |
+| `prune-deployments.yml` | Manual (`workflow_dispatch`) | Prune GitHub deployments to a configurable number |
 
 ### Build environment (Actions)
 
@@ -44,6 +45,15 @@ VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build
 pnpm exec vite preview --host 127.0.0.1 --port 4173
 # Open http://127.0.0.1:4173/Internet-Archive-Explorer/
 ```
+
+### Deployment pruning
+
+GitHub Pages creates a deployment for every publish. Over time this can grow large (the project once had 132 deployments). Two mechanisms keep the count low:
+
+1. **Automatic:** `.github/workflows/deploy-pages.yml` runs `.github/workflows/prune-deployments.yml`'s logic after every deploy, keeping the 3 most recent deployments.
+2. **Manual:** Run `.github/workflows/prune-deployments.yml` from the Actions tab and set the `keep` input (default 3).
+
+The pruning workflow deactivates deployments before deleting them and tolerates 404s from concurrent runs.
 
 ### Legacy manual deploy
 

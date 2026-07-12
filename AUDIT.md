@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-14 · **Last reviewed:** 2026-07-12
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
-**App Version:** 1.1.0
+**App Version:** 1.3.0
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
 
 ---
@@ -11,7 +11,7 @@
 
 Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently. No critical runtime errors or security vulnerabilities were found. Unit coverage focuses on core utilities/services/hooks; E2E covers smoke + selected axe routes under CI (`vite preview`).
 
-A July 2026 deep audit identified fetching resilience as the highest-priority improvement area. The app now includes exponential backoff with jitter, a per-host concurrency cap, and TanStack Query retry reduction for Internet Archive endpoints.
+A July 2026 deep audit identified fetching resilience as the highest-priority improvement area. The app now includes exponential backoff with jitter, a per-host concurrency cap, and TanStack Query retry reduction for Internet Archive endpoints. A follow-up production cache fix (v1.3.0) bumped the service worker cache, introduced a thumbnail URL utility to reduce ORB failures, and added automatic GitHub deployment pruning.
 
 **Overall Health: ✅ Good** — Production-ready with continuous improvement opportunities documented below.
 
@@ -24,7 +24,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **Retry backoff + jitter** | ✅ | `utils/fetchWithRetry.ts`: default 1s backoff, exponential doubling, ±30% jitter, 60s `Retry-After` cap |
 | **Concurrency cap** | ✅ | `utils/requestQueue.ts` caps archive.org requests; `hooks/useUploaderStats.ts` batches count queries |
 | **TanStack Query retry** | ✅ | IA query defaults set `retry: 0`; service layer remains the retry source of truth |
-| **Validation logging** | 🔄 | `archiveService.ts` logs Zod validation failures; schema relaxation should be data-driven |
+| **Validation logging** | ✅ | `archiveService.ts` logs Zod validation failures; `publicdate`/`mediatype`/`avg_rating` relaxed based on live data |
 | **List caching** | 🔄 | IndexedDB metadata cache exists; search/hub list cache is the next planned improvement |
 | **Offline feedback** | 🔄 | Service Worker returns 503 JSON when offline; explicit UI offline state is planned |
 
@@ -43,7 +43,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **CI Gate** | ✅ | `lint:ci`, `check:i18n`, `tsc`, `test:unit`, `test:unit:coverage`, `ANALYZE=true build`, `check:bundle-size`, `CI=true test:e2e`, Pages Smoke green |
 | **a11y E2E** | ✅ | Contrast on Uploader Hub / For You / Web Archive; `prefers-reduced-motion` in axe tests; no inline `opacity: 0` on cards |
 
-**Remaining (non-blocking):** Real marketing screenshots instead of generated placeholders; consolidate toast dual system; split `types.ts`; manual screenreader passes on all modals.
+**Remaining (non-blocking):** Real marketing screenshots instead of generated placeholders; split `types.ts`; manual screenreader passes on all modals.
 
 ---
 
@@ -87,6 +87,20 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **Open PRs** | ✅ | #1, #3, #8 closed by maintainer |
 
 **Remaining (non-blocking):** `types.ts` split; real marketing screenshots; optional backend proxy for Gemini.
+
+---
+
+## July 2026 — Production Cache & Thumbnail Fix (v1.3.0)
+
+| Area | Status | Details |
+|------|--------|---------|
+| **Service Worker cache** | ✅ | `CACHE_VERSION` bumped to **v10**; stale app shell issue on GitHub Pages resolved |
+| **Thumbnail strategy** | ✅ | `utils/imageUtils.ts` `getArchiveThumbnailUrl()` prefers `__ia_thumb.jpg`; reduces ORB failures |
+| **Audiothek a11y** | ✅ | `AudioCard` light-mode contrast fixed; axe E2E green |
+| **Deployment pruning** | ✅ | `.github/workflows/prune-deployments.yml` + auto-prune in `deploy-pages.yml`; deployments reduced from 132 to 3 |
+| **pnpm overrides** | ✅ | Moved from `package.json` to `pnpm-workspace.yaml` for pnpm v10+ compatibility |
+| **Settings View** | ✅ | Loads correctly after cache bust |
+| **Rec Room** | ✅ | Carousels load correctly after cache bust and schema relaxation |
 
 ---
 
@@ -200,9 +214,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### M7: Service Worker third-party URLs may be stale
 
-- **Impact:** `sw.js` caches URLs for CDN resources that may no longer be used.
+- **Impact:** `sw.js` precaches Google Fonts CSS that may no longer be required.
 - **File:** `public/sw.js` (lines 13-20)
-- **Fix:** Audit and update the list of third-party URLs.
+- **Fix:** Audit and update the list of third-party URLs; current list is harmless.
 - **Effort:** Low
 
 #### M8: Service worker cache size limits — addressed
@@ -302,7 +316,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 | CSP Headers | ✅ Configured | Meta tag in index.html |
 | OAuth Flow | ✅ Secure | PKCE flow, no client secret in frontend |
 | Token Storage | ✅ Secure | sessionStorage with expiration validation |
-| API Keys | ⚠️ Acceptable | Browser-side by design, documented in README |
+| API Keys | ✅ Secure | BYOK browser-side only; never embedded in bundle |
 | Dependencies | ✅ Current | All major deps on latest stable versions |
 | Input Validation | ✅ Strong | Zod + `.safeParse()` in Archive/Gemini services |
 

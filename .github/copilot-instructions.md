@@ -18,7 +18,7 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 ### Quality Standards
 
 - **WCAG 2.2 AA** accessibility — semantic HTML, aria labels, focus management, reduced-motion
-- **PWA** with service worker (`sw.js`) — multi-strategy caching (network-first nav, cache-first API/images, SWR static assets)
+- **PWA** with service worker (`sw.js`) — multi-strategy caching (network-first nav, stale-while-revalidate API, cache-first images, SWR static assets). Bump `CACHE_VERSION` when cache behavior changes.
 - **i18n** — 34 namespace files per language in `locales/{en,de}/{namespace}.json`
 - Never break existing hubs (Videothek, Audiothek, Rec Room, Images, Scriptorium, etc.)
 - Always add proper error handling, loading skeletons, and user-facing error feedback (toast)
@@ -166,6 +166,7 @@ You are an expert full-stack React 19 + TypeScript architect specialized in mode
 - Jotai 2 (state), @tanstack/react-query 5 (server state)
 - Tailwind CSS 3, PostCSS, Autoprefixer, @tailwindcss/typography
 - Framer Motion 12 (animations)
+- Dependency overrides in `pnpm-workspace.yaml` (pnpm v10+ ignores `package.json` `pnpm` field)
 - lucide-react (icons), cmdk (command palette)
 - DOMPurify (XSS), @dnd-kit/\* (drag-and-drop)
 - @google/genai (Gemini AI)

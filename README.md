@@ -205,8 +205,9 @@ Configured workflows:
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
 | `ci.yml` | push/PR to `main` | Biome, TypeScript, Vitest with coverage, production build with bundle analysis, Playwright E2E, Lighthouse CI |
-| `deploy-pages.yml` | push to `main` | Build and publish to GitHub Pages |
+| `deploy-pages.yml` | push to `main` | Build and publish to GitHub Pages; prunes old deployments to the last 3 |
 | `pages-smoke.yml` | after deploy | Live URL smoke checks (manifest, icons, SW, locales) |
+| `prune-deployments.yml` | manual | Prunes GitHub deployments to a configurable number (default 3) |
 | `vercel-deploy.yml` | push to `main` | Optional Vercel deploy (skipped if secrets missing) |
 
 Run checks locally closest to CI:
@@ -262,8 +263,9 @@ If you see i18n keys instead of text:
 
 ### Slow or failed Internet Archive loads (live site)
 
-- The service worker may still be on an old cache line: hard-refresh, or clear site data and reload so `sw.js` updates. The current API timeout for `archive.org` JSON is **30s**.
+- The service worker may still be on an old cache line: hard-refresh, or clear site data and reload so `sw.js` updates. The current API timeout for `archive.org` JSON is **30s**. After cache-behavior changes, `CACHE_VERSION` in `public/sw.js` is bumped so existing clients refresh the app shell.
 - **Rate limits (429):** the app retries with optional `Retry-After`; if errors persist, wait and retry or reduce parallel scrolling.
+- **ORB-blocked thumbnails:** some `archive.org/services/get-item-image.php` responses are blocked by the browser; the app falls back to `__ia_thumb.jpg`.
 
 ### CI failures
 

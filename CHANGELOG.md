@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+*No unreleased changes.*
+
+## [1.3.0] - 2026-07-12
+
+### Added
+
+- **Deployment pruning:** `.github/workflows/prune-deployments.yml` for manual cleanup and automatic post-deploy pruning in `.github/workflows/deploy-pages.yml`. Keeps the last 3 GitHub deployments and removes inactive older entries.
+- **Thumbnail utility:** `utils/imageUtils.ts` now exports `getArchiveThumbnailUrl(identifier)` which prefers the stable `__ia_thumb.jpg` file and falls back to `archive.org/services/get-item-image.php`.
+
+### Changed
+
+- **Thumbnail strategy:** Core cards (`CarouselItemCard`, `ItemCard`, `RecRoomItemCard`, `AudioCard`, `AudioPlayer`, `PlaylistPanel`, library/favorites/AI-archive cards, `ItemDetailSidebar`) now load `__ia_thumb.jpg` first to reduce Opaque Response Blocking (ORB) failures on cross-origin image requests.
+- **pnpm configuration:** Dependency overrides moved from `package.json` to `pnpm-workspace.yaml` because pnpm v10+ no longer reads the `pnpm` field in `package.json`. All existing overrides (`protobufjs`, `ws`, `esbuild`, `@babel/core`, `rimraf`, `glob`, `inflight`) are preserved.
+
+### Fixed
+
+- **Stale app shell:** Bumped service worker `CACHE_VERSION` to **v10** so GitHub Pages clients receive the new app shell and bundled chunks instead of stale `index.html` referencing deleted chunks.
+- **Live demo content fetch:** Rec Room, Settings, and other dynamic views now load correctly after the stale-cache bust.
+- **Audiothek accessibility:** `AudioCard` text now uses `text-gray-900 dark:text-white` and `text-gray-600 dark:text-gray-400`, fixing serious `color-contrast` axe violations in light mode.
+- **Deployment pruning reliability:** Pruning deactivates deployments before deletion and tolerates 404s from concurrent cleanup runs.
+
+## [1.2.0] - 2026-07-12
+
 ### Added
 
 - **Fetching resilience:** `utils/fetchWithRetry.ts` now uses exponential backoff with jitter, higher default backoff (1s), and a 60s cap for `Retry-After` handling.
@@ -40,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Vercel workflow (main):** Secrets gate via step output instead of `if: secrets.*` (Actions validation error).
 - **Pages Smoke:** Checks PWA `./manifest.json` instead of the non-existent Vite `assets/manifest-*.json`.
-- **PWA cache:** Service Worker `CACHE_VERSION` **v8** after deploy housekeeping.
+- **PWA cache:** Service Worker `CACHE_VERSION` **v9** after fetching-resilience deploy.
 
 ## [1.1.0] - 2026-07-12
 
@@ -59,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Security / CI audit:** `pnpm audit --audit-level=moderate` green — Vitest **≥4.1**, `pnpm.overrides` for patched `protobufjs` **≥7.5.8** and `ws` **≥8.20.1**.
+- **Security / CI audit:** `pnpm audit --audit-level=moderate` green — Vitest **≥4.1**, pnpm overrides for patched `protobufjs` **≥7.5.8** and `ws` **≥8.20.1**.
 - **Dependencies:** `jotai`, `@google/genai`, and **`uuid`** moved to **production** `dependencies` (runtime PWA bundle correctly classified).
 - **a11y / axe E2E (June 2026):** Contrast on Uploader Hub, For You, Web Archive, ContentCarousel; `prefers-reduced-motion` in axe tests; no inline `opacity: 0` on animated cards.
 - **CI / axe E2E:** Contrast fixes on Scriptorium Hub, AI Archive (empty state), My Archive (Connect), SideMenu navigation, and Command Palette rows — prevents **serious color-contrast** issues on all hubs audited in `a11y.spec.ts` under production `vite preview`.
@@ -162,7 +185,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Session-scoped token storage with expiration validation
 - No hardcoded secrets in source code
 
-[Unreleased]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/qnbs/Internet-Archive-Explorer/compare/v1.0.0...v1.0.1

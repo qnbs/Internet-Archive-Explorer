@@ -121,6 +121,8 @@ pnpm 10 may block `esbuild` postinstall. If the binary is missing:
 pnpm rebuild esbuild
 ```
 
+Dependency overrides live in `pnpm-workspace.yaml` because pnpm v10+ no longer reads the `pnpm` field in `package.json`.
+
 ### Development
 
 ```bash
@@ -332,6 +334,11 @@ GitHub Actions `.github/workflows/ci.yml` runs:
 - Checks live: HTML contains bundled JS, `sw.js`, `manifest.json`, icons, locales
 - CDN propagation guard: 20 attempts × 15 seconds
 
+### Deployment Pruning
+
+- `.github/workflows/prune-deployments.yml` can be triggered manually to keep only the last N deployments (default 3).
+- `.github/workflows/deploy-pages.yml` prunes automatically after every deploy to prevent unbounded GitHub deployment growth.
+
 ### Vercel (optional)
 
 - `vercel.json`: SPA rewrites, cache headers for `sw.js`/`manifest.json`/icons
@@ -357,6 +364,7 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 | `.vscode/settings.json` | ESLint disabled, Biome as default formatter |
 | `.github/bundle-budgets.json` | Brotli size budgets per chunk |
 | `.github/release.yml` | Categories for auto-release notes |
+| `pnpm-workspace.yaml` | pnpm v10+ dependency overrides |
 
 ## 10. Known Tech Debt (do not enlarge)
 

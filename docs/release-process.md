@@ -28,7 +28,7 @@ Internet Archive Explorer is deployed automatically to GitHub Pages on every pus
    - Click **"Generate release notes"** — this uses `.github/release.yml` to group commits by label
    - Review and publish
 
-5. **Deployment** — the `Deploy to GitHub Pages` workflow runs automatically on push to `main`. The live app updates within ~2 minutes.
+5. **Deployment** — the `Deploy to GitHub Pages` workflow runs automatically on push to `main`. The live app updates within ~2 minutes. After deploy, old GitHub deployments are pruned to the last 3 automatically.
 
 ## Versioning
 
