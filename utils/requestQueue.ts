@@ -55,14 +55,14 @@ const archiveOrgQueue = new HostRequestQueue(ARCHIVE_ORG_MAX_CONCURRENCY);
 /**
  * Run the given task while respecting the archive.org concurrency limit.
  */
-export function withArchiveOrgConcurrency<T>(task: () => Promise<T>): Promise<T> {
+export const withArchiveOrgConcurrency = <T>(task: () => Promise<T>): Promise<T> => {
   return archiveOrgQueue.enqueue(task);
-}
+};
 
 /** Test-only helper: drains and resets the archive.org concurrency queue. */
-export function resetArchiveOrgQueueForTests(): void {
+export const resetArchiveOrgQueueForTests = (): void => {
   archiveOrgQueue.reset();
-}
+};
 
 /**
  * Execute a list of async tasks with a bounded concurrency.
@@ -70,10 +70,10 @@ export function resetArchiveOrgQueueForTests(): void {
  * Useful when a single component needs to fire multiple independent requests
  * without exhausting the per-host connection pool.
  */
-export async function promiseAllWithConcurrency<T>(
+export const promiseAllWithConcurrency = async <T>(
   tasks: Array<() => Promise<T>>,
   concurrency: number,
-): Promise<T[]> {
+): Promise<T[]> => {
   if (!Number.isInteger(concurrency) || concurrency <= 0) {
     throw new Error('concurrency must be a positive integer');
   }
@@ -81,14 +81,14 @@ export async function promiseAllWithConcurrency<T>(
   const results: T[] = new Array(tasks.length);
   let index = 0;
 
-  async function worker(): Promise<void> {
+  const worker = async (): Promise<void> => {
     while (index < tasks.length) {
       const currentIndex = index++;
       results[currentIndex] = await tasks[currentIndex]();
     }
-  }
+  };
 
   const workers = Array.from({ length: Math.min(concurrency, tasks.length) }, () => worker());
   await Promise.all(workers);
   return results;
-}
+};

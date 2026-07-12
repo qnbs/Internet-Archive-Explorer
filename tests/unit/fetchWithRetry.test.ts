@@ -86,9 +86,9 @@ describe('fetchWithRetry', () => {
       .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '1' } }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0.3);
+    const promise = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0.3);
     await vi.advanceTimersByTimeAsync(1000);
-    const res = await p;
+    const res = await promise;
 
     expect(res.ok).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -114,9 +114,9 @@ describe('fetchWithRetry', () => {
       .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '300' } }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
 
-    const p = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0.3);
+    const promise = fetchWithRetry('https://example.com', {}, 2, 10, 30_000, 0.3);
     await vi.advanceTimersByTimeAsync(60_000);
-    const res = await p;
+    const res = await promise;
 
     expect(res.ok).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);

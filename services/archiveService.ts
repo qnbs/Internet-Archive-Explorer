@@ -22,10 +22,10 @@ const REQUEST_TIMEOUT_MS = 32000;
 const VALIDATION_MAX_ATTEMPTS = 3;
 const VALIDATION_BACKOFF_MS = 400;
 
-function recordCacheAge(response: Response): void {
+const recordCacheAge = (response: Response): void => {
   const cacheTime = response.headers.get('X-SW-Cache-Time');
   jotaiStore.set(lastCacheAgeAtom, cacheTime ? Number(cacheTime) : null);
-}
+};
 
 /** HTTP statuses worth retrying at the fetch layer (TanStack uses {@link ArchiveServiceError.retryable}). */
 export function httpStatusAllowsRetry(status: number): boolean {
@@ -67,8 +67,8 @@ const handleFetchError = (error: unknown, context: string): never => {
   );
 };
 
-async function fetchRawJson(url: string, context: string): Promise<unknown> {
-  return withArchiveOrgConcurrency(async () => {
+const fetchRawJson = (url: string, context: string): Promise<unknown> =>
+  withArchiveOrgConcurrency(async () => {
     try {
       const response = await fetchWithRetry(url, {}, 2, 1000, REQUEST_TIMEOUT_MS);
       recordCacheAge(response);
@@ -101,7 +101,6 @@ async function fetchRawJson(url: string, context: string): Promise<unknown> {
       return handleFetchError(error, context);
     }
   });
-}
 
 async function fetchValidated<T>(url: string, context: string, schema: z.ZodType<T>): Promise<T> {
   let lastZodError: z.ZodError | undefined;
@@ -180,8 +179,8 @@ export const getItemMetadata = async (identifier: string): Promise<ArchiveMetada
   return data as ArchiveMetadata;
 };
 
-export const getItemPlainText = async (identifier: string): Promise<string> => {
-  return withArchiveOrgConcurrency(async () => {
+export const getItemPlainText = (identifier: string): Promise<string> =>
+  withArchiveOrgConcurrency(async () => {
     const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
 
     try {
@@ -223,7 +222,6 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
       return handleFetchError(error, `plain text for ${identifier}`);
     }
   });
-};
 
 export const searchWaybackMachine = async (url: string): Promise<WaybackResponse> => {
   const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&fl=timestamp,original&collapse=digest`;

@@ -40,9 +40,7 @@ describe('withArchiveOrgConcurrency', () => {
 
   it('propagates task errors', async () => {
     await expect(
-      withArchiveOrgConcurrency(async () => {
-        throw new Error('boom');
-      }),
+      withArchiveOrgConcurrency(() => Promise.reject(new Error('boom'))),
     ).rejects.toThrow('boom');
   });
 });

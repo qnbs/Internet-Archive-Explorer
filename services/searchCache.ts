@@ -9,23 +9,23 @@ const CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
  * The key includes the query, page number, sort order and page size so that
  * changing any of these parameters yields a separate cache entry.
  */
-export function buildSearchCacheKey(
+export const buildSearchCacheKey = (
   prefix: string,
   query: string,
   page: number,
   sorts: string[] = [],
   limit?: number,
-): string {
+): string => {
   const sortPart = sorts.join(',');
   return `${prefix}:${query}:page:${page}:sort:${sortPart}:limit:${limit ?? 24}`;
-}
+};
 
 /**
  * Read a cached search result if it exists and has not expired.
  */
-export async function getCachedSearchResult(
+export const getCachedSearchResult = async (
   key: string,
-): Promise<ArchiveSearchResponse | undefined> {
+): Promise<ArchiveSearchResponse | undefined> => {
   const cached = await searchCache.get(key);
   if (!cached) return undefined;
 
@@ -35,17 +35,17 @@ export async function getCachedSearchResult(
   }
 
   return cached.data;
-}
+};
 
 /**
  * Persist a search result page to IndexedDB.
  */
-export async function setCachedSearchResult(
+export const setCachedSearchResult = async (
   key: string,
   data: ArchiveSearchResponse,
-): Promise<void> {
+): Promise<void> => {
   await searchCache.set(key, { data, cachedAt: Date.now() });
-}
+};
 
 /**
  * Remove search result entries whose `cachedAt` timestamp exceeds the TTL.
@@ -53,7 +53,7 @@ export async function setCachedSearchResult(
  * This is intended to run during application startup or on a long interval so
  * expired entries are cleaned up even if their keys are never read again.
  */
-export async function cleanupExpiredSearchResults(): Promise<number> {
+export const cleanupExpiredSearchResults = async (): Promise<number> => {
   const keys = await searchCache.keys();
   const now = Date.now();
   let removed = 0;
@@ -69,4 +69,4 @@ export async function cleanupExpiredSearchResults(): Promise<number> {
   );
 
   return removed;
-}
+};

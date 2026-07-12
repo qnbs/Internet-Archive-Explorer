@@ -12,7 +12,7 @@ import type { ArchiveItemSummary } from '@/types';
  * Replaces the old useState/useEffect approach with proper caching + deduplication.
  * Results are persisted to IndexedDB for instant subsequent loads.
  */
-export const useArchivalItems = (query: string, limit: number = 15) => {
+export const useArchivalItems = (query: string, limit = 15) => {
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error, refetch } = useQuery<ArchiveItemSummary[], Error>({
     queryKey: ['archivalItems', query, limit],

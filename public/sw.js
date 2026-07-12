@@ -150,7 +150,7 @@ const isImageRequest = (request) => {
   return isImageHost && (isImagePath || isImageDestination);
 };
 
-async function putInCache(cacheName, request, response) {
+const putInCache = async function (cacheName, request, response) {
   const cache = await caches.open(cacheName);
   const responseClone = response.clone();
   const headers = new Headers(responseClone.headers);
@@ -165,7 +165,7 @@ async function putInCache(cacheName, request, response) {
   await cache.put(request, responseToCache);
   touch(request.url);
   await enforceBudgetsAfterPut(cacheName);
-}
+};
 
 /** Stale-while-revalidate for IA JSON/API responses */
 function handleApiStaleWhileRevalidate(event, request) {

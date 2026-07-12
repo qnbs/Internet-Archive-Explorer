@@ -3,7 +3,7 @@ import type { Language } from '@/types';
 /**
  * Format a cache timestamp as a human-readable relative age.
  */
-export function formatCacheAge(cacheTimeMs: number, language: Language): string {
+export const formatCacheAge = (cacheTimeMs: number, language: Language): string => {
   const diff = Date.now() - cacheTimeMs;
   const seconds = Math.floor(diff / 1000);
   const rtf = new Intl.RelativeTimeFormat(language, { numeric: 'auto', style: 'narrow' });
@@ -21,4 +21,4 @@ export function formatCacheAge(cacheTimeMs: number, language: Language): string 
   }
   const days = Math.floor(hours / 24);
   return rtf.format(-days, 'day');
-}
+};

@@ -1,11 +1,16 @@
-import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  type InfiniteData,
+  type QueryClient,
+  useInfiniteQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { searchArchive } from '@/services/archiveService';
 import {
   buildSearchCacheKey,
   getCachedSearchResult,
   setCachedSearchResult,
 } from '@/services/searchCache';
-import type { ArchiveItemSummary } from '@/types';
+import type { ArchiveItemSummary, ArchiveSearchResponse } from '@/types';
 
 interface UseInfiniteArchiveOptions {
   query: string;
@@ -19,6 +24,41 @@ interface ArchivePage {
   nextPage: number | null;
   totalFound: number;
 }
+
+const buildArchivePage = (
+  response: ArchiveSearchResponse,
+  page: number,
+  pageSize: number,
+): ArchivePage => {
+  const docs = response.response?.docs ?? [];
+  const totalFound = response.response?.numFound ?? 0;
+  const hasMore = page * pageSize < totalFound;
+  return { items: docs, nextPage: hasMore ? page + 1 : null, totalFound };
+};
+
+const refreshCachedPage = (
+  queryClient: QueryClient,
+  queryKey: unknown[],
+  effectiveQuery: string,
+  page: number,
+  sort: string[],
+  pageSize: number,
+  cacheKey: string,
+): void => {
+  searchArchive(effectiveQuery, page, sort, undefined, pageSize)
+    .then((fresh) => {
+      setCachedSearchResult(cacheKey, fresh);
+      queryClient.setQueryData<InfiniteData<ArchivePage>>(queryKey, (old) => {
+        if (!old) return old;
+        const pageIndex = old.pageParams.indexOf(page);
+        if (pageIndex === -1) return old;
+        const newPages = [...old.pages];
+        newPages[pageIndex] = buildArchivePage(fresh, page, pageSize);
+        return { ...old, pages: newPages };
+      });
+    })
+    .catch(() => undefined);
+};
 
 /**
  * TanStack Query v5 Infinite Scroll hook for the Internet Archive API.
@@ -41,41 +81,21 @@ export const useInfiniteArchive = ({
 
       const cached = await getCachedSearchResult(cacheKey);
       if (cached) {
-        searchArchive(effectiveQuery, page, sort, undefined, pageSize)
-          .then((fresh) => {
-            setCachedSearchResult(cacheKey, fresh);
-            queryClient.setQueryData<InfiniteData<ArchivePage>>(
-              ['infiniteArchive', query, pageSize, sort, mediaType],
-              (old) => {
-                if (!old) return old;
-                const pageIndex = old.pageParams.indexOf(page);
-                if (pageIndex === -1) return old;
-                const docs = fresh.response?.docs ?? [];
-                const totalFound = fresh.response?.numFound ?? 0;
-                const hasMore = page * pageSize < totalFound;
-                const newPages = [...old.pages];
-                newPages[pageIndex] = {
-                  items: docs,
-                  nextPage: hasMore ? page + 1 : null,
-                  totalFound,
-                };
-                return { ...old, pages: newPages };
-              },
-            );
-          })
-          .catch(() => undefined);
-        const docs = cached.response?.docs ?? [];
-        const totalFound = cached.response?.numFound ?? 0;
-        const hasMore = page * pageSize < totalFound;
-        return { items: docs, nextPage: hasMore ? page + 1 : null, totalFound };
+        refreshCachedPage(
+          queryClient,
+          ['infiniteArchive', query, pageSize, sort, mediaType],
+          effectiveQuery,
+          page,
+          sort,
+          pageSize,
+          cacheKey,
+        );
+        return buildArchivePage(cached, page, pageSize);
       }
 
       const result = await searchArchive(effectiveQuery, page, sort, undefined, pageSize);
       await setCachedSearchResult(cacheKey, result);
-      const docs = result.response?.docs ?? [];
-      const totalFound = result.response?.numFound ?? 0;
-      const hasMore = page * pageSize < totalFound;
-      return { items: docs, nextPage: hasMore ? page + 1 : null, totalFound };
+      return buildArchivePage(result, page, pageSize);
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
