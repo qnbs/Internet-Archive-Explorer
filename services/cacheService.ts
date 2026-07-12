@@ -90,6 +90,35 @@ const createIndexedDBCache = <T>(storeName: string) => {
         return [];
       }
     },
+    async clear(): Promise<void> {
+      try {
+        const db = await getDb();
+        await new Promise<void>((resolve, reject) => {
+          const tx = db.transaction(storeName, 'readwrite');
+          const store = tx.objectStore(storeName);
+          const request = store.clear();
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        logger.error(`IndexedDB clear error (${storeName}):`, error);
+      }
+    },
+    async count(): Promise<number> {
+      try {
+        const db = await getDb();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const request = store.count();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        logger.warn(`IndexedDB count error (${storeName}):`, error);
+        return 0;
+      }
+    },
   };
 };
 
@@ -98,5 +127,28 @@ export interface CachedSearchEntry {
   cachedAt: number;
 }
 
+export interface CacheStats {
+  metadataCount: number;
+  searchCount: number;
+}
+
 export const metadataCache = createIndexedDBCache<ArchiveMetadata>(METADATA_STORE);
 export const searchCache = createIndexedDBCache<CachedSearchEntry>(SEARCH_STORE);
+
+/**
+ * Clear all IndexedDB-backed caches used by the app.
+ */
+export const clearAllCaches = async (): Promise<void> => {
+  await Promise.all([metadataCache.clear(), searchCache.clear()]);
+};
+
+/**
+ * Return the number of entries in each IndexedDB cache store.
+ */
+export const getCacheStats = async (): Promise<CacheStats> => {
+  const [metadataCount, searchCount] = await Promise.all([
+    metadataCache.count(),
+    searchCache.count(),
+  ]);
+  return { metadataCount, searchCount };
+};

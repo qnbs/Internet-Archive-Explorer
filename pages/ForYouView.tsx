@@ -5,6 +5,7 @@ import React, { useEffect, useMemo } from 'react';
 import { ContentCarousel } from '@/components/ContentCarousel';
 import { CompassIcon, SparklesIcon, StarIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { searchArchive } from '@/services/archiveService';
@@ -215,6 +216,7 @@ const TrendingSection: React.FC = () => {
         onRetry={refetch}
         cardAspectRatio="video"
         titleIcon={<TrendingIcon className="w-4 h-4" />}
+        headerAddon={<CacheAgeIndicator />}
       />
     </motion.div>
   );

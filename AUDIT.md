@@ -24,7 +24,9 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **Dynamic PWA manifest** | ✅ | `public/manifest.json` generated from `public/manifest.template.json` using `VITE_BASE_PATH`; scope/start_url/id/shortcuts/share_target are portable to any base path |
 | **Tailwind/PostCSS cleanup** | ✅ | Removed unused `@tailwindcss/postcss` v4 package; build remains on Tailwind CSS v3 with no warnings |
 | **Asset generation script** | ✅ | Fixed `createDeflateSync` → `deflateSync` for Node.js 24+ compatibility |
-| **Full verification suite** | ✅ | `lint:ci`, `check`, `sync:locales`, builds for both base paths passed; E2E pending final run |
+| **IndexedDB cache UI** | ✅ | Settings panel shows metadata/search cache counts and clear action; `CacheAgeIndicator` in Explore and For You |
+| **Cache/offline tests** | ✅ | Unit tests for `cacheService`, `searchCache`, `formatCacheAge`, `useOnlineStatus` |
+| **Full verification suite** | ✅ | `lint:ci`, `check`, `sync:locales`, build passed; E2E runs in CI cloud |
 
 **Remaining backlog (Phase 1+):**
 - IndexedDB-backed search/hub list caching

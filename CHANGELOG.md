@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Dynamic PWA manifest:** `public/manifest.json` is now generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`. This makes the PWA scope, `start_url`, `id`, `share_target`, and shortcuts correct on both GitHub Pages (`/Internet-Archive-Explorer/`) and Vercel (`/`).
 - **Build-time manifest script:** `scripts/generate-pwa-assets.mjs` now also generates the manifest and normalizes the base path (leading slash, trailing slash).
+- **Offline cache manager:** New **Settings → Data & Privacy → Offline Cache** panel shows IndexedDB search/metadata entry counts and lets users clear the cache.
+- **Cache age indicator:** Now shown in **For You** trending section in addition to **Explore**.
+- **Unit tests:** Added tests for `cacheService`, `searchCache`, `formatCacheAge`, and `useOnlineStatus`.
 
 ### Changed
 

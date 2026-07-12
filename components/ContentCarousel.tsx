@@ -16,6 +16,7 @@ interface ContentCarouselProps {
   viewMoreLabel?: string;
   titleIcon?: React.ReactNode;
   hideTitle?: boolean;
+  headerAddon?: React.ReactNode;
 }
 
 export const ContentCarousel: React.FC<ContentCarouselProps> = ({
@@ -29,6 +30,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
   viewMoreLabel,
   titleIcon,
   hideTitle = false,
+  headerAddon,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -125,6 +127,7 @@ export const ContentCarousel: React.FC<ContentCarouselProps> = ({
             )}
             {title}
           </h2>
+          {headerAddon}
           {viewMoreAction && (
             <button
               type="button"

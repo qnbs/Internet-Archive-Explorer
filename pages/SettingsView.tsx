@@ -12,6 +12,7 @@ import {
   TrashIcon,
   UploadIcon,
 } from '@/components/Icons';
+import { CacheManager } from '@/components/settings/CacheManager';
 import { PWAInstallManager } from '@/components/settings/PWAInstallManager';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { useToast } from '@/contexts/ToastContext';
@@ -788,6 +789,8 @@ const DataSettingsPanel: React.FC<{ showConfirmation: (options: ConfirmationOpti
           </label>
         </div>
       </div>
+
+      <CacheManager />
 
       <PWAInstallManager />
 
