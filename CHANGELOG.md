@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Dependency cleanup:** Removed unused `@tailwindcss/postcss` v4 package; the project remains on Tailwind CSS v3 with the existing custom theme configuration.
+- **Deployment target:** Vercel auto-deploy is disabled. The Vercel live link has been removed from `README.md` and `.github/workflows/vercel-deploy.yml` has been deleted. `vercel.json` remains as a reference configuration only.
 
 ### Fixed
 

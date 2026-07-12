@@ -4,7 +4,7 @@ Quick reference for AI coding agents working on this project. Expected tools: **
 
 ## 1. Project Overview
 
-**Internet Archive Explorer** is a client-only **React 19 + TypeScript 6 + Vite 8** single-page application (SPA). It runs as an installable **Progressive Web App (PWA)** with English and German interfaces and is delivered on **GitHub Pages** under the base path `/Internet-Archive-Explorer/` and on **Vercel** under root path (`/`). Both deploy automatically on every push to `main`.
+**Internet Archive Explorer** is a client-only **React 19 + TypeScript 6 + Vite 8** single-page application (SPA). It runs as an installable **Progressive Web App (PWA)** with English and German interfaces and is delivered on **GitHub Pages** under the base path `/Internet-Archive-Explorer/`. Deploys run automatically on every push to `main`.
 
 ### Core Features
 
@@ -65,7 +65,7 @@ Quick reference for AI coding agents working on this project. Expected tools: **
 ├── tailwind.config.js      # Theme tokens (ia-*, accent-*, sepia-*)
 ├── postcss.config.js       # Tailwind + autoprefixer
 ├── lighthouserc.json       # Lighthouse CI (Accessibility ≥ 0.95)
-├── vercel.json             # SPA rewrites, cache headers (optional)
+├── vercel.json             # SPA rewrites, cache headers (reference, not auto-deployed)
 │
 ├── components/             # React components, grouped by feature
 │   ├── ui/                 # Primitives (Button, Card, Modal, ThemeToggle)
@@ -93,7 +93,7 @@ Quick reference for AI coding agents working on this project. Expected tools: **
 ├── scripts/                # Build / sync / check scripts
 ├── tests/                  # Unit tests and E2E tests
 ├── docs/                   # Deployment, branch protection, release process
-└── .github/workflows/      # CI, Pages deploy, Pages smoke, Vercel deploy
+└── .github/workflows/      # CI, Pages deploy, Pages smoke
 ```
 
 ## 4. Build, Dev, and Test Commands
@@ -133,7 +133,7 @@ GitHub parity locally:
 
 ```bash
 pnpm run dev --host 127.0.0.1 --port 5173   # http://127.0.0.1:5173/Internet-Archive-Explorer/
-VITE_BASE_PATH=/ pnpm run dev --host 127.0.0.1 --port 5173   # root path (Vercel-like)
+VITE_BASE_PATH=/ pnpm run dev --host 127.0.0.1 --port 5173   # root path
 ```
 
 ### Build
@@ -339,11 +339,10 @@ GitHub Actions `.github/workflows/ci.yml` runs:
 - `.github/workflows/prune-deployments.yml` can be triggered manually to keep only the last N deployments (default 3).
 - `.github/workflows/deploy-pages.yml` prunes automatically after every deploy to prevent unbounded GitHub deployment growth.
 
-### Vercel
+### Alternative hosting
 
-- `vercel.json`: SPA rewrites, cache headers for `sw.js`/`manifest.json`/icons
-- GitHub Actions workflow `.github/workflows/vercel-deploy.yml` runs on every push to `main` (production) and on PRs (preview)
-- On Vercel: `VITE_BASE_PATH=/`
+- The app can be built for root-path hosting with `VITE_BASE_PATH=/`
+- `vercel.json` is kept as a reference configuration but is no longer auto-deployed from this repo
 
 ### Legacy
 
@@ -357,7 +356,7 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 |------|---------|
 | `CLAUDE.md` | Detailed architecture, state layers, feature checklist, known tech debt |
 | `CONTRIBUTING.md` | Local setup, editor config, commit format, PR workflow |
-| `docs/DEPLOYMENT.md` | GitHub Pages + Vercel step-by-step |
+| `docs/DEPLOYMENT.md` | GitHub Pages step-by-step; alternative hosting notes |
 | `docs/branch-protection.md` | Recommended GitHub branch protection |
 | `docs/release-process.md` | Semantic-versioning release process |
 | `.cursor/rules/internet-archive-explorer.mdc` | Cursor-specific project rules |

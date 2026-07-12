@@ -21,7 +21,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 
 | Area | Status | Details |
 |------|--------|---------|
-| **Dynamic PWA manifest** | ✅ | `public/manifest.json` generated from `public/manifest.template.json` using `VITE_BASE_PATH`; scope/start_url/id/shortcuts/share_target are portable between GitHub Pages and Vercel |
+| **Dynamic PWA manifest** | ✅ | `public/manifest.json` generated from `public/manifest.template.json` using `VITE_BASE_PATH`; scope/start_url/id/shortcuts/share_target are portable to any base path |
 | **Tailwind/PostCSS cleanup** | ✅ | Removed unused `@tailwindcss/postcss` v4 package; build remains on Tailwind CSS v3 with no warnings |
 | **Asset generation script** | ✅ | Fixed `createDeflateSync` → `deflateSync` for Node.js 24+ compatibility |
 | **Full verification suite** | ✅ | `lint:ci`, `check`, `sync:locales`, builds for both base paths passed; E2E pending final run |
@@ -70,10 +70,10 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | Area | Status | Details |
 |------|--------|---------|
 | **Merge PR #4** | ✅ | Perfection Sprint on `main` |
-| **Vercel** | ✅ | `vercel.json`, `vercel-deploy.yml` (runs on every push to `main` and on PRs), `docs/DEPLOYMENT.md` |
+| **Vercel** | ❌ Removed | Auto-deploy workflow removed; `vercel.json` kept as reference only |
 | **GitHub Pages** | ✅ | Smoke extended (manifest, icons); CI checks PWA assets in `dist/` |
 | **Quality gates** | ✅ | Biome `useExhaustiveDependencies` → error; coverage via `@vitest/coverage-v8` |
-| **SW / Vercel preview** | ✅ | `sw-register.js`: unregisters all SW on preview hosts; `*.vercel.app` excluded |
+| **SW preview hosts** | ✅ | `sw-register.js`: unregisters all SW on dev/preview hosts (localhost, Codespaces, vercel.app) |
 | **Agent rules** | ✅ | Strict gates + PR bot comments in `.cursor/rules/` |
 | **Tests** | ✅ | `tests/unit/logger.test.ts`; `pnpm run test:unit:coverage` |
 
@@ -85,7 +85,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 |------|--------|---------|
 | **PRs #4–#6** | ✅ | Perfection Sprint, Deploy Housekeeping, Pages-Smoke-Fix on `main` |
 | **Pages Smoke** | ✅ | PWA `./manifest.json` + icons; CI run success |
-| **Vercel Actions** | ✅ | Step-output gate (no `secrets` in `if`); skip when secrets missing |
+| **Vercel Actions** | ❌ Removed | Workflow deleted; no longer part of CI |
 | **AGENTS.md** | ✅ | Consolidated from draft PRs #1/#3 |
 | **Branch cleanup** | ✅ | Merged `cursor/*` branches removed |
 

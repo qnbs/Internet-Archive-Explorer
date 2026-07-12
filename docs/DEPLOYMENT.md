@@ -1,15 +1,14 @@
 # Deployment Guide — Internet Archive Explorer
 
-This document covers **GitHub Pages** (primary) and **Vercel** (mirror / previews). Both deploy automatically on every push to `main`.
+This document covers **GitHub Pages**, the primary deployment target.
 
 ## Overview
 
 | Target | Base path | Build trigger | URL pattern |
 | ------ | --------- | ------------- | ----------- |
 | **GitHub Pages** | `/<repo-name>/` | Push to `main` → `deploy-pages.yml` | `https://<user>.github.io/Internet-Archive-Explorer/` |
-| **Vercel** | `/` (root) | Push to `main` / PR → `vercel-deploy.yml` | `https://<project>.vercel.app/` or custom domain |
 
-Both targets use the same Vite build (`pnpm run build`) with different `VITE_BASE_PATH` values. `public/manifest.json` is generated at build time from `public/manifest.template.json` so the PWA scope, start URL, shortcuts, and share target match the current base path.
+The Vite build (`pnpm run build`) uses `VITE_BASE_PATH` to produce the correct asset paths and PWA manifest. `public/manifest.json` is generated at build time from `public/manifest.template.json` so the PWA scope, start URL, shortcuts, and share target match the current base path.
 
 ---
 
@@ -46,6 +45,13 @@ pnpm exec vite preview --host 127.0.0.1 --port 4173
 # Open http://127.0.0.1:4173/Internet-Archive-Explorer/
 ```
 
+For root-path parity (custom domain or other static host):
+
+```bash
+VITE_BASE_PATH=/ pnpm run build
+pnpm exec vite preview --host 127.0.0.1 --port 4173
+```
+
 ### Deployment pruning
 
 GitHub Pages creates a deployment for every publish. Over time this can grow large (the project once had 132 deployments). Two mechanisms keep the count low:
@@ -63,37 +69,15 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 
 ---
 
-## Vercel
+## Alternative hosting
 
-### Why Vercel?
+The app can be hosted on any static file host. Build with the appropriate base path:
 
-- Root-path hosting (`/` instead of `/Internet-Archive-Explorer/`)
-- PR preview URLs
-- Edge headers for `sw.js` / `manifest.json` (see `vercel.json`)
-- Build-time manifest generation ensures correct PWA scope on root-path hosting
+```bash
+VITE_BASE_PATH=/ pnpm run build
+```
 
-### GitHub Actions (`vercel-deploy.yml`)
-
-The `vercel-deploy.yml` workflow runs automatically on every push to `main` (production deploy) and on pull requests (preview deploy). Add these repository secrets:
-
-| Secret | Description |
-| ------ | ----------- |
-| `VERCEL_TOKEN` | Vercel account token |
-| `VERCEL_ORG_ID` | Team/user ID |
-| `VERCEL_PROJECT_ID` | Project ID |
-
-If any secret is missing, the workflow **fails** so the misconfiguration is noticed immediately.
-
-`vercel.json` in the repo root configures rewrites (SPA fallback), cache headers, and frozen lockfile install.
-
-### Alternative — Vercel Dashboard
-
-If you prefer Vercel's native Git integration, disable `vercel-deploy.yml` (or remove the `push`/`pull_request` triggers) and import the GitHub repository in [Vercel](https://vercel.com/new) with framework preset **Vite**, output directory `dist`, and `VITE_BASE_PATH=/`.
-
-### Service worker on Vercel
-
-- **Production** custom domain: SW registers normally (scope derived from script path).
-- **Preview** `*.vercel.app`: SW registration is disabled in `sw-register.js` to avoid stale preview caches (same pattern as Codespaces / localhost).
+`vercel.json` is kept in the repo as a reference configuration for Vercel-style rewrites and cache headers, but it is no longer deployed automatically from this repository.
 
 ---
 
@@ -141,10 +125,6 @@ See `.env.example`. `VITE_*` variables used at build time are embedded in the cl
 ### SW serves stale bundles after deploy
 
 → Hard refresh; clear site data; confirm `sw.js` cache version bumped (`CACHE_VERSION` in `public/sw.js`).
-
-### Vercel 404 on deep links
-
-→ Confirm `vercel.json` rewrites are deployed; `VITE_BASE_PATH` must match hosting root (`/` on Vercel).
 
 ### CI green but Pages smoke fails
 

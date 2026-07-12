@@ -10,7 +10,7 @@ alwaysApply: true
 
 - Repo root **`CLAUDE.md`**: pnpm, Biome-only, layer ordering (services → hooks → components), TanStack Query vs Jotai, `safeAtomWithStorage`, i18n namespace checklist.
 - **`AGENTS.md`**: Cursor Cloud VM — dev server URLs, esbuild, CI parity, smoke checks.
-- **`docs/DEPLOYMENT.md`**: GitHub Pages + Vercel.
+- **`docs/DEPLOYMENT.md`**: GitHub Pages (primary) + alternative hosting notes.
 - **`CONTRIBUTING.md`**: local gate (`lint:ci`, `check:i18n`, `test:unit`, **`ANALYZE=true` build**, `check:bundle-size`, **`CI=true` E2E**).
 
 ## Tooling in Cursor
@@ -37,4 +37,4 @@ alwaysApply: true
 ## Deployment
 
 - **GitHub Pages:** primary via `deploy-pages.yml` — see **`docs/DEPLOYMENT.md`**.
-- **Vercel:** automatic deploy via `vercel.json` + `vercel-deploy.yml` on every push to `main` (secrets required); `VITE_BASE_PATH=/` on Vercel.
+- **Vercel / alternative hosting:** `vercel.json` is kept as reference but no longer auto-deployed; build with `VITE_BASE_PATH=/` for root-path hosting.

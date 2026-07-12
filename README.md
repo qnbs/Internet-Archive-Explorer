@@ -4,8 +4,7 @@
 
 A modern, installable web app for discovering, exploring, and curating content from the [Internet Archive](https://archive.org). It combines global search, curated content hubs, a personal library, a research workspace, and optional AI-assisted discovery — all running as a client-side Progressive Web App (PWA) with English and German interfaces.
 
-**Live app (GitHub Pages):** https://qnbs.github.io/Internet-Archive-Explorer/  
-**Live app (Vercel):** https://internet-archive-explorer.vercel.app/
+**Live app:** https://qnbs.github.io/Internet-Archive-Explorer/
 
 ---
 
@@ -30,7 +29,7 @@ A modern, installable web app for discovering, exploring, and curating content f
 
 ## Overview
 
-Internet Archive Explorer is a React + TypeScript single-page application built with Vite. State is managed with Jotai for client state and TanStack Query for server state. The app is deployed to both GitHub Pages under the base path `/Internet-Archive-Explorer/` and to Vercel served from root (`/`). Both deploys run automatically on every push to `main`.
+Internet Archive Explorer is a React + TypeScript single-page application built with Vite. State is managed with Jotai for client state and TanStack Query for server state. The app is deployed to GitHub Pages under the base path `/Internet-Archive-Explorer/`. Pushes to `main` trigger an automatic build and deploy via GitHub Actions.
 
 It is intentionally **backend-free**: all content comes directly from public archive.org APIs. Optional Google Gemini features use a Bring Your Own Key (BYOK) model; keys are stored only in the browser and never embedded in the shipped bundle.
 
@@ -87,7 +86,7 @@ It is intentionally **backend-free**: all content comes directly from public arc
 ├── tailwind.config.js      # Theme tokens
 ├── postcss.config.js       # Tailwind + autoprefixer
 ├── lighthouserc.json       # Lighthouse CI accessibility gate
-├── vercel.json             # SPA rewrites, cache headers (optional)
+├── vercel.json             # SPA rewrites, cache headers (optional, not actively deployed)
 │
 ├── components/             # React components grouped by feature
 ├── contexts/               # React contexts (Toast, HelpView, ItemDetail)
@@ -101,7 +100,7 @@ It is intentionally **backend-free**: all content comes directly from public arc
 ├── scripts/                # Build / sync / check scripts
 ├── tests/                  # Unit and E2E tests
 ├── docs/                   # Deployment, branch protection, release process
-└── .github/workflows/      # CI, Pages deploy, Pages smoke, Vercel deploy
+└── .github/workflows/      # CI, Pages deploy, Pages smoke
 ```
 
 ---
@@ -129,7 +128,7 @@ pnpm run dev --host 127.0.0.1 --port 5173
 # http://127.0.0.1:5173/Internet-Archive-Explorer/
 ```
 
-For root-path hosting parity (Vercel-like):
+For root-path hosting parity:
 
 ```bash
 VITE_BASE_PATH=/ pnpm run dev --host 127.0.0.1 --port 5173
@@ -183,11 +182,11 @@ Legacy manual deploy to `gh-pages` branch:
 pnpm run deploy   # prefer GitHub Actions
 ```
 
-### Vercel
+### Alternative hosting (custom domain / other static host)
 
-A root-path mirror / PR previews are deployed via `vercel.json` and `.github/workflows/vercel-deploy.yml`. The workflow runs automatically on every push to `main` (production deploy) and on pull requests (preview deploy). Set `VITE_BASE_PATH=/` on Vercel.
+The app can be built for root-path hosting with `VITE_BASE_PATH=/ pnpm run build`. The PWA manifest (`public/manifest.json`) is generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`, so `scope`, `start_url`, shortcuts, and `share_target` remain correct when hosting under any base path.
 
-The PWA manifest (`public/manifest.json`) is generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`, so `scope`, `start_url`, shortcuts, and `share_target` are correct for both GitHub Pages and Vercel.
+`vercel.json` is kept as a reference configuration but is no longer deployed automatically.
 
 Full guide: `docs/DEPLOYMENT.md`
 
@@ -211,7 +210,7 @@ Configured workflows:
 | `deploy-pages.yml` | push to `main` | Build and publish to GitHub Pages; prunes old deployments to the last 3 |
 | `pages-smoke.yml` | after deploy | Live URL smoke checks (manifest, icons, SW, locales) |
 | `prune-deployments.yml` | manual | Prunes GitHub deployments to a configurable number (default 3) |
-| `vercel-deploy.yml` | push to `main` / PR | Vercel production / preview deploy |
+
 
 Run checks locally closest to CI:
 
