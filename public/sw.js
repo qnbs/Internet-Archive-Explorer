@@ -3,7 +3,7 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
