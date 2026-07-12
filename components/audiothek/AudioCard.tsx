@@ -113,13 +113,13 @@ export const AudioCard: React.FC<AudioCardProps> = React.memo(({ item, index }) 
       </div>
       <div className="pt-2 px-1">
         <h3
-          className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors h-10 line-clamp-2"
+          className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors h-10 line-clamp-2"
           title={item.title}
         >
           {item.title}
         </h3>
         <p
-          className="text-xs text-gray-400 truncate"
+          className="text-xs text-gray-600 dark:text-gray-400 truncate"
           title={Array.isArray(item.creator) ? item.creator.join(', ') : item.creator}
         >
           {Array.isArray(item.creator)

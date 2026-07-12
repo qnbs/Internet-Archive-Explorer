@@ -1,0 +1,49 @@
+name: Prune Deployments
+
+on:
+  workflow_dispatch:
+    inputs:
+      keep:
+        description: 'Number of most recent deployments to keep'
+        required: true
+        default: '3'
+        type: string
+
+permissions:
+  deployments: write
+
+concurrency:
+  group: prune-deployments
+  cancel-in-progress: true
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old deployments
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          keep=${{ github.event.inputs.keep }}
+          if ! [[ "$keep" =~ ^[0-9]+$ ]]; then
+            echo "Invalid keep value: $keep" >&2
+            exit 1
+          fi
+
+          echo "Fetching deployments for ${{ github.repository }}..."
+          ids=$(gh api "repos/${{ github.repository }}/deployments" --paginate -q '.[].id' | sort -rn | tail -n +$((keep + 1)))
+
+          count=$(echo "$ids" | grep -c '^' || true)
+          if [ -z "$ids" ] || [ "$count" -eq 0 ]; then
+            echo "No deployments to prune. Keeping $keep most recent."
+            exit 0
+          fi
+
+          echo "Pruning $count deployment(s), keeping $keep most recent..."
+          for id in $ids; do
+            echo "Deleting deployment $id..."
+            gh api --method DELETE "repos/${{ github.repository }}/deployments/$id"
+          done
+
+          echo "Pruning complete."

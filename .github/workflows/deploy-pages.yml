@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  deployments: write
 
 concurrency:
   group: pages-deploy
@@ -55,3 +56,27 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Prune old deployments
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KEEP_DEPLOYMENTS: '3'
+        run: |
+          set -euo pipefail
+          keep=${KEEP_DEPLOYMENTS:-3}
+          echo "Fetching deployments for ${{ github.repository }}..."
+          ids=$(gh api "repos/${{ github.repository }}/deployments" --paginate -q '.[].id' | sort -rn | tail -n +$((keep + 1)))
+
+          count=$(echo "$ids" | grep -c '^' || true)
+          if [ -z "$ids" ] || [ "$count" -eq 0 ]; then
+            echo "No deployments to prune. Keeping $keep most recent."
+            exit 0
+          fi
+
+          echo "Pruning $count deployment(s), keeping $keep most recent..."
+          for id in $ids; do
+            echo "Deleting deployment $id..."
+            gh api --method DELETE "repos/${{ github.repository }}/deployments/$id"
+          done
+
+          echo "Pruning complete."
