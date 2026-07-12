@@ -1,5 +1,7 @@
+import { getDefaultStore } from 'jotai';
 import { z } from 'zod';
 import { metadataCache } from '@/services/cacheService';
+import { lastCacheAgeAtom } from '@/store/cacheAge';
 import type { ArchiveMetadata, ArchiveSearchResponse, WaybackResponse } from '@/types';
 import {
   archiveMetadataSchema,
@@ -9,6 +11,9 @@ import {
 } from '@/types/archiveSchemas';
 import { delay, fetchWithRetry } from '@/utils/fetchWithRetry';
 import { logger } from '@/utils/logger';
+import { withArchiveOrgConcurrency } from '@/utils/requestQueue';
+
+const jotaiStore = getDefaultStore();
 
 const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
@@ -16,6 +21,11 @@ const SEARCH_PAGE_SIZE = 24;
 const REQUEST_TIMEOUT_MS = 32000;
 const VALIDATION_MAX_ATTEMPTS = 3;
 const VALIDATION_BACKOFF_MS = 400;
+
+const recordCacheAge = (response: Response): void => {
+  const cacheTime = response.headers.get('X-SW-Cache-Time');
+  jotaiStore.set(lastCacheAgeAtom, cacheTime ? Number(cacheTime) : null);
+};
 
 /** HTTP statuses worth retrying at the fetch layer (TanStack uses {@link ArchiveServiceError.retryable}). */
 export function httpStatusAllowsRetry(status: number): boolean {
@@ -57,38 +67,40 @@ const handleFetchError = (error: unknown, context: string): never => {
   );
 };
 
-async function fetchRawJson(url: string, context: string): Promise<unknown> {
-  try {
-    const response = await fetchWithRetry(url, {}, 2, 400, REQUEST_TIMEOUT_MS);
-
-    if (!response.ok) {
-      throw new ArchiveServiceError(
-        `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`,
-        response.status,
-        undefined,
-        httpStatusAllowsRetry(response.status),
-      );
-    }
-
-    const text = await response.text();
-    if (!text) {
-      throw new ArchiveServiceError(`Empty response for ${context}.`);
-    }
-
+const fetchRawJson = (url: string, context: string): Promise<unknown> =>
+  withArchiveOrgConcurrency(async () => {
     try {
-      return JSON.parse(text) as unknown;
-    } catch {
-      throw new ArchiveServiceError(
-        `Invalid JSON response for ${context}.`,
-        undefined,
-        SERVICE_I18N.archive.invalidJson,
-        false,
-      );
+      const response = await fetchWithRetry(url, {}, 2, 1000, REQUEST_TIMEOUT_MS);
+      recordCacheAge(response);
+
+      if (!response.ok) {
+        throw new ArchiveServiceError(
+          `Failed to fetch ${context}. Status: ${response.status} ${response.statusText}`,
+          response.status,
+          undefined,
+          httpStatusAllowsRetry(response.status),
+        );
+      }
+
+      const text = await response.text();
+      if (!text) {
+        throw new ArchiveServiceError(`Empty response for ${context}.`);
+      }
+
+      try {
+        return JSON.parse(text) as unknown;
+      } catch {
+        throw new ArchiveServiceError(
+          `Invalid JSON response for ${context}.`,
+          undefined,
+          SERVICE_I18N.archive.invalidJson,
+          false,
+        );
+      }
+    } catch (error) {
+      return handleFetchError(error, context);
     }
-  } catch (error) {
-    return handleFetchError(error, context);
-  }
-}
+  });
 
 async function fetchValidated<T>(url: string, context: string, schema: z.ZodType<T>): Promise<T> {
   let lastZodError: z.ZodError | undefined;
@@ -167,39 +179,49 @@ export const getItemMetadata = async (identifier: string): Promise<ArchiveMetada
   return data as ArchiveMetadata;
 };
 
-export const getItemPlainText = async (identifier: string): Promise<string> => {
-  const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
+export const getItemPlainText = (identifier: string): Promise<string> =>
+  withArchiveOrgConcurrency(async () => {
+    const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
 
-  try {
-    const response = await fetchWithRetry(txtUrl, {}, 2, 400, REQUEST_TIMEOUT_MS);
-    if (!response.ok) {
-      if (response.status === 404) {
-        const fallbackResponse = await fetchWithRetry(
-          `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`,
-          {},
-          2,
-          400,
-          REQUEST_TIMEOUT_MS,
-        );
-        if (fallbackResponse.ok) {
-          return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();
+    try {
+      const response = await fetchWithRetry(txtUrl, {}, 2, 1000, REQUEST_TIMEOUT_MS);
+      recordCacheAge(response);
+      if (!response.ok) {
+        if (response.status === 404) {
+          const fallbackResponse = await fetchWithRetry(
+            `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`,
+            {},
+            2,
+            1000,
+            REQUEST_TIMEOUT_MS,
+          );
+          if (fallbackResponse.ok) {
+            recordCacheAge(fallbackResponse);
+            return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();
+          }
+
+          throw new ArchiveServiceError(
+            `Failed to fetch plain text for ${identifier}. Status: ${fallbackResponse.status}`,
+            fallbackResponse.status,
+            undefined,
+            httpStatusAllowsRetry(fallbackResponse.status),
+          );
         }
+
+        throw new ArchiveServiceError(
+          `Failed to fetch plain text for ${identifier}. Status: ${response.status}`,
+          response.status,
+          undefined,
+          httpStatusAllowsRetry(response.status),
+        );
       }
 
-      throw new ArchiveServiceError(
-        `Failed to fetch plain text for ${identifier}. Status: ${response.status}`,
-        response.status,
-        undefined,
-        httpStatusAllowsRetry(response.status),
-      );
+      const text = await response.text();
+      return text.replace(/(\r\n|\n|\r)/gm, '\n').trim();
+    } catch (error) {
+      return handleFetchError(error, `plain text for ${identifier}`);
     }
-
-    const text = await response.text();
-    return text.replace(/(\r\n|\n|\r)/gm, '\n').trim();
-  } catch (error) {
-    return handleFetchError(error, `plain text for ${identifier}`);
-  }
-};
+  });
 
 export const searchWaybackMachine = async (url: string): Promise<WaybackResponse> => {
   const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&fl=timestamp,original&collapse=digest`;

@@ -3,7 +3,7 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
@@ -150,12 +150,22 @@ const isImageRequest = (request) => {
   return isImageHost && (isImagePath || isImageDestination);
 };
 
-async function putInCache(cacheName, request, response) {
+const putInCache = async function (cacheName, request, response) {
   const cache = await caches.open(cacheName);
-  await cache.put(request, response.clone());
+  const responseClone = response.clone();
+  const headers = new Headers(responseClone.headers);
+  if (!headers.has('X-SW-Cache-Time')) {
+    headers.set('X-SW-Cache-Time', String(Date.now()));
+  }
+  const responseToCache = new Response(responseClone.body, {
+    status: responseClone.status,
+    statusText: responseClone.statusText,
+    headers,
+  });
+  await cache.put(request, responseToCache);
   touch(request.url);
   await enforceBudgetsAfterPut(cacheName);
-}
+};
 
 /** Stale-while-revalidate for IA JSON/API responses */
 function handleApiStaleWhileRevalidate(event, request) {
@@ -176,7 +186,11 @@ function handleApiStaleWhileRevalidate(event, request) {
       if (cached) {
         touch(request.url);
         event.waitUntil(networkPromise.then(() => undefined));
-        return cached;
+        return new Response(cached.body, {
+          status: cached.status,
+          statusText: cached.statusText,
+          headers: cached.headers,
+        });
       }
 
       const fresh = await networkPromise;

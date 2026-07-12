@@ -98,5 +98,14 @@
   },
   "geminiKeyPrompt": {
     "openSettings": "KI-Einstellungen öffnen"
+  },
+  "cacheAge": {
+    "cached": "Zwischengespeichert",
+    "justNow": "gerade eben"
+  },
+  "offline": {
+    "offline": "Offline",
+    "message": "Du bist offline. Einige Inhalte sind möglicherweise nicht verfügbar.",
+    "backOnline": "Du bist wieder online."
   }
 }

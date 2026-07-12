@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { ArchiveServiceError } from '@/services/archiveService';
+import { cleanupExpiredSearchResults } from '@/services/searchCache';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -27,6 +28,7 @@ const queryClient = new QueryClient({
 const iaQueryDefaults = {
   staleTime: 1000 * 60 * 30, // IA content changes slowly; favor cache reuse
   gcTime: 1000 * 60 * 60 * 12, // preserve browsing context for long sessions
+  retry: 0, // service layer (fetchWithRetry) already handles retries; avoid request multiplication
 } as const;
 
 queryClient.setQueryDefaults(['archivalItems'], iaQueryDefaults);
@@ -36,6 +38,9 @@ queryClient.setQueryDefaults(['metadata'], iaQueryDefaults);
 queryClient.setQueryDefaults(['plaintext'], iaQueryDefaults);
 queryClient.setQueryDefaults(['uploaderUploads'], iaQueryDefaults);
 queryClient.setQueryDefaults(['uploaderStats'], iaQueryDefaults);
+
+// Clean up stale IndexedDB search entries in the background on startup.
+cleanupExpiredSearchResults().catch(() => undefined);
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

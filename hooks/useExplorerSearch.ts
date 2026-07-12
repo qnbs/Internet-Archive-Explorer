@@ -1,11 +1,16 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
+import {
+  buildSearchCacheKey,
+  getCachedSearchResult,
+  setCachedSearchResult,
+} from '@/services/searchCache';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
-import type { ArchiveItemSummary } from '@/types';
+import type { ArchiveItemSummary, ArchiveSearchResponse } from '@/types';
 import { buildArchiveQuery } from '@/utils/queryBuilder';
 import { useInfiniteScroll } from './useInfiniteScroll';
 
@@ -14,6 +19,7 @@ export const useExplorerSearch = () => {
   const [facets] = useAtom(facetsAtom);
   const debouncedQuery = useDebounce(searchQuery, 400);
   const { t } = useLanguage();
+  const queryClient = useQueryClient();
 
   const queryString = buildArchiveQuery({ text: debouncedQuery, facets });
 
@@ -23,7 +29,34 @@ export const useExplorerSearch = () => {
       queryFn: async ({ pageParam }) => {
         const finalQuery = queryString || 'featured';
         const sorts = queryString ? ['-publicdate'] : [];
-        return searchArchive(finalQuery, pageParam as number, sorts);
+        const page = pageParam as number;
+        const cacheKey = buildSearchCacheKey('explorerSearch', finalQuery, page, sorts);
+
+        const cached = await getCachedSearchResult(cacheKey);
+        if (cached) {
+          // Refresh in the background and update the React Query cache when fresh data arrives.
+          searchArchive(finalQuery, page, sorts)
+            .then((fresh) => {
+              setCachedSearchResult(cacheKey, fresh);
+              queryClient.setQueryData<InfiniteData<ArchiveSearchResponse>>(
+                ['explorerSearch', queryString],
+                (old) => {
+                  if (!old) return old;
+                  const pageIndex = old.pageParams.indexOf(page);
+                  if (pageIndex === -1) return old;
+                  const newPages = [...old.pages];
+                  newPages[pageIndex] = fresh;
+                  return { ...old, pages: newPages };
+                },
+              );
+            })
+            .catch(() => undefined);
+          return cached;
+        }
+
+        const result = await searchArchive(finalQuery, page, sorts);
+        await setCachedSearchResult(cacheKey, result);
+        return result;
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {

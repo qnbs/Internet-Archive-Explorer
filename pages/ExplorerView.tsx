@@ -5,6 +5,7 @@ import { ContentCarousel } from '@/components/ContentCarousel';
 import { SparklesIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
 import { ResultsGrid } from '@/components/ResultsGrid';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
 import { useToast } from '@/contexts/ToastContext';
 import { useExplorerSearch } from '@/hooks/useExplorerSearch';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -13,6 +14,7 @@ import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPers
 import { searchArchive } from '@/services/archiveService';
 import { generateDailyHistoricalEvent } from '@/services/geminiService';
 import { addAIArchiveEntryAtom, aiArchiveAtom } from '@/store/aiArchive';
+import { lastCacheAgeAtom } from '@/store/cacheAge';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import { autoArchiveAIAtom, showExplorerHubAtom } from '@/store/settings';
 import { AIGenerationType, type ArchiveItemSummary } from '@/types';
@@ -203,6 +205,7 @@ const ExplorerView: React.FC = () => {
   } = useExplorerSearch();
   const showHub = useAtomValue(showExplorerHubAtom);
   const [facets] = useAtom(facetsAtom);
+  const lastCacheTime = useAtomValue(lastCacheAgeAtom);
 
   const hasActiveSearch =
     searchQuery.trim().length > 0 ||
@@ -216,6 +219,11 @@ const ExplorerView: React.FC = () => {
   if (showHub && !hasActiveSearch) {
     return (
       <div className="space-y-12">
+        {lastCacheTime ? (
+          <div className="flex justify-end">
+            <CacheAgeIndicator />
+          </div>
+        ) : null}
         <TrendingItems />
         <OnThisDay />
       </div>
@@ -223,18 +231,25 @@ const ExplorerView: React.FC = () => {
   }
 
   return (
-    <ResultsGrid
-      ariaLabel={t('common:searchResultsRegion')}
-      results={results}
-      isLoading={isLoading}
-      isLoadingMore={isLoadingMore}
-      error={error}
-      hasMore={hasMore}
-      totalResults={totalResults}
-      lastElementRef={lastElementRef}
-      onRetry={handleRetry}
-      searchQuery={searchQuery}
-    />
+    <div className="space-y-4">
+      {lastCacheTime ? (
+        <div className="flex justify-end">
+          <CacheAgeIndicator />
+        </div>
+      ) : null}
+      <ResultsGrid
+        ariaLabel={t('common:searchResultsRegion')}
+        results={results}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        error={error}
+        hasMore={hasMore}
+        totalResults={totalResults}
+        lastElementRef={lastElementRef}
+        onRetry={handleRetry}
+        searchQuery={searchQuery}
+      />
+    </div>
   );
 };
 
