@@ -28,10 +28,10 @@ const recordCacheAge = (response: Response): void => {
 };
 
 /** HTTP statuses worth retrying at the fetch layer (TanStack uses {@link ArchiveServiceError.retryable}). */
-export function httpStatusAllowsRetry(status: number): boolean {
+export const httpStatusAllowsRetry = (status: number): boolean => {
   if (status === 408 || status === 429) return true;
   return status >= 500;
-}
+};
 
 export class ArchiveServiceError extends Error {
   readonly statusCode?: number;
@@ -102,7 +102,11 @@ const fetchRawJson = (url: string, context: string): Promise<unknown> =>
     }
   });
 
-async function fetchValidated<T>(url: string, context: string, schema: z.ZodType<T>): Promise<T> {
+const fetchValidated = async <T>(
+  url: string,
+  context: string,
+  schema: z.ZodType<T>,
+): Promise<T> => {
   let lastZodError: z.ZodError | undefined;
 
   for (let attempt = 0; attempt < VALIDATION_MAX_ATTEMPTS; attempt++) {
@@ -124,7 +128,7 @@ async function fetchValidated<T>(url: string, context: string, schema: z.ZodType
     SERVICE_I18N.archive.validationFailed,
     false,
   );
-}
+};
 
 export const searchArchive = async (
   query: string,
@@ -262,7 +266,7 @@ export const getItemCount = async (query: string): Promise<number> => {
   return data.response?.numFound ?? 0;
 };
 
-export const getReviewsByUploader = async (
+export const getReviewsByUploader = (
   uploader: string,
   page: number,
   limit: number = 10,

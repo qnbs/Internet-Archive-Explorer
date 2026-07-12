@@ -32,9 +32,9 @@ const urlsToPrecache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
 /** @type {Map<string, number>} url → last access epoch ms */
 const urlAccessMs = new Map();
 
-function touch(url) {
+const touch = (url) => {
   urlAccessMs.set(url, Date.now());
-}
+};
 
 const timeoutFetch = async (request, timeoutMs = NETWORK_TIMEOUT_MS) => {
   const controller = new AbortController();
@@ -46,7 +46,7 @@ const timeoutFetch = async (request, timeoutMs = NETWORK_TIMEOUT_MS) => {
   }
 };
 
-async function measureResponseBytes(response) {
+const measureResponseBytes = async (response) => {
   const len = response.headers.get('Content-Length');
   if (len) {
     const n = Number.parseInt(len, 10);
@@ -54,9 +54,9 @@ async function measureResponseBytes(response) {
   }
   const buf = await response.clone().arrayBuffer();
   return buf.byteLength;
-}
+};
 
-async function evictLRUFromCache(cacheName, maxBytes) {
+const evictLRUFromCache = async (cacheName, maxBytes) => {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
   const entries = [];
@@ -76,9 +76,9 @@ async function evictLRUFromCache(cacheName, maxBytes) {
     urlAccessMs.delete(e.u);
     total -= e.size;
   }
-}
+};
 
-async function evictGlobalLRU(maxTotalBytes) {
+const evictGlobalLRU = async (maxTotalBytes) => {
   const cacheNames = [CACHE_SHELL, CACHE_API, CACHE_IMAGES, CACHE_STATIC];
   const all = [];
   for (const cn of cacheNames) {
@@ -102,12 +102,12 @@ async function evictGlobalLRU(maxTotalBytes) {
     urlAccessMs.delete(e.u);
     total -= e.size;
   }
-}
+};
 
-async function enforceBudgetsAfterPut(cacheName) {
+const enforceBudgetsAfterPut = async (cacheName) => {
   await evictLRUFromCache(cacheName, MAX_PER_CACHE_BYTES);
   await evictGlobalLRU(MAX_TOTAL_BYTES);
-}
+};
 
 const OFFLINE_FALLBACK_PAGE = `<!DOCTYPE html>
 <html lang="en" style="height:100%;font-family:system-ui,sans-serif;background:#111827;color:#e5e7eb">
@@ -130,15 +130,14 @@ svg{width:4rem;height:4rem;color:#06b6d4;margin-bottom:1rem}
 </body>
 </html>`;
 
-function offlineApiResponse() {
-  return new Response(
+const offlineApiResponse = () =>
+  new Response(
     JSON.stringify({
       error: 'offline',
       message: 'The request could not be completed while offline.',
     }),
     { status: 503, headers: { 'Content-Type': 'application/json' } },
   );
-}
 
 const isImageRequest = (request) => {
   const url = new URL(request.url);
@@ -168,7 +167,7 @@ const putInCache = async function (cacheName, request, response) {
 };
 
 /** Stale-while-revalidate for IA JSON/API responses */
-function handleApiStaleWhileRevalidate(event, request) {
+const handleApiStaleWhileRevalidate = (event, request) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_API);
@@ -198,10 +197,10 @@ function handleApiStaleWhileRevalidate(event, request) {
       return offlineApiResponse();
     })(),
   );
-}
+};
 
 /** Cache-first + background refresh for thumbnails */
-function handleImageCacheFirst(event, request) {
+const handleImageCacheFirst = (event, request) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_IMAGES);
@@ -229,10 +228,10 @@ function handleImageCacheFirst(event, request) {
       }
     })(),
   );
-}
+};
 
 /** Stale-while-revalidate for static / CDN assets */
-function handleStaticStaleWhileRevalidate(event, request) {
+const handleStaticStaleWhileRevalidate = (event, request) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_STATIC);
@@ -255,7 +254,7 @@ function handleStaticStaleWhileRevalidate(event, request) {
       return net || Response.error();
     })(),
   );
-}
+};
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
