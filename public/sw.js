@@ -152,13 +152,14 @@ const isImageRequest = (request) => {
 
 async function putInCache(cacheName, request, response) {
   const cache = await caches.open(cacheName);
-  const headers = new Headers(response.headers);
+  const responseClone = response.clone();
+  const headers = new Headers(responseClone.headers);
   if (!headers.has('X-SW-Cache-Time')) {
     headers.set('X-SW-Cache-Time', String(Date.now()));
   }
-  const responseToCache = new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
+  const responseToCache = new Response(responseClone.body, {
+    status: responseClone.status,
+    statusText: responseClone.statusText,
     headers,
   });
   await cache.put(request, responseToCache);
