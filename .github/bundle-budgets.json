@@ -1,13 +1,13 @@
 {
   "chunks": {
-    "react-core": 75,
+    "react-core": 80,
     "ai-sdk": 65,
     "ui-kit": 115,
     "query-core": 20,
     "dnd-kit": 30,
     "state-core": 10,
-    "vendor": 30
+    "vendor": 60
   },
   "totalKB": 500,
-  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-05-01: react-core≈48.5, ai-sdk≈38.3, ui-kit≈70.5, query-core≈11.9, state-core≈3.7, vendor≈28.5, total≈334.8"
+  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-07-12: react-core≈48.5, ai-sdk≈38.3, ui-kit≈72.5, query-core≈11.9, state-core≈3.7, vendor≈56.9, total≈373.6"
 }

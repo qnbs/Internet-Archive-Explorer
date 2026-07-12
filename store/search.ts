@@ -13,11 +13,13 @@ export const profileSearchQueryAtom = atom('');
 export const uploaderHubSearchQueryAtom = atom('');
 
 // --- Facets for Explorer Search ---
-export const facetsAtom = atom<Facets>({
+export const defaultFacets: Facets = {
   mediaType: new Set<MediaType>(),
   availability: 'all',
   language: undefined,
-});
+};
+
+export const facetsAtom = atom<Facets>(defaultFacets);
 
 // --- Search History ---
 export const searchHistoryAtom = safeAtomWithStorage<string[]>(STORAGE_KEYS.searchHistory, []);

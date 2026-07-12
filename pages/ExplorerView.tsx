@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useExplorerSearch } from '@/hooks/useExplorerSearch';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { useSearchUrlSync } from '@/hooks/useSearchUrlSync';
 import { archiveAIGeneration, findArchivedDailyInsight } from '@/services/aiPersistenceService';
 import { searchArchive } from '@/services/archiveService';
 import { generateDailyHistoricalEvent } from '@/services/geminiService';
@@ -191,6 +192,8 @@ const TrendingItems: React.FC = () => {
 };
 
 const ExplorerView: React.FC = () => {
+  useSearchUrlSync();
+
   const [searchQuery] = useAtom(searchQueryAtom);
   const { t } = useLanguage();
   const {

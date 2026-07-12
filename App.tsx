@@ -20,7 +20,9 @@ import UpdateNotification from './components/UpdateNotification';
 // Providers & Contexts
 import { ToastProvider, useToast } from './contexts/ToastContext';
 // Hooks
+import { useModalUrlSync } from './hooks/useModalUrlSync';
 import { useNavigation } from './hooks/useNavigation';
+import { useUrlSync } from './hooks/useUrlSync';
 import {
   activeViewAtom,
   deferredPromptAtom,
@@ -113,20 +115,18 @@ const AppContent: React.FC = () => {
     }
   }, []);
 
+  useUrlSync();
+  useModalUrlSync();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view');
 
-    if (viewParam) {
-      // Special handling for Web Share Target API
-      if (viewParam === 'webArchive' && urlParams.has('url')) {
-        const sharedUrl = urlParams.get('url');
-        if (sharedUrl) {
-          sessionStorage.setItem('sharedUrl', sharedUrl);
-        }
+    if (viewParam === 'webArchive' && urlParams.has('url')) {
+      const sharedUrl = urlParams.get('url');
+      if (sharedUrl) {
+        sessionStorage.setItem('sharedUrl', sharedUrl);
       }
-      // View already applied via activeViewAtom init (getInitialActiveView); only clean the URL bar.
-      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     // Check and keep PWA installation state in sync. Browsers do not fire an
