@@ -4,7 +4,8 @@
 
 A modern, installable web app for discovering, exploring, and curating content from the [Internet Archive](https://archive.org). It combines global search, curated content hubs, a personal library, a research workspace, and optional AI-assisted discovery — all running as a client-side Progressive Web App (PWA) with English and German interfaces.
 
-**Live app:** https://qnbs.github.io/Internet-Archive-Explorer/
+**Live app (GitHub Pages):** https://qnbs.github.io/Internet-Archive-Explorer/  
+**Live app (Vercel):** https://internet-archive-explorer.vercel.app/
 
 ---
 
@@ -29,7 +30,7 @@ A modern, installable web app for discovering, exploring, and curating content f
 
 ## Overview
 
-Internet Archive Explorer is a React + TypeScript single-page application built with Vite. State is managed with Jotai for client state and TanStack Query for server state. The app is deployed primarily to GitHub Pages under the base path `/Internet-Archive-Explorer/`, with an optional Vercel mirror served from root (`/`).
+Internet Archive Explorer is a React + TypeScript single-page application built with Vite. State is managed with Jotai for client state and TanStack Query for server state. The app is deployed to both GitHub Pages under the base path `/Internet-Archive-Explorer/` and to Vercel served from root (`/`). Both deploys run automatically on every push to `main`.
 
 It is intentionally **backend-free**: all content comes directly from public archive.org APIs. Optional Google Gemini features use a Bring Your Own Key (BYOK) model; keys are stored only in the browser and never embedded in the shipped bundle.
 
@@ -182,9 +183,9 @@ Legacy manual deploy to `gh-pages` branch:
 pnpm run deploy   # prefer GitHub Actions
 ```
 
-### Vercel (optional)
+### Vercel
 
-A root-path mirror / PR previews are available via `vercel.json` and `.github/workflows/vercel-deploy.yml` (requires `VERCEL_*` secrets; skipped otherwise). Set `VITE_BASE_PATH=/` on Vercel.
+A root-path mirror / PR previews are deployed via `vercel.json` and `.github/workflows/vercel-deploy.yml`. The workflow runs automatically on every push to `main` (production deploy) and on pull requests (preview deploy). Set `VITE_BASE_PATH=/` on Vercel.
 
 Full guide: `docs/DEPLOYMENT.md`
 
@@ -208,7 +209,7 @@ Configured workflows:
 | `deploy-pages.yml` | push to `main` | Build and publish to GitHub Pages; prunes old deployments to the last 3 |
 | `pages-smoke.yml` | after deploy | Live URL smoke checks (manifest, icons, SW, locales) |
 | `prune-deployments.yml` | manual | Prunes GitHub deployments to a configurable number (default 3) |
-| `vercel-deploy.yml` | push to `main` | Optional Vercel deploy (skipped if secrets missing) |
+| `vercel-deploy.yml` | push to `main` / PR | Vercel production / preview deploy |
 
 Run checks locally closest to CI:
 

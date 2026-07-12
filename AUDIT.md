@@ -52,7 +52,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | Area | Status | Details |
 |------|--------|---------|
 | **Merge PR #4** | ✅ | Perfection Sprint on `main` |
-| **Vercel** | ✅ | `vercel.json`, optional `vercel-deploy.yml`, `docs/DEPLOYMENT.md` |
+| **Vercel** | ✅ | `vercel.json`, `vercel-deploy.yml` (runs on every push to `main` and on PRs), `docs/DEPLOYMENT.md` |
 | **GitHub Pages** | ✅ | Smoke extended (manifest, icons); CI checks PWA assets in `dist/` |
 | **Quality gates** | ✅ | Biome `useExhaustiveDependencies` → error; coverage via `@vitest/coverage-v8` |
 | **SW / Vercel preview** | ✅ | `sw-register.js`: unregisters all SW on preview hosts; `*.vercel.app` excluded |

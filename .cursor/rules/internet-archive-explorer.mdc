@@ -37,4 +37,4 @@ alwaysApply: true
 ## Deployment
 
 - **GitHub Pages:** primary via `deploy-pages.yml` — see **`docs/DEPLOYMENT.md`**.
-- **Vercel:** optional via `vercel.json` + `vercel-deploy.yml` (secrets required); `VITE_BASE_PATH=/` on Vercel.
+- **Vercel:** automatic deploy via `vercel.json` + `vercel-deploy.yml` on every push to `main` (secrets required); `VITE_BASE_PATH=/` on Vercel.

@@ -50,7 +50,7 @@ Detailed editor guide (global ESLint config vs. workspace): **CONTRIBUTING.md** 
 3. **PR bots** — address CodeAnt/Socket/review comments in the same PR.
 4. **Workspace overrides global** — `.vscode/settings.json` intentionally silences ESLint for this repo.
 5. **`graphify-out/`** is generated — excluded from lint in `biome.json`; do not manually maintain.
-6. **Deployment** — GitHub Pages primary; Vercel optional — see **docs/DEPLOYMENT.md**.
+6. **Deployment** — GitHub Pages primary; Vercel mirror deploys automatically on every push to `main` — see **docs/DEPLOYMENT.md**.
 
 ### Parent / Host CLAUDE.md
 

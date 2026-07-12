@@ -1,13 +1,13 @@
 # Deployment Guide — Internet Archive Explorer
 
-This document covers **GitHub Pages** (primary) and **Vercel** (optional mirror / previews).
+This document covers **GitHub Pages** (primary) and **Vercel** (mirror / previews). Both deploy automatically on every push to `main`.
 
 ## Overview
 
 | Target | Base path | Build trigger | URL pattern |
 | ------ | --------- | ------------- | ----------- |
 | **GitHub Pages** | `/<repo-name>/` | Push to `main` → `deploy-pages.yml` | `https://<user>.github.io/Internet-Archive-Explorer/` |
-| **Vercel** | `/` (root) | Optional `vercel-deploy.yml` or Vercel Git integration | `https://<project>.vercel.app/` or custom domain |
+| **Vercel** | `/` (root) | Push to `main` / PR → `vercel-deploy.yml` | `https://<project>.vercel.app/` or custom domain |
 
 Both targets use the same Vite build (`pnpm run build`) with different `VITE_BASE_PATH` values.
 
@@ -63,7 +63,7 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 
 ---
 
-## Vercel (optional)
+## Vercel
 
 ### Why Vercel?
 
@@ -71,25 +71,9 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 - PR preview URLs
 - Edge headers for `sw.js` / `manifest.json` (see `vercel.json`)
 
-### Option A — Vercel Dashboard (recommended)
+### GitHub Actions (`vercel-deploy.yml`)
 
-1. Import the GitHub repository in [Vercel](https://vercel.com/new).
-2. Framework preset: **Vite**.
-3. Environment variables:
-
-| Variable | Production | Preview |
-| -------- | ---------- | ------- |
-| `VITE_BASE_PATH` | `/` | `/` |
-| `VITE_GOOGLE_CLIENT_ID` | (optional) OAuth | same |
-
-4. Build command: `pnpm run build` (from `vercel.json`)
-5. Output directory: `dist`
-
-`vercel.json` in the repo root configures rewrites (SPA fallback), cache headers, and frozen lockfile install.
-
-### Option B — GitHub Actions (`vercel-deploy.yml`)
-
-Add repository secrets:
+The `vercel-deploy.yml` workflow runs automatically on every push to `main` (production deploy) and on pull requests (preview deploy). Add these repository secrets:
 
 | Secret | Description |
 | ------ | ----------- |
@@ -97,7 +81,13 @@ Add repository secrets:
 | `VERCEL_ORG_ID` | Team/user ID |
 | `VERCEL_PROJECT_ID` | Project ID |
 
-If secrets are **missing**, the workflow is skipped (no failure).
+If any secret is missing, the workflow **fails** so the misconfiguration is noticed immediately.
+
+`vercel.json` in the repo root configures rewrites (SPA fallback), cache headers, and frozen lockfile install.
+
+### Alternative — Vercel Dashboard
+
+If you prefer Vercel's native Git integration, disable `vercel-deploy.yml` (or remove the `push`/`pull_request` triggers) and import the GitHub repository in [Vercel](https://vercel.com/new) with framework preset **Vite**, output directory `dist`, and `VITE_BASE_PATH=/`.
 
 ### Service worker on Vercel
 

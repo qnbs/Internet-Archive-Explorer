@@ -4,7 +4,7 @@ Quick reference for AI coding agents working on this project. Expected tools: **
 
 ## 1. Project Overview
 
-**Internet Archive Explorer** is a client-only **React 19 + TypeScript 6 + Vite 8** single-page application (SPA). It runs as an installable **Progressive Web App (PWA)** with English and German interfaces and is primarily delivered on **GitHub Pages** under the base path `/Internet-Archive-Explorer/`. An optional Vercel mirror uses root path (`/`).
+**Internet Archive Explorer** is a client-only **React 19 + TypeScript 6 + Vite 8** single-page application (SPA). It runs as an installable **Progressive Web App (PWA)** with English and German interfaces and is delivered on **GitHub Pages** under the base path `/Internet-Archive-Explorer/` and on **Vercel** under root path (`/`). Both deploy automatically on every push to `main`.
 
 ### Core Features
 
@@ -339,10 +339,10 @@ GitHub Actions `.github/workflows/ci.yml` runs:
 - `.github/workflows/prune-deployments.yml` can be triggered manually to keep only the last N deployments (default 3).
 - `.github/workflows/deploy-pages.yml` prunes automatically after every deploy to prevent unbounded GitHub deployment growth.
 
-### Vercel (optional)
+### Vercel
 
 - `vercel.json`: SPA rewrites, cache headers for `sw.js`/`manifest.json`/icons
-- Optional GitHub Actions workflow `.github/workflows/vercel-deploy.yml` (skipped if `VERCEL_*` secrets are missing)
+- GitHub Actions workflow `.github/workflows/vercel-deploy.yml` runs on every push to `main` (production) and on PRs (preview)
 - On Vercel: `VITE_BASE_PATH=/`
 
 ### Legacy
