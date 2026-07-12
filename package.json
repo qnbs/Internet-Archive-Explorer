@@ -77,11 +77,5 @@
     "glob": "^11.0.0",
     "inflight": "1.0.6",
     "protobufjs": "^7.6.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "protobufjs": "^7.6.3",
-      "ws": "^8.20.1"
-    }
   }
 }
