@@ -77,9 +77,10 @@ jobs:
           for id in $ids; do
             echo "Deactivating deployment $id..."
             gh api --method POST "repos/${{ github.repository }}/deployments/$id/statuses" \
-              -f state=inactive >/dev/null
+              -f state=inactive >/dev/null || true
             echo "Deleting deployment $id..."
-            gh api --method DELETE "repos/${{ github.repository }}/deployments/$id"
+            gh api --method DELETE "repos/${{ github.repository }}/deployments/$id" || true
           done
 
-          echo "Pruning complete."
+          remaining=$(gh api "repos/${{ github.repository }}/deployments" --paginate -q '. | length')
+          echo "Pruning complete. $remaining deployment(s) remaining."
