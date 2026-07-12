@@ -13,5 +13,10 @@
     "step1": "Tap the 'Share' button in your browser toolbar.",
     "step2": "Scroll down and tap 'Add to Home Screen'."
   },
+  "desktop": {
+    "title": "Install via Browser Menu",
+    "step1": "Click the menu icon (⋮) in the top-right of your browser.",
+    "step2": "Select 'Install Internet Archive Explorer' or 'Create shortcut'."
+  },
   "notAvailable": "Installation is not currently supported by your browser."
 }

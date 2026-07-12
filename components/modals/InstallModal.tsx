@@ -63,6 +63,7 @@ export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
         <button
           onClick={handleInstall}
           className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 text-lg font-bold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-lg"
+          type="button"
         >
           <DownloadIcon />
           <span>{t('pwaModal:installButton')}</span>
@@ -70,7 +71,27 @@ export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
       );
     }
 
-    return <p className="mt-6 text-sm text-gray-400">{t('pwaModal:notAvailable')}</p>;
+    // Desktop browsers (Chrome/Edge/Samsung) may suppress the native prompt.
+    // Show a fallback hint that points users to the browser menu.
+    return (
+      <div className="mt-6 text-left p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+        <h3 className="font-semibold text-white mb-3">{t('pwaModal:desktop.title')}</h3>
+        <ol className="space-y-3 text-sm">
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gray-600 rounded-md">
+              <span className="text-cyan-300 font-bold">1</span>
+            </span>
+            <span>{t('pwaModal:desktop.step1')}</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gray-600 rounded-md">
+              <span className="text-cyan-300 font-bold">2</span>
+            </span>
+            <span>{t('pwaModal:desktop.step2')}</span>
+          </li>
+        </ol>
+      </div>
+    );
   };
 
   return (
@@ -89,6 +110,8 @@ export const InstallModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
         <button
           onClick={onClose}
           className="absolute top-3 right-3 p-1 text-gray-400 hover:text-white rounded-full"
+          type="button"
+          aria-label={t('common:close')}
         >
           <CloseIcon className="w-5 h-5" />
         </button>

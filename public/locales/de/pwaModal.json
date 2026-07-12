@@ -13,5 +13,10 @@
     "step1": "Tippen Sie auf die 'Teilen'-Schaltfläche in Ihrer Browser-Symbolleiste.",
     "step2": "Scrollen Sie nach unten und tippen Sie auf 'Zum Home-Bildschirm'."
   },
+  "desktop": {
+    "title": "Über das Browser-Menü installieren",
+    "step1": "Klicken Sie auf das Menü-Symbol (⋮) oben rechts im Browser.",
+    "step2": "Wählen Sie 'Internet Archive Explorer installieren' oder 'Verknüpfung erstellen'."
+  },
   "notAvailable": "Die Installation wird von Ihrem Browser derzeit nicht unterstützt."
 }

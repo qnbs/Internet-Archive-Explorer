@@ -129,10 +129,44 @@ const AppContent: React.FC = () => {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // Check initial PWA installation state
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    setIsAppInstalled(isStandalone);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Check and keep PWA installation state in sync. Browsers do not fire an
+    // uninstall event, so we re-evaluate whenever the tab becomes visible and
+    // whenever the standalone display-mode changes.
+    const checkStandalone = () => {
+      setIsAppInstalled(window.matchMedia('(display-mode: standalone)').matches);
+    };
+
+    checkStandalone();
+
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsAppInstalled(
+        'matches' in e && typeof e.matches === 'boolean'
+          ? e.matches
+          : (e as MediaQueryList).matches,
+      );
+    };
+
+    if ('addEventListener' in mediaQuery) {
+      mediaQuery.addEventListener('change', handleChange);
+    } else {
+      // Legacy Safari
+      (mediaQuery as MediaQueryList).addListener(handleChange);
+    }
+
+    const handleVisibility = () => {
+      if (!document.hidden) checkStandalone();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      if ('removeEventListener' in mediaQuery) {
+        mediaQuery.removeEventListener('change', handleChange);
+      } else {
+        (mediaQuery as MediaQueryList).removeListener(handleChange);
+      }
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, [setIsAppInstalled]);
 
   // Effect for PWA installation management
