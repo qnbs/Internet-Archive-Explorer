@@ -152,7 +152,16 @@ const isImageRequest = (request) => {
 
 async function putInCache(cacheName, request, response) {
   const cache = await caches.open(cacheName);
-  await cache.put(request, response.clone());
+  const headers = new Headers(response.headers);
+  if (!headers.has('X-SW-Cache-Time')) {
+    headers.set('X-SW-Cache-Time', String(Date.now()));
+  }
+  const responseToCache = new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+  await cache.put(request, responseToCache);
   touch(request.url);
   await enforceBudgetsAfterPut(cacheName);
 }
@@ -176,12 +185,10 @@ function handleApiStaleWhileRevalidate(event, request) {
       if (cached) {
         touch(request.url);
         event.waitUntil(networkPromise.then(() => undefined));
-        const headers = new Headers(cached.headers);
-        headers.set('X-SW-Cache-Time', String(Date.now()));
         return new Response(cached.body, {
           status: cached.status,
           statusText: cached.statusText,
-          headers,
+          headers: cached.headers,
         });
       }
 

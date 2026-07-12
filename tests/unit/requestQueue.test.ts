@@ -2,23 +2,27 @@ import { describe, expect, it } from 'vitest';
 import { promiseAllWithConcurrency, withArchiveOrgConcurrency } from '@/utils/requestQueue';
 
 describe('withArchiveOrgConcurrency', () => {
-  it('returns results in submission order', async () => {
-    const order: number[] = [];
+  it('returns results in submission order and respects the concurrency limit', async () => {
+    let running = 0;
+    let maxRunning = 0;
 
     const createTask = (id: number, ms: number) => async () => {
+      running += 1;
+      maxRunning = Math.max(maxRunning, running);
       await new Promise((resolve) => setTimeout(resolve, ms));
-      order.push(id);
+      running -= 1;
       return id;
     };
 
     const results = await Promise.all([
-      withArchiveOrgConcurrency(createTask(1, 10)),
+      withArchiveOrgConcurrency(createTask(1, 30)),
       withArchiveOrgConcurrency(createTask(2, 10)),
-      withArchiveOrgConcurrency(createTask(3, 10)),
+      withArchiveOrgConcurrency(createTask(3, 20)),
+      withArchiveOrgConcurrency(createTask(4, 10)),
     ]);
 
-    expect(results).toEqual([1, 2, 3]);
-    expect(order).toEqual([1, 2, 3]);
+    expect(results).toEqual([1, 2, 3, 4]);
+    expect(maxRunning).toBeLessThanOrEqual(3);
   });
 
   it('propagates task errors', async () => {

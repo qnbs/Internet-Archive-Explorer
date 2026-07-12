@@ -201,6 +201,13 @@ export const getItemPlainText = async (identifier: string): Promise<string> => {
           if (fallbackResponse.ok) {
             return (await fallbackResponse.text()).replace(/(\r\n|\n|\r)/gm, '\n').trim();
           }
+
+          throw new ArchiveServiceError(
+            `Failed to fetch plain text for ${identifier}. Status: ${fallbackResponse.status}`,
+            fallbackResponse.status,
+            undefined,
+            httpStatusAllowsRetry(fallbackResponse.status),
+          );
         }
 
         throw new ArchiveServiceError(

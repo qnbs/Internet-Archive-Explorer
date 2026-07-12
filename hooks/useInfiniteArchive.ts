@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { searchArchive } from '@/services/archiveService';
 import {
   buildSearchCacheKey,
@@ -31,6 +31,7 @@ export const useInfiniteArchive = ({
   sort = ['-downloads'],
   mediaType,
 }: UseInfiniteArchiveOptions) => {
+  const queryClient = useQueryClient();
   return useInfiniteQuery<ArchivePage, Error>({
     queryKey: ['infiniteArchive', query, pageSize, sort, mediaType],
     queryFn: async ({ pageParam }) => {
@@ -41,7 +42,27 @@ export const useInfiniteArchive = ({
       const cached = await getCachedSearchResult(cacheKey);
       if (cached) {
         searchArchive(effectiveQuery, page, sort, undefined, pageSize)
-          .then((fresh) => setCachedSearchResult(cacheKey, fresh))
+          .then((fresh) => {
+            setCachedSearchResult(cacheKey, fresh);
+            queryClient.setQueryData<InfiniteData<ArchivePage>>(
+              ['infiniteArchive', query, pageSize, sort, mediaType],
+              (old) => {
+                if (!old) return old;
+                const pageIndex = old.pageParams.indexOf(page);
+                if (pageIndex === -1) return old;
+                const docs = fresh.response?.docs ?? [];
+                const totalFound = fresh.response?.numFound ?? 0;
+                const hasMore = page * pageSize < totalFound;
+                const newPages = [...old.pages];
+                newPages[pageIndex] = {
+                  items: docs,
+                  nextPage: hasMore ? page + 1 : null,
+                  totalFound,
+                };
+                return { ...old, pages: newPages };
+              },
+            );
+          })
           .catch(() => undefined);
         const docs = cached.response?.docs ?? [];
         const totalFound = cached.response?.numFound ?? 0;

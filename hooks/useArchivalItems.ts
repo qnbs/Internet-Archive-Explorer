@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { searchArchive } from '@/services/archiveService';
 import {
   buildSearchCacheKey,
@@ -13,6 +13,7 @@ import type { ArchiveItemSummary } from '@/types';
  * Results are persisted to IndexedDB for instant subsequent loads.
  */
 export const useArchivalItems = (query: string, limit: number = 15) => {
+  const queryClient = useQueryClient();
   const { data, isLoading, isError, error, refetch } = useQuery<ArchiveItemSummary[], Error>({
     queryKey: ['archivalItems', query, limit],
     queryFn: async () => {
@@ -22,7 +23,13 @@ export const useArchivalItems = (query: string, limit: number = 15) => {
       const cached = await getCachedSearchResult(cacheKey);
       if (cached) {
         searchArchive(query, 1, sort, undefined, limit)
-          .then((fresh) => setCachedSearchResult(cacheKey, fresh))
+          .then((fresh) => {
+            setCachedSearchResult(cacheKey, fresh);
+            queryClient.setQueryData<ArchiveItemSummary[]>(
+              ['archivalItems', query, limit],
+              fresh.response?.docs ?? [],
+            );
+          })
           .catch(() => undefined);
         return cached.response?.docs ?? [];
       }
