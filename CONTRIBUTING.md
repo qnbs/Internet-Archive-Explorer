@@ -11,7 +11,7 @@ Thank you for helping improve this project. This document describes how we work 
 pnpm install --frozen-lockfile
 ```
 
-## Linting and formatting (Biome only)
+## Linting and Formatting (Biome only)
 
 This repository uses **[Biome](https://biomejs.dev/)** as the **only** linter and formatter. We do **not** use ESLint or Prettier in this codebase.
 
@@ -20,15 +20,15 @@ This repository uses **[Biome](https://biomejs.dev/)** as the **only** linter an
 
 ### Commands
 
-| Script              | What it does                                      |
-| ------------------- | ------------------------------------------------- |
-| `pnpm run lint`     | Run Biome check (lint + format verification)      |
-| `pnpm run lint:ci`  | **`biome ci`** — same gates as GitHub Actions      |
-| `pnpm run check`    | `biome ci` + `tsc --noEmit` + unit tests (Vitest)   |
-| `pnpm run test:unit`| Vitest (single worker / serial — weak hardware OK)|
+| Script | What it does |
+|--------|--------------|
+| `pnpm run lint` | Run Biome check (lint + format verification) |
+| `pnpm run lint:ci` | `biome ci` — same gates as GitHub Actions |
+| `pnpm run check` | `biome ci` + `tsc --noEmit` + unit tests (Vitest) |
+| `pnpm run test:unit` | Vitest (single worker / serial — weak hardware OK) |
 | `pnpm run lint:fix` | Apply safe fixes + format (`biome check --write`) |
-| `pnpm run format`   | Format with Biome (`biome format --write`)       |
-| `pnpm run format:check` | Verify formatting only (`biome format .`)     |
+| `pnpm run format` | Format with Biome (`biome format --write`) |
+| `pnpm run format:check` | Verify formatting only (`biome format .`) |
 
 Run these before opening a PR:
 
@@ -44,9 +44,15 @@ If CI fails on Biome, reproduce with `pnpm run lint:ci` (or `pnpm run check` for
 
 **PR bot comments:** Address **CodeAnt AI**, **Socket**, and inline review threads in the same PR — do not merge with unresolved actionable feedback.
 
-**Deployment:** See **`docs/DEPLOYMENT.md`** for GitHub Pages vs Vercel setup.
+**Deployment:** See **docs/DEPLOYMENT.md** for GitHub Pages vs Vercel setup.
 
-**Lighthouse CI** (wie GitHub Actions, nach Production-Build): `npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json` (startet intern `vite preview` auf Port 4173 — URL-Pfad entspricht dem Repo-Namen in der Config).
+**Lighthouse CI** (same as GitHub Actions, after a production build):
+
+```bash
+npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
+```
+
+This starts `vite preview` internally on port 4173 — the URL path matches the repo name in the config.
 
 ## Cursor Pro+ Setup
 
@@ -72,7 +78,7 @@ Your global User settings **do not** override these workspace keys for ESLint en
 2. Trust the workspace so `.vscode/settings.json` applies.
 3. Save a `.tsx` file → **Format Document** / format-on-save should run **Biome** only (default formatter `biomejs.biome`).
 
-## Tests and checks
+## Tests and Checks
 
 **Cloud-first policy:** Full coverage runs, complete E2E, Lighthouse, and bundle reports are designed for **GitHub Actions**. Locally, prefer `pnpm run check` + `pnpm run test:unit` for daily work.
 
@@ -92,7 +98,7 @@ ANALYZE=true VITE_BASE_PATH=/Internet-Archive-Explorer/ pnpm run build && pnpm r
 
 **Full CI parity (resource-heavy):** add `pnpm run test:unit:coverage` and `CI=true PLAYWRIGHT_BASE_PATH=/Internet-Archive-Explorer/ pnpm run test:e2e` after build, or push to a branch and let GitHub Actions run.
 
-Unit tests live under **`tests/unit/**/*.test.{ts,tsx}`** only.
+Unit tests live under **tests/unit/**/*.test.{ts,tsx}** only.
 
 E2E tests expect Playwright browsers; install with `pnpm exec playwright install --with-deps chromium` if needed.
 
@@ -111,7 +117,7 @@ pnpm audit --audit-level=moderate
 
 CI runs the same audit level; moderate or higher issues fail the pipeline.
 
-## Commit format
+## Commit Format
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -128,7 +134,7 @@ cp scripts/check-commit-msg.mjs .git/hooks/commit-msg
 chmod +x .git/hooks/commit-msg
 ```
 
-## Bundle size
+## Bundle Size
 
 CI runs **`ANALYZE=true pnpm run build`** before **`pnpm run check:bundle-size`** (writes `dist/bundle-report.json`). Locally:
 
@@ -145,17 +151,17 @@ pnpm run build:analyze
 
 If a budget is exceeded, update `.github/bundle-budgets.json` only after intentional additions (not regressions).
 
-## Pull requests
+## Pull Requests
 
 - Keep commits focused; match existing **Biome** formatting and **accessibility** patterns.
 - Branch off `main`, open a PR — CI must be green before merging.
 - Update docs if you change tooling or scripts.
 
-## Security issues
+## Security Issues
 
 See [SECURITY.md](.github/SECURITY.md) — please use GitHub's private advisory system, not public issues.
 
-## Branch protection
+## Branch Protection
 
 See [docs/branch-protection.md](docs/branch-protection.md) for recommended GitHub settings.
 

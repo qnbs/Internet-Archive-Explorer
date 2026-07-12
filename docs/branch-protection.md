@@ -20,6 +20,11 @@ If you are the sole maintainer and want to push directly to `main` for small fix
 
 ## Why These Rules
 
-- **Status check on CI job**: catches TypeScript errors, lint failures, i18n drift, bundle budget violations, and E2E failures before they reach `main`
-- **No force push**: preserves history; prevents accidental loss of commits
-- **Conversation resolution**: ensures review comments aren't silently dismissed
+- **Status check on CI job**: catches TypeScript errors, lint failures, i18n drift, bundle budget violations, and E2E failures before they reach `main`.
+- **No force push**: preserves history and prevents accidental loss of commits.
+- **Conversation resolution**: ensures review comments are not silently dismissed.
+
+## Related
+
+- `CONTRIBUTING.md` — local quality gates before opening a PR
+- `docs/release-process.md` — versioning and release workflow

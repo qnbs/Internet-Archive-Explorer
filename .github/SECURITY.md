@@ -16,7 +16,7 @@ Use GitHub's private advisory system:
 
 1. Go to the [Security tab](https://github.com/qnbs/Internet-Archive-Explorer/security/advisories/new)
 2. Click **"Report a vulnerability"**
-3. Fill in the details: affected component, reproduction steps, potential impact
+3. Fill in the details: affected component, reproduction steps, and potential impact
 
 **Response SLA:** Triage within 72 hours. A fix or mitigation plan within 14 days for confirmed high/critical issues.
 
@@ -28,5 +28,13 @@ This is a client-side PWA that communicates with the [Internet Archive API](http
 - Auth token leakage (OAuth PKCE flow, Gemini API key storage)
 - Service Worker cache poisoning
 - CSP bypasses
+- Dependency vulnerabilities reported by `pnpm audit --audit-level=moderate`
 
-The Internet Archive API itself is out of scope — report those directly to archive.org.
+The Internet Archive API itself is out of scope — report those issues directly to archive.org.
+
+## Security Practices
+
+- OAuth uses Authorization Code + PKCE; no client secret is stored in the frontend.
+- Gemini API keys are BYOK and stored only in browser `sessionStorage`; they are never embedded in the build.
+- All HTML from external sources is sanitized with DOMPurify before rendering.
+- CSP is configured in `index.html` for static hosting constraints.

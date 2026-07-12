@@ -17,7 +17,7 @@ Both targets use the same Vite build (`pnpm run build`) with different `VITE_BAS
 
 ### One-time repository setup
 
-1. **Settings → Pages → Build and deployment**
+1. Go to **Settings → Pages → Build and deployment**.
 2. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 3. If Source is a branch, the live site may serve raw `index.html` with `./index.tsx` (no bundle) — **Pages Smoke Checks** will fail with a diagnostic message.
 
@@ -64,7 +64,7 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 ### Option A — Vercel Dashboard (recommended)
 
 1. Import the GitHub repository in [Vercel](https://vercel.com/new).
-2. Framework preset: **Vite**
+2. Framework preset: **Vite**.
 3. Environment variables:
 
 | Variable | Production | Preview |
@@ -96,13 +96,13 @@ If secrets are **missing**, the workflow is skipped (no failure).
 
 ---
 
-## PWA assets checklist
+## PWA Assets Checklist
 
 After any deploy, verify:
 
 - [ ] `/manifest.json` returns 200
 - [ ] `/icons/icon-192.png` and `/icons/icon-512.png` return 200
-- [ ] `/sw.js` returns 200 with short cache lifetime
+- [ ] `/sw.js` returns 200 with a short cache lifetime
 - [ ] `/locales/en/common.json` and `/locales/de/common.json` return 200
 
 CI checks these in `dist/` after build; **Pages Smoke** checks the live GitHub Pages URL.
@@ -115,7 +115,7 @@ pnpm run generate:pwa-assets
 
 ---
 
-## Environment variables
+## Environment Variables
 
 See `.env.example`. `VITE_*` variables used at build time are embedded in the client bundle.
 
@@ -151,7 +151,7 @@ See `.env.example`. `VITE_*` variables used at build time are embedded in the cl
 
 ---
 
-## Related docs
+## Related Docs
 
 - `README.md` — quick start and local CI gate
 - `CONTRIBUTING.md` — quality gates before PR
