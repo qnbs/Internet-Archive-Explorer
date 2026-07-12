@@ -98,5 +98,14 @@
   },
   "geminiKeyPrompt": {
     "openSettings": "Open AI Settings"
+  },
+  "cacheAge": {
+    "cached": "Cached",
+    "justNow": "just now"
+  },
+  "offline": {
+    "offline": "Offline",
+    "message": "You are offline. Some content may be unavailable.",
+    "backOnline": "You are back online."
   }
 }
