@@ -269,7 +269,7 @@ export const getItemCount = async (query: string): Promise<number> => {
 export const getReviewsByUploader = (
   uploader: string,
   page: number,
-  limit: number = 10,
+  limit = 10,
 ): Promise<ArchiveSearchResponse> => {
   const query = `reviewer:("${uploader}")`;
   const fields = [

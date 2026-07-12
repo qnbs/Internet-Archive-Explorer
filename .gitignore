@@ -16,6 +16,7 @@ coverage/
 
 # Playwright artifacts
 .playwright/
+.playwright-mcp/
 
 # Lighthouse CI (generated locally / CI)
 lighthouserc.run.json

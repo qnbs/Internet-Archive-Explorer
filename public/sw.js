@@ -49,58 +49,69 @@ const timeoutFetch = async (request, timeoutMs = NETWORK_TIMEOUT_MS) => {
 const measureResponseBytes = async (response) => {
   const len = response.headers.get('Content-Length');
   if (len) {
-    const n = Number.parseInt(len, 10);
-    if (!Number.isNaN(n)) return n;
+    const parsedLength = Number.parseInt(len, 10);
+    if (!Number.isNaN(parsedLength)) return parsedLength;
   }
-  const buf = await response.clone().arrayBuffer();
-  return buf.byteLength;
+  const buffer = await response.clone().arrayBuffer();
+  return buffer.byteLength;
+};
+
+const collectCacheEntries = async (cacheName) => {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  const entries = [];
+  for (const request of keys) {
+    const response = await cache.match(request);
+    if (!response) continue;
+    const size = await measureResponseBytes(response);
+    const url = request.url;
+    entries.push({ request, url, size, last: urlAccessMs.get(url) || 0 });
+  }
+  return entries;
 };
 
 const evictLRUFromCache = async (cacheName, maxBytes) => {
   const cache = await caches.open(cacheName);
-  const keys = await cache.keys();
-  const entries = [];
-  for (const req of keys) {
-    const res = await cache.match(req);
-    if (!res) continue;
-    const size = await measureResponseBytes(res);
-    const u = req.url;
-    entries.push({ req, u, size, last: urlAccessMs.get(u) || 0 });
-  }
-  let total = entries.reduce((s, e) => s + e.size, 0);
-  entries.sort((a, b) => a.last - b.last);
-  let i = 0;
-  while (total > maxBytes && i < entries.length) {
-    const e = entries[i++];
-    await cache.delete(e.req);
-    urlAccessMs.delete(e.u);
-    total -= e.size;
+  const entries = await collectCacheEntries(cacheName);
+  let total = entries.reduce((sum, entry) => sum + entry.size, 0);
+  entries.sort((first, second) => first.last - second.last);
+  let index = 0;
+  while (total > maxBytes && index < entries.length) {
+    const entry = entries[index++];
+    await cache.delete(entry.request);
+    urlAccessMs.delete(entry.url);
+    total -= entry.size;
   }
 };
 
-const evictGlobalLRU = async (maxTotalBytes) => {
+const collectGlobalCacheEntries = async () => {
   const cacheNames = [CACHE_SHELL, CACHE_API, CACHE_IMAGES, CACHE_STATIC];
-  const all = [];
-  for (const cn of cacheNames) {
-    const cache = await caches.open(cn);
+  const allEntries = [];
+  for (const cacheName of cacheNames) {
+    const cache = await caches.open(cacheName);
     const keys = await cache.keys();
-    for (const req of keys) {
-      const res = await cache.match(req);
-      if (!res) continue;
-      const size = await measureResponseBytes(res);
-      const u = req.url;
-      all.push({ cn, req, u, size, last: urlAccessMs.get(u) || 0 });
+    for (const request of keys) {
+      const response = await cache.match(request);
+      if (!response) continue;
+      const size = await measureResponseBytes(response);
+      const url = request.url;
+      allEntries.push({ cacheName, request, url, size, last: urlAccessMs.get(url) || 0 });
     }
   }
-  let total = all.reduce((s, e) => s + e.size, 0);
-  all.sort((a, b) => a.last - b.last);
-  let i = 0;
-  while (total > maxTotalBytes && i < all.length) {
-    const e = all[i++];
-    const cache = await caches.open(e.cn);
-    await cache.delete(e.req);
-    urlAccessMs.delete(e.u);
-    total -= e.size;
+  return allEntries;
+};
+
+const evictGlobalLRU = async (maxTotalBytes) => {
+  const all = await collectGlobalCacheEntries();
+  let total = all.reduce((sum, entry) => sum + entry.size, 0);
+  all.sort((first, second) => first.last - second.last);
+  let index = 0;
+  while (total > maxTotalBytes && index < all.length) {
+    const entry = all[index++];
+    const cache = await caches.open(entry.cacheName);
+    await cache.delete(entry.request);
+    urlAccessMs.delete(entry.url);
+    total -= entry.size;
   }
 };
 
@@ -149,7 +160,7 @@ const isImageRequest = (request) => {
   return isImageHost && (isImagePath || isImageDestination);
 };
 
-const putInCache = async function (cacheName, request, response) {
+const putInCache = async (cacheName, request, response) => {
   const cache = await caches.open(cacheName);
   const responseClone = response.clone();
   const headers = new Headers(responseClone.headers);
@@ -175,7 +186,7 @@ const handleApiStaleWhileRevalidate = (event, request) => {
 
       const networkPromise = timeoutFetch(request, API_NETWORK_TIMEOUT_MS)
         .then(async (networkResponse) => {
-          if (networkResponse && networkResponse.ok) {
+          if (networkResponse?.ok) {
             await putInCache(CACHE_API, request, networkResponse);
           }
           return networkResponse;
@@ -193,7 +204,7 @@ const handleApiStaleWhileRevalidate = (event, request) => {
       }
 
       const fresh = await networkPromise;
-      if (fresh && fresh.ok) return fresh;
+      if (fresh?.ok) return fresh;
       return offlineApiResponse();
     })(),
   );
@@ -210,7 +221,7 @@ const handleImageCacheFirst = (event, request) => {
         event.waitUntil(
           timeoutFetch(request)
             .then(async (res) => {
-              if (res && res.ok) await putInCache(CACHE_IMAGES, request, res);
+              if (res?.ok) await putInCache(CACHE_IMAGES, request, res);
             })
             .catch(() => undefined),
         );
@@ -218,7 +229,7 @@ const handleImageCacheFirst = (event, request) => {
       }
       try {
         const networkResponse = await timeoutFetch(request);
-        if (networkResponse && networkResponse.ok) {
+        if (networkResponse?.ok) {
           await putInCache(CACHE_IMAGES, request, networkResponse);
         }
         return networkResponse;
@@ -238,7 +249,7 @@ const handleStaticStaleWhileRevalidate = (event, request) => {
       const cached = await cache.match(request);
       const fetchPromise = timeoutFetch(request)
         .then(async (networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
+          if (networkResponse?.status === 200) {
             await putInCache(CACHE_STATIC, request, networkResponse);
           }
           return networkResponse;
@@ -279,18 +290,37 @@ self.addEventListener('activate', (event) => {
 
       const keys = await caches.keys();
       const keep = new Set([CACHE_SHELL, CACHE_API, CACHE_IMAGES, CACHE_STATIC]);
-      await Promise.all(
-        keys.map((name) => {
-          if (!keep.has(name)) {
-            return caches.delete(name);
-          }
-        }),
-      );
+      await Promise.all(keys.filter((name) => !keep.has(name)).map((name) => caches.delete(name)));
 
       await self.clients.claim();
     })(),
   );
 });
+
+const handleNavigate = async (event, request) => {
+  try {
+    const preloadResponse = await event.preloadResponse;
+    if (preloadResponse) return preloadResponse;
+    return await timeoutFetch(request);
+  } catch {
+    const cachedResponse = await caches.open(CACHE_SHELL).then((cache) => cache.match(BASE_PATH));
+    touch(BASE_PATH);
+    return (
+      cachedResponse ||
+      new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' } })
+    );
+  }
+};
+
+const routeFetch = (event, request, url) => {
+  if (url.hostname.includes(API_HOSTNAME) && !isImageRequest(request)) {
+    return handleApiStaleWhileRevalidate(event, request);
+  }
+  if (isImageRequest(request)) {
+    return handleImageCacheFirst(event, request);
+  }
+  return handleStaticStaleWhileRevalidate(event, request);
+};
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
@@ -301,36 +331,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (request.mode === 'navigate') {
-    event.respondWith(
-      (async () => {
-        try {
-          const preloadResponse = await event.preloadResponse;
-          if (preloadResponse) return preloadResponse;
-          return await timeoutFetch(request);
-        } catch {
-          const cachedResponse = await caches.open(CACHE_SHELL).then((c) => c.match(BASE_PATH));
-          touch(BASE_PATH);
-          return (
-            cachedResponse ||
-            new Response(OFFLINE_FALLBACK_PAGE, { headers: { 'Content-Type': 'text/html' } })
-          );
-        }
-      })(),
-    );
+    event.respondWith(handleNavigate(event, request));
     return;
   }
 
-  if (url.hostname.includes(API_HOSTNAME) && !isImageRequest(request)) {
-    handleApiStaleWhileRevalidate(event, request);
-    return;
-  }
-
-  if (isImageRequest(request)) {
-    handleImageCacheFirst(event, request);
-    return;
-  }
-
-  handleStaticStaleWhileRevalidate(event, request);
+  routeFetch(event, request, url);
 });
 
 self.addEventListener('sync', (event) => {
