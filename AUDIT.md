@@ -1,8 +1,8 @@
 # Audit Report — Internet Archive Explorer
 
-**Date:** 2026-04-14 · **Last reviewed:** 2026-10-02
+**Date:** 2026-04-14 · **Last reviewed:** 2026-10-02 (post-release v1.3.1)
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
-**App Version:** 1.3.0
+**App Version:** 1.3.1
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
 
 ---
@@ -11,7 +11,7 @@
 
 Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently.
 
-**October 2026 full-scale audit (see branch `cursor/full-scale-audit-perfection-e13c`):** Confirmed and corrected several P1 issues that were not reflected in earlier summaries — including unsanitized Archive plain text rendered via `dangerouslySetInnerHTML` in Scriptorium, weak backup import validation, CI/deploy decoupling, and dependency drift (DOMPurify, PostCSS, React Router). See **October 2026 correction ledger** below.
+**October 2026 full-scale audit (merged #19 → `main`, tag `v1.3.1`):** Confirmed and corrected several P1 issues that were not reflected in earlier summaries — including unsanitized Archive plain text rendered via `dangerouslySetInnerHTML` in Scriptorium, weak backup import validation, CI/deploy decoupling, and dependency drift (DOMPurify, PostCSS, React Router). See **October 2026 correction ledger** below.
 
 A July 2026 deep audit identified fetching resilience as the highest-priority improvement area. The app now includes exponential backoff with jitter, a per-host concurrency cap, and TanStack Query retry reduction for Internet Archive endpoints. A follow-up production cache fix (v1.3.0) bumped the service worker cache, introduced a thumbnail URL utility to reduce ORB failures, and added automatic GitHub deployment pruning.
 
@@ -32,8 +32,23 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | OAUTH-URL | P2 | Dynamic redirect URI; OAuth params stripped without dropping app query state | `tests/unit/oauthUrl.test.ts` |
 | CSP-META | P2 | Removed non-enforceable `frame-ancestors` and unused `aistudiocdn.com` from meta CSP | `index.html` |
 | DEPS | P1 | DOMPurify 3.4.16, PostCSS ≥8.5.23, react-router 7.18.2, brace-expansion ≥5.0.9 | `pnpm audit`, lockfile |
+| CSP-WEBKIT | P2 | Removed `upgrade-insecure-requests` (broke WebKit on `http://127.0.0.1` preview/E2E) | Cross-browser `@smoke`, `index.html` |
 
 **Repository governance:** Branch protection on `main` with required **`CI Gate`** is enforced (2026-10-02, maintainer-confirmed) — see `docs/branch-protection.md`.
+
+### Wave 6–7 follow-up (post v1.3.1)
+
+| Item | Status | Notes |
+|------|--------|-------|
+| CodeQL (JS/TS) | ✅ | `.github/workflows/codeql.yml` — weekly + PR/push |
+| Lighthouse performance budget | ✅ | `lighthouserc.json` warn ≥ 0.65 (non-blocking) |
+| Cross-browser CI artifacts | ✅ | Upload `test-results/` on cross-browser smoke failure |
+| `postcss-selector-parser` low advisory | ✅ | pnpm override ≥ 6.1.3 |
+| Backup byte-limit unit tests | ✅ | `tests/unit/backupSchemas.test.ts` |
+| URL deep-link (`?view=`, modals) | ✅ | `useUrlSync`, `useModalUrlSync` + unit/E2E coverage |
+| IndexedDB migration for large Jotai stores | ⏸️ | Deferred — high effort; `safeAtomWithStorage` + cache layer sufficient for now |
+| `types.ts` domain split | ⏸️ | Deferred — document when touching types |
+| Real marketing PWA screenshots | ⏸️ | Generated placeholders remain acceptable for CI |
 
 ---
 
@@ -275,11 +290,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Files:** `services/cacheService.ts`, new `services/searchCache.ts`, TanStack Query hooks.
 - **Effort:** Medium
 
-#### M12: URL-sync for views and modals
+#### M12: URL-sync for views and modals — addressed (v1.3.0+)
 
-- **Impact:** Enables deep-linking and browser history for the Jotai-based router.
-- **Files:** `store/app.ts`, `App.tsx`.
-- **Effort:** Medium
+- **Done:** `hooks/useUrlSync.ts`, `hooks/useModalUrlSync.ts`, `getInitialActiveView()` in `store/app.ts`; E2E smoke deep-links.
 
 ---
 

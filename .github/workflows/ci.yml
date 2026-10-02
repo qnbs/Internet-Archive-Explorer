@@ -186,6 +186,12 @@ jobs:
           CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm exec playwright test --grep @smoke --project=firefox-smoke --project=webkit-smoke --project=mobile-chrome-smoke
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cross-browser-smoke-results
+          path: test-results/
+          retention-days: 7
 
   lighthouse:
     name: Lighthouse CI
