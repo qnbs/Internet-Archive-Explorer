@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-14 · **Last reviewed:** 2026-10-02 (post-release v1.3.1)
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
-**App Version:** 1.3.1
+**App Version:** 1.3.2
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
 
 ---
@@ -46,7 +46,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | `postcss-selector-parser` low advisory | ✅ | pnpm override ≥ 6.1.3 |
 | Backup byte-limit unit tests | ✅ | `tests/unit/backupSchemas.test.ts` |
 | URL deep-link (`?view=`, modals) | ✅ | `useUrlSync`, `useModalUrlSync` + unit/E2E coverage |
-| IndexedDB migration for large Jotai stores | ⏸️ | Deferred — high effort; `safeAtomWithStorage` + cache layer sufficient for now |
+| IndexedDB migration for large Jotai stores | ✅ | v1.3.2 — `store/persistStorage.ts`, hydrate before mount; library/collections/worksets/AI archive/download queue |
 | `types.ts` domain split | ⏸️ | Deferred — document when touching types |
 | Real marketing PWA screenshots | ⏸️ | Generated placeholders remain acceptable for CI |
 

@@ -1,5 +1,6 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import { ErrorBoundaryFallback } from '@/components/ErrorBoundaryFallback';
+import { clearIndexedDbPersistStore, PERSIST_INDEXEDDB_KEYS } from '@/store/persistStorage';
 import { logger } from '@/utils/logger';
 
 interface Props {
@@ -34,19 +35,25 @@ class ErrorBoundary extends React.Component<Props, State> {
     this.setState({ hasError: false, error: null });
   };
 
-  private handleHardReset = () => {
+  private handleHardReset = (): void => {
     Object.keys(localStorage).forEach((key) => {
       if (
         key.startsWith('app-') ||
         key.startsWith('scriptorium-') ||
         key.startsWith('ai-archive-') ||
-        key.includes('jotai')
+        key.includes('jotai') ||
+        key === 'download-queue-v1'
       ) {
         localStorage.removeItem(key);
       }
     });
-    sessionStorage.clear();
-    window.location.reload();
+    for (const key of PERSIST_INDEXEDDB_KEYS) {
+      localStorage.removeItem(key);
+    }
+    void clearIndexedDbPersistStore().finally(() => {
+      sessionStorage.clear();
+      window.location.reload();
+    });
   };
 
   public render(): ReactNode {

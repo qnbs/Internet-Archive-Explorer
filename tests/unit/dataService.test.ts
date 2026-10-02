@@ -1,8 +1,9 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { exportAllData, importData } from '@/services/dataService';
 import { STORAGE_KEY as AI_ARCHIVE_KEY } from '@/store/aiArchive';
 import { STORAGE_KEYS as FAVORITES_KEYS } from '@/store/favorites';
 import { STORAGE_KEYS as I18N_KEYS } from '@/store/i18n';
+import * as persistStorage from '@/store/persistStorage';
 import { STORAGE_KEY as SCRIPTORIUM_KEY } from '@/store/scriptorium';
 import { STORAGE_KEYS as SEARCH_KEYS } from '@/store/search';
 import { STORAGE_KEYS as SETTINGS_KEYS } from '@/store/settings';
@@ -23,6 +24,7 @@ const sampleLibraryItem = {
 describe('dataService import/export', () => {
   beforeEach(() => {
     localStorage.clear();
+    persistStorage.resetPersistStorageForTests();
   });
 
   it('round-trips managed storage keys', () => {
@@ -47,9 +49,9 @@ describe('dataService import/export', () => {
       resultsPerPage: 12,
     });
     expect(
-      Object.keys(JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '{}')),
+      Object.keys(JSON.parse(persistStorage.readPersistedRaw(FAVORITES_KEYS.libraryItems) || '{}')),
     ).toEqual(['good-item']);
-    expect(localStorage.getItem(I18N_KEYS.language)).toBe('de');
+    expect(persistStorage.readPersistedRaw(I18N_KEYS.language)).toBe('de');
   });
 
   it('rejects prototype-pollution identifiers before writing', () => {
@@ -64,22 +66,24 @@ describe('dataService import/export', () => {
     };
 
     expect(() => importData(JSON.stringify(payload))).toThrow(/validation/i);
-    expect(localStorage.getItem(FAVORITES_KEYS.libraryItems)).toBeNull();
+    expect(persistStorage.readPersistedRaw(FAVORITES_KEYS.libraryItems)).toBeNull();
   });
 
   it('rolls back on mid-commit failure', () => {
-    localStorage.setItem(
+    persistStorage.writePersistedRaw(
       FAVORITES_KEYS.libraryItems,
       JSON.stringify({ keep: { ...sampleLibraryItem, identifier: 'keep' } }),
     );
 
-    const originalSetItem = Storage.prototype.setItem;
-    Storage.prototype.setItem = function setItem(key: string, value: string) {
-      if (key === SCRIPTORIUM_KEY) {
-        throw new Error('QuotaExceededError');
-      }
-      return originalSetItem.call(this, key, value);
-    };
+    const writeImpl = persistStorage.writePersistedRaw.bind(persistStorage);
+    const commitSpy = vi
+      .spyOn(persistStorage, 'writePersistedRaw')
+      .mockImplementation((key: string, raw: string | null) => {
+        if (key === SCRIPTORIUM_KEY) {
+          throw new Error('QuotaExceededError');
+        }
+        writeImpl(key, raw);
+      });
 
     try {
       const payload = {
@@ -87,11 +91,11 @@ describe('dataService import/export', () => {
         scriptoriumWorksets: [{ id: 'w1', name: 'Workset', documents: [] }],
       };
       expect(() => importData(JSON.stringify(payload))).toThrow(/QuotaExceededError/);
-      expect(JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '{}')).toHaveProperty(
-        'keep',
-      );
+      expect(
+        JSON.parse(persistStorage.readPersistedRaw(FAVORITES_KEYS.libraryItems) || '{}'),
+      ).toHaveProperty('keep');
     } finally {
-      Storage.prototype.setItem = originalSetItem;
+      commitSpy.mockRestore();
     }
   });
 });
