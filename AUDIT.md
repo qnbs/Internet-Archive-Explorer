@@ -33,7 +33,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | CSP-META | P2 | Removed non-enforceable `frame-ancestors` and unused `aistudiocdn.com` from meta CSP | `index.html` |
 | DEPS | P1 | DOMPurify 3.4.16, PostCSS ≥8.5.23, react-router 7.18.2, brace-expansion ≥5.0.9 | `pnpm audit`, lockfile |
 
-**Not enforced in-repo (external):** GitHub branch protection / rulesets — see `docs/branch-protection.md`.
+**Repository governance:** Branch protection on `main` with required **`CI Gate`** is enforced (2026-10-02, maintainer-confirmed) — see `docs/branch-protection.md`.
 
 ---
 

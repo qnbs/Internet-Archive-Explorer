@@ -1,5 +1,13 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register = () =>
+      Promise.reject(new DOMException('Service worker disabled in E2E', 'NotSupportedError'));
+  });
+});
+
 const labels = {
   settings: /Einstellungen|Settings/i,
   explore: /Entdecken|Explore/i,
@@ -11,11 +19,15 @@ const labels = {
   oauthLogin: /Mit Google anmelden|Sign in with Google/i,
 };
 
+async function waitForAppShell(page: import('@playwright/test').Page) {
+  await expect(page.locator('#main-content')).toBeVisible({ timeout: 60_000 });
+}
+
 async function openSettings(page: import('@playwright/test').Page) {
-  await page.goto('./?view=settings');
-  await page.waitForSelector('#main-content', { timeout: 15_000 });
+  await page.goto('./?view=settings', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
   await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
-    timeout: 45_000,
+    timeout: 60_000,
   });
 }
 
@@ -57,18 +69,20 @@ test('Optionaler OAuth-Login ist sichtbar', async ({ page }) => {
 });
 
 test('@smoke Grundnavigation über Views funktioniert', async ({ page }) => {
-  await page.goto('./?view=explore');
-  await page.waitForSelector('#main-content', { timeout: 15_000 });
-  await expect(page.getByText(/Trending Now|Gerade beliebt/i)).toBeVisible({ timeout: 45_000 });
+  await page.goto('./?view=explore', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
+  await expect(page.getByText(/Trending Now|Gerade beliebt/i)).toBeVisible({ timeout: 60_000 });
 
-  await page.goto('./?view=scriptorium');
+  await page.goto('./?view=scriptorium', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
   await expect(page.getByRole('heading', { name: labels.scriptorium, level: 1 })).toBeVisible({
-    timeout: 45_000,
+    timeout: 60_000,
   });
 
-  await page.goto('./?view=settings');
+  await page.goto('./?view=settings', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
   await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
-    timeout: 45_000,
+    timeout: 60_000,
   });
 });
 

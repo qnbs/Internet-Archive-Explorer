@@ -2,7 +2,7 @@
 
 Apply these settings at **Settings → Branches → Add rule → `main`** on GitHub.
 
-> **Repository state (2026-10-02):** Branch protection and rulesets are **not enforced** on `qnbs/Internet-Archive-Explorer` unless configured manually in GitHub Settings. This document describes the intended target state.
+> **Repository state (2026-10-02):** Branch protection on `main` is **enforced** with required check **`CI Gate`** (maintainer-confirmed). Keep this document aligned if GitHub settings change.
 
 ## Required Settings
 
