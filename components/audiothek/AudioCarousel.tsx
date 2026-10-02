@@ -1,21 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
 import { useLanguage } from '@/hooks/useLanguage';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary } from '@/types';
 import { SkeletonCard } from '../SkeletonCard';
 import { AudioCard } from './AudioCard';
 
 interface AudioCarouselProps {
   title: string;
   query: string;
+  limit?: number;
 }
 
-export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) => {
+export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query, limit = 15 }) => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-  const [items, setItems] = useState<ArchiveItemSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { items, isLoading, error, refetch, offlineCachedAt } = useArchivalItems(query, limit);
   const { t } = useLanguage();
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -31,7 +30,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
 
   useEffect(() => {
     const el = scrollContainerRef.current;
-    checkForScrollability(); // Check on mount and when items change
+    checkForScrollability();
     el?.addEventListener('scroll', checkForScrollability, { passive: true });
     window.addEventListener('resize', checkForScrollability);
     return () => {
@@ -50,32 +49,19 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
     }
   };
 
-  const fetchItems = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await searchArchive(query, 1, ['-downloads'], undefined, 15);
-      setItems(data.response?.docs || []);
-    } catch {
-      setError(t('common:error'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [query, t]);
-
-  useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
-
   return (
     <section className="animate-fade-in">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
+        {offlineCachedAt ? <CacheAgeIndicator cacheTimeMs={offlineCachedAt} /> : null}
+      </div>
       <div className="relative group">
         <button
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft || !!error}
           className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 p-2 bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
           aria-label="Scroll left"
+          type="button"
         >
           <ChevronLeftIcon className="w-6 h-6" />
         </button>
@@ -91,7 +77,18 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
               </div>
             ))
           ) : error ? (
-            <div className="text-red-400 p-4">{error}</div>
+            <div className="text-red-400 p-4 space-y-2">
+              <p>{error}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  void refetch();
+                }}
+                className="text-sm font-semibold text-cyan-700 dark:text-cyan-300 hover:underline"
+              >
+                {t('common:retry')}
+              </button>
+            </div>
           ) : (
             items.map((item, index) => (
               <AudioCard key={item.identifier} item={item} index={index} />
@@ -103,6 +100,7 @@ export const AudioCarousel: React.FC<AudioCarouselProps> = ({ title, query }) =>
           disabled={!canScrollRight || !!error}
           className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 p-2 bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
           aria-label="Scroll right"
+          type="button"
         >
           <ChevronRightIcon className="w-6 h-6" />
         </button>

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Videothek / Audiothek:** carousel lists use `useArchivalItems` with IndexedDB offline fallback, cache-age badges, and dedicated offline banner copy.
+
 ## [1.3.4] - 2026-10-02
 
 ### Added
