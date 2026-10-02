@@ -1,5 +1,6 @@
 import { atomWithStorage } from 'jotai/utils';
 import { logger } from '@/utils/logger';
+import { indexedDbJotaiSyncStorage, isIndexedDbPersistKey } from './persistStorage';
 
 // Define the SyncStorage interface to ensure our custom storage is correctly typed.
 // This tells Jotai that our storage is synchronous and won't return Promises.
@@ -48,7 +49,6 @@ export const safeJotaiSyncStorage = {
  * @returns A Jotai atom that syncs with localStorage safely.
  */
 export function safeAtomWithStorage<Value>(key: string, initialValue: Value) {
-  // By explicitly providing the typed storage object, we ensure jotai treats
-  // this as a synchronous storage, giving us correct types for our atoms.
-  return atomWithStorage(key, initialValue, safeJotaiSyncStorage as SyncStorage<Value>);
+  const storage = isIndexedDbPersistKey(key) ? indexedDbJotaiSyncStorage : safeJotaiSyncStorage;
+  return atomWithStorage(key, initialValue, storage as SyncStorage<Value>);
 }

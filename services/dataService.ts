@@ -1,6 +1,7 @@
 import { STORAGE_KEY as AI_ARCHIVE_KEY } from '@/store/aiArchive';
 import { STORAGE_KEYS as FAVORITES_KEYS } from '@/store/favorites';
 import { STORAGE_KEYS as I18N_KEYS } from '@/store/i18n';
+import { readPersistedRaw, writePersistedRaw } from '@/store/persistStorage';
 import { STORAGE_KEY as SCRIPTORIUM_KEY } from '@/store/scriptorium';
 import { STORAGE_KEYS as SEARCH_KEYS } from '@/store/search';
 import { STORAGE_KEYS as SETTINGS_KEYS } from '@/store/settings';
@@ -26,7 +27,7 @@ const MANAGED_STORAGE_KEYS = [
 const snapshotManagedStorage = (): Record<string, string | null> => {
   const snap: Record<string, string | null> = {};
   for (const key of MANAGED_STORAGE_KEYS) {
-    snap[key] = localStorage.getItem(key);
+    snap[key] = readPersistedRaw(key);
   }
   return snap;
 };
@@ -34,12 +35,7 @@ const snapshotManagedStorage = (): Record<string, string | null> => {
 const restoreSnapshot = (snap: Record<string, string | null>): void => {
   for (const key of MANAGED_STORAGE_KEYS) {
     try {
-      const value = snap[key];
-      if (value === null) {
-        localStorage.removeItem(key);
-      } else {
-        localStorage.setItem(key, value);
-      }
+      writePersistedRaw(key, snap[key] ?? null);
     } catch (restoreError) {
       logger.warn(`Import rollback: failed to restore storage key "${key}"`, restoreError);
     }
@@ -56,49 +52,49 @@ const libraryArrayToRecord = (items: LibraryItem[]): Record<string, LibraryItem>
 
 const commitBackup = (data: ParsedBackupV2): void => {
   if (data.settings) {
-    localStorage.setItem(
+    writePersistedRaw(
       SETTINGS_KEYS.settings,
       JSON.stringify(data.settings as unknown as AppSettings),
     );
   }
 
   if (Array.isArray(data.libraryItems)) {
-    localStorage.setItem(
+    writePersistedRaw(
       FAVORITES_KEYS.libraryItems,
       JSON.stringify(libraryArrayToRecord(data.libraryItems as LibraryItem[])),
     );
   }
 
   if (data.uploaderFavorites) {
-    localStorage.setItem(FAVORITES_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
+    writePersistedRaw(FAVORITES_KEYS.uploaderFavorites, JSON.stringify(data.uploaderFavorites));
   }
 
   if (data.userCollections) {
-    localStorage.setItem(
+    writePersistedRaw(
       FAVORITES_KEYS.userCollections,
       JSON.stringify(data.userCollections as UserCollection[]),
     );
   }
 
   if (data.scriptoriumWorksets) {
-    localStorage.setItem(SCRIPTORIUM_KEY, JSON.stringify(data.scriptoriumWorksets as Workset[]));
+    writePersistedRaw(SCRIPTORIUM_KEY, JSON.stringify(data.scriptoriumWorksets as Workset[]));
   }
 
   if (data.searchHistory) {
-    localStorage.setItem(SEARCH_KEYS.searchHistory, JSON.stringify(data.searchHistory));
+    writePersistedRaw(SEARCH_KEYS.searchHistory, JSON.stringify(data.searchHistory));
   }
 
   if (data.aiArchive) {
-    localStorage.setItem(AI_ARCHIVE_KEY, JSON.stringify(data.aiArchive));
+    writePersistedRaw(AI_ARCHIVE_KEY, JSON.stringify(data.aiArchive));
   }
 
   if (data.language) {
-    localStorage.setItem(I18N_KEYS.language, data.language);
+    writePersistedRaw(I18N_KEYS.language, data.language);
   }
 };
 
 /**
- * Gathers managed user data from localStorage for export (no session secrets).
+ * Gathers managed user data from persistent storage for export (no session secrets).
  */
 export const exportAllData = (): string => {
   const data: Record<string, unknown> = {
@@ -107,21 +103,19 @@ export const exportAllData = (): string => {
   };
 
   try {
-    data.settings = JSON.parse(localStorage.getItem(SETTINGS_KEYS.settings) || '{}');
+    data.settings = JSON.parse(readPersistedRaw(SETTINGS_KEYS.settings) || '{}');
     data.libraryItems = Object.values(
-      JSON.parse(localStorage.getItem(FAVORITES_KEYS.libraryItems) || '{}') as Record<
+      JSON.parse(readPersistedRaw(FAVORITES_KEYS.libraryItems) || '{}') as Record<
         string,
         LibraryItem
       >,
     );
-    data.uploaderFavorites = JSON.parse(
-      localStorage.getItem(FAVORITES_KEYS.uploaderFavorites) || '[]',
-    );
-    data.userCollections = JSON.parse(localStorage.getItem(FAVORITES_KEYS.userCollections) || '[]');
-    data.scriptoriumWorksets = JSON.parse(localStorage.getItem(SCRIPTORIUM_KEY) || '[]');
-    data.searchHistory = JSON.parse(localStorage.getItem(SEARCH_KEYS.searchHistory) || '[]');
-    data.aiArchive = JSON.parse(localStorage.getItem(AI_ARCHIVE_KEY) || '[]');
-    const lang = localStorage.getItem(I18N_KEYS.language);
+    data.uploaderFavorites = JSON.parse(readPersistedRaw(FAVORITES_KEYS.uploaderFavorites) || '[]');
+    data.userCollections = JSON.parse(readPersistedRaw(FAVORITES_KEYS.userCollections) || '[]');
+    data.scriptoriumWorksets = JSON.parse(readPersistedRaw(SCRIPTORIUM_KEY) || '[]');
+    data.searchHistory = JSON.parse(readPersistedRaw(SEARCH_KEYS.searchHistory) || '[]');
+    data.aiArchive = JSON.parse(readPersistedRaw(AI_ARCHIVE_KEY) || '[]');
+    const lang = readPersistedRaw(I18N_KEYS.language);
     if (lang === 'en' || lang === 'de') {
       data.language = lang;
     }

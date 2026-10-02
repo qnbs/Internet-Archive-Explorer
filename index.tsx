@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import { ArchiveServiceError } from '@/services/archiveService';
 import { cleanupExpiredSearchResults } from '@/services/searchCache';
+import { hydratePersistStorage } from '@/store/persistStorage';
+import { logger } from '@/utils/logger';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -40,9 +42,6 @@ queryClient.setQueryDefaults(['plaintext'], iaQueryDefaults);
 queryClient.setQueryDefaults(['uploaderUploads'], iaQueryDefaults);
 queryClient.setQueryDefaults(['uploaderStats'], iaQueryDefaults);
 
-// Clean up stale IndexedDB search entries in the background on startup.
-cleanupExpiredSearchResults().catch(() => undefined);
-
 const router = createBrowserRouter(
   [
     {
@@ -65,10 +64,21 @@ if (!rootElement) {
 }
 
 const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </React.StrictMode>,
-);
+
+async function bootstrap(): Promise<void> {
+  try {
+    await hydratePersistStorage();
+  } catch (error) {
+    logger.error('[Persist] hydrate failed on startup', error);
+  }
+  cleanupExpiredSearchResults().catch(() => undefined);
+  root.render(
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </React.StrictMode>,
+  );
+}
+
+void bootstrap();

@@ -14,7 +14,7 @@ export const STORAGE_KEY = 'ai-archive-v1';
 
 /**
  * The foundational atom that stores the entire array of AI-generated entries.
- * It is persisted to localStorage using a safe storage utility to prevent crashes from corrupted data.
+ * Persisted via safe storage (IndexedDB for the entry list; UI prefs stay in localStorage).
  */
 export const aiArchiveAtom = safeAtomWithStorage<AIArchiveEntry[]>(STORAGE_KEY, []);
 

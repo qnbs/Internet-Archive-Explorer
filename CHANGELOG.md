@@ -7,31 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-10-02
+
 ### Added
 
-- **CodeQL:** GitHub Actions workflow for JavaScript/TypeScript (`security-and-quality` query suite).
-- **Tests:** `tests/unit/backupSchemas.test.ts` for UTF-8 backup size limits.
-- **Dynamic PWA manifest:** `public/manifest.json` is now generated at build time from `public/manifest.template.json` using `VITE_BASE_PATH`. This makes the PWA scope, `start_url`, `id`, `share_target`, and shortcuts correct on both GitHub Pages (`/Internet-Archive-Explorer/`) and Vercel (`/`).
-- **Build-time manifest script:** `scripts/generate-pwa-assets.mjs` now also generates the manifest and normalizes the base path (leading slash, trailing slash).
-- **Offline cache manager:** New **Settings → Data & Privacy → Offline Cache** panel shows IndexedDB search/metadata entry counts and lets users clear the cache.
-- **Cache age indicator:** Now shown in **For You** trending section in addition to **Explore**.
-- **Unit tests:** Added tests for `cacheService`, `searchCache`, `formatCacheAge`, and `useOnlineStatus`.
+- **IndexedDB user persist:** Library items, user collections, Scriptorium worksets, AI Archive entries, and the download queue migrate from `localStorage` into `archive-explorer-persist` on startup (`hydratePersistStorage` before React mount).
+- **Tests:** `tests/unit/persistStorage.test.ts` for migration and read/write helpers.
 
 ### Changed
 
-- **Lighthouse CI:** Performance category enabled as non-blocking warn (min score 0.65).
-- **CI:** Cross-browser smoke uploads Playwright `test-results/` on failure.
-
-### Changed
-
-- **Dependency cleanup:** Removed unused `@tailwindcss/postcss` v4 package; the project remains on Tailwind CSS v3 with the existing custom theme configuration.
-- **Deployment target:** Vercel auto-deploy is disabled. The Vercel live link has been removed from `README.md` and `.github/workflows/vercel-deploy.yml` has been deleted. `vercel.json` remains as a reference configuration only.
-
-### Fixed
-
-- **Dependencies:** pnpm override `postcss-selector-parser` ≥ 6.1.3 (low-severity advisory).
-- **PWA manifest base path:** Eliminated hardcoded `/Internet-Archive-Explorer/` paths from the manifest source so the Vercel root deploy is no longer scoped incorrectly.
-- **Asset generation script:** Replaced non-existent `createDeflateSync` import with `deflateSync` in `scripts/generate-pwa-assets.mjs`, fixing local PNG generation on Node.js 24+.
+- **`safeAtomWithStorage`:** Large keys automatically use IndexedDB-backed sync storage (memory + IDB, localStorage fallback on IDB errors).
+- **Backup import/export:** `dataService` reads/writes through `readPersistedRaw` / `writePersistedRaw`.
+- **Error boundary hard reset:** Clears the IndexedDB persist store in addition to app `localStorage` keys.
 
 ## [1.3.1] - 2026-10-02
 
