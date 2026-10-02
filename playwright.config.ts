@@ -37,6 +37,21 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'firefox-smoke',
+      grep: /@smoke/,
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit-smoke',
+      grep: /@smoke/,
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'mobile-chrome-smoke',
+      grep: /@smoke/,
+      use: { ...devices['Pixel 7'] },
+    },
   ],
   webServer: {
     /** CI uses production `dist/` from the workflow build step; run `pnpm run build` before `CI=true pnpm run test:e2e` locally. */

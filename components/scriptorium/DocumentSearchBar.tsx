@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon, CloseIcon, SearchIcon } from '@/components/Icons';
 import { useLanguage } from '@/hooks/useLanguage';
+import { findLiteralMatchStarts } from '@/utils/literalTextSearch';
 
 interface DocumentSearchBarProps {
   text: string;
@@ -10,33 +11,28 @@ interface DocumentSearchBarProps {
 export const DocumentSearchBar: React.FC<DocumentSearchBarProps> = ({ text, onSearch }) => {
   const { t } = useLanguage();
   const [query, setQuery] = useState('');
-  const [matches, setMatches] = useState<RegExpMatchArray[]>([]);
+  const [matchStarts, setMatchStarts] = useState<number[]>([]);
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
   useEffect(() => {
     onSearch(query);
-    if (query) {
-      const regex = new RegExp(query, 'gi');
-      const foundMatches = [...text.matchAll(regex)];
-      setMatches(foundMatches);
-      setCurrentMatchIndex(0);
-    } else {
-      setMatches([]);
-    }
+    const starts = findLiteralMatchStarts(text, query);
+    setMatchStarts(starts);
+    setCurrentMatchIndex(0);
   }, [query, text, onSearch]);
 
   const goToMatch = (direction: 'next' | 'prev') => {
-    if (matches.length === 0) return;
+    if (matchStarts.length === 0) return;
 
     const newIndex =
       direction === 'next'
-        ? (currentMatchIndex + 1) % matches.length
-        : (currentMatchIndex - 1 + matches.length) % matches.length;
+        ? (currentMatchIndex + 1) % matchStarts.length
+        : (currentMatchIndex - 1 + matchStarts.length) % matchStarts.length;
 
     setCurrentMatchIndex(newIndex);
 
-    const match = matches[newIndex];
-    const element = document.querySelector(`mark[data-match-index="${match.index}"]`);
+    const offset = matchStarts[newIndex];
+    const element = document.querySelector(`mark[data-match-index="${offset}"]`);
     element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
@@ -56,7 +52,11 @@ export const DocumentSearchBar: React.FC<DocumentSearchBarProps> = ({ text, onSe
           className="bg-transparent focus:outline-none w-full"
         />
         {query && (
-          <button onClick={clearSearch} className="p-1 rounded-full text-gray-500 hover:text-white">
+          <button
+            type="button"
+            onClick={clearSearch}
+            className="p-1 rounded-full text-gray-500 hover:text-white"
+          >
             <CloseIcon className="w-4 h-4" />
           </button>
         )}
@@ -64,24 +64,26 @@ export const DocumentSearchBar: React.FC<DocumentSearchBarProps> = ({ text, onSe
       {query && (
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className="text-gray-400">
-            {matches.length > 0
+            {matchStarts.length > 0
               ? t('scriptorium:reader.matchCount', {
                   current: currentMatchIndex + 1,
-                  total: matches.length,
-                  count: matches.length,
+                  total: matchStarts.length,
+                  count: matchStarts.length,
                 })
               : t('scriptorium:reader.noMatches')}
           </span>
           <button
+            type="button"
             onClick={() => goToMatch('prev')}
-            disabled={matches.length === 0}
+            disabled={matchStarts.length === 0}
             className="p-1 rounded hover:bg-gray-700 disabled:opacity-50"
           >
             <ChevronUpIcon />
           </button>
           <button
+            type="button"
             onClick={() => goToMatch('next')}
-            disabled={matches.length === 0}
+            disabled={matchStarts.length === 0}
             className="p-1 rounded hover:bg-gray-700 disabled:opacity-50"
           >
             <ChevronDownIcon />

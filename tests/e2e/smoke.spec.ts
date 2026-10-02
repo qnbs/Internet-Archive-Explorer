@@ -17,7 +17,7 @@ async function openSettings(page: import('@playwright/test').Page) {
   await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
 }
 
-test('API-Key kann gespeichert werden', async ({ page }) => {
+test('@smoke API-Key kann gespeichert werden', async ({ page }) => {
   await openSettings(page);
 
   const aiSectionButton = page.getByRole('button', { name: labels.aiSection });
@@ -54,7 +54,7 @@ test('Optionaler OAuth-Login ist sichtbar', async ({ page }) => {
   await expect(page.getByRole('button', { name: labels.oauthLogin })).toBeVisible();
 });
 
-test('Grundnavigation über SideMenu funktioniert', async ({ page }) => {
+test('@smoke Grundnavigation über SideMenu funktioniert', async ({ page }) => {
   await page.goto('./?view=explore');
 
   const exploreButton = page.getByRole('button', { name: labels.explore }).first();

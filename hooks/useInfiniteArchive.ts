@@ -74,7 +74,7 @@ export const useInfiniteArchive = ({
   const queryClient = useQueryClient();
   return useInfiniteQuery<ArchivePage, Error>({
     queryKey: ['infiniteArchive', query, pageSize, sort, mediaType],
-    queryFn: async ({ pageParam }) => {
+    queryFn: async ({ pageParam, signal }) => {
       const page = typeof pageParam === 'number' ? pageParam : 1;
       const effectiveQuery = mediaType ? `${query} AND mediatype:${mediaType}` : query;
       const cacheKey = buildSearchCacheKey('infiniteArchive', effectiveQuery, page, sort, pageSize);
@@ -93,7 +93,9 @@ export const useInfiniteArchive = ({
         return buildArchivePage(cached, page, pageSize);
       }
 
-      const result = await searchArchive(effectiveQuery, page, sort, undefined, pageSize);
+      const result = await searchArchive(effectiveQuery, page, sort, undefined, pageSize, {
+        signal,
+      });
       await setCachedSearchResult(cacheKey, result);
       return buildArchivePage(result, page, pageSize);
     },

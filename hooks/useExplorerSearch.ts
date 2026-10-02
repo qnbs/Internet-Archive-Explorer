@@ -26,7 +26,7 @@ export const useExplorerSearch = () => {
   const { data, isLoading, isFetchingNextPage, error, fetchNextPage, hasNextPage, refetch } =
     useInfiniteQuery({
       queryKey: ['explorerSearch', queryString],
-      queryFn: async ({ pageParam }) => {
+      queryFn: async ({ pageParam, signal }) => {
         const finalQuery = queryString || 'featured';
         const sorts = queryString ? ['-publicdate'] : [];
         const page = pageParam as number;
@@ -35,7 +35,7 @@ export const useExplorerSearch = () => {
         const cached = await getCachedSearchResult(cacheKey);
         if (cached) {
           // Refresh in the background and update the React Query cache when fresh data arrives.
-          searchArchive(finalQuery, page, sorts)
+          searchArchive(finalQuery, page, sorts, undefined, undefined, { signal })
             .then((fresh) => {
               setCachedSearchResult(cacheKey, fresh);
               queryClient.setQueryData<InfiniteData<ArchiveSearchResponse>>(
@@ -54,7 +54,9 @@ export const useExplorerSearch = () => {
           return cached;
         }
 
-        const result = await searchArchive(finalQuery, page, sorts);
+        const result = await searchArchive(finalQuery, page, sorts, undefined, undefined, {
+          signal,
+        });
         await setCachedSearchResult(cacheKey, result);
         return result;
       },

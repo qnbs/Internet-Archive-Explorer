@@ -3,13 +3,13 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v10';
+const CACHE_VERSION = 'v11';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
 const CACHE_STATIC = `ia-explorer-static-${CACHE_VERSION}`;
-const API_HOSTNAME = 'archive.org';
-const IMAGE_HOSTNAMES = ['archive.org'];
+const API_HOSTNAMES = new Set(['archive.org', 'www.archive.org', 'web.archive.org']);
+const IMAGE_HOSTNAMES = new Set(['archive.org', 'www.archive.org']);
 /** Default for navigation, images, static assets */
 const NETWORK_TIMEOUT_MS = 15000;
 /** IA advancedsearch/metadata/CDX can exceed 15s under load; must exceed shell timeout so SW does not return 503 before the origin responds */
@@ -152,7 +152,7 @@ const offlineApiResponse = () =>
 
 const isImageRequest = (request) => {
   const url = new URL(request.url);
-  const isImageHost = IMAGE_HOSTNAMES.includes(url.hostname);
+  const isImageHost = IMAGE_HOSTNAMES.has(url.hostname);
   const isImagePath =
     url.pathname.startsWith('/services/get-item-image.php') ||
     url.pathname.startsWith('/download/');
@@ -313,7 +313,7 @@ const handleNavigate = async (event, request) => {
 };
 
 const routeFetch = (event, request, url) => {
-  if (url.hostname.includes(API_HOSTNAME) && !isImageRequest(request)) {
+  if (API_HOSTNAMES.has(url.hostname) && !isImageRequest(request)) {
     return handleApiStaleWhileRevalidate(event, request);
   }
   if (isImageRequest(request)) {

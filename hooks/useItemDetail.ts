@@ -37,7 +37,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     refetch: fetchMetadata,
   } = useQuery({
     queryKey: ['metadata', item.identifier],
-    queryFn: () => getItemMetadata(item.identifier),
+    queryFn: ({ signal }) => getItemMetadata(item.identifier, { signal }),
   });
 
   // Plain text query — lazy: only fetched when AI tab is active on a text item
@@ -47,7 +47,7 @@ export const useItemDetail = (item: ArchiveItemSummary) => {
     error: textQueryError,
   } = useQuery({
     queryKey: ['plaintext', item.identifier],
-    queryFn: () => getItemPlainText(item.identifier),
+    queryFn: ({ signal }) => getItemPlainText(item.identifier, { signal }),
     enabled: activeTab === 'ai' && item.mediatype === 'texts',
   });
 

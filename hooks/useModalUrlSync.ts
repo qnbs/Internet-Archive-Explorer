@@ -108,13 +108,47 @@ export function useModalUrlSync(): void {
   const [searchParams, setSearchParams] = useSearchParams();
   const lastParamsRef = useRef(searchParams.toString());
   const fetchingIdRef = useRef<string | null>(null);
+  const restoreGenerationRef = useRef(0);
+  const metadataAbortRef = useRef<AbortController | null>(null);
   const hasRestoredFromUrl = useRef(false);
 
   useEffect(() => {
     const currentParams = searchParams.toString();
 
+    const restoreItemModal = (restored: ModalState, id: string) => {
+      if (fetchingIdRef.current === id) return;
+
+      metadataAbortRef.current?.abort();
+      const generation = restoreGenerationRef.current + 1;
+      restoreGenerationRef.current = generation;
+      const controller = new AbortController();
+      metadataAbortRef.current = controller;
+      fetchingIdRef.current = id;
+
+      getItemMetadata(id, { signal: controller.signal })
+        .then((metadata) => {
+          if (generation !== restoreGenerationRef.current) return;
+          fetchingIdRef.current = null;
+          const summary = toArchiveItemSummary(metadata);
+          getDefaultStore().set(modalAtom, {
+            type: restored.type,
+            item: summary,
+          } as ModalState);
+        })
+        .catch((error) => {
+          if (error instanceof DOMException && error.name === 'AbortError') {
+            return;
+          }
+          if (generation !== restoreGenerationRef.current) return;
+          fetchingIdRef.current = null;
+          const next = new URLSearchParams(searchParams);
+          next.delete(MODAL_PARAM);
+          next.delete(ID_PARAM);
+          setSearchParams(next, { replace: true });
+        });
+    };
+
     if (!hasRestoredFromUrl.current) {
-      // First run: URL is the source of truth.
       const restored = buildModalFromUrl(searchParams);
       if (!restored) {
         getDefaultStore().set(modalAtom, { type: 'none' });
@@ -122,24 +156,8 @@ export function useModalUrlSync(): void {
         getDefaultStore().set(modalAtom, restored);
       } else {
         const id = searchParams.get(ID_PARAM);
-        if (id && fetchingIdRef.current !== id) {
-          fetchingIdRef.current = id;
-          getItemMetadata(id)
-            .then((metadata) => {
-              fetchingIdRef.current = null;
-              const summary = toArchiveItemSummary(metadata);
-              getDefaultStore().set(modalAtom, {
-                type: restored.type,
-                item: summary,
-              } as ModalState);
-            })
-            .catch(() => {
-              fetchingIdRef.current = null;
-              const next = new URLSearchParams(searchParams);
-              next.delete(MODAL_PARAM);
-              next.delete(ID_PARAM);
-              setSearchParams(next, { replace: true });
-            });
+        if (id) {
+          restoreItemModal(restored, id);
         }
       }
       lastParamsRef.current = currentParams;
@@ -148,11 +166,11 @@ export function useModalUrlSync(): void {
     }
 
     if (lastParamsRef.current !== currentParams) {
-      // URL params changed (back/forward or async cleanup): restore modal.
       lastParamsRef.current = currentParams;
       const restored = buildModalFromUrl(searchParams);
 
       if (!restored) {
+        metadataAbortRef.current?.abort();
         if (modal.type !== 'none') {
           getDefaultStore().set(modalAtom, { type: 'none' });
         }
@@ -167,28 +185,12 @@ export function useModalUrlSync(): void {
       }
 
       const id = searchParams.get(ID_PARAM);
-      if (!id || fetchingIdRef.current === id) return;
-
-      fetchingIdRef.current = id;
-      getItemMetadata(id)
-        .then((metadata) => {
-          fetchingIdRef.current = null;
-          const summary = toArchiveItemSummary(metadata);
-          getDefaultStore().set(modalAtom, { type: restored.type, item: summary } as ModalState);
-        })
-        .catch(() => {
-          fetchingIdRef.current = null;
-          const next = new URLSearchParams(searchParams);
-          next.delete(MODAL_PARAM);
-          next.delete(ID_PARAM);
-          setSearchParams(next, { replace: true });
-        });
+      if (id) {
+        restoreItemModal(restored, id);
+      }
       return;
     }
 
-    // URL params unchanged: modal atom changed from user action. Update the URL,
-    // but skip while an item metadata fetch is in flight to avoid clearing the
-    // deep-linked params before the fetch resolves.
     if (fetchingIdRef.current) return;
 
     const next = buildParamsFromModal(searchParams, modal);
@@ -196,4 +198,11 @@ export function useModalUrlSync(): void {
       setSearchParams(next, { replace: true });
     }
   }, [modal, searchParams, setSearchParams]);
+
+  useEffect(
+    () => () => {
+      metadataAbortRef.current?.abort();
+    },
+    [],
+  );
 }
