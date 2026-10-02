@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-14 · **Last reviewed:** 2026-10-02 (post-release v1.3.1)
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
-**App Version:** 1.3.3
+**App Version:** 1.3.4
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
 
 ---

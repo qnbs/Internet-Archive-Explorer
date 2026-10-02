@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.4] - 2026-10-02
+
 ### Added
 
 - IndexedDB **hub trending** cache for Explore and For You (migrates legacy `localStorage` keys).
