@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.6] - 2026-10-02
+
 ### Changed
 
 - **Images Hub** hero and gallery cards; **Rec Room** carousels — IndexedDB offline lists via `useArchivalItems` (custom sorts), cache-age badges, expanded hub offline banner.
