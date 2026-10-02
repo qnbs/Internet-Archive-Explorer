@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- IndexedDB **hub trending** cache for Explore and For You (migrates legacy `localStorage` keys).
+- Settings cache panel shows saved hub carousel count.
+
+### Changed
+
+- Offline hub views show **cache age** for last saved trending lists; explorer search serves IndexedDB results when offline without background refresh.
+
 ## [1.3.3] - 2026-10-02
 
 ### Changed

@@ -80,7 +80,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **Concurrency cap** | ✅ | `utils/requestQueue.ts` caps archive.org requests; `hooks/useUploaderStats.ts` batches count queries |
 | **TanStack Query retry** | ✅ | IA query defaults set `retry: 0`; service layer remains the retry source of truth |
 | **Validation logging** | ✅ | `archiveService.ts` logs Zod validation failures; `publicdate`/`mediatype`/`avg_rating` relaxed based on live data |
-| **List caching** | 🔄 | IndexedDB metadata cache exists; search/hub list cache is the next planned improvement |
+| **List caching** | 🔄 | Search + hub trending in IndexedDB; extend to remaining hub carousels |
 | **Offline feedback** | 🔄 | Service Worker returns 503 JSON when offline; explicit UI offline state is planned |
 
 ---
@@ -240,7 +240,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 #### H1: Fetching resilience — partially addressed
 
 - **Done:** Retry backoff + jitter, concurrency cap, TanStack retry reduction.
-- **Follow-up:** IndexedDB list cache for search/hub results, explicit offline UI state, cache-age transparency in service worker.
+- **Done (post v1.3.3):** Explore/For You hub trending in IndexedDB (`hubTrending` store) with legacy `localStorage` migration; offline fallback shows hub cache age; explorer search reads IndexedDB when offline and skips background refresh.
+- **Follow-up:** Extend hub list cache to Videothek/Audiothek carousels; cache-age headers in service worker remain SW-only.
 
 #### H2: Unit test coverage — partially addressed
 

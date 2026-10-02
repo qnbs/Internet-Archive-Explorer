@@ -1,18 +1,21 @@
 import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import { useAtom } from 'jotai';
+import { getDefaultStore, useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useLanguage } from '@/hooks/useLanguage';
 import { searchArchive } from '@/services/archiveService';
 import {
   buildSearchCacheKey,
-  getCachedSearchResult,
+  getCachedSearchEntry,
   setCachedSearchResult,
 } from '@/services/searchCache';
+import { lastCacheAgeAtom } from '@/store/cacheAge';
 import { facetsAtom, searchQueryAtom } from '@/store/search';
 import type { ArchiveItemSummary, ArchiveSearchResponse } from '@/types';
 import { buildArchiveQuery } from '@/utils/queryBuilder';
 import { useInfiniteScroll } from './useInfiniteScroll';
+
+const jotaiStore = getDefaultStore();
 
 export const useExplorerSearch = () => {
   const [searchQuery] = useAtom(searchQueryAtom);
@@ -32,32 +35,39 @@ export const useExplorerSearch = () => {
         const page = pageParam as number;
         const cacheKey = buildSearchCacheKey('explorerSearch', finalQuery, page, sorts);
 
-        const cached = await getCachedSearchResult(cacheKey);
-        if (cached) {
-          // Refresh in the background and update the React Query cache when fresh data arrives.
-          searchArchive(finalQuery, page, sorts, undefined, undefined, { signal })
-            .then((fresh) => {
-              setCachedSearchResult(cacheKey, fresh);
-              queryClient.setQueryData<InfiniteData<ArchiveSearchResponse>>(
-                ['explorerSearch', queryString],
-                (old) => {
-                  if (!old) return old;
-                  const pageIndex = old.pageParams.indexOf(page);
-                  if (pageIndex === -1) return old;
-                  const newPages = [...old.pages];
-                  newPages[pageIndex] = fresh;
-                  return { ...old, pages: newPages };
-                },
-              );
-            })
-            .catch(() => undefined);
-          return cached;
+        const cachedEntry = await getCachedSearchEntry(cacheKey);
+        if (cachedEntry) {
+          jotaiStore.set(lastCacheAgeAtom, cachedEntry.cachedAt);
+          if (typeof navigator !== 'undefined' && navigator.onLine) {
+            searchArchive(finalQuery, page, sorts, undefined, undefined, { signal })
+              .then((fresh) => {
+                setCachedSearchResult(cacheKey, fresh);
+                queryClient.setQueryData<InfiniteData<ArchiveSearchResponse>>(
+                  ['explorerSearch', queryString],
+                  (old) => {
+                    if (!old) return old;
+                    const pageIndex = old.pageParams.indexOf(page);
+                    if (pageIndex === -1) return old;
+                    const newPages = [...old.pages];
+                    newPages[pageIndex] = fresh;
+                    return { ...old, pages: newPages };
+                  },
+                );
+              })
+              .catch(() => undefined);
+          }
+          return cachedEntry.data;
+        }
+
+        if (typeof navigator !== 'undefined' && !navigator.onLine) {
+          throw new Error(t('common:offline.message'));
         }
 
         const result = await searchArchive(finalQuery, page, sorts, undefined, undefined, {
           signal,
         });
         await setCachedSearchResult(cacheKey, result);
+        jotaiStore.set(lastCacheAgeAtom, Date.now());
         return result;
       },
       initialPageParam: 1,

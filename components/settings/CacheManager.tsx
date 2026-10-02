@@ -10,7 +10,11 @@ export const CacheManager: React.FC = () => {
   const { t } = useLanguage();
   const { addToast } = useToast();
   const lastCacheTime = useAtomValue(lastCacheAgeAtom);
-  const [stats, setStats] = useState<CacheStats>({ metadataCount: 0, searchCount: 0 });
+  const [stats, setStats] = useState<CacheStats>({
+    metadataCount: 0,
+    searchCount: 0,
+    hubTrendingCount: 0,
+  });
   const [isClearing, setIsClearing] = useState(false);
 
   const refreshStats = useCallback(async () => {
@@ -38,7 +42,11 @@ export const CacheManager: React.FC = () => {
     }
   };
 
-  const hasCache = stats.metadataCount > 0 || stats.searchCount > 0 || lastCacheTime != null;
+  const hasCache =
+    stats.metadataCount > 0 ||
+    stats.searchCount > 0 ||
+    stats.hubTrendingCount > 0 ||
+    lastCacheTime != null;
 
   return (
     <div>
@@ -52,6 +60,7 @@ export const CacheManager: React.FC = () => {
         <div className="text-sm text-gray-600 dark:text-gray-300 mb-4 space-y-1">
           <p>{t('settings:data.cacheMetadataCount', { count: stats.metadataCount })}</p>
           <p>{t('settings:data.cacheSearchCount', { count: stats.searchCount })}</p>
+          <p>{t('settings:data.cacheHubTrendingCount', { count: stats.hubTrendingCount })}</p>
         </div>
         <button
           onClick={handleClear}
