@@ -5,9 +5,10 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { activeViewAtom } from '@/store';
 import type { View } from '@/types';
 
-function offlineMessageKey(view: View): 'library' | 'trendingHub' | 'generic' {
+function offlineMessageKey(view: View): 'library' | 'trendingHub' | 'mediaHub' | 'generic' {
   if (view === 'library') return 'library';
   if (view === 'explore' || view === 'forYou') return 'trendingHub';
+  if (view === 'movies' || view === 'audio') return 'mediaHub';
   return 'generic';
 }
 

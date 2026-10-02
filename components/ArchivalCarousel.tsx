@@ -1,38 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary } from '@/types';
-import { logger } from '@/utils/logger';
+import React from 'react';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
 import { ContentCarousel } from './ContentCarousel';
 
 interface ArchivalCarouselProps {
   title: string;
   query: string;
+  limit?: number;
 }
 
-export const ArchivalCarousel: React.FC<ArchivalCarouselProps> = ({ title, query }) => {
-  const [items, setItems] = useState<ArchiveItemSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { t } = useLanguage();
-
-  const fetchItems = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await searchArchive(query, 1, ['-downloads'], undefined, 15);
-      setItems(data.response?.docs || []);
-    } catch (err) {
-      logger.error(`Failed to fetch ${title}`, err);
-      setError(t('common:error'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [query, title, t]);
-
-  useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
+export const ArchivalCarousel: React.FC<ArchivalCarouselProps> = ({ title, query, limit = 15 }) => {
+  const { items, isLoading, error, refetch, offlineCachedAt } = useArchivalItems(query, limit);
 
   return (
     <ContentCarousel
@@ -40,8 +18,13 @@ export const ArchivalCarousel: React.FC<ArchivalCarouselProps> = ({ title, query
       items={items}
       isLoading={isLoading}
       error={error}
-      onRetry={fetchItems}
+      onRetry={() => {
+        void refetch();
+      }}
       cardAspectRatio="portrait"
+      headerAddon={
+        offlineCachedAt ? <CacheAgeIndicator cacheTimeMs={offlineCachedAt} /> : undefined
+      }
     />
   );
 };
