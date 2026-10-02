@@ -2,17 +2,23 @@
 
 Apply these settings at **Settings → Branches → Add rule → `main`** on GitHub.
 
+> **Repository state (2026-10-02):** Branch protection on `main` is **enforced** with required check **`CI Gate`** (maintainer-confirmed). Keep this document aligned if GitHub settings change.
+
 ## Required Settings
 
 | Setting | Value |
 |---------|-------|
-| Require a pull request before merging | ✅ |
+| Require a pull request before merging | ✅ (recommended for multi-contributor; solo maintainers may omit) |
 | Require status checks to pass | ✅ |
-| Required status check | `CI / Build and Artifact Checks` |
+| Required status check | **`CI Gate`** (final aggregator job in `.github/workflows/ci.yml`) |
 | Require branches to be up to date | ✅ |
 | Require conversation resolution | ✅ |
 | Allow force pushes | ❌ |
 | Allow deletions | ❌ |
+
+## Deployment coupling
+
+Production GitHub Pages deploy (`.github/workflows/deploy-pages.yml`) runs only after the **`CI`** workflow completes successfully on `main` (`workflow_run`), so a failing security/lint/unit/build/E2E gate must not publish via the normal path.
 
 ## Optional (for solo workflow)
 
@@ -20,7 +26,7 @@ If you are the sole maintainer and want to push directly to `main` for small fix
 
 ## Why These Rules
 
-- **Status check on CI job**: catches TypeScript errors, lint failures, i18n drift, bundle budget violations, and E2E failures before they reach `main`.
+- **`CI Gate`**: aggregates independent jobs (security, static analysis, unit, build/bundle, E2E/a11y, cross-browser smoke, Lighthouse) so one early failure does not hide unrelated failures.
 - **No force push**: preserves history and prevents accidental loss of commits.
 - **Conversation resolution**: ensures review comments are not silently dismissed.
 
@@ -28,3 +34,4 @@ If you are the sole maintainer and want to push directly to `main` for small fix
 
 - `CONTRIBUTING.md` — local quality gates before opening a PR
 - `docs/release-process.md` — versioning and release workflow
+- `docs/DEPLOYMENT.md` — GitHub Pages and provenance notes

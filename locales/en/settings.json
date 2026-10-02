@@ -94,6 +94,18 @@
       "academic": "Academic"
     }
   },
+  "googleOAuth": {
+    "notSignedIn": "Not signed in",
+    "sessionExpired": "Session expired — please sign in again",
+    "missingConfig": "OAuth is not configured.",
+    "pkceFailed": "PKCE verification failed.",
+    "signInFailed": "Sign-in failed.",
+    "signInSuccess": "Signed in — Gemini OAuth is active",
+    "oauthError": "OAuth error",
+    "invalidState": "Invalid OAuth state.",
+    "redirectFailed": "OAuth redirect failed.",
+    "signedOut": "Signed out"
+  },
   "apiKey": {
     "title": "Gemini API Key (Bring Your Own Key)",
     "description": "Add your personal Gemini API key to unlock AI summaries, entity extraction, and other optional features.",

@@ -23,7 +23,8 @@
     "searchDocument": "Im Dokument suchen...",
     "matchCount_one": "{{current}} von {{total}} Treffer",
     "matchCount_other": "{{current}} von {{total}} Treffern",
-    "noMatches": "Keine Treffer"
+    "noMatches": "Keine Treffer",
+    "backToDocumentList": "Zurück zur Dokumentenliste"
   },
   "dashboard": {
     "title": "Arbeitsbereich-Dashboard",

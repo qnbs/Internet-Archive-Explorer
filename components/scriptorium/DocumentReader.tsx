@@ -5,6 +5,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { useWorksets } from '@/hooks/useWorksets';
 import { getItemPlainText } from '@/services/archiveService';
 import type { WorksetDocument } from '@/types';
+import { buildHighlightSegments } from '@/utils/literalTextSearch';
 import { RichTextEditor } from '../RichTextEditor';
 import { Spinner } from '../Spinner';
 import { AnalysisToolbar } from './AnalysisToolbar';
@@ -15,6 +16,28 @@ interface DocumentReaderProps {
   document: WorksetDocument;
   onBack: () => void; // For mobile view
 }
+
+const HighlightedPlainText: React.FC<{ text: string; query: string }> = ({ text, query }) => {
+  const segments = useMemo(() => buildHighlightSegments(text, query), [text, query]);
+
+  return (
+    <>
+      {segments.map((segment) =>
+        segment.highlight ? (
+          <mark
+            key={`${segment.start}-${segment.text}`}
+            data-match-index={segment.start}
+            className="bg-yellow-400 text-black"
+          >
+            {segment.text}
+          </mark>
+        ) : (
+          <React.Fragment key={`${segment.start}-${segment.text}`}>{segment.text}</React.Fragment>
+        ),
+      )}
+    </>
+  );
+};
 
 export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack }) => {
   const { t } = useLanguage();
@@ -59,25 +82,6 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
     updateDocumentNotes,
   ]);
 
-  const highlightedText = useMemo(() => {
-    if (!textContent || !searchQuery) return textContent;
-
-    let regex: RegExp;
-    try {
-      // User can input regex, so we handle potential errors
-      regex = new RegExp(searchQuery, 'gi');
-    } catch {
-      // Invalid regex, return original text without highlighting
-      return textContent;
-    }
-
-    return textContent.replace(regex, (...args) => {
-      const match = args[0];
-      const offset = args[args.length - 2];
-      return `<mark data-match-index="${offset}" class="bg-yellow-400 text-black">${match}</mark>`;
-    });
-  }, [textContent, searchQuery]);
-
   const renderContent = () => {
     if (isLoading)
       return (
@@ -89,10 +93,9 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
     if (textContent) {
       return (
         <div className="h-full flex flex-col">
-          <div
-            className="flex-grow p-4 overflow-y-auto prose prose-sm dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: highlightedText ?? '' }}
-          />
+          <div className="flex-grow p-4 overflow-y-auto prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
+            <HighlightedPlainText text={textContent} query={searchQuery} />
+          </div>
           <DocumentSearchBar text={textContent} onSearch={setSearchQuery} />
         </div>
       );
@@ -104,7 +107,12 @@ export const DocumentReader: React.FC<DocumentReaderProps> = ({ document, onBack
     <div className="h-full flex flex-col bg-gray-900 rounded-lg overflow-hidden">
       <header className="flex-shrink-0 flex items-center justify-between p-3 border-b border-gray-700">
         <div className="flex items-center gap-2 min-w-0">
-          <button onClick={onBack} className="md:hidden p-1 text-gray-400 hover:text-white">
+          <button
+            type="button"
+            onClick={onBack}
+            aria-label={t('scriptorium:reader.backToDocumentList')}
+            className="md:hidden p-1 text-gray-400 hover:text-white touch-target-min"
+          >
             <ArrowLeftIcon className="w-4 h-4" />
           </button>
           <h3 className="text-md font-bold text-white truncate">{document.title}</h3>

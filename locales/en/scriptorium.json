@@ -23,7 +23,8 @@
     "searchDocument": "Search in document...",
     "matchCount_one": "{{current}} of {{total}} match",
     "matchCount_other": "{{current}} of {{total}} matches",
-    "noMatches": "No matches"
+    "noMatches": "No matches",
+    "backToDocumentList": "Back to document list"
   },
   "dashboard": {
     "title": "Workspace Dashboard",

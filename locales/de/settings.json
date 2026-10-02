@@ -94,6 +94,18 @@
       "academic": "Akademisch"
     }
   },
+  "googleOAuth": {
+    "notSignedIn": "Nicht angemeldet",
+    "sessionExpired": "Sitzung abgelaufen – bitte erneut anmelden",
+    "missingConfig": "OAuth-Konfiguration fehlt.",
+    "pkceFailed": "PKCE-Prüfung fehlgeschlagen.",
+    "signInFailed": "Anmeldung fehlgeschlagen.",
+    "signInSuccess": "Anmeldung erfolgreich – Gemini ist aktiviert",
+    "oauthError": "OAuth-Fehler",
+    "invalidState": "OAuth-State ungültig.",
+    "redirectFailed": "OAuth-Redirect fehlgeschlagen.",
+    "signedOut": "Abgemeldet"
+  },
   "apiKey": {
     "title": "Gemini-API-Schlüssel (Bring Your Own Key)",
     "description": "Fügen Sie Ihren persönlichen Gemini-API-Schlüssel hinzu, um KI-Zusammenfassungen, Entitätenextraktion und andere optionale Funktionen freizuschalten.",

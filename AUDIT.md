@@ -1,6 +1,6 @@
 # Audit Report — Internet Archive Explorer
 
-**Date:** 2026-04-14 · **Last reviewed:** 2026-07-12
+**Date:** 2026-04-14 · **Last reviewed:** 2026-10-02
 **Scope:** Full application audit (architecture, code quality, security, performance, accessibility, testing, i18n, PWA, configuration)
 **App Version:** 1.3.0
 **Stack:** React 19 · TypeScript 6 · Vite 8 · Jotai 2 · Tailwind CSS 3 · Framer Motion 12 · TanStack Query v5 · Biome 2.4
@@ -9,11 +9,31 @@
 
 ## Executive Summary
 
-Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently. No critical runtime errors or security vulnerabilities were found. Unit coverage focuses on core utilities/services/hooks; E2E covers smoke + selected axe routes under CI (`vite preview`).
+Internet Archive Explorer is a well-architected, feature-rich PWA with 17 views, 100+ components, 14 Jotai atom stores, and 6 service modules. The codebase follows modern React patterns consistently.
+
+**October 2026 full-scale audit (see branch `cursor/full-scale-audit-perfection-e13c`):** Confirmed and corrected several P1 issues that were not reflected in earlier summaries — including unsanitized Archive plain text rendered via `dangerouslySetInnerHTML` in Scriptorium, weak backup import validation, CI/deploy decoupling, and dependency drift (DOMPurify, PostCSS, React Router). See **October 2026 correction ledger** below.
 
 A July 2026 deep audit identified fetching resilience as the highest-priority improvement area. The app now includes exponential backoff with jitter, a per-host concurrency cap, and TanStack Query retry reduction for Internet Archive endpoints. A follow-up production cache fix (v1.3.0) bumped the service worker cache, introduced a thumbnail URL utility to reduce ORB failures, and added automatic GitHub deployment pruning.
 
-**Overall Health: ✅ Good** — Production-ready with continuous improvement opportunities documented below.
+**Overall Health:** Improved after October 2026 corrections; remaining items (branch protection enforcement on GitHub, some transitive audit noise) are documented below.
+
+---
+
+## October 2026 correction ledger (evidence-driven)
+
+| Finding ID | Severity | Fix | Tests / CI |
+|------------|----------|-----|------------|
+| IA-READER-XSS | P0 | `DocumentReader` renders Archive plain text as React text nodes; literal search highlighting | `tests/unit/literalTextSearch.test.ts`, `tests/unit/DocumentReader.test.tsx` |
+| BACKUP-VALIDATION | P1 | Zod backup schema v2, size limits, snapshot rollback, expanded export keys | `tests/unit/dataService.test.ts` |
+| CI-MONOLITH | P1 | Parallel CI jobs + `CI Gate` aggregator | `.github/workflows/ci.yml` |
+| DEPLOY-RACE | P1 | Pages deploy via `workflow_run` after successful CI on `main` | `.github/workflows/deploy-pages.yml` |
+| SW-HOST | P2 | Exact `archive.org` host allowlist; SW cache v11 | manual + E2E smoke |
+| ABORT-SIGNAL | P2 | TanStack `AbortSignal` propagated through archive hooks/services | unit + hook tests |
+| OAUTH-URL | P2 | Dynamic redirect URI; OAuth params stripped without dropping app query state | `tests/unit/oauthUrl.test.ts` |
+| CSP-META | P2 | Removed non-enforceable `frame-ancestors` and unused `aistudiocdn.com` from meta CSP | `index.html` |
+| DEPS | P1 | DOMPurify 3.4.16, PostCSS ≥8.5.23, react-router 7.18.2, brace-expansion ≥5.0.9 | `pnpm audit`, lockfile |
+
+**Repository governance:** Branch protection on `main` with required **`CI Gate`** is enforced (2026-10-02, maintainer-confirmed) — see `docs/branch-protection.md`.
 
 ---
 

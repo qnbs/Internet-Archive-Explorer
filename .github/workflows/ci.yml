@@ -15,69 +15,81 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and Artifact Checks
+  security:
+    name: Security audit
     runs-on: ubuntu-latest
-    timeout-minutes: 25
-
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
           version: 10.6.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --audit-level=moderate
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
+  static-analysis:
+    name: Lint, i18n, typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
         with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint:ci
+      - run: pnpm run check:i18n
+      - run: pnpm exec tsc --noEmit
 
-      - name: Security audit
-        run: pnpm audit --audit-level=moderate
-
-      - name: Biome CI (lint + format + assist checks)
-        run: pnpm run lint:ci
-
-      - name: Check locale key completeness
-        run: pnpm run check:i18n
-
-      - name: Typecheck
-        run: pnpm exec tsc --noEmit
-
-      - name: Unit tests with coverage (Vitest)
-        run: pnpm run test:unit:coverage
-
-      - name: Upload unit test coverage
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run test:unit:coverage
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/
           retention-days: 14
 
+  build-bundle:
+    name: Build and bundle budgets
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Build (with bundle analysis)
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
           ANALYZE: 'true'
         run: pnpm run build
-
       - name: Verify expected build artifacts
         run: |
           set -euo pipefail
@@ -91,62 +103,152 @@ jobs:
           test -f dist/icons/icon-512.png
           grep -q 'icons/icon-192.png' dist/manifest.json
           grep -q 'screenshots/' dist/manifest.json
-
       - name: Verify GitHub Pages base paths in HTML
         run: |
           set -euo pipefail
           BASE_PATH="/${{ github.event.repository.name }}/"
           grep -q "${BASE_PATH}assets/" dist/index.html
           grep -q 'sw-register.js' dist/index.html
+      - run: pnpm run check:bundle-size
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-build
+          path: dist/
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bundle-analysis
+          path: dist/bundle-report.json
+          retention-days: 14
+          if-no-files-found: ignore
 
-      - name: Check bundle size budgets
-        run: pnpm run check:bundle-size
-
-      - name: Install Playwright browser
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Run E2E tests
+  e2e-a11y:
+    name: E2E and accessibility
+    needs: build-bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist/
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run E2E tests (Chromium)
         env:
           CI: 'true'
           PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
-        run: pnpm run test:e2e
-
-      - name: Upload Playwright report
+        run: pnpm exec playwright test --project=chromium
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
-
-      - name: Upload Playwright test results
+      - uses: actions/upload-artifact@v4
         if: failure()
-        uses: actions/upload-artifact@v4
         with:
           name: playwright-test-results
           path: test-results/
           retention-days: 7
 
+  cross-browser-smoke:
+    name: Cross-browser smoke
+    needs: build-bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist/
+      - run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - name: Run @smoke across browsers
+        env:
+          CI: 'true'
+          PLAYWRIGHT_BASE_PATH: /${{ github.event.repository.name }}/
+        run: pnpm exec playwright test --grep @smoke --project=firefox-smoke --project=webkit-smoke --project=mobile-chrome-smoke
+
+  lighthouse:
+    name: Lighthouse CI
+    needs: build-bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist/
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Lighthouse CI (desktop / a11y gates)
         run: |
           REPO="${{ github.event.repository.name }}"
           sed "s/Internet-Archive-Explorer/${REPO}/g" lighthouserc.json > lighthouserc.run.json
           npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.run.json
-
-      - name: Upload Lighthouse report
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: lighthouse-report
           path: .lighthouseci/
           retention-days: 14
           if-no-files-found: ignore
 
-      - name: Upload bundle analysis
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bundle-analysis
-          path: dist/bundle-report.json
-          retention-days: 14
-          if-no-files-found: ignore
+  ci-gate:
+    name: CI Gate
+    needs:
+      - security
+      - static-analysis
+      - unit
+      - build-bundle
+      - e2e-a11y
+      - cross-browser-smoke
+      - lighthouse
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all quality jobs
+        run: |
+          set -euo pipefail
+          check() {
+            local name="$1"
+            local result="$2"
+            echo "$name: $result"
+            if [ "$result" != "success" ]; then
+              exit 1
+            fi
+          }
+          check security "${{ needs.security.result }}"
+          check static-analysis "${{ needs.static-analysis.result }}"
+          check unit "${{ needs.unit.result }}"
+          check build-bundle "${{ needs.build-bundle.result }}"
+          check e2e-a11y "${{ needs.e2e-a11y.result }}"
+          check cross-browser-smoke "${{ needs.cross-browser-smoke.result }}"
+          check lighthouse "${{ needs.lighthouse.result }}"

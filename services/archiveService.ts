@@ -19,6 +19,10 @@ const API_BASE_URL = 'https://archive.org';
 const SEARCH_PAGE_SIZE = 24;
 /** Slightly above service worker `API_NETWORK_TIMEOUT_MS` so the client does not abort first */
 const REQUEST_TIMEOUT_MS = 32000;
+
+export type ArchiveRequestOptions = {
+  signal?: AbortSignal;
+};
 const VALIDATION_MAX_ATTEMPTS = 3;
 const VALIDATION_BACKOFF_MS = 400;
 
@@ -53,7 +57,7 @@ const handleFetchError = (error: unknown, context: string): never => {
   }
 
   if (error instanceof DOMException && error.name === 'AbortError') {
-    throw new ArchiveServiceError(`The request for ${context} timed out. Please try again.`);
+    throw error;
   }
 
   if (error instanceof TypeError) {
@@ -67,10 +71,20 @@ const handleFetchError = (error: unknown, context: string): never => {
   );
 };
 
-const fetchRawJson = (url: string, context: string): Promise<unknown> =>
+const fetchRawJson = (
+  url: string,
+  context: string,
+  options?: ArchiveRequestOptions,
+): Promise<unknown> =>
   withArchiveOrgConcurrency(async () => {
     try {
-      const response = await fetchWithRetry(url, {}, 2, 1000, REQUEST_TIMEOUT_MS);
+      const response = await fetchWithRetry(
+        url,
+        { signal: options?.signal },
+        2,
+        1000,
+        REQUEST_TIMEOUT_MS,
+      );
       recordCacheAge(response);
 
       if (!response.ok) {
@@ -102,22 +116,33 @@ const fetchRawJson = (url: string, context: string): Promise<unknown> =>
     }
   });
 
+const throwIfAborted = (signal?: AbortSignal): void => {
+  if (signal?.aborted) {
+    throw new DOMException('The operation was aborted.', 'AbortError');
+  }
+};
+
 const fetchValidated = async <T>(
   url: string,
   context: string,
   schema: z.ZodType<T>,
+  options?: ArchiveRequestOptions,
 ): Promise<T> => {
   let lastZodError: z.ZodError | undefined;
 
   for (let attempt = 0; attempt < VALIDATION_MAX_ATTEMPTS; attempt++) {
-    const raw = await fetchRawJson(url, context);
+    throwIfAborted(options?.signal);
+    const raw = await fetchRawJson(url, context, options);
+    throwIfAborted(options?.signal);
     const parsed = schema.safeParse(raw);
     if (parsed.success) {
       return parsed.data;
     }
     lastZodError = parsed.error;
     if (attempt < VALIDATION_MAX_ATTEMPTS - 1) {
+      throwIfAborted(options?.signal);
       await delay(VALIDATION_BACKOFF_MS * 2 ** attempt);
+      throwIfAborted(options?.signal);
     }
   }
 
@@ -147,6 +172,7 @@ export const searchArchive = async (
     'avg_rating',
   ],
   limit: number = SEARCH_PAGE_SIZE,
+  options?: ArchiveRequestOptions,
 ): Promise<ArchiveSearchResponse> => {
   const params = new URLSearchParams({
     q: query || 'featured',
@@ -163,12 +189,15 @@ export const searchArchive = async (
   }
 
   const url = `${API_BASE_URL}/advancedsearch.php?${params.toString()}`;
-  const data = await fetchValidated(url, 'search results', archiveSearchResponseSchema);
+  const data = await fetchValidated(url, 'search results', archiveSearchResponseSchema, options);
   // Zod infers string unions for mediatype; runtime values match `MediaType` / `ArchiveItemSummary`.
   return data as ArchiveSearchResponse;
 };
 
-export const getItemMetadata = async (identifier: string): Promise<ArchiveMetadata> => {
+export const getItemMetadata = async (
+  identifier: string,
+  options?: ArchiveRequestOptions,
+): Promise<ArchiveMetadata> => {
   const cachedData = await metadataCache.get(identifier);
   if (cachedData !== undefined) {
     const cached = archiveMetadataSchema.safeParse(cachedData);
@@ -178,23 +207,32 @@ export const getItemMetadata = async (identifier: string): Promise<ArchiveMetada
   }
 
   const url = `${API_BASE_URL}/metadata/${identifier}`;
-  const data = await fetchValidated(url, `metadata for ${identifier}`, archiveMetadataSchema);
+  const data = await fetchValidated(
+    url,
+    `metadata for ${identifier}`,
+    archiveMetadataSchema,
+    options,
+  );
   await metadataCache.set(identifier, data as ArchiveMetadata);
   return data as ArchiveMetadata;
 };
 
-export const getItemPlainText = (identifier: string): Promise<string> =>
+export const getItemPlainText = (
+  identifier: string,
+  options?: ArchiveRequestOptions,
+): Promise<string> =>
   withArchiveOrgConcurrency(async () => {
     const txtUrl = `${API_BASE_URL}/stream/${identifier}/${identifier}_djvu.txt`;
+    const fetchInit = { signal: options?.signal };
 
     try {
-      const response = await fetchWithRetry(txtUrl, {}, 2, 1000, REQUEST_TIMEOUT_MS);
+      const response = await fetchWithRetry(txtUrl, fetchInit, 2, 1000, REQUEST_TIMEOUT_MS);
       recordCacheAge(response);
       if (!response.ok) {
         if (response.status === 404) {
           const fallbackResponse = await fetchWithRetry(
             `${API_BASE_URL}/stream/${identifier}/${identifier}.txt`,
-            {},
+            fetchInit,
             2,
             1000,
             REQUEST_TIMEOUT_MS,

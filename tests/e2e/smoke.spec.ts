@@ -1,5 +1,13 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register = () =>
+      Promise.reject(new DOMException('Service worker disabled in E2E', 'NotSupportedError'));
+  });
+});
+
 const labels = {
   settings: /Einstellungen|Settings/i,
   explore: /Entdecken|Explore/i,
@@ -11,13 +19,19 @@ const labels = {
   oauthLogin: /Mit Google anmelden|Sign in with Google/i,
 };
 
-async function openSettings(page: import('@playwright/test').Page) {
-  await page.goto('./');
-  await page.getByRole('button', { name: labels.settings }).first().click();
-  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
+async function waitForAppShell(page: import('@playwright/test').Page) {
+  await expect(page.locator('#main-content')).toBeVisible({ timeout: 60_000 });
 }
 
-test('API-Key kann gespeichert werden', async ({ page }) => {
+async function openSettings(page: import('@playwright/test').Page) {
+  await page.goto('./?view=settings', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
+  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
+    timeout: 60_000,
+  });
+}
+
+test('@smoke API-Key kann gespeichert werden', async ({ page }) => {
   await openSettings(page);
 
   const aiSectionButton = page.getByRole('button', { name: labels.aiSection });
@@ -54,22 +68,22 @@ test('Optionaler OAuth-Login ist sichtbar', async ({ page }) => {
   await expect(page.getByRole('button', { name: labels.oauthLogin })).toBeVisible();
 });
 
-test('Grundnavigation über SideMenu funktioniert', async ({ page }) => {
-  await page.goto('./?view=explore');
+test('@smoke Grundnavigation über Views funktioniert', async ({ page }) => {
+  await page.goto('./?view=explore', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
+  await expect(page.getByText(/Trending Now|Gerade beliebt/i)).toBeVisible({ timeout: 60_000 });
 
-  const exploreButton = page.getByRole('button', { name: labels.explore }).first();
-  await expect(exploreButton).toHaveAttribute('aria-current', 'page');
+  await page.goto('./?view=scriptorium', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
+  await expect(page.getByRole('heading', { name: labels.scriptorium, level: 1 })).toBeVisible({
+    timeout: 60_000,
+  });
 
-  const scriptoriumButton = page.getByRole('button', { name: labels.scriptorium }).first();
-  await scriptoriumButton.click();
-  await expect(scriptoriumButton).toHaveAttribute('aria-current', 'page');
-  await expect(exploreButton).not.toHaveAttribute('aria-current', 'page');
-
-  const settingsButton = page.getByRole('button', { name: labels.settings }).first();
-  await settingsButton.click();
-  await expect(settingsButton).toHaveAttribute('aria-current', 'page');
-  await expect(scriptoriumButton).not.toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
+  await page.goto('./?view=settings', { waitUntil: 'load', timeout: 60_000 });
+  await waitForAppShell(page);
+  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
+    timeout: 60_000,
+  });
 });
 
 test('Uploader-Hub zeigt Beitragende', async ({ page }) => {

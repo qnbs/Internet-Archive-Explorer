@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 import {
   clearStoredOAuthToken,
   getStoredOAuthTokenMeta,
@@ -6,11 +7,11 @@ import {
   setStoredOAuthToken,
 } from '@/services/geminiAuthStorage';
 import { fetchWithTimeout } from '@/utils/fetchWithTimeout';
+import { getOAuthRedirectUri, stripOAuthParamsFromSearch } from '@/utils/oauthUrl';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_REVOKE_URL = 'https://oauth2.googleapis.com/revoke';
-const REDIRECT_URI = 'https://qnbs.github.io/Internet-Archive-Explorer/';
 const SCOPE = 'openid email profile https://www.googleapis.com/auth/generative-language';
 const OAUTH_CLIENT_ID_STORAGE_KEY = 'google_oauth_client_id';
 
@@ -43,6 +44,7 @@ const createCodeChallenge = async (verifier: string): Promise<string> => {
 };
 
 export const useGeminiAuth = () => {
+  const { t } = useLanguage();
   const envClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim() || '';
   const getStoredClientId = (): string => {
     const stored = localStorage.getItem(OAUTH_CLIENT_ID_STORAGE_KEY)?.trim();
@@ -51,7 +53,7 @@ export const useGeminiAuth = () => {
 
   const [token, setToken] = useState<string | null>(() => getValidAccessToken());
   const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('Nicht angemeldet');
+  const [statusMessage, setStatusMessage] = useState(() => t('settings:googleOAuth.notSignedIn'));
   const [error, setError] = useState<string | null>(null);
   const [runtimeClientId, setRuntimeClientId] = useState<string>(
     () => envClientId || getStoredClientId(),
@@ -72,7 +74,7 @@ export const useGeminiAuth = () => {
     }
 
     localStorage.removeItem(OAUTH_CLIENT_ID_STORAGE_KEY);
-    setRuntimeClientId(envClientId);
+    setRuntimeClientId(import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim() || '');
   }, []);
 
   const scheduleAutoCleanup = useCallback(() => {
@@ -90,26 +92,27 @@ export const useGeminiAuth = () => {
     cleanupTimerRef.current = window.setTimeout(() => {
       clearStoredOAuthToken();
       setToken(null);
-      setStatusMessage('Sitzung abgelaufen – bitte erneut anmelden');
+      setStatusMessage(t('settings:googleOAuth.sessionExpired'));
     }, msLeft);
-  }, []);
+  }, [t]);
 
   const exchangeCodeForToken = useCallback(
     async (code: string) => {
       if (!clientId) {
-        throw new Error('OAuth-Konfiguration fehlt.');
+        throw new Error(t('settings:googleOAuth.missingConfig'));
       }
 
       const verifier = sessionStorage.getItem(PKCE_VERIFIER_KEY);
       if (!verifier) {
-        throw new Error('PKCE-Prüfung fehlgeschlagen.');
+        throw new Error(t('settings:googleOAuth.pkceFailed'));
       }
 
+      const redirectUri = getOAuthRedirectUri();
       const body = new URLSearchParams({
         grant_type: 'authorization_code',
         code,
         client_id: clientId,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: redirectUri,
         code_verifier: verifier,
       });
 
@@ -125,17 +128,17 @@ export const useGeminiAuth = () => {
 
       const data = (await response.json()) as TokenResponse;
       if (!response.ok || !data.access_token) {
-        throw new Error('Anmeldung fehlgeschlagen.');
+        throw new Error(t('settings:googleOAuth.signInFailed'));
       }
 
       setStoredOAuthToken(data.access_token, data.expires_in, data.scope || SCOPE);
       setToken(data.access_token);
-      setStatusMessage('Anmeldung erfolgreich – Gemini ist aktiviert');
+      setStatusMessage(t('settings:googleOAuth.signInSuccess'));
       sessionStorage.removeItem(PKCE_VERIFIER_KEY);
       sessionStorage.removeItem(OAUTH_STATE_KEY);
       scheduleAutoCleanup();
     },
-    [clientId, scheduleAutoCleanup],
+    [clientId, scheduleAutoCleanup, t],
   );
 
   const handleRedirect = useCallback(async () => {
@@ -153,36 +156,38 @@ export const useGeminiAuth = () => {
 
     try {
       if (oauthError) {
-        throw new Error('OAuth-Fehler');
+        throw new Error(t('settings:googleOAuth.oauthError'));
       }
 
       const savedState = sessionStorage.getItem(OAUTH_STATE_KEY);
       if (!state || !savedState || state !== savedState) {
-        throw new Error('OAuth-State ungültig.');
+        throw new Error(t('settings:googleOAuth.invalidState'));
       }
 
       await exchangeCodeForToken(code as string);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'OAuth-Redirect fehlgeschlagen.');
+      setError(e instanceof Error ? e.message : t('settings:googleOAuth.redirectFailed'));
       clearStoredOAuthToken();
       setToken(null);
     } finally {
+      const cleanedSearch = stripOAuthParamsFromSearch(window.location.search);
       window.history.replaceState(
         {},
         document.title,
-        `${window.location.pathname}${window.location.hash}`,
+        `${window.location.pathname}${cleanedSearch}${window.location.hash}`,
       );
       setIsLoading(false);
     }
-  }, [exchangeCodeForToken]);
+  }, [exchangeCodeForToken, t]);
 
   const login = useCallback(async () => {
     setError(null);
     if (!clientId) {
-      setError('OAuth-Konfiguration fehlt.');
+      setError(t('settings:googleOAuth.missingConfig'));
       return;
     }
 
+    const redirectUri = getOAuthRedirectUri();
     const verifier = createCodeVerifier();
     const challenge = await createCodeChallenge(verifier);
     const state = crypto.randomUUID();
@@ -192,7 +197,7 @@ export const useGeminiAuth = () => {
 
     const authUrl = new URL(GOOGLE_AUTH_URL);
     authUrl.searchParams.set('client_id', clientId);
-    authUrl.searchParams.set('redirect_uri', REDIRECT_URI);
+    authUrl.searchParams.set('redirect_uri', redirectUri);
     authUrl.searchParams.set('response_type', 'code');
     authUrl.searchParams.set('scope', SCOPE);
     authUrl.searchParams.set('code_challenge', challenge);
@@ -203,14 +208,14 @@ export const useGeminiAuth = () => {
     authUrl.searchParams.set('prompt', 'consent');
 
     window.location.assign(authUrl.toString());
-  }, [clientId]);
+  }, [clientId, t]);
 
   const logout = useCallback(async () => {
     const currentToken = getValidAccessToken();
     clearStoredOAuthToken();
     setToken(null);
     setError(null);
-    setStatusMessage('Abgemeldet');
+    setStatusMessage(t('settings:googleOAuth.signedOut'));
 
     if (currentToken) {
       try {
@@ -223,7 +228,7 @@ export const useGeminiAuth = () => {
         void revokeError;
       }
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void handleRedirect();
@@ -239,8 +244,9 @@ export const useGeminiAuth = () => {
   }, [scheduleAutoCleanup]);
 
   useEffect(() => {
-    if (envClientId && envClientId !== runtimeClientId) {
-      setRuntimeClientId(envClientId);
+    const fromEnv = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim() || '';
+    if (fromEnv && fromEnv !== runtimeClientId) {
+      setRuntimeClientId(fromEnv);
     }
   }, [runtimeClientId]);
 

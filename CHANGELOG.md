@@ -25,6 +25,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **PWA manifest base path:** Eliminated hardcoded `/Internet-Archive-Explorer/` paths from the manifest source so the Vercel root deploy is no longer scoped incorrectly.
 - **Asset generation script:** Replaced non-existent `createDeflateSync` import with `deflateSync` in `scripts/generate-pwa-assets.mjs`, fixing local PNG generation on Node.js 24+.
 
+## [1.3.1] - 2026-10-02
+
+### Fixed
+
+- **CSP / WebKit:** Removed `upgrade-insecure-requests` from the meta CSP so `http://127.0.0.1` preview and WebKit E2E can load same-origin scripts (GitHub Pages is already HTTPS-only).
+
+### Added
+
+- Parallel CI jobs with a single **CI Gate**; GitHub Pages deploy runs only after successful CI on `main`.
+- Cross-browser `@smoke` Playwright projects (Firefox, WebKit, mobile Chrome).
+- Backup schema v2 with Zod validation, size limits, snapshot rollback, and expanded export keys.
+- Regression tests for Scriptorium plain-text XSS, backup import, OAuth URL cleanup, and literal search.
+
+### Changed
+
+- Scriptorium document reader renders Archive plain text as React text nodes (no `dangerouslySetInnerHTML`).
+- Document search uses literal case-insensitive matching instead of arbitrary regex.
+- TanStack Query `AbortSignal` propagation through archive hooks; modal URL metadata fetch cancellation.
+- Google OAuth redirect URI derived from current origin/base path; app query params preserved after callback.
+- Service worker uses exact archive.org host allowlist (cache v11).
+- Dependabot monitors `github-actions` in addition to npm.
+
+### Fixed
+
+- Meta CSP: removed non-enforceable `frame-ancestors` and unused CDN origin.
+- Removed stale `public/importmap.json`.
+- Dependency convergence: DOMPurify 3.4.16+, PostCSS 8.5.23+, react-router 7.18.2+, protobufjs 7.6.5+, Vitest 4.1.11+.
+
 ## [1.3.0] - 2026-07-12
 
 ### Added

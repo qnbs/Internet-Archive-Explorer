@@ -60,6 +60,13 @@ export const fetchWithRetry = async (
 
     return response;
   } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw error;
+    }
+    if (options.signal?.aborted) {
+      throw error;
+    }
+
     if (retries > 0) {
       await delay(applyJitter(backoffMs, jitterFactor));
       const nextBackoff = backoffMs * 2;
