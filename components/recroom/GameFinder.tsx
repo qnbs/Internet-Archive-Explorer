@@ -1,118 +1,13 @@
-import { GoogleGenAI, Type } from '@google/genai';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { SparklesIcon } from '@/components/Icons';
+import { useGameFinder } from '@/hooks/useGameFinder';
 import { useLanguage } from '@/hooks/useLanguage';
-import { searchArchive } from '@/services/archiveService';
-import { resolveGeminiApiKey } from '@/services/geminiApiKeyStorage';
-import { GeminiServiceError } from '@/services/geminiService';
-import type { ArchiveItemSummary } from '@/types';
-import { logger } from '@/utils/logger';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { Spinner } from '../Spinner';
 
 const GameFinder: React.FC = () => {
   const { t } = useLanguage();
-  const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<ArchiveItemSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const gameListCache = useRef<ArchiveItemSummary[]>([]);
-
-  useEffect(() => {
-    // Fetch a list of high-quality games once to use as context for the AI
-    const fetchGameList = async () => {
-      try {
-        const data = await searchArchive(
-          'collection:softwarelibrary_msdos_games AND avg_rating:[4 TO 5]',
-          1,
-          ['-downloads'],
-          ['identifier', 'title'],
-          150,
-        );
-        gameListCache.current = data.response?.docs || [];
-      } catch (e) {
-        logger.error('Failed to fetch game list for AI context', e);
-      }
-    };
-    fetchGameList();
-  }, []);
-
-  const handleFindGames = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query.trim() || isLoading || gameListCache.current.length === 0) return;
-
-    setIsLoading(true);
-    setError(null);
-    setSuggestions([]);
-
-    try {
-      const apiKey = resolveGeminiApiKey();
-      if (!apiKey) {
-        throw new GeminiServiceError(
-          'No Gemini API key',
-          'NO_API_KEY',
-          'settings:apiKey.noKeyConfigured',
-        );
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
-
-      const gameListString = gameListCache.current
-        .map((g) => `${g.identifier}: ${g.title}`)
-        .join('\n');
-
-      const systemInstruction = `You are a retro gaming expert. Recommend 3-5 classic MS-DOS games from the provided list based on the user's request. Only recommend games from the list. Respond with a JSON object: {"recommendations": ["game_identifier_1", "game_identifier_2"]}.`;
-
-      const prompt = `User request: "${query}".\n\nAvailable games (identifier: title):\n${gameListString}`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-        config: {
-          systemInstruction,
-          responseMimeType: 'application/json',
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              recommendations: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING },
-              },
-            },
-          },
-        },
-      });
-
-      const responseText = response.text ?? '';
-      if (!responseText.trim()) {
-        throw new Error('Empty Gemini response');
-      }
-
-      const result = JSON.parse(responseText.trim());
-      const identifiers = result.recommendations as string[];
-
-      if (identifiers && identifiers.length > 0) {
-        const searchPromises = identifiers.map((id) =>
-          searchArchive(`identifier:${id}`, 1, [], undefined, 1),
-        );
-        const searchResults = await Promise.all(searchPromises);
-        const games = searchResults.map((res) => res.response?.docs[0]).filter(Boolean);
-        setSuggestions(games);
-      } else {
-        setError(t('recRoom:gameFinder.error'));
-      }
-    } catch (err) {
-      logger.error(err);
-      if (err instanceof GeminiServiceError && err.code === 'NO_API_KEY') {
-        setError(t('settings:apiKey.noKeyConfigured'));
-      } else {
-        setError(t('recRoom:gameFinder.error'));
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { query, setQuery, suggestions, isLoading, error, findGames } = useGameFinder();
 
   return (
     <div className="p-6 bg-gray-900 border border-gray-700/50 rounded-xl shadow-lg">
@@ -121,7 +16,7 @@ const GameFinder: React.FC = () => {
       </h2>
       <p className="mt-1 text-gray-200">{t('recRoom:gameFinder.description')}</p>
 
-      <form onSubmit={handleFindGames} className="mt-4 flex flex-col sm:flex-row gap-3">
+      <form onSubmit={findGames} className="mt-4 flex flex-col sm:flex-row gap-3">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}

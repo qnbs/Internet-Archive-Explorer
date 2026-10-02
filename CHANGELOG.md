@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Split monolithic `types.ts` into domain modules under `types/` (root `types.ts` remains the `@/types` re-export hub).
+- Rec Room **Game Finder:** AI/search logic moved to `hooks/useGameFinder.ts`.
+- CodeQL workflow uses `github/codeql-action` v4.
+
 ## [1.3.2] - 2026-10-02
 
 ### Added

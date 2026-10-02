@@ -47,7 +47,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | Backup byte-limit unit tests | ✅ | `tests/unit/backupSchemas.test.ts` |
 | URL deep-link (`?view=`, modals) | ✅ | `useUrlSync`, `useModalUrlSync` + unit/E2E coverage |
 | IndexedDB migration for large Jotai stores | ✅ | v1.3.2 — `store/persistStorage.ts`, hydrate before mount; library/collections/worksets/AI archive/download queue |
-| `types.ts` domain split | ⏸️ | Deferred — document when touching types |
+| `types.ts` domain split | ✅ | Domain modules under `types/`; root `types.ts` re-exports hub |
 | Real marketing PWA screenshots | ⏸️ | Generated placeholders remain acceptable for CI |
 
 ---
@@ -322,13 +322,13 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - `CONTRIBUTING.md` includes pnpm, Biome, tests, bundle, and commit format.
 
-#### L7: RecRoom GameFinder component complexity
+#### L7: RecRoom GameFinder component complexity — addressed
 
-- `components/recroom/GameFinder.tsx` (~160 lines) — extract filter/sort logic into a custom hook.
+- AI/search logic lives in `hooks/useGameFinder.ts`; `GameFinder.tsx` is presentation-only.
 
-#### L8: AI Archive derived atom performance
+#### L8: AI Archive derived atom performance — addressed
 
-- `store/aiArchive.ts` has expensive `aiArchiveCountsAtom` — consider splitting into smaller derived atoms.
+- `store/aiArchive.ts` exposes `aiArchiveCountsAtom` and `filteredAndSortedEntriesAtom` so UI avoids inline aggregation.
 
 #### L9: `@types/react` version mismatch — addressed
 
@@ -354,7 +354,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 ### Architecture Risks
 
-- **Single types.ts file:** At 400+ lines, should be split by domain when it grows further.
+- **Types layout:** Domain modules live under `types/`; root `types.ts` is a thin re-export hub for `@/types` imports.
 - **No API layer abstraction:** Services directly construct URLs — consider a base API client.
 - **Toast dual system:** Both `toastAtom` and `ToastContext` exist — consolidate when possible.
 - **localStorage-only persistence:** Large libraries/worksets may approach quota; consider IndexedDB migration.
