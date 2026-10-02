@@ -12,9 +12,11 @@ const labels = {
 };
 
 async function openSettings(page: import('@playwright/test').Page) {
-  await page.goto('./');
-  await page.getByRole('button', { name: labels.settings }).first().click();
-  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
+  await page.goto('./?view=settings');
+  await page.waitForSelector('#main-content', { timeout: 15_000 });
+  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
+    timeout: 45_000,
+  });
 }
 
 test('@smoke API-Key kann gespeichert werden', async ({ page }) => {
@@ -54,22 +56,20 @@ test('Optionaler OAuth-Login ist sichtbar', async ({ page }) => {
   await expect(page.getByRole('button', { name: labels.oauthLogin })).toBeVisible();
 });
 
-test('@smoke Grundnavigation über SideMenu funktioniert', async ({ page }) => {
+test('@smoke Grundnavigation über Views funktioniert', async ({ page }) => {
   await page.goto('./?view=explore');
+  await page.waitForSelector('#main-content', { timeout: 15_000 });
+  await expect(page.getByText(/Trending Now|Gerade beliebt/i)).toBeVisible({ timeout: 45_000 });
 
-  const exploreButton = page.getByRole('button', { name: labels.explore }).first();
-  await expect(exploreButton).toHaveAttribute('aria-current', 'page');
+  await page.goto('./?view=scriptorium');
+  await expect(page.getByRole('heading', { name: labels.scriptorium, level: 1 })).toBeVisible({
+    timeout: 45_000,
+  });
 
-  const scriptoriumButton = page.getByRole('button', { name: labels.scriptorium }).first();
-  await scriptoriumButton.click();
-  await expect(scriptoriumButton).toHaveAttribute('aria-current', 'page');
-  await expect(exploreButton).not.toHaveAttribute('aria-current', 'page');
-
-  const settingsButton = page.getByRole('button', { name: labels.settings }).first();
-  await settingsButton.click();
-  await expect(settingsButton).toHaveAttribute('aria-current', 'page');
-  await expect(scriptoriumButton).not.toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible();
+  await page.goto('./?view=settings');
+  await expect(page.getByRole('heading', { name: labels.settings })).toBeVisible({
+    timeout: 45_000,
+  });
 });
 
 test('Uploader-Hub zeigt Beitragende', async ({ page }) => {

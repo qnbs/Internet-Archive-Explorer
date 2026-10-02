@@ -40,16 +40,19 @@ export default defineConfig({
     {
       name: 'firefox-smoke',
       grep: /@smoke/,
+      testMatch: '**/smoke.spec.ts',
       use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit-smoke',
       grep: /@smoke/,
+      testMatch: '**/smoke.spec.ts',
       use: { ...devices['Desktop Safari'] },
     },
     {
       name: 'mobile-chrome-smoke',
       grep: /@smoke/,
+      testMatch: '**/smoke.spec.ts',
       use: { ...devices['Pixel 7'] },
     },
   ],
