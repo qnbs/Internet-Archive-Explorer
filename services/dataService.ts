@@ -33,11 +33,15 @@ const snapshotManagedStorage = (): Record<string, string | null> => {
 
 const restoreSnapshot = (snap: Record<string, string | null>): void => {
   for (const key of MANAGED_STORAGE_KEYS) {
-    const value = snap[key];
-    if (value === null) {
-      localStorage.removeItem(key);
-    } else {
-      localStorage.setItem(key, value);
+    try {
+      const value = snap[key];
+      if (value === null) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, value);
+      }
+    } catch (restoreError) {
+      logger.warn(`Import rollback: failed to restore storage key "${key}"`, restoreError);
     }
   }
 };
@@ -139,7 +143,11 @@ export const importData = (jsonString: string): void => {
   try {
     commitBackup(parsed);
   } catch (error) {
-    restoreSnapshot(snapshot);
+    try {
+      restoreSnapshot(snapshot);
+    } catch (restoreError) {
+      logger.error('Import rollback failed after commit error:', restoreError);
+    }
     logger.error('Error importing data:', error);
     throw error instanceof Error ? error : new Error('An unknown error occurred during import.');
   }

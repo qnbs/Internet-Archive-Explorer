@@ -95,8 +95,12 @@ export const backupSchemaV2 = backupSchemaV1.extend({
 export type ParsedBackupV2 = z.infer<typeof backupSchemaV2>;
 export type ParsedBackupV1 = z.infer<typeof backupSchemaV1>;
 
+export function getBackupJsonByteLength(jsonString: string): number {
+  return new TextEncoder().encode(jsonString).byteLength;
+}
+
 export function parseBackupJson(jsonString: string): ParsedBackupV2 {
-  if (jsonString.length > MAX_BACKUP_FILE_BYTES) {
+  if (getBackupJsonByteLength(jsonString) > MAX_BACKUP_FILE_BYTES) {
     throw new Error('Backup file is too large.');
   }
 

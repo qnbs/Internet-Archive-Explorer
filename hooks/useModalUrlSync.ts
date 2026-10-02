@@ -107,6 +107,8 @@ export function useModalUrlSync(): void {
   const modal = useAtomValue(modalAtom);
   const [searchParams, setSearchParams] = useSearchParams();
   const lastParamsRef = useRef(searchParams.toString());
+  const searchParamsRef = useRef(searchParams);
+  searchParamsRef.current = searchParams;
   const fetchingIdRef = useRef<string | null>(null);
   const restoreGenerationRef = useRef(0);
   const metadataAbortRef = useRef<AbortController | null>(null);
@@ -128,6 +130,12 @@ export function useModalUrlSync(): void {
       getItemMetadata(id, { signal: controller.signal })
         .then((metadata) => {
           if (generation !== restoreGenerationRef.current) return;
+          const urlModal = searchParamsRef.current.get(MODAL_PARAM);
+          const urlId = searchParamsRef.current.get(ID_PARAM);
+          if (urlModal !== restored.type || urlId !== id) {
+            fetchingIdRef.current = null;
+            return;
+          }
           fetchingIdRef.current = null;
           const summary = toArchiveItemSummary(metadata);
           getDefaultStore().set(modalAtom, {

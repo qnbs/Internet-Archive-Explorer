@@ -116,6 +116,12 @@ const fetchRawJson = (
     }
   });
 
+const throwIfAborted = (signal?: AbortSignal): void => {
+  if (signal?.aborted) {
+    throw new DOMException('The operation was aborted.', 'AbortError');
+  }
+};
+
 const fetchValidated = async <T>(
   url: string,
   context: string,
@@ -125,14 +131,18 @@ const fetchValidated = async <T>(
   let lastZodError: z.ZodError | undefined;
 
   for (let attempt = 0; attempt < VALIDATION_MAX_ATTEMPTS; attempt++) {
+    throwIfAborted(options?.signal);
     const raw = await fetchRawJson(url, context, options);
+    throwIfAborted(options?.signal);
     const parsed = schema.safeParse(raw);
     if (parsed.success) {
       return parsed.data;
     }
     lastZodError = parsed.error;
     if (attempt < VALIDATION_MAX_ATTEMPTS - 1) {
+      throwIfAborted(options?.signal);
       await delay(VALIDATION_BACKOFF_MS * 2 ** attempt);
+      throwIfAborted(options?.signal);
     }
   }
 

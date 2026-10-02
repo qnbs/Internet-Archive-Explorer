@@ -7,23 +7,25 @@ export interface TextHighlightSegment {
 
 const MAX_LITERAL_QUERY_LENGTH = 200;
 
-/** Case-insensitive literal search indices (deterministic, no regex). */
+const slicesMatchCaseInsensitive = (textSlice: string, query: string): boolean =>
+  textSlice.localeCompare(query, undefined, { sensitivity: 'accent' }) === 0;
+
+/** Case-insensitive literal search indices aligned to the original UTF-16 string. */
 export function findLiteralMatchStarts(text: string, query: string): number[] {
   const trimmed = query.trim();
   if (!trimmed || trimmed.length > MAX_LITERAL_QUERY_LENGTH) {
     return [];
   }
 
-  const lowerText = text.toLowerCase();
-  const lowerQuery = trimmed.toLowerCase();
+  const qLen = trimmed.length;
   const indices: number[] = [];
-  let pos = 0;
 
-  while (pos < lowerText.length) {
-    const idx = lowerText.indexOf(lowerQuery, pos);
-    if (idx === -1) break;
-    indices.push(idx);
-    pos = idx + Math.max(1, lowerQuery.length);
+  for (let i = 0; i <= text.length - qLen; i += 1) {
+    const slice = text.slice(i, i + qLen);
+    if (slicesMatchCaseInsensitive(slice, trimmed)) {
+      indices.push(i);
+      i += qLen - 1;
+    }
   }
 
   return indices;

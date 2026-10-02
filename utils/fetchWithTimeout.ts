@@ -1,6 +1,9 @@
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
 
+const abortDomException = (): DOMException =>
+  new DOMException('The operation was aborted.', 'AbortError');
+
 export async function fetchWithTimeout(
   input: RequestInfo | URL,
   init: RequestInit = {},
@@ -11,12 +14,12 @@ export async function fetchWithTimeout(
 
   if (external) {
     if (external.aborted) {
-      throw external.reason ?? new DOMException('The operation was aborted.', 'AbortError');
+      throw abortDomException();
     }
     external.addEventListener(
       'abort',
       () => {
-        controller.abort(external.reason);
+        controller.abort();
       },
       { once: true },
     );
@@ -27,8 +30,8 @@ export async function fetchWithTimeout(
   try {
     return await fetch(input, { ...init, signal: controller.signal });
   } catch (error) {
-    if (isAbortError(error) && external?.aborted) {
-      throw external.reason ?? error;
+    if (isAbortError(error) || external?.aborted || controller.signal.aborted) {
+      throw abortDomException();
     }
     throw error;
   } finally {
