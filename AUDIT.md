@@ -48,7 +48,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | URL deep-link (`?view=`, modals) | ✅ | `useUrlSync`, `useModalUrlSync` + unit/E2E coverage |
 | IndexedDB migration for large Jotai stores | ✅ | v1.3.2 — `store/persistStorage.ts`, hydrate before mount; library/collections/worksets/AI archive/download queue |
 | `types.ts` domain split | ✅ | Domain modules under `types/`; root `types.ts` re-exports hub |
-| Real marketing PWA screenshots | ⏸️ | Generated placeholders remain acceptable for CI |
+| Real marketing PWA screenshots | ✅ | `pnpm run capture:pwa-screenshots`; CI `check:pwa-screenshots`; prebuild skips overwriting committed captures |
 
 ---
 
@@ -80,7 +80,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **Concurrency cap** | ✅ | `utils/requestQueue.ts` caps archive.org requests; `hooks/useUploaderStats.ts` batches count queries |
 | **TanStack Query retry** | ✅ | IA query defaults set `retry: 0`; service layer remains the retry source of truth |
 | **Validation logging** | ✅ | `archiveService.ts` logs Zod validation failures; `publicdate`/`mediatype`/`avg_rating` relaxed based on live data |
-| **List caching** | 🔄 | Search + hub trending in IndexedDB; extend to remaining hub carousels |
+| **List caching** | ✅ | Search + hub carousels (Explore, For You, media/images/rec room) via IndexedDB |
 | **Offline feedback** | 🔄 | Service Worker returns 503 JSON when offline; explicit UI offline state is planned |
 
 ---
@@ -98,7 +98,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **CI Gate** | ✅ | `lint:ci`, `check:i18n`, `tsc`, `test:unit`, `test:unit:coverage`, `ANALYZE=true build`, `check:bundle-size`, `CI=true test:e2e`, Pages Smoke green |
 | **a11y E2E** | ✅ | Contrast on Uploader Hub / For You / Web Archive; `prefers-reduced-motion` in axe tests; no inline `opacity: 0` on cards |
 
-**Remaining (non-blocking):** Real marketing screenshots instead of generated placeholders; split `types.ts`; manual screenreader passes on all modals.
+**Remaining (non-blocking):** Manual screenreader passes on all modals; optional higher-fidelity PWA icons (icons still generated placeholders).
 
 ---
 

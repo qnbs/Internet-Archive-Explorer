@@ -3,7 +3,7 @@
  * Run: node scripts/generate-pwa-assets.mjs
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
@@ -68,11 +68,23 @@ mkdirSync(shotsDir, { recursive: true });
 
 writeFileSync(join(iconsDir, 'icon-192.png'), png(192, 192));
 writeFileSync(join(iconsDir, 'icon-512.png'), png(512, 512));
-writeFileSync(join(shotsDir, 'narrow-explore.png'), png(540, 960));
-writeFileSync(join(shotsDir, 'narrow-detail.png'), png(540, 960));
-writeFileSync(join(shotsDir, 'wide-library.png'), png(1280, 720));
-writeFileSync(join(shotsDir, 'wide-videothek.png'), png(1280, 720));
-writeFileSync(join(shotsDir, 'wide-scriptorium.png'), png(1280, 720));
+
+const forcePlaceholders = process.env.FORCE_PWA_PLACEHOLDERS === '1';
+const screenshotSpecs = [
+  ['narrow-explore.png', 540, 960],
+  ['narrow-detail.png', 540, 960],
+  ['wide-library.png', 1280, 720],
+  ['wide-videothek.png', 1280, 720],
+  ['wide-scriptorium.png', 1280, 720],
+];
+
+for (const [file, w, h] of screenshotSpecs) {
+  const dest = join(shotsDir, file);
+  if (!forcePlaceholders && existsSync(dest)) {
+    continue;
+  }
+  writeFileSync(dest, png(w, h));
+}
 
 // Generate manifest.json from template, substituting VITE_BASE_PATH so the
 // PWA scope/start_url/shortcuts/share_target work on both GitHub Pages

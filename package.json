@@ -1,7 +1,7 @@
 {
   "name": "internet-archive-explorer",
   "private": true,
-  "version": "1.3.6",
+  "version": "1.3.7",
   "packageManager": "pnpm@10.6.1",
   "homepage": "https://qnbs.github.io/Internet-Archive-Explorer",
   "type": "module",
@@ -10,6 +10,8 @@
     "sync:locales": "node scripts/sync-locales.mjs",
     "generate:pwa-assets": "node scripts/generate-pwa-assets.mjs",
     "generate:manifest": "node scripts/generate-pwa-assets.mjs",
+    "capture:pwa-screenshots": "node scripts/capture-pwa-screenshots.mjs",
+    "check:pwa-screenshots": "node scripts/check-pwa-screenshots.mjs",
     "prebuild": "pnpm run generate:manifest && pnpm run sync:locales",
     "dev": "vite",
     "build": "vite build",
