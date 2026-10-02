@@ -3,7 +3,7 @@
   "offline": {
     "library": "Du bist offline. Deine Bibliothek bleibt auf diesem Gerät — gespeicherte Inhalte kannst du weiter öffnen. Neue Suchen brauchen eine Verbindung.",
     "trendingHub": "Du bist offline. Wo möglich zeigen wir die zuletzt zwischengespeicherten Trending-Einträge; zum Aktualisieren bitte wieder online gehen.",
-    "mediaHub": "Du bist offline. Videothek- und Audiothek-Regale zeigen gespeicherte Karussell-Listen, sofern vorhanden; zum Nachladen neu verbinden.",
+    "mediaHub": "Du bist offline. Content-Hubs zeigen gespeicherte Regal- und Karussell-Listen, sofern vorhanden; zum Nachladen neu verbinden.",
     "generic": "Du bist offline. Öffne Inhalte aus der Bibliothek oder besuche zwischengespeicherte Seiten. Live-Suche und neue Listen brauchen eine Verbindung."
   },
   "librarySyncNotice": "Wieder online — Änderungen an der Bibliothek können im Hintergrund synchronisiert werden."

@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/Icons';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
+import { useArchivalItems } from '@/hooks/useArchivalItems';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import { searchArchive } from '@/services/archiveService';
-import type { ArchiveItemSummary, MediaType } from '@/types';
+import type { MediaType } from '@/types';
 import { RecRoomItemCard } from '../RecRoomItemCard';
 import { SkeletonCard } from '../SkeletonCard';
 
 interface RecRoomCarouselProps {
   title: string;
   query: string;
+  limit?: number;
 }
 
-export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }) => {
+export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query, limit = 15 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [items, setItems] = useState<ArchiveItemSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { items, isLoading, error, refetch, offlineCachedAt } = useArchivalItems(query, limit);
   const { t } = useLanguage();
   const searchAndGo = useSearchAndGo();
 
@@ -52,41 +52,28 @@ export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }
     }
   };
 
-  const fetchItems = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await searchArchive(query, 1, ['-downloads'], undefined, 15);
-      setItems(data.response?.docs || []);
-    } catch {
-      setError(t('common:error'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [query, t]);
-
-  useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
-
   const handleViewAll = () => {
     searchAndGo(query, { mediaType: new Set(['software' as MediaType]) });
   };
 
   return (
     <section className="animate-fade-in">
-      <div className="flex justify-between items-center gap-3 mb-4">
+      <div className="flex justify-between items-center gap-3 mb-4 flex-wrap">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
-        <button
-          type="button"
-          onClick={handleViewAll}
-          className="touch-target-min inline-flex items-center justify-center text-sm font-semibold text-cyan-800 dark:text-accent-400 hover:text-cyan-900 dark:hover:text-accent-300 transition-colors shrink-0"
-        >
-          {t('recRoom:viewAll')} &rarr;
-        </button>
+        <div className="flex items-center gap-3 shrink-0">
+          {offlineCachedAt ? <CacheAgeIndicator cacheTimeMs={offlineCachedAt} /> : null}
+          <button
+            type="button"
+            onClick={handleViewAll}
+            className="touch-target-min inline-flex items-center justify-center text-sm font-semibold text-cyan-800 dark:text-accent-400 hover:text-cyan-900 dark:hover:text-accent-300 transition-colors"
+          >
+            {t('recRoom:viewAll')} &rarr;
+          </button>
+        </div>
       </div>
       <div className="relative group">
         <button
+          type="button"
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft || !!error}
           className="absolute top-1/2 -left-4 z-20 -translate-y-1/2 p-2 bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
@@ -106,7 +93,18 @@ export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }
               </div>
             ))
           ) : error ? (
-            <div className="text-red-400 p-4">{error}</div>
+            <div className="text-red-400 p-4 space-y-2">
+              <p>{error}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  void refetch();
+                }}
+                className="text-sm font-semibold text-cyan-700 dark:text-cyan-300 hover:underline"
+              >
+                {t('common:retry')}
+              </button>
+            </div>
           ) : (
             items.map((item, index) => (
               <RecRoomItemCard key={item.identifier} item={item} index={index} />
@@ -114,6 +112,7 @@ export const RecRoomCarousel: React.FC<RecRoomCarouselProps> = ({ title, query }
           )}
         </div>
         <button
+          type="button"
           onClick={() => handleScroll('right')}
           disabled={!canScrollRight || !!error}
           className="absolute top-1/2 -right-4 z-20 -translate-y-1/2 p-2 bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:scale-110 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
