@@ -8,7 +8,9 @@ import type { View } from '@/types';
 function offlineMessageKey(view: View): 'library' | 'trendingHub' | 'mediaHub' | 'generic' {
   if (view === 'library') return 'library';
   if (view === 'explore' || view === 'forYou') return 'trendingHub';
-  if (view === 'movies' || view === 'audio') return 'mediaHub';
+  if (view === 'movies' || view === 'audio' || view === 'image' || view === 'recroom') {
+    return 'mediaHub';
+  }
   return 'generic';
 }
 

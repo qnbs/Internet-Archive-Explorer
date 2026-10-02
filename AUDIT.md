@@ -242,7 +242,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Done:** Retry backoff + jitter, concurrency cap, TanStack retry reduction.
 - **Done (post v1.3.3):** Explore/For You hub trending in IndexedDB (`hubTrending` store) with legacy `localStorage` migration; offline fallback shows hub cache age; explorer search reads IndexedDB when offline and skips background refresh.
 - **Done (post v1.3.4):** Videothek/Audiothek carousels route through `useArchivalItems` (IndexedDB search cache, offline read, cache-age UI).
-- **Follow-up:** Images Hub / Rec Room carousels; cache-age headers in service worker remain SW-only.
+- **Done (post v1.3.5):** Images Hub (hero + gallery cards) and Rec Room carousels use `useArchivalItems` with optional sort keys and offline cache-age UI.
+- **Follow-up:** cache-age headers in service worker remain SW-only.
 
 #### H2: Unit test coverage — partially addressed
 

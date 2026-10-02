@@ -1,43 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AIInsightPanel } from '@/components/AIInsightPanel';
 import { ArtIcon, HistoryIcon, ScienceIcon } from '@/components/Icons';
+import { CacheAgeIndicator } from '@/components/ui/CacheAgeIndicator';
 import { useArchivalItems } from '@/hooks/useArchivalItems';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { useSearchAndGo } from '@/hooks/useSearchAndGo';
-import { getItemCount, searchArchive } from '@/services/archiveService';
+import { getItemCount } from '@/services/archiveService';
 import { generateMuseumExhibitConcept } from '@/services/geminiService';
 import { AIGenerationType, MediaType } from '@/types';
-import { logger } from '@/utils/logger';
 
-// --- Sub-Components ---
+const HERO_QUERY = 'collection:nasa AND mediatype:image';
 
 const HeroGallery: React.FC = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const { items, isLoading, offlineCachedAt } = useArchivalItems(HERO_QUERY, 10, ['-week']);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchHeroImages = async () => {
-      try {
-        const data = await searchArchive(
-          'collection:nasa AND mediatype:image',
-          1,
-          ['-week'],
-          undefined,
-          10,
-        );
-        if (data.response?.docs) {
-          const urls = data.response.docs.map(
-            (item) =>
-              `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`,
-          );
-          setImages(urls);
-        }
-      } catch (error) {
-        logger.error('Failed to fetch hero images', error);
-      }
-    };
-    fetchHeroImages();
-  }, []);
+  const images = useMemo(
+    () =>
+      items.map(
+        (item) => `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`,
+      ),
+    [items],
+  );
 
   useEffect(() => {
     if (images.length === 0) return;
@@ -47,12 +32,21 @@ const HeroGallery: React.FC = () => {
     return () => clearInterval(interval);
   }, [images]);
 
+  if (isLoading && images.length === 0) {
+    return <div className="absolute inset-0 bg-gray-900 animate-pulse z-[-1]" />;
+  }
+
   if (images.length === 0) {
-    return <div className="absolute inset-0 bg-gray-900 animate-pulse z-[-1]"></div>;
+    return <div className="absolute inset-0 bg-gray-900 z-[-1]" />;
   }
 
   return (
     <div className="absolute inset-0 z-[-1] overflow-hidden bg-black">
+      {offlineCachedAt ? (
+        <div className="absolute top-3 right-3 z-10">
+          <CacheAgeIndicator cacheTimeMs={offlineCachedAt} />
+        </div>
+      ) : null}
       {images.map((src, index) => (
         <img
           key={src}
@@ -70,81 +64,86 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
-  const [data, setData] = useState<{
-    thumbnailUrl: string;
-    itemCount: number;
-    identifier: string;
-  } | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    items,
+    isLoading,
+    offlineCachedAt,
+    numFound: cachedNumFound,
+  } = useArchivalItems(collection.query, 1, ['-random']);
+  const [liveCount, setLiveCount] = useState<number | null>(null);
   const searchAndGo = useSearchAndGo();
   const { language } = useLanguage();
+  const online = useOnlineStatus();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const [itemData, count] = await Promise.all([
-          searchArchive(collection.query, 1, ['-random'], undefined, 1),
-          getItemCount(collection.query),
-        ]);
-
-        if (itemData.response?.docs[0]) {
-          const item = itemData.response.docs[0];
-          setData({
-            thumbnailUrl: `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`,
-            itemCount: count,
-            identifier: item.identifier,
-          });
-        }
-      } catch (error) {
-        logger.error(`Failed to fetch data for ${collection.title}`, error);
-      } finally {
-        setIsLoading(false);
-      }
+    if (!online) {
+      setLiveCount(null);
+      return;
+    }
+    let cancelled = false;
+    void getItemCount(collection.query)
+      .then((count) => {
+        if (!cancelled) setLiveCount(count);
+      })
+      .catch(() => {
+        if (!cancelled) setLiveCount(null);
+      });
+    return () => {
+      cancelled = true;
     };
-    fetchData();
-  }, [collection.query, collection.title]);
+  }, [collection.query, online]);
 
   const handleSearch = () => {
     searchAndGo(collection.query, { mediaType: new Set([MediaType.Image]) });
   };
 
+  const item = items[0];
+  const itemCount = liveCount ?? cachedNumFound;
+
   if (isLoading) {
     return (
       <div className="bg-gray-800/60 rounded-xl p-4 animate-pulse">
-        <div className="w-12 h-12 bg-gray-700 rounded-full mb-4"></div>
-        <div className="h-5 w-3/4 bg-gray-700 rounded mb-2"></div>
-        <div className="h-4 w-1/2 bg-gray-700 rounded mb-4"></div>
-        <div className="aspect-square bg-gray-700 rounded-lg"></div>
+        <div className="w-12 h-12 bg-gray-700 rounded-full mb-4" />
+        <div className="h-5 w-3/4 bg-gray-700 rounded mb-2" />
+        <div className="h-4 w-1/2 bg-gray-700 rounded mb-4" />
+        <div className="aspect-square bg-gray-700 rounded-lg" />
       </div>
     );
   }
 
-  if (!data) return null;
+  if (!item) return null;
+
+  const thumbnailUrl = `https://archive.org/services/get-item-image.php?identifier=${item.identifier}`;
 
   return (
     <button
+      type="button"
       onClick={handleSearch}
       className="bg-gray-900 border border-gray-700/50 p-4 rounded-xl text-left hover:bg-gray-800 transition-all duration-300 group flex flex-col h-full shadow-sm"
     >
       <div className="flex-shrink-0">
-        <div className="text-accent-400 w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-accent-500/20 transition-colors">
-          {collection.icon}
+        <div className="flex items-start justify-between gap-2">
+          <div className="text-accent-400 w-12 h-12 flex items-center justify-center bg-gray-900/50 rounded-full group-hover:bg-accent-500/20 transition-colors">
+            {collection.icon}
+          </div>
+          {offlineCachedAt ? <CacheAgeIndicator cacheTimeMs={offlineCachedAt} /> : null}
         </div>
         <h3 className="mt-4 font-bold text-lg text-white">{collection.title}</h3>
         <p className="text-sm text-gray-400 mb-2">{collection.desc}</p>
-        <p className="text-xs font-semibold bg-gray-700 text-accent-300 px-2 py-0.5 rounded-full inline-block">
-          {data.itemCount.toLocaleString(language)} items
-        </p>
+        {itemCount != null ? (
+          <p className="text-xs font-semibold bg-gray-700 text-accent-300 px-2 py-0.5 rounded-full inline-block">
+            {itemCount.toLocaleString(language)} items
+          </p>
+        ) : null}
       </div>
       <div className="flex-grow mt-4 relative aspect-square rounded-lg overflow-hidden">
         <img
-          src={data.thumbnailUrl}
+          src={thumbnailUrl}
           alt={collection.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const fallbackUrl = `https://archive.org/download/${data.identifier}/__ia_thumb.jpg`;
+            const fallbackUrl = `https://archive.org/download/${item.identifier}/__ia_thumb.jpg`;
             const placeholderUrl = 'https://picsum.photos/400/400?grayscale';
             if (target.src.includes('__ia_thumb.jpg')) {
               target.onerror = null;
@@ -154,7 +153,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ collection }) => {
             }
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
     </button>
   );
@@ -184,7 +183,6 @@ const getCollections = (t: (key: string) => string) => [
   },
 ];
 
-// --- Main Component ---
 const ImagesHubView: React.FC = () => {
   const { t } = useLanguage();
   const collections = getCollections(t);
