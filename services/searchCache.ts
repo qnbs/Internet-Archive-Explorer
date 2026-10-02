@@ -1,4 +1,4 @@
-import { searchCache } from '@/services/cacheService';
+import { type CachedSearchEntry, searchCache } from '@/services/cacheService';
 import type { ArchiveSearchResponse } from '@/types';
 
 const CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -23,9 +23,7 @@ export const buildSearchCacheKey = (
 /**
  * Read a cached search result if it exists and has not expired.
  */
-export const getCachedSearchResult = async (
-  key: string,
-): Promise<ArchiveSearchResponse | undefined> => {
+export const getCachedSearchEntry = async (key: string): Promise<CachedSearchEntry | undefined> => {
   const cached = await searchCache.get(key);
   if (!cached) return undefined;
 
@@ -34,7 +32,14 @@ export const getCachedSearchResult = async (
     return undefined;
   }
 
-  return cached.data;
+  return cached;
+};
+
+export const getCachedSearchResult = async (
+  key: string,
+): Promise<ArchiveSearchResponse | undefined> => {
+  const cached = await getCachedSearchEntry(key);
+  return cached?.data;
 };
 
 /**

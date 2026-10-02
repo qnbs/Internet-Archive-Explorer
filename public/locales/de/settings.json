@@ -170,6 +170,7 @@
     "cacheDesc": "Zwischengespeicherte Suchergebnisse und Metadaten laden die App schneller und ermöglichen den Offline-Betrieb. Löschen Sie den Cache, wenn Sie veraltete Daten vermuten.",
     "cacheMetadataCount": "Metadaten-Einträge: {{count}}",
     "cacheSearchCount": "Such-Einträge: {{count}}",
+    "cacheHubTrendingCount": "Gespeicherte Hub-Karussells: {{count}}",
     "clearCacheButton": "Offline-Cache löschen",
     "cacheCleared": "Offline-Cache gelöscht.",
     "cacheClearError": "Offline-Cache konnte nicht gelöscht werden.",

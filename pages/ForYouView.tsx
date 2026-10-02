@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ContentCarousel } from '@/components/ContentCarousel';
 import { CompassIcon, SparklesIcon, StarIcon, TrendingIcon } from '@/components/Icons';
 import { OnThisDay } from '@/components/OnThisDay';
@@ -185,7 +185,19 @@ const ContinueExploring: React.FC = () => {
 const TrendingSection: React.FC = () => {
   const { t } = useLanguage();
   const online = useOnlineStatus();
-  const cachedTrending = useMemo(() => loadForYouTrending(), []);
+  const [seedTrending, setSeedTrending] = useState<ArchiveItemSummary[] | undefined>();
+  const [hubTrendingSavedAt, setHubTrendingSavedAt] = useState<number | null>(null);
+
+  useEffect(() => {
+    void loadForYouTrending().then((cached) => {
+      if (cached?.items?.length) {
+        setSeedTrending(cached.items);
+        if (!online) {
+          setHubTrendingSavedAt(cached.savedAt);
+        }
+      }
+    });
+  }, [online]);
 
   const { data, isLoading, error, refetch } = useQuery<ArchiveItemSummary[]>({
     queryKey: ['forYou', 'trending'],
@@ -196,13 +208,13 @@ const TrendingSection: React.FC = () => {
     enabled: online,
     staleTime: 15 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
-    initialData: cachedTrending?.items?.length ? cachedTrending.items : undefined,
-    placeholderData: cachedTrending?.items?.length ? cachedTrending.items : undefined,
+    initialData: seedTrending,
+    placeholderData: seedTrending,
   });
 
   useEffect(() => {
     if (online && data?.length) {
-      persistForYouTrending(data);
+      void persistForYouTrending(data).then(() => setHubTrendingSavedAt(null));
     }
   }, [online, data]);
 
@@ -216,7 +228,7 @@ const TrendingSection: React.FC = () => {
         onRetry={refetch}
         cardAspectRatio="video"
         titleIcon={<TrendingIcon className="w-4 h-4" />}
-        headerAddon={<CacheAgeIndicator />}
+        headerAddon={<CacheAgeIndicator cacheTimeMs={hubTrendingSavedAt ?? undefined} />}
       />
     </motion.div>
   );

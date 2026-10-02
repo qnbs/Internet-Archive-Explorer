@@ -1,10 +1,11 @@
-import type { ArchiveMetadata, ArchiveSearchResponse } from '@/types';
+import type { ArchiveItemSummary, ArchiveMetadata, ArchiveSearchResponse } from '@/types';
 import { logger } from '@/utils/logger';
 
 const DB_NAME = 'archive-explorer-cache';
 const METADATA_STORE = 'metadata';
 const SEARCH_STORE = 'searchResults';
-const DB_VERSION = 2;
+const HUB_TRENDING_STORE = 'hubTrending';
+const DB_VERSION = 3;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -23,6 +24,9 @@ const getDb = (): Promise<IDBDatabase> => {
       }
       if (!db.objectStoreNames.contains(SEARCH_STORE)) {
         db.createObjectStore(SEARCH_STORE);
+      }
+      if (!db.objectStoreNames.contains(HUB_TRENDING_STORE)) {
+        db.createObjectStore(HUB_TRENDING_STORE);
       }
     };
   });
@@ -127,28 +131,36 @@ export interface CachedSearchEntry {
   cachedAt: number;
 }
 
+export interface CachedHubTrendingEntry {
+  savedAt: number;
+  items: ArchiveItemSummary[];
+}
+
 export interface CacheStats {
   metadataCount: number;
   searchCount: number;
+  hubTrendingCount: number;
 }
 
 export const metadataCache = createIndexedDBCache<ArchiveMetadata>(METADATA_STORE);
 export const searchCache = createIndexedDBCache<CachedSearchEntry>(SEARCH_STORE);
+export const hubTrendingCache = createIndexedDBCache<CachedHubTrendingEntry>(HUB_TRENDING_STORE);
 
 /**
  * Clear all IndexedDB-backed caches used by the app.
  */
 export const clearAllCaches = async (): Promise<void> => {
-  await Promise.all([metadataCache.clear(), searchCache.clear()]);
+  await Promise.all([metadataCache.clear(), searchCache.clear(), hubTrendingCache.clear()]);
 };
 
 /**
  * Return the number of entries in each IndexedDB cache store.
  */
 export const getCacheStats = async (): Promise<CacheStats> => {
-  const [metadataCount, searchCount] = await Promise.all([
+  const [metadataCount, searchCount, hubTrendingCount] = await Promise.all([
     metadataCache.count(),
     searchCache.count(),
+    hubTrendingCache.count(),
   ]);
-  return { metadataCount, searchCount };
+  return { metadataCount, searchCount, hubTrendingCount };
 };

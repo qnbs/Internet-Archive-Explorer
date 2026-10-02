@@ -27,6 +27,7 @@ const TrendingItems: React.FC = () => {
   const [items, setItems] = useState<ArchiveItemSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hubTrendingSavedAt, setHubTrendingSavedAt] = useState<number | null>(null);
 
   // States for the insight panel
   const [historicalSummary, setHistoricalSummary] = useState<string>('');
@@ -43,20 +44,18 @@ const TrendingItems: React.FC = () => {
   const fetchTrendingItems = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setHubTrendingSavedAt(null);
     try {
       const data = await searchArchive('', 1, ['-week']);
       const trendingItems = data.response?.docs.slice(0, 15) || [];
       setItems(trendingItems);
-      persistExploreTrending(trendingItems);
+      await persistExploreTrending(trendingItems);
     } catch {
-      if (!online) {
-        const cached = loadExploreTrending();
-        if (cached?.items?.length) {
-          setItems(cached.items);
-          setError(null);
-        } else {
-          setError(t('common:error'));
-        }
+      const cached = await loadExploreTrending();
+      if (cached?.items?.length) {
+        setItems(cached.items);
+        setHubTrendingSavedAt(cached.savedAt);
+        setError(online ? t('common:error') : null);
       } else {
         setError(t('common:error'));
       }
@@ -157,11 +156,12 @@ const TrendingItems: React.FC = () => {
       aria-label={t('explorer:trending')}
       aria-busy={isLoading || isGeneratingInsight}
     >
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 gap-3">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
           <TrendingIcon className="mr-3 text-accent-600 dark:text-accent-400" />
           {t('explorer:trending')}
         </h2>
+        {hubTrendingSavedAt ? <CacheAgeIndicator cacheTimeMs={hubTrendingSavedAt} /> : null}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2">
