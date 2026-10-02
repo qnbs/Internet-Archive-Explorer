@@ -103,6 +103,10 @@ jobs:
           test -f dist/icons/icon-512.png
           grep -q 'icons/icon-192.png' dist/manifest.json
           grep -q 'screenshots/' dist/manifest.json
+      - name: Verify PWA marketing screenshots (not placeholders)
+        run: |
+          node scripts/check-pwa-screenshots.mjs
+          PWA_SCREENSHOTS_DIR=dist/screenshots node scripts/check-pwa-screenshots.mjs
       - name: Verify GitHub Pages base paths in HTML
         run: |
           set -euo pipefail

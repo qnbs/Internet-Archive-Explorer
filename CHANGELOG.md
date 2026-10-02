@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.7] - 2026-10-02
+
+### Added
+
+- **PWA marketing screenshots:** Playwright capture script (`pnpm run capture:pwa-screenshots`) and CI size check (`check:pwa-screenshots`) so manifest screenshots are real UI captures, not gradient placeholders.
+
+### Changed
+
+- **`generate-pwa-assets`:** Skips overwriting existing screenshot PNGs unless `FORCE_PWA_PLACEHOLDERS=1`.
+
 ## [1.3.6] - 2026-10-02
 
 ### Changed
