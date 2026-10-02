@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.1] - 2026-10-02
 
+### Fixed
+
+- **CSP / WebKit:** Removed `upgrade-insecure-requests` from the meta CSP so `http://127.0.0.1` preview and WebKit E2E can load same-origin scripts (GitHub Pages is already HTTPS-only).
+
 ### Added
 
 - Parallel CI jobs with a single **CI Gate**; GitHub Pages deploy runs only after successful CI on `main`.

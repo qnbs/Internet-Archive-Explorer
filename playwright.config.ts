@@ -47,7 +47,7 @@ export default defineConfig({
       name: 'webkit-smoke',
       grep: /@smoke/,
       testMatch: '**/smoke.spec.ts',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'], serviceWorkers: 'block' },
     },
     {
       name: 'mobile-chrome-smoke',
