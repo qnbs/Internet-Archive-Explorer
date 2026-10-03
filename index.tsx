@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './styles/inter-variable-latin.css';
 import './index.css';
 import { ArchiveServiceError } from '@/services/archiveService';
 import { cleanupExpiredSearchResults } from '@/services/searchCache';
