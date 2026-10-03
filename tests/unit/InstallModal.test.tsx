@@ -17,7 +17,7 @@ function mockDeferredPrompt(): BeforeInstallPromptEvent {
     platforms: ['web'],
     userChoice: Promise.resolve({ outcome: 'accepted', platform: 'web' }),
     prompt: vi.fn().mockResolvedValue(undefined),
-  } as BeforeInstallPromptEvent;
+  } as unknown as BeforeInstallPromptEvent;
 }
 
 describe('InstallModal', () => {
