@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.10] - 2026-10-03
+
+### Changed
+
+- **Service worker (v13):** Drop Google Fonts from install precache; fonts load via `index.html` only (AUDIT M7).
+
+### Added
+
+- Unit tests: SW precache policy, `OfflineHubBanner`, `CacheAgeIndicator` (H2 coverage).
+
 ## [1.3.9] - 2026-10-03
 
 ### Added
