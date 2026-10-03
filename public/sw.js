@@ -3,7 +3,7 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v12';
+const CACHE_VERSION = 'v13';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
@@ -22,12 +22,8 @@ const BASE_PATH = new URL(self.registration.scope).pathname;
 
 const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`];
 
-/** Keep precache small and reliable (matches `index.html`); app bundles ship via Vite. */
-const THIRD_PARTY_URLS = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-];
-
-const urlsToPrecache = [...APP_SHELL_URLS, ...THIRD_PARTY_URLS];
+/** App shell only — Inter loads via `index.html` (no third-party SW precache; see AUDIT M7). */
+const urlsToPrecache = [...APP_SHELL_URLS];
 
 /** @type {Map<string, number>} url → last access epoch ms */
 const urlAccessMs = new Map();

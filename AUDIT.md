@@ -271,12 +271,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 - Print styles, forced-colors refinement, Firefox scrollbar, canonical, JSON-LD, `lang="en"` — see `index.css` / `index.html`.
 
-#### M7: Service Worker third-party URLs may be stale
+#### M7: Service Worker third-party URLs may be stale — addressed (v1.3.10)
 
-- **Impact:** `sw.js` precaches Google Fonts CSS that may no longer be required.
-- **File:** `public/sw.js` (lines 13-20)
-- **Fix:** Audit and update the list of third-party URLs; current list is harmless.
-- **Effort:** Low
+- **Done:** Removed Google Fonts CSS from SW precache; Inter remains loaded from `index.html`. Cache **v13**; `tests/unit/swPrecachePolicy.test.ts` guards regression.
 
 #### M8: Service worker cache size limits — addressed
 
@@ -288,11 +285,9 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### M10: `noUnusedLocals` / `noUnusedParameters` — enabled in `tsconfig.json`
 
-#### M11: IndexedDB list cache for search and hubs
+#### M11: IndexedDB list cache for search and hubs — addressed (v1.3.3–v1.3.6)
 
-- **Impact:** Reduces repeated archive.org calls and improves perceived performance.
-- **Files:** `services/cacheService.ts`, new `services/searchCache.ts`, TanStack Query hooks.
-- **Effort:** Medium
+- **Done:** `searchCache`, hub trending, `useArchivalItems` / `useExplorerSearch` offline paths; cache-age UI.
 
 #### M12: URL-sync for views and modals — addressed (v1.3.0+)
 
