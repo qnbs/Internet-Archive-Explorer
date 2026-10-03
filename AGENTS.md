@@ -123,6 +123,18 @@ pnpm rebuild esbuild
 
 Dependency overrides live in `pnpm-workspace.yaml` because pnpm v10+ no longer reads the `pnpm` field in `package.json`.
 
+### Git push (Cloud Agent / stale credentials)
+
+If `git push` fails with *Invalid username or token* while `gh auth status` shows a logged-in account, refresh Git’s credential helper and drop any expired embedded token from the remote URL:
+
+```bash
+gh auth setup-git
+git remote set-url origin https://github.com/<owner>/<repo>.git
+git push -u origin <branch>
+```
+
+Use `https://github.com/...` (no `x-access-token:` in the URL); `gh` supplies fresh credentials on push.
+
 ### Development
 
 ```bash

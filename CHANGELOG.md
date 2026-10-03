@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.11] - 2026-10-03
+
+### Added
+
+- **`CacheManager` unit tests** (H2 coverage).
+- **`AGENTS.md`:** Git push troubleshooting when Cloud Agent tokens expire.
+
 ## [1.3.10] - 2026-10-03
 
 ### Changed
