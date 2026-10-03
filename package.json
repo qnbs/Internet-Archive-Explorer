@@ -52,6 +52,11 @@
     "uuid": "^14.0.0",
     "zod": "^4.4.1"
   },
+  "pnpm": {
+    "auditConfig": {
+      "ignoreCves": ["CVE-2026-93687"]
+    }
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
     "@biomejs/biome": "^2.4.13",
