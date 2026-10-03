@@ -331,6 +331,12 @@ GitHub Actions `.github/workflows/ci.yml` runs:
 - HTML from external sources is sanitized with `DOMPurify` (`utils/sanitizer.ts`).
 - `pnpm audit --audit-level=moderate` runs in `postinstall` and blocks CI on moderate+ vulnerabilities.
 
+### Dependabot
+
+- Config: `.github/dependabot.yml` (npm + GitHub Actions; **semver-major ignored** for npm).
+- **Each open Dependabot PR:** inventory in the PR description, run full CI gate, merge when green; close as obsolete if `main` already exceeds the proposed version.
+- Documented audit CVE ignores: `package.json` → `pnpm.auditConfig.ignoreCves` (see `CONTRIBUTING.md`).
+
 ## 8. Deployment
 
 ### GitHub Pages (primary)
