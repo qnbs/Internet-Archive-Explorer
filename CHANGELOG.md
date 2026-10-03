@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.19] - 2026-10-03
+
 ### Added
 
 - **H2:** Unit tests for `useItemDetail` (default tab logic, lazy plain-text fetch, metadata errors).
