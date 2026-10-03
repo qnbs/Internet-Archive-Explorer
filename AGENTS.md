@@ -132,8 +132,8 @@ pnpm run dev                         # http://localhost:5173
 GitHub parity locally:
 
 ```bash
-pnpm run dev --host 127.0.0.1 --port 5173   # http://127.0.0.1:5173/Internet-Archive-Explorer/
-VITE_BASE_PATH=/ pnpm run dev --host 127.0.0.1 --port 5173   # root path
+pnpm run dev --host 0.0.0.0 --port 5173   # http://127.0.0.1:5173/Internet-Archive-Explorer/
+VITE_BASE_PATH=/ pnpm run dev --host 0.0.0.0 --port 5173   # root path
 ```
 
 ### Build
@@ -377,6 +377,14 @@ pnpm run deploy   # gh-pages branch — prefer GitHub Actions
 2. **Explore:** open a card from "On This Day" → check the detail modal.
 3. Global search: e.g. `library` → results from archive.org.
 4. Optional: sidebar hub (e.g. **Videothek**) — Jotai navigation.
+
+## Cursor Cloud specific instructions
+
+- Start the dev server with `pnpm run dev --host 0.0.0.0 --port 5173` and open `http://127.0.0.1:5173/Internet-Archive-Explorer/`.
+- `--host 127.0.0.1` binds IPv6 `::1` only in this VM, so `http://127.0.0.1:5173` is refused. Do not insert an extra `--` before Vite flags: `pnpm run dev -- --host` drops them (`sh -c` treats them as shell arguments).
+- Explore, search, and hubs need no secrets. They need network access to `archive.org`. Gemini stays optional (bring-your-own key in the browser); E2E uses fake keys.
+- Install Playwright Chromium once with `pnpm exec playwright install --with-deps chromium`.
+- `pnpm install` runs `pnpm audit` in `postinstall` with `|| true`. Existing audit findings do not fail the install.
 
 ## 12. External APIs
 
