@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.16] - 2026-10-03
+
+### Changed
+
+- **Dependencies (patch/minor, Dependabot-aligned):** React/React DOM 19.3, TanStack Query 5.104, Zod 4.6, uuid 14.0.2, lucide-react 1.51, Vite 8.3, Playwright 1.63, Biome 2.5.15, and related dev tooling.
+- **Biome:** Migrated `biome.json` schema to 2.5.15.
+- **Bundle budgets:** vendor 70 KB / total 530 KB brotli after dependency refresh.
+
+### Notes
+
+- Closed Dependabot PR [#17](https://github.com/qnbs/Internet-Archive-Explorer/pull/17) (dompurify 3.4.12) is superseded — `main` already on dompurify 3.4.16+. No open Dependabot PRs at release time.
+- Semver-major holds deferred per `.github/dependabot.yml` (e.g. `@google/genai` 2.x, `@types/uuid` 11).
+
 ## [1.3.15] - 2026-10-03
 
 ### Added
