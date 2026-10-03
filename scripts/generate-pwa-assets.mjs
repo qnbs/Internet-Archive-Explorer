@@ -66,10 +66,21 @@ const shotsDir = join(root, 'public/screenshots');
 mkdirSync(iconsDir, { recursive: true });
 mkdirSync(shotsDir, { recursive: true });
 
-writeFileSync(join(iconsDir, 'icon-192.png'), png(192, 192));
-writeFileSync(join(iconsDir, 'icon-512.png'), png(512, 512));
-
 const forcePlaceholders = process.env.FORCE_PWA_PLACEHOLDERS === '1';
+
+const iconSpecs = [
+  ['icon-192.png', 192, 192],
+  ['icon-512.png', 512, 512],
+];
+
+for (const [file, w, h] of iconSpecs) {
+  const dest = join(iconsDir, file);
+  if (!forcePlaceholders && existsSync(dest)) {
+    continue;
+  }
+  writeFileSync(dest, png(w, h));
+}
+
 const screenshotSpecs = [
   ['narrow-explore.png', 540, 960],
   ['narrow-detail.png', 540, 960],

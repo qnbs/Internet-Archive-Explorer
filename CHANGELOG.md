@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.9] - 2026-10-03
+
+### Added
+
+- Branded PWA icons captured from `public/pwa-icon-source.html`; CI `check:pwa-icons`; `generate-pwa-assets` preserves committed icon PNGs.
+
 ## [1.3.8] - 2026-10-03
 
 ### Changed

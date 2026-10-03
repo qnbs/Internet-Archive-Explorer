@@ -26,7 +26,14 @@ const previewOrigin = 'http://127.0.0.1:4173';
 const baseURL = `${previewOrigin}${basePath}`;
 
 const shotsDir = join(root, 'public/screenshots');
+const iconsDir = join(root, 'public/icons');
 mkdirSync(shotsDir, { recursive: true });
+mkdirSync(iconsDir, { recursive: true });
+
+const ICON_CAPTURES = [
+  { file: 'icon-192.png', size: 192 },
+  { file: 'icon-512.png', size: 512 },
+];
 
 const CAPTURES = [
   {
@@ -137,28 +144,49 @@ async function main() {
       }
     });
 
-    for (const shot of CAPTURES) {
-      const page = await context.newPage();
-      await page.setViewportSize({ width: shot.width, height: shot.height });
-      await page.emulateMedia({ reducedMotion: 'reduce' });
-      const target = `${baseURL}${shot.path.startsWith('?') ? shot.path : `?${shot.path}`}`;
-      console.log(`[capture-pwa-screenshots] ${shot.file} ← ${target}`);
-      await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 90_000 });
-      await page.waitForSelector(shot.waitFor, { timeout: 90_000 });
-      if (shot.beforeScreenshot) {
-        await shot.beforeScreenshot(page);
+    const iconsOnly = process.env.CAPTURE_PWA_ICONS_ONLY === '1';
+
+    if (!iconsOnly) {
+      for (const shot of CAPTURES) {
+        const page = await context.newPage();
+        await page.setViewportSize({ width: shot.width, height: shot.height });
+        await page.emulateMedia({ reducedMotion: 'reduce' });
+        const target = `${baseURL}${shot.path.startsWith('?') ? shot.path : `?${shot.path}`}`;
+        console.log(`[capture-pwa-screenshots] ${shot.file} ← ${target}`);
+        await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 90_000 });
+        await page.waitForSelector(shot.waitFor, { timeout: 90_000 });
+        if (shot.beforeScreenshot) {
+          await shot.beforeScreenshot(page);
+        }
+        await page.waitForTimeout(1500);
+        await page.screenshot({
+          path: join(shotsDir, shot.file),
+          type: 'png',
+          fullPage: false,
+        });
+        await page.close();
       }
-      await page.waitForTimeout(1500);
-      await page.screenshot({
-        path: join(shotsDir, shot.file),
+    }
+
+    const iconSourceUrl = `${baseURL}pwa-icon-source.html`;
+    for (const icon of ICON_CAPTURES) {
+      const page = await context.newPage();
+      await page.setViewportSize({ width: icon.size, height: icon.size });
+      console.log(`[capture-pwa-screenshots] ${icon.file} ← ${iconSourceUrl}`);
+      await page.goto(iconSourceUrl, { waitUntil: 'load', timeout: 60_000 });
+      await page.waitForSelector('#pwa-icon-root', { timeout: 30_000 });
+      await page.locator('#pwa-icon-root').screenshot({
+        path: join(iconsDir, icon.file),
         type: 'png',
-        fullPage: false,
       });
       await page.close();
     }
 
     await browser.close();
-    console.log(`[capture-pwa-screenshots] Wrote ${CAPTURES.length} files to public/screenshots/`);
+    const shotCount = iconsOnly ? 0 : CAPTURES.length;
+    console.log(
+      `[capture-pwa-screenshots] Wrote ${shotCount} screenshots and ${ICON_CAPTURES.length} icons`,
+    );
   } finally {
     preview.kill('SIGTERM');
     await new Promise((resolve) => {
