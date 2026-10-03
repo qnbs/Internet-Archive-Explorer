@@ -6,8 +6,8 @@
     "query-core": 20,
     "dnd-kit": 30,
     "state-core": 10,
-    "vendor": 60
+    "vendor": 70
   },
-  "totalKB": 520,
-  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-10-03: total≈509 incl. self-hosted Inter latin+latin-ext woff2 (~130 KB brotli); JS chunks unchanged vs 2026-07-12."
+  "totalKB": 530,
+  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-10-03: total≈523 after React 19.3 + Vite 8.3; vendor≈64.7; Inter woff2 ~130 KB brotli."
 }
