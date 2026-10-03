@@ -12,6 +12,7 @@ import {
 import { delay, fetchWithRetry } from '@/utils/fetchWithRetry';
 import { logger } from '@/utils/logger';
 import { withArchiveOrgConcurrency } from '@/utils/requestQueue';
+import { SW_CACHE_TIME_HEADER } from '@/utils/swCacheHeaders';
 
 const jotaiStore = getDefaultStore();
 
@@ -27,7 +28,7 @@ const VALIDATION_MAX_ATTEMPTS = 3;
 const VALIDATION_BACKOFF_MS = 400;
 
 const recordCacheAge = (response: Response): void => {
-  const cacheTime = response.headers.get('X-SW-Cache-Time');
+  const cacheTime = response.headers.get(SW_CACHE_TIME_HEADER);
   jotaiStore.set(lastCacheAgeAtom, cacheTime ? Number(cacheTime) : null);
 };
 

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.8] - 2026-10-03
+
+### Changed
+
+- **Security audit:** Documented CI ignore for transitive `braces` CVE-2026-93687 (dev-only via Tailwind; no upstream patch yet).
+- **Service worker (v12):** Exposes `X-SW-Cache-Time` to the page via `Access-Control-Expose-Headers` so cache-age UI reflects SW-served Archive responses.
+- **Offline banner:** Shows cache age when a cached Archive response timestamp is known.
+
 ## [1.3.7] - 2026-10-02
 
 ### Added
