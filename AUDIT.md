@@ -248,7 +248,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### H2: Unit test coverage — partially addressed
 
-- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`.
+- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy.
 - **Follow-up:** Broader hook/component coverage; focus on high-impact UI paths.
 
 #### H3: WCAG 2.2 AA gap — addressed
