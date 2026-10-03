@@ -3,7 +3,7 @@
  * Multi-cache LRU (≤50 MiB per cache, ≤200 MiB total), stale-while-revalidate for IA API,
  * Background Sync tag `ia-library-sync` notifies clients to reconcile offline library state.
  */
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 const CACHE_SHELL = `ia-explorer-shell-${CACHE_VERSION}`;
 const CACHE_API = `ia-explorer-api-${CACHE_VERSION}`;
 const CACHE_IMAGES = `ia-explorer-images-${CACHE_VERSION}`;
@@ -160,12 +160,36 @@ const isImageRequest = (request) => {
   return isImageHost && (isImagePath || isImageDestination);
 };
 
+const SW_CACHE_TIME_HEADER = 'X-SW-Cache-Time';
+
+const mergeSwCacheExposeHeaders = (source) => {
+  const headers = new Headers(source);
+  const existing = headers.get('Access-Control-Expose-Headers');
+  const exposed = new Set(
+    (existing ?? '')
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean),
+  );
+  exposed.add(SW_CACHE_TIME_HEADER);
+  headers.set('Access-Control-Expose-Headers', [...exposed].join(', '));
+  return headers;
+};
+
+/** Clone so the page can read X-SW-Cache-Time on cross-origin IA responses. */
+const responseForClient = (response) =>
+  new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: mergeSwCacheExposeHeaders(response.headers),
+  });
+
 const putInCache = async (cacheName, request, response) => {
   const cache = await caches.open(cacheName);
   const responseClone = response.clone();
-  const headers = new Headers(responseClone.headers);
-  if (!headers.has('X-SW-Cache-Time')) {
-    headers.set('X-SW-Cache-Time', String(Date.now()));
+  const headers = mergeSwCacheExposeHeaders(responseClone.headers);
+  if (!headers.has(SW_CACHE_TIME_HEADER)) {
+    headers.set(SW_CACHE_TIME_HEADER, String(Date.now()));
   }
   const responseToCache = new Response(responseClone.body, {
     status: responseClone.status,
@@ -196,15 +220,11 @@ const handleApiStaleWhileRevalidate = (event, request) => {
       if (cached) {
         touch(request.url);
         event.waitUntil(networkPromise.then(() => undefined));
-        return new Response(cached.body, {
-          status: cached.status,
-          statusText: cached.statusText,
-          headers: cached.headers,
-        });
+        return responseForClient(cached);
       }
 
       const fresh = await networkPromise;
-      if (fresh?.ok) return fresh;
+      if (fresh?.ok) return responseForClient(fresh);
       return offlineApiResponse();
     })(),
   );

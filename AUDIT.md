@@ -81,7 +81,7 @@ A July 2026 deep audit identified fetching resilience as the highest-priority im
 | **TanStack Query retry** | ✅ | IA query defaults set `retry: 0`; service layer remains the retry source of truth |
 | **Validation logging** | ✅ | `archiveService.ts` logs Zod validation failures; `publicdate`/`mediatype`/`avg_rating` relaxed based on live data |
 | **List caching** | ✅ | Search + hub carousels (Explore, For You, media/images/rec room) via IndexedDB |
-| **Offline feedback** | 🔄 | Service Worker returns 503 JSON when offline; explicit UI offline state is planned |
+| **Offline feedback** | ✅ | `OfflineHubBanner` + hub cache-age badges; SW exposes `X-SW-Cache-Time` to the app (cache v12) |
 
 ---
 
@@ -243,7 +243,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 - **Done (post v1.3.3):** Explore/For You hub trending in IndexedDB (`hubTrending` store) with legacy `localStorage` migration; offline fallback shows hub cache age; explorer search reads IndexedDB when offline and skips background refresh.
 - **Done (post v1.3.4):** Videothek/Audiothek carousels route through `useArchivalItems` (IndexedDB search cache, offline read, cache-age UI).
 - **Done (post v1.3.5):** Images Hub (hero + gallery cards) and Rec Room carousels use `useArchivalItems` with optional sort keys and offline cache-age UI.
-- **Follow-up:** cache-age headers in service worker remain SW-only.
+- **Done (post v1.3.8):** Service worker adds `Access-Control-Expose-Headers` for `X-SW-Cache-Time`; `archiveService` drives `lastCacheAgeAtom`; offline banner shows cache age when available.
 
 #### H2: Unit test coverage — partially addressed
 

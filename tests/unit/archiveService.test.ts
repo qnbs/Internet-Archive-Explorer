@@ -1,4 +1,7 @@
+import { getDefaultStore } from 'jotai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { lastCacheAgeAtom } from '@/store/cacheAge';
+import { SW_CACHE_TIME_HEADER } from '@/utils/swCacheHeaders';
 
 vi.mock('@/services/cacheService', () => ({
   metadataCache: {
@@ -60,10 +63,25 @@ describe('archiveService', () => {
   beforeEach(() => {
     vi.mocked(metadataCache.get).mockReset();
     vi.mocked(metadataCache.set).mockReset();
+    getDefaultStore().set(lastCacheAgeAtom, null);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  it('searchArchive records X-SW-Cache-Time into lastCacheAgeAtom', async () => {
+    const stamp = 1_700_000_000_000;
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify(validSearchPayload), {
+        status: 200,
+        headers: { [SW_CACHE_TIME_HEADER]: String(stamp) },
+      }),
+    );
+
+    await searchArchive('q', 0);
+
+    expect(getDefaultStore().get(lastCacheAgeAtom)).toBe(stamp);
   });
 
   it('searchArchive parses a valid Archive JSON response', async () => {
