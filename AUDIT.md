@@ -248,8 +248,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### H2: Unit test coverage — partially addressed
 
-- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy.
-- **Follow-up:** Broader hook/component coverage; focus on high-impact UI paths.
+- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy, `useExplorerSearch`, `index.html` CSP (no Google Fonts).
+- **Follow-up:** Broader hook/component coverage (`PwaWorkerBridge`, `useOnlineStatus` edge cases); focus on high-impact UI paths.
 
 #### H3: WCAG 2.2 AA gap — addressed
 
@@ -273,7 +273,7 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### M7: Service Worker third-party URLs may be stale — addressed (v1.3.10)
 
-- **Done:** Removed Google Fonts CSS from SW precache; Inter remains loaded from `index.html`. Cache **v13**; `tests/unit/swPrecachePolicy.test.ts` guards regression.
+- **Done:** Removed Google Fonts from SW precache (v1.3.10, cache **v13**). **v1.3.12:** Inter self-hosted via `@fontsource-variable/inter`; no Google Fonts in CSP or `index.html`; `swPrecachePolicy` + `indexHtmlCsp` tests guard regression.
 
 #### M8: Service worker cache size limits — addressed
 

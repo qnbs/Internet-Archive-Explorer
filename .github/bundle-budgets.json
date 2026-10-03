@@ -8,6 +8,6 @@
     "state-core": 10,
     "vendor": 60
   },
-  "totalKB": 500,
-  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-07-12: react-core≈48.5, ai-sdk≈38.3, ui-kit≈72.5, query-core≈11.9, state-core≈3.7, vendor≈56.9, total≈373.6"
+  "totalKB": 520,
+  "_comment": "Budgets in brotli-compressed KB. Last measured in CI-like build (VITE_BASE_PATH set, ANALYZE=true) 2026-10-03: total≈509 incl. self-hosted Inter latin+latin-ext woff2 (~130 KB brotli); JS chunks unchanged vs 2026-07-12."
 }

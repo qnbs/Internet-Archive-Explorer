@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.12] - 2026-10-03
+
+### Changed
+
+- **Typography:** Self-host **Inter Variable** (latin + latin-ext subset via `@fontsource-variable/inter`; no Google Fonts CDN); tightened CSP (`style-src` / `font-src` / `connect-src`).
+
+### Added
+
+- Unit tests: `useExplorerSearch` offline/cache paths; `index.html` CSP guard (no Google Fonts).
+
 ## [1.3.11] - 2026-10-03
 
 ### Added

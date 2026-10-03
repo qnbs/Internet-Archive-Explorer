@@ -22,7 +22,7 @@ const BASE_PATH = new URL(self.registration.scope).pathname;
 
 const APP_SHELL_URLS = [BASE_PATH, `${BASE_PATH}index.html`];
 
-/** App shell only — Inter loads via `index.html` (no third-party SW precache; see AUDIT M7). */
+/** App shell only — Inter is bundled via Vite (@fontsource-variable/inter; no third-party SW precache; see AUDIT M7). */
 const urlsToPrecache = [...APP_SHELL_URLS];
 
 /** @type {Map<string, number>} url → last access epoch ms */
