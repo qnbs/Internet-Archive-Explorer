@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.15] - 2026-10-03
+
+### Added
+
+- **H2:** Unit tests for `useCommands` (navigation, theme, language toggles).
+
 ## [1.3.14] - 2026-10-03
 
 ### Added
