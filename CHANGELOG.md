@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.18] - 2026-10-03
+
+### Added
+
+- **H2:** Unit tests for `ItemDetailModal` (metadata load, error/retry, favorites + toast, files tab, Escape close delay).
+
 ## [1.3.17] - 2026-10-03
 
 ### Added
