@@ -23,4 +23,14 @@ describe('useOnlineStatus', () => {
     });
     expect(result.current).toBe(true);
   });
+
+  it('removes listeners on unmount without leaking updates', () => {
+    const { result, unmount } = renderHook(() => useOnlineStatus());
+    unmount();
+
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    expect(result.current).toBe(navigator.onLine);
+  });
 });

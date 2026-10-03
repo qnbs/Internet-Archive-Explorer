@@ -248,8 +248,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 
 #### H2: Unit test coverage — partially addressed
 
-- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy, `useExplorerSearch`, `index.html` CSP (no Google Fonts).
-- **Follow-up:** Broader hook/component coverage (`PwaWorkerBridge`, `useOnlineStatus` edge cases); focus on high-impact UI paths.
+- **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy, `useExplorerSearch`, `index.html` CSP (no Google Fonts), `PwaWorkerBridge`, `useOnlineStatus` (incl. unmount).
+- **Follow-up:** Broader component coverage on high-impact UI paths (modals, command palette).
 
 #### H3: WCAG 2.2 AA gap — addressed
 
