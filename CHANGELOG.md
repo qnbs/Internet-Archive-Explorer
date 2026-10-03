@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Unit tests: SW precache policy, `OfflineHubBanner` offline + cache-age display.
+- Unit tests: SW precache policy, `OfflineHubBanner`, `CacheAgeIndicator` (H2 coverage).
 
 ## [1.3.9] - 2026-10-03
 
