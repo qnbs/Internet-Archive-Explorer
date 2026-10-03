@@ -249,7 +249,8 @@ No critical/blocking issues were identified. The application builds cleanly, has
 #### H2: Unit test coverage — partially addressed
 
 - **Done:** Vitest + RTL; tests for `sanitizeHtml`, `fetchWithTimeout`, `fetchWithRetry`, `requestQueue`, `useDebounce`, `safeJotaiSyncStorage`, `CacheAgeIndicator`, `OfflineHubBanner`, `CacheManager`, SW precache policy, `useExplorerSearch`, `index.html` CSP (no Google Fonts), `PwaWorkerBridge`, `useOnlineStatus` (incl. unmount).
-- **Follow-up:** Broader component coverage on high-impact UI paths (modals, command palette).
+- **Done (v1.3.14):** `useLibraryBackgroundSync`, `CommandPalette` (keyboard + navigation + dialog role).
+- **Follow-up:** Broader component coverage on high-impact UI paths (item detail modals, install flow).
 
 #### H3: WCAG 2.2 AA gap — addressed
 

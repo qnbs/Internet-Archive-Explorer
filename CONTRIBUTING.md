@@ -119,6 +119,8 @@ pnpm audit --audit-level=moderate
 
 CI runs the same audit level; moderate or higher issues fail the pipeline.
 
+**Documented exception:** `package.json` → `pnpm.auditConfig.ignoreCves` may list CVE IDs that are dev-only transitive issues with no upstream fix yet (see `CHANGELOG.md`). Remove entries when dependencies ship patches; do not add ignores without a changelog note.
+
 ## Commit Format
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/):
